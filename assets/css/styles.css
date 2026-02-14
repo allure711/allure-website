@@ -510,3 +510,62 @@ h3{margin:0 0 10px}
   height: 160px;
   object-fit: cover;
 }
+/* ===== Weekend Glow (Allure Friday) ===== */
+.event-card--weekend{
+  position: relative;
+  border: 1px solid rgba(215,180,106,.30);
+  background:
+    radial-gradient(640px 260px at 15% 10%, rgba(215,180,106,.26), transparent 60%),
+    radial-gradient(540px 240px at 90% 85%, rgba(215,180,106,.16), transparent 60%),
+    rgba(17,17,20,.62);
+  overflow: hidden;
+}
+
+.event-card--weekend::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: var(--radius);
+  pointer-events:none;
+  box-shadow:
+    0 26px 80px rgba(215,180,106,.18),
+    0 0 0 1px rgba(215,180,106,.10) inset;
+}
+
+.event-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:0 0 10px;
+  padding:7px 10px;
+  border-radius:999px;
+  border: 1px solid rgba(215,180,106,.28);
+  background: rgba(215,180,106,.10);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.event-title--weekend{
+  color: var(--gold);
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+
+.music-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin: 10px 0 14px;
+}
+
+.music-tag{
+  border:1px solid rgba(37,37,42,.9);
+  background: rgba(255,255,255,.04);
+  padding:6px 10px;
+  border-radius:999px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 650;
+}
