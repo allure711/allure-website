@@ -598,3 +598,18 @@ h3{margin:0 0 10px}
   transform: translateY(-6px);
   box-shadow: 0 40px 95px rgba(215,180,106,.22);
 }
+/* ===== Strong Weekend Glow ===== */
+.event-card--weekend{
+  border: 1px solid rgba(215,180,106,.45);
+  background:
+    radial-gradient(800px 300px at 30% 0%, rgba(215,180,106,.35), transparent 60%),
+    radial-gradient(600px 300px at 100% 100%, rgba(215,180,106,.22), transparent 60%),
+    rgba(17,17,20,.75);
+  box-shadow: 0 35px 100px rgba(215,180,106,.25);
+  transition: all .3s ease;
+}
+
+.event-card--weekend:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 50px 130px rgba(215,180,106,.35);
+}
