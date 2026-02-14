@@ -569,3 +569,18 @@ h3{margin:0 0 10px}
   font-size: 13px;
   font-weight: 650;
 }
+/* ===== Midweek Social Premium Upgrade ===== */
+.event-card--midweek{
+  border: 1px solid rgba(215,180,106,.35);
+  background:
+    radial-gradient(600px 260px at 50% 0%, rgba(215,180,106,.22), transparent 60%),
+    rgba(17,17,20,.65);
+  box-shadow: 0 25px 70px rgba(215,180,106,.12);
+  transform: translateY(0);
+  transition: all .3s ease;
+}
+
+.event-card--midweek:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 35px 90px rgba(215,180,106,.20);
+}
