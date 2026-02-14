@@ -460,3 +460,26 @@ h3{margin:0 0 10px}
   height: 160px;
   object-fit: cover;
 }
+/* ===== Midweek Social Styling ===== */
+.event-card--midweek{
+  position: relative;
+  border: 1px solid rgba(215,180,106,.22);
+  background:
+    radial-gradient(500px 220px at 50% 0%, rgba(215,180,106,.14), transparent 60%),
+    rgba(17,17,20,.60);
+}
+
+.event-title--midweek{
+  color: var(--gold);
+  letter-spacing: .2px;
+}
+
+.event-highlight{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(215,180,106,.10);
+  border: 1px solid rgba(215,180,106,.20);
+  font-weight: 600;
+  line-height: 1.6;
+}
