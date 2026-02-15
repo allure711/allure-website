@@ -613,3 +613,181 @@ h3{margin:0 0 10px}
   transform: translateY(-8px);
   box-shadow: 0 50px 130px rgba(215,180,106,.35);
 }
+/* Popular Dishes - Nightclub Premium */
+.popular {
+  background: #000;
+  padding: 80px 20px;
+  color: #fff;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: clamp(28px, 3vw, 44px);
+  margin-bottom: 50px;
+  color: #D4AF37;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Grid */
+.popular-grid {
+  display: grid;
+  gap: 28px;
+}
+
+@media (min-width: 768px) {
+  .popular-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .popular-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card */
+.dish-card {
+  background: #0b0b0b;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(212, 175, 55, 0.10);
+  transform: translateY(0);
+  transition: transform 280ms ease, box-shadow 280ms ease, border-color 280ms ease;
+}
+
+/* Gold border outline on hover + premium glow */
+.dish-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.85);
+  box-shadow:
+    0 0 0 2px rgba(212, 175, 55, 0.35),
+    0 18px 45px rgba(212, 175, 55, 0.18);
+}
+
+/* Subtle animated glow */
+.dish-card::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(10px);
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(212, 175, 55, 0.45),
+    transparent 55%
+  );
+  transition: opacity 280ms ease;
+  animation: glowPulse 4.5s ease-in-out infinite;
+}
+
+.dish-card:hover::after {
+  opacity: 1;
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.25; }
+  50% { transform: scale(1.03); opacity: 0.45; }
+}
+
+.dish-card img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* Content */
+.dish-info {
+  padding: 18px 18px 22px;
+}
+
+.dish-info h3 {
+  color: #D4AF37;
+  margin: 6px 0 10px;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.dish-info p {
+  font-size: 14.5px;
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.45;
+}
+
+/* Price Stack */
+.price-stack {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.14);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.price-row + .price-row {
+  border-top: 1px dashed rgba(212, 175, 55, 0.20);
+}
+
+/* Order Button */
+.order-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  color: #000;
+  background: #D4AF37;
+  border: 1px solid rgba(212, 175, 55, 0.65);
+
+  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+}
+
+.order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 35px rgba(212, 175, 55, 0.25);
+  filter: brightness(1.05);
+}
+
+/* --- Fade-in Scroll Animation --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .dish-card::after { animation: none; }
+  .reveal, .reveal.is-visible { transition: none; }
+}
