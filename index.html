@@ -121,24 +121,67 @@
           <a class="link" href="menu.html">View Full Menu</a>
         </div>
 
-        <div class="grid">
-          <figure class="tile">
-            <img src="assets/images/fav-wings.jpg" alt="Signature wings at Allure Bar & Lounge in Washington, DC">
-            <figcaption>Signature Wings</figcaption>
-          </figure>
-          <figure class="tile">
-            <img src="assets/images/fav-plate.jpg" alt="House special plate at Allure Bar & Lounge in Washington, DC">
-            <figcaption>House Special Plates</figcaption>
-          </figure>
-          <figure class="tile">
-            <img src="assets/images/fav-cocktail.jpg" alt="Crafted cocktail at Allure Bar & Lounge in Washington, DC">
-            <figcaption>Crafted Cocktails</figcaption>
-          </figure>
-          <figure class="tile">
-            <img src="assets/images/fav-late-night.jpg" alt="Late-night bites at Allure Bar & Lounge in Washington, DC">
-            <figcaption>Late-Night Bites</figcaption>
-          </figure>
+        <section class="popular">
+  <div class="container">
+    <h2 class="section-title">Popular Dishes</h2>
+
+    <div class="popular-grid">
+
+      <!-- Rasta Pasta -->
+      <article class="dish-card reveal">
+        <picture>
+          <source
+            type="image/webp"
+            srcset="
+              images/rasta-pasta-square-400.webp 400w,
+              images/rasta-pasta-square-800.webp 800w
+            "
+            sizes="(max-width: 768px) 100vw, 400px"
+          />
+          <img
+            src="images/rasta-pasta-square-800.jpg"
+            alt="Rasta Pasta with jerk chicken and colorful peppers"
+            loading="lazy"
+            decoding="async"
+            width="800"
+            height="800"
+          />
+        </picture>
+
+        <div class="dish-info">
+          <h3>Rasta Pasta</h3>
+          <p>Creamy pasta with colorful peppers — choose your protein.</p>
+
+          <div class="price-stack">
+            <div class="price-row"><span>Chicken</span><span>$16</span></div>
+            <div class="price-row"><span>Shrimp</span><span>$18</span></div>
+            <div class="price-row"><span>Salmon</span><span>$20</span></div>
+          </div>
+
+          <!-- Update href to your ordering link (Square / Toast / etc.) -->
+          <a class="order-btn" href="#menu">Order Now</a>
         </div>
+      </article>
+
+      <!-- Duplicate this card for other popular dishes -->
+      <article class="dish-card reveal">
+        <img src="images/your-other-dish.jpg" alt="Salmon Nuggets" loading="lazy" />
+        <div class="dish-info">
+          <h3>Salmon Nuggets</h3>
+          <p>Crispy golden bites served hot.</p>
+
+          <div class="price-stack">
+            <div class="price-row"><span>Basket</span><span>$15</span></div>
+          </div>
+
+          <a class="order-btn" href="#menu">Order Now</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 
         <div class="actions" style="margin-top:16px">
           <a class="btn btn--primary" href="tel:YOUR_PHONE_HERE">Reserve a Table</a>
