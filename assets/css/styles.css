@@ -585,3 +585,21 @@ h3{margin:0 0 10px}
   transform:scale(1.05);
   box-shadow:0 0 25px rgba(215,180,106,0.35);
 }
+.about-container{
+  max-width:800px;
+  margin:0 auto;
+}
+
+.about-container p{
+  margin-bottom:20px;
+  line-height:1.7;
+  font-size:1.05rem;
+}
+
+.about-highlight{
+  margin-top:30px;
+  padding:20px;
+  background:rgba(215,180,106,0.08);
+  border:1px solid rgba(215,180,106,0.25);
+  border-radius:12px;
+}
