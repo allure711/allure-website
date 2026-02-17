@@ -538,3 +538,13 @@ h3{margin:0 0 10px}
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(215,180,106,0.18);
 }
+/* Always show top nav on every page */
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: rgba(10,10,12,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(215,180,106,0.18);
+}
