@@ -1,127 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Menu | Allure Bar & Lounge (Washington, DC)</title>
-  <meta name="description" content="View the menu for Allure Bar & Lounge in Washington, DC. Explore food and drinks and download the menu PDF." />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu | Allure Bar & Lounge | Washington DC</title>
+<meta name="description" content="Explore the full menu at Allure Bar & Lounge in Washington DC. Signature cocktails, premium spirits, and elevated bar bites.">
+
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="header">
-    <div class="container header__inner">
-      <a class="brand" href="index.html">
-        <img class="brand__logo" src="assets/images/logo.png" alt="Allure Bar & Lounge logo" />
-        <span class="brand__name">Allure Bar & Lounge</span>
-      </a>
+<header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="logo">Allure Bar & Lounge</a>
+    <nav>
+      <ul class="nav__list">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="index.html#events">Events</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#location">Location</a></li>
+        <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-      <nav class="nav" aria-label="Primary">
-        <button class="nav__toggle" aria-controls="navMenu" aria-expanded="false">Menu</button>
-        <ul id="navMenu" class="nav__list">
-  <li><a href="menu.html">Menu</a></li>
-  <li><a href="index.html#events">Events</a></li>
-  <li><a href="index.html#gallery">Gallery</a></li>
-  <li><a href="index.html#about">About</a></li>
-  <li><a href="index.html#location">Location</a></li>
-  <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
-</ul>
+<section class="menu-hero">
+  <div class="container">
+    <h1>Our Menu</h1>
+    <p>Crafted cocktails. Premium spirits. Elevated bites.</p>
+  </div>
+</section>
 
-      </nav>
-    </div>
-  </header>
+<section class="menu-section container">
 
-  <main id="main" class="section">
-    <div class="container">
-      <div class="section__head">
-        <h2>Menu</h2>
-        <a class="link" href="assets/menu/allure-menu.pdf" target="_blank" rel="noopener">Download PDF</a>
-      </div>
+  <h2>Signature Cocktails</h2>
+  <div class="menu-item">
+    <span>Allure Martini</span>
+    <span>$14</span>
+  </div>
 
-      <p class="lead" style="max-width: 70ch;">
-        Explore our food and drink offerings. For reservations and large groups, call
-        <a class="hero-phone" href="tel:2022974949" style="padding:6px 10px;">202-297-4949</a>.
-      </p>
+  <div class="menu-item">
+    <span>Blue Midnight</span>
+    <span>$15</span>
+  </div>
 
-      <div class="actions" style="margin:14px 0 26px;">
-        <a class="btn btn--primary" href="assets/menu/allure-menu.pdf" target="_blank" rel="noopener">Download Menu PDF</a>
-        <a class="btn btn--ghost" href="index.html">Back to Home</a>
-      </div>
+  <h2>Premium Shots</h2>
+  <div class="menu-item">
+    <span>Top Shelf</span>
+    <span>$7</span>
+  </div>
 
-      <!-- MENU SECTIONS (replace items with your real menu) -->
-      <section class="section section--alt" style="padding:24px 0;">
-        <div class="container" style="width:100%; margin:0;">
-          <h3 style="margin:0 0 10px;">Starters</h3>
-          <div class="cards" style="grid-template-columns: 1fr; max-width: 900px;">
-            <article class="card">
-              <h3 style="margin:0;">Item Name <span style="float:right;color:var(--gold);">$00</span></h3>
-              <p style="margin-top:8px;">Short description of the item.</p>
-            </article>
-            <article class="card">
-              <h3 style="margin:0;">Item Name <span style="float:right;color:var(--gold);">$00</span></h3>
-              <p style="margin-top:8px;">Short description of the item.</p>
-            </article>
-          </div>
+  <div class="menu-item">
+    <span>House Shots</span>
+    <span>$5</span>
+  </div>
 
-          <div style="height:18px;"></div>
+  <h2>Bar Bites</h2>
+  <div class="menu-item">
+    <span>Wings (10pc)</span>
+    <span>$12</span>
+  </div>
 
-          <h3 style="margin:0 0 10px;">Popular Dishes</h3>
-          <div class="cards" style="grid-template-columns: 1fr; max-width: 900px;">
-            <article class="card">
-              <h3 style="margin:0;">Rasta Pasta <span style="float:right;color:var(--gold);">$00</span></h3>
-              <p style="margin-top:8px;">Add Chicken $16 • Shrimp $18 • Salmon $20</p>
-            </article>
-          </div>
+  <div class="menu-item">
+    <span>Rasta Pasta</span>
+    <span>$16</span>
+  </div>
 
-          <div style="height:18px;"></div>
+</section>
 
-          <h3 style="margin:0 0 10px;">Drinks</h3>
-          <div class="cards" style="grid-template-columns: 1fr; max-width: 900px;">
-            <article class="card">
-              <h3 style="margin:0;">Signature Cocktail <span style="float:right;color:var(--gold);">$00</span></h3>
-              <p style="margin-top:8px;">Short description of the cocktail.</p>
-            </article>
-          </div>
+<footer class="footer">
+  <div class="container">
+    <p>Allure Bar & Lounge | Washington, DC</p>
+    <p>Mon–Thu & Sun 5PM–1AM | Fri–Sat 5PM–2AM</p>
+  </div>
+</footer>
 
-          <div style="height:18px;"></div>
-
-          <h3 style="margin:0 0 10px;">Happy Hour</h3>
-          <div class="cards" style="grid-template-columns: 1fr; max-width: 900px;">
-            <article class="card">
-              <h3 style="margin:0;">Happy Hour</h3>
-              <p style="margin-top:8px;">
-                Monday: 5PM–1AM<br>
-                Tuesday: 5PM–9PM
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="final-cta">
-        <div class="final-cta__inner">
-          <h2>Ready to Join Us Tonight?</h2>
-          <p>Call now to reserve your table at Allure Bar &amp; Lounge in Washington, DC.</p>
-          <div class="actions">
-            <a class="btn btn--primary" href="tel:2022974949">Call 202-297-4949</a>
-            <a class="btn btn--ghost" href="index.html#events">See Events</a>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer__grid">
-      <div>
-        <p style="margin:0;color:#f4f4f5;font-weight:800;">Allure Bar & Lounge</p>
-        <p style="margin:8px 0 0;">Washington, DC • <a href="tel:2022974949">202-297-4949</a></p>
-      </div>
-    </div>
-  </footer>
-
-  <script src="assets/js/nav.js" defer></script>
 </body>
 </html>
