@@ -630,3 +630,22 @@ h3{margin:0 0 10px}
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(215,180,106,0.18);
 }
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+  margin-top:30px;
+}
+
+.gallery-grid img{
+  width:100%;
+  height:320px;
+  object-fit:cover;
+  border-radius:12px;
+  transition:transform .4s ease, box-shadow .4s ease;
+}
+
+.gallery-grid img:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px rgba(215,180,106,0.35);
+}
