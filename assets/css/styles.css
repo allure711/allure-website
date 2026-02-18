@@ -542,3 +542,18 @@ h3{margin:0 0 10px}
   transform: translateY(-6px);
   box-shadow: 0 35px 90px rgba(215,180,106,.20);
 }
+/* ===== Karaoke Thursday Premium ===== */
+.event-card--karaoke{
+  border: 1px solid rgba(215,180,106,.30);
+  background:
+    radial-gradient(600px 260px at 20% 20%, rgba(215,180,106,.18), transparent 60%),
+    rgba(17,17,20,.65);
+  box-shadow: 0 25px 75px rgba(215,180,106,.14);
+  transition: all .3s ease;
+}
+
+
+.event-card--karaoke:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 40px 95px rgba(215,180,106,.22);
+}
