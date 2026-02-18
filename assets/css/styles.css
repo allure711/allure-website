@@ -705,3 +705,19 @@ h3{margin:0 0 10px}
   width:100% !important;
   background:#d7b46a !important;
 }
+/* Call Now Wobble Animation */
+@keyframes callWobble {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(-6deg); }
+  30% { transform: rotate(6deg); }
+  45% { transform: rotate(-4deg); }
+  60% { transform: rotate(4deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.call-wobble {
+  display:inline-block;
+  animation: callWobble 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
