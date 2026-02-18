@@ -721,3 +721,26 @@ h3{margin:0 0 10px}
   animation: callWobble 1.2s ease-in-out infinite;
   transform-origin: center;
 }
+/* Icon-only button styling */
+.icon-only{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+
+/* Dancing phone icon */
+@keyframes phoneDance {
+  0%,100% { transform: rotate(0deg); }
+  25%     { transform: rotate(-12deg); }
+  50%     { transform: rotate(12deg); }
+  75%     { transform: rotate(-8deg); }
+}
+
+.icon-dance{
+  animation: phoneDance 1s ease-in-out infinite;
+  transform-origin: center;
+  filter: drop-shadow(0 0 12px rgba(215,180,106,.35));
+}
