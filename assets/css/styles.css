@@ -744,3 +744,25 @@ h3{margin:0 0 10px}
   transform-origin: center;
   filter: drop-shadow(0 0 12px rgba(215,180,106,.35));
 }
+.icon-only{
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+
+@keyframes handsetRing {
+  0%,100% { transform: rotate(0deg); }
+  20%     { transform: rotate(-15deg); }
+  40%     { transform: rotate(15deg); }
+  60%     { transform: rotate(-10deg); }
+  80%     { transform: rotate(10deg); }
+}
+
+.phone-icon{
+  animation: handsetRing 1.2s ease-in-out infinite;
+  transform-origin: center;
+  filter: drop-shadow(0 0 12px rgba(215,180,106,.35));
+}
