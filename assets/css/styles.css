@@ -695,3 +695,13 @@ h3{margin:0 0 10px}
   margin-left:15px;
   text-decoration:none;
 }
+/* FORCE Active Nav Highlight */
+.nav__list li a.active{
+  color: #d7b46a !important;
+  font-weight: 700;
+}
+
+.nav__list li a.active::after{
+  width:100% !important;
+  background:#d7b46a !important;
+}
