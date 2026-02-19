@@ -766,3 +766,182 @@ h3{margin:0 0 10px}
   transform-origin: center;
   filter: drop-shadow(0 0 12px rgba(215,180,106,.35));
 }
+/* ===========================
+   HERO BLING UPGRADES
+=========================== */
+
+/* stronger luxe gold vibe */
+.hero--bling .hero__bg{
+  filter: blur(16px);
+  background:
+    radial-gradient(900px 600px at 18% 42%, rgba(215,180,106,.22), transparent 58%),
+    radial-gradient(900px 520px at 70% 16%, rgba(180,90,255,.18), transparent 58%),
+    radial-gradient(720px 540px at 80% 78%, rgba(0,180,255,.14), transparent 62%),
+    linear-gradient(135deg, rgba(10,10,14,1), rgba(5,6,10,1));
+}
+
+/* sparkles layer */
+.hero__sparkles{
+  position:absolute;
+  inset:-30%;
+  z-index:1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 12% 22%, rgba(255,255,255,.18) 0 2px, transparent 3px),
+    radial-gradient(circle at 24% 68%, rgba(215,180,106,.22) 0 2px, transparent 3px),
+    radial-gradient(circle at 42% 36%, rgba(255,255,255,.10) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 18%, rgba(215,180,106,.18) 0 2px, transparent 3px),
+    radial-gradient(circle at 74% 40%, rgba(255,255,255,.10) 0 1px, transparent 2px),
+    radial-gradient(circle at 88% 62%, rgba(215,180,106,.18) 0 2px, transparent 3px),
+    radial-gradient(circle at 66% 84%, rgba(255,255,255,.10) 0 1px, transparent 2px);
+  opacity:.35;
+  animation: sparkleDrift 8s ease-in-out infinite alternate;
+}
+
+@keyframes sparkleDrift{
+  0%   { transform: translate3d(-0.6%, -0.4%, 0) scale(1.02); opacity:.28; }
+  100% { transform: translate3d(0.8%, 0.6%, 0) scale(1.05); opacity:.42; }
+}
+
+/* cinematic light streak across hero */
+.hero__streak{
+  position:absolute;
+  top:-20%;
+  left:-60%;
+  width: 55%;
+  height: 160%;
+  z-index:1;
+  pointer-events:none;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(215,180,106,.00) 35%,
+    rgba(215,180,106,.20) 48%,
+    rgba(255,255,255,.14) 52%,
+    rgba(215,180,106,.10) 58%,
+    transparent 70%);
+  filter: blur(10px);
+  transform: skewX(-12deg);
+  animation: heroStreak 7.5s ease-in-out infinite;
+  opacity: .55;
+}
+
+@keyframes heroStreak{
+  0%   { transform: translateX(0) skewX(-12deg); opacity: 0; }
+  12%  { opacity: .55; }
+  45%  { opacity: .10; }
+  100% { transform: translateX(220%) skewX(-12deg); opacity: 0; }
+}
+
+/* VIP badge */
+.vipBadge{
+  position:absolute;
+  top: 14px;
+  left: 14px;
+  z-index:3;
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  color: rgba(255,255,255,.92);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  background: rgba(10,10,14,.55);
+  border: 1px solid rgba(215,180,106,.30);
+  box-shadow: 0 18px 45px rgba(215,180,106,.16);
+  backdrop-filter: blur(10px);
+}
+
+.vipBadge__dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,255,255,.9), rgba(215,180,106,.7));
+  box-shadow: 0 0 18px rgba(215,180,106,.55);
+  animation: vipPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes vipPulse{
+  0%,100% { transform: scale(1); opacity: .85; }
+  50%     { transform: scale(1.25); opacity: 1; }
+}
+
+/* shimmer sweep on the image frame */
+.hero__mediaShimmer{
+  position:absolute;
+  inset:-30%;
+  background: linear-gradient(120deg,
+    transparent 35%,
+    rgba(255,255,255,.10) 45%,
+    rgba(215,180,106,.22) 50%,
+    rgba(255,255,255,.10) 55%,
+    transparent 65%);
+  transform: translateX(-60%) rotate(10deg);
+  opacity: 0;
+  animation: imgShimmer 6.2s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes imgShimmer{
+  0%   { transform: translateX(-65%) rotate(10deg); opacity: 0; }
+  12%  { opacity: .55; }
+  25%  { opacity: .0; }
+  100% { transform: translateX(65%) rotate(10deg); opacity: 0; }
+}
+
+/* chip gold */
+.chip--gold{
+  border-color: rgba(215,180,106,.35);
+  background: rgba(215,180,106,.10);
+  box-shadow: 0 12px 30px rgba(215,180,106,.10);
+}
+
+/* CTA bling */
+.btn--bling{
+  position: relative;
+  box-shadow:
+    0 18px 55px rgba(215,180,106,.22),
+    0 0 0 1px rgba(255,255,255,.06) inset;
+}
+
+.btn--bling::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: radial-gradient(circle, rgba(255,255,255,.35), transparent 55%);
+  transform: translateX(-35%);
+  opacity: .0;
+  transition: opacity .25s ease;
+}
+
+.btn--bling:hover::before{ opacity: .55; }
+
+/* phone pill looks more premium */
+.hero__phone--bling{
+  border-color: rgba(215,180,106,.35);
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+}
+
+/* handset dance + bling glow */
+.handset--bling{
+  filter: drop-shadow(0 0 14px rgba(215,180,106,.60));
+}
+
+/* icon-only call button */
+.btn--iconCall{
+  width: 46px;
+  height: 40px;
+  border-radius: 999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border: 1px solid rgba(215,180,106,.30);
+  background: rgba(10,10,14,.50);
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+}
+.btn--iconCall:hover{
+  border-color: rgba(215,180,106,.55);
+  box-shadow: 0 22px 70px rgba(215,180,106,.10);
+}
