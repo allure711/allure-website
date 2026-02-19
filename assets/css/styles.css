@@ -950,3 +950,14 @@ h3{margin:0 0 10px}
   justify-content: center;
   margin: 20px 0 18px;
 }
+.page-title{
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.page-subtitle{
+  font-size: 18px;
+  color: rgba(255,255,255,.75);
+  margin-bottom: 40px;
+}
