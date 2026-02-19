@@ -945,3 +945,8 @@ h3{margin:0 0 10px}
   border-color: rgba(215,180,106,.55);
   box-shadow: 0 22px 70px rgba(215,180,106,.10);
 }
+.hero__cta{
+  display:flex;
+  justify-content: flex-start;
+  margin: 20px 0 18px;
+}
