@@ -40,60 +40,106 @@
     <a class="mobile-cta__item" href="YOUR_GOOGLE_MAPS_DIRECTIONS_LINK_HERE" target="_blank" rel="noopener">Directions</a>
   </div>
   <main id="main">
-    <section class="hero">
-      <div class="container hero__wrap">
-        <div class="hero__media">
-          <img src="assets/images/hero.jpg" 
-     alt="Cozy modern seating and cocktails at Allure Bar & Lounge in Washington, DC"
-     loading="lazy"
-     width="1600"
-     height="1000" />
+    <!-- HERO (Elite VIP / Bling) -->
+<section class="hero hero--elite hero--bling" id="top">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__sparkles" aria-hidden="true"></div>
+  <div class="hero__streak" aria-hidden="true"></div>
 
-        </div>
-        <div class="hero__content">
-          <p class="kicker">Washington, DC</p>
-          <h1>Allure Bar & Lounge — Where DC Unwinds After Dark</h1>
-          <p class="lead">
-            A cozy, modern, upscale lounge serving crafted cocktails, elevated comfort food, and late-night vibes —
-            built for professionals who know how to relax.
-          </p>
-          <div class="actions">
-            <a class="btn btn--primary" href="2022974949" target="_blank" rel="noopener">Reserve a Table</a>
-            <a class="btn btn--ghost" href="menu">View Menu</a>
-          </div>
-          <div class="hero__badges">
-            <span class="badge">Late Night</span>
-            <span class="badge">Happy Hour</span>
-            <span class="badge">Cozy • Modern • Upscale</span>
-          </div>
-        </div>
-      </div>
-      <div class="container info-bar">
-        <div class="info-bar__grid">
-          <div class="info">
-            <p class="label">Hours</p>
-            <p class="value">Open nightly at 5:00 PM</p>
-          </div>
-          <div class="info">
-            <p class="label">Happy Hour</p>
-            <p class="value">Mon 5PM–1AM • Tue 5PM–9PM</p>
-          </div>
-          <div class="info">
-            <p class="label">Location</p>
-            <p class="value">Washington, DC</p>
-          </div>
-          <div class="info-bar__actions">
-           <a class="btn btn--small btn--ghost icon-only" href="tel:2022974949" aria-label="Call">
-  <svg class="phone-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-    <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011-.24 11.36 11.36 0 003.57.57 1 1 0 011 1v3.49a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.49a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1z"/>
-  </svg>
-</a>
+  <div class="container hero__wrap">
+    <!-- LEFT: Hero Media -->
+    <div class="hero__media">
+      <div class="hero__mediaFrame">
+        <img
+          class="hero__img"
+          src="assets/images/hero.jpg"
+          alt="Craft cocktails and upscale lounge vibes at Allure Bar & Lounge in Washington, DC"
+          width="1600"
+          height="1000"
+          loading="eager"
+          decoding="async"
+        />
 
+        <!-- overlays -->
+        <div class="hero__mediaGlow" aria-hidden="true"></div>
+        <div class="hero__mediaFade" aria-hidden="true"></div>
+        <div class="hero__mediaShimmer" aria-hidden="true"></div>
 
-            </div>
+        <!-- VIP badge -->
+        <div class="vipBadge" aria-hidden="true">
+          <span class="vipBadge__dot"></span>
+          VIP NIGHTLIFE
         </div>
       </div>
-    </section> 
+
+      <div class="hero__chips" aria-label="Highlights">
+        <span class="chip chip--gold">Premium Vibes</span>
+        <span class="chip">Late Night</span>
+        <span class="chip">Happy Hour</span>
+        <span class="chip">Cozy · Modern · Upscale</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Hero Content -->
+    <div class="hero__content">
+      <p class="hero__kicker">WASHINGTON, DC</p>
+
+      <h1 class="hero__title">
+        Allure Bar &amp; Lounge —
+        <span class="hero__titleGlow">Where DC Unwinds After Dark</span>
+      </h1>
+
+      <p class="hero__lead">
+        A cozy, modern, upscale lounge serving crafted cocktails, elevated comfort food,
+        and late-night vibes — built for professionals who know how to relax.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--xl btn--bling" href="tel:2022974949" aria-label="Call to reserve">
+          Reserve Tonight
+        </a>
+
+        <a class="btn btn--ghost btn--xl" href="menu.html">
+          View Menu
+        </a>
+      </div>
+
+      <div class="hero__phoneRow">
+        <a class="hero__phone hero__phone--bling" href="tel:2022974949" aria-label="Call 202-297-4949">
+          <span class="hero__phoneIcon handset" aria-hidden="true">☎</span>
+          <span class="hero__phoneText">202-297-4949</span>
+        </a>
+        <span class="hero__micro">Tables fill fast after 9PM</span>
+      </div>
+
+      <!-- Elite info bar -->
+      <div class="hero__infoBar" role="group" aria-label="Quick info">
+        <div class="hero__info">
+          <div class="hero__label">HOURS</div>
+          <div class="hero__value">Open nightly at 5:00 PM</div>
+        </div>
+
+        <div class="hero__info">
+          <div class="hero__label">HAPPY HOUR</div>
+          <div class="hero__value">Mon 5PM–1AM · Tue 5PM–9PM</div>
+        </div>
+
+        <div class="hero__info hero__info--right">
+          <div class="hero__label">LOCATION</div>
+          <div class="hero__value">Washington, DC</div>
+        </div>
+
+        <div class="hero__actions">
+          <!-- icon-only Call Now -->
+          <a class="btn btn--small btn--ghost btn--iconCall" href="tel:2022974949" aria-label="Call now">
+            <span class="handset handset--bling" aria-hidden="true">☎</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section> 
     <section class="section">
       <div class="container">
         <h2>Your New Go-To Lounge in DC</h2>
