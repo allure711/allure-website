@@ -947,6 +947,6 @@ h3{margin:0 0 10px}
 }
 .hero__cta{
   display:flex;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 20px 0 18px;
 }
