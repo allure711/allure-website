@@ -1,195 +1,847 @@
-<div class="menu-list">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Menu | Allure Bar & Lounge</title>
+  <meta name="description" content="Allure Bar & Lounge menu — curated plates, crafted cocktails, late-night energy." />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Blue Mist</h3>
-      <p class="menu-item__price">—</p>
+  <!-- Menu page: elite black+gold, sticky category bar, featured cards, active glow -->
+  <style>
+    :root{
+      --bg:#07070a;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.04);
+      --line:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --muted2:rgba(255,255,255,.55);
+      --gold:#d7b46a;
+      --gold2:rgba(215,180,106,.55);
+      --shadow:0 22px 70px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius2:22px;
+    }
+
+    body{ background: radial-gradient(1200px 600px at 18% 10%, rgba(215,180,106,.10), transparent 60%),
+                     radial-gradient(900px 500px at 85% 20%, rgba(120,80,255,.10), transparent 60%),
+                     var(--bg); color:var(--text); }
+
+    /* Page container */
+    .menu-page{ padding: 32px 0 80px; }
+    .menu-wrap{ width:min(1120px, 92vw); margin:0 auto; }
+
+    /* Headline */
+    .menu-hero{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 26px 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .menu-hero::before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle, rgba(215,180,106,.18), transparent 55%);
+      filter: blur(18px);
+      transform: translateX(-25%);
+      opacity:.55;
+      pointer-events:none;
+      animation: heroGlow 10s ease-in-out infinite;
+    }
+    @keyframes heroGlow{
+      0%,100%{ transform: translateX(-25%) translateY(0); opacity:.45; }
+      50%{ transform: translateX(-10%) translateY(-6px); opacity:.65; }
+    }
+
+    .menu-kicker{ letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:rgba(255,255,255,.70); font-size:12px; }
+    .menu-title{ margin:10px 0 8px; font-size: clamp(30px, 3.2vw, 44px); line-height:1.06; }
+    .menu-sub{ margin:0; color:var(--muted); max-width: 70ch; }
+
+    .menu-actions{
+      margin-top: 16px;
+      display:flex; flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Single primary CTA */
+    .cta-call{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.55);
+      background: linear-gradient(180deg, rgba(215,180,106,.95), rgba(215,180,106,.78));
+      color:#121214;
+      font-weight: 800;
+      text-decoration:none;
+      box-shadow: 0 14px 45px rgba(215,180,106,.16);
+      position: relative;
+      overflow:hidden;
+      animation: ctaPulse 5.5s ease-in-out infinite;
+    }
+    @keyframes ctaPulse{
+      0%,100%{ transform: translateY(0); filter: drop-shadow(0 0 0 rgba(215,180,106,0)); }
+      50%{ transform: translateY(-1px); filter: drop-shadow(0 0 14px rgba(215,180,106,.35)); }
+    }
+    .cta-call::after{
+      content:"";
+      position:absolute; inset:-60%;
+      background: radial-gradient(circle, rgba(255,255,255,.45), transparent 60%);
+      transform: translateX(-35%);
+      opacity:0;
+      transition: opacity .25s ease;
+      pointer-events:none;
+    }
+    .cta-call:hover::after{ opacity:.45; }
+
+    /* Chips */
+    .chips{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; position:relative; z-index:1; }
+    .chip{
+      display:inline-flex; align-items:center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.35);
+      background: rgba(10,10,14,.40);
+      color: rgba(255,255,255,.85);
+      font-weight: 650;
+      font-size: 13px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.28);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Sticky category bar */
+    .catbar{
+      margin-top: 16px;
+      position: sticky;
+      top: 74px; /* adjust if your header is taller */
+      z-index: 50;
+      background: rgba(7,7,10,.72);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      box-shadow: 0 20px 55px rgba(0,0,0,.45);
+      overflow: hidden;
+    }
+    .catbar__inner{
+      display:flex;
+      gap: 8px;
+      padding: 10px 10px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .catbar__inner::-webkit-scrollbar{ display:none; }
+
+    .cat{
+      flex: 0 0 auto;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: rgba(255,255,255,.82);
+      text-decoration:none;
+      font-weight: 750;
+      font-size: 14px;
+      background: rgba(255,255,255,.03);
+      transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
+      white-space: nowrap;
+    }
+    .cat:hover{
+      transform: translateY(-1px);
+      border-color: rgba(215,180,106,.28);
+      box-shadow: 0 18px 55px rgba(215,180,106,.10);
+    }
+    /* ACTIVE glow */
+    .cat.is-active{
+      color: rgba(255,255,255,.95);
+      border-color: rgba(215,180,106,.70);
+      box-shadow:
+        0 0 0 1px rgba(215,180,106,.22) inset,
+        0 18px 60px rgba(215,180,106,.14);
+      position: relative;
+    }
+    .cat.is-active::after{
+      content:"";
+      position:absolute; inset:-55%;
+      background: radial-gradient(circle, rgba(215,180,106,.22), transparent 60%);
+      filter: blur(10px);
+      opacity: .55;
+      pointer-events:none;
+    }
+
+    /* Sections */
+    .menu-section{
+      margin-top: 18px;
+      scroll-margin-top: 160px; /* makes anchor jumps land nicely under sticky elements */
+    }
+    .section-head{
+      margin: 18px 0 10px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap: 12px;
+    }
+    .section-title{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.85);
+    }
+    .section-note{
+      margin:0;
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    /* Featured cards */
+    .featured{
+      margin-top: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .featured__top{
+      display:flex; align-items:baseline; justify-content:space-between; gap: 12px;
+      margin-bottom: 12px;
+    }
+    .featured__title{
+      margin:0;
+      letter-spacing:.12em;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: rgba(255,255,255,.85);
+      font-weight: 850;
+    }
+    .featured__note{
+      margin:0;
+      color: rgba(215,180,106,.95);
+      font-weight: 750;
+      font-size: 13px;
+    }
+
+    .featured-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 900px){
+      .featured-grid{ grid-template-columns: 1fr; }
+    }
+
+    .fcard{
+      border: 1px solid rgba(215,180,106,.22);
+      background: rgba(10,10,14,.35);
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      position: relative;
+      overflow:hidden;
+      min-height: 168px;
+    }
+    .fcard::before{
+      content:"";
+      position:absolute; inset:-60%;
+      background: radial-gradient(circle, rgba(215,180,106,.14), transparent 58%);
+      transform: translateX(-22%);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .fcard__smile{
+      position:absolute;
+      top: 10px; right: 12px;
+      width: 26px; height: 26px;
+      border-radius: 999px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.88);
+      font-size: 14px;
+      z-index: 1;
+    }
+    .fcard__top{
+      display:flex; align-items:flex-start; justify-content:space-between; gap: 10px;
+      position:relative; z-index:1;
+    }
+    .fcard__name{
+      margin:0;
+      font-size: 16px;
+      font-weight: 900;
+      color: rgba(255,255,255,.95);
+    }
+    .fcard__price{
+      margin:0;
+      color: rgba(215,180,106,.95);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .fcard__desc{
+      margin: 10px 0 12px;
+      color: rgba(255,255,255,.70);
+      font-size: 13px;
+      line-height: 1.35;
+      position:relative; z-index:1;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.35);
+      background: rgba(215,180,106,.08);
+      color: rgba(255,255,255,.88);
+      font-weight: 800;
+      font-size: 12px;
+      position:relative; z-index:1;
+    }
+
+    /* Menu item “luxury cards” */
+    .menu-list{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 900px){
+      .menu-list{ grid-template-columns: 1fr; }
+    }
+
+    .mitem{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+      box-shadow: 0 16px 55px rgba(0,0,0,.30);
+    }
+    .mitem__top{
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .mitem__name{
+      margin:0;
+      font-weight: 900;
+      letter-spacing: .01em;
+      color: rgba(255,255,255,.92);
+      font-size: 15px;
+    }
+    .mitem__price{
+      margin:0;
+      font-weight: 950;
+      color: rgba(215,180,106,.95);
+      white-space: nowrap;
+    }
+    .mitem__desc{
+      margin: 8px 0 10px;
+      color: rgba(255,255,255,.62);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .badges{ display:flex; gap:8px; flex-wrap:wrap; }
+    .badge{
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10,10,14,.40);
+      color: rgba(255,255,255,.82);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing:.02em;
+    }
+    .badge--gold{ border-color: rgba(215,180,106,.35); background: rgba(215,180,106,.09); }
+
+    /* Wet/Dry option chips */
+    .option-row{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .opt{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.28);
+      background: rgba(10,10,14,.35);
+      color: rgba(255,255,255,.88);
+      font-weight: 850;
+      font-size: 13px;
+    }
+
+    /* Small helper line */
+    .fineprint{ margin: 10px 0 0; color: rgba(255,255,255,.55); font-size: 12px; }
+  </style>
+</head>
+
+<body>
+  <!-- Keep your existing site header/nav (this should match your other pages) -->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">
+        <span class="brand__name">Allure Bar &amp; Lounge</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <ul id="navMenu" class="nav__list">
+          <li><a href="menu.html" class="is-active">Menu</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="location.html">Location</a></li>
+          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
+        </ul>
+      </nav>
     </div>
-    <p class="menu-item__desc">Smooth + fresh classic.</p>
-  </article>
+  </header>
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Magic Love</h3>
-      <p class="menu-item__price">—</p>
+  <main id="main" class="menu-page">
+    <div class="menu-wrap">
+
+      <!-- HERO -->
+      <section class="menu-hero" aria-label="Menu hero">
+        <div class="menu-kicker">Washington, DC</div>
+        <h1 class="menu-title">Dinner &amp; Cocktails</h1>
+        <p class="menu-sub">Curated plates. Crafted cocktails. Late-night energy — designed for the after-dark crowd.</p>
+
+        <div class="menu-actions">
+          <!-- ONE primary CTA only (gold) -->
+          <a class="cta-call" href="tel:2022974949" aria-label="Call to reserve (202-297-4949)">
+            Call to Reserve • 202-297-4949
+          </a>
+        </div>
+
+        <div class="chips" aria-label="Menu highlights">
+          <span class="chip">Premium cocktails</span>
+          <span class="chip">Late-night plates</span>
+          <span class="chip">Upscale lounge vibe</span>
+        </div>
+
+        <!-- Sticky category bar -->
+        <div class="catbar" role="navigation" aria-label="Menu categories">
+          <div class="catbar__inner" id="catbar">
+            <a class="cat" href="#featured">Featured</a>
+            <a class="cat" href="#starters">Starters</a>
+            <a class="cat" href="#wings">Wings</a>
+            <a class="cat" href="#quesadillas">Quesadillas</a>
+            <a class="cat" href="#pasta">Rasta Pasta &amp; Alfredo</a>
+            <a class="cat" href="#salads">Salads</a>
+            <a class="cat" href="#dinner">Dinner</a>
+            <a class="cat" href="#tacos">Tacos</a>
+            <a class="cat" href="#upcharge">Upcharge</a>
+            <a class="cat" href="#wingflavors">Wings Flavors</a>
+            <a class="cat" href="#cocktails">Cocktails</a>
+            <a class="cat" href="#bottles">Bottles</a>
+            <a class="cat" href="#hookah">Hookah</a>
+          </div>
+        </div>
+
+        <p class="fineprint">Tip: the category bar stays sticky and highlights the section you’re viewing.</p>
+      </section>
+
+      <!-- FEATURED -->
+      <section id="featured" class="menu-section" aria-label="Featured">
+        <div class="featured">
+          <div class="featured__top">
+            <h2 class="featured__title">Featured</h2>
+            <p class="featured__note">Top sellers this week</p>
+          </div>
+
+          <div class="featured-grid">
+            <article class="fcard">
+              <div class="fcard__smile" aria-hidden="true">☺</div>
+              <div class="fcard__top">
+                <h3 class="fcard__name">Rasta Pasta</h3>
+                <p class="fcard__price">$16–$20</p>
+              </div>
+              <p class="fcard__desc">Creamy, bold, island-inspired. Choose chicken, shrimp, or salmon.</p>
+              <span class="tag">Signature</span>
+            </article>
+
+            <article class="fcard">
+              <div class="fcard__smile" aria-hidden="true">☺</div>
+              <div class="fcard__top">
+                <h3 class="fcard__name">Late Night Wings</h3>
+                <p class="fcard__price">$14</p>
+              </div>
+              <p class="fcard__desc">Crispy, sauced, and made to pair with a strong pour.</p>
+              <span class="tag">Top Seller</span>
+            </article>
+
+            <article class="fcard">
+              <div class="fcard__smile" aria-hidden="true">☺</div>
+              <div class="fcard__top">
+                <h3 class="fcard__name">Espresso Martini</h3>
+                <p class="fcard__price">$16</p>
+              </div>
+              <p class="fcard__desc">Smooth, rich, and the perfect “stay out later” cocktail.</p>
+              <span class="tag">Craft Cocktail</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- STARTERS -->
+      <section id="starters" class="menu-section" aria-label="Starters">
+        <div class="section-head">
+          <h2 class="section-title">Starters</h2>
+          <p class="section-note">Start strong. Pair with a cocktail.</p>
+        </div>
+
+        <div class="menu-list">
+          <!-- Your new starters -->
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Salmon Sliders w/ Fries</h3>
+              <p class="mitem__price">$12</p>
+            </div>
+            <p class="mitem__desc">Crisp finish, premium bite.</p>
+            <div class="badges"><span class="badge badge--gold">Chef Pick</span></div>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Beef Sliders w/ Fries</h3>
+              <p class="mitem__price">$10</p>
+            </div>
+            <p class="mitem__desc">Classic flavor, lounge-ready.</p>
+            <div class="badges"><span class="badge">Popular</span></div>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Mozzarella Sticks</h3>
+              <p class="mitem__price">$7</p>
+            </div>
+            <p class="mitem__desc">Golden crisp. Smooth pull.</p>
+            <div class="badges"><span class="badge">New</span></div>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Fried Pickles</h3>
+              <p class="mitem__price">$5</p>
+            </div>
+            <p class="mitem__desc">Crunch + tang. Easy favorite.</p>
+            <div class="badges"><span class="badge">Popular</span></div>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Chips &amp; Salsa</h3>
+              <p class="mitem__price">$5</p>
+            </div>
+            <p class="mitem__desc">Simple. Clean. Always hits.</p>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Onion Rings</h3>
+              <p class="mitem__price">$7</p>
+            </div>
+            <p class="mitem__desc">Crispy stack, upscale crunch.</p>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Fries</h3>
+              <p class="mitem__price">$5</p>
+            </div>
+            <p class="mitem__desc">Hot, crisp, lounge classic.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- WINGS -->
+      <section id="wings" class="menu-section" aria-label="Wings">
+        <div class="section-head">
+          <h2 class="section-title">Wings</h2>
+          <p class="section-note">Late-night energy. Big flavor.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Late Night Wings</h3>
+              <p class="mitem__price">$14</p>
+            </div>
+            <p class="mitem__desc">Crispy wings with your choice of flavor.</p>
+            <div class="badges"><span class="badge">Popular</span><span class="badge badge--gold">Top Seller</span></div>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">20 pcs Wings Special</h3>
+              <p class="mitem__price">$20</p>
+            </div>
+            <p class="mitem__desc">Perfect for the table. Come dressed.</p>
+            <div class="badges"><span class="badge badge--gold">Chef Pick</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- QUESADILLAS -->
+      <section id="quesadillas" class="menu-section" aria-label="Quesadillas">
+        <div class="section-head">
+          <h2 class="section-title">Quesadillas</h2>
+          <p class="section-note">Golden, melty, premium bite.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Chicken Quesadilla</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Add your house heat. Served lounge-style.</p>
+            <div class="badges"><span class="badge">New</span></div>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Steak Quesadilla</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Bold flavor with a premium finish.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- PASTA -->
+      <section id="pasta" class="menu-section" aria-label="Rasta Pasta and Alfredo">
+        <div class="section-head">
+          <h2 class="section-title">Rasta Pasta &amp; Alfredo</h2>
+          <p class="section-note">Signature comfort with a luxury edge.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Rasta Pasta</h3>
+              <p class="mitem__price">$16–$20</p>
+            </div>
+            <p class="mitem__desc">Choose: chicken $16 • shrimp $18 • salmon $20.</p>
+            <div class="badges"><span class="badge badge--gold">Signature</span></div>
+          </article>
+
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Alfredo</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Creamy classic with elevated vibes.</p>
+            <div class="badges"><span class="badge">Popular</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SALADS -->
+      <section id="salads" class="menu-section" aria-label="Salads">
+        <div class="section-head">
+          <h2 class="section-title">Salads</h2>
+          <p class="section-note">Clean, crisp, and upscale.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Salad</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Add salmon $14 (optional upgrade).</p>
+            <div class="badges"><span class="badge">New</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- DINNER -->
+      <section id="dinner" class="menu-section" aria-label="Dinner">
+        <div class="section-head">
+          <h2 class="section-title">Dinner</h2>
+          <p class="section-note">Main plates built for the night.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Dinner Plate</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Add your signature sides and sauce.</p>
+            <div class="badges"><span class="badge badge--gold">Chef Pick</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TACOS -->
+      <section id="tacos" class="menu-section" aria-label="Tacos">
+        <div class="section-head">
+          <h2 class="section-title">Tacos</h2>
+          <p class="section-note">Clean bite. Big vibe.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Tacos</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Perfect for Taco Tuesday + cocktails.</p>
+            <div class="badges"><span class="badge">Popular</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- UPCHARGE -->
+      <section id="upcharge" class="menu-section" aria-label="Upcharge">
+        <div class="section-head">
+          <h2 class="section-title">Upcharge</h2>
+          <p class="section-note">Luxury add-ons.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Upcharge Options</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Add premium proteins / upgrades as available.</p>
+            <div class="badges"><span class="badge">New</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- WING FLAVORS -->
+      <section id="wingflavors" class="menu-section" aria-label="Wings flavors">
+        <div class="section-head">
+          <h2 class="section-title">Wings Flavors</h2>
+          <p class="section-note">Choose your style.</p>
+        </div>
+
+        <div class="mitem" style="max-width: 820px;">
+          <div class="mitem__top">
+            <h3 class="mitem__name">Style</h3>
+            <p class="mitem__price"></p>
+          </div>
+          <p class="mitem__desc">Pick how you want them served.</p>
+
+          <!-- Wet / Dry options (as you requested) -->
+          <div class="option-row" aria-label="Wet or dry">
+            <span class="opt">Wet</span>
+            <span class="opt">Dry</span>
+          </div>
+
+          <div class="badges" style="margin-top:10px;">
+            <span class="badge badge--gold">Popular</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- COCKTAILS -->
+      <section id="cocktails" class="menu-section" aria-label="Cocktails">
+        <div class="section-head">
+          <h2 class="section-title">Cocktails</h2>
+          <p class="section-note">Crafted. Clean. Premium.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Espresso Martini</h3>
+              <p class="mitem__price">$16</p>
+            </div>
+            <p class="mitem__desc">Smooth, rich, late-night favorite.</p>
+            <div class="badges"><span class="badge badge--gold">Top Seller</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- BOTTLES -->
+      <section id="bottles" class="menu-section" aria-label="Bottles">
+        <div class="section-head">
+          <h2 class="section-title">Bottles</h2>
+          <p class="section-note">Table-ready.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Bottle Service</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Ask your server for current selections.</p>
+            <div class="badges"><span class="badge">Popular</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- HOOKAH -->
+      <section id="hookah" class="menu-section" aria-label="Hookah">
+        <div class="section-head">
+          <h2 class="section-title">Hookah</h2>
+          <p class="section-note">Smooth pulls. Lounge vibe.</p>
+        </div>
+
+        <div class="menu-list">
+          <article class="mitem">
+            <div class="mitem__top">
+              <h3 class="mitem__name">Hookah</h3>
+              <p class="mitem__price">$—</p>
+            </div>
+            <p class="mitem__desc">Flavors available nightly.</p>
+          </article>
+        </div>
+      </section>
+
     </div>
-    <p class="menu-item__desc">Sweet, premium vibe.</p>
-  </article>
+  </main>
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Lady Killer</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Bold, smooth finish.</p>
-  </article>
+  <script>
+    // Active glow for category bar (hash + scroll)
+    (function(){
+      const links = Array.from(document.querySelectorAll('#catbar .cat'));
+      const sections = links
+        .map(a => document.querySelector(a.getAttribute('href')))
+        .filter(Boolean);
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Love 66</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">House favorite, sweet + icy.</p>
-  </article>
+      function setActiveById(id){
+        links.forEach(a => {
+          const match = a.getAttribute('href') === '#' + id;
+          a.classList.toggle('is-active', match);
+          if(match) a.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+        });
+      }
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Blueberry</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Clean berry hit.</p>
-  </article>
+      // Set active on load (hash or first)
+      const initial = (location.hash || '#featured').replace('#','');
+      setActiveById(initial);
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">BMW</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Signature blend.</p>
-  </article>
+      // Intersection observer for scroll-based active state
+      const io = new IntersectionObserver((entries)=>{
+        // pick the most visible entry
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
+        if(visible) setActiveById(visible.target.id);
+      }, { root:null, threshold:[0.25,0.35,0.5,0.65], rootMargin:'-140px 0px -55% 0px' });
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Blueberry Mint</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Berry with a cool finish.</p>
-  </article>
+      sections.forEach(sec => io.observe(sec));
 
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Double Apple</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Classic lounge staple.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Grape</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Rich + smooth.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Grapefruit</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Citrus luxury vibe.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Grapefruit Mint</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Bright + icy clean.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Guava</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Tropical, smooth pull.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Gum Mint</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Sweet + icy.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Kiwi</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Crisp, fruity finish.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Lemon Mint</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Clean citrus + cool.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Mango</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Tropical premium.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Mint</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Straight icy luxury.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Orange Mint</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Citrus + cool.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Peach</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Smooth peach pull.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Pineapple</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Tropical sweet.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Strawberry</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Sweet lounge classic.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Vanilla</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Smooth + creamy vibe.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Watermelon</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Fresh, sweet finish.</p>
-  </article>
-
-  <article class="menu-item">
-    <div class="menu-item__top">
-      <h3 class="menu-item__name">Watermelon Mint</h3>
-      <p class="menu-item__price">—</p>
-    </div>
-    <p class="menu-item__desc">Sweet + icy clean.</p>
-  </article>
-
-</div>
+      // When clicking a category, update hash (smooth handled by browser + scroll-margin-top)
+      links.forEach(a=>{
+        a.addEventListener('click', ()=>{
+          const id = a.getAttribute('href').slice(1);
+          setActiveById(id);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
