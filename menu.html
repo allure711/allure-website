@@ -448,6 +448,31 @@
           <p class="menu-section__sub">Start strong. Pair with a cocktail.</p>
         </div>
 
+        /* Happy Hour nav highlight */
+.nav-happy{
+  color: rgba(215,180,106,.95);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.nav-happy::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-4px;
+  width:100%;
+  height:2px;
+  background: linear-gradient(90deg, transparent, #d7b46a, transparent);
+  opacity:.8;
+}
+
+.nav-happy:hover{
+  color:#f2d38a;
+  filter: drop-shadow(0 0 8px rgba(215,180,106,.6));
+}
+
         <div class="menu-list">
           <article class="menu-item">
             <div class="menu-item__top">
