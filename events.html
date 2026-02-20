@@ -1,24 +1,330 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Events | Allure Bar & Lounge</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events | Allure Bar & Lounge | Washington, DC</title>
+  <meta name="description" content="Weekly events at Allure Bar & Lounge — upscale vibes, happy hour specials, karaoke nights, and weekend energy." />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- Events page upgrades (scoped) -->
+  <style>
+    :root{
+      --gold:#d7b46a;
+      --gold2:#f2d38a;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.085);
+      --line: rgba(255,255,255,.10);
+    }
+
+    body{
+      background:
+        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
+        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.12), transparent 55%),
+        radial-gradient(1200px 720px at 50% 100%, rgba(215,180,106,.08), transparent 60%),
+        linear-gradient(180deg, #07070a 0%, #0a0a10 100%);
+    }
+
+    /* ===== HERO ===== */
+    .events-hero{
+      padding: 118px 0 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .events-hero::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background:
+        radial-gradient(circle at 22% 28%, rgba(215,180,106,.18), transparent 55%),
+        radial-gradient(circle at 78% 22%, rgba(140,90,255,.14), transparent 58%),
+        radial-gradient(circle at 55% 80%, rgba(255,255,255,.07), transparent 50%);
+      filter: blur(18px);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .events-hero__inner{
+      position: relative;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 22px;
+      align-items: end;
+    }
+    @media (max-width: 900px){
+      .events-hero{ padding-top: 96px; }
+      .events-hero__inner{ grid-template-columns: 1fr; }
+    }
+
+    .events-kicker{
+      margin:0 0 8px;
+      color: rgba(215,180,106,.85);
+      letter-spacing:.18em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .events-title{
+      margin:0 0 10px;
+      font-size: clamp(38px, 4.2vw, 62px);
+      line-height: 1.02;
+      letter-spacing: -.02em;
+    }
+    .events-subtitle{
+      margin:0 0 14px;
+      color: rgba(255,255,255,.82);
+      max-width: 70ch;
+      font-size: 16.5px;
+    }
+
+    .events-ctas{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+      margin-top: 10px;
+    }
+
+    .events-pills{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.28);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.88);
+      font-size: 12.5px;
+      letter-spacing: .02em;
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    }
+
+    /* ===== FEATURED ===== */
+    .featured{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+    }
+    .featured__head{
+      display:flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+      padding: 2px 6px;
+    }
+    .featured__title{
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.78);
+    }
+    .featured__note{
+      margin: 0;
+      font-size: 12.5px;
+      color: rgba(215,180,106,.85);
+    }
+
+    .featured-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 620px){ .featured-grid{ grid-template-columns: 1fr; } }
+
+    .fcard{
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .fcard:hover{
+      transform: translateY(-2px);
+      border-color: rgba(215,180,106,.35);
+      box-shadow: 0 26px 90px rgba(0,0,0,.45);
+    }
+    .fcard__img{
+      width:100%;
+      height: 150px;
+      object-fit: cover;
+      display:block;
+    }
+    .fcard__body{
+      padding: 12px;
+    }
+    .fcard__top{
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+    .fcard__name{
+      margin:0;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .fcard__time{
+      margin:0;
+      color: var(--gold2);
+      font-weight: 800;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+    .fcard__desc{
+      margin: 6px 0 10px;
+      color: rgba(255,255,255,.78);
+      font-size: 13.5px;
+      line-height: 1.35;
+    }
+
+    .tag{
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.30);
+      background: rgba(215,180,106,.10);
+      color: rgba(255,255,255,.90);
+      font-size: 12px;
+      letter-spacing: .02em;
+      margin-right: 6px;
+      margin-top: 6px;
+    }
+
+    /* ===== STICKY FILTER BAR ===== */
+    .events-filter{
+      position: sticky;
+      top: 74px;  /* header height; tweak if needed */
+      z-index: 50;
+      margin: 16px 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(10,10,14,.78);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 70px rgba(0,0,0,.40);
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .events-filter__inner{
+      display:flex;
+      gap: 8px;
+      padding: 8px;
+      min-width: max-content;
+      align-items:center;
+    }
+    .filter-btn{
+      appearance:none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: rgba(255,255,255,.86);
+      padding: 9px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size: 13px;
+      white-space: nowrap;
+      transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+    }
+    .filter-btn:hover{
+      border-color: rgba(215,180,106,.30);
+      background: rgba(215,180,106,.10);
+      color: rgba(255,255,255,.95);
+    }
+    .filter-btn.is-active{
+      border-color: rgba(215,180,106,.45);
+      background: rgba(215,180,106,.14);
+      box-shadow: 0 18px 70px rgba(215,180,106,.10);
+      color: rgba(255,255,255,.98);
+    }
+
+    /* ===== EVENT LIST ===== */
+    .events-wrap{
+      padding-bottom: 40px;
+    }
+    .divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(215,180,106,.35), transparent);
+      margin: 18px 0;
+      opacity:.9;
+    }
+
+    .event-list{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .event{
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 14px 55px rgba(0,0,0,.25);
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .event:hover{
+      border-color: rgba(215,180,106,.22);
+      transform: translateY(-1px);
+    }
+
+    .event__top{
+      display:flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: baseline;
+    }
+    .event__name{
+      margin:0;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .event__when{
+      margin:0;
+      font-weight: 800;
+      color: rgba(215,180,106,.95);
+      white-space: nowrap;
+      font-size: 13px;
+    }
+    .event__desc{
+      margin: 6px 0 10px;
+      color: rgba(255,255,255,.76);
+      font-size: 13.5px;
+      line-height: 1.35;
+      max-width: 85ch;
+    }
+    .event__meta{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items:center;
+    }
+
+    /* Hide by JS filtering */
+    .is-hidden{ display:none !important; }
+
+  </style>
 </head>
+
 <body>
 
-  <!-- ===== HEADER / NAV ===== -->
+  <!-- HEADER -->
   <header class="header">
     <div class="container header__inner">
-      <div class="logo">
-        <a href="index.html">Allure Bar & Lounge</a>
-      </div>
+      <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">Allure Bar &amp; Lounge</a>
 
-      <nav class="nav">
-        <ul class="nav__list">
+      <nav class="nav" aria-label="Primary navigation">
+        <button class="nav__toggle" aria-controls="navMenu" aria-expanded="false">Menu</button>
+
+        <ul id="navMenu" class="nav__list">
           <li><a href="menu.html">Menu</a></li>
-          <li><a href="events.html" class="active">Events</a></li>
+          <li><a href="events.html" aria-current="page">Events</a></li>
           <li><a href="gallery.html">Gallery</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="location.html">Location</a></li>
@@ -28,70 +334,215 @@
     </div>
   </header>
 
+  <main>
 
-  <!-- ===== HERO ===== -->
-  <section class="page-hero">
-    <div class="hero-actions">
-  <a class="btn btn--small btn--ghost icon-only" href="tel:2022974949" aria-label="Call">
-  <svg class="phone-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-    <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011-.24 11.36 11.36 0 003.57.57 1 1 0 011 1v3.49a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.49a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1z"/>
-  </svg>
-</a>
+    <!-- HERO -->
+    <section class="events-hero">
+      <div class="container">
+        <div class="events-hero__inner">
+          <div>
+            <p class="events-kicker">Washington, DC</p>
+            <h1 class="events-title">This Week at Allure</h1>
+            <p class="events-subtitle">Weekly programming built for a premium lounge crowd — happy hour energy, nightlife vibes, and weekend heat.</p>
 
-</div>
-  </section>
+            <div class="events-ctas">
+              <a class="btn btn--primary" href="tel:2022974949">Reserve by Phone</a>
+              <a class="btn btn--ghost" href="menu.html">View Menu</a>
+            </div>
 
+            <div class="events-pills">
+              <span class="pill">Happy hour specials</span>
+              <span class="pill">Late-night vibe</span>
+              <span class="pill">Premium lounge</span>
+            </div>
+          </div>
 
-  <!-- ===== EVENTS GRID ===== -->
-  <section class="section">
-    <div class="container events-grid">
+          <aside class="featured" aria-label="Featured events">
+            <div class="featured__head">
+              <h2 class="featured__title">Featured</h2>
+              <p class="featured__note">Best nights to pull up</p>
+            </div>
 
-      <div class="event-card">
-        <h3>Free Hookah Monday</h3>
-        <p>Mondays • 5PM–1AM</p>
-        <p>Enjoy free hookah with $50 bar tab.</p>
+            <div class="featured-grid">
+              <article class="fcard">
+                <img class="fcard__img" src="assets/images/featured-event-friday.jpg" alt="Allure Friday" loading="lazy" />
+                <div class="fcard__body">
+                  <div class="fcard__top">
+                    <h3 class="fcard__name">Allure Friday</h3>
+                    <p class="fcard__time">Fri • 5PM–2AM</p>
+                  </div>
+                  <p class="fcard__desc">Premium lounge energy all night — come dressed, come ready.</p>
+                  <span class="tag">Weekend</span><span class="tag">Top Night</span>
+                </div>
+              </article>
+
+              <article class="fcard">
+                <img class="fcard__img" src="assets/images/featured-event-saturday.jpg" alt="Allure Saturday" loading="lazy" />
+                <div class="fcard__body">
+                  <div class="fcard__top">
+                    <h3 class="fcard__name">Allure Saturday</h3>
+                    <p class="fcard__time">Sat • 5PM–2AM</p>
+                  </div>
+                  <p class="fcard__desc">Late-night vibes, premium crowd, and signature cocktails.</p>
+                  <span class="tag">Weekend</span><span class="tag">Best Vibes</span>
+                </div>
+              </article>
+            </div>
+          </aside>
+        </div>
+
+        <!-- STICKY FILTER BAR -->
+        <div class="events-filter" role="navigation" aria-label="Event filters">
+          <div class="events-filter__inner">
+            <button class="filter-btn is-active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="weekdays">Weekdays</button>
+            <button class="filter-btn" data-filter="weekend">Weekend</button>
+            <button class="filter-btn" data-filter="happyhour">Happy Hour</button>
+            <button class="filter-btn" data-filter="karaoke">Karaoke</button>
+            <button class="filter-btn" data-filter="hookah">Hookah</button>
+          </div>
+        </div>
+
       </div>
+    </section>
 
-      <div class="event-card">
-        <h3>Taco Tuesday</h3>
-        <p>Tuesdays • 5PM–9PM</p>
-        <p>Crafted cocktails, tacos, and upscale vibes.</p>
-      </div>
+    <div class="container events-wrap">
+      <div class="divider"></div>
 
-      <div class="event-card">
-        <h3>Midweek Social</h3>
-        <p>Wednesdays • 5PM–1AM</p>
-        <p>$5 Shots • $7 Top Shelf All Night</p>
-      </div>
+      <!-- EVENT LIST -->
+      <section aria-label="Event list">
+        <div class="event-list" id="eventList">
 
-      <div class="event-card">
-        <h3>Karaoke Thursday</h3>
-        <p>Thursdays • 5PM–1AM</p>
-        <p>Bring the crew and own the mic.</p>
-      </div>
+          <!-- Each event has data-tags for filtering -->
+          <article class="event" data-tags="weekdays hookah">
+            <div class="event__top">
+              <h3 class="event__name">Free Hookah Monday</h3>
+              <p class="event__when">Mon • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">Enjoy free hookah with $50 bar tab.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+              <span class="tag">Hookah</span>
+            </div>
+          </article>
 
-      <div class="event-card">
-        <h3>Allure Friday</h3>
-        <p>Fridays • 5PM–2AM</p>
-        <p>Premium lounge energy all night.</p>
-      </div>
+          <article class="event" data-tags="weekdays">
+            <div class="event__top">
+              <h3 class="event__name">Taco Tuesday</h3>
+              <p class="event__when">Tue • 5PM–9PM</p>
+            </div>
+            <p class="event__desc">Crafted cocktails, tacos, and upscale vibes.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+            </div>
+          </article>
 
-      <div class="event-card">
-        <h3>Allure Saturday</h3>
-        <p>Saturdays • 5PM–2AM</p>
-        <p>Late-night vibes. Elevated atmosphere.</p>
-      </div>
+          <article class="event" data-tags="weekdays happyhour">
+            <div class="event__top">
+              <h3 class="event__name">Midweek Social</h3>
+              <p class="event__when">Wed • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">$5 shots • $7 top shelf shots all night.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+              <span class="tag">Happy Hour</span>
+            </div>
+          </article>
 
+          <article class="event" data-tags="weekdays karaoke happyhour">
+            <div class="event__top">
+              <h3 class="event__name">Karaoke Thursday</h3>
+              <p class="event__when">Thu • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">Bring the crew and own the mic — cozy upscale vibes all night.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+              <span class="tag">Karaoke</span>
+              <span class="tag">Happy Hour</span>
+            </div>
+          </article>
+
+          <article class="event" data-tags="weekend">
+            <div class="event__top">
+              <h3 class="event__name">Allure Friday</h3>
+              <p class="event__when">Fri • 5PM–2AM</p>
+            </div>
+            <p class="event__desc">Premium lounge energy all night — come dressed, come ready.</p>
+            <div class="event__meta">
+              <span class="tag">Weekend</span>
+              <span class="tag">Top Night</span>
+            </div>
+          </article>
+
+          <article class="event" data-tags="weekend">
+            <div class="event__top">
+              <h3 class="event__name">Allure Saturday</h3>
+              <p class="event__when">Sat • 5PM–2AM</p>
+            </div>
+            <p class="event__desc">Late-night vibes with premium crowd and signature cocktails.</p>
+            <div class="event__meta">
+              <span class="tag">Weekend</span>
+              <span class="tag">Best Vibes</span>
+            </div>
+          </article>
+
+          <article class="event" data-tags="weekend">
+            <div class="event__top">
+              <h3 class="event__name">Sunday Social</h3>
+              <p class="event__when">Sun • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">Wind down the weekend with relaxed lounge vibes and crafted drinks.</p>
+            <div class="event__meta">
+              <span class="tag">Weekend</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
     </div>
-  </section>
 
+  </main>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="container">
-      <p>© 2026 Allure Bar & Lounge • Washington, DC</p>
+  <footer class="footer" style="padding: 26px 0 40px;">
+    <div class="container" style="color: rgba(255,255,255,.65); font-size: 13px;">
+      <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center;">
+        <span>© <span id="year"></span> Allure Bar &amp; Lounge</span>
+        <span style="color: rgba(215,180,106,.70);">Washington, DC</span>
+      </div>
     </div>
   </footer>
 
+  <script>
+    // footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Filter logic
+    const btns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.event');
+
+    function setActive(btn){
+      btns.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+    }
+
+    function applyFilter(key){
+      cards.forEach(card => {
+        const tags = (card.dataset.tags || '').toLowerCase();
+        if(key === 'all') card.classList.remove('is-hidden');
+        else card.classList.toggle('is-hidden', !tags.includes(key));
+      });
+    }
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.filter;
+        setActive(btn);
+        applyFilter(key);
+      });
+    });
+  </script>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
+✅ IMPORTANT (so the Featured i
