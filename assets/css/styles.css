@@ -1004,3 +1004,64 @@ h3{margin:0 0 10px}
     0 0 0 1px rgba(215,180,106,.05) inset;
   transition: all .35s ease;
 }
+/* ==========================================
+   VEGAS LUXURY MENU UPGRADE
+========================================== */
+
+/* Luxury glass menu sections */
+.menu-section{
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(15,15,20,.55);
+  border: 1px solid rgba(215,180,106,.18);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.45),
+    0 0 0 1px rgba(215,180,106,.05) inset;
+  transition: all .35s ease;
+}
+
+/* ==========================================
+   GOLD PRICE SHIMMER (AUTO TARGET)
+========================================== */
+
+[class*="__price"],
+.menu-item__price,
+.featured-card__price,
+.mitem__price{
+  position: relative;
+  font-weight: 950;
+  color: #d7b46a !important;
+  overflow: hidden;
+}
+
+/* shimmer layer */
+[class*="__price"]::after,
+.menu-item__price::after,
+.featured-card__price::after,
+.mitem__price::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:120%;
+  height:100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.45),
+    transparent
+  );
+  opacity: .55;
+  transition: left .8s ease;
+  pointer-events:none;
+}
+
+/* shimmer activates on hover */
+.menu-item:hover [class*="__price"]::after,
+.featured-card:hover [class*="__price"]::after,
+.mitem:hover [class*="__price"]::after{
+  left:120%;
+}
