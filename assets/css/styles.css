@@ -961,3 +961,27 @@ h3{margin:0 0 10px}
   color: rgba(255,255,255,.75);
   margin-bottom: 40px;
 }
+/* Happy Hour nav highlight */
+.nav-happy{
+  color: rgba(215,180,106,.95);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.nav-happy::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-4px;
+  width:100%;
+  height:2px;
+  background: linear-gradient(90deg, transparent, #d7b46a, transparent);
+  opacity:.8;
+}
+
+.nav-happy:hover{
+  color:#f2d38a;
+  filter: drop-shadow(0 0 8px rgba(215,180,106,.6));
+}
