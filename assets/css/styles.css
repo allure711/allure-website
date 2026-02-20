@@ -992,3 +992,15 @@ h3{margin:0 0 10px}
     radial-gradient(900px 500px at 90% 10%, rgba(215,180,106,.06), transparent 60%),
     #07070a;
 }
+.menu-section{
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(15,15,20,.55);
+  border: 1px solid rgba(215,180,106,.18);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.45),
+    0 0 0 1px rgba(215,180,106,.05) inset;
+  transition: all .35s ease;
+}
