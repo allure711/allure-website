@@ -985,3 +985,10 @@ h3{margin:0 0 10px}
   color:#f2d38a;
   filter: drop-shadow(0 0 8px rgba(215,180,106,.6));
 }
+.vegas-bg{
+  position: relative;
+  background:
+    radial-gradient(900px 500px at 20% 0%, rgba(215,180,106,.08), transparent 60%),
+    radial-gradient(900px 500px at 90% 10%, rgba(215,180,106,.06), transparent 60%),
+    #07070a;
+}
