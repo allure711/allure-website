@@ -4,841 +4,978 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Menu | Allure Bar & Lounge</title>
-  <meta name="description" content="Allure Bar & Lounge menu — curated plates, crafted cocktails, late-night energy." />
+  <meta name="description" content="Allure Bar & Lounge — Vegas-luxury menu with sticky categories, featured cards, and late-night specials." />
+
+  <!-- Keep your global stylesheet if your site uses it -->
   <link rel="stylesheet" href="assets/css/styles.css" />
 
-  <!-- Menu page: elite black+gold, sticky category bar, featured cards, active glow -->
+  <!-- Menu-only Vegas Luxury styles -->
   <style>
     :root{
       --bg:#07070a;
-      --panel:rgba(255,255,255,.06);
-      --panel2:rgba(255,255,255,.04);
-      --line:rgba(255,255,255,.10);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.70);
-      --muted2:rgba(255,255,255,.55);
+      --panel: rgba(15,15,20,.55);
+      --panel2: rgba(10,10,14,.38);
+      --stroke: rgba(215,180,106,.18);
+      --strokeStrong: rgba(215,180,106,.55);
       --gold:#d7b46a;
-      --gold2:rgba(215,180,106,.55);
-      --shadow:0 22px 70px rgba(0,0,0,.45);
-      --radius:18px;
-      --radius2:22px;
+      --gold2:#f0d99a;
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --dim: rgba(255,255,255,.58);
+      --shadow: 0 25px 80px rgba(0,0,0,.45), 0 0 0 1px rgba(215,180,106,.05) inset;
+      --radius: 22px;
+      --radius2: 16px;
+      --max: 1120px;
     }
 
-    body{ background: radial-gradient(1200px 600px at 18% 10%, rgba(215,180,106,.10), transparent 60%),
-                     radial-gradient(900px 500px at 85% 20%, rgba(120,80,255,.10), transparent 60%),
-                     var(--bg); color:var(--text); }
+    html,body{background:var(--bg); color:var(--text); margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}
+    a{color:inherit; text-decoration:none}
+    .container{width:min(var(--max), calc(100% - 32px)); margin:0 auto;}
+    .anchor{scroll-margin-top: 150px;}
 
-    /* Page container */
-    .menu-page{ padding: 32px 0 80px; }
-    .menu-wrap{ width:min(1120px, 92vw); margin:0 auto; }
-
-    /* Headline */
-    .menu-hero{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border: 1px solid var(--line);
-      border-radius: var(--radius2);
-      padding: 26px 22px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
+    /* HEADER / NAV */
+    .header{
+      position:sticky; top:0; z-index:60;
+      background: linear-gradient(180deg, rgba(7,7,10,.92), rgba(7,7,10,.55));
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(215,180,106,.10);
     }
-    .menu-hero::before{
-      content:"";
-      position:absolute; inset:-40%;
-      background: radial-gradient(circle, rgba(215,180,106,.18), transparent 55%);
-      filter: blur(18px);
-      transform: translateX(-25%);
-      opacity:.55;
-      pointer-events:none;
-      animation: heroGlow 10s ease-in-out infinite;
+    .header__inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 0; gap: 18px;
     }
-    @keyframes heroGlow{
-      0%,100%{ transform: translateX(-25%) translateY(0); opacity:.45; }
-      50%{ transform: translateX(-10%) translateY(-6px); opacity:.65; }
-    }
-
-    .menu-kicker{ letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:rgba(255,255,255,.70); font-size:12px; }
-    .menu-title{ margin:10px 0 8px; font-size: clamp(30px, 3.2vw, 44px); line-height:1.06; }
-    .menu-sub{ margin:0; color:var(--muted); max-width: 70ch; }
-
-    .menu-actions{
-      margin-top: 16px;
-      display:flex; flex-wrap:wrap;
-      gap: 10px;
-      align-items:center;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Single primary CTA */
-    .cta-call{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 12px 18px;
+    .brand{font-weight: 800; letter-spacing:.2px; opacity:.95;}
+    .nav{display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:flex-end;}
+    .nav a{
+      padding: 10px 10px;
+      font-weight: 700;
+      color: rgba(255,255,255,.86);
       border-radius: 999px;
-      border: 1px solid rgba(215,180,106,.55);
-      background: linear-gradient(180deg, rgba(215,180,106,.95), rgba(215,180,106,.78));
-      color:#121214;
-      font-weight: 800;
-      text-decoration:none;
-      box-shadow: 0 14px 45px rgba(215,180,106,.16);
+      transition: background .2s ease;
+    }
+    .nav a:hover{background: rgba(255,255,255,.04)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 11px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.22);
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+      font-weight: 850;
+      white-space:nowrap;
+    }
+    .btn--gold{
+      border-color: rgba(215,180,106,.35);
+      background: linear-gradient(135deg, rgba(215,180,106,.96), rgba(240,217,154,.86));
+      color: #16130a;
+      box-shadow: 0 26px 70px rgba(215,180,106,.12), 0 18px 55px rgba(0,0,0,.35);
       position: relative;
       overflow:hidden;
-      animation: ctaPulse 5.5s ease-in-out infinite;
+      transform: translateZ(0);
     }
-    @keyframes ctaPulse{
-      0%,100%{ transform: translateY(0); filter: drop-shadow(0 0 0 rgba(215,180,106,0)); }
-      50%{ transform: translateY(-1px); filter: drop-shadow(0 0 14px rgba(215,180,106,.35)); }
+    @keyframes goldPulse{
+      0%,78%,100% { filter:none; }
+      85% { filter: drop-shadow(0 0 18px rgba(215,180,106,.35)); }
+      92% { filter: drop-shadow(0 0 26px rgba(215,180,106,.55)); }
     }
-    .cta-call::after{
-      content:"";
-      position:absolute; inset:-60%;
-      background: radial-gradient(circle, rgba(255,255,255,.45), transparent 60%);
-      transform: translateX(-35%);
-      opacity:0;
-      transition: opacity .25s ease;
-      pointer-events:none;
-    }
-    .cta-call:hover::after{ opacity:.45; }
+    .btn--pulse{ animation: goldPulse 5.2s ease-in-out infinite; }
 
-    /* Chips */
-    .chips{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; position:relative; z-index:1; }
-    .chip{
-      display:inline-flex; align-items:center;
+    /* HERO */
+    .hero{padding: 26px 0 10px;}
+    .hero__card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(215,180,106,.12);
+      background:
+        radial-gradient(900px 520px at 18% 10%, rgba(215,180,106,.10), transparent 55%),
+        radial-gradient(900px 520px at 88% 10%, rgba(215,180,106,.07), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position: relative;
+      overflow:hidden;
+    }
+    .kicker{
+      font-size: 12px; letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(255,255,255,.70); font-weight: 900; margin: 0 0 10px;
+    }
+    .hero h1{
+      font-size: clamp(28px, 4.2vw, 44px);
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+    }
+    .hero p{margin: 0; color: var(--muted); max-width: 72ch; line-height: 1.5;}
+    .hero__actions{display:flex; gap:12px; flex-wrap:wrap; margin-top: 16px; align-items:center;}
+    .pillRow{display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px;}
+    .pill{
+      border-radius:999px;
       padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(215,180,106,.35);
-      background: rgba(10,10,14,.40);
-      color: rgba(255,255,255,.85);
-      font-weight: 650;
+      border: 1px solid rgba(215,180,106,.18);
+      background: var(--panel2);
+      color: rgba(255,255,255,.82);
+      font-weight:800;
       font-size: 13px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.28);
-      backdrop-filter: blur(8px);
     }
 
-    /* Sticky category bar */
-    .catbar{
-      margin-top: 16px;
+    /* STICKY CATEGORY BAR */
+    .catbarWrap{
       position: sticky;
-      top: 74px; /* adjust if your header is taller */
-      z-index: 50;
-      background: rgba(7,7,10,.72);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 999px;
-      box-shadow: 0 20px 55px rgba(0,0,0,.45);
-      overflow: hidden;
+      top: 62px;
+      z-index: 55;
+      padding: 10px 0 12px;
+      background: linear-gradient(180deg, rgba(7,7,10,.88), rgba(7,7,10,.42), rgba(7,7,10,0));
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(215,180,106,.08);
     }
-    .catbar__inner{
-      display:flex;
-      gap: 8px;
-      padding: 10px 10px;
-      overflow-x: auto;
-      overscroll-behavior-x: contain;
+    .catbar{
+      display:flex; gap:10px;
+      overflow:auto;
+      padding: 10px 6px;
+      scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      scroll-padding-left: 10px;
+      scroll-padding-right: 10px;
     }
-    .catbar__inner::-webkit-scrollbar{ display:none; }
-
-    .cat{
+    .catbar::-webkit-scrollbar{height:8px}
+    .catbar::-webkit-scrollbar-thumb{background: rgba(215,180,106,.18); border-radius:999px}
+    .catbar a{
+      scroll-snap-align: start;
       flex: 0 0 auto;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid transparent;
-      color: rgba(255,255,255,.82);
-      text-decoration:none;
-      font-weight: 750;
-      font-size: 14px;
+      border: 1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.03);
-      transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
-      white-space: nowrap;
+      color: rgba(255,255,255,.86);
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: .01em;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+      user-select:none;
     }
-    .cat:hover{
-      transform: translateY(-1px);
-      border-color: rgba(215,180,106,.28);
-      box-shadow: 0 18px 55px rgba(215,180,106,.10);
-    }
-    /* ACTIVE glow */
-    .cat.is-active{
-      color: rgba(255,255,255,.95);
-      border-color: rgba(215,180,106,.70);
+    .catbar a:hover{ border-color: rgba(215,180,106,.22); }
+    /* Stronger “Vegas” active glow */
+    .catbar a.is-active{
+      border-color: var(--strokeStrong);
+      background: rgba(215,180,106,.12);
       box-shadow:
         0 0 0 1px rgba(215,180,106,.22) inset,
-        0 18px 60px rgba(215,180,106,.14);
-      position: relative;
-    }
-    .cat.is-active::after{
-      content:"";
-      position:absolute; inset:-55%;
-      background: radial-gradient(circle, rgba(215,180,106,.22), transparent 60%);
-      filter: blur(10px);
-      opacity: .55;
-      pointer-events:none;
+        0 0 34px rgba(215,180,106,.28),
+        0 0 70px rgba(215,180,106,.18),
+        0 10px 30px rgba(0,0,0,.35);
+      transform: translateY(-1px);
     }
 
-    /* Sections */
+    /* SECTION WRAPPER (glass overlay) */
     .menu-section{
       margin-top: 18px;
-      scroll-margin-top: 160px; /* makes anchor jumps land nicely under sticky elements */
-    }
-    .section-head{
-      margin: 18px 0 10px;
-      display:flex; align-items:flex-end; justify-content:space-between; gap: 12px;
-    }
-    .section-title{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.85);
-    }
-    .section-note{
-      margin:0;
-      color: var(--muted2);
-      font-size: 13px;
-    }
-
-    /* Featured cards */
-    .featured{
-      margin-top: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: var(--radius2);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      padding: 16px;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(14px);
       box-shadow: var(--shadow);
     }
-    .featured__top{
-      display:flex; align-items:baseline; justify-content:space-between; gap: 12px;
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
       margin-bottom: 12px;
+      flex-wrap:wrap;
     }
-    .featured__title{
-      margin:0;
-      letter-spacing:.12em;
-      text-transform: uppercase;
-      font-size: 14px;
-      color: rgba(255,255,255,.85);
-      font-weight: 850;
-    }
-    .featured__note{
-      margin:0;
-      color: rgba(215,180,106,.95);
-      font-weight: 750;
-      font-size: 13px;
-    }
+    .sectionHead h2{margin:0; font-size: 18px; letter-spacing: .02em;}
+    .sectionHead .sub{margin:0; color: var(--dim); font-weight: 750; font-size: 13px;}
 
-    .featured-grid{
+    /* FEATURED (4–6, bigger, more Vegas) */
+    .featuredGrid{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(12, minmax(0, 1fr));
       gap: 12px;
     }
-    @media (max-width: 900px){
-      .featured-grid{ grid-template-columns: 1fr; }
-    }
-
-    .fcard{
-      border: 1px solid rgba(215,180,106,.22);
-      background: rgba(10,10,14,.35);
-      border-radius: 18px;
-      padding: 14px 14px 12px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.35);
-      position: relative;
+    .featuredCard{
+      grid-column: span 4;
+      border-radius: var(--radius);
+      border: 1px solid rgba(215,180,106,.18);
+      background:
+        radial-gradient(780px 420px at 20% 0%, rgba(215,180,106,.14), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+      box-shadow: 0 26px 80px rgba(0,0,0,.50), 0 0 0 1px rgba(215,180,106,.07) inset;
+      padding: 16px;
+      position:relative;
       overflow:hidden;
-      min-height: 168px;
+      min-height: 170px;
+      transform: translateZ(0);
     }
-    .fcard::before{
-      content:"";
-      position:absolute; inset:-60%;
-      background: radial-gradient(circle, rgba(215,180,106,.14), transparent 58%);
-      transform: translateX(-22%);
-      opacity:.55;
-      pointer-events:none;
-    }
-    .fcard__smile{
-      position:absolute;
-      top: 10px; right: 12px;
-      width: 26px; height: 26px;
-      border-radius: 999px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(255,255,255,.06);
+    .cornerIcon{
+      position:absolute; top:10px; right:10px;
+      width: 28px; height: 28px;
+      border-radius: 10px;
+      display:grid; place-items:center;
       border: 1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.88);
-      font-size: 14px;
-      z-index: 1;
-    }
-    .fcard__top{
-      display:flex; align-items:flex-start; justify-content:space-between; gap: 10px;
-      position:relative; z-index:1;
-    }
-    .fcard__name{
-      margin:0;
-      font-size: 16px;
-      font-weight: 900;
-      color: rgba(255,255,255,.95);
-    }
-    .fcard__price{
-      margin:0;
-      color: rgba(215,180,106,.95);
-      font-weight: 900;
-      white-space: nowrap;
-    }
-    .fcard__desc{
-      margin: 10px 0 12px;
-      color: rgba(255,255,255,.70);
-      font-size: 13px;
-      line-height: 1.35;
-      position:relative; z-index:1;
-    }
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(215,180,106,.35);
-      background: rgba(215,180,106,.08);
-      color: rgba(255,255,255,.88);
-      font-weight: 800;
-      font-size: 12px;
-      position:relative; z-index:1;
-    }
-
-    /* Menu item “luxury cards” */
-    .menu-list{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 900px){
-      .menu-list{ grid-template-columns: 1fr; }
-    }
-
-    .mitem{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      border-radius: 16px;
-      padding: 14px 14px 12px;
-      box-shadow: 0 16px 55px rgba(0,0,0,.30);
-    }
-    .mitem__top{
-      display:flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .mitem__name{
-      margin:0;
-      font-weight: 900;
-      letter-spacing: .01em;
-      color: rgba(255,255,255,.92);
-      font-size: 15px;
-    }
-    .mitem__price{
-      margin:0;
-      font-weight: 950;
-      color: rgba(215,180,106,.95);
-      white-space: nowrap;
-    }
-    .mitem__desc{
-      margin: 8px 0 10px;
-      color: rgba(255,255,255,.62);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-    .badges{ display:flex; gap:8px; flex-wrap:wrap; }
-    .badge{
-      display:inline-flex;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(10,10,14,.40);
+      background: rgba(10,10,14,.35);
       color: rgba(255,255,255,.82);
-      font-weight: 800;
-      font-size: 11px;
-      letter-spacing:.02em;
+      font-size: 14px;
     }
-    .badge--gold{ border-color: rgba(215,180,106,.35); background: rgba(215,180,106,.09); }
+    .fTop{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+    .fName{font-size: 16px; font-weight: 950; letter-spacing: .01em; margin: 0;}
+    .fPrice{font-weight: 950; color: var(--gold2); margin: 0; letter-spacing:.01em;}
+    .fDesc{margin: 10px 0 0; color: var(--muted); line-height: 1.45; font-weight: 650; font-size: 13px;}
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,180,106,.22);
+      background: rgba(10,10,14,.32);
+      color: rgba(255,255,255,.86);
+      font-weight: 900;
+      font-size: 12px;
+    }
 
-    /* Wet/Dry option chips */
-    .option-row{
-      display:flex; gap:10px; flex-wrap:wrap;
+    /* MINI LUXURY MENU ITEM CARDS (dense) */
+    .itemGrid{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 10px;
       margin-top: 10px;
     }
-    .opt{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(215,180,106,.28);
-      background: rgba(10,10,14,.35);
-      color: rgba(255,255,255,.88);
-      font-weight: 850;
-      font-size: 13px;
+    .mitem{
+      grid-column: span 6;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(10,10,14,.34);
+      box-shadow: 0 12px 30px rgba(0,0,0,.30);
+      padding: 12px 12px 11px;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
+    .mitem:hover{
+      transform: translateY(-1px);
+      border-color: rgba(215,180,106,.22);
+      box-shadow: 0 20px 50px rgba(0,0,0,.40), 0 0 0 1px rgba(215,180,106,.06) inset;
+    }
+    .mrow{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+    .mname{margin:0; font-weight: 950; letter-spacing:.01em; font-size: 14px;}
+    .mprice{
+      margin:0;
+      font-weight: 950;
+      color: var(--gold2);
+      letter-spacing:.01em;
+      font-size: 14px;
+      position:relative;
+      overflow:hidden;
+    }
+    /* premium price shimmer on hover */
+    .mprice::after{
+      content:"";
+      position:absolute; top:0; left:-120%;
+      width:120%; height:100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,.45), transparent);
+      transition: all .8s ease;
+      opacity:.7;
+    }
+    .mitem:hover .mprice::after{ left:120%; }
+    .mdesc{margin: 6px 0 0; color: var(--dim); font-weight: 700; font-size: 12px; line-height: 1.35;}
+    .badgeRow{display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px;}
+    .badge{
+      font-size: 11px;
+      font-weight: 950;
+      padding: 6px 10px;
+      border-radius:999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.84);
+    }
+    .badge--gold{ border-color: rgba(215,180,106,.30); background: rgba(215,180,106,.10); }
+    .badge--new{ border-color: rgba(240,217,154,.28); background: rgba(240,217,154,.08); }
 
-    /* Small helper line */
-    .fineprint{ margin: 10px 0 0; color: rgba(255,255,255,.55); font-size: 12px; }
+    /* PILL CARDS (for Late Night: Vodka/Tequila/etc + Hookah) */
+    .pillGrid{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .pillPanel{
+      grid-column: span 6;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(215,180,106,.16);
+      background: rgba(10,10,14,.32);
+      padding: 12px;
+      box-shadow: 0 14px 36px rgba(0,0,0,.35);
+    }
+    .pillTitle{
+      margin:0 0 10px;
+      font-weight: 950;
+      letter-spacing:.02em;
+      font-size: 13px;
+      color: rgba(255,255,255,.90);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .pillTitle span{color: rgba(255,255,255,.68); font-weight: 900; font-size: 12px;}
+    .pills{display:flex; flex-wrap:wrap; gap: 8px;}
+    .ppill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.86);
+      font-weight: 900;
+      font-size: 12px;
+      line-height: 1;
+    }
+    .ppill--gold{border-color: rgba(215,180,106,.26); background: rgba(215,180,106,.10);}
+
+    footer{padding: 28px 0 40px; color: rgba(255,255,255,.55);}
+
+    /* responsive */
+    @media (max-width: 980px){
+      .featuredCard{grid-column: span 6;}
+      .mitem{grid-column: span 12;}
+      .pillPanel{grid-column: span 12;}
+      .catbarWrap{top: 58px;}
+    }
+    @media (max-width: 520px){
+      .header__inner{padding: 12px 0;}
+      .nav a{padding: 8px 8px;}
+      .btn{padding: 10px 12px;}
+      .hero__card{padding: 18px;}
+      .menu-section{padding: 14px;}
+      .catbar{padding: 10px 2px;}
+      .catbar a{padding: 10px 12px;}
+    }
   </style>
 </head>
 
 <body>
-  <!-- Keep your existing site header/nav (this should match your other pages) -->
-  <a class="skip-link" href="#main">Skip to content</a>
+  <!-- HEADER -->
   <header class="header">
     <div class="container header__inner">
-      <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">
-        <span class="brand__name">Allure Bar &amp; Lounge</span>
-      </a>
+      <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">Allure Bar &amp; Lounge</a>
 
       <nav class="nav" aria-label="Primary">
-        <ul id="navMenu" class="nav__list">
-          <li><a href="menu.html" class="is-active">Menu</a></li>
-          <li><a href="events.html">Events</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="location.html">Location</a></li>
-          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a>
-        </ul>
+        <a href="menu.html" aria-current="page">Menu</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="location.html">Location</a>
+
+        <!-- (1) Reserve Now calls the phone -->
+        <a class="btn btn--gold btn--pulse" href="tel:2022974949">Reserve Now</a>
       </nav>
     </div>
   </header>
 
-  <main id="main" class="menu-page">
-    <div class="menu-wrap">
+  <main class="hero">
+    <div class="container">
+      <div class="hero__card">
+        <p class="kicker">WASHINGTON, DC</p>
+        <h1>Dinner &amp; Cocktails</h1>
+        <p>Curated plates. Crafted cocktails. Late-night energy — designed for the after-dark crowd.</p>
 
-      <!-- HERO -->
-      <section class="menu-hero" aria-label="Menu hero">
-        <div class="menu-kicker">Washington, DC</div>
-        <h1 class="menu-title">Dinner &amp; Cocktails</h1>
-        <p class="menu-sub">Curated plates. Crafted cocktails. Late-night energy — designed for the after-dark crowd.</p>
-
-        <div class="menu-actions">
-          <!-- ONE primary CTA only (gold) -->
-          <a class="cta-call" href="tel:2022974949" aria-label="Call to reserve (202-297-4949)">
-            Call to Reserve • 202-297-4949
-          </a>
+        <div class="hero__actions">
+          <!-- One primary CTA only -->
+          <a class="btn btn--gold btn--pulse" href="tel:2022974949">Call to Reserve • 202-297-4949</a>
         </div>
 
-        <div class="chips" aria-label="Menu highlights">
-          <span class="chip">Premium cocktails</span>
-          <span class="chip">Late-night plates</span>
-          <span class="chip">Upscale lounge vibe</span>
+        <div class="pillRow" aria-label="Menu highlights">
+          <span class="pill">Premium cocktails</span>
+          <span class="pill">Late-night plates</span>
+          <span class="pill">Upscale lounge vibe</span>
         </div>
+      </div>
+    </div>
 
-        <!-- Sticky category bar -->
-        <div class="catbar" role="navigation" aria-label="Menu categories">
-          <div class="catbar__inner" id="catbar">
-            <a class="cat" href="#featured">Featured</a>
-            <a class="cat" href="#starters">Starters</a>
-            <a class="cat" href="#wings">Wings</a>
-            <a class="cat" href="#quesadillas">Quesadillas</a>
-            <a class="cat" href="#pasta">Rasta Pasta &amp; Alfredo</a>
-            <a class="cat" href="#salads">Salads</a>
-            <a class="cat" href="#dinner">Dinner</a>
-            <a class="cat" href="#tacos">Tacos</a>
-            <a class="cat" href="#upcharge">Upcharge</a>
-            <a class="cat" href="#wingflavors">Wings Flavors</a>
-            <a class="cat" href="#cocktails">Cocktails</a>
-            <a class="cat" href="#bottles">Bottles</a>
-            <a class="cat" href="#hookah">Hookah</a>
-          </div>
+    <!-- STICKY CATEGORY BAR -->
+    <div class="catbarWrap" role="navigation" aria-label="Menu categories">
+      <div class="container">
+        <div class="catbar" id="catbar">
+          <a href="#featured" class="catlink is-active">Featured</a>
+          <a href="#starters" class="catlink">Starters</a>
+          <a href="#wings" class="catlink">Wings</a>
+          <a href="#quesadillas" class="catlink">Quesadillas</a>
+          <a href="#pastas" class="catlink">Rasta Pasta &amp; Alfredo</a>
+          <a href="#salads" class="catlink">Salads</a>
+          <a href="#dinner" class="catlink">Dinner</a>
+          <a href="#tacos" class="catlink">Tacos</a>
+          <a href="#upcharge" class="catlink">Upcharge</a>
+          <a href="#wingflavors" class="catlink">Wings Flavors</a>
+          <a href="#latenight" class="catlink">Late Night (Tue–Thu 9PM–Close)</a>
         </div>
+      </div>
+    </div>
 
-        <p class="fineprint">Tip: the category bar stays sticky and highlights the section you’re viewing.</p>
-      </section>
+    <div class="container">
 
       <!-- FEATURED -->
-      <section id="featured" class="menu-section" aria-label="Featured">
-        <div class="featured">
-          <div class="featured__top">
-            <h2 class="featured__title">Featured</h2>
-            <p class="featured__note">Top sellers this week</p>
+      <section id="featured" class="menu-section anchor" aria-label="Featured">
+        <div class="sectionHead">
+          <div>
+            <h2>FEATURED</h2>
+            <p class="sub">Top sellers this week</p>
           </div>
+          <p class="sub">Vegas luxury picks</p>
+        </div>
 
-          <div class="featured-grid">
-            <article class="fcard">
-              <div class="fcard__smile" aria-hidden="true">☺</div>
-              <div class="fcard__top">
-                <h3 class="fcard__name">Rasta Pasta</h3>
-                <p class="fcard__price">$16–$20</p>
-              </div>
-              <p class="fcard__desc">Creamy, bold, island-inspired. Choose chicken, shrimp, or salmon.</p>
-              <span class="tag">Signature</span>
-            </article>
+        <div class="featuredGrid">
+          <article class="featuredCard">
+            <div class="cornerIcon">☺</div>
+            <div class="fTop">
+              <h3 class="fName">Rasta Pasta</h3>
+              <p class="fPrice">$16–$20</p>
+            </div>
+            <p class="fDesc">Creamy, bold, island-inspired. Choose chicken, shrimp, or salmon.</p>
+            <span class="tag">Signature</span>
+          </article>
 
-            <article class="fcard">
-              <div class="fcard__smile" aria-hidden="true">☺</div>
-              <div class="fcard__top">
-                <h3 class="fcard__name">Late Night Wings</h3>
-                <p class="fcard__price">$14</p>
-              </div>
-              <p class="fcard__desc">Crispy, sauced, and made to pair with a strong pour.</p>
-              <span class="tag">Top Seller</span>
-            </article>
+          <article class="featuredCard">
+            <div class="cornerIcon">☺</div>
+            <div class="fTop">
+              <h3 class="fName">Late Night Wings</h3>
+              <p class="fPrice">$14</p>
+            </div>
+            <p class="fDesc">Crispy, sauced, and made to pair with a strong pour.</p>
+            <span class="tag">Top Seller</span>
+          </article>
 
-            <article class="fcard">
-              <div class="fcard__smile" aria-hidden="true">☺</div>
-              <div class="fcard__top">
-                <h3 class="fcard__name">Espresso Martini</h3>
-                <p class="fcard__price">$16</p>
-              </div>
-              <p class="fcard__desc">Smooth, rich, and the perfect “stay out later” cocktail.</p>
-              <span class="tag">Craft Cocktail</span>
-            </article>
-          </div>
+          <article class="featuredCard">
+            <div class="cornerIcon">☺</div>
+            <div class="fTop">
+              <h3 class="fName">Espresso Martini</h3>
+              <p class="fPrice">$16</p>
+            </div>
+            <p class="fDesc">Smooth, rich, and the perfect “stay out later” cocktail.</p>
+            <span class="tag">Craft Cocktail</span>
+          </article>
+
+          <article class="featuredCard">
+            <div class="cornerIcon">☺</div>
+            <div class="fTop">
+              <h3 class="fName">Salmon Sliders w/ Fries</h3>
+              <p class="fPrice">$12</p>
+            </div>
+            <p class="fDesc">Chef-style sliders with a crisp finish — elite late-night bite.</p>
+            <span class="tag">Chef Pick</span>
+          </article>
+
+          <article class="featuredCard">
+            <div class="cornerIcon">☺</div>
+            <div class="fTop">
+              <h3 class="fName">$45 Tower</h3>
+              <p class="fPrice">$45</p>
+            </div>
+            <p class="fDesc">Perfect for the section. Big energy, bigger pour.</p>
+            <span class="tag">Popular</span>
+          </article>
+
+          <article class="featuredCard">
+            <div class="cornerIcon">☺</div>
+            <div class="fTop">
+              <h3 class="fName">$28 Fishbowl</h3>
+              <p class="fPrice">$28</p>
+            </div>
+            <p class="fDesc">Shareable, photogenic, and dangerously smooth.</p>
+            <span class="tag">New</span>
+          </article>
         </div>
       </section>
 
-      <!-- STARTERS -->
-      <section id="starters" class="menu-section" aria-label="Starters">
-        <div class="section-head">
-          <h2 class="section-title">Starters</h2>
-          <p class="section-note">Start strong. Pair with a cocktail.</p>
+      <!-- STARTERS (your added items) -->
+      <section id="starters" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>STARTERS</h2>
+            <p class="sub">Start strong. Pair with a cocktail.</p>
+          </div>
+          <p class="sub">Mini luxury cards</p>
         </div>
 
-        <div class="menu-list">
-          <!-- Your new starters -->
+        <div class="itemGrid">
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Salmon Sliders w/ Fries</h3>
-              <p class="mitem__price">$12</p>
+            <div class="mrow">
+              <h3 class="mname">Salmon Sliders w/ Fries</h3>
+              <p class="mprice">$12</p>
             </div>
-            <p class="mitem__desc">Crisp finish, premium bite.</p>
-            <div class="badges"><span class="badge badge--gold">Chef Pick</span></div>
+            <p class="mdesc">Savory sliders + crisp fries. Lounge favorite.</p>
+            <div class="badgeRow"><span class="badge badge--gold">Popular</span></div>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Beef Sliders w/ Fries</h3>
-              <p class="mitem__price">$10</p>
+            <div class="mrow">
+              <h3 class="mname">Beef Sliders w/ Fries</h3>
+              <p class="mprice">$10</p>
             </div>
-            <p class="mitem__desc">Classic flavor, lounge-ready.</p>
-            <div class="badges"><span class="badge">Popular</span></div>
+            <p class="mdesc">Classic and satisfying — built for the late-night crowd.</p>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Mozzarella Sticks</h3>
-              <p class="mitem__price">$7</p>
+            <div class="mrow">
+              <h3 class="mname">Mozzarella Sticks</h3>
+              <p class="mprice">$7</p>
             </div>
-            <p class="mitem__desc">Golden crisp. Smooth pull.</p>
-            <div class="badges"><span class="badge">New</span></div>
+            <p class="mdesc">Golden pull. Marinara dip.</p>
+            <div class="badgeRow"><span class="badge badge--new">Chef Pick</span></div>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Fried Pickles</h3>
-              <p class="mitem__price">$5</p>
+            <div class="mrow">
+              <h3 class="mname">Fried Pickles</h3>
+              <p class="mprice">$5</p>
             </div>
-            <p class="mitem__desc">Crunch + tang. Easy favorite.</p>
-            <div class="badges"><span class="badge">Popular</span></div>
+            <p class="mdesc">Crisp, salty, addictive.</p>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Chips &amp; Salsa</h3>
-              <p class="mitem__price">$5</p>
+            <div class="mrow">
+              <h3 class="mname">Chips &amp; Salsa</h3>
+              <p class="mprice">$5</p>
             </div>
-            <p class="mitem__desc">Simple. Clean. Always hits.</p>
+            <p class="mdesc">Classic starter for the section.</p>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Onion Rings</h3>
-              <p class="mitem__price">$7</p>
+            <div class="mrow">
+              <h3 class="mname">Onion Rings</h3>
+              <p class="mprice">$7</p>
             </div>
-            <p class="mitem__desc">Crispy stack, upscale crunch.</p>
+            <p class="mdesc">Crispy rings with a premium crunch.</p>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Fries</h3>
-              <p class="mitem__price">$5</p>
+            <div class="mrow">
+              <h3 class="mname">Fries</h3>
+              <p class="mprice">$5</p>
             </div>
-            <p class="mitem__desc">Hot, crisp, lounge classic.</p>
+            <p class="mdesc">Hot, crisp, and perfectly salted.</p>
           </article>
         </div>
       </section>
 
       <!-- WINGS -->
-      <section id="wings" class="menu-section" aria-label="Wings">
-        <div class="section-head">
-          <h2 class="section-title">Wings</h2>
-          <p class="section-note">Late-night energy. Big flavor.</p>
+      <section id="wings" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>WINGS</h2>
+            <p class="sub">Crispy. Sauced. Vegas energy.</p>
+          </div>
+          <p class="sub">Choose flavor + wet/dry</p>
         </div>
 
-        <div class="menu-list">
+        <div class="itemGrid">
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Late Night Wings</h3>
-              <p class="mitem__price">$14</p>
+            <div class="mrow">
+              <h3 class="mname">Late Night Wings</h3>
+              <p class="mprice">$14</p>
             </div>
-            <p class="mitem__desc">Crispy wings with your choice of flavor.</p>
-            <div class="badges"><span class="badge">Popular</span><span class="badge badge--gold">Top Seller</span></div>
+            <p class="mdesc">Perfect with a strong pour. Choose flavor + wet/dry.</p>
+            <div class="badgeRow"><span class="badge badge--gold">Top Seller</span></div>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">20 pcs Wings Special</h3>
-              <p class="mitem__price">$20</p>
+            <div class="mrow">
+              <h3 class="mname">20 pcs Wings (Special)</h3>
+              <p class="mprice">$20</p>
             </div>
-            <p class="mitem__desc">Perfect for the table. Come dressed.</p>
-            <div class="badges"><span class="badge badge--gold">Chef Pick</span></div>
+            <p class="mdesc">Big table energy.</p>
+            <div class="badgeRow"><span class="badge">Popular</span></div>
           </article>
         </div>
       </section>
 
       <!-- QUESADILLAS -->
-      <section id="quesadillas" class="menu-section" aria-label="Quesadillas">
-        <div class="section-head">
-          <h2 class="section-title">Quesadillas</h2>
-          <p class="section-note">Golden, melty, premium bite.</p>
+      <section id="quesadillas" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>QUESADILLAS</h2>
+            <p class="sub">Golden. Melty. Clean finish.</p>
+          </div>
+          <p class="sub">Add a premium dip</p>
         </div>
 
-        <div class="menu-list">
+        <div class="itemGrid">
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Chicken Quesadilla</h3>
-              <p class="mitem__price">$—</p>
+            <div class="mrow">
+              <h3 class="mname">Chicken Quesadilla</h3>
+              <p class="mprice">$—</p>
             </div>
-            <p class="mitem__desc">Add your house heat. Served lounge-style.</p>
-            <div class="badges"><span class="badge">New</span></div>
+            <p class="mdesc">Tell me your price and I’ll lock it in.</p>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Steak Quesadilla</h3>
-              <p class="mitem__price">$—</p>
+            <div class="mrow">
+              <h3 class="mname">Steak Quesadilla</h3>
+              <p class="mprice">$—</p>
             </div>
-            <p class="mitem__desc">Bold flavor with a premium finish.</p>
+            <p class="mdesc">Tell me your price and I’ll lock it in.</p>
           </article>
         </div>
       </section>
 
-      <!-- PASTA -->
-      <section id="pasta" class="menu-section" aria-label="Rasta Pasta and Alfredo">
-        <div class="section-head">
-          <h2 class="section-title">Rasta Pasta &amp; Alfredo</h2>
-          <p class="section-note">Signature comfort with a luxury edge.</p>
+      <!-- PASTAS -->
+      <section id="pastas" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>RASTA PASTA &amp; ALFREDO</h2>
+            <p class="sub">Comfort luxe. Perfect after dark.</p>
+          </div>
+          <p class="sub">Choose your protein</p>
         </div>
 
-        <div class="menu-list">
+        <div class="itemGrid">
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Rasta Pasta</h3>
-              <p class="mitem__price">$16–$20</p>
+            <div class="mrow">
+              <h3 class="mname">Rasta Pasta</h3>
+              <p class="mprice">$16–$20</p>
             </div>
-            <p class="mitem__desc">Choose: chicken $16 • shrimp $18 • salmon $20.</p>
-            <div class="badges"><span class="badge badge--gold">Signature</span></div>
+            <p class="mdesc">Chicken $16 • Shrimp $18 • Salmon $20</p>
+            <div class="badgeRow"><span class="badge badge--gold">Signature</span></div>
           </article>
 
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Alfredo</h3>
-              <p class="mitem__price">$—</p>
+            <div class="mrow">
+              <h3 class="mname">Alfredo</h3>
+              <p class="mprice">$16–$20</p>
             </div>
-            <p class="mitem__desc">Creamy classic with elevated vibes.</p>
-            <div class="badges"><span class="badge">Popular</span></div>
+            <p class="mdesc">Chicken $16 • Shrimp $18 • Salmon $20</p>
+            <div class="badgeRow"><span class="badge">Chef Pick</span></div>
           </article>
         </div>
       </section>
 
       <!-- SALADS -->
-      <section id="salads" class="menu-section" aria-label="Salads">
-        <div class="section-head">
-          <h2 class="section-title">Salads</h2>
-          <p class="section-note">Clean, crisp, and upscale.</p>
+      <section id="salads" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>SALADS</h2>
+            <p class="sub">Clean plates. Upscale balance.</p>
+          </div>
+          <p class="sub">Add salmon</p>
         </div>
 
-        <div class="menu-list">
+        <div class="itemGrid">
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Salad</h3>
-              <p class="mitem__price">$—</p>
+            <div class="mrow">
+              <h3 class="mname">Salad</h3>
+              <p class="mprice">$—</p>
             </div>
-            <p class="mitem__desc">Add salmon $14 (optional upgrade).</p>
-            <div class="badges"><span class="badge">New</span></div>
+            <p class="mdesc">Tell me your base salad price.</p>
+          </article>
+
+          <article class="mitem">
+            <div class="mrow">
+              <h3 class="mname">Salmon</h3>
+              <p class="mprice">$14</p>
+            </div>
+            <p class="mdesc">Premium add-on for a more elite plate.</p>
+            <div class="badgeRow"><span class="badge badge--new">New</span></div>
           </article>
         </div>
       </section>
 
       <!-- DINNER -->
-      <section id="dinner" class="menu-section" aria-label="Dinner">
-        <div class="section-head">
-          <h2 class="section-title">Dinner</h2>
-          <p class="section-note">Main plates built for the night.</p>
+      <section id="dinner" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>DINNER</h2>
+            <p class="sub">Upscale lounge comfort.</p>
+          </div>
+          <p class="sub">Add your dinner items next</p>
         </div>
 
-        <div class="menu-list">
+        <div class="itemGrid">
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Dinner Plate</h3>
-              <p class="mitem__price">$—</p>
+            <div class="mrow">
+              <h3 class="mname">Dinner Plate (House Special)</h3>
+              <p class="mprice">$—</p>
             </div>
-            <p class="mitem__desc">Add your signature sides and sauce.</p>
-            <div class="badges"><span class="badge badge--gold">Chef Pick</span></div>
+            <p class="mdesc">Send your dinner list + prices and I’ll format it perfectly.</p>
+            <div class="badgeRow"><span class="badge badge--gold">Chef Pick</span></div>
           </article>
         </div>
       </section>
 
       <!-- TACOS -->
-      <section id="tacos" class="menu-section" aria-label="Tacos">
-        <div class="section-head">
-          <h2 class="section-title">Tacos</h2>
-          <p class="section-note">Clean bite. Big vibe.</p>
+      <section id="tacos" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>TACOS</h2>
+            <p class="sub">Taco night, but make it upscale.</p>
+          </div>
+          <p class="sub">Add your taco prices</p>
         </div>
 
-        <div class="menu-list">
+        <div class="itemGrid">
           <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Tacos</h3>
-              <p class="mitem__price">$—</p>
+            <div class="mrow">
+              <h3 class="mname">Tacos (3)</h3>
+              <p class="mprice">$—</p>
             </div>
-            <p class="mitem__desc">Perfect for Taco Tuesday + cocktails.</p>
-            <div class="badges"><span class="badge">Popular</span></div>
+            <p class="mdesc">Choose chicken, steak, or shrimp.</p>
+            <div class="badgeRow"><span class="badge">Popular</span></div>
           </article>
         </div>
       </section>
 
       <!-- UPCHARGE -->
-      <section id="upcharge" class="menu-section" aria-label="Upcharge">
-        <div class="section-head">
-          <h2 class="section-title">Upcharge</h2>
-          <p class="section-note">Luxury add-ons.</p>
-        </div>
-
-        <div class="menu-list">
-          <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Upcharge Options</h3>
-              <p class="mitem__price">$—</p>
-            </div>
-            <p class="mitem__desc">Add premium proteins / upgrades as available.</p>
-            <div class="badges"><span class="badge">New</span></div>
-          </article>
-        </div>
-      </section>
-
-      <!-- WING FLAVORS -->
-      <section id="wingflavors" class="menu-section" aria-label="Wings flavors">
-        <div class="section-head">
-          <h2 class="section-title">Wings Flavors</h2>
-          <p class="section-note">Choose your style.</p>
-        </div>
-
-        <div class="mitem" style="max-width: 820px;">
-          <div class="mitem__top">
-            <h3 class="mitem__name">Style</h3>
-            <p class="mitem__price"></p>
+      <section id="upcharge" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>UPCHARGE</h2>
+            <p class="sub">Premium upgrades.</p>
           </div>
-          <p class="mitem__desc">Pick how you want them served.</p>
+          <p class="sub">Late-night policy</p>
+        </div>
 
-          <!-- Wet / Dry options (as you requested) -->
-          <div class="option-row" aria-label="Wet or dry">
-            <span class="opt">Wet</span>
-            <span class="opt">Dry</span>
+        <div class="itemGrid">
+          <article class="mitem">
+            <div class="mrow">
+              <h3 class="mname">Reposado / Añejo Upgrade</h3>
+              <p class="mprice">+$1</p>
+            </div>
+            <p class="mdesc">Late Night menu note: extra charge for reposado or añejo drinks.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- WINGS FLAVORS (Wet / Dry options) -->
+      <section id="wingflavors" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>WINGS FLAVORS</h2>
+            <p class="sub">Choose your style.</p>
+          </div>
+          <p class="sub">Wet or Dry</p>
+        </div>
+
+        <div class="pillGrid">
+          <div class="pillPanel">
+            <p class="pillTitle">WET <span>(sauced)</span></p>
+            <div class="pills">
+              <span class="ppill ppill--gold">Mumbo</span>
+              <span class="ppill ppill--gold">Teriyaki</span>
+              <span class="ppill">Buffalo</span>
+              <span class="ppill">BBQ</span>
+              <span class="ppill">Honey Garlic</span>
+            </div>
           </div>
 
-          <div class="badges" style="margin-top:10px;">
-            <span class="badge badge--gold">Popular</span>
+          <div class="pillPanel">
+            <p class="pillTitle">DRY <span>(seasoned)</span></p>
+            <div class="pills">
+              <span class="ppill ppill--gold">Lemon Pepper</span>
+              <span class="ppill">Cajun</span>
+              <span class="ppill">Garlic Parm</span>
+              <span class="ppill">Old Bay</span>
+              <span class="ppill">Hot Seasoning</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- COCKTAILS -->
-      <section id="cocktails" class="menu-section" aria-label="Cocktails">
-        <div class="section-head">
-          <h2 class="section-title">Cocktails</h2>
-          <p class="section-note">Crafted. Clean. Premium.</p>
+      <!-- LATE NIGHT (NEW ADDITION: converted to pill-cards + hookah) -->
+      <section id="latenight" class="menu-section anchor">
+        <div class="sectionHead">
+          <div>
+            <h2>LATE NIGHT (TUE–THU) • 9PM – CLOSING</h2>
+            <p class="sub">$45 Tower • $28 Fishbowl • $13 Drinks</p>
+          </div>
+          <p class="sub">Note: +$1 for reposado or añejo drinks</p>
         </div>
 
-        <div class="menu-list">
-          <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Espresso Martini</h3>
-              <p class="mitem__price">$16</p>
+        <div class="pillGrid">
+          <div class="pillPanel">
+            <p class="pillTitle">VODKA <span>$13</span></p>
+            <div class="pills">
+              <span class="ppill">Absolut</span><span class="ppill">Belvedere</span><span class="ppill">Ciroc</span>
+              <span class="ppill">Grey Goose</span><span class="ppill">Kettle One</span><span class="ppill">Stoli Orange</span>
+              <span class="ppill">Titos</span>
             </div>
-            <p class="mitem__desc">Smooth, rich, late-night favorite.</p>
-            <div class="badges"><span class="badge badge--gold">Top Seller</span></div>
-          </article>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">TEQUILA <span>$13</span></p>
+            <div class="pills">
+              <span class="ppill">1800</span><span class="ppill">Altos</span><span class="ppill">Espolon</span><span class="ppill">Hornitos</span>
+              <span class="ppill">Jose Cuervo</span><span class="ppill">Lunazul</span><span class="ppill">Milagro</span><span class="ppill">Teremana</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">WHISKEY <span>$13</span></p>
+            <div class="pills">
+              <span class="ppill">Basil Hayden</span><span class="ppill">Bulleit</span><span class="ppill">Chivas Regal</span><span class="ppill">Crown</span>
+              <span class="ppill">Dewar’s</span><span class="ppill">Fireball</span><span class="ppill">Jack Daniels</span><span class="ppill">Jameson</span>
+              <span class="ppill">Jim Beam</span><span class="ppill">Makers Mark</span><span class="ppill">Woodford</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">LIQUEUR <span>$13</span></p>
+            <div class="pills">
+              <span class="ppill">Disaronno</span><span class="ppill">Grand Marnier</span><span class="ppill">Hpnotiq</span><span class="ppill">Jägermeister</span>
+              <span class="ppill">Midori</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">RUM <span>$13</span></p>
+            <div class="pills">
+              <span class="ppill">Bacardi</span><span class="ppill">Captain Morgan</span><span class="ppill">Malibu</span><span class="ppill">Myers</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">GIN <span>$13</span></p>
+            <div class="pills">
+              <span class="ppill">Bombay</span><span class="ppill">Roku</span><span class="ppill">Tanqueray</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">COGNAC <span>$13</span></p>
+            <div class="pills">
+              <span class="ppill">Courvoisier</span><span class="ppill">Hennessy</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">TOP SHELF DRINKS <span>$14–$18</span></p>
+            <div class="pills">
+              <span class="ppill ppill--gold">818 Reposado $15</span>
+              <span class="ppill">818 Blanco $14</span>
+              <span class="ppill">Casa Azul $17</span>
+              <span class="ppill">Casamigos Añejo $18</span>
+              <span class="ppill">Casamigos Reposado $17</span>
+              <span class="ppill">Casamigos Blanco $15</span>
+              <span class="ppill">Ciroc VS $16</span>
+              <span class="ppill">Don Julio Añejo $18</span>
+              <span class="ppill">Don Julio Reposado $17</span>
+              <span class="ppill">Don Julio Blanco $15</span>
+              <span class="ppill ppill--gold">D’USSÉ $16</span>
+              <span class="ppill">Equiano $16</span>
+              <span class="ppill">Hendricks $16</span>
+              <span class="ppill">Hennessy VSOP $16</span>
+              <span class="ppill">Herradura Añejo $16</span>
+              <span class="ppill">Herradura Reposado $15</span>
+              <span class="ppill">Herradura Silver $14</span>
+              <span class="ppill">Old Forester $16</span>
+              <span class="ppill">Patron Reposado $15</span>
+              <span class="ppill">Patron Silver $14</span>
+              <span class="ppill">Remy 1738 $16</span>
+              <span class="ppill">Remy VSOP $16</span>
+              <span class="ppill">Sir Davis $16</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">PREMIUM DRINKS <span>$18–$32</span></p>
+            <div class="pills">
+              <span class="ppill">1942 $32</span>
+              <span class="ppill">Azul $32</span>
+              <span class="ppill">D’USSÉ XO $32</span>
+              <span class="ppill">Gran Coramino $20</span>
+              <span class="ppill">JW Black $18</span>
+              <span class="ppill">JW Double Black $20</span>
+              <span class="ppill">JW Gold $22</span>
+              <span class="ppill">Remy XO $32</span>
+            </div>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">COCKTAILS <span>$14</span></p>
+            <div class="pills">
+              <span class="ppill ppill--gold">Allure Lemon Drop</span>
+              <span class="ppill">Allure Sidecar</span>
+              <span class="ppill">Apple Martini</span>
+              <span class="ppill">Blue Motorcycle</span>
+              <span class="ppill">Ciroc Punch</span>
+              <span class="ppill">Classic Margarita</span>
+              <span class="ppill">Cosmopolitan</span>
+              <span class="ppill">Gin Martini</span>
+              <span class="ppill">Green Tea</span>
+              <span class="ppill">Long Island</span>
+              <span class="ppill">Manhattan</span>
+              <span class="ppill">Mint Julep</span>
+              <span class="ppill">Mojito</span>
+              <span class="ppill">Moscow Mule</span>
+              <span class="ppill">Old Fashion</span>
+              <span class="ppill">Orange Martini</span>
+              <span class="ppill">Red or White Sangria</span>
+              <span class="ppill">Rum Punch</span>
+              <span class="ppill">Strawberry Henny</span>
+            </div>
+            <p class="mdesc" style="margin-top:10px;">Add strawberry, mango, or peach to any cocktail.</p>
+          </div>
+
+          <div class="pillPanel">
+            <p class="pillTitle">HOOKAH <span>$33 • Refill $14</span></p>
+            <div class="pills">
+              <span class="ppill ppill--gold">Blue Mist</span>
+              <span class="ppill ppill--gold">Magic Love</span>
+              <span class="ppill ppill--gold">Lady Killer</span>
+              <span class="ppill ppill--gold">Love 66</span>
+              <span class="ppill">Blueberry</span>
+              <span class="ppill">BMW</span>
+              <span class="ppill">Blueberry Mint</span>
+              <span class="ppill">Double Apple</span>
+              <span class="ppill">Grape</span>
+              <span class="ppill">Grapefruit</span>
+              <span class="ppill">Grapefruit Mint</span>
+              <span class="ppill">Guava</span>
+              <span class="ppill">Gum Mint</span>
+              <span class="ppill">Kiwi</span>
+              <span class="ppill">Lemon Mint</span>
+              <span class="ppill">Mango</span>
+              <span class="ppill">Mint</span>
+              <span class="ppill">Orange Mint</span>
+              <span class="ppill">Peach</span>
+              <span class="ppill">Pineapple</span>
+              <span class="ppill">Strawberry</span>
+              <span class="ppill">Vanilla</span>
+              <span class="ppill">Watermelon</span>
+              <span class="ppill">Watermelon Mint</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- BOTTLES -->
-      <section id="bottles" class="menu-section" aria-label="Bottles">
-        <div class="section-head">
-          <h2 class="section-title">Bottles</h2>
-          <p class="section-note">Table-ready.</p>
+      <footer class="container">
+        <div style="border-top:1px solid rgba(215,180,106,.10); padding-top:16px;">
+          <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <span>Allure Bar &amp; Lounge</span>
+            <span>Reservations: <a href="tel:2022974949" style="color:var(--gold2); font-weight:900;">202-297-4949</a></span>
+          </div>
         </div>
-
-        <div class="menu-list">
-          <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Bottle Service</h3>
-              <p class="mitem__price">$—</p>
-            </div>
-            <p class="mitem__desc">Ask your server for current selections.</p>
-            <div class="badges"><span class="badge">Popular</span></div>
-          </article>
-        </div>
-      </section>
-
-      <!-- HOOKAH -->
-      <section id="hookah" class="menu-section" aria-label="Hookah">
-        <div class="section-head">
-          <h2 class="section-title">Hookah</h2>
-          <p class="section-note">Smooth pulls. Lounge vibe.</p>
-        </div>
-
-        <div class="menu-list">
-          <article class="mitem">
-            <div class="mitem__top">
-              <h3 class="mitem__name">Hookah</h3>
-              <p class="mitem__price">$—</p>
-            </div>
-            <p class="mitem__desc">Flavors available nightly.</p>
-          </article>
-        </div>
-      </section>
+      </footer>
 
     </div>
   </main>
 
   <script>
-    // Active glow for category bar (hash + scroll)
+    // Active category highlight + keep clicked tab visible + mobile snap
     (function(){
-      const links = Array.from(document.querySelectorAll('#catbar .cat'));
+      const links = Array.from(document.querySelectorAll('.catlink'));
       const sections = links
         .map(a => document.querySelector(a.getAttribute('href')))
         .filter(Boolean);
 
-      function setActiveById(id){
-        links.forEach(a => {
-          const match = a.getAttribute('href') === '#' + id;
-          a.classList.toggle('is-active', match);
-          if(match) a.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
-        });
-      }
+      const setActive = (id) => {
+        links.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + id));
+      };
 
-      // Set active on load (hash or first)
-      const initial = (location.hash || '#featured').replace('#','');
-      setActiveById(initial);
-
-      // Intersection observer for scroll-based active state
-      const io = new IntersectionObserver((entries)=>{
-        // pick the most visible entry
+      const io = new IntersectionObserver((entries) => {
         const visible = entries
           .filter(e => e.isIntersecting)
-          .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
-        if(visible) setActiveById(visible.target.id);
-      }, { root:null, threshold:[0.25,0.35,0.5,0.65], rootMargin:'-140px 0px -55% 0px' });
+          .sort((a,b) => (b.intersectionRatio - a.intersectionRatio))[0];
+        if (visible) setActive(visible.target.id);
+      }, { threshold: [0.35, 0.5, 0.65] });
 
-      sections.forEach(sec => io.observe(sec));
+      sections.forEach(s => io.observe(s));
 
-      // When clicking a category, update hash (smooth handled by browser + scroll-margin-top)
-      links.forEach(a=>{
-        a.addEventListener('click', ()=>{
-          const id = a.getAttribute('href').slice(1);
-          setActiveById(id);
+      links.forEach(a => {
+        a.addEventListener('click', (e) => {
+          const target = document.querySelector(a.getAttribute('href'));
+          if(!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior:'smooth', block:'start' });
+          a.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
         });
       });
     })();
