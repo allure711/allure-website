@@ -129,12 +129,13 @@
       border-bottom: 1px solid rgba(215,180,106,.08);
     }
     .catbar{
-      @media (min-width: 900px){
-          .catbar{ max-height: 104px: }   /* ~2 rows */
-      }
-      @media (max-width: 899px){
-          .catbar{ max-height: 154px; }   /* ~3 rows */
-      
+      display:flex; gap:10px;
+      overflow:auto;
+      padding: 10px 6px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-left: 10px;
+      scroll-padding-right: 10px;
     }
     .catbar::-webkit-scrollbar{height:8px}
     .catbar::-webkit-scrollbar-thumb{background: rgba(215,180,106,.18); border-radius:999px}
