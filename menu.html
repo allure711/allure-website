@@ -1,1290 +1,152 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Weekly Specials | Allure Bar & Lounge</title>
-  <meta name="description" content="Weekly specials with Vegas-luxury presentation. Tap a day to view the menu." />
+<!-- ========================= -->
+<!-- THURSDAY (Happy Hour 5–9) -->
+<!-- ========================= -->
+<section id="thursday" class="menu-section day-panel" data-day="thursday">
+  <div class="menu-section__head">
+    <h2 class="menu-section__title">Thursday</h2>
+    <p class="menu-section__sub">Happy Hour • 5PM–9PM</p>
+  </div>
 
-  <style>
-    :root{
-      --bg:#07070a;
-      --panel: rgba(18,18,24,.62);
-      --panel2: rgba(15,15,20,.55);
-      --border: rgba(215,180,106,.18);
-      --border2: rgba(215,180,106,.28);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-      --dim: rgba(255,255,255,.58);
-      --gold:#d7b46a;
-      --gold2:#ffdf93;
-      --shadow: 0 25px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(215,180,106,.08) inset;
-      --radius: 22px;
-      --radius2: 18px;
-
-      --container: 1100px;
-      --stickyTop: 76px; /* header height */
-    }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 12% 12%, rgba(215,180,106,.10), transparent 60%),
-        radial-gradient(900px 500px at 88% 18%, rgba(215,180,106,.07), transparent 62%),
-        radial-gradient(850px 520px at 55% 85%, rgba(120,80,255,.10), transparent 58%),
-        var(--bg);
-    }
-    a{ color:inherit; text-decoration:none; }
-
-    .container{
-      width: min(var(--container), calc(100% - 32px));
-      margin-inline:auto;
-    }
-
-    /* =========================
-       HEADER / NAV
-    ========================== */
-    .header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      background: linear-gradient(to bottom, rgba(8,8,10,.92), rgba(8,8,10,.78));
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(215,180,106,.10);
-    }
-    .header__inner{
-      height: var(--stickyTop);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:800;
-      letter-spacing:.3px;
-      white-space:nowrap;
-    }
-    .brand__dot{
-      width:10px;height:10px;border-radius:99px;
-      background: radial-gradient(circle at 30% 30%, var(--gold2), var(--gold));
-      box-shadow: 0 0 0 3px rgba(215,180,106,.14), 0 0 30px rgba(215,180,106,.24);
-      flex:0 0 auto;
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .nav a{
-      font-weight:650;
-      color: rgba(255,255,255,.84);
-      padding:10px 10px;
-      border-radius:12px;
-      transition: transform .15s ease, background .15s ease, color .15s ease;
-    }
-    .nav a:hover{
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.95);
-      transform: translateY(-1px);
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
-      font-weight:750;
-      letter-spacing:.2px;
-      transition: transform .15s ease, background .15s ease, box-shadow .15s ease, border-color .15s ease;
-      white-space:nowrap;
-    }
-    .btn:hover{ transform: translateY(-1px); }
-
-    .btn--gold{
-      border-color: rgba(215,180,106,.55);
-      background: linear-gradient(180deg, rgba(215,180,106,.92), rgba(215,180,106,.72));
-      color: rgba(10,10,12,.98);
-      box-shadow: 0 18px 50px rgba(215,180,106,.14);
-      position:relative;
-      overflow:hidden;
-    }
-    /* subtle Vegas pulse every ~5s */
-    .btn--gold::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: radial-gradient(420px 120px at 20% 30%, rgba(255,255,255,.25), transparent 60%),
-                  radial-gradient(420px 120px at 80% 40%, rgba(255,255,255,.18), transparent 60%);
-      opacity:0;
-      animation: ctaPulse 5.4s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes ctaPulse{
-      0%,72%{ opacity:0; transform: translateY(6px); }
-      78%{ opacity:.28; transform: translateY(0px); }
-      86%{ opacity:.10; transform: translateY(-2px); }
-      100%{ opacity:0; transform: translateY(-4px); }
-    }
-
-    /* =========================
-       HERO
-    ========================== */
-    .hero{
-      padding: 26px 0 8px;
-    }
-    .hero__panel{
-      border-radius: var(--radius);
-      background: var(--panel2);
-      border: 1px solid rgba(215,180,106,.12);
-      box-shadow: var(--shadow);
-      padding: 22px;
-      overflow:hidden;
-      position:relative;
-    }
-    .hero__panel::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(900px 260px at 20% 0%, rgba(215,180,106,.14), transparent 55%),
-        radial-gradient(900px 260px at 88% 10%, rgba(215,180,106,.10), transparent 58%),
-        radial-gradient(900px 260px at 60% 110%, rgba(120,80,255,.12), transparent 60%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .hero__grid{
-      position:relative;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:18px;
-      align-items:start;
-    }
-    .kicker{
-      color: rgba(255,255,255,.70);
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      font-size:12px;
-      margin:0 0 8px;
-    }
-    h1{
-      margin:0 0 10px;
-      font-size: clamp(32px, 4.4vw, 52px);
-      line-height:1.02;
-      letter-spacing: -0.02em;
-    }
-    .sub{
-      margin:0 0 14px;
-      color: var(--muted);
-      font-size: 14.5px;
-      line-height:1.55;
-      max-width:60ch;
-    }
-    .hero__actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top: 10px;
-    }
-    .chipRow{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top: 8px;
-    }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      border: 1px solid rgba(215,180,106,.22);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.86);
-      font-weight:700;
-      font-size:12.5px;
-      white-space:nowrap;
-    }
-
-    .hero__right{
-      border-radius: var(--radius2);
-      background: rgba(10,10,14,.32);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 18px 60px rgba(0,0,0,.35) inset;
-      padding: 16px;
-    }
-    .hero__rightTitle{
-      display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      gap:10px;
-      margin:0 0 6px;
-      font-weight:900;
-      letter-spacing:.02em;
-    }
-    .hero__rightTitle span{
-      color: rgba(255,255,255,.72);
-      font-weight:700;
-      letter-spacing:0;
-      font-size:12.5px;
-    }
-    .note{
-      margin:0;
-      color: rgba(255,255,255,.62);
-      font-size:12.5px;
-      line-height:1.55;
-    }
-
-    @media (max-width: 900px){
-      .hero__grid{ grid-template-columns: 1fr; }
-    }
-
-    /* =========================
-       DAY BAR (sticky)
-    ========================== */
-    .daybarWrap{
-      position: sticky;
-      top: var(--stickyTop);
-      z-index: 40;
-      padding: 10px 0 10px;
-      background: linear-gradient(to bottom, rgba(7,7,10,.86), rgba(7,7,10,.62));
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(215,180,106,.08);
-    }
-
-    /* Desktop: wraps into multiple rows so it never spills out */
-    .daybar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      padding: 10px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 50px rgba(0,0,0,.24);
-    }
-
-    /* Mobile: horizontal scroll + snap */
-    @media (max-width: 720px){
-      .daybar{
-        flex-wrap:nowrap;
-        overflow-x:auto;
-        -webkit-overflow-scrolling:touch;
-        scroll-snap-type:x mandatory;
-        scrollbar-width:none;
-      }
-      .daybar::-webkit-scrollbar{ display:none; }
-    }
-
-    .daytab{
-      scroll-snap-align: start;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.20);
-      color: rgba(255,255,255,.86);
-      font-weight: 850;
-      letter-spacing:.01em;
-      font-size: 13px;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease, background .15s ease;
-      white-space:nowrap;
-    }
-    .daytab:hover{
-      transform: translateY(-1px);
-      border-color: rgba(215,180,106,.30);
-      background: rgba(255,255,255,.06);
-    }
-
-    /* Stronger active glow (Vegas) */
-    .daytab.is-active{
-      color: rgba(10,10,12,.95);
-      background: linear-gradient(180deg, rgba(215,180,106,.96), rgba(215,180,106,.72));
-      border-color: rgba(215,180,106,.78);
-      box-shadow:
-        0 14px 45px rgba(215,180,106,.22),
-        0 0 0 2px rgba(215,180,106,.14) inset,
-        0 0 42px rgba(215,180,106,.24);
-      transform: translateY(-1px);
-    }
-
-    /* =========================
-       SECTIONS
-    ========================== */
-    .section{
-      padding: 20px 0 0;
-    }
-    .section__card{
-      margin-top: 18px;
-      padding: 20px;
-      border-radius: var(--radius);
-      background: rgba(15,15,20,.55);
-      border: 1px solid rgba(215,180,106,.18);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 25px 80px rgba(0,0,0,.45), 0 0 0 1px rgba(215,180,106,.05) inset;
-      transition: transform .2s ease, border-color .2s ease;
-    }
-    .section__card:hover{
-      border-color: rgba(215,180,106,.28);
-      transform: translateY(-1px);
-    }
-
-    .section__head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom: 10px;
-    }
-    .section__title{
-      margin:0;
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing: .02em;
-    }
-    .section__subtitle{
-      margin:0;
-      color: rgba(255,255,255,.64);
-      font-size: 12.5px;
-      line-height:1.4;
-    }
-
-    /* =========================
-       MINI LUXURY CARDS (dense)
-    ========================== */
-    .cards{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-    }
-    .mini{
-      grid-column: span 6;
-      border-radius: 18px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.10);
-      padding: 12px 12px;
-      box-shadow: 0 18px 55px rgba(0,0,0,.25);
-      position:relative;
-      overflow:hidden;
-    }
-    .mini::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(420px 160px at 20% 0%, rgba(215,180,106,.12), transparent 55%),
-        radial-gradient(420px 160px at 90% 20%, rgba(215,180,106,.08), transparent 60%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .mini__top{
-      position:relative;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:baseline;
-      margin-bottom: 4px;
-    }
-    .mini__name{
-      margin:0;
-      font-weight: 950;
-      letter-spacing:.01em;
-      font-size: 13.5px;
-    }
-    .mini__price{
-      margin:0;
-      font-weight: 950;
-      color: var(--gold);
-      letter-spacing:.02em;
-      font-size: 13.5px;
-      position:relative;
-      overflow:hidden;
-    }
-    /* subtle shimmer on hover */
-    .mini__price::after{
-      content:"";
-      position:absolute;
-      top:0;
-      left:-120%;
-      width:120%;
-      height:100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,.35), transparent);
-      transition: left .8s ease;
-      opacity:.75;
-    }
-    .mini:hover .mini__price::after{ left:120%; }
-
-    .mini__desc{
-      position:relative;
-      margin:0;
-      color: rgba(255,255,255,.62);
-      font-size: 12px;
-      line-height:1.35;
-    }
-    .badgeRow{
-      position:relative;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top: 8px;
-      align-items:center;
-    }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(215,180,106,.22);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.84);
-      font-weight: 800;
-      font-size: 11.5px;
-      white-space:nowrap;
-    }
-    .badge--gold{
-      border-color: rgba(215,180,106,.40);
-      background: rgba(215,180,106,.12);
-      color: rgba(255,255,255,.90);
-    }
-    .cornerIcon{
-      position:absolute;
-      top:10px;
-      right:10px;
-      width:22px;
-      height:22px;
-      border-radius: 999px;
-      display:grid;
-      place-items:center;
-      border: 1px solid rgba(215,180,106,.22);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.88);
-      font-size: 12px;
-      z-index:2;
-    }
-
-    @media (max-width: 980px){
-      .mini{ grid-column: span 12; }
-    }
-
-    /* =========================
-       PILL-CARDS LIST (for Vodka/Tequila/etc)
-    ========================== */
-    .pillGrid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .pillCard{
-      grid-column: span 4;
-      border-radius: 18px;
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.10);
-      padding: 12px;
-      position:relative;
-      overflow:hidden;
-      box-shadow: 0 18px 55px rgba(0,0,0,.18);
-    }
-    .pillCard::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(420px 160px at 20% 0%, rgba(215,180,106,.11), transparent 55%),
-        radial-gradient(420px 160px at 95% 10%, rgba(215,180,106,.07), transparent 60%);
-      opacity:.85;
-      pointer-events:none;
-    }
-    .pillCard__title{
-      position:relative;
-      margin:0 0 8px;
-      font-weight: 950;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size: 12px;
-      color: rgba(255,255,255,.86);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .pillCard__title span{
-      color: rgba(255,255,255,.62);
-      font-weight: 800;
-      letter-spacing:0;
-      text-transform:none;
-      font-size: 12px;
-    }
-    .pills{
-      position:relative;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(215,180,106,.18);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.82);
-      font-weight: 800;
-      font-size: 11.5px;
-      white-space:nowrap;
-    }
-    .pill--hot{
-      border-color: rgba(215,180,106,.40);
-      background: rgba(215,180,106,.12);
-      color: rgba(255,255,255,.90);
-    }
-
-    @media (max-width: 980px){
-      .pillCard{ grid-column: span 6; }
-    }
-    @media (max-width: 720px){
-      .pillCard{ grid-column: span 12; }
-    }
-
-    /* =========================
-       FOOTER
-    ========================== */
-    .footer{
-      padding: 34px 0 50px;
-      color: rgba(255,255,255,.55);
-      font-size: 12.5px;
-      text-align:center;
-    }
-    .mutedLink{
-      color: rgba(255,255,255,.72);
-      text-decoration: underline;
-      text-decoration-color: rgba(215,180,106,.35);
-      text-underline-offset: 3px;
-    }
-  </style>
-</head>
-
-<body>
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container header__inner">
-      <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">
-        <span class="brand__dot" aria-hidden="true"></span>
-        <span>Allure Bar &amp; Lounge</span>
-      </a>
-
-      <nav class="nav" aria-label="Primary">
-        <a href="menu.html" aria-current="page">Menu</a>
-        <a href="events.html">Events</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="about.html">About</a>
-        <a href="location.html">Location</a>
-
-        <!-- ✅ Reserve Now calls the phone (ALL pages should use this) -->
-        <a class="btn btn--gold" href="tel:2022974949">Reserve Now</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <main id="main" class="hero">
-    <div class="container">
-      <div class="hero__panel">
-        <div class="hero__grid">
-          <div>
-            <p class="kicker">Washington, DC</p>
-            <h1>Weekly Specials</h1>
-            <p class="sub">
-              Tap a day to see the specials. Everything is styled as mini luxury cards — Vegas energy,
-              clean, and easy to scan.
-            </p>
-
-            <div class="hero__actions">
-              <!-- ✅ One primary CTA only -->
-              <a class="btn btn--gold" href="tel:2022974949">Call to Reserve • 202-297-4949</a>
-            </div>
-
-            <div class="chipRow" aria-label="Highlights">
-              <span class="chip">Late-night energy</span>
-              <span class="chip">Premium pours</span>
-              <span class="chip">Hookah specials</span>
-              <span class="chip">Vegas luxury</span>
-            </div>
-          </div>
-
-          <aside class="hero__right" aria-label="How to use">
-            <p class="hero__rightTitle">How it works <span>Sticky day bar + active glow</span></p>
-            <p class="note">
-              On mobile, swipe the day bar left/right (it snaps). The active day glows gold so guests
-              always know where they are.
-            </p>
-          </aside>
-        </div>
+  <div class="deal-row">
+    <div class="deal-card">
+      <div class="deal-title">Happy Hour Deals</div>
+      <div class="deal-pills">
+        <span class="badge badge--gold">$5 Shots</span>
+        <span class="badge badge--gold">$10 Drinks</span>
+        <span class="badge badge--gold">$6 Wine</span>
+        <span class="badge badge--gold">$4 Beer</span>
       </div>
+      <div class="deal-meta">Ask staff about exclusions. +20% gratuity &amp; 10% tax may apply.</div>
     </div>
 
-    <!-- DAY BAR -->
-    <div class="daybarWrap" role="navigation" aria-label="Weekly Specials Navigation">
-      <div class="container">
-        <div class="daybar" id="daybar">
-          <a class="daytab" href="#monday" data-target="monday">Monday</a>
-          <a class="daytab" href="#tuesday" data-target="tuesday">Tuesday</a>
-          <a class="daytab" href="#wednesday" data-target="wednesday">Wednesday</a>
-          <a class="daytab" href="#thursday" data-target="thursday">Thursday</a>
-          <a class="daytab" href="#friday" data-target="friday">Friday</a>
-          <a class="daytab" href="#saturday" data-target="saturday">Saturday</a>
-          <a class="daytab" href="#sunday" data-target="sunday">Sunday</a>
-        </div>
+    <div class="deal-card">
+      <div class="deal-title">Hookah</div>
+      <div class="deal-pills">
+        <span class="badge badge--gold">$23 Hookah</span>
+        <span class="badge badge--gold">$12 Refill</span>
       </div>
+      <div class="deal-meta">Select flavors available nightly.</div>
     </div>
 
-    <!-- =========================
-         MONDAY (REAL CONTENT)
-    ========================== -->
-    <section id="monday" class="section">
-      <div class="container">
-        <div class="section__card">
-          <div class="section__head">
-            <div>
-              <h2 class="section__title">Monday — Free Hookah Monday</h2>
-              <p class="section__subtitle">With $50 bar tab • Your choice of flavor</p>
-            </div>
-            <p class="section__subtitle">9PM – Closing vibe</p>
-          </div>
-
-          <!-- Big mini-cards (dense) -->
-          <div class="cards" aria-label="Monday highlights">
-            <article class="mini">
-              <div class="cornerIcon" aria-hidden="true">☺</div>
-              <div class="mini__top">
-                <p class="mini__name">Free Hookah Monday</p>
-                <p class="mini__price">$0</p>
-              </div>
-              <p class="mini__desc">Free hookah with a $50 bar tab — choose your flavor.</p>
-              <div class="badgeRow">
-                <span class="badge badge--gold">Top Seller</span>
-                <span class="badge">Chef Pick</span>
-              </div>
-            </article>
-
-            <article class="mini">
-              <div class="mini__top">
-                <p class="mini__name">$5 Shots • $12 Drinks</p>
-                <p class="mini__price">Special</p>
-              </div>
-              <p class="mini__desc">Perfect for the early night crowd warming up.</p>
-              <div class="badgeRow">
-                <span class="badge badge--gold">Popular</span>
-                <span class="badge">New</span>
-              </div>
-            </article>
-
-            <article class="mini">
-              <div class="mini__top">
-                <p class="mini__name">$7 Shots • $14 Drinks</p>
-                <p class="mini__price">Top Shelf</p>
-              </div>
-              <p class="mini__desc">Upgrade your pour — premium labels all night.</p>
-              <div class="badgeRow">
-                <span class="badge badge--gold">Signature</span>
-              </div>
-            </article>
-
-            <article class="mini">
-              <div class="mini__top">
-                <p class="mini__name">Premium</p>
-                <p class="mini__price">$10–$16</p>
-              </div>
-              <p class="mini__desc">Premium shots & premium drinks tiers available.</p>
-              <div class="badgeRow">
-                <span class="badge">Luxury</span>
-              </div>
-            </article>
-          </div>
-
-          <!-- Spirits as pill-cards -->
-          <div class="pillGrid" aria-label="Spirits list as pills">
-            <div class="pillCard">
-              <p class="pillCard__title">Vodka <span>$5 Shots / $12 Drinks</span></p>
-              <div class="pills">
-                <span class="pill">Absolut</span>
-                <span class="pill">Belvedere</span>
-                <span class="pill">Ciroc</span>
-                <span class="pill">Grey Goose</span>
-                <span class="pill">Kettle One</span>
-                <span class="pill">Stoli Orange</span>
-                <span class="pill">Titos</span>
-              </div>
-            </div>
-
-            <div class="pillCard">
-              <p class="pillCard__title">Tequila <span>Blanco / Repo</span></p>
-              <div class="pills">
-                <span class="pill">1800</span>
-                <span class="pill">Altos</span>
-                <span class="pill">Espolon</span>
-                <span class="pill">Hornitos</span>
-                <span class="pill">Jose Cuervo</span>
-                <span class="pill">Lunazul</span>
-                <span class="pill">Milagro</span>
-                <span class="pill">Teremana</span>
-              </div>
-            </div>
-
-            <div class="pillCard">
-              <p class="pillCard__title">Whiskey <span>Classic to Bold</span></p>
-              <div class="pills">
-                <span class="pill">Basil Hayden</span>
-                <span class="pill">Bulliet</span>
-                <span class="pill">Chivas Regal</span>
-                <span class="pill">Crown</span>
-                <span class="pill">Dewar’s</span>
-                <span class="pill">Fireball</span>
-                <span class="pill">Jack Daniels</span>
-                <span class="pill">Jameson</span>
-                <span class="pill">Jim Beam</span>
-                <span class="pill">Makers Mark</span>
-                <span class="pill">Woodford</span>
-              </div>
-            </div>
-
-            <div class="pillCard">
-              <p class="pillCard__title">Liqueur <span>+ Cognac</span></p>
-              <div class="pills">
-                <span class="pill">Disaronno</span>
-                <span class="pill">Grand Marnier</span>
-                <span class="pill">Hpnotiq</span>
-                <span class="pill">Jägermeister</span>
-                <span class="pill">Midori</span>
-                <span class="pill pill--hot">Courvoisier</span>
-                <span class="pill pill--hot">Hennessy</span>
-              </div>
-            </div>
-
-            <div class="pillCard">
-              <p class="pillCard__title">Rum <span>Easy mix</span></p>
-              <div class="pills">
-                <span class="pill">Bacardi</span>
-                <span class="pill">Captain Morgan</span>
-                <span class="pill">Malibu</span>
-                <span class="pill">Myers</span>
-              </div>
-            </div>
-
-            <div class="pillCard">
-              <p class="pillCard__title">Gin <span>Crisp</span></p>
-              <div class="pills">
-                <span class="pill">Bombay</span>
-                <span class="pill">Roku</span>
-                <span class="pill">Tanqueray</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Top shelf shots -->
-          <div style="height:14px"></div>
-          <div class="section__head">
-            <div>
-              <h3 class="section__title" style="font-size:16px;">Top Shelf Shots</h3>
-              <p class="section__subtitle">$7 shots • $14 drinks</p>
-            </div>
-            <p class="section__subtitle">Tighter • luxury dense</p>
-          </div>
-
-          <div class="cards" aria-label="Top shelf shots list">
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">818</p><p class="mini__price">$7</p></div>
-              <p class="mini__desc">Top shelf shot special.</p>
-              <div class="badgeRow"><span class="badge badge--gold">Popular</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">Casa Azul</p><p class="mini__price">$7</p></div>
-              <p class="mini__desc">Top shelf shot special.</p>
-              <div class="badgeRow"><span class="badge">New</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">Casamigos</p><p class="mini__price">$7</p></div>
-              <p class="mini__desc">Top shelf shot special.</p>
-              <div class="badgeRow"><span class="badge badge--gold">Top Seller</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">Ciroc VS</p><p class="mini__price">$7</p></div>
-              <p class="mini__desc">Top shelf shot special.</p>
-              <div class="badgeRow"><span class="badge">Chef Pick</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">Don Julio</p><p class="mini__price">$7</p></div>
-              <p class="mini__desc">Top shelf shot special.</p>
-              <div class="badgeRow"><span class="badge badge--gold">Signature</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">D’USSÉ</p><p class="mini__price">$7</p></div>
-              <p class="mini__desc">Top shelf shot special.</p>
-              <div class="badgeRow"><span class="badge">Popular</span></div>
-            </article>
-          </div>
-
-          <!-- Premium -->
-          <div style="height:14px"></div>
-          <div class="section__head">
-            <div>
-              <h3 class="section__title" style="font-size:16px;">Premium</h3>
-              <p class="section__subtitle">Two tiers shown as cards</p>
-            </div>
-            <p class="section__subtitle">Vegas upgrade</p>
-          </div>
-
-          <div class="cards" aria-label="Premium tiers">
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">$16 Shots</p><p class="mini__price">$32 Drinks</p></div>
-              <p class="mini__desc">1942 • Azul • D’USSÉ XO • Remy XO</p>
-              <div class="badgeRow"><span class="badge badge--gold">Luxury</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">$10 Shots</p><p class="mini__price">$20 Drinks</p></div>
-              <p class="mini__desc">Gran Coramino • JW Black • JW Double Black • JW Gold</p>
-              <div class="badgeRow"><span class="badge">Popular</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">$8 Wine</p><p class="mini__price">Special</p></div>
-              <p class="mini__desc">Cabernet Sauvignon • Chardonnay • Merlot • Moscato (Red/White) • Pinot Grigio • Sauvignon Blanc • Sweet Red</p>
-              <div class="badgeRow"><span class="badge badge--gold">Easy</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">$6 Beer</p><p class="mini__price">Special</p></div>
-              <p class="mini__desc">Angry Orchard • Corona • Guinness • Heineken • Modelo • Stella • Goose Island IPA • Voodoo Ranger IPA</p>
-              <div class="badgeRow"><span class="badge">Popular</span></div>
-            </article>
-          </div>
-
-          <!-- Hookah -->
-          <div style="height:14px"></div>
-          <div class="section__head">
-            <div>
-              <h3 class="section__title" style="font-size:16px;">Hookah</h3>
-              <p class="section__subtitle">$23 hookah • $15 refill • some flavors +$2</p>
-            </div>
-            <p class="section__subtitle">Pill-cards • clean</p>
-          </div>
-
-          <div class="pillGrid" aria-label="Hookah flavors">
-            <div class="pillCard" style="grid-column: span 12;">
-              <p class="pillCard__title">Flavors <span>+ $2 on select</span></p>
-              <div class="pills">
-                <span class="pill pill--hot">Blue Mist +$2</span>
-                <span class="pill pill--hot">Magic Love +$2</span>
-                <span class="pill pill--hot">Lady Killer +$2</span>
-                <span class="pill pill--hot">Love 66 +$2</span>
-
-                <span class="pill">Blueberry</span>
-                <span class="pill">BMW</span>
-                <span class="pill">Blueberry Mint</span>
-                <span class="pill">Double Apple</span>
-                <span class="pill">Grape</span>
-                <span class="pill">Grapefruit</span>
-                <span class="pill">Grapefruit Mint</span>
-                <span class="pill">Guava</span>
-                <span class="pill">Gum Mint</span>
-                <span class="pill">Kiwi</span>
-                <span class="pill">Lemon Mint</span>
-                <span class="pill">Mango</span>
-                <span class="pill">Mint</span>
-                <span class="pill">Orange Mint</span>
-                <span class="pill">Peach</span>
-                <span class="pill">Pineapple</span>
-                <span class="pill">Strawberry</span>
-                <span class="pill">Vanilla</span>
-                <span class="pill">Watermelon</span>
-                <span class="pill">Watermelon Mint</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Towers / Fishbowls -->
-          <div style="height:14px"></div>
-          <div class="cards" aria-label="Towers and fishbowls">
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">Tower</p><p class="mini__price">$43</p></div>
-              <p class="mini__desc">Perfect for your table — big Vegas energy.</p>
-              <div class="badgeRow"><span class="badge badge--gold">Popular</span></div>
-            </article>
-            <article class="mini">
-              <div class="mini__top"><p class="mini__name">Fishbowl</p><p class="mini__price">$23</p></div>
-              <p class="mini__desc">Shareable pour — designed for the late crowd.</p>
-              <div class="badgeRow"><span class="badge">New</span></div>
-            </article>
-          </div>
-
-          <!-- $12 Cocktails -->
-          <div style="height:14px"></div>
-          <div class="section__head">
-            <div>
-              <h3 class="section__title" style="font-size:16px;">$12 Cocktails</h3>
-              <p class="section__subtitle">Add strawberry, mango or peach to any cocktail</p>
-            </div>
-            <p class="section__subtitle">Mini luxury cards</p>
-          </div>
-
-          <div class="cards" aria-label="Cocktails list">
-            <!-- Left column (from your sheet) -->
-            <article class="mini"><div class="mini__top"><p class="mini__name">Allure Lemon Drop</p><p class="mini__price">$12</p></div><p class="mini__desc">Bright, citrus, premium lounge classic.</p><div class="badgeRow"><span class="badge badge--gold">Signature</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Allure Sidecar</p><p class="mini__price">$12</p></div><p class="mini__desc">Smooth and rich — late night ready.</p><div class="badgeRow"><span class="badge">Chef Pick</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Apple Martini</p><p class="mini__price">$12</p></div><p class="mini__desc">Crisp, clean, and addictive.</p><div class="badgeRow"><span class="badge badge--gold">Popular</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Bitch Please</p><p class="mini__price">$12</p></div><p class="mini__desc">Bold flavor with club energy.</p><div class="badgeRow"><span class="badge">New</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Blue Motorcycle</p><p class="mini__price">$12</p></div><p class="mini__desc">Vivid, fun, and photogenic.</p><div class="badgeRow"><span class="badge">Popular</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Ciroc Punch</p><p class="mini__price">$12</p></div><p class="mini__desc">Smooth punch — easy drinker.</p><div class="badgeRow"><span class="badge badge--gold">Top Seller</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Classic Margarita</p><p class="mini__price">$12</p></div><p class="mini__desc">Clean lime snap — always hits.</p><div class="badgeRow"><span class="badge">Signature</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Cosmopolitan</p><p class="mini__price">$12</p></div><p class="mini__desc">Crisp, classy, Vegas-ready.</p><div class="badgeRow"><span class="badge">Popular</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Gin Martini</p><p class="mini__price">$12</p></div><p class="mini__desc">Sharp, clean, premium finish.</p><div class="badgeRow"><span class="badge">Chef Pick</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Green Tea</p><p class="mini__price">$12</p></div><p class="mini__desc">Smooth, sweet, late-night favorite.</p><div class="badgeRow"><span class="badge badge--gold">Popular</span></div></article>
-
-            <!-- Right column (from your sheet) -->
-            <article class="mini"><div class="mini__top"><p class="mini__name">Long Island</p><p class="mini__price">$12</p></div><p class="mini__desc">Big energy — the “start strong” pour.</p><div class="badgeRow"><span class="badge badge--gold">Top Seller</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Manhattan</p><p class="mini__price">$12</p></div><p class="mini__desc">Bold, smooth, classic lounge.</p><div class="badgeRow"><span class="badge">Signature</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Mint Julep</p><p class="mini__price">$12</p></div><p class="mini__desc">Fresh mint lift — clean finish.</p><div class="badgeRow"><span class="badge">New</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Mojito</p><p class="mini__price">$12</p></div><p class="mini__desc">Mint + lime — easy summer vibe.</p><div class="badgeRow"><span class="badge">Popular</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Moscow Mule</p><p class="mini__price">$12</p></div><p class="mini__desc">Ginger bite — crisp and cold.</p><div class="badgeRow"><span class="badge">Chef Pick</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Old Fashion</p><p class="mini__price">$12</p></div><p class="mini__desc">Classic whiskey elegance.</p><div class="badgeRow"><span class="badge">Signature</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Orange Martini</p><p class="mini__price">$12</p></div><p class="mini__desc">Citrus pop — upscale and smooth.</p><div class="badgeRow"><span class="badge">New</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Red or White Sangria</p><p class="mini__price">$12</p></div><p class="mini__desc">Wine-forward, shareable vibe.</p><div class="badgeRow"><span class="badge">Popular</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Rum Punch</p><p class="mini__price">$12</p></div><p class="mini__desc">Island energy — smooth finish.</p><div class="badgeRow"><span class="badge">Top Seller</span></div></article>
-            <article class="mini"><div class="mini__top"><p class="mini__name">Strawberry Henny</p><p class="mini__price">$12</p></div><p class="mini__desc">Sweet, bold, and club-ready.</p><div class="badgeRow"><span class="badge badge--gold">Signature</span></div></article>
-          </div>
-
-          <p class="section__subtitle" style="margin-top:12px;">
-            * Please note: gratuity & tax may apply. Drink responsibly.
-          </p>
-        </div>
+    <div class="deal-card">
+      <div class="deal-title">Big Pours</div>
+      <div class="deal-pills">
+        <span class="badge badge--gold">$43 Tower</span>
+        <span class="badge badge--gold">$23 Fishbowl</span>
       </div>
-    </section>
-
-    <!-- =========================
-         OTHER DAYS (Placeholders)
-         You can paste Tuesday/Thu late night etc later
-    ========================== -->
-    <section id="tuesday" class="section">
-    <section id="tuesday" class="section">
-  <div class="container">
-    <div class="section__card">
-
-      <div class="section__head">
-        <div>
-          <h2 class="section__title">Tuesday — Happy Hour</h2>
-          <p class="section__subtitle">5PM – 9PM • $5 Shots • $10 Drinks</p>
-        </div>
-        <p class="section__subtitle">Luxury Happy Hour</p>
-      </div>
-
-      <!-- $5 SHOTS / $10 DRINKS -->
-      <div class="pillGrid">
-
-        <!-- Vodka -->
-        <div class="pillCard">
-          <p class="pillCard__title">Vodka <span>$5 / $10</span></p>
-          <div class="pills">
-            <span class="pill">Absolut</span>
-            <span class="pill">Belvedere</span>
-            <span class="pill">Ciroc</span>
-            <span class="pill">Grey Goose</span>
-            <span class="pill">Kettle One</span>
-            <span class="pill">Stoli Orange</span>
-            <span class="pill">Titos</span>
-          </div>
-        </div>
-
-        <!-- Tequila -->
-        <div class="pillCard">
-          <p class="pillCard__title">Tequila <span>Blanco / Repo</span></p>
-          <div class="pills">
-            <span class="pill">1800</span>
-            <span class="pill">Altos</span>
-            <span class="pill">Espolon</span>
-            <span class="pill">Hornitos</span>
-            <span class="pill">Jose Cuervo</span>
-            <span class="pill">Lunazul</span>
-            <span class="pill">Milagro</span>
-            <span class="pill">Teremana</span>
-          </div>
-        </div>
-
-        <!-- Whiskey -->
-        <div class="pillCard">
-          <p class="pillCard__title">Whiskey</p>
-          <div class="pills">
-            <span class="pill">Basil Hayden</span>
-            <span class="pill">Bulliet</span>
-            <span class="pill">Chivas Regal</span>
-            <span class="pill">Crown</span>
-            <span class="pill">Dewar’s</span>
-            <span class="pill">Fireball</span>
-            <span class="pill">Jack Daniels</span>
-            <span class="pill">Jameson</span>
-            <span class="pill">Jim Beam</span>
-            <span class="pill">Makers Mark</span>
-            <span class="pill">Woodford</span>
-          </div>
-        </div>
-
-        <!-- Liqueur / Cognac -->
-        <div class="pillCard">
-          <p class="pillCard__title">Liqueur & Cognac</p>
-          <div class="pills">
-            <span class="pill">Disaronno</span>
-            <span class="pill">Grand Marnier</span>
-            <span class="pill">Hpnotiq</span>
-            <span class="pill">Jagermeister</span>
-            <span class="pill">Midori</span>
-            <span class="pill pill--hot">Courvoisier</span>
-            <span class="pill pill--hot">Hennessy</span>
-          </div>
-        </div>
-
-        <!-- Rum -->
-        <div class="pillCard">
-          <p class="pillCard__title">Rum</p>
-          <div class="pills">
-            <span class="pill">Bacardi</span>
-            <span class="pill">Captain Morgan</span>
-            <span class="pill">Malibu</span>
-            <span class="pill">Myers</span>
-          </div>
-        </div>
-
-        <!-- Gin -->
-        <div class="pillCard">
-          <p class="pillCard__title">Gin</p>
-          <div class="pills">
-            <span class="pill">Bombay</span>
-            <span class="pill">Roku</span>
-            <span class="pill">Tanqueray</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- $7 SHOTS / $14 DRINKS -->
-      <div style="height:18px"></div>
-      <div class="section__head">
-        <div>
-          <h3 class="section__title" style="font-size:16px;">$7 Shots • $14 Drinks</h3>
-          <p class="section__subtitle">Top Shelf Upgrade</p>
-        </div>
-      </div>
-
-      <div class="cards">
-        <article class="mini"><div class="mini__top"><p class="mini__name">818</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Casa Azul</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Casamigos</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Ciroc VS</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Don Julio</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Dusse</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Equiano</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Hendricks</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Hennessy VSOP</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Herradura</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Old Forester</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Patron</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Remy 1738</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Remy VSOP</p><p class="mini__price">$7</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Sir Davis</p><p class="mini__price">$7</p></div></article>
-      </div>
-
-      <!-- PREMIUM -->
-      <div style="height:18px"></div>
-      <div class="section__head">
-        <div>
-          <h3 class="section__title" style="font-size:16px;">Premium</h3>
-          <p class="section__subtitle">$16 Shots / $32 Drinks • $10 Shots / $20 Drinks</p>
-        </div>
-      </div>
-
-      <div class="cards">
-        <article class="mini"><div class="mini__top"><p class="mini__name">1942 • Azul • Dusse XO • Remy XO</p><p class="mini__price">$16</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Gran Coramino • JW Black • JW Double Black • JW Gold</p><p class="mini__price">$10</p></div></article>
-      </div>
-
-      <!-- WINE & BEER -->
-      <div style="height:18px"></div>
-
-      <div class="cards">
-        <article class="mini">
-          <div class="mini__top"><p class="mini__name">$6 Wine</p></div>
-          <p class="mini__desc">Cabernet • Chardonnay • Merlot • Moscato (Red/White) • Pinot Grigio • Sauvignon Blanc • Sweet Red</p>
-        </article>
-
-        <article class="mini">
-          <div class="mini__top"><p class="mini__name">$4 Beer</p></div>
-          <p class="mini__desc">Angry Orchard • Corona • Guinness • Heineken • Modelo • Stella • Goose Island IPA • Voodoo Ranger IPA</p>
-        </article>
-      </div>
-
-      <!-- HOOKAH -->
-      <div style="height:18px"></div>
-
-      <div class="section__head">
-        <div>
-          <h3 class="section__title" style="font-size:16px;">Hookah</h3>
-          <p class="section__subtitle">$23 Hookah • $12 Refill</p>
-        </div>
-      </div>
-
-      <div class="pillCard" style="margin-top:12px;">
-        <div class="pills">
-          <span class="pill pill--hot">Blue Mist +$2</span>
-          <span class="pill pill--hot">Lady Killer +$2</span>
-          <span class="pill pill--hot">Love 66 +$2</span>
-          <span class="pill pill--hot">Magic Love +$2</span>
-          <span class="pill">Blueberry</span>
-          <span class="pill">BMW</span>
-          <span class="pill">Blueberry Mint</span>
-          <span class="pill">Double Apple</span>
-          <span class="pill">Grape</span>
-          <span class="pill">Grapefruit</span>
-          <span class="pill">Grapefruit Mint</span>
-          <span class="pill">Guava</span>
-          <span class="pill">Gum Mint</span>
-          <span class="pill">Kiwi</span>
-          <span class="pill">Lemon Mint</span>
-          <span class="pill">Mango</span>
-          <span class="pill">Mint</span>
-          <span class="pill">Orange Mint</span>
-          <span class="pill">Peach</span>
-          <span class="pill">Pineapple</span>
-          <span class="pill">Strawberry</span>
-          <span class="pill">Vanilla</span>
-          <span class="pill">Watermelon</span>
-          <span class="pill">Watermelon Mint</span>
-        </div>
-      </div>
-
-      <!-- COCKTAILS -->
-      <div style="height:18px"></div>
-      <div class="section__head">
-        <div>
-          <h3 class="section__title" style="font-size:16px;">$10 Cocktails</h3>
-          <p class="section__subtitle">Add Strawberry, Mango or Peach</p>
-        </div>
-      </div>
-
-      <div class="cards">
-        <article class="mini"><div class="mini__top"><p class="mini__name">Allure Lemon Drop</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Allure Sidecar</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Apple Martini</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Bitch Please</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Blue Motorcycle</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Ciroc Punch</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Classic Margarita</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Cosmopolitan</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Gin Martini</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Green Tea</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Long Island</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Manhattan</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Mint Julep</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Mojito</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Moscow Mule</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Old Fashion</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Orange Martini</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Red or White Sangria</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Rum Punch</p><p class="mini__price">$10</p></div></article>
-        <article class="mini"><div class="mini__top"><p class="mini__name">Strawberry Henny</p><p class="mini__price">$10</p></div></article>
-      </div>
-
+      <div class="deal-meta">$10 cocktails during Happy Hour.</div>
     </div>
   </div>
-</section>
-    
 
-    <section id="wednesday" class="section"><div class="container"><div class="section__card"><div class="section__head"><div><h2 class="section__title">Wednesday</h2><p class="section__subtitle">Add content (Midweek Social, etc.).</p></div><p class="section__subtitle">Coming soon</p></div></div></div></section>
-    <section id="thursday" class="section"><div class="container"><div class="section__card"><div class="section__head"><div><h2 class="section__title">Thursday</h2><p class="section__subtitle">Add content (Karaoke Thursday, etc.).</p></div><p class="section__subtitle">Coming soon</p></div></div></div></section>
-    <section id="friday" class="section"><div class="container"><div class="section__card"><div class="section__head"><div><h2 class="section__title">Friday</h2><p class="section__subtitle">Add weekend specials here.</p></div><p class="section__subtitle">Coming soon</p></div></div></div></section>
-    <section id="saturday" class="section"><div class="container"><div class="section__card"><div class="section__head"><div><h2 class="section__title">Saturday</h2><p class="section__subtitle">Add Saturday specials here.</p></div><p class="section__subtitle">Coming soon</p></div></div></div></section>
-    <section id="sunday" class="section"><div class="container"><div class="section__card"><div class="section__head"><div><h2 class="section__title">Sunday</h2><p class="section__subtitle">Add Sunday specials here.</p></div><p class="section__subtitle">Coming soon</p></div></div></div></section>
-
-    <div class="footer">
-      © <span id="year"></span> Allure Bar &amp; Lounge • <a class="mutedLink" href="tel:2022974949">Call 202-297-4949</a>
+  <div class="pill-grid">
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Vodka</span><span class="pill-price">$10</span></div>
+      <div class="pill-items">
+        <span class="pill">Absolut</span><span class="pill">Belvedere</span><span class="pill">Ciroc</span><span class="pill">Grey Goose</span>
+        <span class="pill">Kettle One</span><span class="pill">Stoli Orange</span><span class="pill">Titos</span>
+      </div>
     </div>
-  </main>
 
-  <script>
-    // footer year
-    document.getElementById("year").textContent = new Date().getFullYear();
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Tequila</span><span class="pill-price">$10</span></div>
+      <div class="pill-items">
+        <span class="pill">1800</span><span class="pill">Altos</span><span class="pill">Espolon</span><span class="pill">Hornitos</span>
+        <span class="pill">Jose Cuervo</span><span class="pill">Lunazul</span><span class="pill">Milagro</span><span class="pill">Teremana</span>
+      </div>
+    </div>
 
-    // Active day glow + smooth snapping on mobile
-    const tabs = Array.from(document.querySelectorAll(".daytab"));
-    const sections = Array.from(document.querySelectorAll("section.section"));
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Whiskey</span><span class="pill-price">$10</span></div>
+      <div class="pill-items">
+        <span class="pill">Basil Hayden</span><span class="pill">Bulliet</span><span class="pill">Chivas Regal</span><span class="pill">Crown</span>
+        <span class="pill">Dewars</span><span class="pill">Fireball</span><span class="pill">Jack Daniels</span><span class="pill">Jameson</span>
+        <span class="pill">Jim Beam</span><span class="pill">Makers Mark</span><span class="pill">Woodford</span>
+      </div>
+    </div>
 
-    function setActive(id){
-      tabs.forEach(t => t.classList.toggle("is-active", t.dataset.target === id));
-    }
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Liqueur</span><span class="pill-price">$10</span></div>
+      <div class="pill-items">
+        <span class="pill">Disaronno</span><span class="pill">Grand Marnier</span><span class="pill">Hypnotiq</span><span class="pill">Jagermeister</span>
+        <span class="pill">Midori</span>
+      </div>
+    </div>
 
-    // Click: scroll to section, keep hash, and snap tab into view on mobile
-    tabs.forEach(tab => {
-      tab.addEventListener("click", (e) => {
-        const id = tab.dataset.target;
-        const el = document.getElementById(id);
-        if(!el) return;
-        e.preventDefault();
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Rum</span><span class="pill-price">$10</span></div>
+      <div class="pill-items">
+        <span class="pill">Bacardi</span><span class="pill">Cpt Morgan</span><span class="pill">Malibu</span><span class="pill">Myers</span>
+      </div>
+    </div>
 
-        // scroll to section with sticky offset feel
-        el.scrollIntoView({ behavior:"smooth", block:"start" });
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Gin</span><span class="pill-price">$10</span></div>
+      <div class="pill-items">
+        <span class="pill">Bombay</span><span class="pill">Roku</span><span class="pill">Tanqueray</span>
+      </div>
+    </div>
 
-        history.replaceState(null, "", "#" + id);
-        setActive(id);
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Cognac</span><span class="pill-price">$10</span></div>
+      <div class="pill-items">
+        <span class="pill">Courvoisier</span><span class="pill">Hennessy</span>
+      </div>
+    </div>
+  </div>
 
-        // bring the active tab into view (mobile scroll)
-        tab.scrollIntoView({ behavior:"smooth", inline:"center", block:"nearest" });
-      });
-    });
+  <div class="pill-grid">
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">$7 Shots • $14 Drinks</span><span class="pill-price">Top Shelf</span></div>
+      <div class="pill-items">
+        <span class="pill">818</span><span class="pill">Casa Azul</span><span class="pill">Casamigos</span><span class="pill">Ciroc VS</span>
+        <span class="pill">Don Julio</span><span class="pill">Dusse</span><span class="pill">Equiano</span><span class="pill">Hendricks</span>
+        <span class="pill">Hennessy VSOP</span><span class="pill">Herradura</span><span class="pill">Old Forester</span><span class="pill">Patron</span>
+        <span class="pill">Remy 1738</span><span class="pill">Remy VSOP</span><span class="pill">Sir Davis</span>
+      </div>
+    </div>
 
-    // Scroll spy: highlights the section you're viewing
-    const io = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter(en => en.isIntersecting)
-        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if(!visible) return;
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Premium</span><span class="pill-price">Vegas Tier</span></div>
+      <div class="pill-items">
+        <span class="pill">$16 Shots / $32 Drinks: 1942</span>
+        <span class="pill">$16 Shots / $32 Drinks: Azul</span>
+        <span class="pill">$16 Shots / $32 Drinks: Dusse XO</span>
+        <span class="pill">$16 Shots / $32 Drinks: Remy XO</span>
+        <span class="pill">$10 Shots / $20 Drinks: Gran Coramino</span>
+        <span class="pill">$10 Shots / $20 Drinks: JW Black</span>
+        <span class="pill">$10 Shots / $20 Drinks: JW DBL Black</span>
+        <span class="pill">$10 Shots / $20 Drinks: JW Gold</span>
+      </div>
+    </div>
+  </div>
 
-      const id = visible.target.id;
-      setActive(id);
+  <div class="pill-grid">
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Wine</span><span class="pill-price">$6</span></div>
+      <div class="pill-items">
+        <span class="pill">Cabernet Sauvignon</span><span class="pill">Chardonnay</span><span class="pill">Merlot</span>
+        <span class="pill">Moscato (Red/White)</span>
+        <span class="pill">Pinot Grigio</span><span class="pill">Sauvignon Blanc</span><span class="pill">Sweet Red</span>
+      </div>
+    </div>
 
-      const activeTab = tabs.find(t => t.dataset.target === id);
-      if(activeTab){
-        activeTab.scrollIntoView({ behavior:"smooth", inline:"center", block:"nearest" });
-      }
-    }, {
-      root: null,
-      threshold: [0.15, 0.35, 0.55],
-      rootMargin: "-25% 0px -55% 0px" // makes it feel accurate with sticky bars
-    });
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Beer</span><span class="pill-price">$4</span></div>
+      <div class="pill-items">
+        <span class="pill">Angry Orchard</span><span class="pill">Corona</span><span class="pill">Guinness</span><span class="pill">Heineken</span>
+        <span class="pill">Modelo</span><span class="pill">Stella</span><span class="pill">Goose Island IPA</span><span class="pill">Voodoo Ranger IPA</span>
+      </div>
+    </div>
 
-    sections.forEach(s => io.observe(s));
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">High Noon</span><span class="pill-price">$8</span></div>
+      <div class="pill-items">
+        <span class="pill">Vodka: Grapefruit</span><span class="pill">Vodka: Mango</span>
+        <span class="pill">Tequila: Lime</span><span class="pill">Tequila: Strawberry</span>
+      </div>
+    </div>
 
-    // On load: default to Monday if no hash
-    const initial = (location.hash || "#monday").replace("#","");
-    const initialEl = document.getElementById(initial) || document.getElementById("monday");
-    setActive(initialEl.id);
-    if(location.hash){
-      // ensure correct spot after page load
-      setTimeout(() => initialEl.scrollIntoView({behavior:"smooth", block:"start"}), 80);
-    }
-  </script>
-</body>
-</html>
+    <div class="pill-card">
+      <div class="pill-head"><span class="pill-title">Non-Alcoholic</span><span class="pill-price"></span></div>
+      <div class="pill-items">
+        <span class="pill">Red Bull $5</span><span class="pill">Ginger Beer $5</span><span class="pill">Frozen Drinks
