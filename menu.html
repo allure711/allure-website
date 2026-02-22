@@ -2575,5 +2575,39 @@
       setTimeout(() => initialEl.scrollIntoView({behavior:"smooth", block:"start"}), 80);
     }
   </script>
+
+      ... all your menu sections above ...
+
+<script>
+  const tabs = Array.from(document.querySelectorAll('.daytab'));
+  const sections = Array.from(document.querySelectorAll('.day-section'));
+
+  function showDay(dayId) {
+    sections.forEach(sec => {
+      sec.classList.toggle('is-active', sec.id === dayId);
+    });
+
+    tabs.forEach(t => {
+      const isActive = (t.dataset.target === dayId) || 
+                       (t.getAttribute('href') === `#${dayId}`);
+      t.classList.toggle('is-active', isActive);
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    history.replaceState(null, '', `#${dayId}`);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      const dayId = tab.dataset.target || 
+                    tab.getAttribute('href').replace('#','');
+      showDay(dayId);
+    });
+  });
+
+  const initial = (location.hash || '#monday').replace('#','');
+  showDay(initial);
+</script>
 </body>
 </html>
