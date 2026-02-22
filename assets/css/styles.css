@@ -1065,3 +1065,17 @@ h3{margin:0 0 10px}
 .mitem:hover [class*="__price"]::after{
   left:120%;
 }
+
+.hero-title {
+   font-size: 32px;
+   font-weight: 700;
+   letter-spacing: 2px;
+   margin-bottom: 10px;
+}
+.hero-sub {
+  font-size: 16px;
+  opacity: .85;
+}
+  
+  
+   
