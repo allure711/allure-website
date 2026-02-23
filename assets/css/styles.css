@@ -1076,6 +1076,23 @@ h3{margin:0 0 10px}
   font-size: 16px;
   opacity: .85;
 }
-  
-  
+  .filterSection {
+  display: none;
+  margin-top: 12px;
+}
+
+.filterSection.active {
+  display: block;
+}
+
+.filterBtn {
+  cursor: pointer;
+  background: rgba(14,14,18,.55);
+}
+
+.filterBtn.active {
+  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+  color: #14120c;
+  border-color: rgba(242,210,138,.95);
+}
    
