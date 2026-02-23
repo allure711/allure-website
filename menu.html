@@ -555,6 +555,50 @@
       activate(start, {scrollToTop:false});
     })();
   </script>
+  
+  <script>
+  (function(){
+      const tabs = Array.from(document.querySelectorAll('.daytab'));
+      const sections = Array.from(document.querySelectorAll('.day-section'));
+
+      function activate(dayId){
+          tabs.forEach(t => t.classList.toggle('active', t.dataset.target === dayId));
+          sections.forEach(s => s.classList.toggle('active', s.id === dayId));
+          localStorage.setItem('activeDay', dayId);
+      }
+
+      tabs.forEach(btn => {
+          btn.addEventListener('click', () => activate(btn.dataset.target));
+      });
+
+      activate('monday');
+
+  })();
+
+  /* =========================
+     FILTER SYSTEM (ADD HERE)
+  ========================== */
+
+  document.addEventListener("click", function(e){
+    if(e.target.classList.contains("filterBtn")){
+      
+      const container = e.target.closest(".miniCard");
+      const buttons = container.querySelectorAll(".filterBtn");
+      const sections = container.querySelectorAll(".filterSection");
+
+      buttons.forEach(btn => btn.classList.remove("active"));
+      sections.forEach(sec => sec.classList.remove("active"));
+
+      e.target.classList.add("active");
+
+      const target = container.querySelector("#" + e.target.dataset.filter);
+      if(target){
+        target.classList.add("active");
+      }
+    }
+  });
+
+</script>
 
 </body>
 </html>
