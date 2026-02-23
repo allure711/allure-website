@@ -68,7 +68,11 @@
       padding:12px;
       box-shadow: 0 12px 40px rgba(0,0,0,.25);
     }
-    .daybar{display:flex;gap:10px;flex-wrap:wrap}
+    .daybar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
     @media (max-width: 720px){
       .daybar{
@@ -95,7 +99,9 @@
       white-space:nowrap;
       transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
     }
-    @media (max-width: 720px){ .daytab{scroll-snap-align:start} }
+    @media (max-width: 720px){
+      .daytab{scroll-snap-align:start}
+    }
     .daytab:hover{transform:translateY(-1px);border-color:rgba(215,181,109,.35)}
     .daytab.active{
       color:#14120c;
@@ -127,11 +133,25 @@
     }
 
     .sectionHead{display:flex;flex-direction:column;gap:6px}
-    .sectionTitle{margin:0;font-size:28px;letter-spacing:.6px;text-transform:uppercase}
-    .sectionSub{margin:0;color:var(--muted);line-height:1.35;max-width:70ch}
+    .sectionTitle{
+      margin:0;
+      font-size:28px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .sectionSub{
+      margin:0;
+      color:var(--muted);
+      line-height:1.35;
+      max-width: 80ch;
+    }
 
-    /* ---------- Layout Cards ---------- */
-    .grid{display:grid;gap:14px;margin-top:16px}
+    /* ---------- Cards / Grid ---------- */
+    .grid{
+      display:grid;
+      gap:14px;
+      margin-top:16px;
+    }
     .grid.two{grid-template-columns:1fr 1fr}
     @media (max-width: 860px){ .grid.two{grid-template-columns:1fr} }
 
@@ -141,7 +161,6 @@
       border-radius: 16px;
       padding:14px;
       position:relative;
-      overflow:hidden;
     }
     .miniCard h3{
       margin:0 0 10px 0;
@@ -152,50 +171,70 @@
     }
 
     .pills{display:flex;flex-wrap:wrap;gap:10px}
-    .pill, .mini_filters .filterBtn{
+    .pill{
       display:inline-flex;align-items:center;justify-content:center;
       padding:8px 10px;border-radius:999px;
       border:1px solid rgba(215,181,109,.26);
       background: rgba(14,14,18,.55);
       color:#f2f2f2;
-      font-weight:650;
-      font-size:13px;
-      line-height:1;
+      font-weight:650;font-size:13px;line-height:1;
       white-space:nowrap;
-      cursor:pointer;
-      user-select:none;
     }
     .pill strong{color:var(--gold2);font-weight:800;margin-left:8px}
-    .pill:hover, .mini_filters .filterBtn:hover{box-shadow: var(--shadow); border-color: rgba(242,210,138,.42)}
-    .mini_filters .filterBtn.active{
-      color:#14120c;
-      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
-      border-color: rgba(242,210,138,.95);
-      box-shadow: var(--shadow);
-      font-weight:800;
-    }
+    .pill:hover{box-shadow: var(--shadow); border-color: rgba(242,210,138,.42)}
 
-    /* priced rows */
-    .rows{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    /* rows */
+    .rows{display:flex;flex-direction:column;gap:10px;margin-top:6px}
     .row{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:10px 12px;border-radius:14px;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;padding:10px 12px;border-radius:14px;
       border:1px solid rgba(215,181,109,.18);
       background: rgba(12,12,16,.55);
     }
     .row .name{font-weight:750}
     .row .price{font-weight:900;color:var(--gold2)}
 
-    /* ===== FILTER BEHAVIOR ===== */
-    .filterSection{display:none;margin-top:12px}
+    /* ---------- Filter System (NO SHOW until clicked) ---------- */
+    .mini_top{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+    .mini_filters{display:flex;flex-wrap:wrap;gap:10px}
+
+    .filterBtn{
+      appearance:none;
+      border:1px solid rgba(215,181,109,.26);
+      background: rgba(14,14,18,.55);
+      color:#f2f2f2;
+      font-weight:700;
+      font-size:13px;
+      padding:8px 10px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+    .filterBtn:hover{box-shadow:var(--shadow); border-color: rgba(242,210,138,.42)}
+    .filterBtn.active{
+      color:#14120c;
+      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+      border-color: rgba(242,210,138,.95);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .filterSection{display:none;margin-top:10px}
     .filterSection.active{display:block}
 
-    .mini_top{display:flex;flex-direction:column;gap:10px}
-    .mini_filters{display:flex;flex-wrap:wrap;gap:10px}
+    .priceRow{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(215,181,109,.18);
+      background: rgba(12,12,16,.55);
+      margin-bottom:10px;
+    }
+    .priceRow span:last-child{font-weight:900;color:var(--gold2)}
   </style>
 </head>
 
 <body>
+
   <header class="topbar">
     <div class="brand">
       <span class="dot"></span>
@@ -221,167 +260,172 @@
     </div>
 
     <!-- =========================================================
-         TEMPLATES
-         - tpl-sunmon : Sunday + Monday menu (same)
-         - tpl-happyhour : Tue–Sat happy hour menu (same)
-         FILTERS: NO IDs (no conflicts). Uses data-section.
+         TEMPLATE: MONDAY/SUNDAY (MONDAY FLYER MENU)
     ========================================================== -->
-
     <template id="tpl-sunmon">
       <div class="grid two">
 
-        <div class="miniCard">
-          <h3>Classic Spirits Lineup</h3>
-          <div class="pills">
-            <span class="pill">Vodka / Tequila / Whiskey + more</span>
-            <span class="pill">Your choice of flavor <strong>+$2</strong></span>
-          </div>
-        </div>
-
-        <div class="miniCard">
-          <h3>Top Shelf Upgrade</h3>
-          <div class="pills">
-            <span class="pill">818</span>
-            <span class="pill">Casa Azul</span>
-            <span class="pill">Casamigos</span>
-            <span class="pill">Ciroc VS</span>
-            <span class="pill">Don Julio</span>
-            <span class="pill">Dusse</span>
-            <span class="pill">Equiano</span>
-            <span class="pill">Hendricks</span>
-            <span class="pill">Hennessy VSOP</span>
-            <span class="pill">Herradura</span>
-            <span class="pill">Old Forester</span>
-            <span class="pill">Patron</span>
-          </div>
-        </div>
-
-        <!-- Spirits Categories (nothing shows until clicked) -->
+        <!-- Spirits Categories (works like Wine card: nothing shows until clicked) -->
         <article class="miniCard">
           <div class="mini_top">
             <h3>Spirits Categories</h3>
             <div class="mini_filters">
-              <button class="filterBtn" data-filter="vodka" type="button">Vodka</button>
-              <button class="filterBtn" data-filter="tequila" type="button">Tequila</button>
-              <button class="filterBtn" data-filter="whiskey" type="button">Whiskey</button>
-              <button class="filterBtn" data-filter="liqueur" type="button">Liqueur</button>
-              <button class="filterBtn" data-filter="rum" type="button">Rum</button>
-              <button class="filterBtn" data-filter="gin" type="button">Gin</button>
-              <button class="filterBtn" data-filter="cognac" type="button">Cognac</button>
+              <button class="filterBtn" type="button" data-filter="vodka">Vodka</button>
+              <button class="filterBtn" type="button" data-filter="tequila">Tequila</button>
+              <button class="filterBtn" type="button" data-filter="whiskey">Whiskey</button>
+              <button class="filterBtn" type="button" data-filter="liqueur">Liqueur</button>
+              <button class="filterBtn" type="button" data-filter="rum">Rum</button>
+              <button class="filterBtn" type="button" data-filter="gin">Gin</button>
+              <button class="filterBtn" type="button" data-filter="cognac">Cognac</button>
             </div>
           </div>
 
           <div class="filterSection" data-section="vodka">
-            <div class="pills">
-              <span class="pill">Absolut</span>
-              <span class="pill">Belvedere</span>
-              <span class="pill">Ciroc</span>
-              <span class="pill">Grey Goose</span>
-              <span class="pill">Kettle One</span>
-              <span class="pill">Stoli Orange</span>
-              <span class="pill">Titos</span>
-            </div>
+            <div class="priceRow"><span>Absolut</span><span>$5</span></div>
+            <div class="priceRow"><span>Belvedere</span><span>$5</span></div>
+            <div class="priceRow"><span>Ciroc</span><span>$5</span></div>
+            <div class="priceRow"><span>Grey Goose</span><span>$5</span></div>
+            <div class="priceRow"><span>Kettle One</span><span>$5</span></div>
+            <div class="priceRow"><span>Stoli Orange</span><span>$5</span></div>
+            <div class="priceRow"><span>Titos</span><span>$5</span></div>
           </div>
 
           <div class="filterSection" data-section="tequila">
-            <div class="pills">
-              <span class="pill">1800</span>
-              <span class="pill">Altos</span>
-              <span class="pill">Espolon</span>
-              <span class="pill">Hornitos</span>
-              <span class="pill">Jose Cuervo</span>
-              <span class="pill">Lunazul</span>
-              <span class="pill">Milagro</span>
-              <span class="pill">Teremana</span>
-            </div>
+            <div class="priceRow"><span>1800</span><span>$5</span></div>
+            <div class="priceRow"><span>Altos</span><span>$5</span></div>
+            <div class="priceRow"><span>Espolon</span><span>$5</span></div>
+            <div class="priceRow"><span>Hornitos</span><span>$5</span></div>
+            <div class="priceRow"><span>Jose Cuervo</span><span>$5</span></div>
+            <div class="priceRow"><span>Lunazul</span><span>$5</span></div>
+            <div class="priceRow"><span>Milagro</span><span>$5</span></div>
+            <div class="priceRow"><span>Teremana</span><span>$5</span></div>
           </div>
 
           <div class="filterSection" data-section="whiskey">
-            <div class="pills">
-              <span class="pill">Basil Hayden</span>
-              <span class="pill">Bulleit</span>
-              <span class="pill">Chivas Regal</span>
-              <span class="pill">Crown</span>
-              <span class="pill">Dewar&apos;s</span>
-              <span class="pill">Fireball</span>
-              <span class="pill">Jack Daniels</span>
-              <span class="pill">Jameson</span>
-              <span class="pill">Jim Beam</span>
-              <span class="pill">Makers Mark</span>
-              <span class="pill">Woodford</span>
-            </div>
+            <div class="priceRow"><span>Basil Hayden</span><span>$5</span></div>
+            <div class="priceRow"><span>Bulleit</span><span>$5</span></div>
+            <div class="priceRow"><span>Chivas Regal</span><span>$5</span></div>
+            <div class="priceRow"><span>Crown</span><span>$5</span></div>
+            <div class="priceRow"><span>Dewar’s</span><span>$5</span></div>
+            <div class="priceRow"><span>Fireball</span><span>$5</span></div>
+            <div class="priceRow"><span>Jack Daniels</span><span>$5</span></div>
+            <div class="priceRow"><span>Jameson</span><span>$5</span></div>
+            <div class="priceRow"><span>Jim Beam</span><span>$5</span></div>
+            <div class="priceRow"><span>Makers Mark</span><span>$5</span></div>
+            <div class="priceRow"><span>Woodford</span><span>$5</span></div>
           </div>
 
           <div class="filterSection" data-section="liqueur">
-            <div class="pills">
-              <span class="pill">Disaronno</span>
-              <span class="pill">Grand Marnier</span>
-              <span class="pill">Hpnotiq</span>
-              <span class="pill">Jägermeister</span>
-              <span class="pill">Midori</span>
-            </div>
+            <div class="priceRow"><span>Disaronno</span><span>$5</span></div>
+            <div class="priceRow"><span>Grand Marnier</span><span>$5</span></div>
+            <div class="priceRow"><span>Hpnotiq</span><span>$5</span></div>
+            <div class="priceRow"><span>Jagermeister</span><span>$5</span></div>
+            <div class="priceRow"><span>Midori</span><span>$5</span></div>
           </div>
 
           <div class="filterSection" data-section="rum">
-            <div class="pills">
-              <span class="pill">Bacardi</span>
-              <span class="pill">Captain Morgan</span>
-              <span class="pill">Malibu</span>
-              <span class="pill">Myers</span>
-            </div>
+            <div class="priceRow"><span>Bacardi</span><span>$5</span></div>
+            <div class="priceRow"><span>Captain Morgan</span><span>$5</span></div>
+            <div class="priceRow"><span>Malibu</span><span>$5</span></div>
+            <div class="priceRow"><span>Myers</span><span>$5</span></div>
           </div>
 
           <div class="filterSection" data-section="gin">
-            <div class="pills">
-              <span class="pill">Bombay</span>
-              <span class="pill">Roku</span>
-              <span class="pill">Tanqueray</span>
-            </div>
+            <div class="priceRow"><span>Bombay</span><span>$5</span></div>
+            <div class="priceRow"><span>Roku</span><span>$5</span></div>
+            <div class="priceRow"><span>Tanqueray</span><span>$5</span></div>
           </div>
 
           <div class="filterSection" data-section="cognac">
-            <div class="pills">
-              <span class="pill">Courvoisier</span>
-              <span class="pill">Hennessy</span>
-            </div>
+            <div class="priceRow"><span>Courvoisier</span><span>$5</span></div>
+            <div class="priceRow"><span>Hennessy</span><span>$5</span></div>
           </div>
         </article>
 
-        <!-- Wine / Beer / Non-Alcoholic (nothing shows until clicked) -->
+        <!-- Top Shelf / Premium -->
+        <div class="miniCard">
+          <h3>$7 Shots / $14 Drinks</h3>
+          <div class="rows">
+            <div class="row"><span class="name">818</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Casa Azul</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Casamigos</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Ciroc VS</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Don Julio</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Dusse</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Equiano</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Hendricks</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Hennessy VSOP</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Herradura</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Old Forester</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Patron</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Remy 1738</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Remy VSOP</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Sir Davis</span><span class="price">$7</span></div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <h3>Premium</h3>
+          <div class="rows">
+            <div class="row"><span class="name">1942</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Azul</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Dusse XO</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Remy XO</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Gran Coramino</span><span class="price">$10</span></div>
+            <div class="row"><span class="name">JW Black</span><span class="price">$10</span></div>
+            <div class="row"><span class="name">JW DBL Black</span><span class="price">$10</span></div>
+            <div class="row"><span class="name">JW Gold</span><span class="price">$10</span></div>
+          </div>
+          <p style="margin:10px 0 0;color:var(--muted)">Premium pricing shown as shots.</p>
+        </div>
+
+        <!-- Wine/Beer/Non-Alcoholic (nothing shows until clicked) -->
         <article class="miniCard">
           <div class="mini_top">
             <h3>Wine / Beer / Non-Alcoholic</h3>
             <div class="mini_filters">
-              <button class="filterBtn" data-filter="wine" type="button">Wine</button>
-              <button class="filterBtn" data-filter="beer" type="button">Beer</button>
-              <button class="filterBtn" data-filter="na" type="button">Non-Alcoholic</button>
+              <button class="filterBtn" type="button" data-filter="wine">Wine</button>
+              <button class="filterBtn" type="button" data-filter="beer">Beer</button>
+              <button class="filterBtn" type="button" data-filter="na">Non-Alcoholic</button>
+              <button class="filterBtn" type="button" data-filter="highnoon">Highnoon</button>
             </div>
           </div>
 
           <div class="filterSection" data-section="wine">
-            <div class="rows">
-              <div class="row"><span class="name">Chardonnay</span><span class="price">$9</span></div>
-              <div class="row"><span class="name">Pinot Grigio</span><span class="price">$9</span></div>
-              <div class="row"><span class="name">Cabernet</span><span class="price">$10</span></div>
-              <div class="row"><span class="name">Merlot</span><span class="price">$10</span></div>
-            </div>
+            <div class="priceRow"><span>Cabernet Sauvignon</span><span>$6</span></div>
+            <div class="priceRow"><span>Chardonnay</span><span>$6</span></div>
+            <div class="priceRow"><span>Merlot</span><span>$6</span></div>
+            <div class="priceRow"><span>Moscato (Red/White)</span><span>$6</span></div>
+            <div class="priceRow"><span>Pinot Grigio</span><span>$6</span></div>
+            <div class="priceRow"><span>Sauvignon Blanc</span><span>$6</span></div>
+            <div class="priceRow"><span>Sweet Red</span><span>$6</span></div>
           </div>
 
           <div class="filterSection" data-section="beer">
-            <div class="rows">
-              <div class="row"><span class="name">Heineken</span><span class="price">$6</span></div>
-              <div class="row"><span class="name">Corona</span><span class="price">$6</span></div>
-              <div class="row"><span class="name">Modelo</span><span class="price">$6</span></div>
-            </div>
+            <div class="priceRow"><span>Angry Orchard</span><span>$4</span></div>
+            <div class="priceRow"><span>Corona</span><span>$4</span></div>
+            <div class="priceRow"><span>Guinness</span><span>$4</span></div>
+            <div class="priceRow"><span>Heineken</span><span>$4</span></div>
+            <div class="priceRow"><span>Modelo</span><span>$4</span></div>
+            <div class="priceRow"><span>Stella</span><span>$4</span></div>
+            <div class="priceRow"><span>Goose Island IPA</span><span>$4</span></div>
+            <div class="priceRow"><span>Voodoo Ranger IPA</span><span>$4</span></div>
           </div>
 
           <div class="filterSection" data-section="na">
-            <div class="rows">
-              <div class="row"><span class="name">Red Bull</span><span class="price">$5</span></div>
-              <div class="row"><span class="name">Orange Juice</span><span class="price">$4</span></div>
-              <div class="row"><span class="name">Cranberry Juice</span><span class="price">$4</span></div>
-              <div class="row"><span class="name">Water</span><span class="price">$3</span></div>
-            </div>
+            <div class="priceRow"><span>Red Bull</span><span>$5</span></div>
+            <div class="priceRow"><span>Ginger Beer</span><span>$5</span></div>
+            <div class="priceRow"><span>Frozen Drinks</span><span>$5</span></div>
+            <div class="priceRow"><span>Soda</span><span>$3</span></div>
+            <div class="priceRow"><span>Juice</span><span>$3</span></div>
+            <div class="priceRow"><span>Water</span><span>$3</span></div>
+          </div>
+
+          <div class="filterSection" data-section="highnoon">
+            <div class="priceRow"><span>Vodka — Grapefruit</span><span>$8</span></div>
+            <div class="priceRow"><span>Vodka — Mango</span><span>$8</span></div>
+            <div class="priceRow"><span>Tequila — Lime</span><span>$8</span></div>
+            <div class="priceRow"><span>Tequila — Strawberry</span><span>$8</span></div>
           </div>
         </article>
 
@@ -389,25 +433,184 @@
           <h3>Notes</h3>
           <div class="pills">
             <span class="pill">Ask staff for details</span>
-            <span class="pill">Premium options available</span>
+            <span class="pill">20% gratuity + 10% tax may apply</span>
           </div>
         </div>
 
       </div>
     </template>
 
+    <!-- =========================================================
+         TEMPLATE: TUE–SAT (GREEN HAPPY HOUR FLYER MENU)
+    ========================================================== -->
     <template id="tpl-happyhour">
       <div class="grid two">
 
-        <div class="miniCard">
-          <h3>Happy Hour Pricing</h3>
-          <div class="pills">
-            <span class="pill">$5 Shots / $10 Drinks</span>
-            <span class="pill">$7 Shots / $14 Drinks</span>
-            <span class="pill">5PM – 9PM</span>
+        <!-- Spirits Categories (same behavior: nothing shows until clicked) -->
+        <article class="miniCard">
+          <div class="mini_top">
+            <h3>$5 Shots / $10 Drinks — Spirits</h3>
+            <div class="mini_filters">
+              <button class="filterBtn" type="button" data-filter="vodka">Vodka</button>
+              <button class="filterBtn" type="button" data-filter="tequila">Tequila</button>
+              <button class="filterBtn" type="button" data-filter="whiskey">Whiskey</button>
+              <button class="filterBtn" type="button" data-filter="liqueur">Liqueur</button>
+              <button class="filterBtn" type="button" data-filter="rum">Rum</button>
+              <button class="filterBtn" type="button" data-filter="gin">Gin</button>
+              <button class="filterBtn" type="button" data-filter="cognac">Cognac</button>
+            </div>
           </div>
+
+          <div class="filterSection" data-section="vodka">
+            <div class="priceRow"><span>Absolut</span><span>$5</span></div>
+            <div class="priceRow"><span>Belvedere</span><span>$5</span></div>
+            <div class="priceRow"><span>Ciroc</span><span>$5</span></div>
+            <div class="priceRow"><span>Grey Goose</span><span>$5</span></div>
+            <div class="priceRow"><span>Kettle One</span><span>$5</span></div>
+            <div class="priceRow"><span>Stoli Orange</span><span>$5</span></div>
+            <div class="priceRow"><span>Titos</span><span>$5</span></div>
+          </div>
+
+          <div class="filterSection" data-section="tequila">
+            <div class="priceRow"><span>1800</span><span>$5</span></div>
+            <div class="priceRow"><span>Altos</span><span>$5</span></div>
+            <div class="priceRow"><span>Espolon</span><span>$5</span></div>
+            <div class="priceRow"><span>Hornitos</span><span>$5</span></div>
+            <div class="priceRow"><span>Jose Cuervo</span><span>$5</span></div>
+            <div class="priceRow"><span>Lunazul</span><span>$5</span></div>
+            <div class="priceRow"><span>Milagro</span><span>$5</span></div>
+            <div class="priceRow"><span>Teremana</span><span>$5</span></div>
+          </div>
+
+          <div class="filterSection" data-section="whiskey">
+            <div class="priceRow"><span>Basil Hayden</span><span>$5</span></div>
+            <div class="priceRow"><span>Bulleit</span><span>$5</span></div>
+            <div class="priceRow"><span>Chivas Regal</span><span>$5</span></div>
+            <div class="priceRow"><span>Crown</span><span>$5</span></div>
+            <div class="priceRow"><span>Dewar’s</span><span>$5</span></div>
+            <div class="priceRow"><span>Fireball</span><span>$5</span></div>
+            <div class="priceRow"><span>Jack Daniels</span><span>$5</span></div>
+            <div class="priceRow"><span>Jameson</span><span>$5</span></div>
+            <div class="priceRow"><span>Jim Beam</span><span>$5</span></div>
+            <div class="priceRow"><span>Makers Mark</span><span>$5</span></div>
+            <div class="priceRow"><span>Woodford</span><span>$5</span></div>
+          </div>
+
+          <div class="filterSection" data-section="liqueur">
+            <div class="priceRow"><span>Disaronno</span><span>$5</span></div>
+            <div class="priceRow"><span>Grand Marnier</span><span>$5</span></div>
+            <div class="priceRow"><span>Hpnotiq</span><span>$5</span></div>
+            <div class="priceRow"><span>Jagermeister</span><span>$5</span></div>
+            <div class="priceRow"><span>Midori</span><span>$5</span></div>
+          </div>
+
+          <div class="filterSection" data-section="rum">
+            <div class="priceRow"><span>Bacardi</span><span>$5</span></div>
+            <div class="priceRow"><span>Captain Morgan</span><span>$5</span></div>
+            <div class="priceRow"><span>Malibu</span><span>$5</span></div>
+            <div class="priceRow"><span>Myers</span><span>$5</span></div>
+          </div>
+
+          <div class="filterSection" data-section="gin">
+            <div class="priceRow"><span>Bombay</span><span>$5</span></div>
+            <div class="priceRow"><span>Roku</span><span>$5</span></div>
+            <div class="priceRow"><span>Tanqueray</span><span>$5</span></div>
+          </div>
+
+          <div class="filterSection" data-section="cognac">
+            <div class="priceRow"><span>Courvoisier</span><span>$5</span></div>
+            <div class="priceRow"><span>Hennessy</span><span>$5</span></div>
+          </div>
+        </article>
+
+        <!-- $7 / $14 + Premium -->
+        <div class="miniCard">
+          <h3>$7 Shots / $14 Drinks</h3>
+          <div class="rows">
+            <div class="row"><span class="name">818</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Casa Azul</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Casamigos</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Ciroc VS</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Don Julio</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Dusse</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Equiano</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Hendricks</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Hennessy VSOP</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Herradura</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Old Forester</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Patron</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Remy 1738</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Remy VSOP</span><span class="price">$7</span></div>
+            <div class="row"><span class="name">Sir Davis</span><span class="price">$7</span></div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <h3>Premium</h3>
+          <div class="rows">
+            <div class="row"><span class="name">1942</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Azul</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Dusse XO</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Remy XO</span><span class="price">$16</span></div>
+            <div class="row"><span class="name">Gran Coramino</span><span class="price">$10</span></div>
+            <div class="row"><span class="name">JW Black</span><span class="price">$10</span></div>
+            <div class="row"><span class="name">JW DBL Black</span><span class="price">$10</span></div>
+            <div class="row"><span class="name">JW Gold</span><span class="price">$10</span></div>
+          </div>
+          <p style="margin:10px 0 0;color:var(--muted)">Premium pricing shown as shots.</p>
         </div>
 
+        <!-- Wine/Beer/Non-Alcoholic -->
+        <article class="miniCard">
+          <div class="mini_top">
+            <h3>Wine / Beer / Non-Alcoholic</h3>
+            <div class="mini_filters">
+              <button class="filterBtn" type="button" data-filter="wine">Wine</button>
+              <button class="filterBtn" type="button" data-filter="beer">Beer</button>
+              <button class="filterBtn" type="button" data-filter="na">Non-Alcoholic</button>
+              <button class="filterBtn" type="button" data-filter="highnoon">Highnoon</button>
+            </div>
+          </div>
+
+          <div class="filterSection" data-section="wine">
+            <div class="priceRow"><span>Cabernet Sauvignon</span><span>$6</span></div>
+            <div class="priceRow"><span>Chardonnay</span><span>$6</span></div>
+            <div class="priceRow"><span>Merlot</span><span>$6</span></div>
+            <div class="priceRow"><span>Moscato (Red/White)</span><span>$6</span></div>
+            <div class="priceRow"><span>Pinot Grigio</span><span>$6</span></div>
+            <div class="priceRow"><span>Sauvignon Blanc</span><span>$6</span></div>
+            <div class="priceRow"><span>Sweet Red</span><span>$6</span></div>
+          </div>
+
+          <div class="filterSection" data-section="beer">
+            <div class="priceRow"><span>Angry Orchard</span><span>$4</span></div>
+            <div class="priceRow"><span>Corona</span><span>$4</span></div>
+            <div class="priceRow"><span>Guinness</span><span>$4</span></div>
+            <div class="priceRow"><span>Heineken</span><span>$4</span></div>
+            <div class="priceRow"><span>Modelo</span><span>$4</span></div>
+            <div class="priceRow"><span>Stella</span><span>$4</span></div>
+            <div class="priceRow"><span>Goose Island IPA</span><span>$4</span></div>
+            <div class="priceRow"><span>Voodoo Ranger IPA</span><span>$4</span></div>
+          </div>
+
+          <div class="filterSection" data-section="na">
+            <div class="priceRow"><span>Red Bull</span><span>$5</span></div>
+            <div class="priceRow"><span>Ginger Beer</span><span>$5</span></div>
+            <div class="priceRow"><span>Frozen Drinks</span><span>$5</span></div>
+            <div class="priceRow"><span>Soda</span><span>$3</span></div>
+            <div class="priceRow"><span>Juice</span><span>$3</span></div>
+            <div class="priceRow"><span>Water</span><span>$3</span></div>
+          </div>
+
+          <div class="filterSection" data-section="highnoon">
+            <div class="priceRow"><span>Vodka — Grapefruit</span><span>$8</span></div>
+            <div class="priceRow"><span>Vodka — Mango</span><span>$8</span></div>
+            <div class="priceRow"><span>Tequila — Lime</span><span>$8</span></div>
+            <div class="priceRow"><span>Tequila — Strawberry</span><span>$8</span></div>
+          </div>
+        </article>
+
+        <!-- Hookah / Tower / Fishbowl + Cocktails -->
         <div class="miniCard">
           <h3>Hookah / Tower / Fishbowl</h3>
           <div class="pills">
@@ -416,140 +619,41 @@
             <span class="pill">Tower <strong>$43</strong></span>
             <span class="pill">Fishbowl <strong>$23</strong></span>
           </div>
+
+          <div style="height:10px"></div>
+
+          <h3>$10 Cocktails</h3>
+          <div class="pills">
+            <span class="pill">Allure Lemon Drop</span>
+            <span class="pill">Allure Sidecar</span>
+            <span class="pill">Apple Martini</span>
+            <span class="pill">Bitch Please</span>
+            <span class="pill">Blue Motorcycle</span>
+            <span class="pill">Ciroc Punch</span>
+            <span class="pill">Classic Margarita</span>
+            <span class="pill">Cosmopolitan</span>
+            <span class="pill">Gin Martini</span>
+            <span class="pill">Green Tea</span>
+            <span class="pill">Long Island</span>
+            <span class="pill">Manhattan</span>
+            <span class="pill">Mint Julep</span>
+            <span class="pill">Mojito</span>
+            <span class="pill">Moscow Mule</span>
+            <span class="pill">Old Fashion</span>
+            <span class="pill">Orange Martini</span>
+            <span class="pill">Red/White Sangria</span>
+            <span class="pill">Rum Punch</span>
+            <span class="pill">Strawberry Henny</span>
+          </div>
+          <p style="margin:10px 0 0;color:var(--muted)">Add Strawberry, Mango, or Peach to any cocktail.</p>
         </div>
-
-        <!-- Same category system as Monday/Sunday -->
-        <article class="miniCard">
-          <div class="mini_top">
-            <h3>Spirits Categories</h3>
-            <div class="mini_filters">
-              <button class="filterBtn" data-filter="vodka" type="button">Vodka</button>
-              <button class="filterBtn" data-filter="tequila" type="button">Tequila</button>
-              <button class="filterBtn" data-filter="whiskey" type="button">Whiskey</button>
-              <button class="filterBtn" data-filter="liqueur" type="button">Liqueur</button>
-              <button class="filterBtn" data-filter="rum" type="button">Rum</button>
-              <button class="filterBtn" data-filter="gin" type="button">Gin</button>
-              <button class="filterBtn" data-filter="cognac" type="button">Cognac</button>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="vodka">
-            <div class="pills">
-              <span class="pill">Absolut</span>
-              <span class="pill">Belvedere</span>
-              <span class="pill">Ciroc</span>
-              <span class="pill">Grey Goose</span>
-              <span class="pill">Kettle One</span>
-              <span class="pill">Stoli Orange</span>
-              <span class="pill">Titos</span>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="tequila">
-            <div class="pills">
-              <span class="pill">1800</span>
-              <span class="pill">Altos</span>
-              <span class="pill">Espolon</span>
-              <span class="pill">Hornitos</span>
-              <span class="pill">Jose Cuervo</span>
-              <span class="pill">Lunazul</span>
-              <span class="pill">Milagro</span>
-              <span class="pill">Teremana</span>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="whiskey">
-            <div class="pills">
-              <span class="pill">Basil Hayden</span>
-              <span class="pill">Bulleit</span>
-              <span class="pill">Chivas Regal</span>
-              <span class="pill">Crown</span>
-              <span class="pill">Dewar&apos;s</span>
-              <span class="pill">Fireball</span>
-              <span class="pill">Jack Daniels</span>
-              <span class="pill">Jameson</span>
-              <span class="pill">Jim Beam</span>
-              <span class="pill">Makers Mark</span>
-              <span class="pill">Woodford</span>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="liqueur">
-            <div class="pills">
-              <span class="pill">Disaronno</span>
-              <span class="pill">Grand Marnier</span>
-              <span class="pill">Hpnotiq</span>
-              <span class="pill">Jägermeister</span>
-              <span class="pill">Midori</span>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="rum">
-            <div class="pills">
-              <span class="pill">Bacardi</span>
-              <span class="pill">Captain Morgan</span>
-              <span class="pill">Malibu</span>
-              <span class="pill">Myers</span>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="gin">
-            <div class="pills">
-              <span class="pill">Bombay</span>
-              <span class="pill">Roku</span>
-              <span class="pill">Tanqueray</span>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="cognac">
-            <div class="pills">
-              <span class="pill">Courvoisier</span>
-              <span class="pill">Hennessy</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="miniCard">
-          <div class="mini_top">
-            <h3>Wine / Beer / Non-Alcoholic</h3>
-            <div class="mini_filters">
-              <button class="filterBtn" data-filter="wine" type="button">Wine</button>
-              <button class="filterBtn" data-filter="beer" type="button">Beer</button>
-              <button class="filterBtn" data-filter="na" type="button">Non-Alcoholic</button>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="wine">
-            <div class="rows">
-              <div class="row"><span class="name">Chardonnay</span><span class="price">$9</span></div>
-              <div class="row"><span class="name">Pinot Grigio</span><span class="price">$9</span></div>
-              <div class="row"><span class="name">Cabernet</span><span class="price">$10</span></div>
-              <div class="row"><span class="name">Merlot</span><span class="price">$10</span></div>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="beer">
-            <div class="rows">
-              <div class="row"><span class="name">Heineken</span><span class="price">$6</span></div>
-              <div class="row"><span class="name">Corona</span><span class="price">$6</span></div>
-              <div class="row"><span class="name">Modelo</span><span class="price">$6</span></div>
-            </div>
-          </div>
-
-          <div class="filterSection" data-section="na">
-            <div class="rows">
-              <div class="row"><span class="name">Red Bull</span><span class="price">$5</span></div>
-              <div class="row"><span class="name">Orange Juice</span><span class="price">$4</span></div>
-              <div class="row"><span class="name">Cranberry Juice</span><span class="price">$4</span></div>
-              <div class="row"><span class="name">Water</span><span class="price">$3</span></div>
-            </div>
-          </div>
-        </article>
 
       </div>
     </template>
 
-    <!-- ======================= DAY SECTIONS ======================= -->
+    <!-- =========================================================
+         DAY SECTIONS (EMPTY SHELLS; JS injects templates)
+    ========================================================== -->
     <section id="monday" class="day-section" data-template="sunmon"
       data-title="FREE HOOKAH MONDAY"
       data-subtitle="Free hookah with a $50 bar tab • Your choice of flavor (+$2).">
@@ -564,7 +668,7 @@
 
     <section id="tuesday" class="day-section" data-template="happyhour"
       data-title="TACO TUESDAY"
-      data-subtitle="Happy Hour 5PM–9PM • Same specials Tuesday–Saturday.">
+      data-subtitle="Happy Hour 5PM–9PM • Specials from the green flyer.">
       <div class="sectionCard">
         <div class="sectionHead">
           <h2 class="sectionTitle"></h2>
@@ -576,7 +680,7 @@
 
     <section id="wednesday" class="day-section" data-template="happyhour"
       data-title="HAPPY HOUR"
-      data-subtitle="Happy Hour 5PM–9PM • Same specials Tuesday–Saturday.">
+      data-subtitle="Happy Hour 5PM–9PM • Specials from the green flyer.">
       <div class="sectionCard">
         <div class="sectionHead">
           <h2 class="sectionTitle"></h2>
@@ -588,7 +692,7 @@
 
     <section id="thursday" class="day-section" data-template="happyhour"
       data-title="HAPPY HOUR"
-      data-subtitle="Happy Hour 5PM–9PM • Same specials Tuesday–Saturday.">
+      data-subtitle="Happy Hour 5PM–9PM • Specials from the green flyer.">
       <div class="sectionCard">
         <div class="sectionHead">
           <h2 class="sectionTitle"></h2>
@@ -600,7 +704,7 @@
 
     <section id="friday" class="day-section" data-template="happyhour"
       data-title="HAPPY HOUR"
-      data-subtitle="Happy Hour 5PM–9PM • Same specials Tuesday–Saturday.">
+      data-subtitle="Happy Hour 5PM–9PM • Specials from the green flyer.">
       <div class="sectionCard">
         <div class="sectionHead">
           <h2 class="sectionTitle"></h2>
@@ -612,7 +716,7 @@
 
     <section id="saturday" class="day-section" data-template="happyhour"
       data-title="HAPPY HOUR"
-      data-subtitle="Happy Hour 5PM–9PM • Same specials Tuesday–Saturday.">
+      data-subtitle="Happy Hour 5PM–9PM • Specials from the green flyer.">
       <div class="sectionCard">
         <div class="sectionHead">
           <h2 class="sectionTitle"></h2>
@@ -624,7 +728,7 @@
 
     <section id="sunday" class="day-section" data-template="sunmon"
       data-title="SUNDAY SPECIALS"
-      data-subtitle="Sunday menu matches Monday menu (Sunday + Monday same).">
+      data-subtitle="Sunday menu matches Monday menu.">
       <div class="sectionCard">
         <div class="sectionHead">
           <h2 class="sectionTitle"></h2>
@@ -645,20 +749,19 @@
       const tplSunMon = document.getElementById('tpl-sunmon');
       const tplHappy  = document.getElementById('tpl-happyhour');
 
-      // Inject templates into each day
+      // Inject template content into each day
       sections.forEach(sec => {
         const content = sec.querySelector('.dayContent');
         content.innerHTML = '';
-
         const which = (sec.dataset.template || '').toLowerCase();
-        const tpl = (which === 'happyhour') ? tplHappy : tplSunMon;
+        const tpl = which === 'happyhour' ? tplHappy : tplSunMon;
         content.appendChild(tpl.content.cloneNode(true));
 
         sec.querySelector('.sectionTitle').textContent = sec.dataset.title || '';
-        sec.querySelector('.sectionSub').textContent   = sec.dataset.subtitle || '';
+        sec.querySelector('.sectionSub').textContent = sec.dataset.subtitle || '';
       });
 
-      function activateDay(dayId, {scrollToTop=true} = {}){
+      function activate(dayId, {scrollToTop=true} = {}){
         const sec = document.getElementById(dayId);
         if(!sec) return;
 
@@ -676,42 +779,39 @@
         }
       }
 
-      tabs.forEach(btn => btn.addEventListener('click', () => activateDay(btn.dataset.target)));
+      // Day tab clicks
+      tabs.forEach(btn => btn.addEventListener('click', () => activate(btn.dataset.target)));
 
-      // initial: hash > localStorage > monday
+      // Initial day: hash > localStorage > monday
       const fromHash = (location.hash || '').replace('#','').trim();
       let start = fromHash;
       if(!start){
         try { start = localStorage.getItem('activeDay') || ''; } catch(e){}
       }
       if(!start) start = 'monday';
+      activate(start, {scrollToTop:false});
 
-      activateDay(start, {scrollToTop:false});
-
-      // =======================
-      // FILTER SYSTEM (delegated)
-      // Works inside repeated templates because it targets closest .miniCard
-      // =======================
+      // FILTER SYSTEM (works inside cloned templates; NO IDs used)
       document.addEventListener('click', function(e){
         const btn = e.target.closest('.filterBtn');
         if(!btn) return;
 
-        const mini = btn.closest('.miniCard');
-        if(!mini) return;
+        const card = btn.closest('.miniCard');
+        if(!card) return;
 
-        const key = btn.dataset.filter;
-        if(!key) return;
-
-        const buttons  = mini.querySelectorAll('.filterBtn');
-        const sections = mini.querySelectorAll('.filterSection');
+        const buttons = Array.from(card.querySelectorAll('.filterBtn'));
+        const panels  = Array.from(card.querySelectorAll('.filterSection'));
+        const key = btn.getAttribute('data-filter');
 
         buttons.forEach(b => b.classList.remove('active'));
-        sections.forEach(s => s.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
 
         btn.classList.add('active');
 
-        const target = mini.querySelector('.filterSection[data-section="' + key + '"]');
-        if(target) target.classList.add('active');
+        const targetPanel = card.querySelector(`.filterSection[data-section="${key}"]`);
+        if(targetPanel){
+          targetPanel.classList.add('active');
+        }
       });
     })();
   </script>
