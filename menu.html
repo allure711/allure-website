@@ -33,7 +33,7 @@
     a{color:inherit;text-decoration:none}
     .container{max-width:1150px;margin:0 auto;padding:18px 16px 60px}
 
-    /* ---------- Top Nav (simple) ---------- */
+    /* ---------- Top Nav ---------- */
     .topbar{
       display:flex;align-items:center;justify-content:space-between;
       padding:14px 16px;
@@ -50,7 +50,6 @@
       padding:10px 14px;border-radius:999px;
       border:1px solid rgba(215,181,109,.45);
       background: linear-gradient(180deg, rgba(215,181,109,.20), rgba(215,181,109,.08));
-      box-shadow:0 0 0 rgba(0,0,0,0);
       font-weight:700;
       white-space:nowrap;
     }
@@ -69,47 +68,31 @@
       padding:12px;
       box-shadow: 0 12px 40px rgba(0,0,0,.25);
     }
-    .daybar{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;   /* <-- allows 2-3 lines on desktop */
-    }
-
-    /* Phone: becomes horizontal snap scroller */
+    .daybar{display:flex;gap:10px;flex-wrap:wrap;}
     @media (max-width: 720px){
       .daybar{
-        flex-wrap:nowrap;
-        overflow-x:auto;
-        -webkit-overflow-scrolling:touch;
-        scroll-snap-type:x mandatory;
-        padding-bottom:4px;
+        flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+        scroll-snap-type:x mandatory;padding-bottom:4px;
       }
       .daybar::-webkit-scrollbar{height:6px}
       .daybar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px}
     }
-
     .daytab{
       display:inline-flex;align-items:center;justify-content:center;
-      padding:10px 14px;
-      border-radius:999px;
+      padding:10px 14px;border-radius:999px;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.35);
-      font-weight:700;
-      color:#f0f0f0;
-      cursor:pointer;
-      user-select:none;
+      font-weight:700;color:#f0f0f0;cursor:pointer;user-select:none;
       white-space:nowrap;
       transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
     }
-    @media (max-width: 720px){
-      .daytab{scroll-snap-align:start}
-    }
+    @media (max-width: 720px){ .daytab{scroll-snap-align:start} }
     .daytab:hover{transform:translateY(-1px);border-color:rgba(215,181,109,.35)}
     .daytab.active{
       color:#14120c;
       background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
       border-color: rgba(242,210,138,.95);
-      box-shadow: var(--shadow-strong); /* stronger gold glow */
+      box-shadow: var(--shadow-strong);
     }
 
     /* ---------- Day Sections ---------- */
@@ -135,25 +118,11 @@
     }
 
     .sectionHead{display:flex;flex-direction:column;gap:6px}
-    .sectionTitle{
-      margin:0;
-      font-size:28px;
-      letter-spacing:.6px;
-      text-transform:uppercase;
-    }
-    .sectionSub{
-      margin:0;
-      color:var(--muted);
-      line-height:1.35;
-      max-width: 70ch;
-    }
+    .sectionTitle{margin:0;font-size:28px;letter-spacing:.6px;text-transform:uppercase;}
+    .sectionSub{margin:0;color:var(--muted);line-height:1.35;max-width:70ch;}
 
-    /* ---------- Mini Luxury Cards ---------- */
-    .grid{
-      display:grid;
-      gap:14px;
-      margin-top:16px;
-    }
+    /* ---------- Mini Cards ---------- */
+    .grid{display:grid;gap:14px;margin-top:16px;}
     .grid.two{grid-template-columns:1fr 1fr}
     @media (max-width: 860px){ .grid.two{grid-template-columns:1fr} }
 
@@ -171,36 +140,44 @@
       text-transform:uppercase;
       color:#f7f1e3;
     }
-    .pills{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
+    .pills{display:flex;flex-wrap:wrap;gap:10px;}
     .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:8px 10px;
-      border-radius:999px;
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:8px 10px;border-radius:999px;
       border:1px solid rgba(215,181,109,.26);
       background: rgba(14,14,18,.55);
-      color:#f2f2f2;
-      font-weight:650;
-      font-size:13px;
-      line-height:1;
+      color:#f2f2f2;font-weight:650;font-size:13px;line-height:1;
       white-space:nowrap;
     }
     .pill strong{color:var(--gold2);font-weight:800;margin-left:8px}
     .pill:hover{box-shadow: var(--shadow); border-color: rgba(242,210,138,.42)}
 
-    /* “dense” list row style for priced items */
-    .rows{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-top:6px;
-    }
+    .rows{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
     .row{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:10px 12px;border-radius:14px;
+      border:1px solid rgba(215,181,109,.18);
+      background: rgba(12,12,16,.55);
+    }
+    .row .name{font-weight:750}
+    .row .price{font-weight:900;color:var(--gold2)}
+
+    /* ---------- FILTER CARD (Wine / Beer / Non-Alcoholic) ---------- */
+    .mini_top{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
+    .mini_filters{display:flex;flex-wrap:wrap;gap:10px}
+
+    /* Nothing shows until clicked */
+    .filterSection{display:none;margin-top:10px}
+    .filterSection.active{display:block}
+
+    .filterBtn.active{
+      color:#14120c;
+      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+      border-color: rgba(242,210,138,.95);
+      box-shadow: var(--shadow);
+    }
+
+    .priceRow{
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -209,28 +186,25 @@
       border-radius:14px;
       border:1px solid rgba(215,181,109,.18);
       background: rgba(12,12,16,.55);
+      margin-top:10px;
+      font-weight:750;
     }
-    .row .name{font-weight:750}
-    .row .price{font-weight:900;color:var(--gold2)}
+    .priceRow span:last-child{font-weight:900;color:var(--gold2)}
   </style>
 </head>
 
 <body>
-
   <header class="topbar">
     <div class="brand">
       <span class="dot"></span>
       <span>Allure Bar & Lounge</span>
     </div>
-
     <div class="navright">
-      <!-- Reserve Now MUST call phone -->
       <a class="btn primary" href="tel:2022974949">Reserve Now</a>
     </div>
   </header>
 
   <main class="container">
-
     <div class="daybarWrap" role="navigation" aria-label="Weekly Specials Navigation">
       <div class="daybar" id="daybar">
         <button class="daytab" data-target="monday" type="button">Monday</button>
@@ -243,13 +217,11 @@
       </div>
     </div>
 
-    <!-- =========================================================
-         TEMPLATES (AVOID REPEATS)
-         We only write content TWO TIMES:
-         1) Sunday+Monday template
-         2) Tue–Sat Happy Hour template
-    ========================================================== -->
+    <!-- =========================
+         TEMPLATES (ONLY 2)
+    ========================== -->
 
+    <!-- SUNDAY + MONDAY TEMPLATE -->
     <template id="tpl-sunmon">
       <div class="grid two">
         <div class="miniCard">
@@ -278,83 +250,39 @@
           </div>
         </div>
 
-        <article class="miniCard">
-  <div class="mini_top">
-    <h3>WINE / BEER / NON-ALCOHOLIC</h3>
+        <!-- WINE / BEER / NON-ALCOHOLIC FILTER CARD -->
+        <article class="miniCard filterCard">
+          <div class="mini_top">
+            <h3>WINE / BEER / NON-ALCOHOLIC</h3>
 
-    <div class="mini_filters">
-      <button class="filterBtn" data-filter="wineList" type="button">Wine</button>
-      <button class="filterBtn" data-filter="beerList" type="button">Beer</button>
-      <button class="filterBtn" data-filter="naList" type="button">Non-Alcoholic</button>
-    </div>
-  </div>
+            <div class="mini_filters">
+              <button class="pill filterBtn" data-filter="wine" type="button">Wine</button>
+              <button class="pill filterBtn" data-filter="beer" type="button">Beer</button>
+              <button class="pill filterBtn" data-filter="na" type="button">Non-Alcoholic</button>
+            </div>
+          </div>
 
-  <!-- IMPORTANT: Nothing is active by default -->
-  <div class="filterSection" id="wineList">
-    <div class="priceRow"><span>Chardonnay</span><span>$9</span></div>
-    <div class="priceRow"><span>Pinot Grigio</span><span>$9</span></div>
-    <div class="priceRow"><span>Cabernet</span><span>$10</span></div>
-    <div class="priceRow"><span>Merlot</span><span>$10</span></div>
-  </div>
+          <!-- Nothing active by default -->
+          <div class="filterSection" data-section="wine">
+            <div class="priceRow"><span>Chardonnay</span><span>$9</span></div>
+            <div class="priceRow"><span>Pinot Grigio</span><span>$9</span></div>
+            <div class="priceRow"><span>Cabernet</span><span>$10</span></div>
+            <div class="priceRow"><span>Merlot</span><span>$10</span></div>
+          </div>
 
-  <div class="filterSection" id="beerList">
-    <div class="priceRow"><span>Heineken</span><span>$6</span></div>
-    <div class="priceRow"><span>Corona</span><span>$6</span></div>
-    <div class="priceRow"><span>Modelo</span><span>$6</span></div>
-  </div>
+          <div class="filterSection" data-section="beer">
+            <div class="priceRow"><span>Heineken</span><span>$6</span></div>
+            <div class="priceRow"><span>Corona</span><span>$6</span></div>
+            <div class="priceRow"><span>Modelo</span><span>$6</span></div>
+          </div>
 
-  <div class="filterSection" id="naList">
-    <div class="priceRow"><span>Red Bull</span><span>$5</span></div>
-    <div class="priceRow"><span>Orange Juice</span><span>$4</span></div>
-    <div class="priceRow"><span>Cranberry Juice</span><span>$4</span></div>
-    <div class="priceRow"><span>Water</span><span>$3</span></div>
-  </div>
-</article>
-
-  <!-- FILTER BUTTONS -->
-  <div class="pills filterTabs">
-    <button class="pill filterBtn active" data-filter="wine">Wine</button>
-    <button class="pill filterBtn" data-filter="beer">Beer</button>
-    <button class="pill filterBtn" data-filter="energy">Red Bull</button>
-    <button class="pill filterBtn" data-filter="juice">Juice</button>
-  </div>
-
-  <!-- FILTER CONTENT -->
-  <div class="filterContent">
-
-    <div class="filterSection active" id="wine">
-      <div class="rows">
-        <div class="row"><span class="name">Chardonnay</span><span class="price">$9</span></div>
-        <div class="row"><span class="name">Pinot Grigio</span><span class="price">$9</span></div>
-        <div class="row"><span class="name">Cabernet</span><span class="price">$10</span></div>
-        <div class="row"><span class="name">Merlot</span><span class="price">$10</span></div>
-      </div>
-    </div>
-
-    <div class="filterSection" id="beer">
-      <div class="rows">
-        <div class="row"><span class="name">Heineken</span><span class="price">$6</span></div>
-        <div class="row"><span class="name">Corona</span><span class="price">$6</span></div>
-        <div class="row"><span class="name">Modelo</span><span class="price">$6</span></div>
-      </div>
-    </div>
-
-    <div class="filterSection" id="energy">
-      <div class="rows">
-        <div class="row"><span class="name">Red Bull</span><span class="price">$5</span></div>
-      </div>
-    </div>
-
-    <div class="filterSection" id="juice">
-      <div class="rows">
-        <div class="row"><span class="name">Orange Juice</span><span class="price">$4</span></div>
-        <div class="row"><span class="name">Cranberry Juice</span><span class="price">$4</span></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-        
+          <div class="filterSection" data-section="na">
+            <div class="priceRow"><span>Red Bull</span><span>$5</span></div>
+            <div class="priceRow"><span>Orange Juice</span><span>$4</span></div>
+            <div class="priceRow"><span>Cranberry Juice</span><span>$4</span></div>
+            <div class="priceRow"><span>Water</span><span>$3</span></div>
+          </div>
+        </article>
 
         <div class="miniCard">
           <h3>Notes</h3>
@@ -366,6 +294,7 @@
       </div>
     </template>
 
+    <!-- TUE–SAT TEMPLATE -->
     <template id="tpl-happyhour">
       <div class="grid two">
         <div class="miniCard">
@@ -432,10 +361,9 @@
       </div>
     </template>
 
-    <!-- =========================================================
-         DAY SECTIONS (EMPTY SHELLS)
-         JS injects the right template into each.
-    ========================================================== -->
+    <!-- =========================
+         DAY SECTIONS
+    ========================== -->
     <section id="monday" class="day-section" data-template="sunmon"
       data-title="FREE HOOKAH MONDAY"
       data-subtitle="Free hookah with a $50 bar tab • Your choice of flavor (+$2).">
@@ -519,7 +447,6 @@
         <div class="dayContent"></div>
       </div>
     </section>
-
   </main>
 
   <script>
@@ -527,53 +454,42 @@
       const tabs = Array.from(document.querySelectorAll('.daytab'));
       const sections = Array.from(document.querySelectorAll('.day-section'));
 
-      // Inject templates (avoid repeats)
       const tplSunMon = document.getElementById('tpl-sunmon');
       const tplHappy = document.getElementById('tpl-happyhour');
 
+      // Inject templates
       sections.forEach(sec => {
         const content = sec.querySelector('.dayContent');
-        content.innerHTML = ''; // clean
+        content.innerHTML = '';
+
         const which = (sec.dataset.template || '').toLowerCase();
         const tpl = which === 'happyhour' ? tplHappy : tplSunMon;
         content.appendChild(tpl.content.cloneNode(true));
 
-        // Fill title/subtitle
         sec.querySelector('.sectionTitle').textContent = sec.dataset.title || '';
         sec.querySelector('.sectionSub').textContent = sec.dataset.subtitle || '';
       });
 
       function activate(dayId, {scrollToTop=true} = {}){
-        // safety: ignore bad id
         const sec = document.getElementById(dayId);
         if(!sec) return;
 
-        // tabs
         tabs.forEach(t => t.classList.toggle('active', t.dataset.target === dayId));
-
-        // sections
         sections.forEach(s => s.classList.toggle('active', s.id === dayId));
 
-        // remember selection
         try { localStorage.setItem('activeDay', dayId); } catch(e){}
 
-        // keep URL hash synced (optional, helps share link)
         if(location.hash !== '#' + dayId){
           history.replaceState(null, '', '#' + dayId);
         }
 
-        // optional: scroll to top of content
         if(scrollToTop){
           sec.scrollIntoView({behavior:'smooth', block:'start'});
         }
       }
 
-      // click handlers
-      tabs.forEach(btn => {
-        btn.addEventListener('click', () => activate(btn.dataset.target));
-      });
+      tabs.forEach(btn => btn.addEventListener('click', () => activate(btn.dataset.target)));
 
-      // initial day: hash > localStorage > monday
       const fromHash = (location.hash || '').replace('#','').trim();
       let start = fromHash;
       if(!start){
@@ -581,54 +497,29 @@
       }
       if(!start) start = 'monday';
 
-      // IMPORTANT: Show only selected day on load
       activate(start, {scrollToTop:false});
+
+      // FILTER SYSTEM (scoped to each filter card)
+      document.addEventListener("click", function(e){
+        const btn = e.target.closest(".filterBtn");
+        if(!btn) return;
+
+        const card = btn.closest(".filterCard");
+        if(!card) return;
+
+        const buttons = card.querySelectorAll(".filterBtn");
+        const sections = card.querySelectorAll(".filterSection");
+
+        buttons.forEach(b => b.classList.remove("active"));
+        sections.forEach(s => s.classList.remove("active"));
+
+        btn.classList.add("active");
+
+        const key = btn.dataset.filter;
+        const target = card.querySelector('.filterSection[data-section="' + key + '"]');
+        if(target) target.classList.add("active");
+      });
     })();
   </script>
-  
-  <script>
-  (function(){
-      const tabs = Array.from(document.querySelectorAll('.daytab'));
-      const sections = Array.from(document.querySelectorAll('.day-section'));
-
-      function activate(dayId){
-          tabs.forEach(t => t.classList.toggle('active', t.dataset.target === dayId));
-          sections.forEach(s => s.classList.toggle('active', s.id === dayId));
-          localStorage.setItem('activeDay', dayId);
-      }
-
-      tabs.forEach(btn => {
-          btn.addEventListener('click', () => activate(btn.dataset.target));
-      });
-
-      activate('monday');
-
-  })();
-
-  /* =========================
-     FILTER SYSTEM (ADD HERE)
-  ========================== */
-
-  document.addEventListener("click", function(e){
-    if(e.target.classList.contains("filterBtn")){
-      
-      const container = e.target.closest(".miniCard");
-      const buttons = container.querySelectorAll(".filterBtn");
-      const sections = container.querySelectorAll(".filterSection");
-
-      buttons.forEach(btn => btn.classList.remove("active"));
-      sections.forEach(sec => sec.classList.remove("active"));
-
-      e.target.classList.add("active");
-
-      const target = container.querySelector("#" + e.target.dataset.filter);
-      if(target){
-        target.classList.add("active");
-      }
-    }
-  });
-
-</script>
-
 </body>
 </html>
