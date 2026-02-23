@@ -1095,4 +1095,15 @@ h3{margin:0 0 10px}
   color: #14120c;
   border-color: rgba(242,210,138,.95);
 }
-   
+   /* FILTER SYSTEM */
+.filterSection {
+  display: none;
+}
+
+.filterSection.active {
+  display: block;
+}
+
+.filterBtn.active {
+  /* optional highlight styling */
+}
