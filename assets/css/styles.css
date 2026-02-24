@@ -735,6 +735,26 @@ h3{margin:0 0 10px}
   60%     { transform: rotate(-10deg); }
   80%     { transform: rotate(10deg); }
 }
+.tierRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.spiritTabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.spiritPanel{
+  margin-top:12px;
+}
+
+.hidden{
+  display:none !important;
+}
 
 .phone-icon{
   animation: handsetRing 
