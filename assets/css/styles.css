@@ -1,113 +1,249 @@
-<section class="section">
-  <div class="container">
+:root{
+  --bg:#0b0b0c;
+  --panel:#111114;
+  --panelGlass: rgba(17,17,20,.55);
+  --text:#f4f4f5;
+  --muted:#b5b5bd;
+  --line:#25252a;
+  --gold:#d7b46a;
+  --gold2:#b8923c;
+  --radius:18px;
+  --shadow: 0 20px 60px rgba(0,0,0,.45);
+}
 
-    <h2>HAPPY HOUR</h2>
+/* Base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 20% 0%, rgba(215,180,106,.12), transparent 55%),
+    radial-gradient(900px 600px at 80% 10%, rgba(215,180,106,.08), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.55;
+}
+a{color:inherit}
+img{max-width:100%;display:block}
 
-    <div class="cards">
+.container{
+  width:min(1120px, 92vw);
+  margin-inline:auto;
+}
 
-      <!-- ================= BASIC TIER ================= -->
-      <div class="card jsTierCard" data-card="basic">
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  border-radius:999px;
+  padding:12px 16px;
+  text-decoration:none;
+  font-weight:700;
+  letter-spacing:.2px;
+  border:1px solid rgba(215,180,106,.28);
+  background: rgba(255,255,255,.04);
+  color:var(--text);
+  cursor:pointer;
+}
+.btn--primary{
+  background: linear-gradient(180deg, var(--gold), var(--gold2));
+  color:#1a1407;
+  border:none;
+}
+.btn--ghost{
+  background: rgba(255,255,255,.04);
+}
+.btn--small{
+  padding:10px 14px;
+  font-size:14px;
+}
 
-        <div class="tierRow">
-          <button class="btn btn--ghost jsTierBtn" data-tier="5">$5 SHOTS</button>
-          <button class="btn btn--ghost jsTierBtn" data-tier="10">$10 DRINKS</button>
-        </div>
+/* Header / Nav */
+.header,
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:9999;
+  background: rgba(10,10,12,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(215,180,106,0.18);
+}
+.header__inner,
+.topbar__inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 0;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+.brand__logo{width:38px;height:38px}
+.brand__name{font-weight:800}
 
-        <div style="margin-top:12px;">
-          <button class="btn btn--ghost jsCocktailBtn">$10 COCKTAILS</button>
-        </div>
+.dot{
+  width:10px;height:10px;border-radius:999px;
+  background: var(--gold);
+  box-shadow: 0 0 14px rgba(215,180,106,.55);
+}
 
-        <!-- Spirit Categories -->
-        <div class="spiritTabs hidden">
-          <button class="btn btn--small btn--ghost jsSpiritBtn" data-spirit="vodka">Vodka</button>
-          <button class="btn btn--small btn--ghost jsSpiritBtn" data-spirit="tequila">Tequila</button>
-          <button class="btn btn--small btn--ghost jsSpiritBtn" data-spirit="whiskey">Whiskey</button>
-          <button class="btn btn--small btn--ghost jsSpiritBtn" data-spirit="liqueur">Liqueur</button>
-          <button class="btn btn--small btn--ghost jsSpiritBtn" data-spirit="rum">Rum</button>
-          <button class="btn btn--small btn--ghost jsSpiritBtn" data-spirit="gin">Gin</button>
-          <button class="btn btn--small btn--ghost jsSpiritBtn" data-spirit="cognac">Cognac</button>
-        </div>
+/* Mobile nav (if used on other pages) */
+.nav__toggle{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);background:transparent;color:var(--text);
+  padding:10px 12px;border-radius:12px;cursor:pointer;
+}
+.nav__list{
+  list-style:none;margin:0;padding:0;
+  display:none;gap:12px;align-items:center;
+}
+.nav__list a{
+  text-decoration:none;color:var(--text);
+  padding:10px 10px;border-radius:12px;
+}
+.nav__list a:hover{background:rgba(255,255,255,.06)}
+.nav__list.is-open{
+  display:flex;flex-direction:column;align-items:stretch;
+  position:absolute;left:4vw;right:4vw;top:64px;
+  background:rgba(17,17,20,.98);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:10px;
+  box-shadow: var(--shadow);
+}
+@media (min-width: 920px){
+  .nav__toggle{display:none}
+  .nav__list{display:flex}
+  .nav__list.is-open{
+    position:static;flex-direction:row;background:transparent;border:none;box-shadow:none;padding:0
+  }
+}
 
-        <!-- Spirit Panels -->
-        <div class="spiritPanel hidden" data-panel="vodka">
-          <strong class="jsPrice"></strong><br>
-          Tito’s • Absolut • Grey Goose
-        </div>
+/* Page header */
+.pageHead{padding:22px 0 8px}
+.pageTitle{
+  margin:0 0 8px;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.pageSub{margin:0;color:var(--muted)}
 
-        <div class="spiritPanel hidden" data-panel="tequila">
-          <strong class="jsPrice"></strong><br>
-          Teremana • Espolon • Don Julio
-        </div>
+/* Cards grid */
+.cards{
+  display:grid;
+  gap:14px;
+  grid-template-columns: 1fr;
+  padding:16px 0 60px;
+}
+@media (min-width: 920px){
+  .cards{grid-template-columns: 1fr 1fr;}
+}
+.card{
+  border:1px solid rgba(37,37,42,.9);
+  background: var(--panelGlass);
+  border-radius: var(--radius);
+  padding:16px;
+  box-shadow: var(--shadow);
+}
+.card h3{
+  margin:0 0 10px;
+  font-size:12px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color: rgba(255,255,255,.90);
+}
 
-        <div class="spiritPanel hidden" data-panel="whiskey">
-          <strong class="jsPrice"></strong><br>
-          Jack Daniels • Jameson • Crown Royal
-        </div>
+/* ===== MENU: Tier buttons row ===== */
+.tierRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  align-items:center;
+  margin-bottom:10px;
+}
+.tierBtn{
+  cursor:pointer;
+  border-radius:999px;
+  padding:10px 14px;
+  border:1px solid rgba(215,180,106,.28);
+  background: rgba(0,0,0,.25);
+  color:var(--text);
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.tierBtn:hover{
+  border-color: rgba(215,180,106,.45);
+  box-shadow: 0 0 18px rgba(215,180,106,.10);
+}
+.tierBtn.active{
+  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+  color:#14120c;
+  border-color: rgba(242,210,138,.95);
+  box-shadow: 0 0 26px rgba(242,210,138,.22);
+}
 
-        <div class="spiritPanel hidden" data-panel="liqueur">
-          <strong class="jsPrice"></strong><br>
-          Malibu • Triple Sec • Baileys
-        </div>
+/* ===== MENU: Spirit tabs (Vodka/Tequila/etc) ===== */
+.spiritTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+.spiritBtn{
+  cursor:pointer;
+  border-radius:999px;
+  padding:9px 12px;
+  border:1px solid rgba(215,180,106,.22);
+  background: rgba(14,14,18,.55);
+  color:var(--text);
+  font-weight:750;
+  font-size:14px;
+}
+.spiritBtn:hover{
+  border-color: rgba(215,180,106,.45);
+  box-shadow: 0 0 18px rgba(215,180,106,.10);
+}
+.spiritBtn.active{
+  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+  color:#14120c;
+  border-color: rgba(242,210,138,.95);
+  box-shadow: 0 0 26px rgba(242,210,138,.18);
+}
 
-        <div class="spiritPanel hidden" data-panel="rum">
-          <strong class="jsPrice"></strong><br>
-          Bacardi • Captain Morgan
-        </div>
+/* Panels */
+.spiritPanel{
+  margin-top:12px;
+  border:1px solid rgba(215,180,106,.18);
+  background: rgba(0,0,0,.22);
+  border-radius: 14px;
+  padding:12px;
+  color: rgba(255,255,255,.92);
+}
+.priceTag{
+  display:inline-block;
+  color: var(--gold);
+  font-weight:900;
+  margin-bottom:6px;
+  letter-spacing:.08em;
+}
+.muted{color:var(--muted); font-size:14px}
 
-        <div class="spiritPanel hidden" data-panel="gin">
-          <strong class="jsPrice"></strong><br>
-          Bombay • Tanqueray
-        </div>
+/* Hide utility */
+.hidden{ display:none !important; }
 
-        <div class="spiritPanel hidden" data-panel="cognac">
-          <strong class="jsPrice"></strong><br>
-          Hennessy • Courvoisier
-        </div>
-
-        <!-- Cocktails -->
-        <div class="spiritPanel hidden" id="cocktailPanel">
-          Long Island • Lemon Drop • Margarita • Mojito • Martini
-        </div>
-
-      </div>
-
-      <!-- ================= TOP SHELF ================= -->
-      <div class="card jsTierCard" data-card="topshelf">
-
-        <div class="tierRow">
-          <button class="btn btn--ghost jsTopTierBtn" data-tier="7">$7 SHOTS</button>
-          <button class="btn btn--ghost jsTopTierBtn" data-tier="14">$14 DRINKS</button>
-        </div>
-
-        <div class="spiritTabs hidden">
-          <button class="btn btn--small btn--ghost jsTopSpiritBtn" data-spirit="vodka">Vodka</button>
-          <button class="btn btn--small btn--ghost jsTopSpiritBtn" data-spirit="tequila">Tequila</button>
-          <button class="btn btn--small btn--ghost jsTopSpiritBtn" data-spirit="whiskey">Whiskey</button>
-          <button class="btn btn--small btn--ghost jsTopSpiritBtn" data-spirit="cognac">Cognac</button>
-        </div>
-
-        <div class="spiritPanel hidden" data-top-panel="vodka">
-          <strong class="jsTopPrice"></strong><br>
-          Grey Goose • Belvedere
-        </div>
-
-        <div class="spiritPanel hidden" data-top-panel="tequila">
-          <strong class="jsTopPrice"></strong><br>
-          Don Julio • Casamigos • Patron
-        </div>
-
-        <div class="spiritPanel hidden" data-top-panel="whiskey">
-          <strong class="jsTopPrice"></strong><br>
-          Macallan • Woodford Reserve
-        </div>
-
-        <div class="spiritPanel hidden" data-top-panel="cognac">
-          <strong class="jsTopPrice"></strong><br>
-          Hennessy VSOP • Remy Martin
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-</section>
+/* (Optional) Active nav highlight if you use .active links */
+.nav__list li a.active{
+  color: var(--gold) !important;
+  font-weight: 800;
+}
