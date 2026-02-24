@@ -1,374 +1,281 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Menu • Allure Bar & Lounge</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Allure Menu</title>
 
-  <style>
-    :root{
-      --bg:#0b0b0c;
-      --panel: rgba(17,17,20,.55);
-      --text:#f4f4f5;
-      --muted:#b5b5bd;
-      --line:#25252a;
-      --gold:#d7b46a;
-      --gold2:#b8923c;
-      --radius:18px;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(1200px 600px at 20% 0%, rgba(215,180,106,.12), transparent 55%),
-        radial-gradient(900px 600px at 80% 10%, rgba(215,180,106,.08), transparent 60%),
-        var(--bg);
-      color:var(--text);
-      line-height:1.55;
-    }
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1120px, 92vw); margin:0 auto}
+<style>
+:root{
+  --bg:#070707;
+  --panel:#111114;
+  --gold:#d7b56d;
+  --gold2:#f2d28a;
+  --text:#f3f3f3;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{
+  background:var(--panel);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
+}
+h3{
+  margin:0 0 15px 0;
+  font-size:14px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
 
-    /* top bar */
-    .topbar{
-      position:sticky; top:0; z-index:50;
-      background: rgba(10,10,12,0.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(215,180,106,0.18);
-    }
-    .topbar__inner{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 0;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800;
-      letter-spacing:.2px;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:999px;
-      background: var(--gold);
-      box-shadow: 0 0 14px rgba(215,180,106,.55);
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      border-radius:999px;
-      padding:12px 16px;
-      font-weight:750;
-      border:1px solid rgba(215,180,106,.28);
-      background: rgba(255,255,255,.04);
-    }
-    .btn--primary{
-      background: linear-gradient(180deg, var(--gold), var(--gold2));
-      color:#1a1407;
-      border:none;
-    }
-    .pageHead{padding:22px 0 8px}
-    .pageTitle{margin:0 0 8px; font-size:32px; letter-spacing:.06em; text-transform:uppercase}
-    .pageSub{margin:0; color:var(--muted)}
+/* Pills */
+.pill{
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(215,181,109,.35);
+  background:#141418;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+.pill.active{
+  background:linear-gradient(180deg,var(--gold2),var(--gold));
+  color:#14120c;
+  box-shadow:0 0 18px rgba(215,181,109,.35);
+}
+.topRow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.midRow{display:flex;justify-content:center;margin-top:12px}
+.spiritTabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.spiritPanel{margin-top:14px}
+.hidden{display:none}
 
-    /* cards */
-    .cards{
-      display:grid; gap:14px;
-      grid-template-columns: 1fr;
-      padding:16px 0 60px;
-    }
-    @media (min-width: 920px){
-      .cards{grid-template-columns: 1fr 1fr;}
-    }
-    .card{
-      border:1px solid rgba(37,37,42,.9);
-      background: var(--panel);
-      border-radius: var(--radius);
-      padding:16px;
-      box-shadow: var(--shadow);
-    }
-    .card h3{
-      margin:0 0 10px;
-      font-size:12px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color: rgba(255,255,255,.9);
-    }
-
-    /* tier rows */
-    .tierRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-      align-items:center;
-      margin-bottom:10px;
-    }
-    .tierBtn{
-      cursor:pointer;
-      border-radius:999px;
-      padding:10px 14px;
-      border:1px solid rgba(215,180,106,.28);
-      background: rgba(0,0,0,.25);
-      color:var(--text);
-      font-weight:800;
-      letter-spacing:.02em;
-    }
-    .tierBtn.active{
-      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
-      color:#14120c;
-      border-color: rgba(242,210,138,.95);
-      box-shadow: 0 0 26px rgba(242,210,138,.22);
-    }
-
-    /* spirit tabs */
-    .spiritTabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-    }
-    .spiritBtn{
-      cursor:pointer;
-      border-radius:999px;
-      padding:9px 12px;
-      border:1px solid rgba(215,180,106,.22);
-      background: rgba(14,14,18,.55);
-      color:var(--text);
-      font-weight:750;
-      font-size:14px;
-    }
-    .spiritBtn.active{
-      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
-      color:#14120c;
-      border-color: rgba(242,210,138,.95);
-      box-shadow: 0 0 26px rgba(242,210,138,.18);
-    }
-
-    .hidden{display:none !important;}
-
-    .spiritPanel{
-      margin-top:12px;
-      border:1px solid rgba(215,180,106,.18);
-      background: rgba(0,0,0,.22);
-      border-radius: 14px;
-      padding:12px;
-      color: rgba(255,255,255,.92);
-    }
-    .priceTag{
-      display:inline-block;
-      color: var(--gold);
-      font-weight:900;
-      margin-bottom:6px;
-      letter-spacing:.08em;
-    }
-    .muted{color:var(--muted); font-size:14px}
-  </style>
+/* Rows */
+.rows{margin-top:10px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.row:last-child{border-bottom:none}
+.price{font-weight:900;color:var(--gold2)}
+</style>
 </head>
 
 <body>
+<div class="container">
 
-  <header class="topbar">
-    <div class="container topbar__inner">
-      <div class="brand"><span class="dot"></span> Allure Bar & Lounge</div>
-      <a class="btn btn--primary" href="tel:2022974949">Reserve Now</a>
+<!-- =========================
+     $5 / $10 / $10 COCKTAILS
+========================= -->
+<div class="card hhSpiritsCard">
+<h3>$5 SHOTS / $10 DRINKS</h3>
+
+<div class="topRow">
+  <button class="pill tierBtn" data-tier="shots5">$5 SHOTS</button>
+  <button class="pill tierBtn" data-tier="drinks10">$10 DRINKS</button>
+</div>
+
+<div class="midRow">
+  <button class="pill tierBtn" data-tier="cocktails10">$10 COCKTAILS</button>
+</div>
+
+<div class="spiritsWrap hidden">
+
+  <div class="spiritTabs">
+    <button class="pill spiritBtn" data-spirit="vodka">Vodka</button>
+    <button class="pill spiritBtn" data-spirit="tequila">Tequila</button>
+    <button class="pill spiritBtn" data-spirit="whiskey">Whiskey</button>
+    <button class="pill spiritBtn" data-spirit="rum">Rum</button>
+    <button class="pill spiritBtn" data-spirit="gin">Gin</button>
+    <button class="pill spiritBtn" data-spirit="cognac">Cognac</button>
+  </div>
+
+  <div class="spiritPanel hidden" data-panel="vodka">
+    <div class="rows">
+      <div class="row"><span>Absolut</span><span class="price jsSpiritPrice">$5</span></div>
+      <div class="row"><span>Grey Goose</span><span class="price jsSpiritPrice">$5</span></div>
     </div>
-  </header>
+  </div>
 
-  <main class="container">
-
-    <div class="pageHead">
-      <h1 class="pageTitle">Happy Hour Menu</h1>
-      <p class="pageSub">Tap a tier → then tap a category to view items.</p>
+  <div class="spiritPanel hidden" data-panel="tequila">
+    <div class="rows">
+      <div class="row"><span>Espolon</span><span class="price jsSpiritPrice">$5</span></div>
+      <div class="row"><span>Teremana</span><span class="price jsSpiritPrice">$5</span></div>
     </div>
+  </div>
 
-    <div class="cards">
-
-      <!-- ================= BASIC ================= -->
-      <section class="card jsCard" data-card="basic">
-        <h3>$5 / $10 / $10 Cocktails</h3>
-
-        <div class="tierRow">
-          <button class="tierBtn jsTier" data-tier="5" type="button">$5 SHOTS</button>
-          <button class="tierBtn jsTier" data-tier="10" type="button">$10 DRINKS</button>
-          <button class="tierBtn jsTier" data-tier="cocktails" type="button">$10 COCKTAILS</button>
-        </div>
-
-        <div class="spiritTabs jsTabs hidden" aria-label="Spirit categories">
-          <button class="spiritBtn jsSpirit" data-spirit="vodka" type="button">Vodka</button>
-          <button class="spiritBtn jsSpirit" data-spirit="tequila" type="button">Tequila</button>
-          <button class="spiritBtn jsSpirit" data-spirit="whiskey" type="button">Whiskey</button>
-          <button class="spiritBtn jsSpirit" data-spirit="liqueur" type="button">Liqueur</button>
-          <button class="spiritBtn jsSpirit" data-spirit="rum" type="button">Rum</button>
-          <button class="spiritBtn jsSpirit" data-spirit="gin" type="button">Gin</button>
-          <button class="spiritBtn jsSpirit" data-spirit="cognac" type="button">Cognac</button>
-        </div>
-
-        <!-- panels -->
-        <div class="spiritPanel jsPanel hidden" data-panel="vodka">
-          <div class="priceTag jsPrice"></div>
-          Tito’s • Absolut • Grey Goose
-          <div class="muted">Ask for available options.</div>
-        </div>
-
-        <div class="spiritPanel jsPanel hidden" data-panel="tequila">
-          <div class="priceTag jsPrice"></div>
-          Teremana • Espolon • Don Julio
-        </div>
-
-        <div class="spiritPanel jsPanel hidden" data-panel="whiskey">
-          <div class="priceTag jsPrice"></div>
-          Jack Daniels • Jameson • Crown Royal
-        </div>
-
-        <div class="spiritPanel jsPanel hidden" data-panel="liqueur">
-          <div class="priceTag jsPrice"></div>
-          Malibu • Triple Sec • Baileys
-        </div>
-
-        <div class="spiritPanel jsPanel hidden" data-panel="rum">
-          <div class="priceTag jsPrice"></div>
-          Bacardi • Captain Morgan
-        </div>
-
-        <div class="spiritPanel jsPanel hidden" data-panel="gin">
-          <div class="priceTag jsPrice"></div>
-          Bombay • Tanqueray
-        </div>
-
-        <div class="spiritPanel jsPanel hidden" data-panel="cognac">
-          <div class="priceTag jsPrice"></div>
-          Hennessy • Courvoisier
-        </div>
-
-        <div class="spiritPanel jsPanel hidden" data-panel="cocktails">
-          <div class="priceTag">$10 COCKTAILS</div>
-          Long Island • Lemon Drop • Margarita • Mojito • Martini
-        </div>
-      </section>
-
-      <!-- ================= TOP SHELF ================= -->
-      <section class="card jsCard" data-card="topshelf">
-        <h3>$7 / $14 Top Shelf</h3>
-
-        <div class="tierRow">
-          <button class="tierBtn jsTopTier" data-tier="7" type="button">$7 SHOTS</button>
-          <button class="tierBtn jsTopTier" data-tier="14" type="button">$14 DRINKS</button>
-        </div>
-
-        <div class="spiritTabs jsTopTabs hidden" aria-label="Top shelf categories">
-          <button class="spiritBtn jsTopSpirit" data-spirit="vodka" type="button">Vodka</button>
-          <button class="spiritBtn jsTopSpirit" data-spirit="tequila" type="button">Tequila</button>
-          <button class="spiritBtn jsTopSpirit" data-spirit="whiskey" type="button">Whiskey</button>
-          <button class="spiritBtn jsTopSpirit" data-spirit="cognac" type="button">Cognac</button>
-        </div>
-
-        <div class="spiritPanel jsTopPanel hidden" data-panel="vodka">
-          <div class="priceTag jsTopPrice"></div>
-          Grey Goose • Belvedere
-        </div>
-
-        <div class="spiritPanel jsTopPanel hidden" data-panel="tequila">
-          <div class="priceTag jsTopPrice"></div>
-          Don Julio • Casamigos • Patron
-        </div>
-
-        <div class="spiritPanel jsTopPanel hidden" data-panel="whiskey">
-          <div class="priceTag jsTopPrice"></div>
-          Macallan • Woodford Reserve
-        </div>
-
-        <div class="spiritPanel jsTopPanel hidden" data-panel="cognac">
-          <div class="priceTag jsTopPrice"></div>
-          Hennessy VSOP • Remy Martin
-        </div>
-      </section>
-
+  <div class="spiritPanel hidden" data-panel="whiskey">
+    <div class="rows">
+      <div class="row"><span>Jameson</span><span class="price jsSpiritPrice">$5</span></div>
+      <div class="row"><span>Jack Daniels</span><span class="price jsSpiritPrice">$5</span></div>
     </div>
-  </main>
+  </div>
 
-  <script>
-    // BASIC card logic
-    const basic = document.querySelector('[data-card="basic"]');
-    const basicTiers = basic.querySelectorAll('.jsTier');
-    const basicTabs = basic.querySelector('.jsTabs');
-    const basicSpirits = basic.querySelectorAll('.jsSpirit');
-    const basicPanels = basic.querySelectorAll('.jsPanel');
-    const basicPriceTargets = basic.querySelectorAll('.jsPrice');
+  <div class="spiritPanel hidden" data-panel="rum">
+    <div class="rows">
+      <div class="row"><span>Bacardi</span><span class="price jsSpiritPrice">$5</span></div>
+    </div>
+  </div>
 
-    function basicHideAll(){
-      basicSpirits.forEach(b=>b.classList.remove('active'));
-      basicPanels.forEach(p=>p.classList.add('hidden'));
+  <div class="spiritPanel hidden" data-panel="gin">
+    <div class="rows">
+      <div class="row"><span>Bombay</span><span class="price jsSpiritPrice">$5</span></div>
+    </div>
+  </div>
+
+  <div class="spiritPanel hidden" data-panel="cognac">
+    <div class="rows">
+      <div class="row"><span>Hennessy</span><span class="price jsSpiritPrice">$5</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="cocktailsWrap hidden">
+  <div class="rows">
+    <div class="row"><span>Long Island</span><span>$10</span></div>
+    <div class="row"><span>Lemon Drop</span><span>$10</span></div>
+    <div class="row"><span>Margarita</span><span>$10</span></div>
+  </div>
+</div>
+</div>
+
+<!-- =========================
+     $7 / $14 TOP SHELF
+========================= -->
+<div class="card topShelfCard">
+<h3>$7 SHOTS / $14 DRINKS</h3>
+
+<div class="topRow">
+  <button class="pill topTierBtn" data-tier="shots7">$7 SHOTS</button>
+  <button class="pill topTierBtn" data-tier="drinks14">$14 DRINKS</button>
+</div>
+
+<div class="topSpiritsWrap hidden">
+
+  <div class="spiritTabs">
+    <button class="pill topSpiritBtn" data-spirit="tequila">Tequila</button>
+    <button class="pill topSpiritBtn" data-spirit="whiskey">Whiskey</button>
+    <button class="pill topSpiritBtn" data-spirit="gin">Gin</button>
+    <button class="pill topSpiritBtn" data-spirit="cognac">Cognac</button>
+  </div>
+
+  <div class="spiritPanel hidden" data-panel="tequila">
+    <div class="rows">
+      <div class="row"><span>Don Julio</span><span class="price jsTopPrice">$7</span></div>
+      <div class="row"><span>Patron</span><span class="price jsTopPrice">$7</span></div>
+    </div>
+  </div>
+
+  <div class="spiritPanel hidden" data-panel="whiskey">
+    <div class="rows">
+      <div class="row"><span>Old Forester</span><span class="price jsTopPrice">$7</span></div>
+    </div>
+  </div>
+
+  <div class="spiritPanel hidden" data-panel="gin">
+    <div class="rows">
+      <div class="row"><span>Hendricks</span><span class="price jsTopPrice">$7</span></div>
+    </div>
+  </div>
+
+  <div class="spiritPanel hidden" data-panel="cognac">
+    <div class="rows">
+      <div class="row"><span>Dusse</span><span class="price jsTopPrice">$7</span></div>
+      <div class="row"><span>Remy VSOP</span><span class="price jsTopPrice">$7</span></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div>
+
+<script>
+document.addEventListener("click", function(e){
+
+  // ===== REGULAR SPIRITS =====
+  const card = e.target.closest(".hhSpiritsCard");
+  if(card){
+
+    const tierBtn = e.target.closest(".tierBtn");
+    const spiritBtn = e.target.closest(".spiritBtn");
+
+    const spiritsWrap = card.querySelector(".spiritsWrap");
+    const cocktailsWrap = card.querySelector(".cocktailsWrap");
+
+    if(tierBtn){
+      card.querySelectorAll(".tierBtn").forEach(b=>b.classList.remove("active"));
+      tierBtn.classList.add("active");
+
+      if(tierBtn.dataset.tier === "cocktails10"){
+        spiritsWrap.classList.add("hidden");
+        cocktailsWrap.classList.remove("hidden");
+        return;
+      }
+
+      cocktailsWrap.classList.add("hidden");
+      spiritsWrap.classList.remove("hidden");
+
+      const price = tierBtn.dataset.tier === "drinks10" ? "$10" : "$5";
+      card.querySelectorAll(".jsSpiritPrice").forEach(p=>p.textContent=price);
+
+      card.querySelectorAll(".spiritPanel").forEach(p=>p.classList.add("hidden"));
+      card.querySelectorAll(".spiritBtn").forEach(b=>b.classList.remove("active"));
     }
 
-    basicTiers.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        basicTiers.forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
+    if(spiritBtn){
+      card.querySelectorAll(".spiritBtn").forEach(b=>b.classList.remove("active"));
+      spiritBtn.classList.add("active");
 
-        basicHideAll();
-
-        // show tabs only for $5 or $10
-        if(btn.dataset.tier === '5' || btn.dataset.tier === '10'){
-          basicTabs.classList.remove('hidden');
-          basicPriceTargets.forEach(p=>p.textContent = '$' + btn.dataset.tier);
-        }else{
-          basicTabs.classList.add('hidden');
-          // show cocktails panel directly
-          basic.querySelector('[data-panel="cocktails"]').classList.remove('hidden');
-        }
+      const target = spiritBtn.dataset.spirit;
+      card.querySelectorAll(".spiritPanel").forEach(panel=>{
+        panel.classList.toggle("hidden", panel.dataset.panel !== target);
       });
-    });
+    }
+  }
 
-    basicSpirits.forEach(tab=>{
-      tab.addEventListener('click', ()=>{
-        basicSpirits.forEach(t=>t.classList.remove('active'));
-        tab.classList.add('active');
-        basicPanels.forEach(p=>p.classList.add('hidden'));
-        const panel = basic.querySelector('[data-panel="'+tab.dataset.spirit+'"]');
-        if(panel) panel.classList.remove('hidden');
-      });
-    });
+  // ===== TOP SHELF =====
+  const topCard = e.target.closest(".topShelfCard");
+  if(topCard){
 
-    // TOP SHELF logic
-    const top = document.querySelector('[data-card="topshelf"]');
-    const topTiers = top.querySelectorAll('.jsTopTier');
-    const topTabs = top.querySelector('.jsTopTabs');
-    const topSpirits = top.querySelectorAll('.jsTopSpirit');
-    const topPanels = top.querySelectorAll('.jsTopPanel');
-    const topPriceTargets = top.querySelectorAll('.jsTopPrice');
+    const tierBtn = e.target.closest(".topTierBtn");
+    const spiritBtn = e.target.closest(".topSpiritBtn");
+    const wrap = topCard.querySelector(".topSpiritsWrap");
 
-    function topHideAll(){
-      topSpirits.forEach(b=>b.classList.remove('active'));
-      topPanels.forEach(p=>p.classList.add('hidden'));
+    if(tierBtn){
+      topCard.querySelectorAll(".topTierBtn").forEach(b=>b.classList.remove("active"));
+      tierBtn.classList.add("active");
+      wrap.classList.remove("hidden");
+
+      const price = tierBtn.dataset.tier === "drinks14" ? "$14" : "$7";
+      topCard.querySelectorAll(".jsTopPrice").forEach(p=>p.textContent=price);
+
+      topCard.querySelectorAll(".spiritPanel").forEach(p=>p.classList.add("hidden"));
+      topCard.querySelectorAll(".topSpiritBtn").forEach(b=>b.classList.remove("active"));
     }
 
-    topTiers.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        topTiers.forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
+    if(spiritBtn){
+      topCard.querySelectorAll(".topSpiritBtn").forEach(b=>b.classList.remove("active"));
+      spiritBtn.classList.add("active");
 
-        topTabs.classList.remove('hidden');
-        topHideAll();
-        topPriceTargets.forEach(p=>p.textContent = '$' + btn.dataset.tier);
+      const target = spiritBtn.dataset.spirit;
+      topCard.querySelectorAll(".spiritPanel").forEach(panel=>{
+        panel.classList.toggle("hidden", panel.dataset.panel !== target);
       });
-    });
+    }
+  }
 
-    topSpirits.forEach(tab=>{
-      tab.addEventListener('click', ()=>{
-        topSpirits.forEach(t=>t.classList.remove('active'));
-        tab.classList.add('active');
-        topPanels.forEach(p=>p.classList.add('hidden'));
-        const panel = top.querySelector('[data-panel="'+tab.dataset.spirit+'"]');
-        if(panel) panel.classList.remove('hidden');
-      });
-    });
-
-    // AUTO-OPEN defaults (prevents blank screen)
-    window.addEventListener('DOMContentLoaded', ()=>{
-      basic.querySelector('.jsTier[data-tier="5"]').click();
-      top.querySelector('.jsTopTier[data-tier="7"]').click();
-    });
-  </script>
+});
+</script>
 
 </body>
 </html>
