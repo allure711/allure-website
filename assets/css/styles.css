@@ -737,6 +737,28 @@ h3{margin:0 0 10px}
   60%     { transform: rotate(-10deg); }
   80%     { transform: rotate(10deg); }
 }
+/* ===== FIX: keep tier buttons aligned (prevents weird spacing/empty look) ===== */
+.tierRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-start;
+  align-items:center;
+}
 
+/* Your requested additions */
+.spiritTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+
+.spiritPanel{
+  margin-top:12px;
+}
+
+/* Optional: when panels are hidden */
+.hidden{ display:none !important; }
 .phone-icon{
   animation: handsetRing 
