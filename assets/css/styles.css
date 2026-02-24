@@ -757,6 +757,26 @@ h3{margin:0 0 10px}
 .spiritPanel{
   margin-top:12px;
 }
+.tierRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.spiritTabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.spiritPanel{
+  margin-top:12px;
+}
+
+.hidden{
+  display:none !important;
+}
 
 /* Optional: when panels are hidden */
 .hidden{ display:none !important; }
