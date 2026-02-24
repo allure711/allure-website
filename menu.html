@@ -1,281 +1,583 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Allure Menu</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Hour Menu</title>
 
-<style>
-:root{
-  --bg:#070707;
-  --panel:#111114;
-  --gold:#d7b56d;
-  --gold2:#f2d28a;
-  --text:#f3f3f3;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-  background:var(--bg);
-  color:var(--text);
-}
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{
-  background:var(--panel);
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:20px;
-}
-h3{
-  margin:0 0 15px 0;
-  font-size:14px;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-}
+  <!-- YOUR MAIN CSS -->
+  <link rel="stylesheet" href="css/style.css" />
 
-/* Pills */
-.pill{
-  padding:8px 14px;
-  border-radius:999px;
-  border:1px solid rgba(215,181,109,.35);
-  background:#141418;
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  transition:.25s;
-}
-.pill.active{
-  background:linear-gradient(180deg,var(--gold2),var(--gold));
-  color:#14120c;
-  box-shadow:0 0 18px rgba(215,181,109,.35);
-}
-.topRow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.midRow{display:flex;justify-content:center;margin-top:12px}
-.spiritTabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-.spiritPanel{margin-top:14px}
-.hidden{display:none}
+  <!-- REQUIRED ADDITIONS (you can move into your CSS file if you want) -->
+  <style>
+    /* ===== REQUIRED ADDITIONS FOR THE NEW MENU BEHAVIOR ===== */
 
-/* Rows */
-.rows{margin-top:10px}
-.row{
-  display:flex;
-  justify-content:space-between;
-  padding:8px 0;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.row:last-child{border-bottom:none}
-.price{font-weight:900;color:var(--gold2)}
-</style>
+    /* Make anchor scroll land BELOW sticky header */
+    html { scroll-behavior: smooth; scroll-padding-top: 140px; }
+
+    /* Day tabs row */
+    .dayTabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:12px 0 6px;
+      position: sticky;
+      top: 64px;         /* below your main header */
+      z-index: 40;
+      background: rgba(11,11,12,.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .dayBtn{
+      border:1px solid rgba(215,180,106,.28);
+      background: rgba(255,255,255,.04);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:650;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .dayBtn.active{
+      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+      color:#14120c;
+      border-color: rgba(242,210,138,.95);
+    }
+
+    /* Menu grid layout */
+    .menuGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      margin-top:12px;
+    }
+    @media (min-width: 980px){
+      .menuGrid{
+        grid-template-columns: 1fr 1fr;
+        align-items:start;
+      }
+    }
+
+    .menuCard{
+      border:1px solid rgba(37,37,42,.9);
+      background: rgba(17,17,20,.55);
+      border-radius:18px;
+      padding:16px;
+      min-height: 160px;
+    }
+
+    .cardTitle{
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:13px;
+      color: rgba(255,255,255,.88);
+      margin:0 0 10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    .tierRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .pill{
+      border:1px solid rgba(215,180,106,.28);
+      background: rgba(255,255,255,.04);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    .pill.active{
+      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+      color:#14120c;
+      border-color: rgba(242,210,138,.95);
+    }
+
+    /* YOU ASKED TO ADD THESE */
+    .spiritTabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+    .spiritPanel{
+      margin-top:12px;
+    }
+
+    .hidden{ display:none !important; }
+
+    /* List style */
+    .itemList{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+    .itemRow{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(37,37,42,.85);
+      background: rgba(0,0,0,.18);
+    }
+    .itemRow b{ font-weight:750; }
+    .price{
+      color: rgba(242,210,138,.95);
+      font-weight:850;
+      letter-spacing:.02em;
+      white-space:nowrap;
+    }
+
+    /* Section title */
+    .daySectionTitle{
+      font-size:36px;
+      margin: 14px 0 4px;
+      line-height: 1.1;
+      letter-spacing:.02em;
+    }
+    .daySub{
+      color: rgba(255,255,255,.72);
+      margin: 0 0 10px;
+    }
+  </style>
 </head>
 
-<body>
-<div class="container">
+<body class="vegas-bg">
 
-<!-- =========================
-     $5 / $10 / $10 COCKTAILS
-========================= -->
-<div class="card hhSpiritsCard">
-<h3>$5 SHOTS / $10 DRINKS</h3>
+  <!-- If you already have your header in another include, keep yours.
+       This is a minimal header so the page works standalone. -->
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" style="text-decoration:none">
+        <span class="brand__name">ALLURE</span>
+      </a>
 
-<div class="topRow">
-  <button class="pill tierBtn" data-tier="shots5">$5 SHOTS</button>
-  <button class="pill tierBtn" data-tier="drinks10">$10 DRINKS</button>
-</div>
-
-<div class="midRow">
-  <button class="pill tierBtn" data-tier="cocktails10">$10 COCKTAILS</button>
-</div>
-
-<div class="spiritsWrap hidden">
-
-  <div class="spiritTabs">
-    <button class="pill spiritBtn" data-spirit="vodka">Vodka</button>
-    <button class="pill spiritBtn" data-spirit="tequila">Tequila</button>
-    <button class="pill spiritBtn" data-spirit="whiskey">Whiskey</button>
-    <button class="pill spiritBtn" data-spirit="rum">Rum</button>
-    <button class="pill spiritBtn" data-spirit="gin">Gin</button>
-    <button class="pill spiritBtn" data-spirit="cognac">Cognac</button>
-  </div>
-
-  <div class="spiritPanel hidden" data-panel="vodka">
-    <div class="rows">
-      <div class="row"><span>Absolut</span><span class="price jsSpiritPrice">$5</span></div>
-      <div class="row"><span>Grey Goose</span><span class="price jsSpiritPrice">$5</span></div>
+      <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <ul id="siteNav" class="nav__list">
+        <li><a href="index.html">Home</a></li>
+        <li><a class="active nav-happy" href="menu.html">Happy Hour</a></li>
+      </ul>
     </div>
-  </div>
+  </header>
 
-  <div class="spiritPanel hidden" data-panel="tequila">
-    <div class="rows">
-      <div class="row"><span>Espolon</span><span class="price jsSpiritPrice">$5</span></div>
-      <div class="row"><span>Teremana</span><span class="price jsSpiritPrice">$5</span></div>
-    </div>
-  </div>
+  <main class="container" style="padding-bottom:90px">
 
-  <div class="spiritPanel hidden" data-panel="whiskey">
-    <div class="rows">
-      <div class="row"><span>Jameson</span><span class="price jsSpiritPrice">$5</span></div>
-      <div class="row"><span>Jack Daniels</span><span class="price jsSpiritPrice">$5</span></div>
-    </div>
-  </div>
+    <!-- DAY TABS -->
+    <nav class="dayTabs" aria-label="Days">
+      <a class="dayBtn" data-day="monday" href="#monday">Monday</a>
+      <a class="dayBtn" data-day="tuesday" href="#tuesday">Tuesday</a>
+      <a class="dayBtn" data-day="wednesday" href="#wednesday">Wednesday</a>
+      <a class="dayBtn" data-day="thursday" href="#thursday">Thursday</a>
+      <a class="dayBtn" data-day="friday" href="#friday">Friday</a>
+      <a class="dayBtn" data-day="saturday" href="#saturday">Saturday</a>
+      <a class="dayBtn" data-day="sunday" href="#sunday">Sunday</a>
+    </nav>
 
-  <div class="spiritPanel hidden" data-panel="rum">
-    <div class="rows">
-      <div class="row"><span>Bacardi</span><span class="price jsSpiritPrice">$5</span></div>
-    </div>
-  </div>
+    <!-- =========================
+         WEDNESDAY (SAME AS TUESDAY)
+         ========================= -->
+    <section id="wednesday" class="daySection" data-day-section="wednesday">
+      <h1 class="daySectionTitle">HAPPY HOUR</h1>
+      <p class="daySub">Happy Hour 5PM–9PM • Same specials as Tuesday.</p>
 
-  <div class="spiritPanel hidden" data-panel="gin">
-    <div class="rows">
-      <div class="row"><span>Bombay</span><span class="price jsSpiritPrice">$5</span></div>
-    </div>
-  </div>
+      <div class="menuGrid">
 
-  <div class="spiritPanel hidden" data-panel="cognac">
-    <div class="rows">
-      <div class="row"><span>Hennessy</span><span class="price jsSpiritPrice">$5</span></div>
-    </div>
-  </div>
+        <!-- LEFT: $5 / $10 + $10 Cocktails (YOUR REQUEST) -->
+        <article class="menuCard jsTierCard" data-card="basic">
+          <div class="cardTitle">
+            <span>DRINKS</span>
+            <span class="badge">Choose a tier</span>
+          </div>
 
-</div>
+          <!-- TOP ROW: $5 SHOTS + $10 DRINKS -->
+          <div class="tierRow">
+            <button class="pill jsTierBtn" data-tier="5">$5 SHOTS</button>
+            <button class="pill jsTierBtn" data-tier="10">$10 DRINKS</button>
+          </div>
 
-<div class="cocktailsWrap hidden">
-  <div class="rows">
-    <div class="row"><span>Long Island</span><span>$10</span></div>
-    <div class="row"><span>Lemon Drop</span><span>$10</span></div>
-    <div class="row"><span>Margarita</span><span>$10</span></div>
-  </div>
-</div>
-</div>
+          <!-- MIDDLE: $10 COCKTAILS -->
+          <div class="tierRow" style="margin-top:10px">
+            <button class="pill jsCocktailBtn" data-cocktail="10">$10 COCKTAILS</button>
+          </div>
 
-<!-- =========================
-     $7 / $14 TOP SHELF
-========================= -->
-<div class="card topShelfCard">
-<h3>$7 SHOTS / $14 DRINKS</h3>
+          <!-- CATEGORY TABS (HIDDEN UNTIL TIER CLICKED) -->
+          <div class="spiritTabs hidden jsSpiritTabs">
+            <button class="pill jsSpiritBtn" data-spirit="vodka">Vodka</button>
+            <button class="pill jsSpiritBtn" data-spirit="tequila">Tequila</button>
+            <button class="pill jsSpiritBtn" data-spirit="whiskey">Whiskey</button>
+            <button class="pill jsSpiritBtn" data-spirit="liqueur">Liqueur</button>
+            <button class="pill jsSpiritBtn" data-spirit="rum">Rum</button>
+            <button class="pill jsSpiritBtn" data-spirit="gin">Gin</button>
+            <button class="pill jsSpiritBtn" data-spirit="cognac">Cognac</button>
+          </div>
 
-<div class="topRow">
-  <button class="pill topTierBtn" data-tier="shots7">$7 SHOTS</button>
-  <button class="pill topTierBtn" data-tier="drinks14">$14 DRINKS</button>
-</div>
+          <!-- SPIRIT LIST PANEL -->
+          <div class="spiritPanel hidden jsSpiritPanel">
+            <ul class="itemList jsSpiritList"></ul>
+          </div>
 
-<div class="topSpiritsWrap hidden">
+          <!-- COCKTAIL PANEL -->
+          <div class="spiritPanel hidden jsCocktailPanel">
+            <ul class="itemList jsCocktailList"></ul>
+          </div>
+        </article>
 
-  <div class="spiritTabs">
-    <button class="pill topSpiritBtn" data-spirit="tequila">Tequila</button>
-    <button class="pill topSpiritBtn" data-spirit="whiskey">Whiskey</button>
-    <button class="pill topSpiritBtn" data-spirit="gin">Gin</button>
-    <button class="pill topSpiritBtn" data-spirit="cognac">Cognac</button>
-  </div>
+        <!-- RIGHT: TOP SHELF $7 / $14 (SAME BEHAVIOR) -->
+        <article class="menuCard jsTierCard" data-card="topshelf">
+          <div class="cardTitle">
+            <span>TOP SHELF</span>
+            <span class="badge">Choose a tier</span>
+          </div>
 
-  <div class="spiritPanel hidden" data-panel="tequila">
-    <div class="rows">
-      <div class="row"><span>Don Julio</span><span class="price jsTopPrice">$7</span></div>
-      <div class="row"><span>Patron</span><span class="price jsTopPrice">$7</span></div>
-    </div>
-  </div>
+          <div class="tierRow">
+            <button class="pill jsTopTierBtn" data-tier="7">$7 SHOTS</button>
+            <button class="pill jsTopTierBtn" data-tier="14">$14 DRINKS</button>
+          </div>
 
-  <div class="spiritPanel hidden" data-panel="whiskey">
-    <div class="rows">
-      <div class="row"><span>Old Forester</span><span class="price jsTopPrice">$7</span></div>
-    </div>
-  </div>
+          <!-- CATEGORY TABS (HIDDEN UNTIL TIER CLICKED) -->
+          <div class="spiritTabs hidden jsTopSpiritTabs">
+            <button class="pill jsTopSpiritBtn" data-spirit="vodka">Vodka</button>
+            <button class="pill jsTopSpiritBtn" data-spirit="tequila">Tequila</button>
+            <button class="pill jsTopSpiritBtn" data-spirit="whiskey">Whiskey</button>
+            <button class="pill jsTopSpiritBtn" data-spirit="liqueur">Liqueur</button>
+            <button class="pill jsTopSpiritBtn" data-spirit="rum">Rum</button>
+            <button class="pill jsTopSpiritBtn" data-spirit="gin">Gin</button>
+            <button class="pill jsTopSpiritBtn" data-spirit="cognac">Cognac</button>
+          </div>
 
-  <div class="spiritPanel hidden" data-panel="gin">
-    <div class="rows">
-      <div class="row"><span>Hendricks</span><span class="price jsTopPrice">$7</span></div>
-    </div>
-  </div>
+          <div class="spiritPanel hidden jsTopSpiritPanel">
+            <ul class="itemList jsTopSpiritList"></ul>
+          </div>
+        </article>
 
-  <div class="spiritPanel hidden" data-panel="cognac">
-    <div class="rows">
-      <div class="row"><span>Dusse</span><span class="price jsTopPrice">$7</span></div>
-      <div class="row"><span>Remy VSOP</span><span class="price jsTopPrice">$7</span></div>
-    </div>
-  </div>
+        <!-- LEFT BOTTOM: HOOKAH/REFILL/TOWER/FISHBOWL (clickable can be added next) -->
+        <article class="menuCard">
+          <div class="cardTitle">
+            <span>HOOKAH / TOWER / FISHBOWL</span>
+          </div>
 
-</div>
-</div>
+          <div class="tierRow">
+            <button class="pill">Hookah $23</button>
+            <button class="pill">Refill $12</button>
+            <button class="pill">Tower $43</button>
+            <button class="pill">Fishbowl $23</button>
+          </div>
 
-</div>
+          <p class="daySub" style="margin-top:12px">
+            Add Strawberry, Mango, or Peach to any cocktail.
+          </p>
+        </article>
 
-<script>
-document.addEventListener("click", function(e){
+        <!-- RIGHT BOTTOM: WINE/BEER/NON-ALCOHOLIC (leave as-is for now) -->
+        <article class="menuCard">
+          <div class="cardTitle"><span>WINE / BEER / NON-ALCOHOLIC</span></div>
+          <div class="tierRow">
+            <span class="pill">$6 Wine</span>
+            <span class="pill">$4 Beer</span>
+            <span class="pill">Non-Alcoholic</span>
+          </div>
+          <p class="daySub" style="margin-top:12px">Clickable panels can be added next.</p>
+        </article>
 
-  // ===== REGULAR SPIRITS =====
-  const card = e.target.closest(".hhSpiritsCard");
-  if(card){
+      </div>
+    </section>
 
-    const tierBtn = e.target.closest(".tierBtn");
-    const spiritBtn = e.target.closest(".spiritBtn");
+    <!-- PLACEHOLDER OTHER DAYS (so tabs work) -->
+    <section id="monday" data-day-section="monday" style="margin-top:40px">
+      <h2 class="daySectionTitle">MONDAY</h2>
+      <p class="daySub">Content stays as your current build (we can merge next).</p>
+    </section>
 
-    const spiritsWrap = card.querySelector(".spiritsWrap");
-    const cocktailsWrap = card.querySelector(".cocktailsWrap");
+    <section id="tuesday" data-day-section="tuesday" style="margin-top:40px">
+      <h2 class="daySectionTitle">TUESDAY</h2>
+      <p class="daySub">Content stays as your current build (we can merge next).</p>
+    </section>
 
-    if(tierBtn){
-      card.querySelectorAll(".tierBtn").forEach(b=>b.classList.remove("active"));
-      tierBtn.classList.add("active");
+    <section id="thursday" data-day-section="thursday" style="margin-top:40px">
+      <h2 class="daySectionTitle">THURSDAY</h2>
+      <p class="daySub">Content stays as your current build (we can merge next).</p>
+    </section>
 
-      if(tierBtn.dataset.tier === "cocktails10"){
-        spiritsWrap.classList.add("hidden");
-        cocktailsWrap.classList.remove("hidden");
-        return;
+    <section id="friday" data-day-section="friday" style="margin-top:40px">
+      <h2 class="daySectionTitle">FRIDAY</h2>
+      <p class="daySub">Content stays as your current build (we can merge next).</p>
+    </section>
+
+    <section id="saturday" data-day-section="saturday" style="margin-top:40px">
+      <h2 class="daySectionTitle">SATURDAY</h2>
+      <p class="daySub">Content stays as your current build (we can merge next).</p>
+    </section>
+
+    <section id="sunday" data-day-section="sunday" style="margin-top:40px">
+      <h2 class="daySectionTitle">SUNDAY</h2>
+      <p class="daySub">Content stays as your current build (we can merge next).</p>
+    </section>
+
+  </main>
+
+  <script>
+    /* ==========================
+       NAV TOGGLE (your code)
+    ========================== */
+    (() => {
+      const btn = document.querySelector('.nav__toggle');
+      const menu = document.querySelector('.nav__list');
+      if (!btn || !menu) return;
+
+      btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    })();
+
+    /* ==========================
+       DAY TAB ACTIVE + SCROLL OFFSET
+    ========================== */
+    (function(){
+      const dayBtns = Array.from(document.querySelectorAll('.dayBtn'));
+      const headerOffset = 140;
+
+      function setActive(day){
+        dayBtns.forEach(b => b.classList.toggle('active', b.dataset.day === day));
       }
 
-      cocktailsWrap.classList.add("hidden");
-      spiritsWrap.classList.remove("hidden");
+      function scrollToId(id){
+        const el = document.getElementById(id);
+        if(!el) return;
+        const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
 
-      const price = tierBtn.dataset.tier === "drinks10" ? "$10" : "$5";
-      card.querySelectorAll(".jsSpiritPrice").forEach(p=>p.textContent=price);
-
-      card.querySelectorAll(".spiritPanel").forEach(p=>p.classList.add("hidden"));
-      card.querySelectorAll(".spiritBtn").forEach(b=>b.classList.remove("active"));
-    }
-
-    if(spiritBtn){
-      card.querySelectorAll(".spiritBtn").forEach(b=>b.classList.remove("active"));
-      spiritBtn.classList.add("active");
-
-      const target = spiritBtn.dataset.spirit;
-      card.querySelectorAll(".spiritPanel").forEach(panel=>{
-        panel.classList.toggle("hidden", panel.dataset.panel !== target);
+      dayBtns.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const day = btn.dataset.day;
+          setActive(day);
+          scrollToId(day);
+          history.replaceState(null, '', `#${day}`);
+        });
       });
+
+      // load state
+      const hash = (location.hash || '#wednesday').replace('#','');
+      setActive(hash);
+    })();
+
+    /* ==========================
+       DATA (WEDNESDAY = TUE–SAT LIST)
+       $5 and $10 use SAME brands, only price changes
+    ========================== */
+    const SPIRITS_TUE_SAT = {
+      vodka:   ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
+      tequila: ["1800","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
+      whiskey: ["Basil Hayden","Bulliet","Chivas Regal","Crown","Dewar's","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
+      liqueur: ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
+      rum:     ["Bacardi","Cpt Morgan","Malibu","Myers"],
+      gin:     ["Bombay","Roku","Tanqueray"],
+      cognac:  ["Courvoisier","Hennessy"]
+    };
+
+    // Top shelf list from your green flyer section ($7/$14)
+    const TOPSHELF_TUE_SAT = {
+      vodka:   ["818","Casa Azul","Casamigos","Ciroc VS"],
+      tequila: ["Don Julio","Patron"],
+      whiskey: ["Dusse","Old Forester","Sir Davis"],
+      liqueur: ["Hennessy VSOP","Remy 1738","Remy VSOP"],
+      rum:     ["Equiano"],
+      gin:     ["Hendricks"],
+      cognac:  ["Herradura"]
+    };
+
+    const COCKTAILS_TUE_SAT = [
+      "Allure Lemon Drop",
+      "Allure Sidecar",
+      "Apple Martini",
+      "Bitch Please",
+      "Blue Motorcycle",
+      "Ciroc Punch",
+      "Classic Margarita",
+      "Cosmopolitan",
+      "Gin Martini",
+      "Green Tea",
+      "Long Island",
+      "Manhattan",
+      "Mint Julep",
+      "Mojito",
+      "Moscow Mule",
+      "Old Fashion",
+      "Orange Martini",
+      "Red or White Sangria",
+      "Rum Punch",
+      "Strawberry Henny"
+    ];
+
+    /* ==========================
+       HELPERS
+    ========================== */
+    function clearActive(buttons){
+      buttons.forEach(b => b.classList.remove('active'));
     }
-  }
-
-  // ===== TOP SHELF =====
-  const topCard = e.target.closest(".topShelfCard");
-  if(topCard){
-
-    const tierBtn = e.target.closest(".topTierBtn");
-    const spiritBtn = e.target.closest(".topSpiritBtn");
-    const wrap = topCard.querySelector(".topSpiritsWrap");
-
-    if(tierBtn){
-      topCard.querySelectorAll(".topTierBtn").forEach(b=>b.classList.remove("active"));
-      tierBtn.classList.add("active");
-      wrap.classList.remove("hidden");
-
-      const price = tierBtn.dataset.tier === "drinks14" ? "$14" : "$7";
-      topCard.querySelectorAll(".jsTopPrice").forEach(p=>p.textContent=price);
-
-      topCard.querySelectorAll(".spiritPanel").forEach(p=>p.classList.add("hidden"));
-      topCard.querySelectorAll(".topSpiritBtn").forEach(b=>b.classList.remove("active"));
+    function renderList(ul, names, price){
+      ul.innerHTML = names.map(n => `
+        <li class="itemRow">
+          <b>${n}</b>
+          <span class="price">$${price}</span>
+        </li>
+      `).join('');
+    }
+    function renderCocktails(ul, names, price){
+      ul.innerHTML = names.map(n => `
+        <li class="itemRow">
+          <b>${n}</b>
+          <span class="price">$${price}</span>
+        </li>
+      `).join('');
     }
 
-    if(spiritBtn){
-      topCard.querySelectorAll(".topSpiritBtn").forEach(b=>b.classList.remove("active"));
-      spiritBtn.classList.add("active");
+    /* ==========================
+       BASIC CARD ($5 / $10 + $10 COCKTAILS)
+       - click tier => show category tabs, hide lists until category clicked
+       - click category => show only that category list
+       - click cocktails => show cocktail list, hide spirits list
+    ========================== */
+    (function(){
+      const card = document.querySelector('.jsTierCard[data-card="basic"]');
+      if(!card) return;
 
-      const target = spiritBtn.dataset.spirit;
-      topCard.querySelectorAll(".spiritPanel").forEach(panel=>{
-        panel.classList.toggle("hidden", panel.dataset.panel !== target);
+      const tierBtns = Array.from(card.querySelectorAll('.jsTierBtn'));
+      const spiritTabsWrap = card.querySelector('.jsSpiritTabs');
+      const spiritBtns = Array.from(card.querySelectorAll('.jsSpiritBtn'));
+      const spiritPanel = card.querySelector('.jsSpiritPanel');
+      const spiritList = card.querySelector('.jsSpiritList');
+
+      const cocktailBtn = card.querySelector('.jsCocktailBtn');
+      const cocktailPanel = card.querySelector('.jsCocktailPanel');
+      const cocktailList = card.querySelector('.jsCocktailList');
+
+      let currentTier = null;
+
+      tierBtns.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          clearActive(tierBtns);
+          btn.classList.add('active');
+          currentTier = Number(btn.dataset.tier);
+
+          // show tabs, but hide panels until category clicked
+          spiritTabsWrap.classList.remove('hidden');
+          spiritPanel.classList.add('hidden');
+          cocktailPanel.classList.add('hidden');
+          clearActive(spiritBtns);
+
+          // also deactivate cocktails
+          cocktailBtn.classList.remove('active');
+        });
       });
-    }
-  }
 
-});
-</script>
+      cocktailBtn.addEventListener('click', ()=>{
+        cocktailBtn.classList.add('active');
+        // hide spirits panels + category actives
+        spiritPanel.classList.add('hidden');
+        clearActive(spiritBtns);
+
+        // show cocktails
+        cocktailPanel.classList.remove('hidden');
+        renderCocktails(cocktailList, COCKTAILS_TUE_SAT, 10);
+      });
+
+      spiritBtns.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(!currentTier){
+            // if they didn't pick tier yet, default to $5
+            currentTier = 5;
+            tierBtns[0].classList.add('active');
+            spiritTabsWrap.classList.remove('hidden');
+          }
+
+          // deactivate cocktails
+          cocktailBtn.classList.remove('active');
+          cocktailPanel.classList.add('hidden');
+
+          // active category
+          clearActive(spiritBtns);
+          btn.classList.add('active');
+
+          const key = btn.dataset.spirit;
+          const items = SPIRITS_TUE_SAT[key] || [];
+
+          spiritPanel.classList.remove('hidden');
+          renderList(spiritList, items, currentTier);
+        });
+      });
+    })();
+
+    /* ==========================
+       TOP SHELF CARD ($7 / $14)
+       same exact behavior as basic tier
+    ========================== */
+    (function(){
+      const card = document.querySelector('.jsTierCard[data-card="topshelf"]');
+      if(!card) return;
+
+      const tierBtns = Array.from(card.querySelectorAll('.jsTopTierBtn'));
+      const spiritTabsWrap = card.querySelector('.jsTopSpiritTabs');
+      const spiritBtns = Array.from(card.querySelectorAll('.jsTopSpiritBtn'));
+      const panel = card.querySelector('.jsTopSpiritPanel');
+      const list = card.querySelector('.jsTopSpiritList');
+
+      let currentTier = null;
+
+      tierBtns.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          clearActive(tierBtns);
+          btn.classList.add('active');
+          currentTier = Number(btn.dataset.tier);
+
+          spiritTabsWrap.classList.remove('hidden');
+          panel.classList.add('hidden');
+          clearActive(spiritBtns);
+        });
+      });
+
+      spiritBtns.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(!currentTier){
+            currentTier = 7;
+            tierBtns[0].classList.add('active');
+            spiritTabsWrap.classList.remove('hidden');
+          }
+
+          clearActive(spiritBtns);
+          btn.classList.add('active');
+
+          const key = btn.dataset.spirit;
+          const items = TOPSHELF_TUE_SAT[key] || [];
+
+          panel.classList.remove('hidden');
+          renderList(list, items, currentTier);
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
