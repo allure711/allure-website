@@ -1,549 +1,120 @@
-:root{
-  --bg:#0b0b0c;
-  --panel:#111114;
-@@ -11,76 +9,114 @@ This is my CSS add the correction and give me new code
-  --radius:18px;
-  --shadow: 0 20px 60px rgba(0,0,0,.45);
-}
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:
-    radial-gradient(1200px 600px at 20% 0%, rgba(215,180,106,.12), transparent 55%),
-    radial-gradient(900px 600px at 80% 10%, rgba(215,180,106,.08), transparent 60%),
-    var(--bg);
-  color:var(--text);
-  line-height:1.55;
-}
-
-a{color:inherit}
-img{max-width:100%;display:block}
-
-.container{
-  width:min(1120px, 92vw);
-  margin-inline:auto;
-}
-
-.skip-link{
-  position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden
-}
-.skip-link:focus{
-  left:16px;top:16px;width:auto;height:auto;z-index:9999;
-  background:var(--panel);padding:10px 12px;border:1px solid var(--line);border-radius:10px
-}
-
-/* =========================
-   HEADER / NAV
-========================= */
-.header{
-  position:sticky;
-  top:0;
-  z-index:9999;
-  background: rgba(10,10,12,0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(215,180,106,0.18);
-}
-.header__inner{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 0;
-}
-
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand__logo{width:38px;height:38px}
-.brand__name{font-weight:700;letter-spacing:.2px}
-
-.nav__toggle{
-  display:inline-flex;align-items:center;justify-content:center;
-  border:1px solid var(--line);background:transparent;color:var(--text);
-  padding:10px 12px;border-radius:12px;cursor:pointer;
-}
-
-.nav__list{
-  list-style:none;
-  margin:0;
-  padding:0;
-  display:none;
-  gap:12px;
-  align-items:center;
-}
-.nav__list a{
-  text-decoration:none;
-  color:var(--text);
-  padding:10px 10px;
-  border-radius:12px;
-}
-.nav__list a:hover{background:rgba(255,255,255,.06)}
-
-.nav__list.is-open{
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  position:absolute;
-  left:4vw;right:4vw;top:64px;
-  background:rgba(17,17,20,.98);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:10px;
-  box-shadow: var(--shadow);
-}
-
-@media (min-width: 920px){
-  .nav__toggle{display:none}
-  .nav__list{display:flex}
-  .nav__list.is-open{
-    position:static;
-    flex-direction:row;
-    background:transparent;
-    border:none;
-    box-shadow:none;
-    padding:0;
-  }
-}
-
-/* Active nav */
-.nav__list li a.active{
-  color: #d7b46a !important;
-  font-weight: 700;
-}
-
-/* =========================
-   BUTTONS / PILLS
-========================= */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  gap:10px;
-@@ -91,694 +127,221 @@ img{max-width:100%;display:block}
-  letter-spacing:.2px;
-  border:1px solid var(--line);
-}
-
-.btn--primary{
-  background: linear-gradient(180deg, var(--gold), var(--gold2));
-  color:#1a1407;
-  border:none;
-}
-
-.btn--ghost{ background: rgba(255,255,255,.04); }
-
-.btn--small{padding:10px 14px;font-size:14px}
-
-.badge{
-  display:inline-flex;
-  border:1px solid rgba(215,180,106,.28);
-  background: rgba(215,180,106,.10);
-  padding:6px 10px;
-  border-radius:999px;
-  color:var(--text);
-  font-size:13px;
-}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:9px 12px;
-
-
-
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.25);
-  background: rgba(255,255,255,.03);
-  color:var(--text);
-  font-size:13px;
-  font-weight:650;
-  cursor:pointer;
-  user-select:none;
-}
-.pill:hover{ background: rgba(255,255,255,.06); }
-.pill.active{
-  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
-  color:#14120c;
-  border-color: rgba(242,210,138,.95);
-}
-
-/* =========================
-   MENU PAGE (THE “RIGHT” LOOK)
-========================= */
-
-.menuWrap{
-  padding: 26px 0 40px;
-}
-
-/* Day tabs row */
-.dayTabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin: 10px 0 18px;
-}
-.dayTabs .pill{
-  padding:10px 14px;
-
-  border:1px solid rgba(37,37,42,.9);
-
-}
-.dayTabs .pill.active{
-  border-color: rgba(242,210,138,.95);
-
-}
-
-/* Headline */
-.menuTitle{
-  font-size: 34px;
-  margin: 6px 0 6px;
-  letter-spacing:.02em;
-
-}
-.menuSub{
-  color: var(--muted);
-  margin: 0 0 18px;
-
-}
-
-/* Grid like your screenshot */
-.menuGrid{
-  display:grid;
-  gap:14px;
-  grid-template-columns: 1fr;
-
-}
-@media (min-width: 980px){
-  .menuGrid{
-    grid-template-columns: 1fr 1fr;
-    align-items:start;
-
-  }
-}
-
-/* Cards */
-.menuCard{
-
-  border:1px solid rgba(37,37,42,.9);
-  background: rgba(17,17,20,.55);
-  border-radius: var(--radius);
-  padding:16px;
-  box-shadow: 0 14px 45px rgba(0,0,0,.25);
-}
-.menuCard__head{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-
-  gap:12px;
-  margin-bottom:10px;
-}
-.menuCard__title{
-  margin:0;
-  font-weight:800;
-  letter-spacing:.10em;
-  text-transform:uppercase;
- font-size:13px;
-  color: rgba(255,255,255,.92);
-}
-.menuCard__note{
-
-  margin:0;
-  color: var(--muted);
-  font-size:13px;
-
-}
-
-/* Tier row */
-.tierRow{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  align-items:center;
-  margin-top:12px;
-
-}
-
-/* Spirit tabs + panels */
-.spiritTabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:12px;
-}
-.spiritPanel{
-  margin-top:12px;
-  display:none;
-  border:1px solid rgba(37,37,42,.9);
-  border-radius: 14px;
-  padding:12px;
-  background: rgba(0,0,0,.18);
-
-}
-.spiritPanel.active{ display:block; }
-
-.spiritList{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-
-}
-.spiritItem{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:9px 12px;
-  border-radius:999px;
-  border:1px solid rgba(37,37,42,.9);
-  background: rgba(255,255,255,.03);
-  font-size:13px;
-  font-weight:650;
-}
-
-/* Price tag used inside list items */
-.priceTag{
-  margin-left:8px;
-  color: var(--gold);
-  font-weight:900;
-
-}
-
-/* Cocktails panel */
-.cocktailPanel{
-  margin-top:12px;
-  display:none;
-  border:1px solid rgba(37,37,42,.9);
-  border-radius: 14px;
-  padding:12px;
-  background: rgba(0,0,0,.18);
-
-}
-.cocktailPanel.active{ display:block; }
-.cocktailList{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-
-}
-
-/* Wine/beer card spacing */
-.wbRow{
-
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:12px;
-}
-.smallNote{
-  margin-top:10px;
-  color: var(--muted);
-  font-size:13px;
-
-}
-
-/* =========================
-   PHONE ICON ANIM (your old code)
-========================= */
-
-
-.icon-only{
-  width:44px;height:44px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:0;
-}
-@keyframes handsetRing{
-
-  0%,100% { transform: rotate(0deg); }
-  20%     { transform: rotate(-15deg); }
-  40%     { transform: rotate(15deg); }
-  60%     { transform: rotate(-10deg); }
-  80%     { transform: rotate(10deg); }
-}
-
-.phone-icon{
-  animation: handsetRing 1.2s ease-in-out infinite;
   transform-origin:center;
   filter: drop-shadow(0 0 12px rgba(215,180,106,.35));
-}xxxxxxxxxx
-xxxxxxx
-xxxxxx
-xxxxx
-xxxxxx
-xxxxxx/* ===== MENU PAGE ONLY ===== */
-.menuPage{
-  padding: 18px 0 60px;
 }
-
-.dayTabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin: 16px 0 18px;
-}
-
-.menuHeader{
-  margin: 8px 0 14px;
-}
-
-.menuTitle{
-  margin:0;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-}
-
-.menuSub{
-  margin:6px 0 0;
-  color: var(--muted);
-}
+/* =========================
+   MENU PAGE (FIX / CLEAN)
+   Paste at bottom of styles.css
+========================= */
 
 .menuGrid{
   display:grid;
+  grid-template-columns: 1fr;
   gap:12px;
 }
-
 @media (min-width: 920px){
   .menuGrid{
     grid-template-columns: 1fr 1fr;
     align-items:start;
   }
-  .menuGrid > .menuCard:nth-child(3),
-  .menuGrid > .menuCard:nth-child(4){
-    grid-column: span 1;
-  }
 }
 
 .menuCard{
-  border: 1px solid rgba(215,180,106,.18);
-  background: rgba(17,17,20,.55);
+  border:1px solid rgba(215,180,106,.18);
+  background: rgba(15,15,20,.55);
   border-radius: 22px;
   padding: 16px;
-  box-shadow: 0 25px 80px rgba(0,0,0,.35);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.35),
+    0 0 0 1px rgba(215,180,106,.05) inset;
 }
 
-.cardHead{
+.menuCard__head{
   display:flex;
-  align-items:center;
-  justify-content:space-between;
+  flex-direction:column;
   gap:10px;
-  margin-bottom: 10px;
 }
 
-.cardTitle{
-  margin:0;
-  font-size: 14px;
-  letter-spacing:.14em;
+.menuCard__title{
+  font-weight:850;
+  letter-spacing:.10em;
   text-transform:uppercase;
-  color: rgba(255,255,255,.92);
+  font-size: 13px;
+  opacity:.95;
 }
 
-/* chips (matches your style) */
+.tierTabs,
+.spiritTabs,
+.itemChips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.spiritTabs{
+  margin-top:12px;
+}
+
+.tierPanel{
+  margin-top:12px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/* chip buttons */
 .chip{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border: 1px solid rgba(215,180,106,.25);
+  border:1px solid rgba(215,180,106,.25);
   background: rgba(255,255,255,.03);
   color: rgba(255,255,255,.92);
-  padding: 8px 12px;
+  padding:8px 12px;
   border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
+  font-weight:750;
+  font-size:13px;
   cursor:pointer;
   user-select:none;
+  white-space:nowrap;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
 
 .chip:hover{
   border-color: rgba(215,180,106,.55);
-  filter: drop-shadow(0 0 10px rgba(215,180,106,.18));
+  box-shadow: 0 0 18px rgba(215,180,106,.18);
+  transform: translateY(-1px);
 }
 
 .chip.active{
-  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,180,106,.95));
-  color: #14120c;
+  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+  color:#14120c;
   border-color: rgba(242,210,138,.95);
+  box-shadow: 0 0 22px rgba(215,180,106,.22);
 }
 
-/* Tier buttons layout */
-.tierButtons{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin: 6px 0 10px;
+/* Day tabs */
+.dayTabs .chip.active{
+  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+  color:#14120c;
 }
 
-/* REQUIRED by you */
-.spiritTabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:12px;
+/* keep menu sections consistent with your glass look */
+.menu-section{
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(15,15,20,.55);
+  border: 1px solid rgba(215,180,106,.18);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.45),
+    0 0 0 1px rgba(215,180,106,.05) inset;
 }
 
-.spiritPanel{
-  margin-top:12px;
-}
-
-/* hide/show panels */
-.hidden{ display:none !important; }
-
-.itemList{
-  list-style:none;
-  padding:0;
-  margin:0;
-  display:grid;
-  gap:10px;
-}
-
-.itemList li{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(215,180,106,.12);
-  background: rgba(0,0,0,.18);
-}
-
-.priceTag{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width: 48px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(215,180,106,.20);
-  background: rgba(215,180,106,.10);
-  color: rgba(255,255,255,.92);
-  font-weight: 800;
-}
-
-/* chip list for wines/beer/cocktails */
-.chipList{
-  list-style:none;
-  padding:0;
-  margin: 10px 0 0;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.pillNote{
-  margin-top: 10px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.menuNote{
-  margin: 12px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.srOnly{
-  position:absolute !important;
-  width:1px;height:1px;
-  padding:0;margin:-1px;
-  overflow:hidden;clip:rect(0,0,0,0);
-  white-space:nowrap;border:0;
+/* prevent weird top spacing caused by default h2/h3 styles */
+.menu-section h2,
+.menu-section p{
+  margin-top:0;
 }
