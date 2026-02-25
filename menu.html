@@ -1,51 +1,664 @@
-<!-- WINE / BEER / NON-ALCOHOLIC (updated) -->
-<div class="menuCard wineBeerCard" data-card="winebeer">
-  <div class="menuCard__head">
-    <div class="menuCard__title">WINE / BEER / NON-ALCOHOLIC</div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Menu | Allure Bar & Lounge</title>
 
-    <div class="tierTabs">
-      <button class="chip tierBtn" type="button" data-tier="wine">$6 Wine</button>
-      <button class="chip tierBtn" type="button" data-tier="beer">$4 Beer</button>
-      <button class="chip tierBtn" type="button" data-tier="na">Non-Alcoholic</button>
-    </div>
-  </div>
+  <!-- your existing site CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-  <!-- WINE LIST (shows only when you click $6 Wine) -->
-  <div class="tierPanel hidden" data-panel="wine">
-    <div class="itemChips">
-      <span class="chip">Cabernet Sauvignon</span>
-      <span class="chip">Chardonnay</span>
-      <span class="chip">Merlot</span>
-      <span class="chip">Moscato (Red/White)</span>
-      <span class="chip">Pinot Grigio</span>
-      <span class="chip">Sauvignon Blanc</span>
-      <span class="chip">Sweet Red</span>
-    </div>
-  </div>
+<body class="vegas-bg">
+  <!-- Header (keep same classes so your site CSS works) -->
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__name">Allure Bar &amp; Lounge</span>
+      </a>
 
-  <!-- BEER LIST (shows only when you click $4 Beer) -->
-  <div class="tierPanel hidden" data-panel="beer">
-    <div class="itemChips">
-      <span class="chip">Angry Orchard</span>
-      <span class="chip">Corona</span>
-      <span class="chip">Guinness</span>
-      <span class="chip">Heineken</span>
-      <span class="chip">Modelo</span>
-      <span class="chip">Stella</span>
-      <span class="chip">Goose Island IPA</span>
-      <span class="chip">Voodoo Ranger IPA</span>
-    </div>
-  </div>
+      <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
 
-  <!-- NON-ALCOHOLIC (shows by default) -->
-  <div class="tierPanel" data-panel="na">
-    <div class="itemChips">
-      <span class="chip">$5 Red Bull</span>
-      <span class="chip">$5 Ginger Beer</span>
-      <span class="chip">$5 Frozen Drinks</span>
-      <span class="chip">$3 Soda</span>
-      <span class="chip">$3 Juice</span>
-      <span class="chip">$3 Water</span>
+      <ul class="nav__list" id="siteNav">
+        <li><a href="index.html">Home</a></li>
+        <li><a class="active" href="menu.html">Menu</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="location.html">Location</a></li>
+      </ul>
     </div>
-  </div>
-</div>
+  </header>
+
+  <main class="container" style="padding:22px 0 80px;">
+    <!-- DAY TABS -->
+    <div class="dayTabs" style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 16px;">
+      <button class="chip dayBtn" data-target="#monday" type="button">Monday</button>
+      <button class="chip dayBtn" data-target="#tuesday" type="button">Tuesday</button>
+      <button class="chip dayBtn" data-target="#wednesday" type="button">Wednesday</button>
+      <button class="chip dayBtn" data-target="#thursday" type="button">Thursday</button>
+      <button class="chip dayBtn" data-target="#friday" type="button">Friday</button>
+      <button class="chip dayBtn" data-target="#saturday" type="button">Saturday</button>
+      <button class="chip dayBtn" data-target="#sunday" type="button">Sunday</button>
+    </div>
+
+    <!-- =======================
+         MONDAY
+    ======================== -->
+    <section id="monday" class="menu-section">
+      <h2 class="hero-title" style="margin:0 0 6px;">MONDAY</h2>
+      <p class="hero-sub" style="margin:0 0 16px;opacity:.85;">Happy Hour 5PM–9PM</p>
+
+      <!-- Happy Hour Layout -->
+      <div class="menuGrid">
+        <!-- LEFT: $5/$10/$10 cocktails -->
+        <div class="menuCard drinkCard" data-card="happy">
+          <div class="menuCard__head">
+            <div class="menuCard__title">$5 SHOTS / $10 DRINKS</div>
+
+            <div class="tierTabs">
+              <button class="chip tierBtn" type="button" data-tier="shots">$5 SHOTS</button>
+              <button class="chip tierBtn" type="button" data-tier="drinks">$10 DRINKS</button>
+              <button class="chip tierBtn" type="button" data-tier="cocktails">$10 COCKTAILS</button>
+            </div>
+          </div>
+
+          <!-- Spirits area (hidden until you click $5 or $10) -->
+          <div class="tierPanel hidden" data-panel="shots">
+            <div class="spiritTabs">
+              <button class="chip spiritBtn" type="button" data-spirit="vodka">Vodka</button>
+              <button class="chip spiritBtn" type="button" data-spirit="tequila">Tequila</button>
+              <button class="chip spiritBtn" type="button" data-spirit="whiskey">Whiskey</button>
+              <button class="chip spiritBtn" type="button" data-spirit="liqueur">Liqueur</button>
+              <button class="chip spiritBtn" type="button" data-spirit="rum">Rum</button>
+              <button class="chip spiritBtn" type="button" data-spirit="gin">Gin</button>
+              <button class="chip spiritBtn" type="button" data-spirit="cognac">Cognac</button>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="vodka">
+              <div class="itemChips">
+                <span class="chip">Absolut</span><span class="chip">Belvedere</span><span class="chip">Ciroc</span>
+                <span class="chip">Grey Goose</span><span class="chip">Kettle One</span><span class="chip">Stoli Orange</span>
+                <span class="chip">Titos</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="tequila">
+              <div class="itemChips">
+                <span class="chip">1800</span><span class="chip">Altos</span><span class="chip">Espolon</span>
+                <span class="chip">Hornitos</span><span class="chip">Jose Cuervo</span><span class="chip">Lunazul</span>
+                <span class="chip">Milagro</span><span class="chip">Teremana</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="whiskey">
+              <div class="itemChips">
+                <span class="chip">Basil Hayden</span><span class="chip">Bulliet</span><span class="chip">Chivas Regal</span>
+                <span class="chip">Crown</span><span class="chip">Dewar’s</span><span class="chip">Fireball</span>
+                <span class="chip">Jack Daniels</span><span class="chip">Jameson</span><span class="chip">Jim Beam</span>
+                <span class="chip">Makers Mark</span><span class="chip">Woodford</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="liqueur">
+              <div class="itemChips">
+                <span class="chip">Disaronno</span><span class="chip">Grand Marnier</span><span class="chip">Hpnotiq</span>
+                <span class="chip">Jagermeister</span><span class="chip">Midori</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="rum">
+              <div class="itemChips">
+                <span class="chip">Bacardi</span><span class="chip">Cpt Morgan</span><span class="chip">Malibu</span><span class="chip">Myers</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="gin">
+              <div class="itemChips">
+                <span class="chip">Bombay</span><span class="chip">Roku</span><span class="chip">Tanqueray</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="cognac">
+              <div class="itemChips">
+                <span class="chip">Courvoisier</span><span class="chip">Hennessy</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Drinks tier uses SAME spirit categories + panels -->
+          <div class="tierPanel hidden" data-panel="drinks">
+            <div class="spiritTabs">
+              <button class="chip spiritBtn" type="button" data-spirit="vodka">Vodka</button>
+              <button class="chip spiritBtn" type="button" data-spirit="tequila">Tequila</button>
+              <button class="chip spiritBtn" type="button" data-spirit="whiskey">Whiskey</button>
+              <button class="chip spiritBtn" type="button" data-spirit="liqueur">Liqueur</button>
+              <button class="chip spiritBtn" type="button" data-spirit="rum">Rum</button>
+              <button class="chip spiritBtn" type="button" data-spirit="gin">Gin</button>
+              <button class="chip spiritBtn" type="button" data-spirit="cognac">Cognac</button>
+            </div>
+
+            <!-- re-use the SAME panels by cloning with JS (so we keep HTML simple) -->
+            <div class="drinkReuseNote" style="opacity:.7;margin-top:10px;">
+              Click a spirit category above to see the list.
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="vodka">
+              <div class="itemChips">
+                <span class="chip">Absolut</span><span class="chip">Belvedere</span><span class="chip">Ciroc</span>
+                <span class="chip">Grey Goose</span><span class="chip">Kettle One</span><span class="chip">Stoli Orange</span>
+                <span class="chip">Titos</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="tequila">
+              <div class="itemChips">
+                <span class="chip">1800</span><span class="chip">Altos</span><span class="chip">Espolon</span>
+                <span class="chip">Hornitos</span><span class="chip">Jose Cuervo</span><span class="chip">Lunazul</span>
+                <span class="chip">Milagro</span><span class="chip">Teremana</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="whiskey">
+              <div class="itemChips">
+                <span class="chip">Basil Hayden</span><span class="chip">Bulliet</span><span class="chip">Chivas Regal</span>
+                <span class="chip">Crown</span><span class="chip">Dewar’s</span><span class="chip">Fireball</span>
+                <span class="chip">Jack Daniels</span><span class="chip">Jameson</span><span class="chip">Jim Beam</span>
+                <span class="chip">Makers Mark</span><span class="chip">Woodford</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="liqueur">
+              <div class="itemChips">
+                <span class="chip">Disaronno</span><span class="chip">Grand Marnier</span><span class="chip">Hpnotiq</span>
+                <span class="chip">Jagermeister</span><span class="chip">Midori</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="rum">
+              <div class="itemChips">
+                <span class="chip">Bacardi</span><span class="chip">Cpt Morgan</span><span class="chip">Malibu</span><span class="chip">Myers</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="gin">
+              <div class="itemChips">
+                <span class="chip">Bombay</span><span class="chip">Roku</span><span class="chip">Tanqueray</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="cognac">
+              <div class="itemChips">
+                <span class="chip">Courvoisier</span><span class="chip">Hennessy</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cocktails -->
+          <div class="tierPanel hidden" data-panel="cocktails">
+            <div class="itemChips">
+              <span class="chip">Allure Lemon Drop</span>
+              <span class="chip">Classic Margarita</span>
+              <span class="chip">Long Island</span>
+              <span class="chip">Moscow Mule</span>
+              <span class="chip">Old Fashion</span>
+              <span class="chip">Rum Punch</span>
+              <span class="chip">Strawberry Henny</span>
+            </div>
+            <p style="margin:10px 0 0;opacity:.75;">Add strawberry, mango, or peach to any cocktail.</p>
+          </div>
+        </div>
+
+        <!-- RIGHT: TOP SHELF $7 / $14 (same behavior) -->
+        <div class="menuCard topShelfCard" data-card="topshelf">
+          <div class="menuCard__head">
+            <div class="menuCard__title">$7 SHOTS / $14 DRINKS - TOP SHELF</div>
+
+            <div class="tierTabs">
+              <button class="chip tierBtn" type="button" data-tier="shots">$7 SHOTS</button>
+              <button class="chip tierBtn" type="button" data-tier="drinks">$14 DRINKS</button>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="shots">
+            <div class="spiritTabs">
+              <button class="chip spiritBtn" type="button" data-spirit="vodka">Vodka</button>
+              <button class="chip spiritBtn" type="button" data-spirit="tequila">Tequila</button>
+              <button class="chip spiritBtn" type="button" data-spirit="whiskey">Whiskey</button>
+              <button class="chip spiritBtn" type="button" data-spirit="rum">Rum</button>
+              <button class="chip spiritBtn" type="button" data-spirit="gin">Gin</button>
+              <button class="chip spiritBtn" type="button" data-spirit="cognac">Cognac</button>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="vodka">
+              <div class="itemChips">
+                <span class="chip">Ciroc VS</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="tequila">
+              <div class="itemChips">
+                <span class="chip">818</span><span class="chip">Casa Azul</span><span class="chip">Casamigos</span>
+                <span class="chip">Don Julio</span><span class="chip">Herradura</span><span class="chip">Patron</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="whiskey">
+              <div class="itemChips">
+                <span class="chip">Old Forester</span><span class="chip">Sir Davis</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="rum">
+              <div class="itemChips">
+                <span class="chip">Equiano</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="gin">
+              <div class="itemChips">
+                <span class="chip">Hendricks</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="cognac">
+              <div class="itemChips">
+                <span class="chip">Dusse</span><span class="chip">Hennessy VSOP</span>
+                <span class="chip">Remy 1738</span><span class="chip">Remy VSOP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="drinks">
+            <div class="spiritTabs">
+              <button class="chip spiritBtn" type="button" data-spirit="vodka">Vodka</button>
+              <button class="chip spiritBtn" type="button" data-spirit="tequila">Tequila</button>
+              <button class="chip spiritBtn" type="button" data-spirit="whiskey">Whiskey</button>
+              <button class="chip spiritBtn" type="button" data-spirit="rum">Rum</button>
+              <button class="chip spiritBtn" type="button" data-spirit="gin">Gin</button>
+              <button class="chip spiritBtn" type="button" data-spirit="cognac">Cognac</button>
+            </div>
+
+            <!-- same lists as shots -->
+            <div class="spiritPanel hidden" data-spirit-panel="vodka">
+              <div class="itemChips"><span class="chip">Ciroc VS</span></div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="tequila">
+              <div class="itemChips">
+                <span class="chip">818</span><span class="chip">Casa Azul</span><span class="chip">Casamigos</span>
+                <span class="chip">Don Julio</span><span class="chip">Herradura</span><span class="chip">Patron</span>
+              </div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="whiskey">
+              <div class="itemChips"><span class="chip">Old Forester</span><span class="chip">Sir Davis</span></div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="rum">
+              <div class="itemChips"><span class="chip">Equiano</span></div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="gin">
+              <div class="itemChips"><span class="chip">Hendricks</span></div>
+            </div>
+
+            <div class="spiritPanel hidden" data-spirit-panel="cognac">
+              <div class="itemChips">
+                <span class="chip">Dusse</span><span class="chip">Hennessy VSOP</span>
+                <span class="chip">Remy 1738</span><span class="chip">Remy VSOP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEFT BOTTOM: WINE/BEER/NON-ALC (FIXED) -->
+        <div class="menuCard wineBeerCard" data-card="winebeer">
+          <div class="menuCard__head">
+            <div class="menuCard__title">WINE / BEER / NON-ALCOHOLIC</div>
+
+            <div class="tierTabs">
+              <button class="chip tierBtn" type="button" data-tier="wine">$6 Wine</button>
+              <button class="chip tierBtn" type="button" data-tier="beer">$4 Beer</button>
+              <button class="chip tierBtn" type="button" data-tier="na">Non-Alcoholic</button>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="wine">
+            <div class="itemChips">
+              <span class="chip">Cabernet Sauvignon</span>
+              <span class="chip">Chardonnay</span>
+              <span class="chip">Merlot</span>
+              <span class="chip">Moscato (Red/White)</span>
+              <span class="chip">Pinot Grigio</span>
+              <span class="chip">Sauvignon Blanc</span>
+              <span class="chip">Sweet Red</span>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="beer">
+            <div class="itemChips">
+              <span class="chip">Angry Orchard</span>
+              <span class="chip">Corona</span>
+              <span class="chip">Guinness</span>
+              <span class="chip">Heineken</span>
+              <span class="chip">Modelo</span>
+              <span class="chip">Stella</span>
+              <span class="chip">Goose Island IPA</span>
+              <span class="chip">Voodoo Ranger IPA</span>
+            </div>
+          </div>
+
+          <div class="tierPanel" data-panel="na">
+            <div class="itemChips">
+              <span class="chip">$5 Red Bull</span>
+              <span class="chip">$5 Ginger Beer</span>
+              <span class="chip">$5 Frozen Drinks</span>
+              <span class="chip">$3 Soda</span>
+              <span class="chip">$3 Juice</span>
+              <span class="chip">$3 Water</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT BOTTOM: Hookah/Tower/Fishbowl -->
+        <div class="menuCard hookahCard" data-card="hookah">
+          <div class="menuCard__head">
+            <div class="menuCard__title">HOOKAH / TOWER / FISHBOWL</div>
+
+            <div class="tierTabs">
+              <button class="chip tierBtn" type="button" data-tier="hookah">Hookah $23</button>
+              <button class="chip tierBtn" type="button" data-tier="refill">Refill $12</button>
+              <button class="chip tierBtn" type="button" data-tier="tower">Tower $43</button>
+              <button class="chip tierBtn" type="button" data-tier="fishbowl">Fishbowl $23</button>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="hookah">
+            <div class="itemChips">
+              <span class="chip">Bluemist (+$2)</span>
+              <span class="chip">Magic Love (+$2)</span>
+              <span class="chip">Lady Killer (+$2)</span>
+              <span class="chip">Love 66 (+$2)</span>
+              <span class="chip">Blueberry</span>
+              <span class="chip">BMW</span>
+              <span class="chip">Blueberry Mint</span>
+              <span class="chip">Double Apple</span>
+              <span class="chip">Grape</span>
+              <span class="chip">Grapefruit</span>
+              <span class="chip">Grapefruit Mint</span>
+              <span class="chip">Guava</span>
+              <span class="chip">Gum Mint</span>
+              <span class="chip">Kiwi</span>
+              <span class="chip">Lemon Mint</span>
+              <span class="chip">Mango</span>
+              <span class="chip">Mint</span>
+              <span class="chip">Orange Mint</span>
+              <span class="chip">Peach</span>
+              <span class="chip">Pineapple</span>
+              <span class="chip">Strawberry</span>
+              <span class="chip">Vanilla</span>
+              <span class="chip">Watermelon</span>
+              <span class="chip">Watermelon Mint</span>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="refill">
+            <div class="itemChips">
+              <span class="chip">Bluemist (+$2)</span>
+              <span class="chip">Magic Love (+$2)</span>
+              <span class="chip">Lady Killer (+$2)</span>
+              <span class="chip">Love 66 (+$2)</span>
+              <span class="chip">Blueberry</span>
+              <span class="chip">BMW</span>
+              <span class="chip">Blueberry Mint</span>
+              <span class="chip">Double Apple</span>
+              <span class="chip">Grape</span>
+              <span class="chip">Grapefruit</span>
+              <span class="chip">Grapefruit Mint</span>
+              <span class="chip">Guava</span>
+              <span class="chip">Gum Mint</span>
+              <span class="chip">Kiwi</span>
+              <span class="chip">Lemon Mint</span>
+              <span class="chip">Mango</span>
+              <span class="chip">Mint</span>
+              <span class="chip">Orange Mint</span>
+              <span class="chip">Peach</span>
+              <span class="chip">Pineapple</span>
+              <span class="chip">Strawberry</span>
+              <span class="chip">Vanilla</span>
+              <span class="chip">Watermelon</span>
+              <span class="chip">Watermelon Mint</span>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="tower">
+            <div class="itemChips">
+              <span class="chip">Long Island</span>
+              <span class="chip">Allure Lemon Drop</span>
+              <span class="chip">Classic Margarita</span>
+            </div>
+          </div>
+
+          <div class="tierPanel hidden" data-panel="fishbowl">
+            <div class="itemChips">
+              <span class="chip">Long Island</span>
+              <span class="chip">Allure Lemon Drop</span>
+              <span class="chip">Classic Margarita</span>
+            </div>
+          </div>
+
+          <p style="margin:10px 0 0;opacity:.75;">Ask staff for available flavors.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================
+         TUESDAY–SUNDAY (placeholders)
+         Keep these so the day tabs work.
+         You can duplicate Monday layout inside each day later.
+    ======================== -->
+    <section id="tuesday" class="menu-section">
+      <h2 class="hero-title" style="margin:0 0 6px;">TUESDAY</h2>
+      <p class="hero-sub" style="margin:0;opacity:.85;">(Add Tuesday menu here)</p>
+    </section>
+
+    <section id="wednesday" class="menu-section">
+      <h2 class="hero-title" style="margin:0 0 6px;">WEDNESDAY</h2>
+      <p class="hero-sub" style="margin:0;opacity:.85;">(Add Wednesday menu here)</p>
+    </section>
+
+    <section id="thursday" class="menu-section">
+      <h2 class="hero-title" style="margin:0 0 6px;">THURSDAY</h2>
+      <p class="hero-sub" style="margin:0;opacity:.85;">(Add Thursday menu here)</p>
+    </section>
+
+    <section id="friday" class="menu-section">
+      <h2 class="hero-title" style="margin:0 0 6px;">FRIDAY</h2>
+      <p class="hero-sub" style="margin:0;opacity:.85;">(Add Friday menu here)</p>
+    </section>
+
+    <section id="saturday" class="menu-section">
+      <h2 class="hero-title" style="margin:0 0 6px;">SATURDAY</h2>
+      <p class="hero-sub" style="margin:0;opacity:.85;">(Add Saturday menu here)</p>
+    </section>
+
+    <section id="sunday" class="menu-section">
+      <h2 class="hero-title" style="margin:0 0 6px;">SUNDAY</h2>
+      <p class="hero-sub" style="margin:0;opacity:.85;">(Add Sunday menu here)</p>
+    </section>
+  </main>
+
+  <!-- =======================
+       MENU PAGE JS (inside menu.html)
+       This controls:
+       - mobile nav toggle
+       - day scroll with offset
+       - tier buttons open panels
+       - spirit category shows ONLY that list
+  ======================== -->
+  <script>
+    // Mobile nav
+    (() => {
+      const btn = document.querySelector('.nav__toggle');
+      const menu = document.querySelector('.nav__list');
+      if (!btn || !menu) return;
+
+      btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    })();
+
+    // Day tabs scroll (with sticky header offset)
+    (() => {
+      const header = document.querySelector('.header');
+      const offset = () => (header ? header.offsetHeight + 18 : 140);
+
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.dayBtn');
+        if (!btn) return;
+
+        const sel = btn.getAttribute('data-target');
+        const sec = document.querySelector(sel);
+        if (!sec) return;
+
+        const y = sec.getBoundingClientRect().top + window.scrollY - offset();
+        window.scrollTo({ top: y, behavior: 'smooth' });
+
+        // active highlight
+        document.querySelectorAll('.dayBtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    })();
+
+    // Generic tier system: clicking tier buttons shows ONLY that tier panel in its card
+    (() => {
+      document.addEventListener('click', (e) => {
+        const tierBtn = e.target.closest('.tierBtn');
+        if (!tierBtn) return;
+
+        const card = tierBtn.closest('.menuCard');
+        if (!card) return;
+
+        const tier = tierBtn.dataset.tier;
+
+        // highlight tier button inside THIS card only
+        card.querySelectorAll('.tierBtn').forEach(b => b.classList.toggle('active', b === tierBtn));
+
+        // show correct tier panel
+        card.querySelectorAll('.tierPanel').forEach(p => {
+          p.classList.toggle('hidden', p.dataset.panel !== tier);
+        });
+
+        // when switching tiers, hide all spirit panels until a spirit is clicked
+        card.querySelectorAll('.spiritPanel').forEach(p => p.classList.add('hidden'));
+        card.querySelectorAll('.spiritBtn').forEach(b => b.classList.remove('active'));
+      });
+    })();
+
+    // Spirit categories: clicking Vodka/Tequila/etc shows ONLY that list inside the VISIBLE tier panel
+    (() => {
+      document.addEventListener('click', (e) => {
+        const spiritBtn = e.target.closest('.spiritBtn');
+        if (!spiritBtn) return;
+
+        const card = spiritBtn.closest('.menuCard');
+        if (!card) return;
+
+        // only operate inside the currently visible tierPanel
+        const activeTierPanel = Array.from(card.querySelectorAll('.tierPanel')).find(p => !p.classList.contains('hidden'));
+        if (!activeTierPanel) return;
+
+        const spirit = spiritBtn.dataset.spirit;
+
+        // highlight ONLY in that active panel
+        activeTierPanel.querySelectorAll('.spiritBtn').forEach(b => b.classList.toggle('active', b === spiritBtn));
+
+        // hide all spirit panels in that active tier panel, show selected
+        activeTierPanel.querySelectorAll('.spiritPanel').forEach(p => {
+          p.classList.toggle('hidden', p.dataset.spiritPanel !== spirit);
+        });
+      });
+    })();
+
+    // Defaults:
+    // - Wine/Beer card opens Non-Alcoholic by default
+    (() => {
+      const wineCard = document.querySelector('.wineBeerCard');
+      if (!wineCard) return;
+
+      const defaultBtn = wineCard.querySelector('.tierBtn[data-tier="na"]');
+      if (defaultBtn) defaultBtn.click();
+    })();
+  </script>
+
+  <!-- Tiny menu layout helper styles (safe) -->
+  <style>
+    /* Menu grid layout (2 columns desktop, 1 column mobile) */
+    .menuGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    @media (min-width: 920px){
+      .menuGrid{
+        grid-template-columns: 1fr 1fr;
+        align-items:start;
+      }
+    }
+
+    .menuCard{
+      border:1px solid rgba(215,180,106,.18);
+      background: rgba(15,15,20,.55);
+      border-radius: 22px;
+      padding: 16px;
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+    .menuCard__head{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .menuCard__title{
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size: 14px;
+      opacity:.95;
+    }
+
+    .tierTabs, .spiritTabs, .itemChips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .tierPanel{ margin-top:12px; }
+    .hidden{ display:none !important; }
+
+    /* chips match your style */
+    .chip{
+      border:1px solid rgba(215,180,106,.25);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.92);
+      padding:8px 12px;
+      border-radius: 999px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip:hover{
+      border-color: rgba(215,180,106,.55);
+      filter: drop-shadow(0 0 10px rgba(215,180,106,.18));
+    }
+    .chip.active{
+      background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,181,109,.85));
+      color:#14120c;
+      border-color: rgba(242,210,138,.95);
+    }
+  </style>
+</body>
+</html>
