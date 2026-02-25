@@ -1,114 +1,61 @@
-/* ==========================
-   MENU PAGE JS (CLEAN)
-   - Mobile nav toggle
-   - Day scroll offset
-   - Tier buttons switch (shots/drinks/cocktails)
-   - Spirit category buttons show ONLY their panel
-   - Wine/Beer/NA selector panels
-   - Hookah/Tower/Fishbowl selector panels
-========================== */
+<script>
+  // Spirits tier system + spirit-category tabs (scoped per hhSpiritsCard)
+  document.addEventListener("click", function (e) {
 
-(() => {
-  // Mobile nav
-  const btn = document.querySelector(".nav__toggle");
-  const menu = document.querySelector(".nav__list");
-  if (btn && menu) {
-    btn.addEventListener("click", () => {
-      const open = menu.classList.toggle("is-open");
-      btn.setAttribute("aria-expanded", String(open));
-    });
-  }
-
-  // Day scroll with header offset
-  const header = document.querySelector(".header");
-  const getOffset = () => (header ? header.offsetHeight + 18 : 140);
-
-  document.addEventListener("click", (e) => {
-    const dayBtn = e.target.closest(".dayTab");
-    if (!dayBtn) return;
-
-    const targetSel = dayBtn.dataset.target;
-    const sec = document.querySelector(targetSel);
-    if (!sec) return;
-
-    document.querySelectorAll(".dayTab").forEach((b) => b.classList.remove("active"));
-    dayBtn.classList.add("active");
-
-    const y = sec.getBoundingClientRect().top + window.scrollY - getOffset();
-    window.scrollTo({ top: y, behavior: "smooth" });
-  });
-
-  // Helpers
-  const setActive = (buttons, activeBtn) => {
-    buttons.forEach((b) => b.classList.remove("active"));
-    activeBtn.classList.add("active");
-  };
-
-  const showOnlyPanel = (wrap, panelAttr, key) => {
-    const panels = wrap.querySelectorAll(`[${panelAttr}]`);
-    panels.forEach((p) => {
-      p.classList.toggle("hidden", p.getAttribute(panelAttr) !== key);
-    });
-  };
-
-  // All menu interactions
-  document.addEventListener("click", (e) => {
-    // Tier card click scope
-    const card = e.target.closest(".tierCard, .selectorCard");
-    if (!card) return;
-
-    // 1) Tier buttons ($5 shots / $10 drinks / $10 cocktails)
+    // ===== Tier Buttons ($5 / $10 / Cocktails) =====
     const tierBtn = e.target.closest(".tierBtn");
-    if (tierBtn && card.classList.contains("tierCard")) {
-      const tierButtons = card.querySelectorAll(".tierBtn");
-      setActive(tierButtons, tierBtn);
+    if (tierBtn) {
+      const card = tierBtn.closest(".hhSpiritsCard");
+      if (!card) return;
 
-      const tier = tierBtn.dataset.tier;
-      const price = tierBtn.dataset.price;
+      card.querySelectorAll(".tierBtn").forEach(b => b.classList.remove("active"));
+      tierBtn.classList.add("active");
 
-      // toggle wraps
-      const spiritsWrap = card.querySelector('[data-tier-wrap="spirits"]');
-      const cocktailsWrap = card.querySelector('[data-tier-wrap="cocktails"]');
+      const spiritsWrap = card.querySelector(".spiritsWrap");
+      const cocktailsWrap = card.querySelector(".cocktailsWrap");
 
-      if (tier === "cocktails") {
-        if (spiritsWrap) spiritsWrap.classList.add("hidden");
-        if (cocktailsWrap) cocktailsWrap.classList.remove("hidden");
-      } else {
-        if (cocktailsWrap) cocktailsWrap.classList.add("hidden");
-        if (spiritsWrap) spiritsWrap.classList.remove("hidden");
-
-        // update displayed prices in this card
-        card.querySelectorAll(".jsPrice").forEach((el) => {
-          el.textContent = `$${price}`;
-        });
+      if (tierBtn.dataset.tier === "cocktails10") {
+        spiritsWrap.classList.add("hidden");
+        cocktailsWrap.classList.remove("hidden");
+        return;
       }
+
+      // For $5 shots or $10 drinks:
+      cocktailsWrap.classList.add("hidden");
+      spiritsWrap.classList.remove("hidden");
+
+      // Update all spirit prices
+      const price = (tierBtn.dataset.tier === "drinks10") ? "$10" : "$5";
+      card.querySelectorAll(".jsSpiritPrice").forEach(p => p.textContent = price);
+
+      // IMPORTANT: when switching tier, hide all spirit panels until a category is clicked
+      card.querySelectorAll(".spiritPanel").forEach(p => p.classList.add("hidden"));
+      card.querySelectorAll(".spiritBtn").forEach(b => b.classList.remove("active"));
       return;
     }
 
-    // 2) Spirit category buttons (Vodka/Tequila/...)
+    // ===== Spirit Category Buttons (Vodka/Tequila/etc) =====
     const spiritBtn = e.target.closest(".spiritBtn");
-    if (spiritBtn && card.classList.contains("tierCard")) {
-      const wrap = card.querySelector('[data-tier-wrap="spirits"]');
-      if (!wrap) return;
+    if (spiritBtn) {
+      const card = spiritBtn.closest(".hhSpiritsCard");
+      if (!card) return;
 
-      const buttons = wrap.querySelectorAll(".spiritBtn");
-      setActive(buttons, spiritBtn);
+      const spiritsWrap = card.querySelector(".spiritsWrap");
+      const cocktailsWrap = card.querySelector(".cocktailsWrap");
 
-      const key = spiritBtn.dataset.spirit;
-      showOnlyPanel(wrap, "data-panel", key);
-      return;
-    }
+      // Make sure spirits are visible (and cocktails hidden)
+      cocktailsWrap.classList.add("hidden");
+      spiritsWrap.classList.remove("hidden");
 
-    // 3) Selector cards (Wine/Beer/NA) and (Hookah/Refill/Tower/Fishbowl)
-    const selectBtn = e.target.closest(".selectBtn");
-    if (selectBtn && card.classList.contains("selectorCard")) {
-      const key = selectBtn.dataset.select;
+      // Activate button
+      card.querySelectorAll(".spiritBtn").forEach(b => b.classList.remove("active"));
+      spiritBtn.classList.add("active");
 
-      const buttons = card.querySelectorAll(".selectBtn");
-      setActive(buttons, selectBtn);
-
-      showOnlyPanel(card, "data-select-panel", key);
-      return;
+      // Show only the matching panel
+      const target = spiritBtn.dataset.spirit;
+      card.querySelectorAll(".spiritPanel").forEach(p => {
+        p.classList.toggle("hidden", p.dataset.panel !== target);
+      });
     }
   });
-})();
+</script>
