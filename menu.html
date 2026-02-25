@@ -1,1 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Menu | Allure Bar & Lounge</title>
 
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/menu.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="index.html">Allure Bar & Lounge</a>
+    <button class="nav__toggle" aria-expanded="false">Menu</button>
+    <ul class="nav__list">
+      <li><a href="index.html">Home</a></li>
+      <li><a class="active" href="menu.html">Menu</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="container menuPage">
+
+  <div class="daybar">
+    <button class="daytab active" data-day="monday">Monday</button>
+    <button class="daytab" data-day="tuesday">Tuesday</button>
+    <button class="daytab" data-day="wednesday">Wednesday</button>
+  </div>
+
+  <section class="daypanel active" data-day="monday">
+    <h1>Happy Hour</h1>
+
+    <div class="tierRow">
+      <button class="chip tierChip active" data-tier="shots">$5 Shots</button>
+      <button class="chip tierChip" data-tier="drinks">$10 Drinks</button>
+    </div>
+
+    <div class="spiritTabs">
+      <button class="chip spiritChip active" data-spirit="vodka">Vodka</button>
+      <button class="chip spiritChip" data-spirit="tequila">Tequila</button>
+    </div>
+
+    <div class="spiritList active" data-spirit-list="vodka">
+      <div class="rowItem">
+        <span>Grey Goose</span>
+        <span class="price jsPrice">$5</span>
+      </div>
+    </div>
+
+    <div class="spiritList" data-spirit-list="tequila">
+      <div class="rowItem">
+        <span>Patron</span>
+        <span class="price jsPrice">$5</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="daypanel" data-day="tuesday">
+    <h1>Taco Tuesday</h1>
+    <p>Specials here.</p>
+  </section>
+
+  <section class="daypanel" data-day="wednesday">
+    <h1>Midweek Special</h1>
+    <p>Specials here.</p>
+  </section>
+
+</main>
+
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/menu.js"></script>
+</body>
+</html>
