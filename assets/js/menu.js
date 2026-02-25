@@ -1,148 +1,209 @@
-document.addEventListener("DOMContentLoaded", function () {
+/* assets/js/menu.js
+   Clean menu logic:
+   - Day tabs switch panels
+   - Each day panel remembers its own selections
+   - Tier buttons / Spirit tabs / WBNA tabs work independently per day
+*/
 
-  const dayTabs = document.querySelectorAll(".daytab");
-  const dayPanels = document.querySelectorAll(".daypanel");
+(() => {
+  const dayTabs = Array.from(document.querySelectorAll(".daytab"));
+  const dayPanels = Array.from(document.querySelectorAll(".daypanel"));
 
-  // ---------- DAY SWITCHING ----------
+  if (!dayTabs.length || !dayPanels.length) return;
+
+  // ----------------------------
+  // Helpers
+  // ----------------------------
+  const qsa = (root, sel) => Array.from(root.querySelectorAll(sel));
+  const qs = (root, sel) => root.querySelector(sel);
+
+  const setActive = (items, activeEl, activeClass = "active") => {
+    items.forEach(el => el.classList.remove(activeClass));
+    if (activeEl) activeEl.classList.add(activeClass);
+  };
+
+  const setAriaSelected = (tabs, activeTab) => {
+    tabs.forEach(t => t.setAttribute("aria-selected", t === activeTab ? "true" : "false"));
+  };
+
+  // ----------------------------
+  // Per-day state store
+  // ----------------------------
+  // state[day] = { tier, spirit, wbna }
+  const state = Object.create(null);
+
+  const getDay = (panel) => panel?.dataset?.day;
+
+  const ensureDefaultState = (panel) => {
+    const day = getDay(panel);
+    if (!day) return;
+
+    if (!state[day]) {
+      // Defaults based on what exists in HTML
+      const tierBtn = qs(panel, ".tierChip.active") || qs(panel, ".tierChip");
+      const spiritBtn = qs(panel, ".spiritChip.active") || qs(panel, ".spiritChip");
+      const wbnaBtn = qs(panel, ".wbnaChip.active") || qs(panel, ".wbnaChip");
+
+      state[day] = {
+        tier: tierBtn ? tierBtn.dataset.tier : null,
+        spirit: spiritBtn ? spiritBtn.dataset.spirit : null,
+        wbna: wbnaBtn ? wbnaBtn.dataset.wbna : null
+      };
+    }
+  };
+
+  const applyStateToPanel = (panel) => {
+    const day = getDay(panel);
+    if (!day) return;
+
+    ensureDefaultState(panel);
+    const s = state[day];
+
+    // --- Tier chips ($5 shots / $10 drinks / $10 cocktails)
+    const tierBtns = qsa(panel, ".tierChip");
+    if (tierBtns.length && s.tier) {
+      const activeTierBtn = tierBtns.find(b => b.dataset.tier === s.tier) || tierBtns[0];
+      setActive(tierBtns, activeTierBtn);
+    }
+
+    // --- Spirit tabs (Vodka/Tequila/etc)
+    const spiritBtns = qsa(panel, ".spiritChip");
+    const spiritLists = qsa(panel, ".spiritList");
+    if (spiritBtns.length && spiritLists.length && s.spirit) {
+      const activeSpiritBtn = spiritBtns.find(b => b.dataset.spirit === s.spirit) || spiritBtns[0];
+      setActive(spiritBtns, activeSpiritBtn);
+
+      const activeSpirit = activeSpiritBtn.dataset.spirit;
+      spiritLists.forEach(list => {
+        list.classList.toggle("active", list.dataset.spiritList === activeSpirit);
+      });
+    }
+
+    // --- Wine/Beer/Non-Alcoholic
+    const wbnaBtns = qsa(panel, ".wbnaChip");
+    const wbnaLists = qsa(panel, ".wbnaList");
+    if (wbnaBtns.length && wbnaLists.length && s.wbna) {
+      const activeWbnaBtn = wbnaBtns.find(b => b.dataset.wbna === s.wbna) || wbnaBtns[0];
+      setActive(wbnaBtns, activeWbnaBtn);
+
+      const activeWbna = activeWbnaBtn.dataset.wbna;
+      wbnaLists.forEach(list => {
+        list.classList.toggle("active", list.dataset.wbnaList === activeWbna);
+      });
+    }
+  };
+
+  const showDay = (day) => {
+    // Activate correct tab + panel
+    const tab = dayTabs.find(t => t.dataset.day === day);
+    const panel = dayPanels.find(p => p.dataset.day === day);
+    if (!tab || !panel) return;
+
+    setActive(dayTabs, tab);
+    setAriaSelected(dayTabs, tab);
+
+    dayPanels.forEach(p => p.classList.remove("active"));
+    panel.classList.add("active");
+
+    // Apply ONLY that day's stored state (prevents carry-over)
+    applyStateToPanel(panel);
+
+    // Optional: update URL hash without jumping
+    const newHash = `#${day}`;
+    if (location.hash !== newHash) {
+      history.replaceState(null, "", newHash);
+    }
+  };
+
+  // ----------------------------
+  // Day tab click
+  // ----------------------------
   dayTabs.forEach(tab => {
-    tab.addEventListener("click", function () {
+    tab.addEventListener("click", () => {
+      const day = tab.dataset.day;
+      // Save current panel state before switching
+      const current = dayPanels.find(p => p.classList.contains("active"));
+      if (current) {
+        ensureDefaultState(current);
+        const d = getDay(current);
+        if (d) {
+          // capture current selections
+          const tierActive = qs(current, ".tierChip.active");
+          const spiritActive = qs(current, ".spiritChip.active");
+          const wbnaActive = qs(current, ".wbnaChip.active");
+          state[d] = {
+            tier: tierActive ? tierActive.dataset.tier : state[d]?.tier ?? null,
+            spirit: spiritActive ? spiritActive.dataset.spirit : state[d]?.spirit ?? null,
+            wbna: wbnaActive ? wbnaActive.dataset.wbna : state[d]?.wbna ?? null
+          };
+        }
+      }
 
-      const day = this.dataset.day;
-
-      // Deactivate all tabs
-      dayTabs.forEach(t => {
-        t.classList.remove("active");
-        t.setAttribute("aria-selected", "false");
-      });
-
-      // Hide all panels
-      dayPanels.forEach(panel => {
-        panel.classList.remove("active");
-      });
-
-      // Activate selected
-      this.classList.add("active");
-      this.setAttribute("aria-selected", "true");
-
-      const activePanel = document.querySelector(`.daypanel[data-day="${day}"]`);
-      if (!activePanel) return;
-
-      activePanel.classList.add("active");
-
-      // Reset panel state
-      resetPanel(activePanel);
+      showDay(day);
     });
   });
 
+  // ----------------------------
+  // Panel internal clicks (delegation)
+  // ----------------------------
+  dayPanels.forEach(panel => {
+    ensureDefaultState(panel);
 
-  // ---------- RESET FUNCTION ----------
-  function resetPanel(panel) {
+    panel.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
 
-    // Reset tier
-    const tierChips = panel.querySelectorAll(".tierChip");
-    tierChips.forEach(c => c.classList.remove("active"));
-    const defaultTier = panel.querySelector('.tierChip[data-tier="shots"]');
-    if (defaultTier) defaultTier.classList.add("active");
+      const day = getDay(panel);
+      if (!day) return;
 
-    // Reset spirit tabs
-    const spiritChips = panel.querySelectorAll(".spiritChip");
-    spiritChips.forEach(c => c.classList.remove("active"));
-    const defaultSpirit = panel.querySelector('.spiritChip[data-spirit="vodka"]');
-    if (defaultSpirit) defaultSpirit.classList.add("active");
+      ensureDefaultState(panel);
 
-    // Reset spirit lists
-    const spiritLists = panel.querySelectorAll(".spiritList");
-    spiritLists.forEach(l => l.classList.remove("active"));
-    const defaultList = panel.querySelector('.spiritList[data-spirit-list="vodka"]');
-    if (defaultList) defaultList.classList.add("active");
+      // Tier
+      if (btn.classList.contains("tierChip")) {
+        const tierBtns = qsa(panel, ".tierChip");
+        setActive(tierBtns, btn);
+        state[day].tier = btn.dataset.tier || state[day].tier;
+        return;
+      }
 
-    // Reset Wine/Beer/NA
-    const wbnaChips = panel.querySelectorAll(".wbnaChip");
-    wbnaChips.forEach(c => c.classList.remove("active"));
-    const defaultWbna = panel.querySelector('.wbnaChip[data-wbna="wine"]');
-    if (defaultWbna) defaultWbna.classList.add("active");
+      // Spirit
+      if (btn.classList.contains("spiritChip")) {
+        const spiritBtns = qsa(panel, ".spiritChip");
+        setActive(spiritBtns, btn);
+        state[day].spirit = btn.dataset.spirit || state[day].spirit;
 
-    const wbnaLists = panel.querySelectorAll(".wbnaList");
-    wbnaLists.forEach(l => l.classList.remove("active"));
-    const defaultWbnaList = panel.querySelector('.wbnaList[data-wbna-list="wine"]');
-    if (defaultWbnaList) defaultWbnaList.classList.add("active");
+        const spiritLists = qsa(panel, ".spiritList");
+        const activeSpirit = btn.dataset.spirit;
+        spiritLists.forEach(list => {
+          list.classList.toggle("active", list.dataset.spiritList === activeSpirit);
+        });
+        return;
+      }
 
-    // Reset prices to $5
-    const prices = panel.querySelectorAll(".jsPrice");
-    prices.forEach(p => p.textContent = "$5");
-  }
+      // WBNA
+      if (btn.classList.contains("wbnaChip")) {
+        const wbnaBtns = qsa(panel, ".wbnaChip");
+        setActive(wbnaBtns, btn);
+        state[day].wbna = btn.dataset.wbna || state[day].wbna;
 
-
-  // ---------- TIER SWITCHING ----------
-  document.addEventListener("click", function (e) {
-
-    const tierBtn = e.target.closest(".tierChip");
-    if (!tierBtn) return;
-
-    const panel = tierBtn.closest(".daypanel");
-    if (!panel) return;
-
-    const tierChips = panel.querySelectorAll(".tierChip");
-    tierChips.forEach(c => c.classList.remove("active"));
-    tierBtn.classList.add("active");
-
-    const prices = panel.querySelectorAll(".jsPrice");
-
-    if (tierBtn.dataset.tier === "shots") {
-      prices.forEach(p => p.textContent = "$5");
-    }
-
-    if (tierBtn.dataset.tier === "drinks") {
-      prices.forEach(p => p.textContent = "$10");
-    }
+        const wbnaLists = qsa(panel, ".wbnaList");
+        const activeWbna = btn.dataset.wbna;
+        wbnaLists.forEach(list => {
+          list.classList.toggle("active", list.dataset.wbnaList === activeWbna);
+        });
+        return;
+      }
+    });
   });
 
+  // ----------------------------
+  // Initial load: hash or default active
+  // ----------------------------
+  const initialFromHash = location.hash ? location.hash.replace("#", "") : null;
+  const initialDay =
+    (initialFromHash && dayTabs.some(t => t.dataset.day === initialFromHash) && initialFromHash) ||
+    (qs(document, ".daytab.active")?.dataset?.day) ||
+    dayTabs[0].dataset.day;
 
-  // ---------- SPIRIT SWITCHING ----------
-  document.addEventListener("click", function (e) {
-
-    const spiritBtn = e.target.closest(".spiritChip");
-    if (!spiritBtn) return;
-
-    const panel = spiritBtn.closest(".daypanel");
-    if (!panel) return;
-
-    const spiritChips = panel.querySelectorAll(".spiritChip");
-    spiritChips.forEach(c => c.classList.remove("active"));
-    spiritBtn.classList.add("active");
-
-    const spiritLists = panel.querySelectorAll(".spiritList");
-    spiritLists.forEach(l => l.classList.remove("active"));
-
-    const targetList = panel.querySelector(
-      `.spiritList[data-spirit-list="${spiritBtn.dataset.spirit}"]`
-    );
-
-    if (targetList) targetList.classList.add("active");
-  });
-
-
-  // ---------- WINE / BEER / NA SWITCHING ----------
-  document.addEventListener("click", function (e) {
-
-    const wbnaBtn = e.target.closest(".wbnaChip");
-    if (!wbnaBtn) return;
-
-    const panel = wbnaBtn.closest(".daypanel");
-    if (!panel) return;
-
-    const wbnaChips = panel.querySelectorAll(".wbnaChip");
-    wbnaChips.forEach(c => c.classList.remove("active"));
-    wbnaBtn.classList.add("active");
-
-    const wbnaLists = panel.querySelectorAll(".wbnaList");
-    wbnaLists.forEach(l => l.classList.remove("active"));
-
-    const targetList = panel.querySelector(
-      `.wbnaList[data-wbna-list="${wbnaBtn.dataset.wbna}"]`
-    );
-
-    if (targetList) targetList.classList.add("active");
-  });
-
-});
+  showDay(initialDay);
+})();
