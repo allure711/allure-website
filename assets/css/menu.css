@@ -1,1 +1,51 @@
+.menuPage {
+  padding:40px 0;
+}
 
+.daybar {
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.daytab {
+  padding:8px 15px;
+  border:none;
+  cursor:pointer;
+}
+
+.daytab.active {
+  background:gold;
+  color:black;
+}
+
+.daypanel {
+  display:none;
+}
+
+.daypanel.active {
+  display:block;
+}
+
+.chip {
+  padding:6px 12px;
+  border:1px solid gold;
+  background:none;
+  color:white;
+  cursor:pointer;
+}
+
+.chip.active {
+  background:gold;
+  color:black;
+}
+
+.rowItem {
+  display:flex;
+  justify-content:space-between;
+  margin:8px 0;
+}
+
+.price {
+  color:gold;
+}
