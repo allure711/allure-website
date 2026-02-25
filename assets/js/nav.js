@@ -1,15 +1,9 @@
-/* ==========================
-   ALLURE MENU LOGIC (CLEAN + SCOPED)
-   Works with your exact HTML:
-   - .daytab (data-day)
-   - .daypanel (data-day)
-   - .tierChip (data-tier) inside [data-scope="tier"]
-   - .spiritChip (data-spirit) inside [data-scope="spiritTabs"]
-   - .wbnaChip (data-wbna) inside [data-scope="wbna"]
-   - .spiritList (data-spirit-list)
-   - .wbnaList (data-wbna-list)
-   - .jsPrice elements update based on tier
-========================== */
+/* =========================
+   ALLURE MENU — CLEAN LOGIC
+   - Day tabs switch panels (no state leaks)
+   - All clicks scoped inside the current day panel
+   - Reset each day panel to defaults when opened
+========================= */
 
 (() => {
   const dayTabs = Array.from(document.querySelectorAll(".daytab"));
@@ -17,234 +11,166 @@
 
   if (!dayTabs.length || !dayPanels.length) return;
 
-  const panelByDay = (day) => dayPanels.find(p => p.dataset.day === day);
+  // ---------- Helpers ----------
+  const qs = (root, sel) => root.querySelector(sel);
+  const qsa = (root, sel) => Array.from(root.querySelectorAll(sel));
 
-  // ---------------------------
-  // 1) COPY MONDAY GRID INTO OTHER DAYS (if they still have .copyNote)
-  // ---------------------------
-  const mondayPanel = panelByDay("monday");
-  if (mondayPanel) {
-    const mondayGrid = mondayPanel.querySelector(".menuGrid");
-    if (mondayGrid) {
-      dayPanels.forEach(panel => {
-        if (panel.dataset.day === "monday") return;
-        const grid = panel.querySelector(".menuGrid");
-        const copyNote = grid ? grid.querySelector(".copyNote") : null;
-
-        // Only replace panels that still show placeholder note
-        if (grid && copyNote) {
-          grid.innerHTML = mondayGrid.innerHTML;
-        }
-      });
-    }
+  function setActive(groupEls, activeEl) {
+    groupEls.forEach(el => el.classList.remove("active"));
+    if (activeEl) activeEl.classList.add("active");
   }
 
-  // ---------------------------
-  // 2) PER-DAY STATE (so each day "sticks" independently)
-  // ---------------------------
-  const defaultState = {
-    tier: "shots",     // shots | drinks | cocktails
-    spirit: "vodka",   // vodka/tequila/...
-    wbna: "wine"       // wine/beer/na
-  };
-
-  // in-memory states (per day)
-  const state = {};
-  const getState = (day) => (state[day] ||= { ...defaultState });
-
-  // ---------------------------
-  // 3) APPLY STATE TO A PANEL
-  // ---------------------------
-  function applyTier(panel, tier) {
-    // Update prices inside this panel only
-    const prices = Array.from(panel.querySelectorAll(".jsPrice"));
-    if (tier === "shots") prices.forEach(p => p.textContent = "$5");
-    if (tier === "drinks") prices.forEach(p => p.textContent = "$10");
-
-    const spiritTabs = panel.querySelector('[data-scope="spiritTabs"]');
-    const spiritLists = panel.querySelector(".spiritLists");
-
-    // Create cocktailBox once per panel if missing
-    let cocktailBox = panel.querySelector(".cocktailBox");
-    if (!cocktailBox) {
-      // attach inside the LEFT spirits card if possible
-      const leftCard = panel.querySelector(".menuCard");
-      cocktailBox = document.createElement("div");
-      cocktailBox.className = "cocktailBox";
-      cocktailBox.innerHTML = `
-        <div class="cocktailHead">Choose Your $10 Cocktails</div>
-        <div class="chipWrap">
-          <span class="chip">Allure Lemon Drop</span>
-          <span class="chip">Long Island</span>
-          <span class="chip">Manhattan</span>
-          <span class="chip">Mint Julep</span>
-          <span class="chip">Mojito</span>
-          <span class="chip">Moscow Mule</span>
-          <span class="chip">Old Fashioned</span>
-          <span class="chip">Orange Martini</span>
-          <span class="chip">Red/White Sangria</span>
-          <span class="chip">Rum Punch</span>
-          <span class="chip">Strawberry Henny</span>
-        </div>
-      `;
-      if (spiritLists && spiritLists.parentElement) {
-        spiritLists.parentElement.appendChild(cocktailBox);
-      } else if (leftCard) {
-        leftCard.appendChild(cocktailBox);
-      } else {
-        panel.appendChild(cocktailBox);
-      }
-    }
-
-    if (tier === "cocktails") {
-      if (spiritTabs) spiritTabs.style.display = "none";
-      if (spiritLists) spiritLists.style.display = "none";
-      cocktailBox.style.display = "block";
-    } else {
-      if (spiritTabs) spiritTabs.style.display = "";
-      if (spiritLists) spiritLists.style.display = "";
-      cocktailBox.style.display = "none";
-    }
+  function showOnly(panel, listSelector, matchAttr, value) {
+    const lists = qsa(panel, listSelector);
+    lists.forEach(l => l.classList.remove("active"));
+    const target = lists.find(l => l.getAttribute(matchAttr) === value);
+    if (target) target.classList.add("active");
   }
 
-  function applySpirit(panel, spirit) {
-    const lists = Array.from(panel.querySelectorAll(".spiritList"));
-    lists.forEach(list => {
-      list.classList.toggle("active", list.dataset.spiritList === spirit);
-    });
+  function setPrices(panel, priceText) {
+    qsa(panel, ".jsPrice").forEach(p => (p.textContent = priceText));
   }
 
-  function applyWbna(panel, wbna) {
-    const lists = Array.from(panel.querySelectorAll(".wbnaList"));
-    lists.forEach(list => {
-      list.classList.toggle("active", list.dataset.wbnaList === wbna);
-    });
+  // ---------- Default reset for each panel ----------
+  function resetPanel(panel) {
+    // Tier default = shots
+    const tierChips = qsa(panel, ".tierChip");
+    const spiritChips = qsa(panel, ".spiritChip");
+    const wbnaChips = qsa(panel, ".wbnaChip");
+
+    // If this panel doesn’t have the structure yet, skip safely
+    if (tierChips.length) {
+      setActive(tierChips, tierChips.find(x => x.dataset.tier === "shots") || tierChips[0]);
+    }
+    if (spiritChips.length) {
+      setActive(spiritChips, spiritChips.find(x => x.dataset.spirit === "vodka") || spiritChips[0]);
+    }
+    if (wbnaChips.length) {
+      setActive(wbnaChips, wbnaChips.find(x => x.dataset.wbna === "wine") || wbnaChips[0]);
+    }
+
+    // Show default lists
+    showOnly(panel, ".spiritList", "data-spirit-list", "vodka");
+    showOnly(panel, ".wbnaList", "data-wbna-list", "wine");
+
+    // Default price for shots
+    setPrices(panel, "$5");
+
+    // Cocktails view off by default
+    qsa(panel, ".cocktailBox").forEach(box => box.style.display = "none");
+
+    // Make sure spirit tabs/lists are visible by default
+    qsa(panel, ".spiritTabs").forEach(el => el.style.display = "");
+    qsa(panel, ".spiritLists").forEach(el => el.style.display = "");
   }
 
-  function applyState(panel, day) {
-    const s = getState(day);
-
-    // Tier chips
-    const tierRow = panel.querySelector('[data-scope="tier"]');
-    if (tierRow) {
-      const tierBtns = Array.from(tierRow.querySelectorAll(".tierChip"));
-      tierBtns.forEach(b => b.classList.toggle("active", b.dataset.tier === s.tier));
-      applyTier(panel, s.tier);
-    }
-
-    // Spirit chips
-    const spiritTabs = panel.querySelector('[data-scope="spiritTabs"]');
-    if (spiritTabs) {
-      const spiritBtns = Array.from(spiritTabs.querySelectorAll(".spiritChip"));
-      spiritBtns.forEach(b => b.classList.toggle("active", b.dataset.spirit === s.spirit));
-      applySpirit(panel, s.spirit);
-    }
-
-    // WBNA chips
-    const wbnaRow = panel.querySelector('[data-scope="wbna"]');
-    if (wbnaRow) {
-      const wbnaBtns = Array.from(wbnaRow.querySelectorAll(".wbnaChip"));
-      wbnaBtns.forEach(b => b.classList.toggle("active", b.dataset.wbna === s.wbna));
-      applyWbna(panel, s.wbna);
-    }
-  }
-
-  // ---------------------------
-  // 4) DAY SWITCH (only one panel visible)
-  // ---------------------------
-  function activateDay(day, { scroll = true } = {}) {
-    // Tabs UI
+  // ---------- Day switching ----------
+  function activateDay(dayKey) {
+    // tabs
     dayTabs.forEach(btn => {
-      const on = btn.dataset.day === day;
-      btn.classList.toggle("active", on);
-      btn.setAttribute("aria-selected", on ? "true" : "false");
+      const isActive = btn.dataset.day === dayKey;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
     });
 
-    // Panels UI
+    // panels
     dayPanels.forEach(panel => {
-      const on = panel.dataset.day === day;
-      panel.classList.toggle("active", on);
+      const isActive = panel.dataset.day === dayKey;
+      panel.classList.toggle("active", isActive);
+
+      // IMPORTANT: when panel becomes active, reset it clean
+      if (isActive) resetPanel(panel);
     });
-
-    // Apply saved state to this day ONLY
-    const panel = panelByDay(day);
-    if (panel) applyState(panel, day);
-
-    // Save active day
-    try { localStorage.setItem("allureActiveDay", day); } catch(e) {}
-
-    if (scroll && panel) {
-      const title = panel.querySelector(".menuTitle") || panel;
-      title.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
   }
 
-  // ---------------------------
-  // 5) EVENT DELEGATION (CRITICAL FIX)
-  // Everything happens ONLY inside the clicked daypanel
-  // ---------------------------
-  document.addEventListener("click", (e) => {
-    // Day click
-    const dayBtn = e.target.closest(".daytab");
-    if (dayBtn) {
-      activateDay(dayBtn.dataset.day);
-      return;
-    }
+  // Click day tabs
+  dayTabs.forEach(btn => {
+    btn.addEventListener("click", () => activateDay(btn.dataset.day));
+  });
 
-    // Only operate inside the panel you clicked
+  // ---------- Menu interaction (scoped per panel) ----------
+  document.addEventListener("click", (e) => {
+    // Find the day panel we’re interacting with
     const panel = e.target.closest(".daypanel");
     if (!panel) return;
 
-    const day = panel.dataset.day;
-    const s = getState(day);
+    // ---- Tier clicks ($5 shots / $10 drinks / $10 cocktails)
+    if (e.target.classList.contains("tierChip")) {
+      const tierChips = qsa(panel, ".tierChip");
+      setActive(tierChips, e.target);
 
-    // Tier click
-    const tierBtn = e.target.closest(".tierChip");
-    if (tierBtn) {
-      s.tier = tierBtn.dataset.tier;
+      const tier = e.target.dataset.tier;
 
-      const row = tierBtn.closest('[data-scope="tier"]');
-      if (row) {
-        Array.from(row.querySelectorAll(".tierChip")).forEach(b => b.classList.remove("active"));
-        tierBtn.classList.add("active");
+      // Cocktails mode: hide spirit tabs/lists, show cocktail box
+      const spiritTabs = qs(panel, ".spiritTabs");
+      const spiritLists = qs(panel, ".spiritLists");
+      const cocktailBox = qs(panel, ".cocktailBox");
+
+      if (tier === "cocktails") {
+        if (spiritTabs) spiritTabs.style.display = "none";
+        if (spiritLists) spiritLists.style.display = "none";
+
+        // Create cocktail box if missing
+        if (!cocktailBox) {
+          const card = e.target.closest(".menuCard");
+          const box = document.createElement("div");
+          box.className = "cocktailBox";
+          box.style.display = "block";
+          box.innerHTML = `
+            <p class="cocktailHead">$10 COCKTAILS</p>
+            <div class="chipWrap">
+              <span class="chip">Allure Lemon Drop</span>
+              <span class="chip">Long Island</span>
+              <span class="chip">Manhattan</span>
+              <span class="chip">Mint Julep</span>
+              <span class="chip">Mojito</span>
+              <span class="chip">Moscow Mule</span>
+              <span class="chip">Old Fashion</span>
+              <span class="chip">Orange Martini</span>
+              <span class="chip">Red / White Sangria</span>
+              <span class="chip">Rum Punch</span>
+              <span class="chip">Strawberry Henny</span>
+            </div>
+          `;
+          if (card) card.appendChild(box);
+        } else {
+          cocktailBox.style.display = "block";
+        }
+        return;
       }
-      applyTier(panel, s.tier);
+
+      // Not cocktails => show spirits + set price
+      if (spiritTabs) spiritTabs.style.display = "";
+      if (spiritLists) spiritLists.style.display = "";
+      qsa(panel, ".cocktailBox").forEach(box => box.style.display = "none");
+
+      if (tier === "shots") setPrices(panel, "$5");
+      if (tier === "drinks") setPrices(panel, "$10");
+
       return;
     }
 
-    // Spirit click
-    const spiritBtn = e.target.closest(".spiritChip");
-    if (spiritBtn) {
-      s.spirit = spiritBtn.dataset.spirit;
+    // ---- Spirit category clicks (Vodka/Tequila/etc)
+    if (e.target.classList.contains("spiritChip")) {
+      const spiritChips = qsa(panel, ".spiritChip");
+      setActive(spiritChips, e.target);
 
-      const tabs = spiritBtn.closest('[data-scope="spiritTabs"]');
-      if (tabs) {
-        Array.from(tabs.querySelectorAll(".spiritChip")).forEach(b => b.classList.remove("active"));
-        spiritBtn.classList.add("active");
-      }
-      applySpirit(panel, s.spirit);
+      const spirit = e.target.dataset.spirit;
+      showOnly(panel, ".spiritList", "data-spirit-list", spirit);
       return;
     }
 
-    // WBNA click
-    const wbnaBtn = e.target.closest(".wbnaChip");
-    if (wbnaBtn) {
-      s.wbna = wbnaBtn.dataset.wbna;
+    // ---- Wine/Beer/NA clicks
+    if (e.target.classList.contains("wbnaChip")) {
+      const wbnaChips = qsa(panel, ".wbnaChip");
+      setActive(wbnaChips, e.target);
 
-      const row = wbnaBtn.closest('[data-scope="wbna"]');
-      if (row) {
-        Array.from(row.querySelectorAll(".wbnaChip")).forEach(b => b.classList.remove("active"));
-        wbnaBtn.classList.add("active");
-      }
-      applyWbna(panel, s.wbna);
+      const wbna = e.target.dataset.wbna;
+      showOnly(panel, ".wbnaList", "data-wbna-list", wbna);
       return;
     }
   });
 
-  // ---------------------------
-  // 6) INITIAL LOAD
-  // ---------------------------
-  let start = "monday";
-  try { start = localStorage.getItem("allureActiveDay") || "monday"; } catch(e) {}
-  activateDay(start, { scroll: false });
+  // ---------- First load ----------
+  activateDay("monday");
 })();
