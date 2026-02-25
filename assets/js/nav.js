@@ -1,11 +1,12 @@
-/* =========================
+/* ==========================
    MENU PAGE JS (CLEAN)
    - Mobile nav toggle
    - Day scroll offset
-   - Tier buttons open their panels
-   - Spirit buttons show ONLY their panel
-   - Wine/Beer fixed (lists hidden until click)
-========================= */
+   - Tier buttons switch (shots/drinks/cocktails)
+   - Spirit category buttons show ONLY their panel
+   - Wine/Beer/NA selector panels
+   - Hookah/Tower/Fishbowl selector panels
+========================== */
 
 (() => {
   // Mobile nav
@@ -23,72 +24,91 @@
   const getOffset = () => (header ? header.offsetHeight + 18 : 140);
 
   document.addEventListener("click", (e) => {
-    const dayBtn = e.target.closest(".dayBtn");
+    const dayBtn = e.target.closest(".dayTab");
     if (!dayBtn) return;
 
-    const sel = dayBtn.getAttribute("data-target");
-    const sec = document.querySelector(sel);
+    const targetSel = dayBtn.dataset.target;
+    const sec = document.querySelector(targetSel);
     if (!sec) return;
+
+    document.querySelectorAll(".dayTab").forEach((b) => b.classList.remove("active"));
+    dayBtn.classList.add("active");
 
     const y = sec.getBoundingClientRect().top + window.scrollY - getOffset();
     window.scrollTo({ top: y, behavior: "smooth" });
-
-    document.querySelectorAll(".dayBtn").forEach((b) => b.classList.remove("active"));
-    dayBtn.classList.add("active");
   });
 
-  // Tier system: open ONLY tier panel inside the clicked card
+  // Helpers
+  const setActive = (buttons, activeBtn) => {
+    buttons.forEach((b) => b.classList.remove("active"));
+    activeBtn.classList.add("active");
+  };
+
+  const showOnlyPanel = (wrap, panelAttr, key) => {
+    const panels = wrap.querySelectorAll(`[${panelAttr}]`);
+    panels.forEach((p) => {
+      p.classList.toggle("hidden", p.getAttribute(panelAttr) !== key);
+    });
+  };
+
+  // All menu interactions
   document.addEventListener("click", (e) => {
+    // Tier card click scope
+    const card = e.target.closest(".tierCard, .selectorCard");
+    if (!card) return;
+
+    // 1) Tier buttons ($5 shots / $10 drinks / $10 cocktails)
     const tierBtn = e.target.closest(".tierBtn");
-    if (!tierBtn) return;
+    if (tierBtn && card.classList.contains("tierCard")) {
+      const tierButtons = card.querySelectorAll(".tierBtn");
+      setActive(tierButtons, tierBtn);
 
-    const card = tierBtn.closest(".menuCard");
-    if (!card) return;
+      const tier = tierBtn.dataset.tier;
+      const price = tierBtn.dataset.price;
 
-    const tier = tierBtn.dataset.tier;
+      // toggle wraps
+      const spiritsWrap = card.querySelector('[data-tier-wrap="spirits"]');
+      const cocktailsWrap = card.querySelector('[data-tier-wrap="cocktails"]');
 
-    // Highlight tier buttons only in this card
-    card.querySelectorAll(".tierBtn").forEach((b) => b.classList.toggle("active", b === tierBtn));
+      if (tier === "cocktails") {
+        if (spiritsWrap) spiritsWrap.classList.add("hidden");
+        if (cocktailsWrap) cocktailsWrap.classList.remove("hidden");
+      } else {
+        if (cocktailsWrap) cocktailsWrap.classList.add("hidden");
+        if (spiritsWrap) spiritsWrap.classList.remove("hidden");
 
-    // Show only the selected tier panel
-    card.querySelectorAll(".tierPanel").forEach((p) => {
-      p.classList.toggle("hidden", p.dataset.panel !== tier);
-    });
+        // update displayed prices in this card
+        card.querySelectorAll(".jsPrice").forEach((el) => {
+          el.textContent = `$${price}`;
+        });
+      }
+      return;
+    }
 
-    // Reset spirit panels when tier changes
-    card.querySelectorAll(".spiritBtn").forEach((b) => b.classList.remove("active"));
-    card.querySelectorAll(".spiritPanel").forEach((p) => p.classList.add("hidden"));
-  });
-
-  // Spirit system: inside currently visible tierPanel, show ONLY that spirit list
-  document.addEventListener("click", (e) => {
+    // 2) Spirit category buttons (Vodka/Tequila/...)
     const spiritBtn = e.target.closest(".spiritBtn");
-    if (!spiritBtn) return;
+    if (spiritBtn && card.classList.contains("tierCard")) {
+      const wrap = card.querySelector('[data-tier-wrap="spirits"]');
+      if (!wrap) return;
 
-    const card = spiritBtn.closest(".menuCard");
-    if (!card) return;
+      const buttons = wrap.querySelectorAll(".spiritBtn");
+      setActive(buttons, spiritBtn);
 
-    // find active tier panel in this card
-    const activeTierPanel = Array.from(card.querySelectorAll(".tierPanel")).find(
-      (p) => !p.classList.contains("hidden")
-    );
-    if (!activeTierPanel) return;
+      const key = spiritBtn.dataset.spirit;
+      showOnlyPanel(wrap, "data-panel", key);
+      return;
+    }
 
-    const spirit = spiritBtn.dataset.spirit;
+    // 3) Selector cards (Wine/Beer/NA) and (Hookah/Refill/Tower/Fishbowl)
+    const selectBtn = e.target.closest(".selectBtn");
+    if (selectBtn && card.classList.contains("selectorCard")) {
+      const key = selectBtn.dataset.select;
 
-    // highlight only in this active tier panel
-    activeTierPanel.querySelectorAll(".spiritBtn").forEach((b) => b.classList.toggle("active", b === spiritBtn));
+      const buttons = card.querySelectorAll(".selectBtn");
+      setActive(buttons, selectBtn);
 
-    // hide all spirit panels in this active panel, show selected
-    activeTierPanel.querySelectorAll(".spiritPanel").forEach((p) => {
-      p.classList.toggle("hidden", p.dataset.spiritPanel !== spirit);
-    });
+      showOnlyPanel(card, "data-select-panel", key);
+      return;
+    }
   });
-
-  // Default open Non-Alcoholic in Wine/Beer card (optional)
-  const wineCard = document.querySelector(".wineBeerCard");
-  if (wineCard) {
-    const defaultBtn = wineCard.querySelector('.tierBtn[data-tier="na"]');
-    if (defaultBtn) defaultBtn.click();
-  }
 })();
