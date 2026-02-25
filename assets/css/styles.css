@@ -1,34 +1,85 @@
-/* MENU PAGE ONLY — clean and isolated */
+/* =========================
+   MENU PAGE ONLY — CLEAN + ISOLATED
+   (Mobile snap day tabs + sticky bar + dense luxury cards)
+========================= */
 
 .menuPage{
   padding: 22px 0 70px;
 }
 
+/* ===== Day Tabs (Sticky + Premium Bar) ===== */
 .daybar{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:center;
   margin: 18px 0 18px;
+
+  /* sticky so it stays visible while scrolling */
+  position: sticky;
+  top: 72px;            /* adjust if your header is taller/shorter */
+  z-index: 40;
+
+  padding: 10px 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(215,180,106,.18);
+  background: rgba(10,10,12,.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+}
+
+/* Mobile: horizontal scroll + snap */
+@media (max-width: 780px){
+  .daybar{
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+  }
+  .daybar::-webkit-scrollbar{ height: 6px; }
+  .daybar::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,.14);
+    border-radius: 999px;
+  }
 }
 
 .daytab{
   border:1px solid rgba(37,37,42,.9);
   background: rgba(255,255,255,.04);
-  color: rgba(255,255,255,.88);
+  color: rgba(255,255,255,.90);
   padding:10px 14px;
   border-radius:999px;
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
   letter-spacing:.2px;
+  white-space: nowrap;
+
+  transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+
+@media (max-width: 780px){
+  .daytab{ scroll-snap-align: start; }
+}
+
+.daytab:hover{
+  transform: translateY(-1px);
+  border-color: rgba(215,180,106,.45);
+  box-shadow: 0 0 0 1px rgba(215,180,106,.10) inset;
 }
 
 .daytab.active{
   background: linear-gradient(180deg, var(--gold), var(--gold2));
   color:#1a1407;
-  border-color: rgba(242,210,138,.6);
+  border-color: rgba(242,210,138,.75);
+  box-shadow:
+    0 0 22px rgba(215,180,106,.20),
+    0 0 55px rgba(215,180,106,.12);
 }
 
+/* ===== Day Panels ===== */
 .daypanel{
   display:none;
 }
@@ -37,6 +88,7 @@
   display:block;
 }
 
+/* ===== Title ===== */
 .menuTitle{
   margin: 10px 0 18px;
 }
@@ -52,40 +104,37 @@
   color: var(--muted);
 }
 
+/* ===== Grid Layout ===== */
 .menuGrid{
   display:grid;
   gap:12px;
   grid-template-columns: 1fr;
 }
 
+/* Desktop: 2 columns like your “right” reference */
 @media (min-width: 980px){
   .menuGrid{
     grid-template-columns: 1.25fr .75fr;
     align-items:start;
   }
-  /* bottom row becomes 2 columns */
-  .menuGrid > .menuCard:nth-child(3),
-  .menuGrid > .menuCard:nth-child(4){
-    grid-column: span 1;
-  }
-  .menuGrid{
-    grid-auto-flow: row;
-  }
 }
 
+/* ===== Cards ===== */
 .menuCard{
   border: 1px solid rgba(37,37,42,.9);
   background: rgba(17,17,20,.55);
   border-radius: var(--radius);
   padding: 14px;
+  box-shadow: 0 18px 55px rgba(0,0,0,.22);
 }
 
+/* “Luxury dense” — tighten spacing */
 .cardHead h2{
   margin:0 0 10px;
   font-size: 13px;
   letter-spacing:.14em;
   text-transform:uppercase;
-  color: rgba(255,255,255,.88);
+  color: rgba(255,255,255,.90);
 }
 
 .tierRow{
@@ -110,15 +159,18 @@
   color: rgba(255,255,255,.92);
   padding: 8px 12px;
   border-radius: 999px;
-  font-weight: 750;
+  font-weight: 800;
   font-size: 13px;
   cursor:pointer;
   user-select:none;
+  white-space: nowrap;
+  transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
 }
 
 .chip:hover{
+  transform: translateY(-1px);
   border-color: rgba(215,180,106,.55);
-  filter: drop-shadow(0 0 10px rgba(215,180,106,.18));
+  box-shadow: 0 0 22px rgba(215,180,106,.12);
 }
 
 .chip--active,
@@ -128,6 +180,7 @@
   color:#14120c;
 }
 
+/* ===== Spirits (tabs + lists) ===== */
 .spiritTabs{
   display:flex;
   gap:10px;
@@ -135,6 +188,7 @@
   margin-bottom: 12px;
 }
 
+/* If cocktails mode hides these in JS, this stays safe */
 .spiritLists{
   display:block;
 }
@@ -150,10 +204,12 @@
   display:block;
 }
 
+/* ===== Row Items ===== */
 .rowItem{
   display:flex;
   justify-content:space-between;
-  padding: 11px 12px;
+  align-items:center;
+  padding: 10px 12px;
   border-top:1px solid rgba(37,37,42,.75);
   color: rgba(255,255,255,.92);
 }
@@ -164,9 +220,10 @@
 
 .price{
   color: rgba(215,180,106,.95);
-  font-weight: 900;
+  font-weight: 950;
 }
 
+/* ===== Wine/Beer/NA switching ===== */
 .wbnaList{
   display:none;
   margin-top: 10px;
@@ -176,17 +233,36 @@
   display:block;
 }
 
+/* ===== Notes ===== */
 .note{
   margin: 12px 0 0;
   color: var(--muted);
   font-size: 13px;
 }
 
-/* helper note in placeholders */
+/* ===== Placeholder helper note ===== */
 .copyNote{
   border:1px dashed rgba(215,180,106,.35);
   background: rgba(215,180,106,.06);
   padding:14px;
   border-radius: 16px;
   color: rgba(255,255,255,.85);
+}
+
+/* ===== Optional: Cocktails box (created by JS) ===== */
+.cocktailBox{
+  display:none; /* JS toggles */
+  margin-top: 12px;
+  border:1px solid rgba(37,37,42,.9);
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(12,12,16,.35);
+}
+
+.cocktailHead{
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.85);
+  margin: 0 0 10px;
 }
