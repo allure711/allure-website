@@ -1,141 +1,128 @@
-/* assets/js/menu.js */
+/* assets/js/menu.js
+   Menu logic (day tabs + scoped toggles)
+   Fix: keep state inside each daypanel (no bleed between days)
+*/
+
 (() => {
-  // Helpers
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-  const $  = (sel, root = document) => root.querySelector(sel);
-
-  const STORAGE_KEY = "allure_menu_state_v1";
-
-  const defaultState = {
-    activeDay: "monday",
-    days: {} // dayName -> { tier, spirit, wbna }
-  };
-
-  function loadState() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return structuredClone(defaultState);
-      const parsed = JSON.parse(raw);
-      return {
-        ...structuredClone(defaultState),
-        ...parsed,
-        days: parsed.days || {}
-      };
-    } catch {
-      return structuredClone(defaultState);
-    }
-  }
-
-  function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }
-
-  function getDayState(state, day) {
-    if (!state.days[day]) {
-      state.days[day] = { tier: "shots", spirit: "vodka", wbna: "wine" };
-    }
-    return state.days[day];
-  }
-
-  // DOM
-  const dayTabs   = $$(".daytab");
-  const dayPanels = $$(".daypanel");
+  const dayTabs = Array.from(document.querySelectorAll(".daytab"));
+  const dayPanels = Array.from(document.querySelectorAll(".daypanel"));
 
   if (!dayTabs.length || !dayPanels.length) return;
 
-  let state = loadState();
+  const panelByDay = new Map(dayPanels.map(p => [p.dataset.day, p]));
 
-  // If URL has #tuesday etc, use it
-  const hashDay = (location.hash || "").replace("#", "").trim();
-  if (hashDay) state.activeDay = hashDay;
+  // --- helpers
+  const setActive = (els, activeEl) => {
+    els.forEach(el => el.classList.toggle("active", el === activeEl));
+  };
 
-  function setActiveDay(day) {
-    state.activeDay = day;
-    saveState(state);
+  const showOnly = (panels, activePanel) => {
+    panels.forEach(p => p.classList.toggle("active", p === activePanel));
+  };
 
-    // Tabs UI
-    dayTabs.forEach(btn => {
-      const on = btn.dataset.day === day;
-      btn.classList.toggle("active", on);
-      btn.setAttribute("aria-selected", on ? "true" : "false");
-    });
+  // Initialize defaults *inside each panel* so each day has its own state.
+  const initPanelDefaults = (panel) => {
+    // Tier chips inside THIS panel only
+    const tierChips = panel.querySelectorAll("[data-tier]");
+    if (tierChips.length && !panel.querySelector("[data-tier].active")) {
+      tierChips[0].classList.add("active");
+    }
 
-    // Panels UI
-    dayPanels.forEach(panel => {
-      panel.classList.toggle("active", panel.dataset.day === day);
-    });
+    // Spirit chips inside THIS panel only
+    const spiritChips = panel.querySelectorAll(".spiritChip[data-spirit]");
+    const spiritLists = panel.querySelectorAll(".spiritList[data-spirit-list]");
+    if (spiritChips.length && spiritLists.length) {
+      const activeSpirit = panel.querySelector(".spiritChip.active") || spiritChips[0];
+      activeSpirit.classList.add("active");
+      const spiritKey = activeSpirit.dataset.spirit;
+      spiritLists.forEach(list => {
+        list.classList.toggle("active", list.dataset.spiritList === spiritKey);
+      });
+    }
 
-    // Restore this day's internal selections
-    const panel = $(`.daypanel[data-day="${day}"]`);
-    if (panel) applyDaySelections(panel, day);
+    // Wine/Beer/NA inside THIS panel only
+    const wbnaChips = panel.querySelectorAll(".wbnaChip[data-wbna]");
+    const wbnaLists = panel.querySelectorAll(".wbnaList[data-wbna-list]");
+    if (wbnaChips.length && wbnaLists.length) {
+      const activeWbna = panel.querySelector(".wbnaChip.active") || wbnaChips[0];
+      activeWbna.classList.add("active");
+      const wbnaKey = activeWbna.dataset.wbna;
+      wbnaLists.forEach(list => {
+        list.classList.toggle("active", list.dataset.wbnaList === wbnaKey);
+      });
+    }
+  };
 
-    // Keep URL in sync (nice for sharing)
-    if (location.hash !== `#${day}`) history.replaceState(null, "", `#${day}`);
-  }
+  // Run defaults on all panels once
+  dayPanels.forEach(initPanelDefaults);
 
-  function applyDaySelections(panel, day) {
-    const ds = getDayState(state, day);
-
-    // Tier chips (shots/drinks/cocktails)
-    const tierChips = $$('[data-scope="tier"] .tierChip', panel);
-    tierChips.forEach(c => c.classList.toggle("active", c.dataset.tier === ds.tier));
-
-    // Spirit tabs (vodka/tequila/...)
-    const spiritChips = $$('[data-scope="spiritTabs"] .spiritChip', panel);
-    spiritChips.forEach(c => c.classList.toggle("active", c.dataset.spirit === ds.spirit));
-
-    const spiritLists = $$("[data-spirit-list]", panel);
-    spiritLists.forEach(list => list.classList.toggle("active", list.dataset.spiritList === ds.spirit));
-
-    // Wine/Beer/NA
-    const wbnaChips = $$('[data-scope="wbna"] .wbnaChip', panel);
-    wbnaChips.forEach(c => c.classList.toggle("active", c.dataset.wbna === ds.wbna));
-
-    const wbnaLists = $$("[data-wbna-list]", panel);
-    wbnaLists.forEach(list => list.classList.toggle("active", list.dataset.wbnaList === ds.wbna));
-  }
-
-  // Day tab click
-  dayTabs.forEach(btn => {
-    btn.addEventListener("click", () => setActiveDay(btn.dataset.day));
-  });
-
-  // Delegated click for chips inside panels (keeps things isolated per day)
-  document.addEventListener("click", (e) => {
-    const activeDay = state.activeDay;
-    const panel = $(`.daypanel.active[data-day="${activeDay}"]`);
+  // --- Day switching (NO STATE BLEED)
+  const activateDay = (day) => {
+    const panel = panelByDay.get(day);
     if (!panel) return;
 
-    const ds = getDayState(state, activeDay);
+    dayTabs.forEach(btn => {
+      const isActive = btn.dataset.day === day;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
 
-    // Tier
-    const tierBtn = e.target.closest(".tierChip");
-    if (tierBtn && panel.contains(tierBtn)) {
-      ds.tier = tierBtn.dataset.tier;
-      saveState(state);
-      applyDaySelections(panel, activeDay);
-      return;
-    }
+    showOnly(dayPanels, panel);
 
-    // Spirit
-    const spiritBtn = e.target.closest(".spiritChip");
-    if (spiritBtn && panel.contains(spiritBtn)) {
-      ds.spirit = spiritBtn.dataset.spirit;
-      saveState(state);
-      applyDaySelections(panel, activeDay);
-      return;
-    }
+    // Ensure this panel is internally consistent
+    initPanelDefaults(panel);
 
-    // WBNA
-    const wbnaBtn = e.target.closest(".wbnaChip");
-    if (wbnaBtn && panel.contains(wbnaBtn)) {
-      ds.wbna = wbnaBtn.dataset.wbna;
-      saveState(state);
-      applyDaySelections(panel, activeDay);
-      return;
-    }
+    // Optional: update URL hash without jumping
+    const newHash = `#${day}`;
+    if (location.hash !== newHash) history.replaceState(null, "", newHash);
+  };
+
+  dayTabs.forEach(btn => {
+    btn.addEventListener("click", () => activateDay(btn.dataset.day));
   });
 
-  // First paint
-  setActiveDay(state.activeDay);
+  // --- Click handling inside panels ONLY (event delegation)
+  dayPanels.forEach(panel => {
+    panel.addEventListener("click", (e) => {
+      const tierBtn = e.target.closest("[data-tier]");
+      if (tierBtn && panel.contains(tierBtn)) {
+        const row = tierBtn.closest(".tierRow");
+        if (!row) return;
+        const btns = Array.from(row.querySelectorAll("[data-tier]"));
+        setActive(btns, tierBtn);
+        return;
+      }
+
+      const spiritBtn = e.target.closest(".spiritChip[data-spirit]");
+      if (spiritBtn && panel.contains(spiritBtn)) {
+        const allSpiritBtns = Array.from(panel.querySelectorAll(".spiritChip[data-spirit]"));
+        setActive(allSpiritBtns, spiritBtn);
+
+        const key = spiritBtn.dataset.spirit;
+        const lists = Array.from(panel.querySelectorAll(".spiritList[data-spirit-list]"));
+        lists.forEach(list => list.classList.toggle("active", list.dataset.spiritList === key));
+        return;
+      }
+
+      const wbnaBtn = e.target.closest(".wbnaChip[data-wbna]");
+      if (wbnaBtn && panel.contains(wbnaBtn)) {
+        const allWbnaBtns = Array.from(panel.querySelectorAll(".wbnaChip[data-wbna]"));
+        setActive(allWbnaBtns, wbnaBtn);
+
+        const key = wbnaBtn.dataset.wbna;
+        const lists = Array.from(panel.querySelectorAll(".wbnaList[data-wbna-list]"));
+        lists.forEach(list => list.classList.toggle("active", list.dataset.wbnaList === key));
+        return;
+      }
+    });
+  });
+
+  // --- Initial day on load (hash wins, else current .active, else monday)
+  const hashDay = (location.hash || "").replace("#", "").trim();
+  const initial =
+    (hashDay && panelByDay.has(hashDay) && hashDay) ||
+    (document.querySelector(".daytab.active")?.dataset.day) ||
+    "monday";
+
+  activateDay(initial);
 })();
