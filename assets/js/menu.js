@@ -1,118 +1,85 @@
 (() => {
-  const $ = (s, root = document) => root.querySelector(s);
-  const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
+  // -------------------------
+  // Day tabs
+  // -------------------------
+  const dayTabs = Array.from(document.querySelectorAll(".daytab"));
+  const dayPanels = Array.from(document.querySelectorAll(".daypanel"));
 
-  // -------- Day tabs (Mon–Sun) --------
-  const dayTabs = $$(".daytab");
-  const dayPanels = $$(".daypanel");
+  function setDay(day) {
+    dayTabs.forEach(b => b.classList.toggle("active", b.dataset.day === day));
+    dayPanels.forEach(p => p.classList.toggle("active", p.dataset.dayPanel === day));
+    try { localStorage.setItem("menuDay", day); } catch (e) {}
+  }
 
-  function setActiveDay(day) {
-    dayTabs.forEach(btn => {
-      const isActive = btn.dataset.day === day;
-      btn.classList.toggle("active", isActive);
-      btn.setAttribute("aria-selected", isActive ? "true" : "false");
-    });
-
-    dayPanels.forEach(panel => {
-      panel.classList.toggle("active", panel.dataset.day === day);
-    });
-
-    // Update URL hash (#monday etc) so refresh keeps same day
-    if (day) history.replaceState(null, "", `#${day}`);
-
-    // Reset reveals on day switch (then reveal again)
-    requestAnimationFrame(() => {
-      setupReveals(true);
-      revealVisible();
-    });
+  function initDay() {
+    let saved = null;
+    try { saved = localStorage.getItem("menuDay"); } catch (e) {}
+    const start = saved || "monday";
+    setDay(start);
   }
 
   dayTabs.forEach(btn => {
-    btn.addEventListener("click", () => setActiveDay(btn.dataset.day));
+    btn.addEventListener("click", () => setDay(btn.dataset.day));
   });
 
-  // Load day from hash if present
-  const hashDay = (location.hash || "").replace("#", "").trim();
-  if (hashDay && dayTabs.some(b => b.dataset.day === hashDay)) {
-    setActiveDay(hashDay);
+  // -------------------------
+  // Happy vs Late mode (per day panel)
+  // -------------------------
+  function autoModeByTime() {
+    const hour = new Date().getHours(); // 0-23
+    // Happy Hour = 5pm(17) to 8:59pm(20). At 9pm(21) switch to late.
+    return (hour >= 17 && hour < 21) ? "happy" : "late";
   }
 
-  // -------- Inside a panel: Spirit chips --------
-  function wireSpiritTabs(panel) {
-    const chips = $$("[data-scope='spiritTabs'] .spiritChip", panel);
-    const lists = $$("[data-spirit-list]", panel);
-
-    if (!chips.length || !lists.length) return;
-
-    chips.forEach(chip => {
-      chip.addEventListener("click", () => {
-        const key = chip.dataset.spirit;
-
-        chips.forEach(c => c.classList.toggle("active", c === chip));
-        lists.forEach(list => list.classList.toggle("active", list.dataset.spiritList === key));
-      });
-    });
-  }
-
-  // -------- Bottle tier chips --------
-  function wireBottleTiers(panel) {
-    const chips = $$("[data-scope='bottleTier'] .bottleTierChip", panel);
-    const lists = $$("[data-bottle-list]", panel);
-
-    if (!chips.length || !lists.length) return;
-
-    chips.forEach(chip => {
-      chip.addEventListener("click", () => {
-        const key = chip.dataset.bottleTier;
-
-        chips.forEach(c => c.classList.toggle("active", c === chip));
-        lists.forEach(list => list.classList.toggle("active", list.dataset.bottleList === key));
-      });
-    });
-  }
-
-  // Wire current active panel + future panels
-  function wireAllPanels() {
+  function setupTimeModes() {
     dayPanels.forEach(panel => {
-      wireSpiritTabs(panel);
-      wireBottleTiers(panel);
-    });
-  }
-  wireAllPanels();
+      const modeBtns = Array.from(panel.querySelectorAll(".timeModeBtn"));
+      const timePanels = Array.from(panel.querySelectorAll(".timePanel"));
 
-  // -------- Reveal on scroll (nightclub animation) --------
-  let revealObserver = null;
+      if (!modeBtns.length || !timePanels.length) return;
 
-  function setupReveals(reset = false) {
-    const nodes = $$(".reveal");
+      const key = `menuTimeMode_${panel.dataset.dayPanel}`;
 
-    if (reset) nodes.forEach(n => n.classList.remove("is-visible"));
+      function setMode(mode) {
+        modeBtns.forEach(b => b.classList.toggle("chip--active", b.dataset.mode === mode));
+        timePanels.forEach(tp => tp.classList.toggle("active", tp.dataset.modePanel === mode));
+        try { localStorage.setItem(key, mode); } catch(e) {}
+      }
 
-    if (revealObserver) revealObserver.disconnect();
+      let saved = null;
+      try { saved = localStorage.getItem(key); } catch(e) {}
 
-    revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      const startMode = (saved === "happy" || saved === "late") ? saved : autoModeByTime();
+      setMode(startMode);
+
+      modeBtns.forEach(b => {
+        b.addEventListener("click", () => setMode(b.dataset.mode));
       });
-    }, { threshold: 0.12 });
-
-    nodes.forEach(n => revealObserver.observe(n));
-  }
-
-  function revealVisible() {
-    // ensures above-the-fold shows immediately
-    $$(".reveal").forEach(n => {
-      const rect = n.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.9) n.classList.add("is-visible");
     });
   }
 
-  setupReveals(false);
-  revealVisible();
+  // -------------------------
+  // Bottle tiers (Standard/Premium/VIP) inside late card
+  // -------------------------
+  function setupTiers() {
+    const tierBtns = Array.from(document.querySelectorAll(".tierBtn"));
+    if (!tierBtns.length) return;
 
-  // Safety: if user resizes, recalc
-  window.addEventListener("resize", () => {
-    setupReveals(false);
-    revealVisible();
-  });
+    tierBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest(".menuCard");
+        if (!card) return;
+
+        const allBtns = Array.from(card.querySelectorAll(".tierBtn"));
+        const allPanels = Array.from(card.querySelectorAll(".tierPanel"));
+
+        allBtns.forEach(b => b.classList.toggle("chip--active", b === btn));
+        allPanels.forEach(p => p.classList.toggle("active", p.dataset.tierPanel === btn.dataset.tier));
+      });
+    });
+  }
+
+  initDay();
+  setupTimeModes();
+  setupTiers();
 })();
