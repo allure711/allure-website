@@ -1,51 +1,185 @@
-.menuPage {
-  padding:40px 0;
+/* =========================
+   MENU PAGE ONLY (LOCKED)
+   ========================= */
+
+/* Works whether you use <main class="menuPage"> OR <body class="menu-page"> */
+.menuPage, body.menu-page {
+  padding: 22px 0 70px;
 }
 
-.daybar {
+/* -------- Day Tabs -------- */
+.menuPage .daybar,
+body.menu-page .daybar{
   display:flex;
   gap:10px;
-  margin-bottom:20px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:18px 0 18px;
 }
 
-.daytab {
-  padding:8px 15px;
-  border:none;
+.menuPage .daytab,
+body.menu-page .daytab{
+  border:1px solid rgba(37,37,42,.9);
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.88);
+  padding:10px 14px;
+  border-radius:999px;
   cursor:pointer;
+  font-weight:700;
 }
 
-.daytab.active {
-  background:gold;
-  color:black;
+.menuPage .daytab.active,
+body.menu-page .daytab.active{
+  background: linear-gradient(180deg, var(--gold, #f2d28a), var(--gold2, #d7b46a));
+  color:#1a1407;
+  border-color: rgba(242,210,138,.6);
 }
 
-.daypanel {
+/* -------- Panels -------- */
+.menuPage .daypanel,
+body.menu-page .daypanel{
   display:none;
 }
-
-.daypanel.active {
+.menuPage .daypanel.active,
+body.menu-page .daypanel.active{
   display:block;
 }
 
-.chip {
-  padding:6px 12px;
-  border:1px solid gold;
-  background:none;
-  color:white;
+/* -------- Title -------- */
+.menuPage .menuTitle,
+body.menu-page .menuTitle{
+  margin:10px 0 18px;
+}
+.menuPage .menuTitle h1,
+body.menu-page .menuTitle h1{
+  margin:0 0 6px;
+  font-size:34px;
+  letter-spacing:.04em;
+}
+.menuPage .menuTitle p,
+body.menu-page .menuTitle p{
+  margin:0;
+  opacity:.75;
+}
+
+/* -------- Grid -------- */
+.menuPage .menuGrid,
+body.menu-page .menuGrid{
+  display:grid;
+  gap:12px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 980px){
+  .menuPage .menuGrid,
+  body.menu-page .menuGrid{
+    grid-template-columns: 1.25fr .75fr;
+    align-items:start;
+  }
+}
+
+/* -------- Cards -------- */
+.menuPage .menuCard,
+body.menu-page .menuCard{
+  border: 1px solid rgba(37,37,42,.9);
+  background: rgba(17,17,20,.55);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.menuPage .cardHead h2,
+body.menu-page .cardHead h2{
+  margin:0 0 10px;
+  font-size: 13px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color: rgba(255,255,255,.88);
+}
+
+/* -------- Chips -------- */
+.menuPage .tierRow,
+body.menu-page .tierRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.menuPage .chipWrap,
+body.menu-page .chipWrap{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.menuPage .chip,
+body.menu-page .chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(215,180,106,.25);
+  background: rgba(255,255,255,.03);
+  color: rgba(255,255,255,.92);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 750;
+  font-size: 13px;
   cursor:pointer;
+  user-select:none;
 }
 
-.chip.active {
-  background:gold;
-  color:black;
+.menuPage .chip.active,
+body.menu-page .chip.active{
+  background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,180,106,.95));
+  border-color: rgba(242,210,138,.95);
+  color:#14120c;
 }
 
-.rowItem {
+/* -------- Spirit Lists -------- */
+.menuPage .spiritList,
+body.menu-page .spiritList{
+  display:none;
+  border:1px solid rgba(37,37,42,.9);
+  border-radius: 16px;
+  overflow:hidden;
+}
+.menuPage .spiritList.active,
+body.menu-page .spiritList.active{
+  display:block;
+}
+
+.menuPage .rowItem,
+body.menu-page .rowItem{
   display:flex;
   justify-content:space-between;
-  margin:8px 0;
+  padding: 11px 12px;
+  border-top:1px solid rgba(37,37,42,.75);
+}
+.menuPage .rowItem:first-child,
+body.menu-page .rowItem:first-child{
+  border-top:none;
 }
 
-.price {
-  color:gold;
+.menuPage .price,
+body.menu-page .price{
+  color: rgba(215,180,106,.95);
+  font-weight: 900;
+}
+
+/* -------- Wine/Beer/NA -------- */
+.menuPage .wbnaList,
+body.menu-page .wbnaList{
+  display:none;
+  margin-top:10px;
+}
+.menuPage .wbnaList.active,
+body.menu-page .wbnaList.active{
+  display:block;
+}
+
+.menuPage .note,
+body.menu-page .note{
+  margin: 12px 0 0;
+  opacity:.75;
+  font-size: 13px;
 }
