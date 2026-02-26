@@ -5,175 +5,327 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Menu | Allure Bar & Lounge</title>
 
-  <!-- site-wide CSS -->
   <link rel="stylesheet" href="assets/css/styles.css" />
-
-  <!-- menu-only CSS -->
   <link rel="stylesheet" href="assets/css/menu.css" />
 </head>
 
-<body class="menu-page">
-  <!-- HEADER / NAV -->
+<body>
   <header class="header">
-    <div class="header__container">
-      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+    <div class="container header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__name">Allure Bar &amp; Lounge</span>
+      </a>
 
-      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="siteNav">
-        Menu
-      </button>
-
-      <ul id="siteNav" class="nav__list">
+      <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <ul class="nav__list" id="siteNav">
         <li><a href="index.html">Home</a></li>
         <li><a class="active" href="menu.html">Menu</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="about.html">About</a></li>
+        <li><a href="location.html">Location</a></li>
+        <li><a class="btn btn--primary btn--small" href="tel:2022974949">Call</a></li>
       </ul>
     </div>
   </header>
 
-  <!-- MENU PAGE -->
-  <main class="menuPage">
-
-    <div class="menuTitle">
-      <h1>Menu</h1>
-      <p>Happy hour + late night specials</p>
+  <main class="container menuPage" id="content">
+    <!-- Day Tabs -->
+    <div class="daybar" role="tablist" aria-label="Weekly Specials Navigation">
+      <button class="daytab active" type="button" data-day="monday" aria-selected="true">Monday</button>
+      <button class="daytab" type="button" data-day="tuesday" aria-selected="false">Tuesday</button>
+      <button class="daytab" type="button" data-day="wednesday" aria-selected="false">Wednesday</button>
+      <button class="daytab" type="button" data-day="thursday" aria-selected="false">Thursday</button>
+      <button class="daytab" type="button" data-day="friday" aria-selected="false">Friday</button>
+      <button class="daytab" type="button" data-day="saturday" aria-selected="false">Saturday</button>
+      <button class="daytab" type="button" data-day="sunday" aria-selected="false">Sunday</button>
     </div>
 
-    <!-- DAY TABS -->
-    <div class="daybar" role="tablist" aria-label="Days">
-      <button class="daytab active" type="button" data-day="monday" role="tab" aria-selected="true">Monday</button>
-      <button class="daytab" type="button" data-day="tuesday" role="tab" aria-selected="false">Tuesday</button>
-      <button class="daytab" type="button" data-day="wednesday" role="tab" aria-selected="false">Wednesday</button>
-      <button class="daytab" type="button" data-day="thursday" role="tab" aria-selected="false">Thursday</button>
-      <button class="daytab" type="button" data-day="friday" role="tab" aria-selected="false">Friday</button>
-      <button class="daytab" type="button" data-day="saturday" role="tab" aria-selected="false">Saturday</button>
-      <button class="daytab" type="button" data-day="sunday" role="tab" aria-selected="false">Sunday</button>
-    </div>
+    <!-- ========= MONDAY ========= -->
+    <section class="daypanel active" data-day="monday">
+      <div class="menuTitle reveal">
+        <div class="titleRow">
+          <div>
+            <h1>HAPPY HOUR</h1>
+            <p>Happy Hour 5PM–9PM • Same specials as Wednesday.</p>
+          </div>
 
-    <!-- ===================== MONDAY PANEL ===================== -->
-    <section class="daypanel active" data-daypanel="monday" role="tabpanel">
+          <!-- Reserve button inside each day -->
+          <a class="reserveBtn" href="tel:2022974949">Reserve / Call</a>
+        </div>
+      </div>
+
       <div class="menuGrid">
-
-        <!-- LEFT CARD -->
-        <section class="menuCard">
+        <!-- LEFT: SPIRITS -->
+        <section class="menuCard reveal">
           <div class="cardHead">
-            <h2>HAPPY HOUR</h2>
+            <h2>HAPPY HOUR (5PM–9PM) • SPIRITS</h2>
           </div>
 
-          <!-- TIER CHIPS -->
-          <div class="tierRow">
-            <div class="chipWrap" role="tablist" aria-label="Menu tiers">
-              <button class="chip tierChip active" type="button" data-tier="shots" role="tab" aria-selected="true">$5 Shots</button>
-              <button class="chip tierChip" type="button" data-tier="drinks" role="tab" aria-selected="false">$10 Drinks</button>
-              <button class="chip tierChip" type="button" data-tier="spirits" role="tab" aria-selected="false">Spirits</button>
-            </div>
+          <div class="tierRow" data-scope="tier">
+            <button class="chip tierChip active" type="button" data-tier="shots">$5 SHOTS</button>
+            <button class="chip tierChip" type="button" data-tier="drinks">$10 DRINKS</button>
+            <button class="chip tierChip" type="button" data-tier="cocktails">$10 COCKTAILS</button>
           </div>
 
-          <!-- TIER: SHOTS -->
-          <div class="wbnaList active" data-tierpanel="shots">
-            <div class="spiritList active">
-              <div class="rowItem"><span>Vodka</span><span class="price">$5</span></div>
-              <div class="rowItem"><span>Tequila</span><span class="price">$5</span></div>
-              <div class="rowItem"><span>Whiskey</span><span class="price">$5</span></div>
-              <div class="rowItem"><span>Rum</span><span class="price">$5</span></div>
-            </div>
-            <p class="note">Same specials as requested.</p>
+          <div class="spiritTabs" data-scope="spiritTabs">
+            <button class="chip spiritChip active" type="button" data-spirit="vodka">Vodka</button>
+            <button class="chip spiritChip" type="button" data-spirit="tequila">Tequila</button>
+            <button class="chip spiritChip" type="button" data-spirit="whiskey">Whiskey</button>
+            <button class="chip spiritChip" type="button" data-spirit="liqueur">Liqueur</button>
+            <button class="chip spiritChip" type="button" data-spirit="rum">Rum</button>
+            <button class="chip spiritChip" type="button" data-spirit="gin">Gin</button>
+            <button class="chip spiritChip" type="button" data-spirit="cognac">Cognac</button>
           </div>
 
-          <!-- TIER: DRINKS -->
-          <div class="wbnaList" data-tierpanel="drinks">
-            <div class="spiritList active">
-              <div class="rowItem"><span>House Cocktail</span><span class="price">$10</span></div>
-              <div class="rowItem"><span>Margarita</span><span class="price">$10</span></div>
-              <div class="rowItem"><span>Mojito</span><span class="price">$10</span></div>
-              <div class="rowItem"><span>Old Fashioned</span><span class="price">$10</span></div>
-            </div>
-          </div>
-
-          <!-- TIER: SPIRITS -->
-          <div class="wbnaList" data-tierpanel="spirits">
-            <!-- Spirit tabs -->
-            <div class="spiritTabs" role="tablist" aria-label="Spirits categories">
-              <button class="chip spiritChip active" type="button" data-spirit="vodka" role="tab" aria-selected="true">Vodka</button>
-              <button class="chip spiritChip" type="button" data-spirit="tequila" role="tab" aria-selected="false">Tequila</button>
+          <div class="spiritLists">
+            <div class="spiritList active" data-spirit-list="vodka">
+              <div class="rowItem"><span>Absolut</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Belvedere</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Ciroc</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Grey Goose</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Kettle One</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Stoli Orange</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Titos</span><span class="price jsPrice">$5</span></div>
             </div>
 
-            <!-- Spirit lists wrapper (THIS is the wrapper that was missing closing tags before) -->
-            <div class="spiritLists">
-              <div class="spiritList active" data-spiritlist="vodka">
-                <div class="rowItem"><span>Grey Goose</span><span class="price">$5</span></div>
-                <div class="rowItem"><span>Ketel One</span><span class="price">$5</span></div>
-              </div>
+            <div class="spiritList" data-spirit-list="tequila">
+              <div class="rowItem"><span>1800</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Altos</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Patron</span><span class="price jsPrice">$5</span></div>
+            </div>
 
-              <div class="spiritList" data-spiritlist="tequila">
-                <div class="rowItem"><span>Patrón</span><span class="price">$5</span></div>
-                <div class="rowItem"><span>Casamigos</span><span class="price">$5</span></div>
-              </div>
-            </div><!-- ✅ closes .spiritLists -->
-          </div><!-- ✅ closes tierpanel spirits -->
+            <div class="spiritList" data-spirit-list="whiskey">
+              <div class="rowItem"><span>Jameson</span><span class="price jsPrice">$5</span></div>
+              <div class="rowItem"><span>Jack Daniels</span><span class="price jsPrice">$5</span></div>
+            </div>
 
-        </section><!-- ✅ closes LEFT menuCard -->
+            <div class="spiritList" data-spirit-list="liqueur">
+              <div class="rowItem"><span>Triple Sec</span><span class="price jsPrice">$5</span></div>
+            </div>
 
-        <!-- RIGHT CARD -->
-        <section class="menuCard">
-          <div class="cardHead">
-            <h2>NOTES</h2>
-          </div>
-          <div class="copyNote">
-            This panel is just a placeholder. Replace with your real menu content anytime.
+            <div class="spiritList" data-spirit-list="rum">
+              <div class="rowItem"><span>Bacardi</span><span class="price jsPrice">$5</span></div>
+            </div>
+
+            <div class="spiritList" data-spirit-list="gin">
+              <div class="rowItem"><span>Bombay</span><span class="price jsPrice">$5</span></div>
+            </div>
+
+            <div class="spiritList" data-spirit-list="cognac">
+              <div class="rowItem"><span>Hennessy</span><span class="price jsPrice">$5</span></div>
+            </div>
           </div>
         </section>
 
-      </div><!-- ✅ closes .menuGrid -->
-    </section><!-- ✅ closes Monday daypanel -->
+        <!-- RIGHT: TOP SHELF -->
+        <section class="menuCard reveal">
+          <div class="cardHead">
+            <h2>$7 SHOTS / $14 DRINKS • TOP SHELF</h2>
+          </div>
+          <div class="chipWrap">
+            <span class="chip">818</span>
+            <span class="chip">Casa Azul</span>
+            <span class="chip">Casamigos</span>
+            <span class="chip">Don Julio</span>
+            <span class="chip">Dusse</span>
+            <span class="chip">Hendricks</span>
+            <span class="chip">Hennessy VSOP</span>
+            <span class="chip">Herradura</span>
+            <span class="chip">Remy 1738</span>
+          </div>
+        </section>
 
-    <!-- ===================== TUESDAY PANEL (copy skeleton) ===================== -->
-    <section class="daypanel" data-daypanel="tuesday" role="tabpanel">
-      <div class="menuCard">
-        <div class="cardHead"><h2>TUESDAY</h2></div>
-        <p class="note">Paste Tuesday specials here.</p>
+        <!-- FOOD SECTION (NEW) -->
+        <section class="menuCard reveal">
+          <div class="cardHead">
+            <h2>FOOD • LATE NIGHT FAVORITES</h2>
+          </div>
+
+          <div class="foodGrid">
+            <div class="foodItem">
+              <div class="foodName">Wings (6pc)</div>
+              <div class="foodMeta">Buffalo • Honey Garlic • Lemon Pepper</div>
+              <div class="foodPrice">$12</div>
+            </div>
+
+            <div class="foodItem">
+              <div class="foodName">Fries</div>
+              <div class="foodMeta">Classic • Loaded (+$4)</div>
+              <div class="foodPrice">$6</div>
+            </div>
+
+            <div class="foodItem">
+              <div class="foodName">Salmon Nuggets Basket</div>
+              <div class="foodMeta">Crispy bites • House sauce</div>
+              <div class="foodPrice">$15</div>
+            </div>
+
+            <div class="foodItem">
+              <div class="foodName">Rasta Pasta</div>
+              <div class="foodMeta">Chicken $16 • Shrimp $18 • Salmon $20</div>
+              <div class="foodPrice">from $16</div>
+            </div>
+          </div>
+
+          <p class="note">Kitchen hours may vary. Ask your server for tonight’s specials.</p>
+        </section>
+
+        <!-- BOTTLE PRICING (NEW) -->
+        <section class="menuCard reveal">
+          <div class="cardHead">
+            <h2>BOTTLES • PRICING</h2>
+          </div>
+
+          <div class="tierRow" data-scope="bottleTier">
+            <button class="chip bottleTierChip active" type="button" data-bottle-tier="standard">Standard</button>
+            <button class="chip bottleTierChip" type="button" data-bottle-tier="premium">Premium</button>
+            <button class="chip bottleTierChip" type="button" data-bottle-tier="vip">VIP</button>
+          </div>
+
+          <div class="bottleLists">
+            <div class="bottleList active" data-bottle-list="standard">
+              <div class="rowItem"><span>Don Julio Blanco</span><span class="price">$220</span></div>
+              <div class="rowItem"><span>Casamigos Reposado</span><span class="price">$240</span></div>
+              <div class="rowItem"><span>Hennessy VS</span><span class="price">$220</span></div>
+            </div>
+
+            <div class="bottleList" data-bottle-list="premium">
+              <div class="rowItem"><span>Clase Azul Reposado</span><span class="price">$450</span></div>
+              <div class="rowItem"><span>Hennessy VSOP</span><span class="price">$320</span></div>
+              <div class="rowItem"><span>Remy 1738</span><span class="price">$300</span></div>
+            </div>
+
+            <div class="bottleList" data-bottle-list="vip">
+              <div class="rowItem"><span>Clase Azul Gold</span><span class="price">$900</span></div>
+              <div class="rowItem"><span>Don Julio 1942</span><span class="price">$650</span></div>
+              <div class="rowItem"><span>Hennessy XO</span><span class="price">$750</span></div>
+            </div>
+          </div>
+
+          <p class="note">Prices shown are sample placeholders — tell me your real bottle list and I’ll format it perfectly.</p>
+        </section>
       </div>
     </section>
 
-    <section class="daypanel" data-daypanel="wednesday" role="tabpanel">
-      <div class="menuCard">
-        <div class="cardHead"><h2>WEDNESDAY</h2></div>
-        <p class="note">Paste Wednesday specials here.</p>
+    <!-- ========= TUESDAY ========= -->
+    <section class="daypanel" data-day="tuesday">
+      <div class="menuTitle reveal">
+        <div class="titleRow">
+          <div>
+            <h1>TACO TUESDAY</h1>
+            <p>Happy Hour 5PM–9PM • Taco: Beef $2 • Chicken $3 • Shrimp $4</p>
+          </div>
+          <a class="reserveBtn" href="tel:2022974949">Reserve / Call</a>
+        </div>
+      </div>
+
+      <!-- Reuse Monday structure by copying the Monday menuGrid into here later -->
+      <div class="menuGrid">
+        <section class="menuCard reveal">
+          <div class="cardHead"><h2>NOTE</h2></div>
+          <p class="note">Copy the full Monday “menuGrid” into Tuesday when you’re ready and I’ll tailor the text for Tuesday.</p>
+        </section>
       </div>
     </section>
 
-    <section class="daypanel" data-daypanel="thursday" role="tabpanel">
-      <div class="menuCard">
-        <div class="cardHead"><h2>THURSDAY</h2></div>
-        <p class="note">Paste Thursday specials here.</p>
+    <!-- ========= WEDNESDAY ========= -->
+    <section class="daypanel" data-day="wednesday">
+      <div class="menuTitle reveal">
+        <div class="titleRow">
+          <div>
+            <h1>HAPPY HOUR</h1>
+            <p>Happy Hour 5PM–9PM • Same specials as Tuesday.</p>
+          </div>
+          <a class="reserveBtn" href="tel:2022974949">Reserve / Call</a>
+        </div>
+      </div>
+      <div class="menuGrid">
+        <section class="menuCard reveal">
+          <div class="cardHead"><h2>NOTE</h2></div>
+          <p class="note">Copy the full Monday “menuGrid” into Wednesday when you’re ready.</p>
+        </section>
       </div>
     </section>
 
-    <section class="daypanel" data-daypanel="friday" role="tabpanel">
-      <div class="menuCard">
-        <div class="cardHead"><h2>FRIDAY</h2></div>
-        <p class="note">Paste Friday specials here.</p>
+    <!-- ========= THURSDAY ========= -->
+    <section class="daypanel" data-day="thursday">
+      <div class="menuTitle reveal">
+        <div class="titleRow">
+          <div>
+            <h1>HAPPY HOUR</h1>
+            <p>Happy Hour 5PM–9PM • Same specials as Tuesday.</p>
+          </div>
+          <a class="reserveBtn" href="tel:2022974949">Reserve / Call</a>
+        </div>
+      </div>
+      <div class="menuGrid">
+        <section class="menuCard reveal">
+          <div class="cardHead"><h2>NOTE</h2></div>
+          <p class="note">Copy the full Monday “menuGrid” into Thursday when you’re ready.</p>
+        </section>
       </div>
     </section>
 
-    <section class="daypanel" data-daypanel="saturday" role="tabpanel">
-      <div class="menuCard">
-        <div class="cardHead"><h2>SATURDAY</h2></div>
-        <p class="note">Paste Saturday specials here.</p>
+    <!-- ========= FRIDAY ========= -->
+    <section class="daypanel" data-day="friday">
+      <div class="menuTitle reveal">
+        <div class="titleRow">
+          <div>
+            <h1>HAPPY HOUR</h1>
+            <p>Happy Hour 5PM–9PM • Same specials as Tuesday.</p>
+          </div>
+          <a class="reserveBtn" href="tel:2022974949">Reserve / Call</a>
+        </div>
+      </div>
+      <div class="menuGrid">
+        <section class="menuCard reveal">
+          <div class="cardHead"><h2>NOTE</h2></div>
+          <p class="note">Copy the full Monday “menuGrid” into Friday when you’re ready.</p>
+        </section>
       </div>
     </section>
 
-    <section class="daypanel" data-daypanel="sunday" role="tabpanel">
-      <div class="menuCard">
-        <div class="cardHead"><h2>SUNDAY</h2></div>
-        <p class="note">Paste Sunday specials here.</p>
+    <!-- ========= SATURDAY ========= -->
+    <section class="daypanel" data-day="saturday">
+      <div class="menuTitle reveal">
+        <div class="titleRow">
+          <div>
+            <h1>HAPPY HOUR</h1>
+            <p>Happy Hour 5PM–9PM • Same specials as Tuesday.</p>
+          </div>
+          <a class="reserveBtn" href="tel:2022974949">Reserve / Call</a>
+        </div>
+      </div>
+      <div class="menuGrid">
+        <section class="menuCard reveal">
+          <div class="cardHead"><h2>NOTE</h2></div>
+          <p class="note">Copy the full Monday “menuGrid” into Saturday when you’re ready.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- ========= SUNDAY ========= -->
+    <section class="daypanel" data-day="sunday">
+      <div class="menuTitle reveal">
+        <div class="titleRow">
+          <div>
+            <h1>HAPPY HOUR</h1>
+            <p>Happy Hour 5PM–9PM • Same specials as Wednesday.</p>
+          </div>
+          <a class="reserveBtn" href="tel:2022974949">Reserve / Call</a>
+        </div>
+      </div>
+      <div class="menuGrid">
+        <section class="menuCard reveal">
+          <div class="cardHead"><h2>NOTE</h2></div>
+          <p class="note">Copy the full Monday “menuGrid” into Sunday when you’re ready.</p>
+        </section>
       </div>
     </section>
 
   </main>
 
-  <!-- JS (put at bottom, before </body>) -->
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/menu.js"></script>
 </body>
