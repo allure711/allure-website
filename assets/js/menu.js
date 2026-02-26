@@ -1,18 +1,29 @@
 (() => {
-  // ---------- Day tabs ----------
-  const dayTabs = Array.from(document.querySelectorAll(".daytab"));
-  const dayPanels = Array.from(document.querySelectorAll(".daypanel"));
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
+
+  // -------- Day tabs (Mon–Sun) --------
+  const dayTabs = $$(".daytab");
+  const dayPanels = $$(".daypanel");
 
   function setActiveDay(day) {
     dayTabs.forEach(btn => {
-      const on = btn.dataset.day === day;
-      btn.classList.toggle("active", on);
-      btn.setAttribute("aria-selected", on ? "true" : "false");
+      const isActive = btn.dataset.day === day;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
     });
 
     dayPanels.forEach(panel => {
-      const on = panel.dataset.daypanel === day;
-      panel.classList.toggle("active", on);
+      panel.classList.toggle("active", panel.dataset.day === day);
+    });
+
+    // Update URL hash (#monday etc) so refresh keeps same day
+    if (day) history.replaceState(null, "", `#${day}`);
+
+    // Reset reveals on day switch (then reveal again)
+    requestAnimationFrame(() => {
+      setupReveals(true);
+      revealVisible();
     });
   }
 
@@ -20,48 +31,88 @@
     btn.addEventListener("click", () => setActiveDay(btn.dataset.day));
   });
 
-  // ---------- Tier chips ($5 shots / $10 drinks / spirits) ----------
-  const tierChips = Array.from(document.querySelectorAll(".tierChip"));
-  const tierPanels = Array.from(document.querySelectorAll(".wbnaList"));
+  // Load day from hash if present
+  const hashDay = (location.hash || "").replace("#", "").trim();
+  if (hashDay && dayTabs.some(b => b.dataset.day === hashDay)) {
+    setActiveDay(hashDay);
+  }
 
-  function setTier(tier) {
-    tierChips.forEach(btn => {
-      const on = btn.dataset.tier === tier;
-      btn.classList.toggle("active", on);
-      btn.setAttribute("aria-selected", on ? "true" : "false");
-    });
+  // -------- Inside a panel: Spirit chips --------
+  function wireSpiritTabs(panel) {
+    const chips = $$("[data-scope='spiritTabs'] .spiritChip", panel);
+    const lists = $$("[data-spirit-list]", panel);
 
-    tierPanels.forEach(p => {
-      p.classList.toggle("active", p.dataset.tierpanel === tier);
+    if (!chips.length || !lists.length) return;
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        const key = chip.dataset.spirit;
+
+        chips.forEach(c => c.classList.toggle("active", c === chip));
+        lists.forEach(list => list.classList.toggle("active", list.dataset.spiritList === key));
+      });
     });
   }
 
-  tierChips.forEach(btn => {
-    btn.addEventListener("click", () => setTier(btn.dataset.tier));
-  });
+  // -------- Bottle tier chips --------
+  function wireBottleTiers(panel) {
+    const chips = $$("[data-scope='bottleTier'] .bottleTierChip", panel);
+    const lists = $$("[data-bottle-list]", panel);
 
-  // ---------- Spirit tabs (Vodka / Tequila / etc) ----------
-  const spiritChips = Array.from(document.querySelectorAll(".spiritChip"));
-  const spiritLists = Array.from(document.querySelectorAll(".spiritList[data-spiritlist]"));
+    if (!chips.length || !lists.length) return;
 
-  function setSpirit(key) {
-    spiritChips.forEach(btn => {
-      const on = btn.dataset.spirit === key;
-      btn.classList.toggle("active", on);
-      btn.setAttribute("aria-selected", on ? "true" : "false");
-    });
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        const key = chip.dataset.bottleTier;
 
-    spiritLists.forEach(list => {
-      list.classList.toggle("active", list.dataset.spiritlist === key);
+        chips.forEach(c => c.classList.toggle("active", c === chip));
+        lists.forEach(list => list.classList.toggle("active", list.dataset.bottleList === key));
+      });
     });
   }
 
-  spiritChips.forEach(btn => {
-    btn.addEventListener("click", () => setSpirit(btn.dataset.spirit));
-  });
+  // Wire current active panel + future panels
+  function wireAllPanels() {
+    dayPanels.forEach(panel => {
+      wireSpiritTabs(panel);
+      wireBottleTiers(panel);
+    });
+  }
+  wireAllPanels();
 
-  // Defaults (safe)
-  if (dayTabs.length) setActiveDay(dayTabs.find(b => b.classList.contains("active"))?.dataset.day || "monday");
-  if (tierChips.length) setTier(tierChips.find(b => b.classList.contains("active"))?.dataset.tier || "shots");
-  if (spiritChips.length) setSpirit(spiritChips.find(b => b.classList.contains("active"))?.dataset.spirit || "vodka");
+  // -------- Reveal on scroll (nightclub animation) --------
+  let revealObserver = null;
+
+  function setupReveals(reset = false) {
+    const nodes = $$(".reveal");
+
+    if (reset) nodes.forEach(n => n.classList.remove("is-visible"));
+
+    if (revealObserver) revealObserver.disconnect();
+
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      });
+    }, { threshold: 0.12 });
+
+    nodes.forEach(n => revealObserver.observe(n));
+  }
+
+  function revealVisible() {
+    // ensures above-the-fold shows immediately
+    $$(".reveal").forEach(n => {
+      const rect = n.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.9) n.classList.add("is-visible");
+    });
+  }
+
+  setupReveals(false);
+  revealVisible();
+
+  // Safety: if user resizes, recalc
+  window.addEventListener("resize", () => {
+    setupReveals(false);
+    revealVisible();
+  });
 })();
