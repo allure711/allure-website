@@ -358,3 +358,88 @@
 }
 
 .centerNote{ text-align:center; padding: 0 14px 14px; }
+.menuSplit{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:25px;
+}
+
+@media(max-width:900px){
+  .menuSplit{
+    grid-template-columns:1fr;
+  }
+}
+
+.menuCard{
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:18px;
+  backdrop-filter:blur(8px);
+  transition:.25s ease;
+}
+
+.menuCard:hover{
+  border-color:rgba(242,210,138,.4);
+  box-shadow:0 0 35px rgba(242,210,138,.15);
+}
+
+.accordionMain,
+.accordionSub{
+  width:100%;
+  text-align:left;
+  padding:14px;
+  margin-top:12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  cursor:pointer;
+  font-weight:800;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:.2s ease;
+}
+
+.accordionMain:hover,
+.accordionSub:hover{
+  border-color:rgba(242,210,138,.5);
+  box-shadow:0 0 18px rgba(242,210,138,.18);
+}
+
+.accordionContent,
+.subContent{
+  display:none;
+  padding:12px 0 8px 12px;
+}
+
+.rowItem{
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.reserveBtn,
+.reserveTop{
+  display:inline-block;
+  padding:12px 16px;
+  border-radius:14px;
+  font-weight:900;
+  text-decoration:none;
+  background:linear-gradient(90deg,#f2d28a,#ffb347);
+  color:#111;
+  margin-top:18px;
+}
+
+.heroRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.dayTitle{
+  font-size:28px;
+  font-weight:900;
+}
