@@ -1,78 +1,180 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Menu | Allure Bar & Lounge</title>
 
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/menu.css">
+  <!-- site-wide CSS -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- menu-only CSS -->
+  <link rel="stylesheet" href="assets/css/menu.css" />
 </head>
+
 <body class="menu-page">
+  <!-- HEADER / NAV -->
+  <header class="header">
+    <div class="header__container">
+      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-<header class="header">
-  <div class="container header__inner">
-    <a class="brand" href="index.html">Allure Bar & Lounge</a>
-    <button class="nav__toggle" aria-expanded="false">Menu</button>
-    <ul class="nav__list">
-      <li><a href="index.html">Home</a></li>
-      <li><a class="active" href="menu.html">Menu</a></li>
-      <li><a href="events.html">Events</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
-  </div>
-</header>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="siteNav">
+        Menu
+      </button>
 
-<main class="container menuPage">
+      <ul id="siteNav" class="nav__list">
+        <li><a href="index.html">Home</a></li>
+        <li><a class="active" href="menu.html">Menu</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+  </header>
 
-  <div class="daybar">
-    <button class="daytab active" data-day="monday">Monday</button>
-    <button class="daytab" data-day="tuesday">Tuesday</button>
-    <button class="daytab" data-day="wednesday">Wednesday</button>
-  </div>
+  <!-- MENU PAGE -->
+  <main class="menuPage">
 
-  <section class="daypanel active" data-day="monday">
-    <h1>Happy Hour</h1>
-
-    <div class="tierRow">
-      <button class="chip tierChip active" data-tier="shots">$5 Shots</button>
-      <button class="chip tierChip" data-tier="drinks">$10 Drinks</button>
+    <div class="menuTitle">
+      <h1>Menu</h1>
+      <p>Happy hour + late night specials</p>
     </div>
 
-    <div class="spiritTabs">
-      <button class="chip spiritChip active" data-spirit="vodka">Vodka</button>
-      <button class="chip spiritChip" data-spirit="tequila">Tequila</button>
+    <!-- DAY TABS -->
+    <div class="daybar" role="tablist" aria-label="Days">
+      <button class="daytab active" type="button" data-day="monday" role="tab" aria-selected="true">Monday</button>
+      <button class="daytab" type="button" data-day="tuesday" role="tab" aria-selected="false">Tuesday</button>
+      <button class="daytab" type="button" data-day="wednesday" role="tab" aria-selected="false">Wednesday</button>
+      <button class="daytab" type="button" data-day="thursday" role="tab" aria-selected="false">Thursday</button>
+      <button class="daytab" type="button" data-day="friday" role="tab" aria-selected="false">Friday</button>
+      <button class="daytab" type="button" data-day="saturday" role="tab" aria-selected="false">Saturday</button>
+      <button class="daytab" type="button" data-day="sunday" role="tab" aria-selected="false">Sunday</button>
     </div>
 
-    <div class="spiritList active" data-spirit-list="vodka">
-      <div class="rowItem">
-        <span>Grey Goose</span>
-        <span class="price jsPrice">$5</span>
+    <!-- ===================== MONDAY PANEL ===================== -->
+    <section class="daypanel active" data-daypanel="monday" role="tabpanel">
+      <div class="menuGrid">
+
+        <!-- LEFT CARD -->
+        <section class="menuCard">
+          <div class="cardHead">
+            <h2>HAPPY HOUR</h2>
+          </div>
+
+          <!-- TIER CHIPS -->
+          <div class="tierRow">
+            <div class="chipWrap" role="tablist" aria-label="Menu tiers">
+              <button class="chip tierChip active" type="button" data-tier="shots" role="tab" aria-selected="true">$5 Shots</button>
+              <button class="chip tierChip" type="button" data-tier="drinks" role="tab" aria-selected="false">$10 Drinks</button>
+              <button class="chip tierChip" type="button" data-tier="spirits" role="tab" aria-selected="false">Spirits</button>
+            </div>
+          </div>
+
+          <!-- TIER: SHOTS -->
+          <div class="wbnaList active" data-tierpanel="shots">
+            <div class="spiritList active">
+              <div class="rowItem"><span>Vodka</span><span class="price">$5</span></div>
+              <div class="rowItem"><span>Tequila</span><span class="price">$5</span></div>
+              <div class="rowItem"><span>Whiskey</span><span class="price">$5</span></div>
+              <div class="rowItem"><span>Rum</span><span class="price">$5</span></div>
+            </div>
+            <p class="note">Same specials as requested.</p>
+          </div>
+
+          <!-- TIER: DRINKS -->
+          <div class="wbnaList" data-tierpanel="drinks">
+            <div class="spiritList active">
+              <div class="rowItem"><span>House Cocktail</span><span class="price">$10</span></div>
+              <div class="rowItem"><span>Margarita</span><span class="price">$10</span></div>
+              <div class="rowItem"><span>Mojito</span><span class="price">$10</span></div>
+              <div class="rowItem"><span>Old Fashioned</span><span class="price">$10</span></div>
+            </div>
+          </div>
+
+          <!-- TIER: SPIRITS -->
+          <div class="wbnaList" data-tierpanel="spirits">
+            <!-- Spirit tabs -->
+            <div class="spiritTabs" role="tablist" aria-label="Spirits categories">
+              <button class="chip spiritChip active" type="button" data-spirit="vodka" role="tab" aria-selected="true">Vodka</button>
+              <button class="chip spiritChip" type="button" data-spirit="tequila" role="tab" aria-selected="false">Tequila</button>
+            </div>
+
+            <!-- Spirit lists wrapper (THIS is the wrapper that was missing closing tags before) -->
+            <div class="spiritLists">
+              <div class="spiritList active" data-spiritlist="vodka">
+                <div class="rowItem"><span>Grey Goose</span><span class="price">$5</span></div>
+                <div class="rowItem"><span>Ketel One</span><span class="price">$5</span></div>
+              </div>
+
+              <div class="spiritList" data-spiritlist="tequila">
+                <div class="rowItem"><span>Patrón</span><span class="price">$5</span></div>
+                <div class="rowItem"><span>Casamigos</span><span class="price">$5</span></div>
+              </div>
+            </div><!-- ✅ closes .spiritLists -->
+          </div><!-- ✅ closes tierpanel spirits -->
+
+        </section><!-- ✅ closes LEFT menuCard -->
+
+        <!-- RIGHT CARD -->
+        <section class="menuCard">
+          <div class="cardHead">
+            <h2>NOTES</h2>
+          </div>
+          <div class="copyNote">
+            This panel is just a placeholder. Replace with your real menu content anytime.
+          </div>
+        </section>
+
+      </div><!-- ✅ closes .menuGrid -->
+    </section><!-- ✅ closes Monday daypanel -->
+
+    <!-- ===================== TUESDAY PANEL (copy skeleton) ===================== -->
+    <section class="daypanel" data-daypanel="tuesday" role="tabpanel">
+      <div class="menuCard">
+        <div class="cardHead"><h2>TUESDAY</h2></div>
+        <p class="note">Paste Tuesday specials here.</p>
       </div>
-    </div>
+    </section>
 
-    <div class="spiritList" data-spirit-list="tequila">
-      <div class="rowItem">
-        <span>Patron</span>
-        <span class="price jsPrice">$5</span>
+    <section class="daypanel" data-daypanel="wednesday" role="tabpanel">
+      <div class="menuCard">
+        <div class="cardHead"><h2>WEDNESDAY</h2></div>
+        <p class="note">Paste Wednesday specials here.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="daypanel" data-day="tuesday">
-    <h1>Taco Tuesday</h1>
-    <p>Specials here.</p>
-  </section>
+    <section class="daypanel" data-daypanel="thursday" role="tabpanel">
+      <div class="menuCard">
+        <div class="cardHead"><h2>THURSDAY</h2></div>
+        <p class="note">Paste Thursday specials here.</p>
+      </div>
+    </section>
 
-  <section class="daypanel" data-day="wednesday">
-    <h1>Midweek Special</h1>
-    <p>Specials here.</p>
-  </section>
+    <section class="daypanel" data-daypanel="friday" role="tabpanel">
+      <div class="menuCard">
+        <div class="cardHead"><h2>FRIDAY</h2></div>
+        <p class="note">Paste Friday specials here.</p>
+      </div>
+    </section>
 
-</main>
+    <section class="daypanel" data-daypanel="saturday" role="tabpanel">
+      <div class="menuCard">
+        <div class="cardHead"><h2>SATURDAY</h2></div>
+        <p class="note">Paste Saturday specials here.</p>
+      </div>
+    </section>
 
-<script src="assets/js/nav.js"></script>
-<script src="assets/js/menu.js"></script>
+    <section class="daypanel" data-daypanel="sunday" role="tabpanel">
+      <div class="menuCard">
+        <div class="cardHead"><h2>SUNDAY</h2></div>
+        <p class="note">Paste Sunday specials here.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JS (put at bottom, before </body>) -->
+  <script src="assets/js/nav.js"></script>
+  <script src="assets/js/menu.js"></script>
 </body>
 </html>
