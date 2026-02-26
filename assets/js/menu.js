@@ -83,3 +83,22 @@
   setupTimeModes();
   setupTiers();
 })();
+document.querySelectorAll(".accordionMain").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const content = btn.nextElementSibling;
+    const arrow = btn.querySelector(".arrow");
+    const open = content.style.display === "block";
+    content.style.display = open ? "none" : "block";
+    arrow.textContent = open ? "+" : "−";
+  });
+});
+
+document.querySelectorAll(".accordionSub").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const content = btn.nextElementSibling;
+    const arrow = btn.querySelector(".arrow");
+    const open = content.style.display === "block";
+    content.style.display = open ? "none" : "block";
+    arrow.textContent = open ? "+" : "−";
+  });
+});
