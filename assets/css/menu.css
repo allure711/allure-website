@@ -1,184 +1,178 @@
 /* =========================
-   MENU PAGE ONLY (LOCKED)
+   MENU PAGE ONLY (PREMIUM)
    ========================= */
 
-/* Works whether you use <main class="menuPage"> OR <body class="menu-page"> */
-.menuPage, body.menu-page {
-  padding: 22px 0 70px;
+/* page spacing */
+.menuPage, body.menu-page{
+  padding: 34px 0 90px;
 }
 
-/* -------- Day Tabs -------- */
-.menuPage .daybar,
-body.menu-page .daybar{
+/* Keep menu content from spanning too wide */
+.menuPage{
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* -------- Title -------- */
+.menuTitle{
+  text-align:left;
+  margin: 18px 0 18px;
+  padding: 0 6px;
+}
+.menuTitle h1{
+  margin:0 0 8px;
+  font-size: clamp(28px, 3.2vw, 44px);
+  letter-spacing:.02em;
+  line-height: 1.05;
+}
+.menuTitle p{
+  margin:0;
+  opacity:.78;
+  font-size: 14px;
+}
+
+/* -------- Day Tabs (top) -------- */
+.daybar{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:center;
-  margin:18px 0 18px;
+  margin: 14px 0 22px;
+  padding: 10px 10px;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.03);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
 }
-
-.menuPage .daytab,
-body.menu-page .daytab{
-  border:1px solid rgba(37,37,42,.9);
-  background: rgba(255,255,255,.04);
-  color: rgba(255,255,255,.88);
+.daytab{
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.25);
+  color: rgba(255,255,255,.90);
   padding:10px 14px;
   border-radius:999px;
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
+  font-size: 13px;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease;
 }
-
-.menuPage .daytab.active,
-body.menu-page .daytab.active{
+.daytab:hover{ transform: translateY(-1px); border-color: rgba(215,180,106,.55); }
+.daytab.active{
   background: linear-gradient(180deg, var(--gold, #f2d28a), var(--gold2, #d7b46a));
   color:#1a1407;
-  border-color: rgba(242,210,138,.6);
+  border-color: rgba(242,210,138,.75);
 }
 
 /* -------- Panels -------- */
-.menuPage .daypanel,
-body.menu-page .daypanel{
-  display:none;
-}
-.menuPage .daypanel.active,
-body.menu-page .daypanel.active{
-  display:block;
-}
+.daypanel{ display:none; }
+.daypanel.active{ display:block; }
 
-/* -------- Title -------- */
-.menuPage .menuTitle,
-body.menu-page .menuTitle{
-  margin:10px 0 18px;
-}
-.menuPage .menuTitle h1,
-body.menu-page .menuTitle h1{
-  margin:0 0 6px;
-  font-size:34px;
-  letter-spacing:.04em;
-}
-.menuPage .menuTitle p,
-body.menu-page .menuTitle p{
-  margin:0;
-  opacity:.75;
-}
-
-/* -------- Grid -------- */
-.menuPage .menuGrid,
-body.menu-page .menuGrid{
+/* -------- Layout Grid -------- */
+.menuGrid{
   display:grid;
-  gap:12px;
+  gap:14px;
   grid-template-columns: 1fr;
+  margin-top: 10px;
 }
-
 @media (min-width: 980px){
-  .menuPage .menuGrid,
-  body.menu-page .menuGrid{
-    grid-template-columns: 1.25fr .75fr;
+  .menuGrid{
+    grid-template-columns: 1.35fr .65fr;
     align-items:start;
   }
 }
 
 /* -------- Cards -------- */
-.menuPage .menuCard,
-body.menu-page .menuCard{
-  border: 1px solid rgba(37,37,42,.9);
-  background: rgba(17,17,20,.55);
+.menuCard{
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   border-radius: 18px;
-  padding: 14px;
+  padding: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
 }
 
-.menuPage .cardHead h2,
-body.menu-page .cardHead h2{
-  margin:0 0 10px;
-  font-size: 13px;
+.cardHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.cardHead h2{
+  margin:0;
+  font-size: 12px;
   letter-spacing:.14em;
   text-transform:uppercase;
   color: rgba(255,255,255,.88);
 }
 
 /* -------- Chips -------- */
-.menuPage .tierRow,
-body.menu-page .tierRow{
+.tierRow, .spiritTabs{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   margin-bottom:12px;
 }
-
-.menuPage .chipWrap,
-body.menu-page .chipWrap{
+.chipWrap{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
 }
 
-.menuPage .chip,
-body.menu-page .chip{
+.chip{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border:1px solid rgba(215,180,106,.25);
-  background: rgba(255,255,255,.03);
+  border:1px solid rgba(215,180,106,.22);
+  background: rgba(0,0,0,.18);
   color: rgba(255,255,255,.92);
-  padding: 8px 12px;
+  padding: 9px 12px;
   border-radius: 999px;
-  font-weight: 750;
+  font-weight: 800;
   font-size: 13px;
   cursor:pointer;
   user-select:none;
+  transition: transform .12s ease, border-color .12s ease, filter .12s ease;
 }
-
-.menuPage .chip.active,
-body.menu-page .chip.active{
+.chip:hover{
+  transform: translateY(-1px);
+  border-color: rgba(215,180,106,.55);
+  filter: drop-shadow(0 0 10px rgba(215,180,106,.20));
+}
+.chip.active, .chip--active{
   background: linear-gradient(180deg, rgba(242,210,138,.95), rgba(215,180,106,.95));
   border-color: rgba(242,210,138,.95);
   color:#14120c;
 }
 
-/* -------- Spirit Lists -------- */
-.menuPage .spiritList,
-body.menu-page .spiritList{
+/* -------- Spirit lists (table look) -------- */
+.spiritList{
   display:none;
-  border:1px solid rgba(37,37,42,.9);
-  border-radius: 16px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
   overflow:hidden;
 }
-.menuPage .spiritList.active,
-body.menu-page .spiritList.active{
-  display:block;
-}
+.spiritList.active{ display:block; }
 
-.menuPage .rowItem,
-body.menu-page .rowItem{
+.rowItem{
   display:flex;
   justify-content:space-between;
-  padding: 11px 12px;
-  border-top:1px solid rgba(37,37,42,.75);
+  padding: 12px 12px;
+  border-top:1px solid rgba(255,255,255,.07);
 }
-.menuPage .rowItem:first-child,
-body.menu-page .rowItem:first-child{
-  border-top:none;
+.rowItem:first-child{ border-top:none; }
+
+.price{
+  color: rgba(242,210,138,.95);
+  font-weight: 950;
+  letter-spacing: .02em;
 }
 
-.menuPage .price,
-body.menu-page .price{
-  color: rgba(215,180,106,.95);
-  font-weight: 900;
-}
+/* -------- WBNA lists -------- */
+.wbnaList{ display:none; margin-top: 10px; }
+.wbnaList.active{ display:block; }
 
-/* -------- Wine/Beer/NA -------- */
-.menuPage .wbnaList,
-body.menu-page .wbnaList{
-  display:none;
-  margin-top:10px;
-}
-.menuPage .wbnaList.active,
-body.menu-page .wbnaList.active{
-  display:block;
-}
-
-.menuPage .note,
-body.menu-page .note{
+.note{
   margin: 12px 0 0;
   opacity:.75;
   font-size: 13px;
