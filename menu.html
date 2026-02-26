@@ -2,35 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Menu | Allure Bar & Lounge</title>
 
+  <!-- Sitewide -->
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Menu-only -->
   <link rel="stylesheet" href="assets/css/menu.css" />
 </head>
 
 <body class="menu-page">
-
-  <!-- SITE NAV (simple + stable) -->
+  <!-- NAV (keep your nav markup if you already have it; this is a simple fallback) -->
   <header class="siteHeader">
-    <div class="siteWrap">
+    <div class="navWrap">
       <a class="brand" href="index.html">Allure Bar & Lounge</a>
 
-      <nav class="nav">
+      <button class="navToggle" aria-expanded="false" aria-controls="navList">Menu</button>
+
+      <nav id="navList" class="navList">
         <a href="index.html">Home</a>
         <a class="active" href="menu.html">Menu</a>
         <a href="events.html">Events</a>
         <a href="gallery.html">Gallery</a>
         <a href="about.html">About</a>
+        <a href="location.html">Location</a>
+        <a class="cta" href="tel:2022919499">Call</a>
       </nav>
-
-      <a class="cta" href="tel:2022919499">Call</a>
     </div>
   </header>
 
   <main class="menuPage">
-
-    <!-- DAY TABS -->
+    <!-- Day Tabs -->
     <div class="daybar">
       <button class="daytab active" data-day="monday">Monday</button>
       <button class="daytab" data-day="tuesday">Tuesday</button>
@@ -41,23 +43,18 @@
       <button class="daytab" data-day="sunday">Sunday</button>
     </div>
 
-    <!-- ✅ MONDAY PANEL -->
+    <!-- ===================== MONDAY ===================== -->
     <section class="daypanel active" data-day-panel="monday">
-
       <div class="heroRow">
         <div>
-          <h1 class="dayTitle">FREE HOOKAH MONDAY</h1>
-          <p class="subText">
-            With $50 bar tab • Your choice of flavor • Hookah $23 • Refill $15
-          </p>
+          <h1 class="dayTitle">MONDAY</h1>
+          <p class="subText">FREE HOOKAH MONDAY • With $50 bar tab • $23 Hookah • $15 Refill</p>
         </div>
-
         <a class="reserveTop" href="tel:2022919499">Reserve / Call</a>
       </div>
 
       <div class="menuSplit">
-
-        <!-- LEFT: HAPPY HOUR -->
+        <!-- LEFT = HAPPY HOUR -->
         <div class="menuCard">
           <button class="accordionMain" type="button">
             HAPPY HOUR • 5PM–9PM
@@ -65,93 +62,384 @@
           </button>
 
           <div class="accordionContent">
-
-            <button class="accordionSub" type="button">
-              $5 Shots
-              <span class="arrow">+</span>
-            </button>
-            <div class="subContent">
-              <div class="rowItem">Vodka</div>
-              <div class="rowItem">Tequila</div>
-              <div class="rowItem">Whiskey</div>
-              <div class="rowItem">Liqueur</div>
-              <div class="rowItem">Rum</div>
-              <div class="rowItem">Gin</div>
-              <div class="rowItem">Cognac</div>
+            <div class="pillRow">
+              <span class="pill pillGold">Happy Hour</span>
+              <span class="pill">5PM–9PM</span>
+              <span class="pill">Shots + Drinks</span>
             </div>
 
             <button class="accordionSub" type="button">
-              $10 Drinks
+              $5 Shots • $10 Drinks
               <span class="arrow">+</span>
             </button>
             <div class="subContent">
-              <div class="rowItem">House Mixed Drinks</div>
-              <div class="rowItem">Premium Mixed Drinks</div>
+              <div class="rowItem"><strong>Vodka:</strong> Absolut, Belvedere, Ciroc, Grey Goose, Kettle One, Stoli Orange, Tito's</div>
+              <div class="rowItem"><strong>Tequila:</strong> 1800, Altos, Espolon, Hornitos, Jose Cuervo, Lunazul, Milagro, Teremana</div>
+              <div class="rowItem"><strong>Whiskey:</strong> Basil Hayden, Bulleit, Chivas Regal, Crown, Dewar’s, Fireball, Jack Daniels, Jameson, Jim Beam, Maker’s Mark, Woodford</div>
+              <div class="rowItem"><strong>Liqueur:</strong> Disaronno, Grand Marnier, Hpnotiq, Jagermeister, Midori</div>
+              <div class="rowItem"><strong>Cognac:</strong> Courvoisier, Hennessy</div>
+              <div class="rowItem"><strong>Rum:</strong> Bacardi, Captain Morgan, Malibu, Myers</div>
+              <div class="rowItem"><strong>Gin:</strong> Bombay, Roku, Tanqueray</div>
             </div>
 
             <button class="accordionSub" type="button">
-              $10 Cocktails
+              $7 Shots • $14 Drinks
               <span class="arrow">+</span>
             </button>
             <div class="subContent">
-              <div class="rowItem">Lemon Drop</div>
-              <div class="rowItem">Margarita</div>
-              <div class="rowItem">Mojito</div>
+              <div class="rowItem">818, Casa Azul, Casamigos, Ciroc VS</div>
+              <div class="rowItem">Don Julio, Dusse, Equiano, Hendricks</div>
+              <div class="rowItem">Hennessy VSOP, Herradura, Old Forester, Patron</div>
+              <div class="rowItem">Remy 1738, Remy VSOP, Sir Davis</div>
+            </div>
+
+            <button class="accordionSub" type="button">
+              Premium • Wine • Beer • High Noon • Non-Alcoholic
+              <span class="arrow">+</span>
+            </button>
+            <div class="subContent">
+              <div class="rowItem"><strong>Premium:</strong> $16 Shots • $32 Drinks (1942, Azul, Dusse XO, Remy XO) • $10 Shots • $20 Drinks (Gran Coramino, JW Black, JW Double Black, JW Gold)</div>
+              <div class="rowItem"><strong>$8 Wine:</strong> Cabernet, Chardonnay, Merlot • Moscato (Red/White) • Pinot Grigio, Sauvignon Blanc, Sweet Red</div>
+              <div class="rowItem"><strong>$6 Beer:</strong> Angry Orchard, Corona, Guinness, Heineken, Modelo, Stella, Goose Island IPA, Voodoo Ranger IPA</div>
+              <div class="rowItem"><strong>$8 High Noon:</strong> Grapefruit, Mango • Lime, Strawberry</div>
+              <div class="rowItem"><strong>Non-Alcoholic:</strong> Red Bull $5 • Ginger Beer $5 • Frozen Drinks $5 • Soda $3 • Juice $3 • Water $3</div>
             </div>
 
             <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
           </div>
         </div>
 
-        <!-- RIGHT: AFTER 9PM -->
+        <!-- RIGHT = AFTER 9PM -->
         <div class="menuCard">
           <button class="accordionMain" type="button">
-            AFTER 9PM • LATE NIGHT MENU
+            AFTER 9PM • LATE-NIGHT MENU
             <span class="arrow">+</span>
           </button>
 
           <div class="accordionContent">
-
-            <button class="accordionSub" type="button">
-              Food • Late Night Favorites
-              <span class="arrow">+</span>
-            </button>
-            <div class="subContent">
-              <div class="rowItem">Wings (6pc) — $12</div>
-              <div class="rowItem">Fries — $6</div>
-              <div class="rowItem">Salmon Nuggets Basket — $15</div>
-              <div class="rowItem">Rasta Pasta (Chicken) — $16</div>
-              <div class="rowItem">Rasta Pasta (Shrimp) — $18</div>
-              <div class="rowItem">Rasta Pasta (Salmon) — $20</div>
+            <div class="pillRow">
+              <span class="pill pillGold">After 9PM</span>
+              <span class="pill">Late Night</span>
+              <span class="pill">Cocktails + Hookah</span>
             </div>
 
             <button class="accordionSub" type="button">
-              Bottles • Pricing
+              Hookah + Cocktails
               <span class="arrow">+</span>
             </button>
             <div class="subContent">
-              <div class="rowItem">Don Julio Blanco — $220</div>
-              <div class="rowItem">Casamigos Reposado — $240</div>
-              <div class="rowItem">Hennessy VS — $220</div>
+              <div class="rowItem"><strong>Hookah:</strong> $23 Hookah • $15 Refill • Flavors available</div>
+              <div class="rowItem"><strong>$12 Cocktails:</strong> Add strawberry, mango, or peach to any cocktail</div>
+            </div>
+
+            <button class="accordionSub" type="button">
+              Cocktail List
+              <span class="arrow">+</span>
+            </button>
+            <div class="subContent">
+              <div class="grid2">
+                <div class="rowItem">Allure Lemon Drop</div>
+                <div class="rowItem">Long Island</div>
+                <div class="rowItem">Allure Sidecar</div>
+                <div class="rowItem">Manhattan</div>
+                <div class="rowItem">Apple Martini</div>
+                <div class="rowItem">Mint Julep</div>
+                <div class="rowItem">Bitch Please</div>
+                <div class="rowItem">Mojito</div>
+                <div class="rowItem">Blue Motorcycle</div>
+                <div class="rowItem">Moscow Mule</div>
+                <div class="rowItem">Ciroc Punch</div>
+                <div class="rowItem">Old Fashion</div>
+                <div class="rowItem">Classic Margarita</div>
+                <div class="rowItem">Orange Martini</div>
+                <div class="rowItem">Cosmopolitan</div>
+                <div class="rowItem">Red or White Sangria</div>
+                <div class="rowItem">Gin Martini</div>
+                <div class="rowItem">Rum Punch</div>
+                <div class="rowItem">Green Tea</div>
+                <div class="rowItem">Strawberry Henny</div>
+              </div>
+            </div>
+
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TUESDAY ===================== -->
+    <section class="daypanel" data-day-panel="tuesday">
+      <div class="heroRow">
+        <div>
+          <h1 class="dayTitle">TUESDAY</h1>
+          <p class="subText">HAPPY HOUR 5PM–9PM • $23 Hookah • $12 Refill • $10 Cocktails</p>
+        </div>
+        <a class="reserveTop" href="tel:2022919499">Reserve / Call</a>
+      </div>
+
+      <div class="menuSplit">
+        <!-- LEFT = HAPPY HOUR -->
+        <div class="menuCard">
+          <button class="accordionMain" type="button">
+            HAPPY HOUR • 5PM–9PM
+            <span class="arrow">+</span>
+          </button>
+
+          <div class="accordionContent">
+            <div class="pillRow">
+              <span class="pill pillGold">Happy Hour</span>
+              <span class="pill">5PM–9PM</span>
+              <span class="pill">$5/$10</span>
+            </div>
+
+            <button class="accordionSub" type="button">
+              $5 Shots • $10 Drinks
+              <span class="arrow">+</span>
+            </button>
+            <div class="subContent">
+              <div class="rowItem"><strong>Vodka:</strong> Absolut, Belvedere, Ciroc, Grey Goose, Kettle One, Stoli Orange, Tito's</div>
+              <div class="rowItem"><strong>Tequila:</strong> 1800 (Blanco/Repo), Altos, Espolon, Hornitos, Jose Cuervo, Lunazul, Milagro, Teremana</div>
+              <div class="rowItem"><strong>Whiskey:</strong> Basil Hayden, Bulleit, Chivas Regal, Crown, Dewar’s, Fireball, Jack Daniels, Jameson, Jim Beam, Maker’s Mark, Woodford</div>
+              <div class="rowItem"><strong>Liqueur:</strong> Disaronno, Grand Marnier, Hpnotiq, Jagermeister, Midori</div>
+              <div class="rowItem"><strong>Cognac:</strong> Courvoisier, Hennessy</div>
+              <div class="rowItem"><strong>Rum:</strong> Bacardi, Captain Morgan, Malibu, Myers</div>
+              <div class="rowItem"><strong>Gin:</strong> Bombay, Roku, Tanqueray</div>
+            </div>
+
+            <button class="accordionSub" type="button">
+              $7 Shots • $14 Drinks
+              <span class="arrow">+</span>
+            </button>
+            <div class="subContent">
+              <div class="rowItem">818, Casa Azul, Casamigos, Ciroc VS</div>
+              <div class="rowItem">Don Julio, Dusse, Equiano, Hendricks</div>
+              <div class="rowItem">Hennessy VSOP, Herradura, Old Forester, Patron</div>
+              <div class="rowItem">Remy 1738, Remy VSOP, Sir Davis</div>
+            </div>
+
+            <button class="accordionSub" type="button">
+              Premium • Wine • Beer • High Noon • Non-Alcoholic
+              <span class="arrow">+</span>
+            </button>
+            <div class="subContent">
+              <div class="rowItem"><strong>Premium:</strong> $16 Shots • $32 Drinks (1942, Azul, Dusse XO, Remy XO) • $10 Shots • $20 Drinks (Gran Coramino, JW Black, JW Double Black, JW Gold)</div>
+              <div class="rowItem"><strong>$6 Wine:</strong> Cabernet, Chardonnay, Merlot • Moscato (Red/White) • Pinot Grigio, Sauvignon Blanc, Sweet Red</div>
+              <div class="rowItem"><strong>$4 Beer:</strong> Angry Orchard, Corona, Guinness, Heineken, Modelo, Stella, Goose Island IPA, Voodoo Ranger IPA</div>
+              <div class="rowItem"><strong>$8 High Noon:</strong> Grapefruit, Mango • Lime, Strawberry</div>
+              <div class="rowItem"><strong>Non-Alcoholic:</strong> Red Bull $5 • Ginger Beer $5 • Frozen Drinks $5 • Soda $3 • Juice $3 • Water $3</div>
             </div>
 
             <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
           </div>
         </div>
 
+        <!-- RIGHT = AFTER 9PM -->
+        <div class="menuCard">
+          <button class="accordionMain" type="button">
+            AFTER 9PM • COCKTAIL + HOOKAH
+            <span class="arrow">+</span>
+          </button>
+
+          <div class="accordionContent">
+            <div class="pillRow">
+              <span class="pill pillGold">After 9PM</span>
+              <span class="pill">$10 Cocktails</span>
+              <span class="pill">$23 Hookah</span>
+            </div>
+
+            <button class="accordionSub" type="button">
+              Hookah Specials
+              <span class="arrow">+</span>
+            </button>
+            <div class="subContent">
+              <div class="rowItem"><strong>Hookah:</strong> $23 Hookah • $12 Refill</div>
+              <div class="rowItem"><strong>Fishbowl:</strong> $23 • <strong>Tower:</strong> $43</div>
+            </div>
+
+            <button class="accordionSub" type="button">
+              $10 Cocktails (Add Strawberry/Mango/Peach)
+              <span class="arrow">+</span>
+            </button>
+            <div class="subContent">
+              <div class="grid2">
+                <div class="rowItem">Allure Lemon Drop</div>
+                <div class="rowItem">Long Island</div>
+                <div class="rowItem">Allure Sidecar</div>
+                <div class="rowItem">Manhattan</div>
+                <div class="rowItem">Apple Martini</div>
+                <div class="rowItem">Mint Julep</div>
+                <div class="rowItem">Bitch Please</div>
+                <div class="rowItem">Mojito</div>
+                <div class="rowItem">Blue Motorcycle</div>
+                <div class="rowItem">Moscow Mule</div>
+                <div class="rowItem">Ciroc Punch</div>
+                <div class="rowItem">Old Fashion</div>
+                <div class="rowItem">Classic Margarita</div>
+                <div class="rowItem">Orange Martini</div>
+                <div class="rowItem">Cosmopolitan</div>
+                <div class="rowItem">Red/White Sangria</div>
+                <div class="rowItem">Gin Martini</div>
+                <div class="rowItem">Rum Punch</div>
+                <div class="rowItem">Green Tea</div>
+                <div class="rowItem">Strawberry Henny</div>
+              </div>
+            </div>
+
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Other days (blank placeholders so tabs don't break) -->
-    <section class="daypanel" data-day-panel="tuesday"><div class="emptyDay">Tuesday menu coming soon.</div></section>
-    <section class="daypanel" data-day-panel="wednesday"><div class="emptyDay">Wednesday menu coming soon.</div></section>
-    <section class="daypanel" data-day-panel="thursday"><div class="emptyDay">Thursday menu coming soon.</div></section>
-    <section class="daypanel" data-day-panel="friday"><div class="emptyDay">Friday menu coming soon.</div></section>
-    <section class="daypanel" data-day-panel="saturday"><div class="emptyDay">Saturday menu coming soon.</div></section>
-    <section class="daypanel" data-day-panel="sunday"><div class="emptyDay">Sunday menu coming soon.</div></section>
+    <!-- ===================== WEDNESDAY ===================== -->
+    <section class="daypanel" data-day-panel="wednesday">
+      <div class="heroRow">
+        <div>
+          <h1 class="dayTitle">WEDNESDAY</h1>
+          <p class="subText">Ready to fill • Same layout</p>
+        </div>
+        <a class="reserveTop" href="tel:2022919499">Reserve / Call</a>
+      </div>
+
+      <div class="menuSplit">
+        <div class="menuCard">
+          <button class="accordionMain" type="button">HAPPY HOUR • 5PM–9PM <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Wednesday happy hour menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuCard">
+          <button class="accordionMain" type="button">AFTER 9PM • LATE-NIGHT MENU <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Wednesday after-9 menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== THURSDAY ===================== -->
+    <section class="daypanel" data-day-panel="thursday">
+      <div class="heroRow">
+        <div>
+          <h1 class="dayTitle">THURSDAY</h1>
+          <p class="subText">Ready to fill • Same layout</p>
+        </div>
+        <a class="reserveTop" href="tel:2022919499">Reserve / Call</a>
+      </div>
+
+      <div class="menuSplit">
+        <div class="menuCard">
+          <button class="accordionMain" type="button">HAPPY HOUR • 5PM–9PM <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Thursday happy hour menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuCard">
+          <button class="accordionMain" type="button">AFTER 9PM • LATE-NIGHT MENU <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Thursday after-9 menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FRIDAY ===================== -->
+    <section class="daypanel" data-day-panel="friday">
+      <div class="heroRow">
+        <div>
+          <h1 class="dayTitle">FRIDAY</h1>
+          <p class="subText">Ready to fill • Same layout</p>
+        </div>
+        <a class="reserveTop" href="tel:2022919499">Reserve / Call</a>
+      </div>
+
+      <div class="menuSplit">
+        <div class="menuCard">
+          <button class="accordionMain" type="button">HAPPY HOUR • 5PM–9PM <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Friday happy hour menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuCard">
+          <button class="accordionMain" type="button">AFTER 9PM • LATE-NIGHT MENU <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Friday after-9 menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SATURDAY ===================== -->
+    <section class="daypanel" data-day-panel="saturday">
+      <div class="heroRow">
+        <div>
+          <h1 class="dayTitle">SATURDAY</h1>
+          <p class="subText">Ready to fill • Same layout</p>
+        </div>
+        <a class="reserveTop" href="tel:2022919499">Reserve / Call</a>
+      </div>
+
+      <div class="menuSplit">
+        <div class="menuCard">
+          <button class="accordionMain" type="button">HAPPY HOUR • 5PM–9PM <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Saturday happy hour menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuCard">
+          <button class="accordionMain" type="button">AFTER 9PM • LATE-NIGHT MENU <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Saturday after-9 menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SUNDAY ===================== -->
+    <section class="daypanel" data-day-panel="sunday">
+      <div class="heroRow">
+        <div>
+          <h1 class="dayTitle">SUNDAY</h1>
+          <p class="subText">Ready to fill • Same layout</p>
+        </div>
+        <a class="reserveTop" href="tel:2022919499">Reserve / Call</a>
+      </div>
+
+      <div class="menuSplit">
+        <div class="menuCard">
+          <button class="accordionMain" type="button">HAPPY HOUR • 5PM–9PM <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Sunday happy hour menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuCard">
+          <button class="accordionMain" type="button">AFTER 9PM • LATE-NIGHT MENU <span class="arrow">+</span></button>
+          <div class="accordionContent">
+            <div class="helperText">Send Sunday after-9 menu photo and I’ll fill this section.</div>
+            <a class="reserveBtn" href="tel:2022919499">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
+  <!-- JS -->
+  <script src="assets/js/nav.js"></script>
   <script src="assets/js/menu.js"></script>
 </body>
 </html>
