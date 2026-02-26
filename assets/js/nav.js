@@ -24,3 +24,13 @@
     if (e.key === "Escape") closeNav();
   });
 })();
+(function () {
+  const toggle = document.querySelector(".navToggle");
+  const nav = document.querySelector(".navList");
+  if (!toggle || !nav) return;
+
+  toggle.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
