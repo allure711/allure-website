@@ -1,104 +1,69 @@
-(() => {
-  // -------------------------
-  // Day tabs
-  // -------------------------
+/* =========================================================
+   ALLURE MENU — Menu JS
+   File: assets/js/menu.js
+========================================================= */
+
+(function () {
   const dayTabs = Array.from(document.querySelectorAll(".daytab"));
-  const dayPanels = Array.from(document.querySelectorAll(".daypanel"));
+  const panels = Array.from(document.querySelectorAll(".daypanel"));
 
-  function setDay(day) {
-    dayTabs.forEach(b => b.classList.toggle("active", b.dataset.day === day));
-    dayPanels.forEach(p => p.classList.toggle("active", p.dataset.dayPanel === day));
-    try { localStorage.setItem("menuDay", day); } catch (e) {}
+  function setActiveDay(day) {
+    dayTabs.forEach(btn => btn.classList.toggle("active", btn.dataset.day === day));
+    panels.forEach(p => p.classList.toggle("active", p.dataset.dayPanel === day));
+    // close accordions when switching days (clean UX)
+    panels.forEach(p => closeAllAccordions(p));
   }
 
-  function initDay() {
-    let saved = null;
-    try { saved = localStorage.getItem("menuDay"); } catch (e) {}
-    const start = saved || "monday";
-    setDay(start);
+  function closeAllAccordions(scope) {
+    const cards = scope.querySelectorAll(".menuCard");
+    cards.forEach(card => {
+      card.classList.remove("open");
+      // close sub accordions too
+      const subs = card.querySelectorAll(".accordionSub");
+      subs.forEach(s => s.classList.remove("subOpen"));
+      // reset arrow text
+      const mainArrow = card.querySelector(".accordionMain .arrow");
+      if (mainArrow) mainArrow.textContent = "+";
+      subs.forEach(s => {
+        const a = s.querySelector(".arrow");
+        if (a) a.textContent = "+";
+      });
+    });
   }
 
+  // Day switching
   dayTabs.forEach(btn => {
-    btn.addEventListener("click", () => setDay(btn.dataset.day));
+    btn.addEventListener("click", () => setActiveDay(btn.dataset.day));
   });
 
-  // -------------------------
-  // Happy vs Late mode (per day panel)
-  // -------------------------
-  function autoModeByTime() {
-    const hour = new Date().getHours(); // 0-23
-    // Happy Hour = 5pm(17) to 8:59pm(20). At 9pm(21) switch to late.
-    return (hour >= 17 && hour < 21) ? "happy" : "late";
-  }
+  // Main accordion per card
+  document.addEventListener("click", (e) => {
+    const main = e.target.closest(".accordionMain");
+    if (!main) return;
 
-  function setupTimeModes() {
-    dayPanels.forEach(panel => {
-      const modeBtns = Array.from(panel.querySelectorAll(".timeModeBtn"));
-      const timePanels = Array.from(panel.querySelectorAll(".timePanel"));
+    const card = main.closest(".menuCard");
+    if (!card) return;
 
-      if (!modeBtns.length || !timePanels.length) return;
+    // toggle this card only
+    card.classList.toggle("open");
 
-      const key = `menuTimeMode_${panel.dataset.dayPanel}`;
+    const arrow = main.querySelector(".arrow");
+    if (arrow) arrow.textContent = card.classList.contains("open") ? "−" : "+";
+  });
 
-      function setMode(mode) {
-        modeBtns.forEach(b => b.classList.toggle("chip--active", b.dataset.mode === mode));
-        timePanels.forEach(tp => tp.classList.toggle("active", tp.dataset.modePanel === mode));
-        try { localStorage.setItem(key, mode); } catch(e) {}
-      }
+  // Sub accordion sections
+  document.addEventListener("click", (e) => {
+    const sub = e.target.closest(".accordionSub");
+    if (!sub) return;
 
-      let saved = null;
-      try { saved = localStorage.getItem(key); } catch(e) {}
+    const card = sub.closest(".menuCard");
+    if (!card) return;
 
-      const startMode = (saved === "happy" || saved === "late") ? saved : autoModeByTime();
-      setMode(startMode);
+    sub.classList.toggle("subOpen");
+    const a = sub.querySelector(".arrow");
+    if (a) a.textContent = sub.classList.contains("subOpen") ? "−" : "+";
+  });
 
-      modeBtns.forEach(b => {
-        b.addEventListener("click", () => setMode(b.dataset.mode));
-      });
-    });
-  }
-
-  // -------------------------
-  // Bottle tiers (Standard/Premium/VIP) inside late card
-  // -------------------------
-  function setupTiers() {
-    const tierBtns = Array.from(document.querySelectorAll(".tierBtn"));
-    if (!tierBtns.length) return;
-
-    tierBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const card = btn.closest(".menuCard");
-        if (!card) return;
-
-        const allBtns = Array.from(card.querySelectorAll(".tierBtn"));
-        const allPanels = Array.from(card.querySelectorAll(".tierPanel"));
-
-        allBtns.forEach(b => b.classList.toggle("chip--active", b === btn));
-        allPanels.forEach(p => p.classList.toggle("active", p.dataset.tierPanel === btn.dataset.tier));
-      });
-    });
-  }
-
-  initDay();
-  setupTimeModes();
-  setupTiers();
+  // default day
+  setActiveDay("monday");
 })();
-document.querySelectorAll(".accordionMain").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    const content = btn.nextElementSibling;
-    const arrow = btn.querySelector(".arrow");
-    const open = content.style.display === "block";
-    content.style.display = open ? "none" : "block";
-    arrow.textContent = open ? "+" : "−";
-  });
-});
-
-document.querySelectorAll(".accordionSub").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    const content = btn.nextElementSibling;
-    const arrow = btn.querySelector(".arrow");
-    const open = content.style.display === "block";
-    content.style.display = open ? "none" : "block";
-    arrow.textContent = open ? "+" : "−";
-  });
-});
