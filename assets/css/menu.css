@@ -1,124 +1,190 @@
-/* =========================
-   MENU PAGE ONLY (PREMIUM)
-   ========================= */
+/* MENU PAGE ONLY — clean and isolated */
 
-/* page spacing */
-.menuPage, body.menu-page{
-  padding: 34px 0 90px;
-}
-
-/* Keep menu content from spanning too wide */
 .menuPage{
-  max-width: 1180px;
-  margin: 0 auto;
+  padding: 26px 0 80px;
+  position: relative;
+  isolation: isolate;
+  animation: menuFade .45s ease-out;
 }
 
-/* -------- Title -------- */
-.menuTitle{
-  text-align:left;
-  margin: 18px 0 18px;
-  padding: 0 6px;
-}
-.menuTitle h1{
-  margin:0 0 8px;
-  font-size: clamp(28px, 3.2vw, 44px);
-  letter-spacing:.02em;
-  line-height: 1.05;
-}
-.menuTitle p{
-  margin:0;
-  opacity:.78;
-  font-size: 14px;
+/* Nightclub background overlay */
+.menuPage::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  z-index:-2;
+
+  /* If you add an image, put it in: assets/images/menu-bg.jpg */
+  background:
+    radial-gradient(1200px 700px at 20% 15%, rgba(215,180,106,.14), transparent 60%),
+    radial-gradient(900px 600px at 80% 20%, rgba(255,255,255,.06), transparent 55%),
+    radial-gradient(900px 700px at 50% 85%, rgba(148,93,255,.10), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.70));
+  filter: blur(0px);
 }
 
-/* -------- Day Tabs (top) -------- */
+/* Subtle moving grain glow */
+.menuPage::after{
+  content:"";
+  position:absolute;
+  inset:-60px;
+  z-index:-1;
+  background:
+    radial-gradient(700px 500px at 30% 40%, rgba(215,180,106,.08), transparent 60%),
+    radial-gradient(900px 600px at 70% 60%, rgba(255,255,255,.04), transparent 55%);
+  opacity:.85;
+  animation: floatGlow 8s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes floatGlow{
+  0%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(0,-10px,0); }
+  100%{ transform: translate3d(0,0,0); }
+}
+
+@keyframes menuFade{
+  from{ opacity:0; transform: translateY(10px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+/* Reveal animation (used by JS) */
+.reveal{
+  opacity:0;
+  transform: translateY(18px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.reveal.is-visible{
+  opacity:1;
+  transform: translateY(0);
+}
+
 .daybar{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:center;
-  margin: 14px 0 22px;
-  padding: 10px 10px;
-  border: 1px solid rgba(255,255,255,.06);
-  background: rgba(255,255,255,.03);
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
+  margin: 18px 0 20px;
 }
+
 .daytab{
-  border:1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.25);
-  color: rgba(255,255,255,.90);
+  border:1px solid rgba(37,37,42,.9);
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.88);
   padding:10px 14px;
   border-radius:999px;
   cursor:pointer;
   font-weight:800;
-  font-size: 13px;
-  transition: transform .12s ease, border-color .12s ease, background .12s ease;
-}
-.daytab:hover{ transform: translateY(-1px); border-color: rgba(215,180,106,.55); }
-.daytab.active{
-  background: linear-gradient(180deg, var(--gold, #f2d28a), var(--gold2, #d7b46a));
-  color:#1a1407;
-  border-color: rgba(242,210,138,.75);
+  letter-spacing:.2px;
+  transition: transform .15s ease, filter .2s ease, border-color .2s ease;
 }
 
-/* -------- Panels -------- */
+.daytab:hover{ transform: translateY(-2px); }
+
+.daytab.active{
+  background: linear-gradient(180deg, var(--gold), var(--gold2));
+  color:#1a1407;
+  border-color: rgba(242,210,138,.7);
+  filter: drop-shadow(0 0 18px rgba(215,180,106,.25));
+}
+
 .daypanel{ display:none; }
 .daypanel.active{ display:block; }
 
-/* -------- Layout Grid -------- */
+.menuTitle{ margin: 8px 0 18px; }
+
+.titleRow{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.menuTitle h1{
+  margin:0 0 6px;
+  font-size: 36px;
+  letter-spacing:.04em;
+}
+
+.menuTitle p{
+  margin:0;
+  color: var(--muted);
+}
+
+.reserveBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight:900;
+  letter-spacing:.02em;
+  text-decoration:none;
+  color:#14120c;
+  background: linear-gradient(180deg, rgba(242,210,138,.98), rgba(215,180,106,.98));
+  border:1px solid rgba(242,210,138,.85);
+  box-shadow: 0 0 22px rgba(215,180,106,.28);
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+
+.reserveBtn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(215,180,106,.40);
+}
+
 .menuGrid{
   display:grid;
   gap:14px;
   grid-template-columns: 1fr;
-  margin-top: 10px;
 }
+
 @media (min-width: 980px){
   .menuGrid{
-    grid-template-columns: 1.35fr .65fr;
+    grid-template-columns: 1.25fr .75fr;
     align-items:start;
+  }
+  /* third + fourth still align nicely */
+  .menuGrid{
+    grid-auto-flow: row;
   }
 }
 
-/* -------- Cards -------- */
 .menuCard{
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.09);
   background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   border-radius: 22px;
-  padding: 20px;
-  box-shadow: 
-     0 18px 50px rgba(0,0,0,.45);
-     inset 0 1px 0 rgba(255,255,255,.05);
-   transition: transform .2s ease;
-}
-.menuCard:hover{
-   transform: translateY(-4px);
+  padding: 18px;
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.50),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  transition: transform .18s ease, border-color .2s ease, box-shadow .2s ease;
 }
 
-.cardHead{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+.menuCard:hover{
+  transform: translateY(-4px);
+  border-color: rgba(242,210,138,.22);
+  box-shadow:
+    0 20px 65px rgba(0,0,0,.56),
+    0 0 24px rgba(215,180,106,.10),
+    inset 0 1px 0 rgba(255,255,255,.06);
 }
+
 .cardHead h2{
-  margin:0;
-  font-size: 12px;
+  margin:0 0 12px;
+  font-size: 13px;
   letter-spacing:.14em;
   text-transform:uppercase;
   color: rgba(255,255,255,.88);
 }
 
-/* -------- Chips -------- */
-.tierRow, .spiritTabs{
+.tierRow{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   margin-bottom:12px;
 }
+
 .chipWrap{
   display:flex;
   gap:10px;
@@ -129,66 +195,116 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border:1px solid rgba(215,180,106,.22);
-  background: rgba(0,0,0,.18);
+  border:1px solid rgba(215,180,106,.25);
+  background: rgba(255,255,255,.03);
   color: rgba(255,255,255,.92);
-  padding: 9px 12px;
+  padding: 8px 12px;
   border-radius: 999px;
-  font-weight: 800;
+  font-weight: 850;
   font-size: 13px;
   cursor:pointer;
   user-select:none;
-  transition: transform .12s ease, border-color .12s ease, filter .12s ease;
-}
-.chip:hover{
-  transform: translateY(-1px);
-  border-color: rgba(215,180,106,.55);
-  filter: drop-shadow(0 0 10px rgba(215,180,106,.20));
-}
-.chip--active {
-  background: linear-gradient(180deg, #f2d28a, #d7b46a);
-  border-color: #f2d28a;
-  color:#14120c;
-   box-shadow: 0 0 18px rgba(215,180,106,.45);
+  transition: transform .15s ease, filter .2s ease, border-color .2s ease;
 }
 
-/* -------- Spirit lists (table look) -------- */
-.spiritList{
-  display:none;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius: 14px;
-  overflow:hidden;
+.chip:hover{
+  transform: translateY(-2px);
+  border-color: rgba(215,180,106,.65);
+  filter: drop-shadow(0 0 12px rgba(215,180,106,.20));
 }
-.spiritList.active{ display:block; }
+
+.chip--active,
+.chip.active{
+  background: linear-gradient(180deg, rgba(242,210,138,.98), rgba(215,180,106,.98));
+  border-color: rgba(242,210,138,.95);
+  color:#14120c;
+  box-shadow: 0 0 18px rgba(215,180,106,.38);
+}
+
+.spiritTabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom: 12px;
+}
+
+.spiritList,
+.bottleList{
+  display:none;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius: 18px;
+  overflow:hidden;
+  background: rgba(0,0,0,.18);
+}
+
+.spiritList.active,
+.bottleList.active{
+  display:block;
+}
 
 .rowItem{
   display:flex;
   justify-content:space-between;
   padding: 12px 12px;
   border-top:1px solid rgba(255,255,255,.07);
+  color: rgba(255,255,255,.92);
 }
+
 .rowItem:first-child{ border-top:none; }
 
 .price{
-  color: rgba(242,210,138,.95);
+  color: rgba(215,180,106,.98);
   font-weight: 950;
-  letter-spacing: .02em;
 }
-
-/* -------- WBNA lists -------- */
-.wbnaList{ display:none; margin-top: 10px; }
-.wbnaList.active{ display:block; }
 
 .note{
   margin: 12px 0 0;
-  opacity:.75;
+  color: var(--muted);
   font-size: 13px;
 }
-.menuPage {
-  animation: fadeIn .4s ease-out;
+
+/* FOOD section */
+.foodGrid{
+  display:grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+@media (min-width: 720px){
+  .foodGrid{ grid-template-columns: 1fr 1fr; }
+}
+
+.foodItem{
+  border:1px solid rgba(255,255,255,.08);
+  background: rgba(0,0,0,.18);
+  border-radius: 18px;
+  padding: 12px;
+  position:relative;
+  overflow:hidden;
+}
+
+.foodItem::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background: radial-gradient(500px 200px at 30% 20%, rgba(215,180,106,.12), transparent 60%);
+  opacity:.9;
+  pointer-events:none;
+}
+
+.foodName{
+  font-weight: 950;
+  letter-spacing:.01em;
+  margin: 0 0 2px;
+}
+
+.foodMeta{
+  color: rgba(255,255,255,.75);
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+
+.foodPrice{
+  font-weight: 950;
+  color: rgba(242,210,138,.95);
 }
