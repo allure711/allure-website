@@ -3,7 +3,24 @@
   const nav = document.querySelector(".nav__list");
   if (!btn || !nav) return;
 
-  btn.addEventListener("click", () => {
-    nav.classList.toggle("is-open");
+  function closeNav() {
+    nav.classList.remove("is-open");
+    btn.setAttribute("aria-expanded", "false");
+  }
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = nav.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!nav.classList.contains("is-open")) return;
+    if (nav.contains(e.target) || btn.contains(e.target)) return;
+    closeNav();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeNav();
   });
 })();
