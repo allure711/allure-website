@@ -1,43 +1,81 @@
-/* ==============================
-   ALLURE MENU (page-only)
-   ============================== */
+/* =========================
+   Allure Nightclub Menu CSS
+   File: assets/css/menu.css
+   ========================= */
 
-.menu-page{
-  background:#07070a;
-  color:#f5f5f7;
+:root{
+  --bg:#07070a;
+  --panel: rgba(18,18,24,.78);
+  --panel2: rgba(18,18,24,.55);
+  --stroke: rgba(255,255,255,.08);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.65);
+  --gold: #d8b24a;
+  --gold2:#ffda6a;
+  --shadow: 0 18px 50px rgba(0,0,0,.55);
+  --glow: 0 0 26px rgba(216,178,74,.35);
 }
 
+*{ box-sizing:border-box; }
+body.menu-page{
+  background: var(--bg);
+  color: var(--text);
+  overflow-x:hidden;
+}
+
+/* Background stage + overlay effect */
 .bgStage{
   position:fixed;
   inset:0;
-  z-index:-1;
   background:
-    radial-gradient(1200px 600px at 15% 10%, rgba(215,180,106,.14), transparent 60%),
-    radial-gradient(900px 520px at 85% 25%, rgba(140,70,255,.12), transparent 60%),
-    radial-gradient(900px 520px at 60% 85%, rgba(0,190,255,.10), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.92));
-  overflow:hidden;
+    radial-gradient(1200px 700px at 20% 20%, rgba(216,178,74,.14), transparent 55%),
+    radial-gradient(900px 600px at 90% 30%, rgba(120,80,255,.14), transparent 55%),
+    radial-gradient(900px 600px at 60% 95%, rgba(0,255,210,.10), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.92));
+  z-index:-2;
 }
-
+.bgStage::before{
+  content:"";
+  position:absolute;
+  inset:-80px;
+  background:
+    url("https://images.unsplash.com/photo-1485872299829-c673f5194813?auto=format&fit=crop&w=1600&q=60");
+  background-size:cover;
+  background-position:center;
+  filter: saturate(1.05) contrast(1.05);
+  opacity:.22;
+  transform: scale(1.08);
+  animation: slowFloat 18s ease-in-out infinite;
+}
 .bgStage::after{
   content:"";
   position:absolute;
-  inset:-40%;
+  inset:0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.06) 0 2px, transparent 3px),
-    radial-gradient(circle at 42% 70%, rgba(215,180,106,.10) 0 2px, transparent 3px),
-    radial-gradient(circle at 78% 30%, rgba(255,255,255,.05) 0 1px, transparent 2px);
-  opacity:.25;
-  animation: sparkle 10s ease-in-out infinite alternate;
-}
-@keyframes sparkle{
-  from{ transform: translate3d(-1%, -1%, 0) scale(1.02); }
-  to{ transform: translate3d(1%, 1%, 0) scale(1.05); }
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.03) 0px,
+      rgba(255,255,255,.03) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+  opacity:.06;
+  mix-blend-mode: overlay;
 }
 
-/* Top header tweaks (works with your styles.css header) */
+@keyframes slowFloat{
+  0%,100%{ transform: scale(1.08) translate3d(0,0,0); }
+  50%{ transform: scale(1.10) translate3d(-10px, 8px, 0); }
+}
+
+/* Header tweaks (if styles.css already handles header, this won’t fight much) */
 .header--menu{
-  border-bottom:1px solid rgba(215,180,106,.18);
+  position:sticky;
+  top:0;
+  z-index:20;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,.45);
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
 .topCall{
@@ -45,67 +83,254 @@
   align-items:center;
   justify-content:center;
   padding:10px 14px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.35);
-  background: rgba(0,0,0,.35);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold2), var(--gold));
+  color:#121212;
   text-decoration:none;
   font-weight:800;
-  letter-spacing:.02em;
-  box-shadow: 0 18px 55px rgba(0,0,0,.35);
-}
-.topCall:hover{
-  border-color: rgba(215,180,106,.65);
-  box-shadow: 0 22px 70px rgba(215,180,106,.10);
+  box-shadow: var(--glow);
 }
 
+/* Layout */
 .menuWrap{
-  width:min(1100px, 92vw);
-  margin: 0 auto;
-  padding: 22px 0 70px;
+  width:min(1200px, 92vw);
+  margin: 18px auto 60px;
 }
 
-/* Day Picker */
+/* Day pills */
 .dayPicker{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
-  justify-content:center;
-  padding: 12px;
-  margin: 14px 0 16px;
-  border-radius:18px;
-  border:1px solid rgba(215,180,106,.16);
-  background: rgba(0,0,0,.35);
-  backdrop-filter: blur(10px);
+  justify-content:flex-start;
+  margin: 18px 0 18px;
 }
-
-@media (max-width: 720px){
-  .dayPicker{
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    scroll-snap-type:x mandatory;
-    justify-content:flex-start;
-  }
-  .dayPicker::-webkit-scrollbar{ height:6px; }
-  .dayPicker::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.12); border-radius: 999px; }
-}
-
 .dayBtn{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.12);
   background: rgba(255,255,255,.04);
-  color: rgba(255,255,255,.88);
-  padding:10px 14px;
-  border-radius:999px;
-  cursor:pointer;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 10px 14px;
   font-weight:800;
-  letter-spacing:.02em;
-  white-space:nowrap;
-  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+  letter-spacing:.4px;
+  cursor:pointer;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease;
 }
-@media (max-width: 720px){ .dayBtn{ scroll-snap-align:start; } }
-.dayBtn:hover{ transform: translateY(-1px); border-color: rgba(215,180,106,.35); }
+.dayBtn:hover{ transform: translateY(-1px); border-color: rgba(216,178,74,.35); }
 .dayBtn.active{
-  background: linear-gradient(180deg, rgba(242,210,138,.96), rgba(215,180,106,.90));
-  color:#171207;
-  border-color: rgba(242,210
+  background: rgba(216,178,74,.16);
+  border-color: rgba(216,178,74,.55);
+  box-shadow: var(--glow);
+  color: var(--gold2);
+}
+
+/* Hero */
+.heroRow{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  padding: 18px 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: var(--shadow);
+}
+.dayTitle{
+  font-size: clamp(34px, 5vw, 58px);
+  margin: 0;
+  letter-spacing: 2px;
+}
+.subText{
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+.reserveTop{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  text-decoration:none;
+  font-weight:900;
+  color:#141414;
+  background: linear-gradient(180deg, var(--gold2), var(--gold));
+  box-shadow: var(--glow);
+  white-space:nowrap;
+}
+.reserveTop:hover{ filter: brightness(1.03); }
+
+/* Split cards */
+.menuSplit{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+@media (max-width: 960px){
+  .menuSplit{ grid-template-columns: 1fr; }
+}
+
+.menuCard{
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--panel), rgba(18,18,24,.62));
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  position:relative;
+}
+.menuCard::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(700px 400px at 30% 0%, rgba(216,178,74,.10), transparent 60%);
+  pointer-events:none;
+}
+
+.accordionMain{
+  width:100%;
+  text-align:left;
+  padding: 14px 16px;
+  border:0;
+  background: rgba(0,0,0,.18);
+  color: var(--text);
+  font-weight: 950;
+  letter-spacing: 1px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.accordionMain .arrow{
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold2);
+}
+
+.accordionContent{
+  padding: 14px 14px 16px;
+  display:none;
+}
+.accordionContent.open{ display:block; }
+
+/* Category bar */
+.catBar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom: 12px;
+}
+.cat{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 9px 12px;
+  font-weight: 850;
+  cursor:pointer;
+  transition: transform .15s ease, border-color .2s ease, background .2s ease;
+  white-space: nowrap;
+}
+.cat:hover{ transform: translateY(-1px); border-color: rgba(216,178,74,.35); }
+.cat.active{
+  background: rgba(216,178,74,.15);
+  border-color: rgba(216,178,74,.55);
+  color: var(--gold2);
+  box-shadow: var(--glow);
+}
+
+/* Items area */
+.catBody{
+  display:grid;
+  gap: 12px;
+}
+
+/* Panels */
+.panel{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 12px 12px;
+}
+.panelTitle{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin: 0 0 10px;
+  font-weight: 950;
+  letter-spacing: .6px;
+}
+.panelTitle .tag{
+  color: var(--gold2);
+  font-weight: 900;
+  font-size: 12px;
+  border: 1px solid rgba(216,178,74,.35);
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(216,178,74,.10);
+}
+
+/* Lists */
+.listGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px 14px;
+}
+@media (max-width: 560px){
+  .listGrid{ grid-template-columns: 1fr; }
+}
+.item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.16);
+  border: 1px solid rgba(255,255,255,.06);
+}
+.itemName{ font-weight: 850; }
+.itemNote{ color: var(--muted); font-weight: 650; font-size: 12px; }
+.itemPrice{
+  color: var(--gold2);
+  font-weight: 950;
+  white-space:nowrap;
+}
+
+/* Reserve button inside panels */
+.reserveInline{
+  margin-top: 12px;
+  display:flex;
+  width:100%;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  text-decoration:none;
+  font-weight: 950;
+  background: linear-gradient(180deg, var(--gold2), var(--gold));
+  color:#111;
+  box-shadow: var(--glow);
+}
+
+/* Foot */
+.menuFoot{
+  margin-top: 18px;
+  opacity:.9;
+}
+.finePrint{
+  color: rgba(255,255,255,.62);
+  font-weight: 600;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* Tiny animation */
+@keyframes pulseGlow{
+  0%,100%{ box-shadow: 0 0 0 rgba(216,178,74,0); }
+  50%{ box-shadow: 0 0 26px rgba(216,178,74,.35); }
+}
+.cat.active{ animation: pulseGlow 2.8s ease-in-out infinite; }
