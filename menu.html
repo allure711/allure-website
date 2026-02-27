@@ -12,14 +12,15 @@
 </head>
 
 <body class="menu-page">
+  <!-- Top Nav (keep your nav.js if you already use it) -->
   <header class="header header--menu">
     <div class="container header__inner">
       <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-      <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <button class="nav__toggle" aria-expanded="false">Menu</button>
 
       <nav class="nav">
-        <ul class="nav__list" id="siteNav">
+        <ul class="nav__list">
           <li><a href="index.html">Home</a></li>
           <li><a class="active" href="menu.html">Menu</a></li>
           <li><a href="events.html">Events</a></li>
@@ -29,13 +30,16 @@
         </ul>
       </nav>
 
-      <a class="topCall" href="tel:2022974949">Call</a>
+      <!-- Change to your real number -->
+      <a class="topCall" href="tel:12025550123">Call</a>
     </div>
   </header>
 
+  <!-- Background / overlay -->
   <div class="bgStage" aria-hidden="true"></div>
 
   <main class="menuWrap">
+    <!-- DAY PICKER -->
     <section class="dayPicker" aria-label="Choose a day">
       <button class="dayBtn active" data-day="monday">Monday</button>
       <button class="dayBtn" data-day="tuesday">Tuesday</button>
@@ -46,46 +50,62 @@
       <button class="dayBtn" data-day="sunday">Sunday</button>
     </section>
 
+    <!-- HERO -->
     <section class="heroRow">
       <div>
         <h1 class="dayTitle" id="dayTitle">MONDAY</h1>
-        <p class="subText" id="daySubtitle">Happy Hour 5PM–9PM • After 9PM Late-Night Menu</p>
+        <p class="subText" id="daySubtitle">
+          Happy Hour 5PM–9PM • After 9PM Late-Night Menu
+        </p>
       </div>
 
-      <a class="reserveTop" id="reserveTop" href="tel:2022974949">Reserve / Call</a>
+      <!-- Change to your real reserve link/number -->
+      <a class="reserveTop" id="reserveTop" href="tel:12025550123">Reserve / Call</a>
     </section>
 
+    <!-- SPLIT LAYOUT -->
     <section class="menuSplit">
+      <!-- LEFT -->
       <div class="menuCard">
-        <button class="accordionMain" data-acc="happy" aria-expanded="true" type="button">
+        <button class="accordionMain" data-acc="happy">
           HAPPY HOUR • 5PM–9PM
-          <span class="arrow" aria-hidden="true">−</span>
+          <span class="arrow" aria-hidden="true">+</span>
         </button>
-        <div class="accordionContent open" data-accbody="happy">
+        <div class="accordionContent" data-accbody="happy">
+          <!-- Categories -->
           <div class="catBar" data-scope="happy"></div>
+          <!-- Items render here -->
           <div class="catBody" data-scopebody="happy"></div>
-          <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+
+          <a class="reserveInline" href="tel:12025550123">Reserve / Call</a>
         </div>
       </div>
 
+      <!-- RIGHT -->
       <div class="menuCard">
-        <button class="accordionMain" data-acc="late" aria-expanded="false" type="button">
+        <button class="accordionMain" data-acc="late">
           AFTER 9PM • LATE-NIGHT MENU
           <span class="arrow" aria-hidden="true">+</span>
         </button>
         <div class="accordionContent" data-accbody="late">
+          <!-- Categories -->
           <div class="catBar" data-scope="late"></div>
+          <!-- Items render here -->
           <div class="catBody" data-scopebody="late"></div>
-          <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+
+          <a class="reserveInline" href="tel:12025550123">Reserve / Call</a>
         </div>
       </div>
     </section>
 
     <footer class="menuFoot">
-      <p class="finePrint">Please note: 20% gratuity &amp; tax may apply. Please drink responsibly.</p>
+      <p class="finePrint">
+        Please note: 20% gratuity &amp; tax may apply. Please drink responsibly.
+      </p>
     </footer>
   </main>
 
+  <!-- If you already use nav.js keep it; if not, it won’t break -->
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/menu.js"></script>
 </body>
