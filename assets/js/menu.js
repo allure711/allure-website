@@ -352,13 +352,53 @@ function renderCategory(scopeKey, catKey) {
     wrap.appendChild(two);
   }
 
-  ifffffffffff
+  if (data.type === "foodFull") {
+  const wrapper = document.createElement("div");
 
+  const section = (title, items) => {
+    if (!items || !items.length) return;
+    wrapper.appendChild(el(`<div class="sectionHead" style="margin-top:16px;">${title}</div>`));
+    items.forEach(([name, price]) => {
+      wrapper.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
+    });
+  };
 
+  section("Appetizers", data.appetizers);
+  section("Wings", data.wings);
+  section("Quesadillas", data.quesadillas);
+  section("Rasta Pasta / Alfredo", data.pasta);
+  section("Salads", data.salads);
+  section("Dinner", data.dinner);
+  section("Tacos", data.tacos);
+  section("Up Charge", data.upcharge);
 
+  // Flavors
+  wrapper.appendChild(el(`<div class="sectionHead" style="margin-top:20px;">Flavors</div>`));
 
+  const flavorGrid = document.createElement("div");
+  flavorGrid.className = "twoCols";
 
-   
+  const wet = el(`<div class="colBox"><div class="colTitle">Wet</div></div>`);
+  const dry = el(`<div class="colBox"><div class="colTitle">Dry</div></div>`);
+
+  const ulWet = document.createElement("ul");
+  ulWet.className = "bullets";
+  data.flavorsWet.forEach(f => ulWet.appendChild(el(`<li>${f}</li>`)));
+
+  const ulDry = document.createElement("ul");
+  ulDry.className = "bullets";
+  data.flavorsDry.forEach(f => ulDry.appendChild(el(`<li>${f}</li>`)));
+
+  wet.appendChild(ulWet);
+  dry.appendChild(ulDry);
+
+  flavorGrid.appendChild(wet);
+  flavorGrid.appendChild(dry);
+
+  wrapper.appendChild(flavorGrid);
+
+  return wrapper;
+}
 
   /* NEW: food block renderer */
   if (data.type === "foodBlock") {
