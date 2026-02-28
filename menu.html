@@ -30,6 +30,12 @@
   </header>
 
   <main class="menuWrap">
+    <!-- VIP Badge -->
+    <div class="vipBadge" aria-hidden="true">
+      <span class="vipDot"></span>
+      VIP ACCESS
+    </div>
+
     <!-- DAY SWITCHER -->
     <div class="container">
       <div class="dayTabs" role="tablist" aria-label="Day selector">
@@ -48,7 +54,7 @@
     <!-- ===================== -->
     <section class="dayPanel active" data-daypanel="monday">
       <div class="container">
-        <div class="heroRow">
+        <div class="heroRow reveal">
           <div>
             <div class="dayName">MONDAY</div>
             <div class="daySub">FREE HOOKAH MONDAY • Hookah $23 • Refill $15</div>
@@ -58,7 +64,7 @@
 
         <div class="menuSplit">
           <!-- LEFT: HAPPY HOUR -->
-          <div class="menuCard">
+          <div class="menuCard menuCard--pulse reveal">
             <div class="cardTitle">HAPPY HOUR • 5PM—9PM</div>
 
             <div class="catBar" data-scope="monday-happy">
@@ -73,15 +79,13 @@
               <button class="cat" data-cat="fishbowl23">$23 Fishbowl</button>
             </div>
 
-            <div class="catBody" data-scopebody="monday-happy">
-              <!-- Filled by JS -->
-            </div>
+            <div class="catBody" data-scopebody="monday-happy"></div>
 
             <a class="reserveInline" href="tel:+12025550123">Reserve / Call</a>
           </div>
 
           <!-- RIGHT: AFTER 9PM -->
-          <div class="menuCard">
+          <div class="menuCard menuCard--pulse reveal">
             <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
 
             <div class="catBar" data-scope="monday-late">
@@ -93,46 +97,9 @@
               <button class="cat" data-cat="refill12">$12 Refill</button>
             </div>
 
-            <div class="catBody" data-scopebody="monday-late">
-              <!-- Filled by JS -->
-            </div>
+            <div class="catBody" data-scopebody="monday-late"></div>
 
             <a class="reserveInline" href="tel:+12025550123">Reserve / Call</a>
-          </div>
-        </div>
-
-        <!-- FOOD + BOTTLES ROW -->
-        <div class="grid2">
-          <div class="menuCard">
-            <div class="cardTitle">FOOD • LATE NIGHT FAVORITES</div>
-            <div class="listGrid">
-              <div class="itemRow"><span>Wings (6pc)</span><span class="price">$12</span></div>
-              <div class="muted">Buffalo • Honey Garlic • Lemon Pepper</div>
-
-              <div class="itemRow"><span>Fries</span><span class="price">$6</span></div>
-              <div class="muted">Classic • Loaded (+$4)</div>
-
-              <div class="itemRow"><span>Salmon Nuggets Basket</span><span class="price">$15</span></div>
-              <div class="muted">Crispy bites • House sauce</div>
-
-              <div class="itemRow"><span>Rasta Pasta</span><span class="price">$16</span></div>
-              <div class="muted">Chicken $16 • Shrimp $18 • Salmon $20</div>
-            </div>
-          </div>
-
-          <div class="menuCard">
-            <div class="cardTitle">BOTTLES • PRICING</div>
-            <div class="pillRow">
-              <button class="pill active" data-bottle="standard">Standard</button>
-              <button class="pill" data-bottle="premium">Premium</button>
-              <button class="pill" data-bottle="vip">VIP</button>
-            </div>
-            <div class="listGrid" id="bottleList">
-              <div class="itemRow"><span>Don Julio Blanco</span><span class="price">$220</span></div>
-              <div class="itemRow"><span>Casamigos Reposado</span><span class="price">$240</span></div>
-              <div class="itemRow"><span>Hennessy VS</span><span class="price">$220</span></div>
-              <div class="muted" style="margin-top:10px;">(You can replace these with your full bottle list anytime.)</div>
-            </div>
           </div>
         </div>
       </div>
@@ -143,22 +110,20 @@
     <!-- ===================== -->
     <section class="dayPanel" data-daypanel="tuesday">
       <div class="container">
-        <div class="heroRow">
+        <div class="heroRow reveal">
           <div>
             <div class="dayName">TUESDAY</div>
-            <div class="daySub">HAPPY HOUR 5PM—9PM • Hookah $23 • Refill $12 • Cocktails $10</div>
+            <div class="daySub">TACO TUESDAY • Happy Hour 5PM—9PM</div>
           </div>
           <a class="reserveTop" href="tel:+12025550123">Reserve / Call</a>
         </div>
 
         <div class="menuSplit">
-          <!-- LEFT: HAPPY HOUR -->
-          <div class="menuCard">
+          <div class="menuCard menuCard--pulse reveal">
             <div class="cardTitle">HAPPY HOUR • 5PM—9PM</div>
-
             <div class="catBar" data-scope="tuesday-happy">
-              <button class="cat active" data-cat="food">food</button>
-              <button class="cat active" data-cat="shots5">$5 Shots</button>
+              <button class="cat active" data-cat="food">Food</button>
+              <button class="cat" data-cat="shots5">$5 Shots</button>
               <button class="cat" data-cat="drinks10">$10 Drinks</button>
               <button class="cat" data-cat="cocktails10">$10 Cocktails</button>
               <button class="cat" data-cat="shots7">$7 Shots</button>
@@ -173,19 +138,19 @@
               <button class="cat" data-cat="tower43">$43 Tower</button>
               <button class="cat" data-cat="fishbowl23">$23 Fishbowl</button>
             </div>
-
             <div class="catBody" data-scopebody="tuesday-happy"></div>
-
             <a class="reserveInline" href="tel:+12025550123">Reserve / Call</a>
           </div>
 
-          <!-- RIGHT: AFTER 9PM -->
-          <div class="menuCard">
+          <div class="menuCard menuCard--pulse reveal">
             <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
+
+            <!-- LIMITED TABLES tag: visible only when JS allows -->
+            <div class="limitedTag" data-limited-tag="tuesday">LIMITED TABLES</div>
 
             <div class="catBar" data-scope="tuesday-late">
               <button class="cat active" data-cat="food">Food</button>
-              <button class="cat active" data-cat="shots7">$7 Shots</button>
+              <button class="cat" data-cat="shots7">$7 Shots</button>
               <button class="cat" data-cat="drinks14">$14 Drinks</button>
               <button class="cat" data-cat="premium">Premium</button>
               <button class="cat" data-cat="wine6">$6 Wine</button>
@@ -196,24 +161,98 @@
               <button class="cat" data-cat="tower43">$43 Tower</button>
               <button class="cat" data-cat="fishbowl23">$23 Fishbowl</button>
             </div>
-
             <div class="catBody" data-scopebody="tuesday-late"></div>
-
             <a class="reserveInline" href="tel:+12025550123">Reserve / Call</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- OTHER DAYS (same layout, you can paste menus later) -->
-    <section class="dayPanel" data-daypanel="wednesday"><div class="container"><div class="heroRow"><div><div class="dayName">WEDNESDAY</div><div class="daySub">Menu coming next</div></div><a class="reserveTop" href="tel:+12025550123">Reserve / Call</a></div></div></section>
-    <section class="dayPanel" data-daypanel="thursday"><div class="container"><div class="heroRow"><div><div class="dayName">THURSDAY</div><div class="daySub">Menu coming next</div></div><a class="reserveTop" href="tel:+12025550123">Reserve / Call</a></div></div></section>
-    <section class="dayPanel" data-daypanel="friday"><div class="container"><div class="heroRow"><div><div class="dayName">FRIDAY</div><div class="daySub">Menu coming next</div></div><a class="reserveTop" href="tel:+12025550123">Reserve / Call</a></div></div></section>
-    <section class="dayPanel" data-daypanel="saturday"><div class="container"><div class="heroRow"><div><div class="dayName">SATURDAY</div><div class="daySub">Menu coming next</div></div><a class="reserveTop" href="tel:+12025550123">Reserve / Call</a></div></div></section>
-    <section class="dayPanel" data-daypanel="sunday"><div class="container"><div class="heroRow"><div><div class="dayName">SUNDAY</div><div class="daySub">Menu coming next</div></div><a class="reserveTop" href="tel:+12025550123">Reserve / Call</a></div></div></section>
+    <!-- ===================== -->
+    <!-- WED / THU / FRI / SAT / SUN PANELS (placeholders)
+         Keep your existing panels if you already have them.
+         LIMITED TABLES tags only needed in Thu/Sat/Sun
+    ===================== -->
+
+    <section class="dayPanel" data-daypanel="wednesday">
+      <div class="container">
+        <div class="heroRow reveal">
+          <div>
+            <div class="dayName">WEDNESDAY</div>
+            <div class="daySub">MIDWEEK WEDNESDAY • Happy Hour 5PM—9PM</div>
+          </div>
+          <a class="reserveTop" href="tel:+12025550123">Reserve / Call</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dayPanel" data-daypanel="thursday">
+      <div class="container">
+        <div class="heroRow reveal">
+          <div>
+            <div class="dayName">THURSDAY</div>
+            <div class="daySub">KARAOKE THURSDAY • Happy Hour 5PM—9PM</div>
+          </div>
+          <a class="reserveTop" href="tel:+12025550123">Reserve / Call</a>
+        </div>
+
+        <div class="menuCard menuCard--pulse reveal">
+          <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
+          <div class="limitedTag" data-limited-tag="thursday">LIMITED TABLES</div>
+          <div class="muted">Add your Thursday late-night content here.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dayPanel" data-daypanel="friday">
+      <div class="container">
+        <div class="heroRow reveal">
+          <div>
+            <div class="dayName">FRIDAY</div>
+            <div class="daySub">ALLURE FRIDAY • POWER MODE</div>
+          </div>
+          <a class="reserveTop" href="tel:+12025550123">Reserve / Call</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dayPanel" data-daypanel="saturday">
+      <div class="container">
+        <div class="heroRow reveal">
+          <div>
+            <div class="dayName">SATURDAY</div>
+            <div class="daySub">ALLURE SATURDAY • POWER MODE</div>
+          </div>
+          <a class="reserveTop" href="tel:+12025550123">Reserve / Call</a>
+        </div>
+
+        <div class="menuCard menuCard--pulse reveal">
+          <div class="cardTitle">AFTER 10PM • VIP LATE NIGHT</div>
+          <div class="limitedTag" data-limited-tag="saturday">LIMITED TABLES</div>
+          <div class="muted">Add your Saturday after 10PM content here.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dayPanel" data-daypanel="sunday">
+      <div class="container">
+        <div class="heroRow reveal">
+          <div>
+            <div class="dayName">SUNDAY</div>
+            <div class="daySub">ALLURE SUNDAY • GUEST LIST OPEN</div>
+          </div>
+          <a class="reserveTop" href="tel:+12025550123">Reserve / Call</a>
+        </div>
+
+        <div class="menuCard menuCard--pulse reveal">
+          <div class="cardTitle">AFTER 10PM • VIP LATE NIGHT</div>
+          <div class="limitedTag" data-limited-tag="sunday">LIMITED TABLES</div>
+          <div class="muted">Add your Sunday after 10PM content here.</div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- scripts -->
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/menu.js"></script>
 </body>
