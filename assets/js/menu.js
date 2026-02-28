@@ -177,12 +177,23 @@ const MENU_DATA = {
   },
 
   /* Tuesday late kept as-is (you can update later if you want) */
-  "tuesday-late": {jjjjjjjjjjjjj
+  "tuesday-late": {
+    
+food: {
+  title: "Food (After 9PM)",
+  type: "foodBlock",
+  items: [
+    ["Wings (6pc)", "$12", "Buffalo • Honey Garlic • Lemon Pepper"],
+    ["Fries", "$6", "Classic • Loaded (+$4)"],
+    ["Salmon Nuggets Basket", "$15", "Crispy bites • House sauce"],
+    ["Rasta Pasta", "$16+", "Chicken $16 • Shrimp $18 • Salmon $20"]
+  ],
+  flavorsTitle: "Sauces / Flavors",
+  flavors: ["Buffalo", "Honey Garlic", "Lemon Pepper", "Mild", "BBQ"]
+},
 
 
-
-     
-    shots7: { title: "$7 Shots", type: "simpleList", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] },
+     shots7: { title: "$7 Shots", type: "simpleList", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] },
     drinks14: { title: "$14 Drinks", type: "simpleList", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] },
     premium: { title: "Premium", type: "twoCols", leftTitle: "$16 Shots • $32 Drinks", rightTitle: "$10 Shots • $20 Drinks",
       left: ["1942","Azul","D’usse XO","Remy XO"],
