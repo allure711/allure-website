@@ -2,7 +2,7 @@
    Menu Page JS
    - Day tabs
    - Category click -> show that category's items
-   ========================= */
+   =========================
 
 const PHONE = "+12025550123";
 
@@ -329,6 +329,7 @@ function initCategoryBars() {
 }
 
 /* ---------- Day tabs wiring ---------- */
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 function initDayTabs() {
   const tabs = [...document.querySelectorAll(".dayTab")];
   const panels = [...document.querySelectorAll(".dayPanel")];
@@ -348,6 +349,7 @@ function initDayTabs() {
     });
   });
 }
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 /* ---------- Bottle pills (simple placeholder) ---------- */
 function initBottlePills() {
