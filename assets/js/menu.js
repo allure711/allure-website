@@ -1,277 +1,419 @@
 /* assets/js/menu.js
-   Keeps your original design (rowItem/price/chip look)
-   Works with your existing HTML:
-   - .dayBtn[data-day]
-   - .accordionMain[data-acc] + .accordionContent[data-accbody]
-   - .catBar[data-scope] + .catBody[data-scopebody]
+   Allure Menu Logic (Day switch + Accordion + Category tabs)
 */
 
 (() => {
-  "use strict";
+  // ========= 1) MENU DATA =========
+  // You can edit lists anytime without touching the logic.
 
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-
-  const setText = (id, txt) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = txt;
-  };
-  const setHref = (id, href) => {
-    const el = document.getElementById(id);
-    if (el) el.setAttribute("href", href);
-  };
-
-  // ----------------------------
-  // DATA (keep your current MENU object)
-  // ----------------------------
   const MENU = {
-    // NOTE: You only provided tuesday in your snippet.
-    // If you want other days to work, add them here OR copy tuesday to other days.
-    tuesday: {
-      title: "TUESDAY",
-      subtitle: "HAPPY HOUR 5PM–9PM • After 9PM Late-Night Menu",
-      reserveHref: "tel:12025550123",
-
+    monday: {
+      title: "MONDAY",
+      subtitle: "Happy Hour 5PM–9PM • After 9PM Late-Night Menu",
       happy: {
-        categoriesOrder: [
-          "food","shots5","drinks10","cocktails10","shots7","drinks14","premium",
-          "wine6","beer4","highnoon8","nonalc","hookah23","refill12","tower43","fishbowl23",
-        ],
-        categories: {
-          food: {
-            label: "Food",
-            blocks: [
-              {
-                title: "Food",
-                items: [
-                  { name: "Wings (6pc)", note: "Buffalo • Honey Garlic • Lemon Pepper", price: "$12" },
-                  { name: "Fries", note: "Classic • Loaded (+$4)", price: "$6" },
-                  { name: "Salmon Nuggets Basket", note: "Crispy bites • house sauce", price: "$15" },
-                  { name: "Rasta Pasta", note: "Chicken $16 • Shrimp $18 • Salmon $20", price: "—" },
-                ],
-              },
-              { title: "Food Flavors", items: ["Buffalo","Honey Garlic","Lemon Pepper","Mumbo"] },
-            ],
-          },
-
-          shots5: { label: "$5 Shots", blocks: [{ title: "$5 Shots", items: ["Vodka","Tequila","Whiskey","Liqueur","Rum","Gin","Cognac"] }] },
-
-          drinks10: { label: "$10 Drinks", blocks: [{ title: "$10 Drinks (same list as $5 list)", items: ["Vodka","Tequila","Whiskey","Liqueur","Rum","Gin","Cognac"] }] },
-
-          cocktails10: {
-            label: "$10 Cocktails",
-            blocks: [
-              { title: "$10 Cocktails", items: ["Allure Lemon Drop","Allure Sidecar","Apple Martini","Bitch Please","Blue Motorcycle","Ciroc Punch","Classic Margarita","Cosmopolitan","Gin Martini","Green Tea","Long Island","Manhattan","Mint Julep","Mojito","Moscow Mule","Old Fashion","Orange Martini","Red or White Sangria","Rum Punch","Strawberry Henny"] },
-              { title: "Add to any cocktail", items: ["Strawberry","Mango","Peach"] },
-            ],
-          },
-
-          shots7: { label: "$7 Shots", blocks: [{ title: "$7 Shots", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","Dusse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] }] },
-
-          drinks14: { label: "$14 Drinks", blocks: [{ title: "$14 Drinks", items: ["Hennessy VSOP","Patron","Don Julio","Casamigos","Remy 1738","Herradura","Old Forester","Dusse"] }] },
-
-          premium: {
-            label: "Premium",
-            blocks: [
-              { title: "$16 Shots • $32 Drinks", items: ["1942","Azul","Dusse XO","Remy XO"] },
-              { title: "$10 Shots • $20 Drinks", items: ["Gran Coramino","JW Black","JW Double Black","JW Gold"] },
-            ],
-          },
-
-          wine6: { label: "$6 Wine", blocks: [{ title: "$6 Wine", items: ["Cabernet Sauvignon","Chardonnay","Merlot","Moscato (Red/White)","Pinot Grigio","Sauvignon Blanc","Sweet Red"] }] },
-          beer4: { label: "$4 Beer", blocks: [{ title: "$4 Beer", items: ["Angry Orchard","Corona","Guinness","Heineken","Modelo","Stella","Goose Island IPA","Voodoo Ranger IPA"] }] },
-
-          highnoon8: { label: "$8 High Noon", blocks: [{ title: "Vodka", items: ["Grapefruit","Mango"] }, { title: "Tequila", items: ["Lime","Strawberry"] }] },
-
-          nonalc: { label: "Non-Alcoholic", blocks: [{ title: "Non-Alcoholic", items: ["Red Bull $5","Ginger Beer $5","Frozen Drinks $5","Soda $3","Juice $3","Water $3"] }] },
-
-          hookah23: { label: "$23 Hookah", blocks: [{ title: "$23 Hookah", items: ["Your choice of flavor (see Refill flavors)"] }] },
-
-          refill12: { label: "$12 Refill", blocks: [{ title: "Refill Flavors", items: ["Bluemist (+$2)","Magic Love (+$2)","Lady Killer (+$2)","Love 66 (+$2)","Blueberry","BMW","Blueberry Mint","Double Apple","Grape","Grape Fruit","Grape Fruit Mint","Guava","Gum Mint","Kiwi","Lemon Mint","Mango","Mint","Orange Mint","Peach","Pineapple","Strawberry","Vanilla","Watermelon","Watermelon Mint"] }] },
-
-          tower43: { label: "$43 Tower", blocks: [{ title: "$43 Tower", items: ["Available flavors: Strawberry • Mango • Peach"] }] },
-          fishbowl23: { label: "$23 Fishbowl", blocks: [{ title: "$23 Fishbowl", items: ["Ask bartender for today’s fishbowl specials"] }] },
+        // Food FIRST (per your request later you can fill it)
+        food: {
+          label: "Food",
+          type: "list",
+          items: [
+            { name: "Add your food items here", price: "" }
+          ]
         },
+
+        shots5: {
+          label: "$5 Shots",
+          type: "spiritTabs",
+          price: "$5",
+          tabs: {
+            Vodka: ["Absolut", "Belvedere", "Ciroc", "Grey Goose", "Kettle One", "Stoli Orange", "Titos"],
+            Tequila: ["1800", "Altos", "Patron"],
+            Whiskey: ["Jameson", "Jack Daniels"],
+            Liqueur: ["Triple Sec"],
+            Rum: ["Bacardi"],
+            Gin: ["Bombay"],
+            Cognac: ["Hennessy"]
+          }
+        },
+
+        drinks10: {
+          label: "$10 Drinks",
+          type: "spiritTabs",
+          price: "$10",
+          // same exact list as $5 shots, only price changes
+          tabs: {
+            Vodka: ["Absolut", "Belvedere", "Ciroc", "Grey Goose", "Kettle One", "Stoli Orange", "Titos"],
+            Tequila: ["1800", "Altos", "Patron"],
+            Whiskey: ["Jameson", "Jack Daniels"],
+            Liqueur: ["Triple Sec"],
+            Rum: ["Bacardi"],
+            Gin: ["Bombay"],
+            Cognac: ["Hennessy"]
+          }
+        },
+
+        cocktails10: {
+          label: "$10 Cocktails",
+          type: "chips",
+          items: [
+            "Allure Lemon Drop",
+            "Long Island",
+            "Manhattan",
+            "Mint Julep",
+            "Mojito",
+            "Moscow Mule",
+            "Old Fashion",
+            "Orange Martini",
+            "Red/White Sangria",
+            "Rum Punch",
+            "Strawberry Henny"
+          ]
+        },
+
+        topShelf: {
+          label: "$7 Shots / $14 Drinks",
+          type: "chips",
+          items: [
+            "818","Casa Azul","Casamigos","Ciroc VS","Don Julio","Dusse","Equiano",
+            "Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738",
+            "Remy VSOP","Sir Davis"
+          ]
+        },
+
+        wbna: {
+          label: "Wine / Beer / Non-Alcoholic",
+          type: "wbnaTabs",
+          tabs: {
+            "$6 Wine": [
+              "Cabernet Sauvignon",
+              "Chardonnay",
+              "Merlot",
+              "Moscato (Red/White)",
+              "Pinot Grigio",
+              "Sauvignon Blanc",
+              "Sweet Red"
+            ],
+            "$4 Beer": ["Heineken", "Corona", "Stella", "Guinness", "Angry Orchard"],
+            "Non-Alcoholic": ["Soda", "Juice", "Water", "Red Bull"]
+          }
+        },
+
+        hookah: {
+          label: "Hookah / Tower / Fishbowl",
+          type: "hookahTabs",
+          tabs: {
+            "Hookah $23": ["Blue Mist","Magic Love","Lady Killer","Love 66","Blueberry","BMW","Blueberry Mint","Double Apple","Grape","Grapefruit","Grapefruit Mint","Guava","Gum Mint","Kiwi","Lemon Mint","Mango","Mint","Orange Mint","Peach","Pineapple","Strawberry","Vanilla","Watermelon","Watermelon Mint"],
+            "Refill $12": ["Blue Mist","Magic Love","Lady Killer","Love 66","Blueberry","BMW","Blueberry Mint","Double Apple","Grape","Grapefruit","Grapefruit Mint","Guava","Gum Mint","Kiwi","Lemon Mint","Mango","Mint","Orange Mint","Peach","Pineapple","Strawberry","Vanilla","Watermelon","Watermelon Mint"],
+            "Tower $43": ["Long Island", "Lemon Drop", "Margarita"],
+            "Fishbowl $23": ["Long Island", "Lemon Drop", "Margarita"]
+          }
+        }
       },
 
       late: {
-        categoriesOrder: ["food","shots7","drinks14","premium","wine6","beer4","highnoon8","nonalc","hookah23","tower43","fishbowl23"],
-        categories: {
-          food: { label: "Food", blocks: [{ title: "After 9PM Food", items: [{ name: "Wings (6pc)", note: "Buffalo • Honey Garlic • Lemon Pepper", price: "$12" }, { name: "Fries", note: "Classic • Loaded (+$4)", price: "$6" }] }] },
-          shots7: { label: "$7 Shots", blocks: [{ title: "$7 Shots", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","Dusse","Equiano","Hendricks"] }] },
-          drinks14:{ label: "$14 Drinks", blocks: [{ title: "$14 Drinks", items: ["Hennessy VSOP","Patron","Remy 1738","Herradura"] }] },
-          premium:{ label: "Premium", blocks: [{ title: "$16 Shots • $32 Drinks", items: ["1942","Azul","Dusse XO","Remy XO"] }] },
-          wine6:  { label: "$6 Wine", blocks: [{ title: "$6 Wine", items: ["Cabernet Sauvignon","Chardonnay","Merlot"] }] },
-          beer4:  { label: "$4 Beer", blocks: [{ title: "$4 Beer", items: ["Corona","Heineken","Modelo"] }] },
-          highnoon8:{ label: "$8 High Noon", blocks: [{ title: "High Noon", items: ["Grapefruit","Mango","Lime","Strawberry"] }] },
-          nonalc: { label: "Non-Alcoholic", blocks: [{ title: "Non-Alcoholic", items: ["Red Bull $5","Water $3"] }] },
-          hookah23:{ label: "$23 Hookah", blocks: [{ title: "$23 Hookah", items: ["Your choice of flavor"] }] },
-          tower43:{ label: "$43 Tower", blocks: [{ title: "$43 Tower", items: ["Ask bartender"] }] },
-          fishbowl23:{ label: "$23 Fishbowl", blocks: [{ title: "$23 Fishbowl", items: ["Ask bartender"] }] },
+        // After 9pm — put your real items here
+        food: {
+          label: "Late-Night Food",
+          type: "list",
+          items: [{ name: "Add after 9pm food items here", price: "" }]
         },
-      },
+        drinks: {
+          label: "Late-Night Drinks",
+          type: "chips",
+          items: ["Add after 9pm drink specials here"]
+        }
+      }
     },
+
+    // Tue–Sat: you can duplicate monday structure or customize later
+    tuesday: { title: "TUESDAY", subtitle: "Happy Hour 5PM–9PM • Taco Tuesday", happyRef: "monday", lateRef: "monday" },
+    wednesday:{ title: "WEDNESDAY", subtitle:"Happy Hour 5PM–9PM", happyRef: "monday", lateRef:"monday" },
+    thursday: { title: "THURSDAY", subtitle:"Happy Hour 5PM–9PM", happyRef: "monday", lateRef:"monday" },
+    friday:   { title: "FRIDAY", subtitle:"Happy Hour 5PM–9PM • After 9PM Late-Night Menu", happyRef: "monday", lateRef:"monday" },
+    saturday: { title: "SATURDAY", subtitle:"Happy Hour 5PM–9PM • After 9PM Late-Night Menu", happyRef: "monday", lateRef:"monday" },
+
+    sunday: {
+      title: "SUNDAY",
+      subtitle: "Happy Hour 5PM–9PM • After 9PM Late-Night Menu",
+      // For now same as Monday
+      happyRef: "monday",
+      lateRef: "monday"
+    }
   };
 
-  // If a day isn't in MENU, we copy Tuesday so buttons don't go blank.
-  const dayKeys = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
-  dayKeys.forEach((d) => { if (!MENU[d]) MENU[d] = MENU.tuesday; });
+  // ========= 2) HELPERS =========
+  const qs = (sel, root = document) => root.querySelector(sel);
+  const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  let activeDayKey = "tuesday";
-  const activeCat = { happy: null, late: null };
+  function setHero(dayKey){
+    const dayTitle = qs("#dayTitle");
+    const daySubtitle = qs("#daySubtitle");
+    const reserveTop = qs("#reserveTop");
 
-  // ----------------------------
-  // RENDER
-  // ----------------------------
-  function renderDay(dayKey) {
-    const day = MENU[dayKey];
-    if (!day) return;
-
-    activeDayKey = dayKey;
-    setText("dayTitle", day.title || dayKey.toUpperCase());
-    setText("daySubtitle", day.subtitle || "");
-    setHref("reserveTop", day.reserveHref || "tel:12025550123");
-
-    renderScope("happy", day.happy);
-    renderScope("late", day.late);
+    const d = MENU[dayKey];
+    dayTitle.textContent = d.title || dayKey.toUpperCase();
+    daySubtitle.textContent = d.subtitle || "";
+    reserveTop.setAttribute("href", "tel:12025550123"); // change to your real number
   }
 
-  function renderScope(scopeName, scopeData) {
-    const bar = document.querySelector(`.catBar[data-scope="${scopeName}"]`);
-    const body = document.querySelector(`.catBody[data-scopebody="${scopeName}"]`);
-    if (!bar || !body || !scopeData) return;
+  function resolveDayData(dayKey){
+    const d = MENU[dayKey];
+    if(!d) return MENU.monday;
+    if(d.happyRef || d.lateRef){
+      const base = MENU[d.happyRef || "monday"];
+      return {
+        title: d.title,
+        subtitle: d.subtitle,
+        happy: (MENU[d.happyRef]?.happy) || base.happy,
+        late: (MENU[d.lateRef]?.late) || base.late
+      };
+    }
+    return d;
+  }
 
-    const order = scopeData.categoriesOrder || Object.keys(scopeData.categories || {});
-    const categories = scopeData.categories || {};
+  function clearPanel(scope){
+    const bar = qs(`.catBar[data-scope="${scope}"]`);
+    const body = qs(`.catBody[data-scopebody="${scope}"]`);
+    if(bar) bar.innerHTML = "";
+    if(body) body.innerHTML = "";
+  }
 
-    // choose active category (keep previous if exists)
-    const firstKey = order.find((k) => categories[k]);
-    if (!activeCat[scopeName] || !categories[activeCat[scopeName]]) activeCat[scopeName] = firstKey;
+  // ========= 3) RENDERERS =========
 
-    // chips
-    bar.innerHTML = "";
-    order.forEach((catKey) => {
-      const cat = categories[catKey];
-      if (!cat) return;
+  function renderChips(list){
+    const wrap = document.createElement("div");
+    wrap.className = "chipGrid";
+    list.forEach(t => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip";
+      chip.textContent = t;
+      wrap.appendChild(chip);
+    });
+    return wrap;
+  }
 
+  function renderList(items){
+    const box = document.createElement("div");
+    box.className = "listBox";
+    items.forEach(it => {
+      const row = document.createElement("div");
+      row.className = "rowItem";
+      row.innerHTML = `<span>${it.name}</span><span class="price">${it.price || ""}</span>`;
+      box.appendChild(row);
+    });
+    return box;
+  }
+
+  function renderSpiritTabs(cfg){
+    // cfg: {price, tabs:{Vodka:[...],...}}
+    const wrap = document.createElement("div");
+    wrap.className = "spiritWrap";
+
+    const tabsRow = document.createElement("div");
+    tabsRow.className = "spiritTabs";
+
+    const panels = document.createElement("div");
+    panels.className = "spiritPanels";
+
+    const keys = Object.keys(cfg.tabs);
+    keys.forEach((k, idx) => {
       const btn = document.createElement("button");
-      btn.className = "chip";
       btn.type = "button";
-      btn.dataset.cat = catKey;
-      btn.textContent = cat.label || catKey;
+      btn.className = "chip spiritChip" + (idx===0 ? " active" : "");
+      btn.textContent = k;
+      btn.dataset.spirit = k;
 
-      if (catKey === activeCat[scopeName]) btn.classList.add("active");
+      const panel = document.createElement("div");
+      panel.className = "spiritPanel" + (idx===0 ? " active" : "");
+      panel.dataset.panel = k;
 
-      btn.addEventListener("click", () => {
-        activeCat[scopeName] = catKey;
-        $$(".chip", bar).forEach((c) => c.classList.remove("active"));
-        btn.classList.add("active");
-        renderCategoryBody(body, cat);
+      // rows
+      cfg.tabs[k].forEach(name => {
+        const row = document.createElement("div");
+        row.className = "rowItem";
+        row.innerHTML = `<span>${name}</span><span class="price">${cfg.price || ""}</span>`;
+        panel.appendChild(row);
       });
 
+      btn.addEventListener("click", () => {
+        qsa(".spiritChip", tabsRow).forEach(x => x.classList.remove("active"));
+        qsa(".spiritPanel", panels).forEach(x => x.classList.remove("active"));
+        btn.classList.add("active");
+        panel.classList.add("active");
+      });
+
+      tabsRow.appendChild(btn);
+      panels.appendChild(panel);
+    });
+
+    wrap.appendChild(tabsRow);
+    wrap.appendChild(panels);
+    return wrap;
+  }
+
+  function renderSubTabs(cfg){
+    // generic sub-tabs (Wine/Beer/NA) or Hookah/Tower/Fishbowl
+    const wrap = document.createElement("div");
+
+    const tabRow = document.createElement("div");
+    tabRow.className = "tierRow";
+
+    const panels = document.createElement("div");
+    panels.className = "subPanels";
+
+    const keys = Object.keys(cfg.tabs);
+    keys.forEach((k, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip subChip" + (idx===0 ? " active" : "");
+      btn.textContent = k;
+      btn.dataset.tab = k;
+
+      const panel = document.createElement("div");
+      panel.className = "subPanel" + (idx===0 ? " active" : "");
+      panel.dataset.panel = k;
+
+      // render list as chips by default
+      panel.appendChild(renderChips(cfg.tabs[k]));
+
+      btn.addEventListener("click", () => {
+        qsa(".subChip", tabRow).forEach(x => x.classList.remove("active"));
+        qsa(".subPanel", panels).forEach(x => x.classList.remove("active"));
+        btn.classList.add("active");
+        panel.classList.add("active");
+      });
+
+      tabRow.appendChild(btn);
+      panels.appendChild(panel);
+    });
+
+    wrap.appendChild(tabRow);
+    wrap.appendChild(panels);
+    return wrap;
+  }
+
+  function renderScope(scopeKey, data){
+    const bar = qs(`.catBar[data-scope="${scopeKey}"]`);
+    const body = qs(`.catBody[data-scopebody="${scopeKey}"]`);
+    if(!bar || !body) return;
+
+    // Build category buttons
+    const keys = Object.keys(data);
+    keys.forEach((key, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "catBtn" + (idx===0 ? " active" : "");
+      btn.textContent = data[key].label;
+      btn.dataset.cat = key;
       bar.appendChild(btn);
     });
 
-    // body
-    renderCategoryBody(body, categories[activeCat[scopeName]]);
-  }
+    // Render first category by default
+    function showCategory(catKey){
+      body.innerHTML = "";
+      qsa(".catBtn", bar).forEach(b => b.classList.toggle("active", b.dataset.cat === catKey));
 
-  function renderCategoryBody(bodyEl, category) {
-    bodyEl.innerHTML = "";
-    if (!category) return;
+      const cfg = data[catKey];
 
-    (category.blocks || []).forEach((block) => {
-      // Title (small)
-      if (block.title) {
-        const h = document.createElement("div");
-        h.className = "catMiniTitle";
-        h.textContent = block.title;
-        bodyEl.appendChild(h);
+      if(cfg.type === "chips"){
+        body.appendChild(renderChips(cfg.items || []));
+      } else if(cfg.type === "list"){
+        body.appendChild(renderList(cfg.items || []));
+      } else if(cfg.type === "spiritTabs"){
+        body.appendChild(renderSpiritTabs(cfg));
+      } else if(cfg.type === "wbnaTabs" || cfg.type === "hookahTabs"){
+        body.appendChild(renderSubTabs(cfg));
+      } else {
+        body.appendChild(renderChips(["(No items yet)"]));
       }
+    }
 
-      // Items (render in your existing row style)
-      (block.items || []).forEach((it) => {
-        // String item
-        if (typeof it === "string") {
-          const row = document.createElement("div");
-          row.className = "rowItem";
-          row.innerHTML = `<span>${it}</span><span class="price"></span>`;
-          bodyEl.appendChild(row);
-          return;
-        }
+    // click binding
+    qsa(".catBtn", bar).forEach(btn => {
+      btn.addEventListener("click", () => showCategory(btn.dataset.cat));
+    });
 
-        // Object item: {name, note, price}
-        const row = document.createElement("div");
-        row.className = "rowItem";
-        row.innerHTML = `
-          <span>${it.name || ""}</span>
-          <span class="price">${it.price || ""}</span>
-        `;
-        bodyEl.appendChild(row);
+    // Default to first
+    showCategory(keys[0]);
+  }
 
-        if (it.note) {
-          const note = document.createElement("div");
-          note.className = "rowNote";
-          note.textContent = it.note;
-          bodyEl.appendChild(note);
+  // ========= 4) ACCORDION =========
+  function setupAccordion(){
+    // close all first
+    qsa(".accordionContent").forEach(c => c.style.display = "none");
+
+    qsa(".accordionMain").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.acc;
+        const body = qs(`.accordionContent[data-accbody="${id}"]`);
+        if(!body) return;
+
+        const open = body.style.display === "block";
+        // close both
+        qsa(".accordionContent").forEach(c => c.style.display = "none");
+        qsa(".accordionMain .arrow").forEach(a => a.textContent = "+");
+
+        // open clicked
+        if(!open){
+          body.style.display = "block";
+          qs(".arrow", btn).textContent = "–";
         }
       });
     });
+
+    // Open HAPPY by default
+    const happyBody = qs(`.accordionContent[data-accbody="happy"]`);
+    const happyBtn = qs(`.accordionMain[data-acc="happy"] .arrow`);
+    if(happyBody){
+      happyBody.style.display = "block";
+      if(happyBtn) happyBtn.textContent = "–";
+    }
   }
 
-  // ----------------------------
-  // ACCORDION
-  // ----------------------------
-  function setupAccordions() {
-    $$(".accordionMain").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const key = btn.getAttribute("data-acc");
-        const panel = document.querySelector(`.accordionContent[data-accbody="${key}"]`);
-        if (!panel) return;
+  // ========= 5) DAY SWITCH =========
+  function activateDay(dayKey){
+    const dayData = resolveDayData(dayKey);
 
-        const willOpen = !panel.classList.contains("open");
-        panel.classList.toggle("open", willOpen);
+    // update hero text
+    setHero(dayKey);
 
-        const arrow = btn.querySelector(".arrow");
-        if (arrow) arrow.textContent = willOpen ? "–" : "+";
-      });
-    });
+    // reset accordions + content so nothing carries over
+    clearPanel("happy");
+    clearPanel("late");
 
-    // open both by default
-    const happyPanel = $('.accordionContent[data-accbody="happy"]');
-    const latePanel = $('.accordionContent[data-accbody="late"]');
-    if (happyPanel) happyPanel.classList.add("open");
-    if (latePanel) latePanel.classList.add("open");
-    const happyArrow = $('.accordionMain[data-acc="happy"] .arrow');
-    const lateArrow = $('.accordionMain[data-acc="late"] .arrow');
-    if (happyArrow) happyArrow.textContent = "–";
-    if (lateArrow) lateArrow.textContent = "–";
+    // render
+    renderScope("happy", dayData.happy);
+    renderScope("late", dayData.late);
+
+    // reset accordion open state
+    setupAccordion();
+
+    // save
+    try { localStorage.setItem("activeDay", dayKey); } catch(e){}
   }
 
-  // ----------------------------
-  // DAY BUTTONS
-  // ----------------------------
-  function setupDayButtons() {
-    $$(".dayBtn").forEach((btn) => {
+  function setupDays(){
+    const buttons = qsa(".dayBtn");
+    buttons.forEach(btn => {
       btn.addEventListener("click", () => {
-        $$(".dayBtn").forEach((b) => b.classList.remove("active"));
+        buttons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        renderDay(btn.dataset.day);
+        activateDay(btn.dataset.day);
       });
     });
+
+    const start = (location.hash || "").replace("#","") || (localStorage.getItem("activeDay") || "monday");
+    const startBtn = buttons.find(b => b.dataset.day === start) || buttons[0];
+    if(startBtn){
+      buttons.forEach(b => b.classList.remove("active"));
+      startBtn.classList.add("active");
+      activateDay(startBtn.dataset.day);
+    }
   }
 
-  // ----------------------------
-  // INIT
-  // ----------------------------
+  // ========= 6) INIT =========
   document.addEventListener("DOMContentLoaded", () => {
-    setupAccordions();
-    setupDayButtons();
-
-    // default to the day button that already has .active (if any)
-    const activeBtn = $(".dayBtn.active");
-    activeDayKey = activeBtn?.dataset.day || "tuesday";
-
-    renderDay(activeDayKey);
+    setupDays();
+    setupAccordion();
   });
 })();
