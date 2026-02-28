@@ -49,7 +49,7 @@ const MENU_DATA = {
     /* NEW: FOOD category for Happy Hour tabs */
     food: {
       title: "Food (Happy Hour)",
-      type: "foodBlock",
+      type: "foodFull",
       items: [
         ["Wings (6pc)", "$12", "Buffalo • Honey Garlic • Lemon Pepper"],
         ["Fries", "$6", "Classic • Loaded (+$4)"],
@@ -272,21 +272,13 @@ function renderCategory(scopeKey, catKey) {
     wrap.appendChild(two);
   }
 
-  if (data.type === "spiritCols") {
-    const flow = document.createElement("div");
-    flow.className = "twoCols";
-    Object.entries(data.cols).forEach(([title, items]) => {
-      const box = document.createElement("div");
-      box.className = "colBox";
-      box.appendChild(el(`<div class="colTitle">${title}</div>`));
-      const ul = document.createElement("ul");
-      ul.className = "bullets";
-      items.forEach(i => ul.appendChild(el(`<li>${i}</li>`)));
-      box.appendChild(ul);
-      flow.appendChild(box);
-    });
-    wrap.appendChild(flow);
-  }
+  ifffffffffff
+
+
+
+
+
+   
 
   /* NEW: food block renderer */
   if (data.type === "foodBlock") {
