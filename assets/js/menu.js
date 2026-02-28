@@ -179,7 +179,87 @@ const MENU_DATA = {
   /* Tuesday late kept as-is (you can update later if you want) */
   "tuesday-late": {
     
-d
+food: {
+  title: "Food Menu",
+  type: "foodFull",
+
+  appetizers: [
+    ["Salmon Sliders w/ Fries", "$12"],
+    ["Beef Sliders w/ Fries", "$10"],
+    ["Mozzarella Sticks", "$7"],
+    ["Fried Pickles", "$5"],
+    ["Chips & Salsa", "$5"],
+    ["Onion Rings", "$7"],
+    ["Fries", "$5"]
+  ],
+
+  wings: [
+    ["12 pcs w/ Fries", "$16"],
+    ["8 pcs w/ Fries", "$14"],
+    ["6 pcs w/ Fries", "$12"],
+    ["12 pcs", "$14"],
+    ["8 pcs", "$10"],
+    ["6 pcs", "$8"]
+  ],
+
+  quesadillas: [
+    ["Cheese", "$8"],
+    ["Chicken", "$10"],
+    ["Shrimp", "$12"],
+    ["Salmon", "$14"]
+  ],
+
+  pasta: [
+    ["Chicken", "$16"],
+    ["Shrimp", "$18"],
+    ["Salmon", "$20"]
+  ],
+
+  salads: [
+    ["Salad", "$8"],
+    ["Chicken", "$10"],
+    ["Shrimp", "$12"],
+    ["Salmon", "$13"]
+  ],
+
+  dinner: [
+    ["Salmon (Yellow Rice & Broccoli)", "$20"],
+    ["General Tso (Yellow Rice & Broccoli)", "$18"],
+    ["Beef Burger w/ Fries", "$13"],
+    ["Fried Shrimp Basket", "$18"],
+    ["Crab Fries Basket", "$18"],
+    ["Fried Whiting Basket", "$15"],
+    ["Salmon Nugget Basket", "$15"],
+    ["Catfish Nuggets Basket", "$18"]
+  ],
+
+  tacos: [
+    ["Shrimp", "$16"],
+    ["Chicken", "$14"]
+  ],
+
+  upcharge: [
+    ["Add Chicken", "$4"],
+    ["Add Shrimp", "$5"],
+    ["Add Salmon", "$6"]
+  ],
+
+  flavorsWet: [
+    "Honey Lemon Pepper",
+    "Honey Old Bay",
+    "Buffalo BBQ",
+    "Honey Sazon",
+    "Sweet Chili",
+    "Teriyaki",
+    "Mumbo"
+  ],
+
+  flavorsDry: [
+    "Lemon Pepper",
+    "Jerk Rub",
+    "Old Bay"
+  ]
+}
 
 
      shots7: { title: "$7 Shots", type: "simpleList", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] },
