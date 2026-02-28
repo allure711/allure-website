@@ -329,7 +329,6 @@ function initCategoryBars() {
 }
 
 /* ---------- Day tabs wiring ---------- */
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 function initDayTabs() {
   const tabs = [...document.querySelectorAll(".dayTab")];
   const panels = [...document.querySelectorAll(".dayPanel")];
@@ -338,18 +337,39 @@ function initDayTabs() {
     t.addEventListener("click", () => {
       const key = t.getAttribute("data-daytab");
 
+      // activate tab
       tabs.forEach(x => x.classList.remove("active"));
       t.classList.add("active");
 
+      // activate panel
       panels.forEach(p => p.classList.remove("active"));
       const panel = document.querySelector(`.dayPanel[data-daypanel="${key}"]`);
       if (panel) panel.classList.add("active");
 
-      initCategoryBars();
+      // 🔥 IMPORTANT FIX:
+      // Only initialize category bars INSIDE the active panel
+      const scopedBars = panel.querySelectorAll("[data-scope]");
+      scopedBars.forEach(bar => {
+        const scopeKey = bar.getAttribute("data-scope");
+        const buttons = [...bar.querySelectorAll(".cat")];
+
+        const activate = (btn) => {
+          buttons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          const catKey = btn.getAttribute("data-cat");
+          renderCategory(scopeKey, catKey);
+        };
+
+        buttons.forEach(btn => {
+          btn.onclick = () => activate(btn); // prevents stacking
+        });
+
+        const first = buttons.find(b => b.classList.contains("active")) || buttons[0];
+        if (first) activate(first);
+      });
     });
   });
 }
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 /* ---------- Bottle pills (simple placeholder) ---------- */
 function initBottlePills() {
