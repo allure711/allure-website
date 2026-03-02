@@ -311,7 +311,39 @@ function renderCategory(scopeKey, catKey) {
 }
 
 /* ---------- Bind category bars ONCE ---------- */
-fffffff
+function bindCategoryBarsOnce(root = document) {
+  root.querySelectorAll("[data-scope]").forEach(bar => {
+    if (bar.dataset.bound === "1") return;
+    bar.dataset.bound = "1";
+
+    bar.addEventListener("click", (e) => {
+      const btn = e.target.closest(".cat");
+      if (!btn || !bar.contains(btn)) return;
+
+      const scopeKey = bar.getAttribute("data-scope");
+      const catKey = btn.getAttribute("data-cat");
+
+      const isAlreadyActive = btn.classList.contains("active");
+      const isFocus = bar.classList.contains("is-focus");
+
+      // If user clicks the ACTIVE chip again, toggle focus mode OFF (bring all chips back)
+      if (isAlreadyActive && isFocus) {
+        bar.classList.remove("is-focus");
+        return;
+      }
+
+      // Activate the clicked chip
+      bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // Turn focus mode ON (hide other chips)
+      bar.classList.add("is-focus");
+
+      // Render content
+      renderCategory(scopeKey, catKey);
+    });
+  });
+}
 
 function renderInitialActiveCategories(root = document) {
   root.querySelectorAll("[data-scope]").forEach(bar => {
