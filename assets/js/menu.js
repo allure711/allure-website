@@ -311,24 +311,7 @@ function renderCategory(scopeKey, catKey) {
 }
 
 /* ---------- Bind category bars ONCE ---------- */
-function bindCategoryBarsOnce(root = document) {
-  root.querySelectorAll("[data-scope]").forEach(bar => {
-    if (bar.dataset.bound === "1") return;
-    bar.dataset.bound = "1";
-
-    bar.addEventListener("click", (e) => {
-      const btn = e.target.closest(".cat");
-      if (!btn || !bar.contains(btn)) return;
-
-      bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const scopeKey = bar.getAttribute("data-scope");
-      const catKey = btn.getAttribute("data-cat");
-      renderCategory(scopeKey, catKey);
-    });
-  });
-}
+fffffff
 
 function renderInitialActiveCategories(root = document) {
   root.querySelectorAll("[data-scope]").forEach(bar => {
