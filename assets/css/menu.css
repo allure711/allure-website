@@ -354,30 +354,3 @@
   .menuSplit { grid-template-columns: 1fr; }
   .dayName { font-size: 34px; }
 }
-/* =========================
-   Focus Mode (show ONLY the clicked category)
-   ========================= */
-
-/* When a catBar is in focus mode, hide all chips except the active one */
-.catBar.is-focus .cat:not(.active) {
-  display: none;
-}
-
-/* Make the active chip look like a "header" when focused */
-.catBar.is-focus .cat.active {
-  width: 100%;
-  justify-content: center;
-  padding: 10px 14px;
-  border-radius: 14px;
-}
-
-/* Optional: make the content area feel more "spotlighted" */
-.catBar.is-focus + .catBody {
-  box-shadow: 0 0 0 1px rgba(255, 212, 90, .14), 0 18px 60px rgba(0,0,0,.45);
-}
-.eventTitle{
-  font-size:18px;
-  font-weight:900;
-  letter-spacing:.12em;
-  color:#ffd45a;
-}
