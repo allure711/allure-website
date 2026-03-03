@@ -375,3 +375,9 @@
 .catBar.is-focus + .catBody {
   box-shadow: 0 0 0 1px rgba(255, 212, 90, .14), 0 18px 60px rgba(0,0,0,.45);
 }
+.eventTitle{
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.12em;
+  color:#ffd45a;
+}
