@@ -1,3 +1,7 @@
+/* =========================
+   GLOBAL BASE STYLES
+   ========================= */
+
 body {
   margin:0;
   font-family:Arial, sans-serif;
@@ -5,44 +9,130 @@ body {
   color:white;
 }
 
+/* Layout container */
 .container {
   width:90%;
-  max-width:1100px;
+  max-width:1280px;
   margin:auto;
 }
 
-.header {
+/* =========================
+   HEADER
+   ========================= */
+
+.header,
+.header--menu {
   background:#111;
   padding:15px 0;
 }
 
-.header__inner {
+.header__inner,
+.headerRow {
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.nav__list {
-  display:flex;
-  gap:20px;
-  list-style:none;
-}
-
-.nav__list a {
+/* Logo */
+.brand{
+  font-weight:900;
+  font-size:18px;
   color:white;
   text-decoration:none;
 }
 
-.hero {
+/* =========================
+   NAVIGATION
+   ========================= */
+
+.nav__list,
+.nav_list{
+  display:flex;
+  gap:20px;
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.nav__list a,
+.nav_list a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.nav__list a:hover,
+.nav_list a:hover{
+  color:#ffd45a;
+}
+
+/* Menu button (mobile) */
+.nav_toggle{
+  display:none;
+  background:none;
+  border:none;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* =========================
+   HERO SECTION
+   ========================= */
+
+.hero{
   padding:100px 0;
   text-align:center;
 }
 
-.btn {
+.hero h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  opacity:.8;
+}
+
+/* =========================
+   BUTTON
+   ========================= */
+
+.btn{
   display:inline-block;
-  padding:10px 20px;
+  padding:12px 22px;
   background:gold;
   color:black;
   text-decoration:none;
-  border-radius:6px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width:768px){
+
+  .nav_toggle{
+    display:block;
+  }
+
+  .nav__list,
+  .nav_list{
+    position:absolute;
+    top:70px;
+    right:20px;
+    flex-direction:column;
+    background:#111;
+    padding:15px;
+    border-radius:10px;
+    display:none;
+  }
+
+  .nav__list.is-open,
+  .nav_list.is-open{
+    display:flex;
+  }
+
 }
