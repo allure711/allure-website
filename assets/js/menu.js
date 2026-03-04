@@ -1,21 +1,19 @@
 /* =========================
-   Menu Page JS (STABLE)
-   - Day tabs work (all 7 days)
+   Menu Page JS (CLEAN + WORKING)
+   - Day tabs
    - Category click -> render
+   - Focus mode: hide everything except clicked category (within that panel section)
+   - Back button to restore
    - Tue–Sat share same menus
    - Sun + Mon share same menus
-   - Food includes Flavors inside Food
-   - LIMITED TABLES tag:
-       • Thursday after 9pm
-       • Saturday after 10pm
-       • Sunday after 10pm
-   - Bottle pills
-   - Scroll reveal
+   - Food includes flavors
+   - LIMITED TABLES tag rules kept
+   - Scroll fade animations kept
    ========================= */
 
 const PHONE = "+12025550123";
 
-/* ---------- Food Block ---------- */
+/* ---------- Food block ---------- */
 const FOOD_BLOCK = {
   title: "Food",
   type: "foodBlock",
@@ -39,13 +37,13 @@ const HH_TUE_SAT = {
     title: "$5 Shots",
     type: "spiritCols",
     cols: {
-      Vodka: ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
-      Tequila: ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
-      Whiskey: ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
-      Liqueur: ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
-      Cognac: ["Courvoisier","Hennessy"],
-      Rum: ["Bacardi","Captain Morgan","Malibu","Myers"],
-      Gin: ["Bombay","Roku","Tanqueray"]
+      "Vodka": ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
+      "Tequila": ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
+      "Whiskey": ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
+      "Liqueur": ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
+      "Cognac": ["Courvoisier","Hennessy"],
+      "Rum": ["Bacardi","Captain Morgan","Malibu","Myers"],
+      "Gin": ["Bombay","Roku","Tanqueray"]
     }
   },
 
@@ -53,13 +51,13 @@ const HH_TUE_SAT = {
     title: "$10 Drinks",
     type: "spiritCols",
     cols: {
-      Vodka: ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
-      Tequila: ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
-      Whiskey: ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
-      Liqueur: ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
-      Cognac: ["Courvoisier","Hennessy"],
-      Rum: ["Bacardi","Captain Morgan","Malibu","Myers"],
-      Gin: ["Bombay","Roku","Tanqueray"]
+      "Vodka": ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
+      "Tequila": ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
+      "Whiskey": ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
+      "Liqueur": ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
+      "Cognac": ["Courvoisier","Hennessy"],
+      "Rum": ["Bacardi","Captain Morgan","Malibu","Myers"],
+      "Gin": ["Bombay","Roku","Tanqueray"]
     }
   },
 
@@ -81,7 +79,7 @@ const HH_TUE_SAT = {
       ["Manhattan", "Basil Hayden, Sweet Vermouth & Bitters"],
       ["Mint Julep", "Jim Beam, Mint Leaves & Simple Syrup"],
       ["Mojito", "Captain Morgan, Lime Juice, Mint Leaves & Simple Syrup topped w/ Soda Water"],
-      ["Moscow Mule", "Titos, Lime Juice & Ginger Beer"],
+      ["Moscow Mule", "Tito’s, Lime Juice & Ginger Beer"],
       ["Old Fashion", "Bulleit, Simple Syrup & Bitters"],
       ["Orange Martini", "Orange Stoli, Lime Juice, Triple Sec, Orange Juice"],
       ["Red or White Sangria", "Red/White Wine, Fruit, Triple Sec topped w/ Soda Water"],
@@ -90,17 +88,8 @@ const HH_TUE_SAT = {
     ]
   },
 
-  shots7: {
-    title: "$7 Shots",
-    type: "simpleList",
-    items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"]
-  },
-
-  drinks14: {
-    title: "$14 Drinks",
-    type: "simpleList",
-    items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"]
-  },
+  shots7: { title: "$7 Shots", type: "simpleList", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] },
+  drinks14: { title: "$14 Drinks", type: "simpleList", items: ["(Same brands list as $7 tier)"] },
 
   premium: {
     title: "Premium",
@@ -113,9 +102,7 @@ const HH_TUE_SAT = {
 
   wine6: { title: "$6 Wine", type: "simpleList", items: ["Cabernet Sauvignon","Chardonnay","Merlot","Moscato (Red/White)","Pinot Grigio","Sauvignon Blanc","Sweet Red"] },
   beer4: { title: "$4 Beer", type: "simpleList", items: ["Angry Orchard","Corona","Guinness","Heineken","Modelo","Stella","Goose Island IPA","Voodoo Ranger IPA"] },
-
   highnoon8: { title: "$8 High Noon", type: "twoCols", leftTitle: "Vodka", rightTitle: "Tequila", left: ["Grapefruit","Mango"], right: ["Lime","Strawberry"] },
-
   na: { title: "Non-Alcoholic", type: "pricedList", items: [["Red Bull", "$5"],["Ginger Beer", "$5"],["Frozen Drinks", "$5"],["Soda", "$3"],["Juice", "$3"],["Water", "$3"]] },
 
   hookah23: {
@@ -137,10 +124,9 @@ const HH_TUE_SAT = {
   },
 
   tower43: { title: "$43 Tower", type: "simpleList", items: ["Ask server for flavors / specials"] },
-  fishbowl23: { title: "$23 Fishbowl", type: "simpleList", items: ["Ask server for flavors / specials"] }
+  fishbowl23: { title: "$23 Fishbowl", type: "simpleList", items: ["Ask server for flavors / specials"] },
 };
 
-// Tue–Sat Late Night
 const LATE_TUE_SAT = {
   food: FOOD_BLOCK,
   shots7: HH_TUE_SAT.shots7,
@@ -152,10 +138,9 @@ const LATE_TUE_SAT = {
   na: HH_TUE_SAT.na,
   hookah23: HH_TUE_SAT.hookah23,
   tower43: HH_TUE_SAT.tower43,
-  fishbowl23: HH_TUE_SAT.fishbowl23
+  fishbowl23: HH_TUE_SAT.fishbowl23,
 };
 
-// Mon/Sun Happy Hour (simple)
 const HH_MON_SUN = {
   food: FOOD_BLOCK,
   shots5: { title: "$5 Shots", type: "simpleList", items: ["Vodka","Tequila","Whiskey","Liqueur","Rum","Gin","Cognac"] },
@@ -167,10 +152,9 @@ const HH_MON_SUN = {
   na: HH_TUE_SAT.na,
   hookah23: HH_TUE_SAT.hookah23,
   tower43: HH_TUE_SAT.tower43,
-  fishbowl23: HH_TUE_SAT.fishbowl23
+  fishbowl23: HH_TUE_SAT.fishbowl23,
 };
 
-// Mon/Sun Late Night (has refill12)
 const LATE_MON_SUN = {
   food: FOOD_BLOCK,
   shots7: HH_TUE_SAT.shots7,
@@ -180,10 +164,10 @@ const LATE_MON_SUN = {
   beer4: HH_TUE_SAT.beer4,
   highnoon8: HH_TUE_SAT.highnoon8,
   na: HH_TUE_SAT.na,
-  refill12: HH_TUE_SAT.refill12
+  refill12: HH_TUE_SAT.refill12,
 };
 
-// scope map (matches your HTML data-scope)
+/* ---------- Map to your HTML scopes ---------- */
 const MENU_DATA = {
   "monday-happy": HH_MON_SUN,
   "monday-late": LATE_MON_SUN,
@@ -204,10 +188,10 @@ const MENU_DATA = {
   "saturday-late": LATE_TUE_SAT,
 
   "sunday-happy": HH_MON_SUN,
-  "sunday-late": LATE_MON_SUN
+  "sunday-late": LATE_MON_SUN,
 };
 
-/* ---------- helpers ---------- */
+/* ---------- Helpers ---------- */
 function el(html) {
   const d = document.createElement("div");
   d.innerHTML = html.trim();
@@ -266,29 +250,36 @@ function renderCategory(scopeKey, catKey) {
 
     const ulL = document.createElement("ul"); ulL.className = "bullets";
     const ulR = document.createElement("ul"); ulR.className = "bullets";
+
     (data.left || []).forEach(i => ulL.appendChild(el(`<li>${i}</li>`)));
     (data.right || []).forEach(i => ulR.appendChild(el(`<li>${i}</li>`)));
 
     left.appendChild(ulL);
     right.appendChild(ulR);
+
     two.appendChild(left);
     two.appendChild(right);
+
     wrap.appendChild(two);
   }
 
   if (data.type === "spiritCols") {
     const grid = document.createElement("div");
     grid.className = "twoCols";
+
     Object.entries(data.cols).forEach(([title, items]) => {
       const box = document.createElement("div");
       box.className = "colBox";
       box.appendChild(el(`<div class="colTitle">${title}</div>`));
+
       const ul = document.createElement("ul");
       ul.className = "bullets";
       items.forEach(i => ul.appendChild(el(`<li>${i}</li>`)));
       box.appendChild(ul);
+
       grid.appendChild(box);
     });
+
     wrap.appendChild(grid);
   }
 
@@ -306,4 +297,223 @@ function renderCategory(scopeKey, catKey) {
     const ul = document.createElement("ul");
     ul.className = "bullets";
     (data.flavors || []).forEach(f => ul.appendChild(el(`<li>${f}</li>`)));
-    
+    box.appendChild(ul);
+
+    wrap.appendChild(box);
+  }
+
+  target.innerHTML = "";
+  target.appendChild(wrap);
+}
+
+/* ---------- Focus mode (hide everything except clicked category list) ---------- */
+function enterFocusMode(bar, scopeKey, catKey) {
+  const panel = bar.closest(".dayPanel");
+  if (!panel) return;
+
+  // Hide EVERYTHING inside this day panel except the menuCard that contains this bar
+  const keepCard = bar.closest(".menuCard");
+  panel.querySelectorAll(".menuCard").forEach(card => {
+    if (card !== keepCard) card.classList.add("isHidden");
+  });
+
+  // Hide the chip bar itself
+  bar.style.display = "none";
+
+  // Render selected category
+  renderCategory(scopeKey, catKey);
+
+  // Add Back button (only one)
+  const target = panel.querySelector(`[data-scopebody="${scopeKey}"]`);
+  if (!target) return;
+
+  if (!target.querySelector(".backBtn")) {
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "backBtn";
+    back.textContent = "← Back to Menu";
+
+    back.addEventListener("click", () => {
+      // Show all cards again
+      panel.querySelectorAll(".menuCard").forEach(card => card.classList.remove("isHidden"));
+
+      // Show the chip bar again
+      bar.style.display = "flex";
+
+      // Restore normal category rendering (use active chip)
+      renderInitialActiveCategories(panel);
+
+      back.remove();
+    });
+
+    target.prepend(back);
+  }
+}
+
+/* ---------- Category bars ---------- */
+function bindCategoryBarsOnce(root = document) {
+  root.querySelectorAll("[data-scope]").forEach(bar => {
+    if (bar.dataset.bound === "1") return;
+    bar.dataset.bound = "1";
+
+    bar.addEventListener("click", (e) => {
+      const btn = e.target.closest(".cat");
+      if (!btn || !bar.contains(btn)) return;
+
+      // Mark active chip
+      bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const scopeKey = bar.getAttribute("data-scope");
+      const catKey = btn.getAttribute("data-cat");
+
+      // Focus mode (your request)
+      enterFocusMode(bar, scopeKey, catKey);
+    });
+  });
+}
+
+function renderInitialActiveCategories(root = document) {
+  root.querySelectorAll("[data-scope]").forEach(bar => {
+    const scopeKey = bar.getAttribute("data-scope");
+    const buttons = [...bar.querySelectorAll(".cat")];
+    if (!buttons.length) return;
+
+    const active = buttons.find(b => b.classList.contains("active")) || buttons[0];
+    renderCategory(scopeKey, active.getAttribute("data-cat"));
+  });
+}
+
+/* ---------- Day tabs ---------- */
+function bindDayTabsOnce() {
+  const tabs = [...document.querySelectorAll(".dayTab")];
+  const panels = [...document.querySelectorAll(".dayPanel")];
+
+  tabs.forEach(t => {
+    if (t.dataset.bound === "1") return;
+    t.dataset.bound = "1";
+
+    t.addEventListener("click", () => {
+      const key = t.getAttribute("data-daytab");
+
+      tabs.forEach(x => x.classList.remove("active"));
+      t.classList.add("active");
+
+      panels.forEach(p => p.classList.remove("active"));
+      const panel = document.querySelector(`.dayPanel[data-daypanel="${key}"]`);
+      if (panel) panel.classList.add("active");
+
+      // Make sure category bars are bound and first category is rendered
+      bindCategoryBarsOnce(panel || document);
+      renderInitialActiveCategories(panel || document);
+
+      updateLimitedTablesTag();
+      revealOnScrollTick();
+    });
+  });
+}
+
+/* ---------- Bottles ---------- */
+function initBottlePills() {
+  const pills = [...document.querySelectorAll(".pillRow .pill")];
+  const list = document.getElementById("bottleList");
+  if (!pills.length || !list) return;
+
+  const data = {
+    standard: [
+      ["Don Julio Blanco", "$220"],
+      ["Casamigos Reposado", "$240"],
+      ["Hennessy VS", "$220"]
+    ],
+    premium: [
+      ["Don Julio 1942", "$650"],
+      ["Clase Azul", "$650"],
+      ["Hennessy XO", "$550"]
+    ],
+    vip: [
+      ["Ace of Spades", "$900"],
+      ["Don Julio 1942 (VIP)", "$750"],
+      ["Clase Azul Gold", "$900"]
+    ]
+  };
+
+  const paint = (key) => {
+    list.innerHTML = "";
+    (data[key] || []).forEach(([name, price]) => {
+      list.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
+    });
+    list.appendChild(el(`<div class="muted" style="margin-top:10px;">(Replace these prices with your real list anytime.)</div>`));
+  };
+
+  pills.forEach(p => {
+    if (p.dataset.bound === "1") return;
+    p.dataset.bound = "1";
+
+    p.addEventListener("click", () => {
+      pills.forEach(x => x.classList.remove("active"));
+      p.classList.add("active");
+      paint(p.getAttribute("data-bottle"));
+    });
+  });
+
+  paint("standard");
+}
+
+/* ---------- LIMITED TABLES logic ---------- */
+function updateLimitedTablesTag() {
+  const activePanel = document.querySelector(".dayPanel.active");
+  if (!activePanel) return;
+
+  const day = activePanel.getAttribute("data-daypanel");
+  const tag = activePanel.querySelector("[data-limited-tag]");
+  if (!tag) return;
+
+  const now = new Date();
+  const hour = now.getHours();
+
+  let show = false;
+  if (day === "thursday" && hour >= 21) show = true;
+  if (day === "saturday" && hour >= 22) show = true;
+  if (day === "sunday" && hour >= 22) show = true;
+
+  tag.style.display = show ? "inline-flex" : "none";
+}
+
+/* ---------- Scroll reveal ---------- */
+let io = null;
+
+function initRevealObserver() {
+  const els = document.querySelectorAll(".reveal");
+  if (!els.length) return;
+
+  if ("IntersectionObserver" in window) {
+    io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("inView");
+      });
+    }, { threshold: 0.12 });
+
+    els.forEach(el => io.observe(el));
+  } else {
+    els.forEach(el => el.classList.add("inView"));
+  }
+}
+
+function revealOnScrollTick() {
+  document.querySelectorAll(".dayPanel.active .reveal").forEach(el => {
+    el.classList.add("inView");
+  });
+}
+
+/* ---------- Boot ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  bindDayTabsOnce();
+  bindCategoryBarsOnce(document);
+  renderInitialActiveCategories(document);
+
+  initBottlePills();
+  initRevealObserver();
+
+  updateLimitedTablesTag();
+  setInterval(updateLimitedTablesTag, 60 * 1000);
+});
