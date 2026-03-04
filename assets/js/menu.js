@@ -316,7 +316,34 @@ function bindCategoryBarsOnce(root = document) {
     if (bar.dataset.bound === "1") return;
     bar.dataset.bound = "1";
 
-    ?
+    bar.addEventListener("click", (e) => {
+  const btn = e.target.closest(".cat");
+  if (!btn || !bar.contains(btn)) return;
+
+  const scopeKey = bar.getAttribute("data-scope");
+  const catKey = btn.getAttribute("data-cat");
+
+  /* Hide category bar for focus mode */
+  bar.style.display = "none";
+
+  renderCategory(scopeKey, catKey);
+
+  /* Add back button */
+  const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
+
+  const back = document.createElement("button");
+  back.textContent = "← Back to Menu";
+  back.className = "cat";
+  back.style.marginBottom = "10px";
+
+  back.onclick = () => {
+    bar.style.display = "flex";
+    renderInitialActiveCategories();
+    back.remove();
+  };
+
+  target.prepend(back);
+});
 
 function renderInitialActiveCategories(root = document) {
   root.querySelectorAll("[data-scope]").forEach(bar => {
