@@ -19,18 +19,7 @@ const PHONE = "+12025550123";
    MENU DATA
    ========================= */
 
-const FOOD_BLOCK = {
-  title: "Food",
-  type: "foodBlock",
-  items: [
-    ["Wings (6pc)", "$12", "Buffalo • Honey Garlic • Lemon Pepper"],
-    ["Fries", "$6", "Classic • Loaded (+$4)"],
-    ["Salmon Nuggets Basket", "$15", "Crispy bites • House sauce"],
-    ["Rasta Pasta", "$16+", "Chicken $16 • Shrimp $18 • Salmon $20"]
-  ],
-  flavorsTitle: "Sauces / Flavors",
-  flavors: ["Buffalo", "Honey Garlic", "Lemon Pepper", "Mild", "BBQ"]
-};
+?
 
 // Tue–Sat Happy Hour (full set)
 const HH_TUE_SAT = {
