@@ -354,3 +354,20 @@
   .menuSplit { grid-template-columns: 1fr; }
   .dayName { font-size: 34px; }
 }
+/* Focus mode helpers */
+.isHidden { display: none !important; }
+
+.backBtn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin: 0 0 10px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 212, 90, .55);
+  background: rgba(255, 212, 90, .12);
+  color: #ffd45a;
+  font-weight: 900;
+  cursor: pointer;
+}
+.backBtn:hover { transform: translateY(-1px); }
