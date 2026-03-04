@@ -306,3 +306,4 @@ function renderCategory(scopeKey, catKey) {
     const ul = document.createElement("ul");
     ul.className = "bullets";
     (data.flavors || []).forEach(f => ul.appendChild(el(`<li>${f}</li>`)));
+    
