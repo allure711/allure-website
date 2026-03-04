@@ -371,3 +371,7 @@
   cursor: pointer;
 }
 .backBtn:hover { transform: translateY(-1px); }
+.catBody .muted{
+  padding: 10px;
+  text-align: center;
+}
