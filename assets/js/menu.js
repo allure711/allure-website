@@ -1,19 +1,19 @@
 /* =========================
-   Menu Page JS (Full Clean)
+   Menu Page JS (CLEAN + WORKING)
    - Day tabs
    - Category click -> render
+   - Focus mode: hide everything except clicked category (within that panel section)
+   - Back button to restore
    - Tue–Sat share same menus
    - Sun + Mon share same menus
-   - Food includes Flavors inside Food
-   - LIMITED TABLES tag:
-       • Thursday after 9pm
-       • Saturday after 10pm
-       • Sunday after 10pm
-   - Scroll fade animations
+   - Food includes flavors
+   - LIMITED TABLES tag rules kept
+   - Scroll fade animations kept
    ========================= */
 
 const PHONE = "+12025550123";
 
+/* ---------- Food block ---------- */
 const FOOD_BLOCK = {
   title: "Food",
   type: "foodBlock",
@@ -29,7 +29,7 @@ const FOOD_BLOCK = {
 
 /* ---------- BASE MENUS ---------- */
 
-// Tue–Sat Happy Hour (your “full” set)
+// Tue–Sat Happy Hour (full)
 const HH_TUE_SAT = {
   food: FOOD_BLOCK,
 
@@ -47,7 +47,6 @@ const HH_TUE_SAT = {
     }
   },
 
-  // $10 drinks shows SAME list as $5 shots (only price changes)
   drinks10: {
     title: "$10 Drinks",
     type: "spiritCols",
@@ -128,7 +127,6 @@ const HH_TUE_SAT = {
   fishbowl23: { title: "$23 Fishbowl", type: "simpleList", items: ["Ask server for flavors / specials"] },
 };
 
-// Tue–Sat Late Night
 const LATE_TUE_SAT = {
   food: FOOD_BLOCK,
   shots7: HH_TUE_SAT.shots7,
@@ -143,7 +141,6 @@ const LATE_TUE_SAT = {
   fishbowl23: HH_TUE_SAT.fishbowl23,
 };
 
-// Mon/Sun Happy Hour (simpler but still VIP)
 const HH_MON_SUN = {
   food: FOOD_BLOCK,
   shots5: { title: "$5 Shots", type: "simpleList", items: ["Vodka","Tequila","Whiskey","Liqueur","Rum","Gin","Cognac"] },
@@ -158,7 +155,6 @@ const HH_MON_SUN = {
   fishbowl23: HH_TUE_SAT.fishbowl23,
 };
 
-// Mon/Sun Late Night (includes refill12)
 const LATE_MON_SUN = {
   food: FOOD_BLOCK,
   shots7: HH_TUE_SAT.shots7,
@@ -171,7 +167,7 @@ const LATE_MON_SUN = {
   refill12: HH_TUE_SAT.refill12,
 };
 
-/* ---------- Scope map (this is what your HTML uses) ---------- */
+/* ---------- Map to your HTML scopes ---------- */
 const MENU_DATA = {
   "monday-happy": HH_MON_SUN,
   "monday-late": LATE_MON_SUN,
@@ -195,7 +191,7 @@ const MENU_DATA = {
   "sunday-late": LATE_MON_SUN,
 };
 
-/* ---------- DOM helpers ---------- */
+/* ---------- Helpers ---------- */
 function el(html) {
   const d = document.createElement("div");
   d.innerHTML = html.trim();
@@ -310,40 +306,72 @@ function renderCategory(scopeKey, catKey) {
   target.appendChild(wrap);
 }
 
-/* ---------- Bind category bars ONCE ---------- */
+/* ---------- Focus mode (hide everything except clicked category list) ---------- */
+function enterFocusMode(bar, scopeKey, catKey) {
+  const panel = bar.closest(".dayPanel");
+  if (!panel) return;
+
+  // Hide EVERYTHING inside this day panel except the menuCard that contains this bar
+  const keepCard = bar.closest(".menuCard");
+  panel.querySelectorAll(".menuCard").forEach(card => {
+    if (card !== keepCard) card.classList.add("isHidden");
+  });
+
+  // Hide the chip bar itself
+  bar.style.display = "none";
+
+  // Render selected category
+  renderCategory(scopeKey, catKey);
+
+  // Add Back button (only one)
+  const target = panel.querySelector(`[data-scopebody="${scopeKey}"]`);
+  if (!target) return;
+
+  if (!target.querySelector(".backBtn")) {
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "backBtn";
+    back.textContent = "← Back to Menu";
+
+    back.addEventListener("click", () => {
+      // Show all cards again
+      panel.querySelectorAll(".menuCard").forEach(card => card.classList.remove("isHidden"));
+
+      // Show the chip bar again
+      bar.style.display = "flex";
+
+      // Restore normal category rendering (use active chip)
+      renderInitialActiveCategories(panel);
+
+      back.remove();
+    });
+
+    target.prepend(back);
+  }
+}
+
+/* ---------- Category bars ---------- */
 function bindCategoryBarsOnce(root = document) {
   root.querySelectorAll("[data-scope]").forEach(bar => {
     if (bar.dataset.bound === "1") return;
     bar.dataset.bound = "1";
 
     bar.addEventListener("click", (e) => {
-  const btn = e.target.closest(".cat");
-  if (!btn || !bar.contains(btn)) return;
+      const btn = e.target.closest(".cat");
+      if (!btn || !bar.contains(btn)) return;
 
-  const scopeKey = bar.getAttribute("data-scope");
-  const catKey = btn.getAttribute("data-cat");
+      // Mark active chip
+      bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
 
-  /* Hide category bar for focus mode */
-  bar.style.display = "none";
+      const scopeKey = bar.getAttribute("data-scope");
+      const catKey = btn.getAttribute("data-cat");
 
-  renderCategory(scopeKey, catKey);
-
-  /* Add back button */
-  const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
-
-  const back = document.createElement("button");
-  back.textContent = "← Back to Menu";
-  back.className = "cat";
-  back.style.marginBottom = "10px";
-
-  back.onclick = () => {
-    bar.style.display = "flex";
-    renderInitialActiveCategories();
-    back.remove();
-  };
-
-  target.prepend(back);
-});
+      // Focus mode (your request)
+      enterFocusMode(bar, scopeKey, catKey);
+    });
+  });
+}
 
 function renderInitialActiveCategories(root = document) {
   root.querySelectorAll("[data-scope]").forEach(bar => {
@@ -351,12 +379,12 @@ function renderInitialActiveCategories(root = document) {
     const buttons = [...bar.querySelectorAll(".cat")];
     if (!buttons.length) return;
 
-    const first = buttons.find(b => b.classList.contains("active")) || buttons[0];
-    renderCategory(scopeKey, first.getAttribute("data-cat"));
+    const active = buttons.find(b => b.classList.contains("active")) || buttons[0];
+    renderCategory(scopeKey, active.getAttribute("data-cat"));
   });
 }
 
-/* ---------- Day tabs ONCE ---------- */
+/* ---------- Day tabs ---------- */
 function bindDayTabsOnce() {
   const tabs = [...document.querySelectorAll(".dayTab")];
   const panels = [...document.querySelectorAll(".dayPanel")];
@@ -375,8 +403,10 @@ function bindDayTabsOnce() {
       const panel = document.querySelector(`.dayPanel[data-daypanel="${key}"]`);
       if (panel) panel.classList.add("active");
 
+      // Make sure category bars are bound and first category is rendered
       bindCategoryBarsOnce(panel || document);
       renderInitialActiveCategories(panel || document);
+
       updateLimitedTablesTag();
       revealOnScrollTick();
     });
@@ -418,6 +448,7 @@ function initBottlePills() {
   pills.forEach(p => {
     if (p.dataset.bound === "1") return;
     p.dataset.bound = "1";
+
     p.addEventListener("click", () => {
       pills.forEach(x => x.classList.remove("active"));
       p.classList.add("active");
@@ -440,10 +471,6 @@ function updateLimitedTablesTag() {
   const now = new Date();
   const hour = now.getHours();
 
-  // Requirements:
-  // - Thursday after 9pm
-  // - Saturday after 10pm
-  // - Sunday after 10pm
   let show = false;
   if (day === "thursday" && hour >= 21) show = true;
   if (day === "saturday" && hour >= 22) show = true;
@@ -452,8 +479,9 @@ function updateLimitedTablesTag() {
   tag.style.display = show ? "inline-flex" : "none";
 }
 
-/* ---------- Scroll fade animations ---------- */
+/* ---------- Scroll reveal ---------- */
 let io = null;
+
 function initRevealObserver() {
   const els = document.querySelectorAll(".reveal");
   if (!els.length) return;
@@ -467,13 +495,11 @@ function initRevealObserver() {
 
     els.forEach(el => io.observe(el));
   } else {
-    // fallback
     els.forEach(el => el.classList.add("inView"));
   }
 }
 
 function revealOnScrollTick() {
-  // Helps when switching days and new panels appear
   document.querySelectorAll(".dayPanel.active .reveal").forEach(el => {
     el.classList.add("inView");
   });
@@ -484,6 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindDayTabsOnce();
   bindCategoryBarsOnce(document);
   renderInitialActiveCategories(document);
+
   initBottlePills();
   initRevealObserver();
 
