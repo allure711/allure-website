@@ -1,19 +1,13 @@
 /* =========================
-   Menu Page JS (Clean + NO Auto-Open)
+   Menu Page JS (FIXED + NO Auto-Open)
    - Day tabs (Mon–Sun)
    - Category click -> render (NO default open)
-   - Tue–Sat share same menus
-   - Sun + Mon share same menus
-   - Food includes Flavors inside Food
    - Focus Mode: hide chips + show only selected category + Back button
-   - LIMITED TABLES tag:
-       • Thursday after 9pm
-       • Saturday after 10pm
-       • Sunday after 10pm
-   - Scroll fade animations
+   - LIMITED TABLES tag logic
+   - Scroll reveal
    ========================= */
 
-const PHONE = "+12025550123";
+const PHONE = "+12025550123"; // optional
 
 /* =========================
    MENU DATA
@@ -22,9 +16,7 @@ const PHONE = "+12025550123";
 const FOOD_BLOCK = {
   title: "Food",
   type: "foodBlock",
-
   sections: [
-
     {
       title: "Appetizers",
       items: [
@@ -34,10 +26,9 @@ const FOOD_BLOCK = {
         ["Fried Pickles", "$5"],
         ["Chips & Salsa", "$5"],
         ["Onion Rings", "$7"],
-        ["Fries", "$5"]
-      ]
+        ["Fries", "$5"],
+      ],
     },
-
     {
       title: "Wings",
       items: [
@@ -46,49 +37,44 @@ const FOOD_BLOCK = {
         ["6pc Wings w/ Fries", "$12"],
         ["12pc Wings Only", "$14"],
         ["8pc Wings Only", "$10"],
-        ["6pc Wings Only", "$8"]
-      ]
+        ["6pc Wings Only", "$8"],
+      ],
     },
-
     {
       title: "Quesadillas",
       items: [
         ["Cheese", "$8"],
         ["Chicken", "$10"],
         ["Shrimp", "$12"],
-        ["Salmon", "$14"]
-      ]
+        ["Salmon", "$14"],
+      ],
     },
-
     {
       title: "Rasta Pasta / Alfredo",
       items: [
         ["Chicken", "$16"],
         ["Shrimp", "$18"],
-        ["Salmon", "$20"]
-      ]
+        ["Salmon", "$20"],
+      ],
     },
-
     {
       title: "Salads",
       items: [
         ["House Salad", "$8"],
         ["Chicken Salad", "$10"],
         ["Shrimp Salad", "$12"],
-        ["Salmon Salad", "$13"]
+        ["Salmon Salad", "$13"],
       ],
-      note: "Dressings: Ranch • Blue Cheese • Italian • Balsamic Vinaigrette • Caesar"
+      note: "Dressings: Ranch • Blue Cheese • Italian • Balsamic Vinaigrette • Caesar",
     },
-
     {
       title: "Dinner",
       items: [
         ["Salmon (Yellow Rice & Broccoli)", "$20"],
         ["General Tso (Yellow Rice & Broccoli)", "$18"],
-        ["Beef Burger w/ Fries", "$13"]
-      ]
+        ["Beef Burger w/ Fries", "$13"],
+      ],
     },
-
     {
       title: "Seafood Baskets",
       items: [
@@ -96,19 +82,17 @@ const FOOD_BLOCK = {
         ["Crab Fries Basket", "$18"],
         ["Fried Whiting Basket", "$15"],
         ["Salmon Nugget Basket", "$15"],
-        ["Catfish Nuggets Basket", "$13"]
-      ]
+        ["Catfish Nuggets Basket", "$13"],
+      ],
     },
-
     {
       title: "Tacos",
       items: [
         ["Shrimp Tacos", "$16"],
-        ["Chicken Tacos", "$14"]
+        ["Chicken Tacos", "$14"],
       ],
-      note: "Lettuce • Cheese • Sour Cream • Salsa"
+      note: "Lettuce • Cheese • Sour Cream • Salsa",
     },
-
     {
       title: "Wing Flavors",
       items: [
@@ -121,11 +105,10 @@ const FOOD_BLOCK = {
         ["Mumbo", ""],
         ["Lemon Pepper (Dry)", ""],
         ["Jerk Rub (Dry)", ""],
-        ["Old Bay (Dry)", ""]
-      ]
-    }
-
-  ]
+        ["Old Bay (Dry)", ""],
+      ],
+    },
+  ],
 };
 
 // Tue–Sat Happy Hour (full set)
@@ -136,28 +119,28 @@ const HH_TUE_SAT = {
     title: "$5 Shots",
     type: "spiritCols",
     cols: {
-      "Vodka": ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
-      "Tequila": ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
-      "Whiskey": ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
-      "Liqueur": ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
-      "Cognac": ["Courvoisier","Hennessy"],
-      "Rum": ["Bacardi","Captain Morgan","Malibu","Myers"],
-      "Gin": ["Bombay","Roku","Tanqueray"]
-    }
+      Vodka: ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
+      Tequila: ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
+      Whiskey: ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
+      Liqueur: ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
+      Cognac: ["Courvoisier","Hennessy"],
+      Rum: ["Bacardi","Captain Morgan","Malibu","Myers"],
+      Gin: ["Bombay","Roku","Tanqueray"],
+    },
   },
 
   drinks10: {
     title: "$10 Drinks",
     type: "spiritCols",
     cols: {
-      "Vodka": ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
-      "Tequila": ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
-      "Whiskey": ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
-      "Liqueur": ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
-      "Cognac": ["Courvoisier","Hennessy"],
-      "Rum": ["Bacardi","Captain Morgan","Malibu","Myers"],
-      "Gin": ["Bombay","Roku","Tanqueray"]
-    }
+      Vodka: ["Absolut","Belvedere","Ciroc","Grey Goose","Kettle One","Stoli Orange","Titos"],
+      Tequila: ["1800 (Blanco/Repo)","Altos","Espolon","Hornitos","Jose Cuervo","Lunazul","Milagro","Teremana"],
+      Whiskey: ["Basil Hayden","Bulleit","Chivas Regal","Crown","Dewar’s","Fireball","Jack Daniels","Jameson","Jim Beam","Makers Mark","Woodford"],
+      Liqueur: ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
+      Cognac: ["Courvoisier","Hennessy"],
+      Rum: ["Bacardi","Captain Morgan","Malibu","Myers"],
+      Gin: ["Bombay","Roku","Tanqueray"],
+    },
   },
 
   cocktails10: {
@@ -183,8 +166,8 @@ const HH_TUE_SAT = {
       ["Orange Martini", "Orange Stoli, Lime Juice, Triple Sec, Orange Juice"],
       ["Red or White Sangria", "Red/White Wine, Fruit, Triple Sec topped w/ Soda Water"],
       ["Rum Punch", "Bacardi, Myers, Grenadine, Pineapple Juice, Orange Juice & Lime Juice"],
-      ["Strawberry Henny", "Hennessy, Strawberry Puree, Sour Mix & Triple Sec"]
-    ]
+      ["Strawberry Henny", "Hennessy, Strawberry Puree, Sour Mix & Triple Sec"],
+    ],
   },
 
   shots7: { title: "$7 Shots", type: "simpleList", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] },
@@ -196,7 +179,7 @@ const HH_TUE_SAT = {
     leftTitle: "$16 Shots • $32 Drinks",
     rightTitle: "$10 Shots • $20 Drinks",
     left: ["1942","Azul","D’usse XO","Remy XO"],
-    right: ["Gran Coramino","JW Black","JW Double Black","JW Gold"]
+    right: ["Gran Coramino","JW Black","JW Double Black","JW Gold"],
   },
 
   wine6: { title: "$6 Wine", type: "simpleList", items: ["Cabernet Sauvignon","Chardonnay","Merlot","Moscato (Red/White)","Pinot Grigio","Sauvignon Blanc","Sweet Red"] },
@@ -210,7 +193,7 @@ const HH_TUE_SAT = {
     leftTitle: "Flavors",
     rightTitle: "Premium (+$2)",
     left: ["Blueberry Mint","Double Apple","Grape","Grape Fruit","Grape Fruit Mint","Guava","Gum Mint","Kiwi","Lemon Mint","Mango","Mint","Orange Mint","Peach","Pineapple","Strawberry","Vanilla","Watermelon","Watermelon Mint"],
-    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"]
+    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"],
   },
 
   refill12: {
@@ -219,14 +202,13 @@ const HH_TUE_SAT = {
     leftTitle: "Refill Flavors",
     rightTitle: "Premium (+$2)",
     left: ["Blueberry Mint","Double Apple","Grape","Grape Fruit","Grape Fruit Mint","Guava","Gum Mint","Kiwi","Lemon Mint","Mango","Mint","Orange Mint","Peach","Pineapple","Strawberry","Vanilla","Watermelon","Watermelon Mint"],
-    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"]
+    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"],
   },
 
   tower43: { title: "$43 Tower", type: "simpleList", items: ["Ask server for flavors / specials"] },
   fishbowl23: { title: "$23 Fishbowl", type: "simpleList", items: ["Ask server for flavors / specials"] },
 };
 
-// Tue–Sat Late Night
 const LATE_TUE_SAT = {
   food: FOOD_BLOCK,
   shots7: HH_TUE_SAT.shots7,
@@ -241,7 +223,6 @@ const LATE_TUE_SAT = {
   fishbowl23: HH_TUE_SAT.fishbowl23,
 };
 
-// Mon/Sun Happy Hour (simpler)
 const HH_MON_SUN = {
   food: FOOD_BLOCK,
   shots5: { title: "$5 Shots", type: "simpleList", items: ["Vodka","Tequila","Whiskey","Liqueur","Rum","Gin","Cognac"] },
@@ -256,7 +237,6 @@ const HH_MON_SUN = {
   fishbowl23: HH_TUE_SAT.fishbowl23,
 };
 
-// Mon/Sun Late Night
 const LATE_MON_SUN = {
   food: FOOD_BLOCK,
   shots7: HH_TUE_SAT.shots7,
@@ -269,7 +249,6 @@ const LATE_MON_SUN = {
   refill12: HH_TUE_SAT.refill12,
 };
 
-// scope map (matches HTML data-scope keys)
 const MENU_DATA = {
   "monday-happy": HH_MON_SUN,
   "monday-late": LATE_MON_SUN,
@@ -303,12 +282,19 @@ function el(html) {
   return d.firstElementChild;
 }
 
+function setEmptyState(scopeKey) {
+  const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
+  if (!target) return;
+  target.innerHTML = `<div class="muted">Select a category above to view items.</div>`;
+}
+
 function clearAllBodies(root = document) {
+  // reset bodies
   root.querySelectorAll("[data-scopebody]").forEach(body => {
     body.innerHTML = `<div class="muted">Select a category above to view items.</div>`;
   });
 
-  // also reset any hidden catBars (from focus mode)
+  // show cat bars, clear active
   root.querySelectorAll("[data-scope]").forEach(bar => {
     bar.style.display = "";
     bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
@@ -317,6 +303,10 @@ function clearAllBodies(root = document) {
   // remove any focus back buttons
   root.querySelectorAll(".focusBackBtn").forEach(b => b.remove());
 }
+
+/* =========================
+   RENDER
+   ========================= */
 
 function renderCategory(scopeKey, catKey) {
   const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
@@ -379,7 +369,6 @@ function renderCategory(scopeKey, catKey) {
 
     two.appendChild(left);
     two.appendChild(right);
-
     wrap.appendChild(two);
   }
 
@@ -404,49 +393,44 @@ function renderCategory(scopeKey, catKey) {
   }
 
   if (data.type === "foodBlock") {
+    (data.sections || []).forEach(section => {
+      wrap.appendChild(el(`<div class="sectionHead" style="margin-top:10px;">${section.title}</div>`));
 
-  data.sections.forEach(section => {
+      const box = document.createElement("div");
+      box.className = "colBox";
 
-    wrap.appendChild(el(`<div class="sectionHead">${section.title}</div>`));
+      (section.items || []).forEach(([name, price]) => {
+        if (price) {
+          box.appendChild(el(`
+            <div class="itemRow">
+              <span>${name}</span>
+              <span class="price">${price}</span>
+            </div>
+          `));
+        } else {
+          box.appendChild(el(`
+            <div class="itemRow">
+              <span>${name}</span>
+              <span class="price"></span>
+            </div>
+          `));
+        }
+      });
 
-    const box = document.createElement("div");
-    box.className = "colBox";
-
-    section.items.forEach(([name, price]) => {
-
-      if(price){
-        box.appendChild(el(`
-          <div class="itemRow">
-            <span>${name}</span>
-            <span class="price">${price}</span>
-          </div>
-        `));
-      }else{
-        box.appendChild(el(`
-          <div class="itemRow">
-            <span>${name}</span>
-          </div>
-        `));
+      if (section.note) {
+        box.appendChild(el(`<div class="muted" style="margin-top:6px;">${section.note}</div>`));
       }
 
+      wrap.appendChild(box);
     });
+  }
 
-    if(section.note){
-      box.appendChild(el(`
-        <div class="muted" style="margin-top:6px;">
-          ${section.note}
-        </div>
-      `));
-    }
-
-    wrap.appendChild(box);
-
-  });
-
+  target.innerHTML = "";
+  target.appendChild(wrap);
 }
 
 /* =========================
-   CATEGORY BARS (with Focus Mode)
+   CATEGORY BARS (Focus Mode)
    ========================= */
 
 function bindCategoryBarsOnce(root = document) {
@@ -454,26 +438,28 @@ function bindCategoryBarsOnce(root = document) {
     if (bar.dataset.bound === "1") return;
     bar.dataset.bound = "1";
 
+    const scopeKey = bar.getAttribute("data-scope");
+    setEmptyState(scopeKey);
+
     bar.addEventListener("click", (e) => {
       const btn = e.target.closest(".cat");
       if (!btn || !bar.contains(btn)) return;
 
-      const scopeKey = bar.getAttribute("data-scope");
       const catKey = btn.getAttribute("data-cat");
 
-      // mark active (for visual only)
+      // mark active
       bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      // FOCUS MODE: hide chips (bar) and show only selected category
+      // focus mode: hide chips
       bar.style.display = "none";
+
       renderCategory(scopeKey, catKey);
 
-      // Back button
       const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
       if (!target) return;
 
-      // remove existing back button if any
+      // remove old back if any
       target.querySelectorAll(".focusBackBtn").forEach(b => b.remove());
 
       const back = document.createElement("button");
@@ -483,11 +469,9 @@ function bindCategoryBarsOnce(root = document) {
       back.style.marginBottom = "10px";
 
       back.addEventListener("click", () => {
-        // show bar again
         bar.style.display = "";
-        // clear body + remove active chips (keeps “closed until click” requirement)
-        target.innerHTML = `<div class="muted">Select a category above to view items.</div>`;
         bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+        target.innerHTML = `<div class="muted">Select a category above to view items.</div>`;
         back.remove();
       });
 
@@ -518,11 +502,11 @@ function bindDayTabsOnce() {
       const panel = document.querySelector(`.dayPanel[data-daypanel="${key}"]`);
       if (panel) panel.classList.add("active");
 
-      // bind events inside this panel (safe)
-      bindCategoryBarsOnce(panel || document);
-
-      // IMPORTANT: keep everything closed until user clicks
+      // close everything on day switch
       clearAllBodies(panel || document);
+
+      // bind category bars inside this panel (safe)
+      bindCategoryBarsOnce(panel || document);
 
       updateLimitedTablesTag();
       revealOnScrollTick();
@@ -543,18 +527,18 @@ function initBottlePills() {
     standard: [
       ["Don Julio Blanco", "$220"],
       ["Casamigos Reposado", "$240"],
-      ["Hennessy VS", "$220"]
+      ["Hennessy VS", "$220"],
     ],
     premium: [
       ["Don Julio 1942", "$650"],
       ["Clase Azul", "$650"],
-      ["Hennessy XO", "$550"]
+      ["Hennessy XO", "$550"],
     ],
     vip: [
       ["Ace of Spades", "$900"],
       ["Don Julio 1942 (VIP)", "$750"],
-      ["Clase Azul Gold", "$900"]
-    ]
+      ["Clase Azul Gold", "$900"],
+    ],
   };
 
   const paint = (key) => {
@@ -568,6 +552,7 @@ function initBottlePills() {
   pills.forEach(p => {
     if (p.dataset.bound === "1") return;
     p.dataset.bound = "1";
+
     p.addEventListener("click", () => {
       pills.forEach(x => x.classList.remove("active"));
       p.classList.add("active");
@@ -590,8 +575,7 @@ function updateLimitedTablesTag() {
   const tag = activePanel.querySelector("[data-limited-tag]");
   if (!tag) return;
 
-  const now = new Date();
-  const hour = now.getHours();
+  const hour = new Date().getHours();
 
   let show = false;
   if (day === "thursday" && hour >= 21) show = true;
@@ -638,7 +622,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindDayTabsOnce();
   bindCategoryBarsOnce(document);
 
-  // IMPORTANT: start closed (nothing auto-opens)
+  // start CLOSED
   clearAllBodies(document);
 
   initBottlePills();
