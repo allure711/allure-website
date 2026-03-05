@@ -19,37 +19,7 @@ const PHONE = "+12025550123";
    MENU DATA
    ========================= */
 
-const FOOD_BLOCK = {
-  title: "Food",
-  type: "foodBlock",
-  items: [
-
-    ["Wings (6pc)", "$12", "Buffalo • Honey Garlic • Lemon Pepper"],
-    ["Fries", "$6", "Classic • Loaded (+$4)"],
-    ["Onion Rings", "$7", ""],
-    ["Mozzarella Sticks", "$9", ""],
-    ["Chicken Tenders Basket", "$13", "Served with fries"],
-    ["Salmon Nuggets Basket", "$15", "Crispy bites • House sauce"],
-    ["Fried Whiting Basket", "$15", "Served with fries"],
-    ["Shrimp Basket", "$16", "Served with fries"],
-    ["Rasta Pasta (Chicken)", "$16", ""],
-    ["Rasta Pasta (Shrimp)", "$18", ""],
-    ["Rasta Pasta (Salmon)", "$20", ""],
-    ["Salad", "$10", ""],
-    ["Salmon Salad", "$14", ""],
-
-  ],
-
-  flavorsTitle: "Sauces / Flavors",
-
-  flavors: [
-    "Buffalo",
-    "Honey Garlic",
-    "Lemon Pepper",
-    "Mild",
-    "BBQ"
-  ]
-};
+?
 
 // Tue–Sat Happy Hour (full set)
 const HH_TUE_SAT = {
