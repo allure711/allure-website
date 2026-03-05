@@ -375,3 +375,38 @@
   padding: 10px;
   text-align: center;
 }
+/* Collapsible Food Sections */
+.foodFold {
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  background: rgba(255,255,255,.04);
+  overflow: hidden;
+}
+
+.foodFold + .foodFold { margin-top: 10px; }
+
+.foodFold__sum {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 12px;
+  font-weight: 950;
+  letter-spacing: .04em;
+  background: rgba(0,0,0,.20);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.foodFold__sum::-webkit-details-marker { display: none; }
+
+.foodFold__sum::after{
+  content: "＋";
+  float: right;
+  color: rgba(255,212,90,.9);
+  font-weight: 950;
+}
+
+.foodFold[open] .foodFold__sum::after{ content: "−"; }
+
+.foodFold .colBox{
+  border: 0;
+  background: transparent;
+}
