@@ -403,28 +403,7 @@ function renderCategory(scopeKey, catKey) {
     wrap.appendChild(grid);
   }
 
-  if (data.type === "foodBlock") {
-    const box = document.createElement("div");
-    box.className = "colBox";
-
-    (data.items || []).forEach(([name, price, note]) => {
-      box.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
-      if (note) box.appendChild(el(`<div class="muted" style="margin:-4px 0 10px 0; padding-left:6px;">${note}</div>`));
-    });
-
-    box.appendChild(el(`<div class="sectionHead" style="margin-top:12px;">${data.flavorsTitle || "Flavors"}</div>`));
-
-    const ul = document.createElement("ul");
-    ul.className = "bullets";
-    (data.flavors || []).forEach(f => ul.appendChild(el(`<li>${f}</li>`)));
-    box.appendChild(ul);
-
-    wrap.appendChild(box);
-  }
-
-  target.innerHTML = "";
-  target.appendChild(wrap);
-}
+  ?
 
 /* =========================
    CATEGORY BARS (with Focus Mode)
