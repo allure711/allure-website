@@ -1,13 +1,19 @@
 /* =========================
-   Menu Page JS (FIXED + NO Auto-Open)
+   Menu Page JS (Clean + NO Auto-Open + Collapsible Food Sections)
    - Day tabs (Mon–Sun)
    - Category click -> render (NO default open)
-   - Focus Mode: hide chips + show only selected category + Back button
-   - LIMITED TABLES tag logic
-   - Scroll reveal
+   - Tue–Sat share same menus
+   - Sun + Mon share same menus
+   - Food is collapsible by section
+   - Focus Mode: hide chips + Back button
+   - LIMITED TABLES tag:
+       • Thursday after 9pm
+       • Saturday after 10pm
+       • Sunday after 10pm
+   - Scroll fade animations
    ========================= */
 
-const PHONE = "+12025550123"; // optional
+const PHONE = "+12025550123";
 
 /* =========================
    MENU DATA
@@ -26,8 +32,8 @@ const FOOD_BLOCK = {
         ["Fried Pickles", "$5"],
         ["Chips & Salsa", "$5"],
         ["Onion Rings", "$7"],
-        ["Fries", "$5"],
-      ],
+        ["Fries", "$5"]
+      ]
     },
     {
       title: "Wings",
@@ -37,8 +43,8 @@ const FOOD_BLOCK = {
         ["6pc Wings w/ Fries", "$12"],
         ["12pc Wings Only", "$14"],
         ["8pc Wings Only", "$10"],
-        ["6pc Wings Only", "$8"],
-      ],
+        ["6pc Wings Only", "$8"]
+      ]
     },
     {
       title: "Quesadillas",
@@ -46,16 +52,16 @@ const FOOD_BLOCK = {
         ["Cheese", "$8"],
         ["Chicken", "$10"],
         ["Shrimp", "$12"],
-        ["Salmon", "$14"],
-      ],
+        ["Salmon", "$14"]
+      ]
     },
     {
       title: "Rasta Pasta / Alfredo",
       items: [
         ["Chicken", "$16"],
         ["Shrimp", "$18"],
-        ["Salmon", "$20"],
-      ],
+        ["Salmon", "$20"]
+      ]
     },
     {
       title: "Salads",
@@ -63,17 +69,17 @@ const FOOD_BLOCK = {
         ["House Salad", "$8"],
         ["Chicken Salad", "$10"],
         ["Shrimp Salad", "$12"],
-        ["Salmon Salad", "$13"],
+        ["Salmon Salad", "$13"]
       ],
-      note: "Dressings: Ranch • Blue Cheese • Italian • Balsamic Vinaigrette • Caesar",
+      note: "Dressings: Ranch • Blue Cheese • Italian • Balsamic Vinaigrette • Caesar"
     },
     {
       title: "Dinner",
       items: [
         ["Salmon (Yellow Rice & Broccoli)", "$20"],
         ["General Tso (Yellow Rice & Broccoli)", "$18"],
-        ["Beef Burger w/ Fries", "$13"],
-      ],
+        ["Beef Burger w/ Fries", "$13"]
+      ]
     },
     {
       title: "Seafood Baskets",
@@ -82,16 +88,16 @@ const FOOD_BLOCK = {
         ["Crab Fries Basket", "$18"],
         ["Fried Whiting Basket", "$15"],
         ["Salmon Nugget Basket", "$15"],
-        ["Catfish Nuggets Basket", "$13"],
-      ],
+        ["Catfish Nuggets Basket", "$13"]
+      ]
     },
     {
       title: "Tacos",
       items: [
         ["Shrimp Tacos", "$16"],
-        ["Chicken Tacos", "$14"],
+        ["Chicken Tacos", "$14"]
       ],
-      note: "Lettuce • Cheese • Sour Cream • Salsa",
+      note: "Lettuce • Cheese • Sour Cream • Salsa"
     },
     {
       title: "Wing Flavors",
@@ -105,16 +111,15 @@ const FOOD_BLOCK = {
         ["Mumbo", ""],
         ["Lemon Pepper (Dry)", ""],
         ["Jerk Rub (Dry)", ""],
-        ["Old Bay (Dry)", ""],
-      ],
-    },
-  ],
+        ["Old Bay (Dry)", ""]
+      ]
+    }
+  ]
 };
 
 // Tue–Sat Happy Hour (full set)
 const HH_TUE_SAT = {
   food: FOOD_BLOCK,
-
   shots5: {
     title: "$5 Shots",
     type: "spiritCols",
@@ -125,10 +130,9 @@ const HH_TUE_SAT = {
       Liqueur: ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
       Cognac: ["Courvoisier","Hennessy"],
       Rum: ["Bacardi","Captain Morgan","Malibu","Myers"],
-      Gin: ["Bombay","Roku","Tanqueray"],
-    },
+      Gin: ["Bombay","Roku","Tanqueray"]
+    }
   },
-
   drinks10: {
     title: "$10 Drinks",
     type: "spiritCols",
@@ -139,10 +143,9 @@ const HH_TUE_SAT = {
       Liqueur: ["Disaronno","Grand Marnier","Hpnotiq","Jagermeister","Midori"],
       Cognac: ["Courvoisier","Hennessy"],
       Rum: ["Bacardi","Captain Morgan","Malibu","Myers"],
-      Gin: ["Bombay","Roku","Tanqueray"],
-    },
+      Gin: ["Bombay","Roku","Tanqueray"]
+    }
   },
-
   cocktails10: {
     title: "$10 Cocktails",
     type: "cocktails",
@@ -166,47 +169,41 @@ const HH_TUE_SAT = {
       ["Orange Martini", "Orange Stoli, Lime Juice, Triple Sec, Orange Juice"],
       ["Red or White Sangria", "Red/White Wine, Fruit, Triple Sec topped w/ Soda Water"],
       ["Rum Punch", "Bacardi, Myers, Grenadine, Pineapple Juice, Orange Juice & Lime Juice"],
-      ["Strawberry Henny", "Hennessy, Strawberry Puree, Sour Mix & Triple Sec"],
-    ],
+      ["Strawberry Henny", "Hennessy, Strawberry Puree, Sour Mix & Triple Sec"]
+    ]
   },
-
   shots7: { title: "$7 Shots", type: "simpleList", items: ["818","Casa Azul","Casamigos","Ciroc VS","Don Julio","D’usse","Equiano","Hendricks","Hennessy VSOP","Herradura","Old Forester","Patron","Remy 1738","Remy VSOP","Sir Davis"] },
   drinks14: { title: "$14 Drinks", type: "simpleList", items: ["(Same brands list as $7 tier)"] },
-
   premium: {
     title: "Premium",
     type: "twoCols",
     leftTitle: "$16 Shots • $32 Drinks",
     rightTitle: "$10 Shots • $20 Drinks",
     left: ["1942","Azul","D’usse XO","Remy XO"],
-    right: ["Gran Coramino","JW Black","JW Double Black","JW Gold"],
+    right: ["Gran Coramino","JW Black","JW Double Black","JW Gold"]
   },
-
   wine6: { title: "$6 Wine", type: "simpleList", items: ["Cabernet Sauvignon","Chardonnay","Merlot","Moscato (Red/White)","Pinot Grigio","Sauvignon Blanc","Sweet Red"] },
   beer4: { title: "$4 Beer", type: "simpleList", items: ["Angry Orchard","Corona","Guinness","Heineken","Modelo","Stella","Goose Island IPA","Voodoo Ranger IPA"] },
   highnoon8: { title: "$8 High Noon", type: "twoCols", leftTitle: "Vodka", rightTitle: "Tequila", left: ["Grapefruit","Mango"], right: ["Lime","Strawberry"] },
   na: { title: "Non-Alcoholic", type: "pricedList", items: [["Red Bull", "$5"],["Ginger Beer", "$5"],["Frozen Drinks", "$5"],["Soda", "$3"],["Juice", "$3"],["Water", "$3"]] },
-
   hookah23: {
     title: "$23 Hookah",
     type: "twoCols",
     leftTitle: "Flavors",
     rightTitle: "Premium (+$2)",
     left: ["Blueberry Mint","Double Apple","Grape","Grape Fruit","Grape Fruit Mint","Guava","Gum Mint","Kiwi","Lemon Mint","Mango","Mint","Orange Mint","Peach","Pineapple","Strawberry","Vanilla","Watermelon","Watermelon Mint"],
-    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"],
+    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"]
   },
-
   refill12: {
     title: "$12 Refill",
     type: "twoCols",
     leftTitle: "Refill Flavors",
     rightTitle: "Premium (+$2)",
     left: ["Blueberry Mint","Double Apple","Grape","Grape Fruit","Grape Fruit Mint","Guava","Gum Mint","Kiwi","Lemon Mint","Mango","Mint","Orange Mint","Peach","Pineapple","Strawberry","Vanilla","Watermelon","Watermelon Mint"],
-    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"],
+    right: ["Bluemist +$2","Lady Killer +$2","Love 66 +$2","Magic Love +$2"]
   },
-
   tower43: { title: "$43 Tower", type: "simpleList", items: ["Ask server for flavors / specials"] },
-  fishbowl23: { title: "$23 Fishbowl", type: "simpleList", items: ["Ask server for flavors / specials"] },
+  fishbowl23: { title: "$23 Fishbowl", type: "simpleList", items: ["Ask server for flavors / specials"] }
 };
 
 const LATE_TUE_SAT = {
@@ -220,7 +217,7 @@ const LATE_TUE_SAT = {
   na: HH_TUE_SAT.na,
   hookah23: HH_TUE_SAT.hookah23,
   tower43: HH_TUE_SAT.tower43,
-  fishbowl23: HH_TUE_SAT.fishbowl23,
+  fishbowl23: HH_TUE_SAT.fishbowl23
 };
 
 const HH_MON_SUN = {
@@ -234,7 +231,7 @@ const HH_MON_SUN = {
   na: HH_TUE_SAT.na,
   hookah23: HH_TUE_SAT.hookah23,
   tower43: HH_TUE_SAT.tower43,
-  fishbowl23: HH_TUE_SAT.fishbowl23,
+  fishbowl23: HH_TUE_SAT.fishbowl23
 };
 
 const LATE_MON_SUN = {
@@ -246,7 +243,7 @@ const LATE_MON_SUN = {
   beer4: HH_TUE_SAT.beer4,
   highnoon8: HH_TUE_SAT.highnoon8,
   na: HH_TUE_SAT.na,
-  refill12: HH_TUE_SAT.refill12,
+  refill12: HH_TUE_SAT.refill12
 };
 
 const MENU_DATA = {
@@ -269,7 +266,7 @@ const MENU_DATA = {
   "saturday-late": LATE_TUE_SAT,
 
   "sunday-happy": HH_MON_SUN,
-  "sunday-late": LATE_MON_SUN,
+  "sunday-late": LATE_MON_SUN
 };
 
 /* =========================
@@ -282,31 +279,57 @@ function el(html) {
   return d.firstElementChild;
 }
 
-function setEmptyState(scopeKey) {
-  const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
-  if (!target) return;
-  target.innerHTML = `<div class="muted">Select a category above to view items.</div>`;
-}
-
 function clearAllBodies(root = document) {
-  // reset bodies
   root.querySelectorAll("[data-scopebody]").forEach(body => {
     body.innerHTML = `<div class="muted">Select a category above to view items.</div>`;
   });
 
-  // show cat bars, clear active
   root.querySelectorAll("[data-scope]").forEach(bar => {
     bar.style.display = "";
     bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
   });
 
-  // remove any focus back buttons
   root.querySelectorAll(".focusBackBtn").forEach(b => b.remove());
 }
 
-/* =========================
-   RENDER
-   ========================= */
+function makeFoodSection(sec, idx) {
+  const details = document.createElement("details");
+  details.className = "foodFold";
+  // closed by default; open first section if you want (leave false for now)
+  details.open = false;
+
+  const summary = document.createElement("summary");
+  summary.className = "foodFold__sum";
+  summary.textContent = sec.title;
+
+  const box = document.createElement("div");
+  box.className = "colBox";
+
+  (sec.items || []).forEach(([name, price]) => {
+    if (price) {
+      box.appendChild(el(`
+        <div class="itemRow">
+          <span>${name}</span>
+          <span class="price">${price}</span>
+        </div>
+      `));
+    } else {
+      box.appendChild(el(`
+        <div class="itemRow">
+          <span>${name}</span>
+        </div>
+      `));
+    }
+  });
+
+  if (sec.note) {
+    box.appendChild(el(`<div class="muted" style="margin-top:6px;">${sec.note}</div>`));
+  }
+
+  details.appendChild(summary);
+  details.appendChild(box);
+  return details;
+}
 
 function renderCategory(scopeKey, catKey) {
   const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
@@ -369,6 +392,7 @@ function renderCategory(scopeKey, catKey) {
 
     two.appendChild(left);
     two.appendChild(right);
+
     wrap.appendChild(two);
   }
 
@@ -393,36 +417,15 @@ function renderCategory(scopeKey, catKey) {
   }
 
   if (data.type === "foodBlock") {
-    (data.sections || []).forEach(section => {
-      wrap.appendChild(el(`<div class="sectionHead" style="margin-top:10px;">${section.title}</div>`));
+    // Collapsible sections (details/summary)
+    const outer = document.createElement("div");
+    outer.className = "listGrid";
 
-      const box = document.createElement("div");
-      box.className = "colBox";
-
-      (section.items || []).forEach(([name, price]) => {
-        if (price) {
-          box.appendChild(el(`
-            <div class="itemRow">
-              <span>${name}</span>
-              <span class="price">${price}</span>
-            </div>
-          `));
-        } else {
-          box.appendChild(el(`
-            <div class="itemRow">
-              <span>${name}</span>
-              <span class="price"></span>
-            </div>
-          `));
-        }
-      });
-
-      if (section.note) {
-        box.appendChild(el(`<div class="muted" style="margin-top:6px;">${section.note}</div>`));
-      }
-
-      wrap.appendChild(box);
+    (data.sections || []).forEach((sec, idx) => {
+      outer.appendChild(makeFoodSection(sec, idx));
     });
+
+    wrap.appendChild(outer);
   }
 
   target.innerHTML = "";
@@ -438,28 +441,23 @@ function bindCategoryBarsOnce(root = document) {
     if (bar.dataset.bound === "1") return;
     bar.dataset.bound = "1";
 
-    const scopeKey = bar.getAttribute("data-scope");
-    setEmptyState(scopeKey);
-
     bar.addEventListener("click", (e) => {
       const btn = e.target.closest(".cat");
       if (!btn || !bar.contains(btn)) return;
 
+      const scopeKey = bar.getAttribute("data-scope");
       const catKey = btn.getAttribute("data-cat");
 
-      // mark active
       bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      // focus mode: hide chips
+      // Focus mode: hide bar
       bar.style.display = "none";
-
       renderCategory(scopeKey, catKey);
 
       const target = document.querySelector(`[data-scopebody="${scopeKey}"]`);
       if (!target) return;
 
-      // remove old back if any
       target.querySelectorAll(".focusBackBtn").forEach(b => b.remove());
 
       const back = document.createElement("button");
@@ -470,8 +468,8 @@ function bindCategoryBarsOnce(root = document) {
 
       back.addEventListener("click", () => {
         bar.style.display = "";
-        bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
         target.innerHTML = `<div class="muted">Select a category above to view items.</div>`;
+        bar.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
         back.remove();
       });
 
@@ -502,11 +500,8 @@ function bindDayTabsOnce() {
       const panel = document.querySelector(`.dayPanel[data-daypanel="${key}"]`);
       if (panel) panel.classList.add("active");
 
-      // close everything on day switch
-      clearAllBodies(panel || document);
-
-      // bind category bars inside this panel (safe)
       bindCategoryBarsOnce(panel || document);
+      clearAllBodies(panel || document);
 
       updateLimitedTablesTag();
       revealOnScrollTick();
@@ -527,18 +522,18 @@ function initBottlePills() {
     standard: [
       ["Don Julio Blanco", "$220"],
       ["Casamigos Reposado", "$240"],
-      ["Hennessy VS", "$220"],
+      ["Hennessy VS", "$220"]
     ],
     premium: [
       ["Don Julio 1942", "$650"],
       ["Clase Azul", "$650"],
-      ["Hennessy XO", "$550"],
+      ["Hennessy XO", "$550"]
     ],
     vip: [
       ["Ace of Spades", "$900"],
       ["Don Julio 1942 (VIP)", "$750"],
-      ["Clase Azul Gold", "$900"],
-    ],
+      ["Clase Azul Gold", "$900"]
+    ]
   };
 
   const paint = (key) => {
@@ -552,7 +547,6 @@ function initBottlePills() {
   pills.forEach(p => {
     if (p.dataset.bound === "1") return;
     p.dataset.bound = "1";
-
     p.addEventListener("click", () => {
       pills.forEach(x => x.classList.remove("active"));
       p.classList.add("active");
@@ -622,7 +616,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindDayTabsOnce();
   bindCategoryBarsOnce(document);
 
-  // start CLOSED
+  // start closed (nothing auto-opens)
   clearAllBodies(document);
 
   initBottlePills();
