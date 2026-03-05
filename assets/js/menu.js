@@ -19,7 +19,114 @@ const PHONE = "+12025550123";
    MENU DATA
    ========================= */
 
-?
+const FOOD_BLOCK = {
+  title: "Food",
+  type: "foodBlock",
+
+  sections: [
+
+    {
+      title: "Appetizers",
+      items: [
+        ["Salmon Sliders w/ Fries", "$12"],
+        ["Beef Sliders w/ Fries", "$10"],
+        ["Mozzarella Sticks", "$7"],
+        ["Fried Pickles", "$5"],
+        ["Chips & Salsa", "$5"],
+        ["Onion Rings", "$7"],
+        ["Fries", "$5"]
+      ]
+    },
+
+    {
+      title: "Wings",
+      items: [
+        ["12pc Wings w/ Fries", "$16"],
+        ["8pc Wings w/ Fries", "$14"],
+        ["6pc Wings w/ Fries", "$12"],
+        ["12pc Wings Only", "$14"],
+        ["8pc Wings Only", "$10"],
+        ["6pc Wings Only", "$8"]
+      ]
+    },
+
+    {
+      title: "Quesadillas",
+      items: [
+        ["Cheese", "$8"],
+        ["Chicken", "$10"],
+        ["Shrimp", "$12"],
+        ["Salmon", "$14"]
+      ]
+    },
+
+    {
+      title: "Rasta Pasta / Alfredo",
+      items: [
+        ["Chicken", "$16"],
+        ["Shrimp", "$18"],
+        ["Salmon", "$20"]
+      ]
+    },
+
+    {
+      title: "Salads",
+      items: [
+        ["House Salad", "$8"],
+        ["Chicken Salad", "$10"],
+        ["Shrimp Salad", "$12"],
+        ["Salmon Salad", "$13"]
+      ],
+      note: "Dressings: Ranch • Blue Cheese • Italian • Balsamic Vinaigrette • Caesar"
+    },
+
+    {
+      title: "Dinner",
+      items: [
+        ["Salmon (Yellow Rice & Broccoli)", "$20"],
+        ["General Tso (Yellow Rice & Broccoli)", "$18"],
+        ["Beef Burger w/ Fries", "$13"]
+      ]
+    },
+
+    {
+      title: "Seafood Baskets",
+      items: [
+        ["Fried Shrimp Basket", "$18"],
+        ["Crab Fries Basket", "$18"],
+        ["Fried Whiting Basket", "$15"],
+        ["Salmon Nugget Basket", "$15"],
+        ["Catfish Nuggets Basket", "$13"]
+      ]
+    },
+
+    {
+      title: "Tacos",
+      items: [
+        ["Shrimp Tacos", "$16"],
+        ["Chicken Tacos", "$14"]
+      ],
+      note: "Lettuce • Cheese • Sour Cream • Salsa"
+    },
+
+    {
+      title: "Wing Flavors",
+      items: [
+        ["Honey Lemon Pepper", ""],
+        ["Honey Old Bay", ""],
+        ["Buffalo BBQ", ""],
+        ["Honey Sazon", ""],
+        ["Sweet Chili", ""],
+        ["Teriyaki", ""],
+        ["Mumbo", ""],
+        ["Lemon Pepper (Dry)", ""],
+        ["Jerk Rub (Dry)", ""],
+        ["Old Bay (Dry)", ""]
+      ]
+    }
+
+  ]
+};
 
 // Tue–Sat Happy Hour (full set)
 const HH_TUE_SAT = {
