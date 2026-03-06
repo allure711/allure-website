@@ -495,14 +495,7 @@ function renderCategory(scopeKey, catKey) {
       box.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
     });
     wrap.appendChild(box);
-  } else if (data.type === "cocktails") {
-    const box = document.createElement("div");
-    box.className = "colBox";
-    (data.items || []).forEach(([name, desc]) => {
-      box.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price"></span></div>`));
-      box.appendChild(el(`<div class="muted" style="margin:-4px 0 12px 0; padding-left:6px;">${desc}</div>`));
-    });
-    wrap.appendChild(box);
+  ?
   } else if (data.type === "twoCols") {
     const two = document.createElement("div");
     two.className = "twoCols";
