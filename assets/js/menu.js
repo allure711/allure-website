@@ -1,5 +1,5 @@
 /* =========================
-   Menu Page JS (Premium + Stable)
+   Menu Page JS (Clean + Fixed)
    ========================= */
 
 const PHONE = "+12025550123";
@@ -227,7 +227,14 @@ const HH_TUE_SAT = {
   na: {
     title: "Non-Alcoholic",
     type: "pricedList",
-    items: [["Red Bull", "$5"], ["Ginger Beer", "$5"], ["Frozen Drinks", "$5"], ["Soda", "$3"], ["Juice", "$3"], ["Water", "$3"]]
+    items: [
+      ["Red Bull", "$5"],
+      ["Ginger Beer", "$5"],
+      ["Frozen Drinks", "$5"],
+      ["Soda", "$3"],
+      ["Juice", "$3"],
+      ["Water", "$3"]
+    ]
   },
 
   hookah23: {
@@ -307,22 +314,28 @@ const LATE_MON_SUN = {
 const MENU_DATA = {
   "monday-happy": HH_MON_SUN,
   "monday-late": LATE_MON_SUN,
+
   "tuesday-happy": HH_TUE_SAT,
   "tuesday-late": LATE_TUE_SAT,
+
   "wednesday-happy": HH_TUE_SAT,
   "wednesday-late": LATE_TUE_SAT,
+
   "thursday-happy": HH_TUE_SAT,
   "thursday-late": LATE_TUE_SAT,
+
   "friday-happy": HH_TUE_SAT,
   "friday-late": LATE_TUE_SAT,
+
   "saturday-happy": HH_TUE_SAT,
   "saturday-late": LATE_TUE_SAT,
+
   "sunday-happy": HH_MON_SUN,
   "sunday-late": LATE_MON_SUN
 };
 
 /* =========================
-   DOM HELPERS
+   HELPERS
    ========================= */
 
 function el(html) {
@@ -348,6 +361,7 @@ function wireAccordion(container) {
   container.querySelectorAll("details.acc").forEach((details) => {
     details.addEventListener("toggle", () => {
       if (!details.open) return;
+
       container.querySelectorAll("details.acc").forEach((other) => {
         if (other !== details) other.open = false;
       });
@@ -384,7 +398,7 @@ function renderFoodAccordion(data) {
     });
 
     if (section.note) {
-      box.appendChild(el(`<div class="muted" style="margin-top:8px;">${section.note}</div>`));
+      box.appendChild(el(`<div class="muted" style="margin-top:8px; text-align:left; padding:0;">${section.note}</div>`));
     }
 
     details.appendChild(summary);
@@ -419,6 +433,7 @@ function renderSpiritColsAccordion(data) {
 
     const ul = document.createElement("ul");
     ul.className = "bullets";
+
     cols[title].forEach((i) => ul.appendChild(el(`<li>${i}</li>`)));
 
     box.appendChild(ul);
@@ -476,41 +491,51 @@ function renderCategory(scopeKey, catKey) {
 
   if (data.type === "foodBlock") {
     wrap.appendChild(renderFoodAccordion(data));
+
   } else if (data.type === "spiritCols") {
     wrap.appendChild(renderSpiritColsAccordion(data));
+
   } else if (data.type === "bottlesBlock") {
     wrap.appendChild(renderBottlesAccordion(data));
+
   } else if (data.type === "simpleList") {
     const box = document.createElement("div");
     box.className = "colBox";
+
     const ul = document.createElement("ul");
     ul.className = "bullets";
+
     (data.items || []).forEach((i) => ul.appendChild(el(`<li>${i}</li>`)));
+
     box.appendChild(ul);
     wrap.appendChild(box);
+
   } else if (data.type === "pricedList") {
     const box = document.createElement("div");
     box.className = "colBox";
+
     (data.items || []).forEach(([name, price]) => {
       box.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
     });
+
     wrap.appendChild(box);
+
   } else if (data.type === "cocktails") {
-  const box = document.createElement("div");
-  box.className = "colBox cocktailList";
+    const box = document.createElement("div");
+    box.className = "colBox cocktailList";
 
-  (data.items || []).forEach(([name, desc]) => {
-    const row = document.createElement("div");
-    row.className = "cocktailItem";
+    (data.items || []).forEach(([name, desc]) => {
+      const row = document.createElement("div");
+      row.className = "cocktailItem";
 
-    row.appendChild(el(`<div class="cocktailName">${name}</div>`));
-    row.appendChild(el(`<div class="cocktailDesc">${desc}</div>`));
+      row.appendChild(el(`<div class="cocktailName">${name}</div>`));
+      row.appendChild(el(`<div class="cocktailDesc">${desc}</div>`));
 
-    box.appendChild(row);
-  });
+      box.appendChild(row);
+    });
 
-  wrap.appendChild(box);
-}
+    wrap.appendChild(box);
+
   } else if (data.type === "twoCols") {
     const two = document.createElement("div");
     two.className = "twoCols";
@@ -520,6 +545,7 @@ function renderCategory(scopeKey, catKey) {
 
     const ulL = document.createElement("ul");
     ulL.className = "bullets";
+
     const ulR = document.createElement("ul");
     ulR.className = "bullets";
 
@@ -531,7 +557,9 @@ function renderCategory(scopeKey, catKey) {
 
     two.appendChild(left);
     two.appendChild(right);
+
     wrap.appendChild(two);
+
   } else {
     wrap.appendChild(el(`<div class="muted">Unknown category type.</div>`));
   }
@@ -541,7 +569,7 @@ function renderCategory(scopeKey, catKey) {
 }
 
 /* =========================
-   CATEGORY BARS
+   CATEGORY CLICKS
    ========================= */
 
 function bindCategoryBarsOnce(root = document) {
@@ -608,7 +636,6 @@ function bindDayTabsOnce() {
 
       bindCategoryBarsOnce(panel || document);
       setClosedState(panel || document);
-
       updateLimitedTablesTag();
       revealOnScrollTick();
     });
@@ -649,8 +676,8 @@ function initRevealObserver() {
 
   if ("IntersectionObserver" in window) {
     io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add("inView");
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("inView");
       });
     }, { threshold: 0.12 });
 
