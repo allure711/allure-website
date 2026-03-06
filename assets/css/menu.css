@@ -491,3 +491,28 @@
   border-color: rgba(255, 212, 90, .45);
   box-shadow: 0 0 0 1px rgba(255, 212, 90, .12), 0 20px 70px rgba(0,0,0,.45);
 }
+/* Accordion (Food + Spirits) */
+.acc{
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+}
+.acc + .acc{ margin-top: 10px; }
+
+.acc__summary{
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 12px;
+  font-weight: 950;
+  letter-spacing: .06em;
+  color: rgba(255,255,255,.92);
+  background: rgba(0,0,0,.18);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.acc__summary::-webkit-details-marker{ display:none; }
+
+.acc[open] .acc__summary{
+  background: rgba(255, 212, 90, .10);
+  border-bottom-color: rgba(255, 212, 90, .20);
+}
