@@ -1,11 +1,5 @@
 /* =========================
    Menu Page JS (Premium + Stable)
-   - No auto-open
-   - Day tabs
-   - Category click = Focus Mode (hide chips) + Back button
-   - Food = collapsible sections (accordion)
-   - SpiritCols ($5 Shots / $10 Drinks) = collapsible columns (accordion)
-   - LIMITED TABLES tag logic
    ========================= */
 
 const PHONE = "+12025550123";
@@ -14,7 +8,6 @@ const PHONE = "+12025550123";
    MENU DATA
    ========================= */
 
-// FOOD (same every day)
 const FOOD_BLOCK = {
   title: "Food",
   type: "foodBlock",
@@ -28,8 +21,8 @@ const FOOD_BLOCK = {
         ["Fried Pickles", "$5"],
         ["Chips & Salsa", "$5"],
         ["Onion Rings", "$7"],
-        ["Fries", "$5"],
-      ],
+        ["Fries", "$5"]
+      ]
     },
     {
       title: "Wings",
@@ -39,8 +32,8 @@ const FOOD_BLOCK = {
         ["6pc Wings w/ Fries", "$12"],
         ["12pc Wings Only", "$14"],
         ["8pc Wings Only", "$10"],
-        ["6pc Wings Only", "$8"],
-      ],
+        ["6pc Wings Only", "$8"]
+      ]
     },
     {
       title: "Quesadillas",
@@ -48,16 +41,16 @@ const FOOD_BLOCK = {
         ["Cheese", "$8"],
         ["Chicken", "$10"],
         ["Shrimp", "$12"],
-        ["Salmon", "$14"],
-      ],
+        ["Salmon", "$14"]
+      ]
     },
     {
       title: "Rasta Pasta / Alfredo",
       items: [
         ["Chicken", "$16"],
         ["Shrimp", "$18"],
-        ["Salmon", "$20"],
-      ],
+        ["Salmon", "$20"]
+      ]
     },
     {
       title: "Salads",
@@ -65,17 +58,17 @@ const FOOD_BLOCK = {
         ["Salad", "$8"],
         ["Chicken", "$10"],
         ["Shrimp", "$12"],
-        ["Salmon", "$13"],
+        ["Salmon", "$13"]
       ],
-      note: "Dressings: Ranch • Blue Cheese • Italian • Balsamic Vinaigrette • Caesar",
+      note: "Dressings: Ranch • Blue Cheese • Italian • Balsamic Vinaigrette • Caesar"
     },
     {
       title: "Dinner",
       items: [
         ["Salmon (Yellow Rice & Broccoli)", "$20"],
         ["General Tso (Yellow Rice & Broccoli)", "$18"],
-        ["Beef Burger w/ Fries", "$13"],
-      ],
+        ["Beef Burger w/ Fries", "$13"]
+      ]
     },
     {
       title: "Seafood Baskets",
@@ -84,16 +77,16 @@ const FOOD_BLOCK = {
         ["Crab Fries Basket", "$18"],
         ["Fried Whiting Basket", "$15"],
         ["Salmon Nugget Basket", "$15"],
-        ["Catfish Nuggets Basket", "$13"],
-      ],
+        ["Catfish Nuggets Basket", "$13"]
+      ]
     },
     {
       title: "Tacos",
       items: [
         ["Shrimp Tacos", "$16"],
-        ["Chicken Tacos", "$14"],
+        ["Chicken Tacos", "$14"]
       ],
-      note: "Includes: Lettuce • Cheese • Sour Cream • Salsa",
+      note: "Includes: Lettuce • Cheese • Sour Cream • Salsa"
     },
     {
       title: "Wing Flavors",
@@ -107,13 +100,12 @@ const FOOD_BLOCK = {
         ["Wet: Mumbo", ""],
         ["Dry: Lemon Pepper", ""],
         ["Dry: Jerk Rub", ""],
-        ["Dry: Old Bay", ""],
-      ],
-    },
-  ],
+        ["Dry: Old Bay", ""]
+      ]
+    }
+  ]
 };
 
-// Tue–Sat Happy Hour
 const HH_TUE_SAT = {
   food: FOOD_BLOCK,
 
@@ -127,8 +119,8 @@ const HH_TUE_SAT = {
       Rum: ["Bacardi", "Captain Morgan", "Malibu", "Myers"],
       Gin: ["Bombay", "Roku", "Tanqueray"],
       Cognac: ["Courvoisier", "Hennessy"],
-      Liqueur: ["Disaronno", "Grand Marnier", "Hpnotiq", "Jagermeister", "Midori"],
-    },
+      Liqueur: ["Disaronno", "Grand Marnier", "Hpnotiq", "Jagermeister", "Midori"]
+    }
   },
 
   drinks10: {
@@ -141,8 +133,8 @@ const HH_TUE_SAT = {
       Rum: ["Bacardi", "Captain Morgan", "Malibu", "Myers"],
       Gin: ["Bombay", "Roku", "Tanqueray"],
       Cognac: ["Courvoisier", "Hennessy"],
-      Liqueur: ["Disaronno", "Grand Marnier", "Hpnotiq", "Jagermeister", "Midori"],
-    },
+      Liqueur: ["Disaronno", "Grand Marnier", "Hpnotiq", "Jagermeister", "Midori"]
+    }
   },
 
   cocktails10: {
@@ -152,36 +144,22 @@ const HH_TUE_SAT = {
       ["Allure Lemon Drop", "Teremana Repo, Triple Sec, Lemon Juice & Simple Syrup"],
       ["Allure Sidecar", "Hennessy, Amaretto, Triple Sec & Lemon Juice"],
       ["Apple Martini", "Absolut & Green Apple Schnapps"],
-      ["Bitch Please", "Espolon, Coconut Bacardi, Peach Schnapps, Blue Curacao, Sour Mix topped w/ Sprite"],
-      ["Blue Motorcycle", "Vodka, Tequila, Rum, Gin, Triple Sec, Sour Mix, Blue Curacao topped w/ Sprite"],
-      ["Ciroc Punch", "Ciroc, Pineapple Juice, Cranberry Juice & Peach Schnapps"],
-      ["Classic Margarita", "Lunazul, Margarita Mix, Triple Sec (Original/Strawberry/Peach/Mango)"],
-      ["Cosmopolitan", "Absolut, Triple Sec, Lime Juice & Cranberry Juice"],
-      ["Gin Martini", "Bombay & Dry Vermouth"],
-      ["Green Tea", "Jameson, Sour Mix, Peach Schnapps topped w/ Sprite"],
       ["Long Island", "Vodka, Tequila, Rum, Gin, Triple Sec, Sour Mix topped w/ Coke"],
-      ["Manhattan", "Basil Hayden, Sweet Vermouth & Bitters"],
-      ["Mint Julep", "Jim Beam, Mint Leaves & Simple Syrup"],
       ["Mojito", "Captain Morgan, Lime Juice, Mint Leaves & Simple Syrup topped w/ Soda Water"],
-      ["Moscow Mule", "Tito’s, Lime Juice & Ginger Beer"],
-      ["Old Fashion", "Bulleit, Simple Syrup & Bitters"],
-      ["Orange Martini", "Orange Stoli, Lime Juice, Triple Sec, Orange Juice"],
-      ["Red or White Sangria", "Red/White Wine, Fruit, Triple Sec topped w/ Soda Water"],
-      ["Rum Punch", "Bacardi, Myers, Grenadine, Pineapple Juice, Orange Juice & Lime Juice"],
-      ["Strawberry Henny", "Hennessy, Strawberry Puree, Sour Mix & Triple Sec"],
-    ],
+      ["Moscow Mule", "Tito’s, Lime Juice & Ginger Beer"]
+    ]
   },
 
   shots7: {
     title: "$7 Shots",
     type: "simpleList",
-    items: ["818", "Casa Azul", "Casamigos", "Ciroc VS", "Don Julio", "D’usse", "Equiano", "Hendricks", "Hennessy VSOP", "Herradura", "Old Forester", "Patron", "Remy 1738", "Remy VSOP", "Sir Davis"],
+    items: ["818", "Casa Azul", "Casamigos", "Ciroc VS", "Don Julio", "D’usse", "Equiano", "Hendricks", "Hennessy VSOP", "Herradura", "Old Forester", "Patron", "Remy 1738", "Remy VSOP", "Sir Davis"]
   },
 
   drinks14: {
     title: "$14 Drinks",
     type: "simpleList",
-    items: ["(Same brands list as $7 tier)"],
+    items: ["(Same brands list as $7 tier)"]
   },
 
   premium: {
@@ -190,19 +168,19 @@ const HH_TUE_SAT = {
     leftTitle: "$16 Shots • $32 Drinks",
     rightTitle: "$10 Shots • $20 Drinks",
     left: ["1942", "Azul", "D’usse XO", "Remy XO"],
-    right: ["Gran Coramino", "JW Black", "JW Double Black", "JW Gold"],
+    right: ["Gran Coramino", "JW Black", "JW Double Black", "JW Gold"]
   },
 
   wine6: {
     title: "$6 Wine",
     type: "simpleList",
-    items: ["Cabernet Sauvignon", "Chardonnay", "Merlot", "Moscato (Red/White)", "Pinot Grigio", "Sauvignon Blanc", "Sweet Red"],
+    items: ["Cabernet Sauvignon", "Chardonnay", "Merlot", "Moscato (Red/White)", "Pinot Grigio", "Sauvignon Blanc", "Sweet Red"]
   },
 
   beer4: {
     title: "$4 Beer",
     type: "simpleList",
-    items: ["Angry Orchard", "Corona", "Guinness", "Heineken", "Modelo", "Stella", "Goose Island IPA", "Voodoo Ranger IPA"],
+    items: ["Angry Orchard", "Corona", "Guinness", "Heineken", "Modelo", "Stella", "Goose Island IPA", "Voodoo Ranger IPA"]
   },
 
   highnoon8: {
@@ -211,13 +189,13 @@ const HH_TUE_SAT = {
     leftTitle: "Vodka",
     rightTitle: "Tequila",
     left: ["Grapefruit", "Mango"],
-    right: ["Lime", "Strawberry"],
+    right: ["Lime", "Strawberry"]
   },
 
   na: {
     title: "Non-Alcoholic",
     type: "pricedList",
-    items: [["Red Bull", "$5"], ["Ginger Beer", "$5"], ["Frozen Drinks", "$5"], ["Soda", "$3"], ["Juice", "$3"], ["Water", "$3"]],
+    items: [["Red Bull", "$5"], ["Ginger Beer", "$5"], ["Frozen Drinks", "$5"], ["Soda", "$3"], ["Juice", "$3"], ["Water", "$3"]]
   },
 
   hookah23: {
@@ -226,7 +204,7 @@ const HH_TUE_SAT = {
     leftTitle: "Flavors",
     rightTitle: "Premium (+$2)",
     left: ["Blueberry Mint", "Double Apple", "Grape", "Grape Fruit", "Grape Fruit Mint", "Guava", "Gum Mint", "Kiwi", "Lemon Mint", "Mango", "Mint", "Orange Mint", "Peach", "Pineapple", "Strawberry", "Vanilla", "Watermelon", "Watermelon Mint"],
-    right: ["Bluemist +$2", "Lady Killer +$2", "Love 66 +$2", "Magic Love +$2"],
+    right: ["Bluemist +$2", "Lady Killer +$2", "Love 66 +$2", "Magic Love +$2"]
   },
 
   refill12: {
@@ -235,20 +213,20 @@ const HH_TUE_SAT = {
     leftTitle: "Refill Flavors",
     rightTitle: "Premium (+$2)",
     left: ["Blueberry Mint", "Double Apple", "Grape", "Grape Fruit", "Grape Fruit Mint", "Guava", "Gum Mint", "Kiwi", "Lemon Mint", "Mango", "Mint", "Orange Mint", "Peach", "Pineapple", "Strawberry", "Vanilla", "Watermelon", "Watermelon Mint"],
-    right: ["Bluemist +$2", "Lady Killer +$2", "Love 66 +$2", "Magic Love +$2"],
+    right: ["Bluemist +$2", "Lady Killer +$2", "Love 66 +$2", "Magic Love +$2"]
   },
 
   tower43: {
     title: "$43 Tower",
     type: "simpleList",
-    items: ["Ask server for flavors / specials"],
+    items: ["Ask server for flavors / specials"]
   },
 
   fishbowl23: {
     title: "$23 Fishbowl",
     type: "simpleList",
-    items: ["Ask server for flavors / specials"],
-  },
+    items: ["Ask server for flavors / specials"]
+  }
 };
 
 const LATE_TUE_SAT = {
@@ -262,7 +240,7 @@ const LATE_TUE_SAT = {
   na: HH_TUE_SAT.na,
   hookah23: HH_TUE_SAT.hookah23,
   tower43: HH_TUE_SAT.tower43,
-  fishbowl23: HH_TUE_SAT.fishbowl23,
+  fishbowl23: HH_TUE_SAT.fishbowl23
 };
 
 const HH_MON_SUN = {
@@ -276,7 +254,7 @@ const HH_MON_SUN = {
   na: HH_TUE_SAT.na,
   hookah23: HH_TUE_SAT.hookah23,
   tower43: HH_TUE_SAT.tower43,
-  fishbowl23: HH_TUE_SAT.fishbowl23,
+  fishbowl23: HH_TUE_SAT.fishbowl23
 };
 
 const LATE_MON_SUN = {
@@ -288,30 +266,24 @@ const LATE_MON_SUN = {
   beer4: HH_TUE_SAT.beer4,
   highnoon8: HH_TUE_SAT.highnoon8,
   na: HH_TUE_SAT.na,
-  refill12: HH_TUE_SAT.refill12,
+  refill12: HH_TUE_SAT.refill12
 };
 
 const MENU_DATA = {
   "monday-happy": HH_MON_SUN,
   "monday-late": LATE_MON_SUN,
-
   "tuesday-happy": HH_TUE_SAT,
   "tuesday-late": LATE_TUE_SAT,
-
   "wednesday-happy": HH_TUE_SAT,
   "wednesday-late": LATE_TUE_SAT,
-
   "thursday-happy": HH_TUE_SAT,
   "thursday-late": LATE_TUE_SAT,
-
   "friday-happy": HH_TUE_SAT,
   "friday-late": LATE_TUE_SAT,
-
   "saturday-happy": HH_TUE_SAT,
   "saturday-late": LATE_TUE_SAT,
-
   "sunday-happy": HH_MON_SUN,
-  "sunday-late": LATE_MON_SUN,
+  "sunday-late": LATE_MON_SUN
 };
 
 /* =========================
@@ -336,10 +308,6 @@ function setClosedState(root = document) {
 
   root.querySelectorAll(".focusBackBtn").forEach((b) => b.remove());
 }
-
-/* =========================
-   ACCORDION HELPERS
-   ========================= */
 
 function wireAccordion(container) {
   container.querySelectorAll("details.acc").forEach((details) => {
@@ -424,7 +392,6 @@ function renderSpiritColsAccordion(data) {
     outer.appendChild(details);
   });
 
-  // include any other categories not in preferred order
   Object.entries(cols).forEach(([title, items]) => {
     if (preferredOrder.includes(title)) return;
 
@@ -524,7 +491,7 @@ function renderCategory(scopeKey, catKey) {
 }
 
 /* =========================
-   CATEGORY BARS (Focus Mode)
+   CATEGORY BARS
    ========================= */
 
 function bindCategoryBarsOnce(root = document) {
@@ -599,55 +566,7 @@ function bindDayTabsOnce() {
 }
 
 /* =========================
-   BOTTLES
-   ========================= */
-
-function initBottlePills() {
-  const pills = [...document.querySelectorAll(".pillRow .pill")];
-  const list = document.getElementById("bottleList");
-  if (!pills.length || !list) return;
-
-  const data = {
-    standard: [
-      ["Don Julio Blanco", "$220"],
-      ["Casamigos Reposado", "$240"],
-      ["Hennessy VS", "$220"],
-    ],
-    premium: [
-      ["Don Julio 1942", "$650"],
-      ["Clase Azul", "$650"],
-      ["Hennessy XO", "$550"],
-    ],
-    vip: [
-      ["Ace of Spades", "$900"],
-      ["Don Julio 1942 (VIP)", "$750"],
-      ["Clase Azul Gold", "$900"],
-    ],
-  };
-
-  const paint = (key) => {
-    list.innerHTML = "";
-    (data[key] || []).forEach(([name, price]) => {
-      list.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
-    });
-    list.appendChild(el(`<div class="muted" style="margin-top:10px;">(Replace these prices with your real list anytime.)</div>`));
-  };
-
-  pills.forEach((p) => {
-    if (p.dataset.bound === "1") return;
-    p.dataset.bound = "1";
-    p.addEventListener("click", () => {
-      pills.forEach((x) => x.classList.remove("active"));
-      p.classList.add("active");
-      paint(p.getAttribute("data-bottle"));
-    });
-  });
-
-  paint("standard");
-}
-
-/* =========================
-   LIMITED TABLES LOGIC
+   LIMITED TABLES
    ========================= */
 
 function updateLimitedTablesTag() {
@@ -704,12 +623,8 @@ function revealOnScrollTick() {
 document.addEventListener("DOMContentLoaded", () => {
   bindDayTabsOnce();
   bindCategoryBarsOnce(document);
-
   setClosedState(document);
-
-  initBottlePills();
   initRevealObserver();
-
   updateLimitedTablesTag();
   setInterval(updateLimitedTablesTag, 60 * 1000);
 });
