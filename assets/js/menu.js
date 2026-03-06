@@ -106,8 +106,40 @@ const FOOD_BLOCK = {
   ]
 };
 
+const BOTTLES_BLOCK = {
+  title: "Bottles • Pricing",
+  type: "bottlesBlock",
+  sections: [
+    {
+      title: "Standard",
+      items: [
+        ["Don Julio Blanco", "$220"],
+        ["Casamigos Reposado", "$240"],
+        ["Hennessy VS", "$220"]
+      ]
+    },
+    {
+      title: "Premium",
+      items: [
+        ["Don Julio 1942", "$650"],
+        ["Clase Azul", "$650"],
+        ["Hennessy XO", "$550"]
+      ]
+    },
+    {
+      title: "VIP",
+      items: [
+        ["Ace of Spades", "$900"],
+        ["Don Julio 1942 (VIP)", "$750"],
+        ["Clase Azul Gold", "$900"]
+      ]
+    }
+  ]
+};
+
 const HH_TUE_SAT = {
   food: FOOD_BLOCK,
+  bottles: BOTTLES_BLOCK,
 
   shots5: {
     title: "$5 Shots",
@@ -231,6 +263,7 @@ const HH_TUE_SAT = {
 
 const LATE_TUE_SAT = {
   food: FOOD_BLOCK,
+  bottles: BOTTLES_BLOCK,
   shots7: HH_TUE_SAT.shots7,
   drinks14: HH_TUE_SAT.drinks14,
   premium: HH_TUE_SAT.premium,
@@ -245,6 +278,7 @@ const LATE_TUE_SAT = {
 
 const HH_MON_SUN = {
   food: FOOD_BLOCK,
+  bottles: BOTTLES_BLOCK,
   shots5: HH_TUE_SAT.shots5,
   drinks10: HH_TUE_SAT.drinks10,
   cocktails10: HH_TUE_SAT.cocktails10,
@@ -259,6 +293,7 @@ const HH_MON_SUN = {
 
 const LATE_MON_SUN = {
   food: FOOD_BLOCK,
+  bottles: BOTTLES_BLOCK,
   shots7: HH_TUE_SAT.shots7,
   drinks14: HH_TUE_SAT.drinks14,
   premium: HH_TUE_SAT.premium,
@@ -392,25 +427,30 @@ function renderSpiritColsAccordion(data) {
     outer.appendChild(details);
   });
 
-  Object.entries(cols).forEach(([title, items]) => {
-    if (preferredOrder.includes(title)) return;
+  wireAccordion(outer);
+  return outer;
+}
 
+function renderBottlesAccordion(data) {
+  const outer = document.createElement("div");
+  outer.className = "listGrid";
+
+  (data.sections || []).forEach((section) => {
     const details = document.createElement("details");
     details.className = "acc";
     details.open = false;
 
     const summary = document.createElement("summary");
     summary.className = "acc__summary";
-    summary.textContent = title;
+    summary.textContent = section.title;
 
     const box = document.createElement("div");
     box.className = "colBox";
 
-    const ul = document.createElement("ul");
-    ul.className = "bullets";
-    items.forEach((i) => ul.appendChild(el(`<li>${i}</li>`)));
+    (section.items || []).forEach(([name, price]) => {
+      box.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
+    });
 
-    box.appendChild(ul);
     details.appendChild(summary);
     details.appendChild(box);
     outer.appendChild(details);
@@ -438,6 +478,8 @@ function renderCategory(scopeKey, catKey) {
     wrap.appendChild(renderFoodAccordion(data));
   } else if (data.type === "spiritCols") {
     wrap.appendChild(renderSpiritColsAccordion(data));
+  } else if (data.type === "bottlesBlock") {
+    wrap.appendChild(renderBottlesAccordion(data));
   } else if (data.type === "simpleList") {
     const box = document.createElement("div");
     box.className = "colBox";
