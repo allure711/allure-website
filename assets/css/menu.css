@@ -601,3 +601,127 @@
 .bottleRow{
   margin-top: 14px;
 }
+/* =========================
+   ACCORDION STYLES
+   ========================= */
+
+.acc {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.acc + .acc {
+  margin-top: 10px;
+}
+
+.acc__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 14px;
+  font-weight: 950;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,.94);
+  background: rgba(0,0,0,.22);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  align-items: center;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.acc__summary:hover {
+  background: rgba(255,255,255,.05);
+}
+
+.acc__summary::-webkit-details-marker {
+  display: none;
+}
+
+.acc__summary::before {
+  content: "▶";
+  margin-right: 10px;
+  color: #ffd45a;
+  font-size: 12px;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+.acc[open] .acc__summary::before {
+  content: "▼";
+}
+
+.acc[open] .acc__summary {
+  background: rgba(255, 212, 90, .10);
+  border-bottom-color: rgba(255, 212, 90, .20);
+  color: #fff;
+}
+
+.acc .colBox {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 12px;
+  box-shadow: none;
+}
+
+.acc .itemRow {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.acc .bullets {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.acc .bullets li {
+  margin: 6px 0;
+}
+
+/* =========================
+   BOTTLE SECTION INSIDE CARDS
+   ========================= */
+
+[data-scopebody] .sectionHead {
+  margin-bottom: 10px;
+}
+
+[data-scopebody] .muted {
+  text-align: center;
+  padding: 10px;
+}
+
+/* =========================
+   BACK BUTTON
+   ========================= */
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 212, 90, .55);
+  background: rgba(255, 212, 90, .12);
+  color: #ffd45a;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+
+.backBtn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 212, 90, .18);
+}
+
+/* =========================
+   REMOVE OLD BOTTOM BOTTLE ROW IF IT STILL EXISTS
+   ========================= */
+
+.bottleRow {
+  display: none !important;
+}
