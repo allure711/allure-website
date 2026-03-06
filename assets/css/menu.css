@@ -725,3 +725,34 @@
 .bottleRow {
   display: none !important;
 }
+/* =========================
+   COCKTAIL LIST CLEAN STYLE
+   ========================= */
+
+.cocktailList {
+  display: grid;
+  gap: 14px;
+}
+
+.cocktailItem {
+  padding: 4px 0 10px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.cocktailItem:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.cocktailName {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.cocktailDesc {
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(255,255,255,.78);
+}
