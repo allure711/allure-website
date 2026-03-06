@@ -495,7 +495,22 @@ function renderCategory(scopeKey, catKey) {
       box.appendChild(el(`<div class="itemRow"><span>${name}</span><span class="price">${price}</span></div>`));
     });
     wrap.appendChild(box);
-  ?
+  } else if (data.type === "cocktails") {
+  const box = document.createElement("div");
+  box.className = "colBox cocktailList";
+
+  (data.items || []).forEach(([name, desc]) => {
+    const row = document.createElement("div");
+    row.className = "cocktailItem";
+
+    row.appendChild(el(`<div class="cocktailName">${name}</div>`));
+    row.appendChild(el(`<div class="cocktailDesc">${desc}</div>`));
+
+    box.appendChild(row);
+  });
+
+  wrap.appendChild(box);
+}
   } else if (data.type === "twoCols") {
     const two = document.createElement("div");
     two.className = "twoCols";
