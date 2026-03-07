@@ -5,6 +5,41 @@
 const PHONE = "+12025550123";
 
 /* =========================
+   DAY PROMOS
+   ========================= */
+
+const DAY_PROMOS = {
+  monday: {
+    title: "FREE HOOKAH MONDAY",
+    text: "Tap a category to explore tonight’s menu."
+  },
+  tuesday: {
+    title: "TACO TUESDAY",
+    text: "Tap a category to explore tacos, drinks, and bottles."
+  },
+  wednesday: {
+    title: "MIDWEEK WEDNESDAY",
+    text: "Tap a category to explore tonight’s specials."
+  },
+  thursday: {
+    title: "KARAOKE THURSDAY",
+    text: "Tap a category to view food, drinks, and late night picks."
+  },
+  friday: {
+    title: "ALLURE FRIDAY",
+    text: "Tap a category to explore the Friday experience."
+  },
+  saturday: {
+    title: "ALLURE SATURDAY",
+    text: "Tap a category to explore Saturday night specials."
+  },
+  sunday: {
+    title: "SOCIAL SUNDAY",
+    text: "Tap a category to explore Sunday food and drinks."
+  }
+};
+
+/* =========================
    MENU DATA
    ========================= */
 
