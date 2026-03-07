@@ -997,3 +997,23 @@ body[data-day-theme="sunday"] .vipNightBanner {
     font-size: 22px;
   }
 }
+html, body {
+  overflow-x: hidden;
+}
+
+.dayPanel {
+  padding-bottom: 30px;
+}
+
+.menuCard {
+  overflow: visible;
+}
+
+.catBody {
+  min-height: 180px;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.20);
+  border: 1px solid rgba(255,255,255,.10);
+  margin-bottom: 6px;
+}
