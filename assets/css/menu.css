@@ -9,8 +9,9 @@
 
 .menuWrap {
   position: relative;
-  padding: 22px 0 110px;
+  padding: 22px 0 180px;
   overflow: hidden;
+   overflow-y: visible;
 }
 
 /* Floating background particles + glow */
