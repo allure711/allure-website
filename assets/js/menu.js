@@ -1229,3 +1229,203 @@ document.addEventListener("DOMContentLoaded", () => {
   phase6EnsureBottleModal();
   phase6EnsureBottleButton();
 });
+/* =========================
+   PHASE 7 ADD-ON
+   Events + Gallery + Birthday + QR
+   Safe extension
+   ========================= */
+
+const PHASE7_EVENTS = {
+  monday: [
+    { day: "Monday", name: "Free Hookah Monday", date: "Every Monday", time: "All Night" },
+    { day: "VIP", name: "Lounge Experience", date: "Tonight", time: "Late Night" },
+    { day: "Reserve", name: "Section Booking", date: "Available", time: "Call Now" }
+  ],
+  tuesday: [
+    { day: "Tuesday", name: "Taco Tuesday", date: "Every Tuesday", time: "5PM - Late" },
+    { day: "VIP", name: "Cocktails + Tacos", date: "Tonight", time: "All Night" },
+    { day: "Reserve", name: "Section Booking", date: "Available", time: "Call Now" }
+  ],
+  wednesday: [
+    { day: "Wednesday", name: "Midweek Wednesday", date: "Every Wednesday", time: "5PM - Late" },
+    { day: "VIP", name: "After Work Luxe", date: "Tonight", time: "Evening" },
+    { day: "Reserve", name: "Section Booking", date: "Available", time: "Call Now" }
+  ],
+  thursday: [
+    { day: "Thursday", name: "Karaoke Thursday", date: "Every Thursday", time: "9PM - Late" },
+    { day: "VIP", name: "Mic + Cocktails", date: "Tonight", time: "Late Night" },
+    { day: "Reserve", name: "Section Booking", date: "Available", time: "Call Now" }
+  ],
+  friday: [
+    { day: "Friday", name: "Allure Friday", date: "Every Friday", time: "9PM - Late" },
+    { day: "VIP", name: "DJ + Bottle Service", date: "Tonight", time: "Prime Night" },
+    { day: "Reserve", name: "Section Booking", date: "High Demand", time: "Call Now" }
+  ],
+  saturday: [
+    { day: "Saturday", name: "Allure Saturday", date: "Every Saturday", time: "9PM - Late" },
+    { day: "VIP", name: "Prime Night Energy", date: "Tonight", time: "Peak Hours" },
+    { day: "Reserve", name: "Section Booking", date: "High Demand", time: "Call Now" }
+  ],
+  sunday: [
+    { day: "Sunday", name: "Social Sunday", date: "Every Sunday", time: "All Night" },
+    { day: "VIP", name: "Chill Lounge Vibes", date: "Tonight", time: "Relaxed" },
+    { day: "Reserve", name: "Section Booking", date: "Available", time: "Call Now" }
+  ]
+};
+
+const PHASE7_FLYER_IMAGES = {
+  monday: [
+    { badge: "Monday", title: "FREE HOOKAH", meta: "VIP lounge all night" },
+    { badge: "DJ", title: "AFROBEATS", meta: "R&B • Hip-Hop" },
+    { badge: "VIP", title: "SECTIONS OPEN", meta: "Reserve early" }
+  ],
+  tuesday: [
+    { badge: "Tuesday", title: "TACO TUESDAY", meta: "Drinks + tacos" },
+    { badge: "DJ", title: "PARTY MIX", meta: "Latin • Hip-Hop" },
+    { badge: "VIP", title: "TABLES OPEN", meta: "Reserve now" }
+  ],
+  wednesday: [
+    { badge: "Wednesday", title: "MIDWEEK LUXE", meta: "After-work vibes" },
+    { badge: "DJ", title: "Amapiano", meta: "R&B • Lounge" },
+    { badge: "VIP", title: "VIP TABLES", meta: "Reserve now" }
+  ],
+  thursday: [
+    { badge: "Thursday", title: "KARAOKE NIGHT", meta: "Live mic energy" },
+    { badge: "DJ", title: "PARTY ANTHEMS", meta: "Late-night vibe" },
+    { badge: "VIP", title: "BOOK A SECTION", meta: "Reserve now" }
+  ],
+  friday: [
+    { badge: "Friday", title: "FRIDAY NIGHT", meta: "DJ • Hookah • Bottles" },
+    { badge: "DJ", title: "AFROBEATS", meta: "Hip-Hop all night" },
+    { badge: "VIP", title: "BOTTLE SERVICE", meta: "Reserve now" }
+  ],
+  saturday: [
+    { badge: "Saturday", title: "VIP TAKEOVER", meta: "Prime night energy" },
+    { badge: "DJ", title: "ALL NIGHT", meta: "Hip-Hop • Afrobeats" },
+    { badge: "VIP", title: "BIRTHDAY READY", meta: "Reserve now" }
+  ],
+  sunday: [
+    { badge: "Sunday", title: "SOCIAL SUNDAY", meta: "Food • wine • vibes" },
+    { badge: "DJ", title: "CHILL SET", meta: "Soul • R&B" },
+    { badge: "VIP", title: "RELAXED LOUNGE", meta: "Reserve now" }
+  ]
+};
+
+const PHASE7_GALLERY = {
+  monday: ["Hookah vibes", "VIP lounge", "Late-night cocktails", "Monday crowd", "Bottle setup", "Gold lighting"],
+  tuesday: ["Taco plates", "Cocktail bar", "Tuesday tables", "Hookah corner", "Party drinks", "Late-night vibe"],
+  wednesday: ["After-work drinks", "Lounge mood", "Rasta pasta", "Midweek crowd", "Bottle glow", "Chill corners"],
+  thursday: ["Karaoke mic", "Crowd energy", "Late cocktails", "DJ booth", "Hookah cloud", "VIP booth"],
+  friday: ["Bottle parade", "Friday crowd", "Glow lounge", "DJ booth", "Signature cocktails", "VIP tables"],
+  saturday: ["Birthday setup", "Prime night", "Bottle service", "Packed lounge", "Sparklers", "Luxury sections"],
+  sunday: ["Dinner plates", "Wine pours", "Hookah lounge", "Social crowd", "Soul night", "Calm VIP vibe"]
+};
+
+const PHASE7_BIRTHDAY = [
+  { icon: "🎂", name: "Birthday Bronze", meta: "Reserved table • celebration sign • 1 bottle option", price: "$350" },
+  { icon: "🥂", name: "Birthday Gold", meta: "VIP section • celebration sign • 2 bottle option", price: "$700" },
+  { icon: "✨", name: "Birthday Luxe", meta: "VIP section • premium setup • bottle service", price: "$1200" }
+];
+
+function phase7Render(day) {
+  const panel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+  if (!panel) return;
+
+  panel.querySelectorAll(".phase7Stack").forEach((node) => node.remove());
+
+  const insertAfter =
+    panel.querySelector(".flyerSlider") ||
+    panel.querySelector(".eventCountdown") ||
+    panel.querySelector(".popularTonight");
+
+  if (!insertAfter) return;
+
+  const wrap = document.createElement("section");
+  wrap.className = "phase7Stack";
+
+  const events = PHASE7_EVENTS[day] || PHASE7_EVENTS.monday;
+  const flyers = PHASE7_FLYER_IMAGES[day] || PHASE7_FLYER_IMAGES.monday;
+  const gallery = PHASE7_GALLERY[day] || PHASE7_GALLERY.monday;
+
+  wrap.innerHTML = `
+    <div class="phase7Card">
+      <div class="phase7Card__title">Upcoming Highlights</div>
+      <div class="eventStrip">
+        ${events.map((item) => `
+          <article class="eventMini">
+            <div class="eventMini__day">${item.day}</div>
+            <div class="eventMini__name">${item.name}</div>
+            <div class="eventMini__date">${item.date}</div>
+            <div class="eventMini__time">${item.time}</div>
+          </article>
+        `).join("")}
+      </div>
+    </div>
+
+    <div class="phase7Card">
+      <div class="phase7Card__title">DJ Flyer Wall</div>
+      <div class="djFlyers">
+        ${flyers.map((item) => `
+          <article class="djFlyer">
+            <div class="djFlyer__badge">${item.badge}</div>
+            <div class="djFlyer__body">
+              <div class="djFlyer__title">${item.title}</div>
+              <div class="djFlyer__meta">${item.meta}</div>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </div>
+
+    <div class="phase7Grid">
+      <div class="phase7Card">
+        <div class="phase7Card__title">Instagram Wall</div>
+        <div class="igGrid">
+          ${gallery.map((cap) => `
+            <article class="igTile">
+              <div class="igTile__cap">${cap}</div>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="phase7Card">
+        <div class="phase7Card__title">Birthday Packages</div>
+        <div class="birthdayPacks">
+          ${PHASE7_BIRTHDAY.map((pack) => `
+            <article class="birthdayPack">
+              <div class="birthdayPack__icon">${pack.icon}</div>
+              <div>
+                <div class="birthdayPack__name">${pack.name}</div>
+                <div class="birthdayPack__meta">${pack.meta}</div>
+              </div>
+              <div class="birthdayPack__price">${pack.price}</div>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div class="phase7Card">
+      <div class="phase7Card__title">QR Reserve</div>
+      <div class="qrReserve">
+        <div class="qrBox" aria-hidden="true"></div>
+        <div>
+          <div class="qrReserve__title">Scan to Reserve or Order</div>
+          <div class="qrReserve__text">Use this area later for your real QR code. For now, guests can still tap below to reserve by phone.</div>
+          <a class="qrReserve__cta" href="tel:${PHONE}">Reserve / Call</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  insertAfter.after(wrap);
+}
+
+(function phase7PatchActivateDay() {
+  const originalActivateDayPhase7 = activateDay;
+  activateDay = function(day) {
+    originalActivateDayPhase7(day);
+    phase7Render(day);
+  };
+})();
