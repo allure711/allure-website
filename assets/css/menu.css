@@ -1222,3 +1222,304 @@ body{
     bottom:98px;
   }
 }
+/* =========================
+   PHASE 7
+   Events + Gallery + Birthday + QR
+   ========================= */
+
+.phase7Stack{
+  display:grid;
+  gap:16px;
+  margin:16px 0 0;
+}
+
+.phase7Grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:16px;
+}
+
+.phase7Card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 18px 45px rgba(0,0,0,.22);
+}
+
+.phase7Card__title{
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.08em;
+  color:#fff;
+  margin-bottom:12px;
+  text-transform:uppercase;
+}
+
+/* Event strip */
+.eventStrip{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.eventMini{
+  border-radius:14px;
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+}
+
+.eventMini__day{
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.12em;
+  color:var(--day-accent);
+  text-transform:uppercase;
+}
+
+.eventMini__name{
+  margin-top:8px;
+  font-size:17px;
+  font-weight:900;
+  color:#fff;
+}
+
+.eventMini__date{
+  margin-top:6px;
+  color:rgba(255,255,255,.72);
+  font-weight:700;
+}
+
+.eventMini__time{
+  margin-top:4px;
+  color:rgba(255,255,255,.58);
+  font-size:13px;
+}
+
+/* DJ flyer image placeholders */
+.djFlyers{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.djFlyer{
+  position:relative;
+  min-height:180px;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--day-accent) 16%, transparent), transparent 35%);
+}
+
+.djFlyer::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, transparent 20%, rgba(0,0,0,.70) 100%);
+  pointer-events:none;
+}
+
+.djFlyer__badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  z-index:1;
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--day-accent);
+  color:#111;
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+}
+
+.djFlyer__body{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  z-index:1;
+}
+
+.djFlyer__title{
+  font-size:20px;
+  font-weight:950;
+  color:#fff;
+  line-height:1.05;
+}
+
+.djFlyer__meta{
+  margin-top:6px;
+  color:rgba(255,255,255,.78);
+  font-weight:700;
+}
+
+/* Instagram style gallery */
+.igGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.igTile{
+  position:relative;
+  aspect-ratio:1/1;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(circle at 25% 25%, color-mix(in srgb, var(--day-accent) 18%, transparent), transparent 28%),
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+}
+
+.igTile::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, transparent 35%, rgba(0,0,0,.45));
+}
+
+.igTile__cap{
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:12px;
+  z-index:1;
+  font-size:13px;
+  font-weight:800;
+  color:#fff;
+}
+
+/* Birthday packages */
+.birthdayPacks{
+  display:grid;
+  gap:12px;
+}
+
+.birthdayPack{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:14px;
+  border-radius:16px;
+  background:rgba(0,0,0,.20);
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+}
+
+.birthdayPack__icon{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.06);
+  font-size:20px;
+}
+
+.birthdayPack__name{
+  font-size:16px;
+  font-weight:900;
+  color:#fff;
+}
+
+.birthdayPack__meta{
+  margin-top:4px;
+  color:rgba(255,255,255,.70);
+  font-size:13px;
+}
+
+.birthdayPack__price{
+  font-size:24px;
+  font-weight:950;
+  color:var(--day-accent);
+}
+
+/* QR reserve */
+.qrReserve{
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:14px;
+  align-items:center;
+}
+
+.qrBox{
+  width:110px;
+  height:110px;
+  border-radius:16px;
+  background:
+    linear-gradient(90deg, #fff 10px, transparent 10px) 0 0/22px 22px,
+    linear-gradient(#fff 10px, transparent 10px) 0 0/22px 22px,
+    linear-gradient(90deg, rgba(255,255,255,.88) 10px, transparent 10px) 11px 11px/22px 22px,
+    linear-gradient(rgba(255,255,255,.88) 10px, transparent 10px) 11px 11px/22px 22px,
+    #111;
+  border:6px solid #fff;
+  box-shadow:0 10px 24px rgba(0,0,0,.30);
+}
+
+.qrReserve__title{
+  font-size:18px;
+  font-weight:950;
+  color:#fff;
+}
+
+.qrReserve__text{
+  margin-top:6px;
+  color:rgba(255,255,255,.72);
+}
+
+.qrReserve__cta{
+  display:inline-flex;
+  margin-top:10px;
+  padding:11px 14px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:950;
+  color:#111;
+  background:var(--day-accent);
+}
+
+/* Responsive */
+@media (max-width:980px){
+  .phase7Grid{
+    grid-template-columns:1fr;
+  }
+
+  .eventStrip,
+  .djFlyers{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:700px){
+  .igGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .qrReserve{
+    grid-template-columns:1fr;
+  }
+
+  .qrBox{
+    margin:0 auto;
+  }
+
+  .birthdayPack{
+    grid-template-columns:1fr;
+    text-align:left;
+  }
+}
+
+@media (max-width:500px){
+  .igGrid{
+    grid-template-columns:1fr;
+  }
+}
