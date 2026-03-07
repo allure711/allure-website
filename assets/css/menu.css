@@ -1,830 +1,394 @@
 /* =========================
-   MENU PAGE (FULL CLEAN + UPGRADES)
-   ========================= */
-
-.menu-page{
-  background:#07070a;
-  color:#f5f5f5;
-}
-
-html,
-body{
-  overflow-x:hidden;
-}
-
-.menuWrap{
-  position:relative;
-  padding:22px 0 180px;
-  overflow-x:hidden;
-  overflow-y:visible;
-}
-
-/* Ambient background */
-.menuWrap::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:
-    radial-gradient(1200px 600px at 10% 10%, rgba(255,215,90,.10), transparent 60%),
-    radial-gradient(900px 500px at 85% 20%, rgba(154,92,255,.12), transparent 55%),
-    radial-gradient(800px 500px at 70% 80%, rgba(0,255,180,.08), transparent 55%),
-    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.88));
-  z-index:0;
-}
-
-.container{
-  position:relative;
-  z-index:1;
-}
-
-/* =========================
-   HEADER
-   ========================= */
-
-.header--menu{
-  background:rgba(10,10,14,.70);
-  border-bottom:1px solid rgba(255,255,255,.10);
-  backdrop-filter:blur(14px);
-}
-
-.brand{
-  color:#d7c9ff;
-  text-decoration:none;
-  font-weight:800;
-}
-
-.ctaTop{
-  background:#ffd45a;
-  color:#111;
-  padding:10px 14px;
-  border-radius:12px;
-  font-weight:900;
-  text-decoration:none;
-  box-shadow:0 14px 40px rgba(0,0,0,.35);
-}
-
-/* =========================
-   DAY TABS
-   ========================= */
-
-.dayTabs{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  padding:14px 0 10px;
-}
-
-.dayTab{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.10);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:999px;
-  cursor:pointer;
-  font-weight:800;
-  transition:transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
-}
-
-.dayTab:hover{
-  transform:translateY(-1px);
-}
-
-.dayTab.active{
-  background:rgba(255,212,90,.16);
-  border-color:rgba(255,212,90,.55);
-  box-shadow:0 0 0 1px rgba(255,212,90,.18), 0 12px 40px rgba(0,0,0,.45);
-}
-
-/* =========================
-   PANELS
+   PHASE 6
+   Countdown + Flyer + Bottle Modal + Day Glow
    ========================= */
 
 .dayPanel{
-  display:none;
-  padding-bottom:30px;
+  --day-accent:#ffd45a;
 }
 
-.dayPanel.active{
-  display:block;
+.dayPanel[data-daypanel="monday"]{ --day-accent:#ffd45a; }
+.dayPanel[data-daypanel="tuesday"]{ --day-accent:#ff8a5b; }
+.dayPanel[data-daypanel="wednesday"]{ --day-accent:#7ef0c9; }
+.dayPanel[data-daypanel="thursday"]{ --day-accent:#c786ff; }
+.dayPanel[data-daypanel="friday"]{ --day-accent:#ff5fd2; }
+.dayPanel[data-daypanel="saturday"]{ --day-accent:#6ea8ff; }
+.dayPanel[data-daypanel="sunday"]{ --day-accent:#ffcf7a; }
+
+.dayPanel.active .dayTab,
+.dayPanel.active .cat.active,
+.dayPanel.active .popularCard:hover,
+.dayPanel.active .itemRow:hover,
+.dayPanel.active .vipNightBanner{
+  border-color:color-mix(in srgb, var(--day-accent) 45%, rgba(255,255,255,.12));
 }
 
-/* =========================
-   HERO
-   ========================= */
+.dayPanel.active .vipNightBanner{
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.5),
+    0 0 0 1px color-mix(in srgb, var(--day-accent) 18%, transparent),
+    0 0 26px color-mix(in srgb, var(--day-accent) 18%, transparent);
+}
 
-.heroRow{
+.dayPanel.active .menuPromoTitle,
+.dayPanel.active .vipNightBanner__badge,
+.dayPanel.active .vipNightBanner__lineup,
+.dayPanel.active .popularCard .price,
+.dayPanel.active .price{
+  color:var(--day-accent);
+}
+
+/* Countdown strip */
+.eventCountdown{
+  margin:0 0 14px;
+  padding:14px 16px;
+  border-radius:16px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:14px;
-  margin:10px 0 18px;
+  flex-wrap:wrap;
 }
 
-.heroRight{
+.eventCountdown__left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.eventCountdown__eyebrow{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  color:rgba(255,255,255,.60);
+  text-transform:uppercase;
+}
+
+.eventCountdown__title{
+  font-size:15px;
+  font-weight:900;
+  color:#fff;
+}
+
+.eventCountdown__clock{
   display:flex;
   align-items:center;
   gap:10px;
   flex-wrap:wrap;
-  justify-content:flex-end;
 }
 
-.dayName{
-  font-size:44px;
+.countChip{
+  min-width:64px;
+  padding:10px 10px 8px;
+  border-radius:14px;
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.08);
+  text-align:center;
+}
+
+.countChip__num{
+  display:block;
+  font-size:18px;
   font-weight:950;
-  letter-spacing:.06em;
+  color:#fff;
+  line-height:1;
 }
 
-.daySub{
-  color:rgba(255,255,255,.72);
-  margin-top:6px;
-  font-weight:650;
+.countChip__label{
+  display:block;
+  margin-top:4px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  color:rgba(255,255,255,.58);
+  text-transform:uppercase;
 }
 
-.vipBadge{
+/* Flyer slider */
+.flyerSlider{
+  margin:0 0 16px;
+  position:relative;
+}
+
+.flyerTrack{
+  position:relative;
+  min-height:128px;
+}
+
+.flyerCard{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s ease;
+  padding:20px;
+  border-radius:18px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03)),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,.08), transparent 30%);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 18px 45px rgba(0,0,0,.32);
+  overflow:hidden;
+}
+
+.flyerCard.is-active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.flyerCard::before{
+  content:"";
+  position:absolute;
+  inset:auto -10% -30% auto;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle, color-mix(in srgb, var(--day-accent) 18%, transparent), transparent 70%);
+  pointer-events:none;
+}
+
+.flyerCard__badge{
+  position:relative;
+  z-index:1;
   display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  margin-left:10px;
-  padding:6px 10px;
+  padding:7px 11px;
   border-radius:999px;
-  font-size:12px;
+  font-size:11px;
   font-weight:950;
   letter-spacing:.12em;
-  color:#1a1407;
-  background:linear-gradient(180deg, rgba(255,212,90,.95), rgba(215,180,106,.95));
-  border:1px solid rgba(255,212,90,.65);
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  text-transform:uppercase;
+  color:#111;
+  background:var(--day-accent);
 }
 
-.limitedTag{
-  display:none;
-  padding:8px 10px;
-  border-radius:999px;
-  font-weight:950;
-  letter-spacing:.10em;
-  font-size:12px;
-  color:#ffd45a;
-  background:rgba(255,212,90,.10);
-  border:1px solid rgba(255,212,90,.55);
-}
-
-.reserveTop{
-  background:#ffd45a;
-  color:#141414;
-  text-decoration:none;
-  padding:12px 16px;
-  border-radius:14px;
-  font-weight:950;
-  box-shadow:0 14px 40px rgba(0,0,0,.40);
-}
-
-/* =========================
-   VIP BANNER
-   ========================= */
-
-.vipNightBanner{
-  margin:20px 0 14px;
-  padding:22px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#3b2b00,#0c0c0c);
-  border:1px solid rgba(255,212,90,.35);
-  box-shadow:0 10px 40px rgba(0,0,0,.5);
-}
-
-.vipNightBanner__badge{
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.08em;
-  color:#ffd45a;
-  margin-bottom:8px;
-}
-
-.vipNightBanner__title{
+.flyerCard__title{
+  position:relative;
+  z-index:1;
+  margin-top:14px;
   font-size:28px;
-  font-weight:900;
+  font-weight:950;
+  line-height:1.05;
   color:#fff;
-  margin-bottom:4px;
 }
 
-.vipNightBanner__meta{
-  opacity:.8;
-  margin-top:4px;
-}
-
-.vipNightBanner__lineup{
-  color:#ffd45a;
-  margin-top:6px;
+.flyerCard__meta{
+  position:relative;
+  z-index:1;
+  margin-top:8px;
+  color:rgba(255,255,255,.78);
   font-weight:700;
 }
 
-/* =========================
-   POPULAR TONIGHT
-   ========================= */
-
-.popularTonight{
-  margin-bottom:22px;
-}
-
-.popularTonight__title{
-  font-weight:900;
-  margin-bottom:12px;
-  font-size:16px;
-}
-
-.popularTonight__grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-}
-
-.popularCard{
-  background:rgba(255,255,255,.05);
-  padding:14px;
-  border-radius:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border:1px solid rgba(255,255,255,.08);
-  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
-}
-
-.popularCard:hover{
-  transform:translateY(-2px);
-  border-color:rgba(255,212,90,.35);
-  box-shadow:0 0 0 1px rgba(255,212,90,.12), 0 12px 30px rgba(0,0,0,.30);
-  background:rgba(255,212,90,.06);
-}
-
-.popularCard .price{
-  color:#ffd45a;
-  font-weight:900;
-}
-
-/* =========================
-   LAYOUT
-   ========================= */
-
-.menuSplit{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.menuSplit--single{
-  grid-template-columns:1fr;
-}
-
-/* =========================
-   MENU CARD
-   ========================= */
-
-.menuCard{
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:18px;
-  padding:14px;
-  box-shadow:0 24px 70px rgba(0,0,0,.45);
+.flyerCard__sub{
   position:relative;
-  overflow:visible;
-  backdrop-filter:blur(12px);
+  z-index:1;
+  margin-top:12px;
+  color:var(--day-accent);
+  font-weight:900;
 }
 
-.menuCard::before{
-  content:"";
+.flyerDots{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  margin-top:12px;
+}
+
+.flyerDot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:rgba(255,255,255,.22);
+  border:0;
+  padding:0;
+  cursor:pointer;
+}
+
+.flyerDot.is-active{
+  background:var(--day-accent);
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--day-accent) 22%, transparent);
+}
+
+/* Bottle service launcher */
+.bottleServiceBtn{
+  position:fixed;
+  right:16px;
+  bottom:88px;
+  z-index:9997;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(10,10,14,.88);
+  color:#fff;
+  text-decoration:none;
+  font-weight:950;
+  box-shadow:0 14px 30px rgba(0,0,0,.35);
+  backdrop-filter:blur(10px);
+}
+
+.bottleServiceBtn__icon{
+  color:var(--day-accent);
+}
+
+/* Modal */
+.bottleModal{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:none;
+}
+
+.bottleModal.is-open{
+  display:block;
+}
+
+.bottleModal__backdrop{
   position:absolute;
   inset:0;
-  border-radius:18px;
-  pointer-events:none;
-  border:1px solid rgba(255,212,90,.12);
+  background:rgba(0,0,0,.70);
+  backdrop-filter:blur(6px);
 }
 
-.cardTitle{
-  position:relative;
-  z-index:1;
-  font-weight:950;
-  letter-spacing:.10em;
-  font-size:13px;
-  color:rgba(255,255,255,.86);
-  margin-bottom:10px;
-}
-
-/* =========================
-   CATEGORY BAR
-   ========================= */
-
-.catBar{
-  position:relative;
-  z-index:1;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:12px;
-}
-
-.cat{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  color:#fff;
-  padding:8px 10px;
-  border-radius:999px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
-  transition:transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
-}
-
-.cat:hover{
-  transform:translateY(-1px);
-}
-
-.cat.active{
-  background:rgba(255,212,90,.16);
-  border-color:rgba(255,212,90,.55);
-  box-shadow:0 0 0 1px rgba(255,212,90,.18);
-}
-
-.cat::before{ margin-right:6px; }
-.cat[data-cat="food"]::before{content:"🍽";}
-.cat[data-cat="shots5"]::before{content:"🥃";}
-.cat[data-cat="shots7"]::before{content:"🥃";}
-.cat[data-cat="drinks10"]::before{content:"🍸";}
-.cat[data-cat="drinks14"]::before{content:"🍸";}
-.cat[data-cat="cocktails10"]::before{content:"🍹";}
-.cat[data-cat="wine6"]::before{content:"🍷";}
-.cat[data-cat="beer4"]::before{content:"🍺";}
-.cat[data-cat="highnoon8"]::before{content:"✨";}
-.cat[data-cat="na"]::before{content:"🥤";}
-.cat[data-cat="hookah23"]::before{content:"💨";}
-.cat[data-cat="tower43"]::before{content:"🍾";}
-.cat[data-cat="fishbowl23"]::before{content:"🫧";}
-.cat[data-cat="bottles"]::before{content:"👑";}
-.cat[data-cat="premium"]::before{content:"💎";}
-.cat[data-cat="refill12"]::before{content:"♻️";}
-
-/* =========================
-   CATEGORY BODY
-   ========================= */
-
-.catBody{
-  position:relative;
-  z-index:1;
-  min-height:180px;
-  padding:10px;
-  border-radius:14px;
-  background:rgba(0,0,0,.20);
+.bottleModal__panel{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  width:min(920px, calc(100vw - 24px));
+  max-height:min(86vh, 820px);
+  overflow:auto;
+  border-radius:20px;
+  background:#0e0e12;
   border:1px solid rgba(255,255,255,.10);
-  margin-bottom:6px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  padding:18px;
 }
 
-.sectionHead{
-  font-weight:950;
-  letter-spacing:.06em;
-  margin-bottom:10px;
-  color:rgba(255,255,255,.92);
-}
-
-.listGrid{
-  display:grid;
-  gap:8px;
-}
-
-.itemRow{
+.bottleModal__head{
   display:flex;
+  align-items:center;
   justify-content:space-between;
   gap:12px;
-  padding:8px 10px;
+  margin-bottom:14px;
+}
+
+.bottleModal__title{
+  font-size:24px;
+  font-weight:950;
+  color:#fff;
+}
+
+.bottleModal__close{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  width:42px;
+  height:42px;
   border-radius:12px;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.bottleModal__sub{
+  color:rgba(255,255,255,.72);
+  margin-bottom:16px;
+}
+
+.bottlePackages{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.bottlePack{
+  border-radius:18px;
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);
-  transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease;
+  padding:16px;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 
-.itemRow:hover{
-  transform:translateY(-1px);
-  border-color:rgba(255,212,90,.24);
-  box-shadow:0 0 0 1px rgba(255,212,90,.08);
-  background:rgba(255,212,90,.04);
+.bottlePack:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb, var(--day-accent) 38%, rgba(255,255,255,.08));
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--day-accent) 12%, transparent);
 }
 
-.price{
-  color:#ffd45a;
+.bottlePack__tier{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  color:var(--day-accent);
+  font-size:11px;
   font-weight:950;
+  letter-spacing:.10em;
+  text-transform:uppercase;
 }
 
-.muted{
-  color:rgba(255,255,255,.68);
-  font-weight:650;
-  font-size:13px;
-}
-
-.twoCols{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.colBox{
-  padding:10px;
-  border-radius:14px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-}
-
-.colTitle{
+.bottlePack__price{
+  margin-top:14px;
+  font-size:32px;
   font-weight:950;
-  margin-bottom:8px;
-  color:rgba(255,255,255,.88);
+  color:#fff;
 }
 
-.bullets{
-  margin:0;
+.bottlePack__items{
+  margin:14px 0 0;
   padding-left:18px;
   color:rgba(255,255,255,.82);
 }
 
-.bullets li{
-  margin:6px 0;
+.bottlePack__items li{
+  margin:7px 0;
 }
 
-.reserveInline{
-  position:relative;
-  z-index:1;
-  display:inline-block;
-  margin-top:12px;
-  background:rgba(255,212,90,.18);
-  border:1px solid rgba(255,212,90,.55);
-  color:#ffd45a;
-  padding:10px 12px;
-  border-radius:12px;
-  font-weight:950;
-  text-decoration:none;
-}
-
-/* =========================
-   BACK BUTTON
-   ========================= */
-
-.backBtn{
+.bottlePack__cta{
   display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin:0 0 10px 0;
-  padding:10px 12px;
+  margin-top:16px;
+  padding:11px 14px;
   border-radius:12px;
-  border:1px solid rgba(255,212,90,.55);
-  background:rgba(255,212,90,.12);
-  color:#ffd45a;
-  font-weight:900;
-  cursor:pointer;
-}
-
-/* =========================
-   ACCORDION
-   ========================= */
-
-.acc{
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.04);
-}
-
-.acc + .acc{
-  margin-top:10px;
-}
-
-.acc__summary{
-  list-style:none;
-  cursor:pointer;
-  padding:14px 14px;
-  font-weight:950;
-  letter-spacing:.04em;
-  color:rgba(255,255,255,.94);
-  background:rgba(0,0,0,.22);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  display:flex;
-  align-items:center;
-}
-
-.acc__summary::-webkit-details-marker{
-  display:none;
-}
-
-.acc__summary::before{
-  content:"▶";
-  margin-right:10px;
-  color:#ffd45a;
-  font-size:12px;
-}
-
-.acc[open] .acc__summary::before{
-  content:"▼";
-}
-
-.acc[open] .acc__summary{
-  background:rgba(255,212,90,.10);
-  border-bottom-color:rgba(255,212,90,.20);
-  color:#fff;
-}
-
-.acc .colBox{
-  margin:0;
-  border:0;
-  border-radius:0;
-  background:transparent;
-  padding:12px;
-  box-shadow:none;
-}
-
-/* =========================
-   COCKTAIL LIST
-   ========================= */
-
-.cocktailList{
-  display:grid;
-  gap:14px;
-}
-
-.cocktailItem{
-  padding:4px 0 10px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.cocktailItem:last-child{
-  border-bottom:0;
-  padding-bottom:0;
-}
-
-.cocktailName{
-  font-size:18px;
-  font-weight:900;
-  color:#fff;
-  margin-bottom:6px;
-}
-
-.cocktailDesc{
-  font-size:14px;
-  line-height:1.45;
-  color:rgba(255,255,255,.78);
-}
-
-/* =========================
-   PROMO BOX
-   ========================= */
-
-.menuPromo{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  min-height:160px;
-  text-align:center;
-  padding:10px;
-  overflow:hidden;
-}
-
-.menuPromoIcon{
-  position:relative;
-  z-index:2;
-  font-size:38px;
-  opacity:.9;
-}
-
-.menuPromoTitle{
-  position:relative;
-  z-index:2;
-  font-size:20px;
-  font-weight:900;
-  letter-spacing:.05em;
-  color:#ffd45a;
-  text-shadow:0 0 16px rgba(255,212,90,.12);
-}
-
-.menuPromoText{
-  position:relative;
-  z-index:2;
-  font-size:14px;
-  color:rgba(255,255,255,.7);
-}
-
-/* =========================
-   PROMO ANIMATIONS
-   ========================= */
-
-.promoAnim{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
-}
-
-/* Monday */
-.promoAnim--monday .spark{
-  position:absolute;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(255,212,90,1) 0%, rgba(255,212,90,.15) 70%, transparent 100%);
-  animation:sparkleFloat 3.5s ease-in-out infinite;
-  filter:blur(.2px);
-}
-
-.promoAnim--monday .s1{ top:28%; left:32%; animation-delay:0s; }
-.promoAnim--monday .s2{ top:18%; left:56%; animation-delay:1s; }
-.promoAnim--monday .s3{ top:40%; left:64%; animation-delay:2s; }
-
-.promoAnim--monday .smoke{
-  position:absolute;
-  bottom:18px;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(255,255,255,.08) 0%, rgba(255,255,255,.03) 45%, transparent 72%);
-  filter:blur(14px);
-  animation:smokeRise 6s ease-in-out infinite;
-}
-
-.promoAnim--monday .smoke1{ left:20%; animation-delay:0s; }
-.promoAnim--monday .smoke2{ right:18%; animation-delay:2.5s; }
-
-/* Tuesday */
-.promoAnim--tuesday .tacoGlow{
-  position:absolute;
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(255,140,70,.16) 0%, transparent 70%);
-  top:20%;
-  left:20%;
-  animation:pulseGlow 4s ease-in-out infinite;
-}
-
-.promoAnim--tuesday .tacoGlow2{
-  left:auto;
-  right:18%;
-  top:35%;
-  animation-delay:1.4s;
-}
-
-/* Wednesday */
-.promoAnim--wednesday .waveBar{
-  position:absolute;
-  bottom:24px;
-  left:28%;
-  width:10px;
-  height:40px;
-  border-radius:999px;
-  background:rgba(255,212,90,.45);
-  animation:equalizer 1.2s ease-in-out infinite;
-}
-
-.promoAnim--wednesday .waveBar2{
-  left:calc(28% + 18px);
-  animation-delay:.2s;
-}
-
-.promoAnim--wednesday .waveBar3{
-  left:calc(28% + 36px);
-  animation-delay:.4s;
-}
-
-/* Thursday */
-.promoAnim--thursday .pulseRing,
-.promoAnim--saturday .pulseRing{
-  position:absolute;
-  top:50%;
-  left:50%;
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  border:1px solid rgba(255,212,90,.35);
-  transform:translate(-50%, -50%);
-  animation:ringPulse 2.8s ease-out infinite;
-}
-
-.promoAnim--thursday .ring2,
-.promoAnim--saturday .ring2{
-  animation-delay:1.2s;
-}
-
-/* Friday / Saturday */
-.promoAnim--friday .lightSweep,
-.promoAnim--saturday .lightSweep{
-  position:absolute;
-  inset:-30%;
-  background:linear-gradient(120deg, transparent 44%, rgba(255,212,90,.10) 50%, transparent 56%);
-  animation:promoSweep 4.5s linear infinite;
-}
-
-/* Sunday */
-.promoAnim--sunday .smoke{
-  position:absolute;
-  bottom:10px;
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 45%, transparent 72%);
-  filter:blur(18px);
-  animation:smokeRise 7s ease-in-out infinite;
-}
-
-.promoAnim--sunday .smoke1{ left:22%; }
-.promoAnim--sunday .smoke2{ right:22%; animation-delay:2s; }
-
-/* Keyframes */
-@keyframes sparkleFloat{
-  0%,100%{ transform:translateY(0) scale(.8); opacity:.35; }
-  50%{ transform:translateY(-14px) scale(1.2); opacity:1; }
-}
-
-@keyframes smokeRise{
-  0%{ transform:translateY(14px) scale(.88); opacity:0; }
-  25%{ opacity:.5; }
-  70%{ opacity:.18; }
-  100%{ transform:translateY(-38px) scale(1.2); opacity:0; }
-}
-
-@keyframes pulseGlow{
-  0%,100%{ transform:scale(.92); opacity:.35; }
-  50%{ transform:scale(1.08); opacity:.85; }
-}
-
-@keyframes equalizer{
-  0%,100%{ height:24px; opacity:.35; }
-  50%{ height:58px; opacity:1; }
-}
-
-@keyframes ringPulse{
-  0%{ transform:translate(-50%, -50%) scale(.7); opacity:.55; }
-  100%{ transform:translate(-50%, -50%) scale(1.6); opacity:0; }
-}
-
-@keyframes promoSweep{
-  0%{ transform:translateX(-50%) rotate(10deg); }
-  100%{ transform:translateX(50%) rotate(10deg); }
-}
-
-/* =========================
-   MOBILE RESERVE
-   ========================= */
-
-.mobileReserve{
-  position:fixed;
-  bottom:44px;
-  left:16px;
-  right:16px;
-  z-index:9999;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:14px 18px;
-  border-radius:16px;
   text-decoration:none;
   font-weight:950;
-  color:#141414;
-  background:linear-gradient(180deg, rgba(255,212,90,.98), rgba(215,180,106,.96));
-  border:1px solid rgba(255,212,90,.75);
-  box-shadow:0 16px 40px rgba(0,0,0,.45);
+  color:#111;
+  background:var(--day-accent);
 }
 
-.vibeStrip{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:9998;
-  min-height:34px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 16px;
-  text-align:center;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.08em;
-  color:rgba(255,255,255,.86);
-  background:rgba(8,8,12,.88);
-  border-top:1px solid rgba(255,255,255,.08);
+/* Responsive */
+@media (max-width:980px){
+  .bottlePackages{
+    grid-template-columns:1fr;
+  }
 }
-
-/* =========================
-   RESPONSIVE
-   ========================= */
 
 @media (max-width:768px){
-  .mobileReserve{ display:flex; }
-  .reserveTop{ display:none; }
-}
+  .eventCountdown{
+    align-items:flex-start;
+  }
 
-@media (max-width:980px){
-  .menuSplit{ grid-template-columns:1fr; }
-  .dayName{ font-size:34px; }
-  .popularTonight__grid{ grid-template-columns:repeat(2,1fr); }
-}
+  .eventCountdown__clock{
+    width:100%;
+  }
 
-@media (max-width:500px){
-  .popularTonight__grid{ grid-template-columns:1fr; }
+  .countChip{
+    flex:1 1 70px;
+  }
+
+  .flyerCard{
+    min-height:140px;
+  }
+
+  .flyerCard__title{
+    font-size:22px;
+  }
+
+  .bottleServiceBtn{
+    right:14px;
+    bottom:98px;
+  }
 }
