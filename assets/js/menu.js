@@ -1593,3 +1593,142 @@ function phase8ApplyImages(day) {
     }, 0);
   };
 })();
+/* =========================
+   PHASE 9 ADD-ON
+   AI NIGHTCLUB MODE
+   Safe extension
+   ========================= */
+
+const PHASE9_VIBE_LINES = {
+  monday: [
+    "Monday special active • Free Hookah energy",
+    "VIP mood loading • cocktails and smoke",
+    "Tonight's vibe • smooth lounge motion"
+  ],
+  tuesday: [
+    "Taco Tuesday active • party plates and drinks",
+    "Tonight's vibe • tacos, cocktails, hookah",
+    "VIP mood loading • Tuesday turn-up"
+  ],
+  wednesday: [
+    "Midweek luxe active • after-work glow",
+    "Tonight's vibe • smooth drinks and lounge energy",
+    "VIP mood loading • R&B and Amapiano"
+  ],
+  thursday: [
+    "Karaoke Thursday active • mic check energy",
+    "Tonight's vibe • sing, sip, stay",
+    "VIP mood loading • late-night pulse"
+  ],
+  friday: [
+    "Friday night active • DJ, hookah, bottles",
+    "Tonight's vibe • prime lounge energy",
+    "VIP mood loading • high-demand night"
+  ],
+  saturday: [
+    "Saturday takeover active • peak luxury mode",
+    "Tonight's vibe • VIP sections and celebration",
+    "VIP mood loading • bottle service all night"
+  ],
+  sunday: [
+    "Social Sunday active • chill lounge mode",
+    "Tonight's vibe • food, wine, hookah",
+    "VIP mood loading • smooth closeout energy"
+  ]
+};
+
+let phase9VibeTimer = null;
+
+function phase9ClearThemes() {
+  document.body.classList.remove(
+    "ai-theme-monday",
+    "ai-theme-tuesday",
+    "ai-theme-wednesday",
+    "ai-theme-thursday",
+    "ai-theme-friday",
+    "ai-theme-saturday",
+    "ai-theme-sunday"
+  );
+}
+
+function phase9ApplyTheme(day) {
+  document.body.classList.add("ai-night-mode");
+  phase9ClearThemes();
+  document.body.classList.add(`ai-theme-${day}`);
+}
+
+function phase9EnsureOrbs() {
+  if (document.querySelector(".aiOrbs")) return;
+
+  const wrap = document.createElement("div");
+  wrap.className = "aiOrbs";
+  wrap.innerHTML = `
+    <div class="aiOrb aiOrb--1"></div>
+    <div class="aiOrb aiOrb--2"></div>
+    <div class="aiOrb aiOrb--3"></div>
+    <div class="aiOrb aiOrb--4"></div>
+  `;
+  document.body.appendChild(wrap);
+}
+
+function phase9InjectHeroGlow(day) {
+  const panel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+  if (!panel) return;
+
+  panel.querySelectorAll(".aiModePill,.aiHeroGlow").forEach((node) => node.remove());
+
+  const hero = panel.querySelector(".heroRow > div");
+  if (!hero) return;
+
+  const pill = document.createElement("div");
+  pill.className = "aiModePill";
+  pill.innerHTML = `
+    <span class="aiModePill__dot"></span>
+    <span>AI Nightclub Mode</span>
+  `;
+
+  const glow = document.createElement("div");
+  glow.className = "aiHeroGlow";
+
+  hero.appendChild(pill);
+  hero.appendChild(glow);
+}
+
+function phase9StartVibeRotation(day) {
+  if (phase9VibeTimer) {
+    clearInterval(phase9VibeTimer);
+    phase9VibeTimer = null;
+  }
+
+  const strip = document.querySelector(".vibeStrip");
+  if (!strip) return;
+
+  const lines = PHASE9_VIBE_LINES[day] || PHASE9_VIBE_LINES.monday;
+  const base = getDayData(day);
+  let index = 0;
+
+  function paint() {
+    strip.textContent = `${base.badge} • ${lines[index]} • DJ ${base.lineup}`;
+    index = (index + 1) % lines.length;
+  }
+
+  paint();
+  phase9VibeTimer = setInterval(paint, 3200);
+}
+
+(function phase9PatchActivateDay() {
+  const originalActivateDayPhase9 = activateDay;
+
+  activateDay = function(day) {
+    originalActivateDayPhase9(day);
+    phase9ApplyTheme(day);
+    phase9EnsureOrbs();
+    phase9InjectHeroGlow(day);
+    phase9StartVibeRotation(day);
+  };
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  phase9EnsureOrbs();
+  phase9ApplyTheme(getToday());
+});
