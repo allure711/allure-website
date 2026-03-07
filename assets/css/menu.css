@@ -1,178 +1,605 @@
 /* =========================
-   VIP NIGHT BANNER
+   MENU PAGE (FULL CLEAN)
+   ========================= */
+
+.menu-page{
+  background:#07070a;
+  color:#f5f5f5;
+}
+
+html,
+body{
+  overflow-x:hidden;
+}
+
+.menuWrap{
+  position:relative;
+  padding:22px 0 180px;
+  overflow-x:hidden;
+  overflow-y:visible;
+}
+
+/* Background glow */
+.menuWrap::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(255,215,90,.10), transparent 60%),
+    radial-gradient(900px 500px at 85% 20%, rgba(154,92,255,.12), transparent 55%),
+    radial-gradient(800px 500px at 70% 80%, rgba(0,255,180,.08), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.88));
+  z-index:0;
+}
+
+.container{
+  position:relative;
+  z-index:1;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header--menu{
+  background:rgba(10,10,14,.70);
+  border-bottom:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(14px);
+}
+
+.brand{
+  color:#d7c9ff;
+  text-decoration:none;
+  font-weight:800;
+}
+
+.ctaTop{
+  background:#ffd45a;
+  color:#111;
+  padding:10px 14px;
+  border-radius:12px;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 14px 40px rgba(0,0,0,.35);
+}
+
+/* =========================
+   DAY TABS
+   ========================= */
+
+.dayTabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:14px 0 10px;
+}
+
+.dayTab{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:800;
+  transition:transform .15s ease, background .15s ease, border-color .15s ease;
+}
+
+.dayTab:hover{
+  transform:translateY(-1px);
+}
+
+.dayTab.active{
+  background:rgba(255,212,90,.16);
+  border-color:rgba(255,212,90,.55);
+  box-shadow:0 0 0 1px rgba(255,212,90,.18), 0 12px 40px rgba(0,0,0,.45);
+}
+
+/* =========================
+   DAY PANELS
+   ========================= */
+
+.dayPanel{
+  display:none;
+  padding-bottom:30px;
+}
+
+.dayPanel.active{
+  display:block;
+}
+
+/* =========================
+   HERO
+   ========================= */
+
+.heroRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin:10px 0 18px;
+}
+
+.heroRight{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.dayName{
+  font-size:44px;
+  font-weight:950;
+  letter-spacing:.06em;
+}
+
+.daySub{
+  color:rgba(255,255,255,.72);
+  margin-top:6px;
+  font-weight:650;
+}
+
+.vipBadge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:10px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.12em;
+  color:#1a1407;
+  background:linear-gradient(180deg, rgba(255,212,90,.95), rgba(215,180,106,.95));
+  border:1px solid rgba(255,212,90,.65);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.limitedTag{
+  display:none;
+  padding:8px 10px;
+  border-radius:999px;
+  font-weight:950;
+  letter-spacing:.10em;
+  font-size:12px;
+  color:#ffd45a;
+  background:rgba(255,212,90,.10);
+  border:1px solid rgba(255,212,90,.55);
+}
+
+.reserveTop{
+  background:#ffd45a;
+  color:#141414;
+  text-decoration:none;
+  padding:12px 16px;
+  border-radius:14px;
+  font-weight:950;
+  box-shadow:0 14px 40px rgba(0,0,0,.40);
+}
+
+/* =========================
+   VIP BANNER
    ========================= */
 
 .vipNightBanner{
-margin:20px 0;
-padding:22px;
-border-radius:16px;
-
-background:linear-gradient(135deg,#3b2b00,#0c0c0c);
-
-border:1px solid rgba(255,212,90,.35);
-
-box-shadow:0 10px 40px rgba(0,0,0,.5);
+  margin:20px 0 14px;
+  padding:22px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#3b2b00,#0c0c0c);
+  border:1px solid rgba(255,212,90,.35);
+  box-shadow:0 10px 40px rgba(0,0,0,.5);
 }
 
 .vipNightBanner__badge{
-font-size:12px;
-font-weight:900;
-letter-spacing:.08em;
-
-color:#ffd45a;
-
-margin-bottom:8px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.08em;
+  color:#ffd45a;
+  margin-bottom:8px;
 }
 
 .vipNightBanner__title{
-font-size:28px;
-font-weight:900;
-
-color:white;
-
-margin-bottom:4px;
+  font-size:28px;
+  font-weight:900;
+  color:#fff;
+  margin-bottom:4px;
 }
 
 .vipNightBanner__meta{
-opacity:.8;
-margin-top:4px;
+  opacity:.8;
+  margin-top:4px;
 }
 
 .vipNightBanner__lineup{
-color:#ffd45a;
-margin-top:6px;
-font-weight:700;
+  color:#ffd45a;
+  margin-top:6px;
+  font-weight:700;
 }
-
 
 /* =========================
    POPULAR TONIGHT
    ========================= */
 
 .popularTonight{
-margin-bottom:22px;
+  margin-bottom:22px;
 }
 
 .popularTonight__title{
-font-weight:900;
-margin-bottom:12px;
-font-size:16px;
+  font-weight:900;
+  margin-bottom:12px;
+  font-size:16px;
 }
 
 .popularTonight__grid{
-
-display:grid;
-
-grid-template-columns:repeat(4,1fr);
-
-gap:12px;
-
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
 }
 
 .popularCard{
-
-background:rgba(255,255,255,.05);
-
-padding:14px;
-
-border-radius:12px;
-
-display:flex;
-
-justify-content:space-between;
-
-border:1px solid rgba(255,255,255,.08);
-
+  background:rgba(255,255,255,.05);
+  padding:14px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  border:1px solid rgba(255,255,255,.08);
 }
 
 .popularCard .price{
-color:#ffd45a;
-font-weight:900;
+  color:#ffd45a;
+  font-weight:900;
 }
 
+/* =========================
+   LAYOUT
+   ========================= */
+
+.menuSplit{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.menuSplit--single{
+  grid-template-columns:1fr;
+}
+
+/* =========================
+   MENU CARD
+   ========================= */
+
+.menuCard{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:14px;
+  box-shadow:0 24px 70px rgba(0,0,0,.45);
+  position:relative;
+  overflow:visible;
+  backdrop-filter:blur(12px);
+}
+
+.menuCard::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  pointer-events:none;
+  border:1px solid rgba(255,212,90,.12);
+}
+
+.cardTitle{
+  position:relative;
+  z-index:1;
+  font-weight:950;
+  letter-spacing:.10em;
+  font-size:13px;
+  color:rgba(255,255,255,.86);
+  margin-bottom:10px;
+}
+
+/* =========================
+   CATEGORY BAR
+   ========================= */
+
+.catBar{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.cat{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  color:#fff;
+  padding:8px 10px;
+  border-radius:999px;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:transform .12s ease, border-color .12s ease, background .12s ease;
+}
+
+.cat:hover{
+  transform:translateY(-1px);
+}
+
+.cat.active{
+  background:rgba(255,212,90,.16);
+  border-color:rgba(255,212,90,.55);
+  box-shadow:0 0 0 1px rgba(255,212,90,.18);
+}
+
+.cat::before{
+  margin-right:6px;
+}
+
+.cat[data-cat="food"]::before{content:"🍽";}
+.cat[data-cat="shots5"]::before{content:"🥃";}
+.cat[data-cat="shots7"]::before{content:"🥃";}
+.cat[data-cat="drinks10"]::before{content:"🍸";}
+.cat[data-cat="drinks14"]::before{content:"🍸";}
+.cat[data-cat="cocktails10"]::before{content:"🍹";}
+.cat[data-cat="wine6"]::before{content:"🍷";}
+.cat[data-cat="beer4"]::before{content:"🍺";}
+.cat[data-cat="highnoon8"]::before{content:"✨";}
+.cat[data-cat="na"]::before{content:"🥤";}
+.cat[data-cat="hookah23"]::before{content:"💨";}
+.cat[data-cat="tower43"]::before{content:"🍾";}
+.cat[data-cat="fishbowl23"]::before{content:"🫧";}
+.cat[data-cat="bottles"]::before{content:"👑";}
+.cat[data-cat="premium"]::before{content:"💎";}
+.cat[data-cat="refill12"]::before{content:"♻️";}
+
+/* =========================
+   CATEGORY BODY
+   ========================= */
+
+.catBody{
+  position:relative;
+  z-index:1;
+  min-height:180px;
+  padding:10px;
+  border-radius:14px;
+  background:rgba(0,0,0,.20);
+  border:1px solid rgba(255,255,255,.10);
+  margin-bottom:6px;
+}
+
+.sectionHead{
+  font-weight:950;
+  letter-spacing:.06em;
+  margin-bottom:10px;
+  color:rgba(255,255,255,.92);
+}
+
+.listGrid{
+  display:grid;
+  gap:8px;
+}
+
+.itemRow{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.price{
+  color:#ffd45a;
+  font-weight:950;
+}
+
+.muted{
+  color:rgba(255,255,255,.68);
+  font-weight:650;
+  font-size:13px;
+}
+
+.twoCols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.colBox{
+  padding:10px;
+  border-radius:14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.colTitle{
+  font-weight:950;
+  margin-bottom:8px;
+  color:rgba(255,255,255,.88);
+}
+
+.bullets{
+  margin:0;
+  padding-left:18px;
+  color:rgba(255,255,255,.82);
+}
+
+.bullets li{
+  margin:6px 0;
+}
+
+.reserveInline{
+  position:relative;
+  z-index:1;
+  display:inline-block;
+  margin-top:12px;
+  background:rgba(255,212,90,.18);
+  border:1px solid rgba(255,212,90,.55);
+  color:#ffd45a;
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:950;
+  text-decoration:none;
+}
+
+/* =========================
+   BACK BUTTON
+   ========================= */
+
+.backBtn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:0 0 10px 0;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,212,90,.55);
+  background:rgba(255,212,90,.12);
+  color:#ffd45a;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* =========================
+   ACCORDION
+   ========================= */
+
+.acc{
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+}
+
+.acc + .acc{
+  margin-top:10px;
+}
+
+.acc__summary{
+  list-style:none;
+  cursor:pointer;
+  padding:14px 14px;
+  font-weight:950;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.94);
+  background:rgba(0,0,0,.22);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+}
+
+.acc__summary::-webkit-details-marker{
+  display:none;
+}
+
+.acc__summary::before{
+  content:"▶";
+  margin-right:10px;
+  color:#ffd45a;
+  font-size:12px;
+}
+
+.acc[open] .acc__summary::before{
+  content:"▼";
+}
+
+.acc[open] .acc__summary{
+  background:rgba(255,212,90,.10);
+  border-bottom-color:rgba(255,212,90,.20);
+  color:#fff;
+}
+
+.acc .colBox{
+  margin:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  padding:12px;
+  box-shadow:none;
+}
+
+/* =========================
+   COCKTAIL LIST
+   ========================= */
+
+.cocktailList{
+  display:grid;
+  gap:14px;
+}
+
+.cocktailItem{
+  padding:4px 0 10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.cocktailItem:last-child{
+  border-bottom:0;
+  padding-bottom:0;
+}
+
+.cocktailName{
+  font-size:18px;
+  font-weight:900;
+  color:#fff;
+  margin-bottom:6px;
+}
+
+.cocktailDesc{
+  font-size:14px;
+  line-height:1.45;
+  color:rgba(255,255,255,.78);
+}
+
+/* =========================
+   PROMO BOX
+   ========================= */
+
+.menuPromo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:160px;
+  text-align:center;
+  padding:10px;
+}
+
+.menuPromoIcon{
+  font-size:38px;
+  opacity:.9;
+}
+
+.menuPromoTitle{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:.05em;
+  color:#ffd45a;
+}
+
+.menuPromoText{
+  font-size:14px;
+  color:rgba(255,255,255,.7);
+}
+
+/* =========================
+   REVEAL
+   ========================= */
+
+.reveal{
+  opacity:1;
+  transform:none;
+}
 
 /* =========================
    MOBILE RESERVE BUTTON
    ========================= */
 
 .mobileReserve{
-
-position:fixed;
-
-bottom:70px;
-
-left:20px;
-right:20px;
-
-background:#ffd45a;
-
-color:black;
-
-text-align:center;
-
-padding:14px;
-
-font-weight:900;
-
-border-radius:14px;
-
-z-index:9999;
-
-box-shadow:0 10px 30px rgba(0,0,0,.5);
-
-}
-
-
-/* =========================
-   VIBE STRIP
-   ========================= */
-
-.vibeStrip{
-
-position:fixed;
-
-bottom:0;
-
-left:0;
-right:0;
-
-background:#111;
-
-color:#fff;
-
-text-align:center;
-
-padding:8px;
-
-font-size:12px;
-
-letter-spacing:.08em;
-
-z-index:9998;
-
-}
-
-
-/* =========================
-   MOBILE FIXES
-   ========================= */
-
-@media (max-width:900px){
-
-.popularTonight__grid{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-}
-
-@media (max-width:500px){
-
-.popularTonight__grid{
-
-grid-template-columns:1fr;
-
-}
-
-}
+  position:fixed;
+  bottom:44px;
