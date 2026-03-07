@@ -1523,3 +1523,100 @@ body{
     grid-template-columns:1fr;
   }
 }
+/* =========================
+   PHASE 8
+   Real Image Support
+   ========================= */
+
+/* Real image mode for flyer cards */
+.djFlyer.has-image{
+  background:#111;
+}
+
+.djFlyer__img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.djFlyer.has-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.06) 0%, rgba(0,0,0,.70) 100%);
+}
+
+/* Real image mode for IG tiles */
+.igTile.has-image{
+  background:#111;
+}
+
+.igTile__img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.igTile.has-image::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.02) 20%, rgba(0,0,0,.38) 100%);
+  z-index:0;
+}
+
+.igTile.has-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, transparent 35%, rgba(0,0,0,.45));
+  z-index:0;
+}
+
+.igTile.has-image .igTile__cap{
+  z-index:1;
+}
+
+/* QR real image mode */
+.qrBox{
+  position:relative;
+  overflow:hidden;
+}
+
+.qrBox.has-image{
+  border:0;
+  background:#fff;
+}
+
+.qrBox__img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  background:#fff;
+}
+
+/* Optional image badge */
+.phase8Badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  color:rgba(255,255,255,.82);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
