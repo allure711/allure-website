@@ -1,191 +1,47 @@
 /* =========================
-   Menu System – Phase 5
+   VIP NIGHT BANNER
    ========================= */
 
-const PHONE = "+12025550123";
+.vipNightBanner{
+margin:20px 0;
+padding:22px;
+border-radius:16px;
 
-/* =========================
-   DAY CONTENT
-   ========================= */
+background:linear-gradient(135deg,#3b2b00,#0c0c0c);
 
-const DAY_CONTENT = {
+border:1px solid rgba(255,212,90,.35);
 
-  monday:{
-    promoTitle:"FREE HOOKAH MONDAY",
-    promoText:"Tap a category to explore tonight’s menu.",
-    bannerTitle:"MONDAY VIP EXPERIENCE",
-    bannerMeta:"Free Hookah • Cocktails • Lounge Energy",
-    lineup:"Afrobeats • R&B • Hip-Hop",
-    badge:"MONDAY SPECIAL",
-    vibe:"Free Hookah • VIP Energy • Late Night",
-    popular:[
-      ["Salmon Sliders","$12"],
-      ["Allure Lemon Drop","$10"],
-      ["Hookah","$23"],
-      ["Fishbowl","$23"]
-    ]
-  },
-
-  tuesday:{
-    promoTitle:"TACO TUESDAY",
-    promoText:"Tap a category to explore tacos and drinks.",
-    bannerTitle:"TACO TUESDAY VIP",
-    bannerMeta:"Tacos • Margaritas • Hookah",
-    lineup:"Latin • Hip-Hop • Party Mix",
-    badge:"TUESDAY SPECIAL",
-    vibe:"Tacos • Margaritas • Hookah",
-    popular:[
-      ["Shrimp Tacos","$16"],
-      ["Chicken Tacos","$14"],
-      ["Cocktails","$10"],
-      ["Hookah","$23"]
-    ]
-  },
-
-  wednesday:{
-    promoTitle:"MIDWEEK WEDNESDAY",
-    promoText:"Tap a category to explore tonight’s specials.",
-    bannerTitle:"MIDWEEK LUXE",
-    bannerMeta:"After Work Drinks • Lounge",
-    lineup:"R&B • Amapiano",
-    badge:"MIDWEEK",
-    vibe:"After Work Drinks",
-    popular:[
-      ["Rasta Pasta","$16+"],
-      ["Moscow Mule","$10"],
-      ["High Noon","$8"],
-      ["Bottles","VIP"]
-    ]
-  },
-
-  thursday:{
-    promoTitle:"KARAOKE THURSDAY",
-    promoText:"Tap a category to explore the karaoke menu.",
-    bannerTitle:"KARAOKE NIGHT",
-    bannerMeta:"Live Mic • Cocktails",
-    lineup:"Open Mic • Party Anthems",
-    badge:"LIVE THURSDAY",
-    vibe:"Karaoke • Cocktails",
-    popular:[
-      ["Wings","$12+"],
-      ["Long Island","$10"],
-      ["Fishbowl","$23"],
-      ["Bottle Service","VIP"]
-    ]
-  },
-
-  friday:{
-    promoTitle:"ALLURE FRIDAY",
-    promoText:"Tap a category to explore tonight.",
-    bannerTitle:"FRIDAY NIGHT VIP",
-    bannerMeta:"DJ • VIP Sections • Hookah",
-    lineup:"Hip-Hop • Afrobeats",
-    badge:"FRIDAY NIGHT",
-    vibe:"DJ • Bottles • Hookah",
-    popular:[
-      ["Bottles","VIP"],
-      ["Hookah","$23"],
-      ["Fishbowl","$23"],
-      ["Premium Cocktails","$10+"]
-    ]
-  },
-
-  saturday:{
-    promoTitle:"ALLURE SATURDAY",
-    promoText:"Tap a category to explore tonight.",
-    bannerTitle:"SATURDAY VIP TAKEOVER",
-    bannerMeta:"Bottle Service • DJ Energy",
-    lineup:"Hip-Hop • Afrobeats",
-    badge:"SATURDAY VIP",
-    vibe:"Prime Night",
-    popular:[
-      ["VIP Bottles","🔥"],
-      ["Hookah","$23"],
-      ["Fishbowl","$23"],
-      ["Clase Azul","$650"]
-    ]
-  },
-
-  sunday:{
-    promoTitle:"SOCIAL SUNDAY",
-    promoText:"Tap a category to explore tonight.",
-    bannerTitle:"SOCIAL SUNDAY",
-    bannerMeta:"Relaxed Vibes • Food",
-    lineup:"R&B • Soul",
-    badge:"SUNDAY SOCIAL",
-    vibe:"Chill Lounge",
-    popular:[
-      ["Salmon Dinner","$20"],
-      ["Wine","$6"],
-      ["Hookah","$23"],
-      ["Bottles","VIP"]
-    ]
-  }
-
-};
-
-
-/* =========================
-   UTILITIES
-   ========================= */
-
-function getDayData(day){
-  return DAY_CONTENT[day] || DAY_CONTENT.monday;
+box-shadow:0 10px 40px rgba(0,0,0,.5);
 }
 
-function getToday(){
+.vipNightBanner__badge{
+font-size:12px;
+font-weight:900;
+letter-spacing:.08em;
 
-  const days=[
-    "sunday","monday","tuesday",
-    "wednesday","thursday",
-    "friday","saturday"
-  ];
+color:#ffd45a;
 
-  return days[new Date().getDay()];
+margin-bottom:8px;
 }
 
-/* =========================
-   PROMO
-   ========================= */
+.vipNightBanner__title{
+font-size:28px;
+font-weight:900;
 
-function getPromoMarkup(day){
+color:white;
 
-const c=getDayData(day);
-
-return `
-<div class="menuPromo">
-<div class="menuPromoIcon">✨</div>
-<div class="menuPromoTitle">${c.promoTitle}</div>
-<div class="menuPromoText">${c.promoText}</div>
-</div>
-`;
-
+margin-bottom:4px;
 }
 
+.vipNightBanner__meta{
+opacity:.8;
+margin-top:4px;
+}
 
-/* =========================
-   VIP BANNER
-   ========================= */
-
-function renderVipBanner(day){
-
-const c=getDayData(day);
-
-const section=document.createElement("section");
-
-section.className="vipNightBanner reveal";
-
-section.innerHTML=`
-
-<div class="vipNightBanner__badge">${c.badge}</div>
-<div class="vipNightBanner__title">${c.bannerTitle}</div>
-<div class="vipNightBanner__meta">${c.bannerMeta}</div>
-<div class="vipNightBanner__lineup">DJ: ${c.lineup}</div>
-
-`;
-
-return section;
-
+.vipNightBanner__lineup{
+color:#ffd45a;
+margin-top:6px;
+font-weight:700;
 }
 
 
@@ -193,114 +49,76 @@ return section;
    POPULAR TONIGHT
    ========================= */
 
-function renderPopular(day){
+.popularTonight{
+margin-bottom:22px;
+}
 
-const c=getDayData(day);
+.popularTonight__title{
+font-weight:900;
+margin-bottom:12px;
+font-size:16px;
+}
 
-const section=document.createElement("section");
+.popularTonight__grid{
 
-section.className="popularTonight reveal";
+display:grid;
 
-section.innerHTML=`
-<div class="popularTonight__title">🔥 Popular Tonight</div>
-<div class="popularTonight__grid"></div>
-`;
+grid-template-columns:repeat(4,1fr);
 
-const grid=section.querySelector(".popularTonight__grid");
+gap:12px;
 
-c.popular.forEach(i=>{
+}
 
-const card=document.createElement("div");
+.popularCard{
 
-card.className="popularCard";
+background:rgba(255,255,255,.05);
 
-card.innerHTML=`
-<span>${i[0]}</span>
-<span class="price">${i[1]}</span>
-`;
+padding:14px;
 
-grid.appendChild(card);
+border-radius:12px;
 
-});
+display:flex;
 
-return section;
+justify-content:space-between;
 
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+.popularCard .price{
+color:#ffd45a;
+font-weight:900;
 }
 
 
 /* =========================
-   DAY SWITCH
+   MOBILE RESERVE BUTTON
    ========================= */
 
-function activateDay(day){
+.mobileReserve{
 
-const panels=document.querySelectorAll(".dayPanel");
+position:fixed;
 
-panels.forEach(p=>p.classList.remove("active"));
+bottom:70px;
 
-const panel=document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+left:20px;
+right:20px;
 
-if(!panel) return;
+background:#ffd45a;
 
-panel.classList.add("active");
+color:black;
 
-panel.querySelectorAll(".vipNightBanner,.popularTonight").forEach(e=>e.remove());
+text-align:center;
 
-const hero=panel.querySelector(".heroRow");
+padding:14px;
 
-const banner=renderVipBanner(day);
+font-weight:900;
 
-const popular=renderPopular(day);
+border-radius:14px;
 
-hero.after(banner);
+z-index:9999;
 
-banner.after(popular);
-
-panel.querySelectorAll("[data-scopebody]").forEach(b=>{
-b.innerHTML=getPromoMarkup(day);
-});
-
-}
-
-
-/* =========================
-   DAY TABS
-   ========================= */
-
-function bindDayTabs(){
-
-document.querySelectorAll(".dayTab").forEach(tab=>{
-
-tab.onclick=()=>{
-
-const day=tab.dataset.daytab;
-
-activateDay(day);
-
-};
-
-});
-
-}
-
-
-/* =========================
-   MOBILE RESERVE
-   ========================= */
-
-function mobileReserve(){
-
-if(document.querySelector(".mobileReserve")) return;
-
-const btn=document.createElement("a");
-
-btn.href=`tel:${PHONE}`;
-
-btn.className="mobileReserve";
-
-btn.textContent="Reserve / Call";
-
-document.body.appendChild(btn);
+box-shadow:0 10px 30px rgba(0,0,0,.5);
 
 }
 
@@ -309,37 +127,52 @@ document.body.appendChild(btn);
    VIBE STRIP
    ========================= */
 
-function vibeStrip(){
+.vibeStrip{
 
-if(document.querySelector(".vibeStrip")) return;
+position:fixed;
 
-const strip=document.createElement("div");
+bottom:0;
 
-strip.className="vibeStrip";
+left:0;
+right:0;
 
-document.body.appendChild(strip);
+background:#111;
 
-const day=getToday();
+color:#fff;
 
-const c=getDayData(day);
+text-align:center;
 
-strip.textContent=`${c.badge} • ${c.vibe} • DJ ${c.lineup}`;
+padding:8px;
+
+font-size:12px;
+
+letter-spacing:.08em;
+
+z-index:9998;
 
 }
 
 
 /* =========================
-   INIT
+   MOBILE FIXES
    ========================= */
 
-document.addEventListener("DOMContentLoaded",()=>{
+@media (max-width:900px){
 
-bindDayTabs();
+.popularTonight__grid{
 
-mobileReserve();
+grid-template-columns:repeat(2,1fr);
 
-vibeStrip();
+}
 
-activateDay(getToday());
+}
 
-});
+@media (max-width:500px){
+
+.popularTonight__grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
