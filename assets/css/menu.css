@@ -310,6 +310,25 @@
   box-shadow: 0 0 0 1px rgba(255, 212, 90, .18);
 }
 
+.cat::before {
+  margin-right: 6px;
+}
+
+.cat[data-cat="food"]::before { content: "🍽"; }
+.cat[data-cat="shots5"]::before { content: "🥃"; }
+.cat[data-cat="shots7"]::before { content: "🥃"; }
+.cat[data-cat="drinks10"]::before { content: "🍸"; }
+.cat[data-cat="drinks14"]::before { content: "🍸"; }
+.cat[data-cat="cocktails10"]::before { content: "🍹"; }
+.cat[data-cat="wine6"]::before { content: "🍷"; }
+.cat[data-cat="beer4"]::before { content: "🍺"; }
+.cat[data-cat="highnoon8"]::before { content: "✨"; }
+.cat[data-cat="na"]::before { content: "🥤"; }
+.cat[data-cat="hookah23"]::before { content: "💨"; }
+.cat[data-cat="tower43"]::before { content: "🍾"; }
+.cat[data-cat="fishbowl23"]::before { content: "🫧"; }
+.cat[data-cat="bottles"]::before { content: "👑"; }
+
 .catBody {
   position: relative;
   z-index: 1;
@@ -561,6 +580,38 @@
 }
 
 /* =========================
+   EMPTY MENU PROMO AREA
+   ========================= */
+
+.menuPromo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 160px;
+  text-align: center;
+  padding: 10px;
+}
+
+.menuPromoIcon {
+  font-size: 38px;
+  opacity: .9;
+}
+
+.menuPromoTitle {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: .05em;
+  color: #ffd45a;
+}
+
+.menuPromoText {
+  font-size: 14px;
+  color: rgba(255,255,255,.7);
+}
+
+/* =========================
    RESPONSIVE
    ========================= */
 
@@ -573,91 +624,3 @@
     font-size: 34px;
   }
 }
-/* =========================
-   EMPTY MENU PROMO AREA
-   ========================= */
-
-.menuPromo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  min-height: 160px;
-  text-align: center;
-  padding: 10px;
-}
-
-.menuPromo img {
-  width: 140px;
-  max-width: 70%;
-  border-radius: 14px;
-  opacity: .95;
-  filter: drop-shadow(0 8px 24px rgba(0,0,0,.45));
-}
-
-.menuPromoTitle {
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: .06em;
-  color: #ffd45a;
-}
-
-.menuPromoText {
-  font-size: 14px;
-  color: rgba(255,255,255,.75);
-}
-
-/* =========================
-   MENU PROMO (EMPTY STATE)
-   ========================= */
-
-.menuPromo{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-gap:10px;
-min-height:160px;
-}
-
-.menuPromoIcon{
-font-size:38px;
-opacity:.9;
-}
-
-.menuPromoTitle{
-font-weight:900;
-font-size:20px;
-letter-spacing:.05em;
-color:#ffd45a;
-}
-
-.menuPromoText{
-font-size:14px;
-color:rgba(255,255,255,.7);
-}
-
-/* =========================
-   CATEGORY ICONS
-   ========================= */
-
-.cat::before{
-margin-right:6px;
-}
-
-.cat[data-cat="food"]::before{content:"🍽";}
-.cat[data-cat="shots5"]::before{content:"🥃";}
-.cat[data-cat="shots7"]::before{content:"🥃";}
-.cat[data-cat="drinks10"]::before{content:"🍸";}
-.cat[data-cat="drinks14"]::before{content:"🍸";}
-.cat[data-cat="cocktails10"]::before{content:"🍹";}
-.cat[data-cat="wine6"]::before{content:"🍷";}
-.cat[data-cat="beer4"]::before{content:"🍺";}
-.cat[data-cat="highnoon8"]::before{content:"✨";}
-.cat[data-cat="na"]::before{content:"🥤";}
-.cat[data-cat="hookah23"]::before{content:"💨";}
-.cat[data-cat="tower43"]::before{content:"🍾";}
-.cat[data-cat="fishbowl23"]::before{content:"🫧";}
-.cat[data-cat="bottles"]::before{content:"👑";}
