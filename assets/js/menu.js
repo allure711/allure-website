@@ -1732,3 +1732,217 @@ document.addEventListener("DOMContentLoaded", () => {
   phase9EnsureOrbs();
   phase9ApplyTheme(getToday());
 });
+/* =========================
+   PHASE 10 ADD-ON
+   Loader + VIP Reservation Modal + Toast
+   Safe extension
+   ========================= */
+
+function phase10EnsureLoader() {
+  if (document.querySelector(".allureLoader")) return;
+
+  const loader = document.createElement("div");
+  loader.className = "allureLoader";
+  loader.innerHTML = `
+    <div class="allureLoader__box">
+      <div class="allureLoader__brand">ALLURE</div>
+      <div class="allureLoader__sub">Loading tonight’s experience</div>
+      <div class="allureLoader__line">
+        <div class="allureLoader__fill"></div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(loader);
+
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      loader.classList.add("is-hidden");
+    }, 700);
+  });
+}
+
+function phase10EnsureToast() {
+  if (document.querySelector(".vipToast")) return;
+
+  const toast = document.createElement("div");
+  toast.className = "vipToast";
+  toast.textContent = "Reservation details ready.";
+  document.body.appendChild(toast);
+}
+
+function phase10ShowToast(text) {
+  const toast = document.querySelector(".vipToast");
+  if (!toast) return;
+
+  toast.textContent = text;
+  toast.classList.add("is-show");
+
+  setTimeout(() => {
+    toast.classList.remove("is-show");
+  }, 2400);
+}
+
+function phase10EnsureVipButton() {
+  if (document.querySelector(".vipFloatBtn")) return;
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "vipFloatBtn";
+  btn.innerHTML = `
+    <span class="vipFloatBtn__icon">👑</span>
+    <span>Book a Section</span>
+  `;
+
+  btn.addEventListener("click", () => {
+    const modal = document.querySelector(".vipReserveModal");
+    if (modal) modal.classList.add("is-open");
+  });
+
+  document.body.appendChild(btn);
+}
+
+function phase10EnsureVipModal() {
+  if (document.querySelector(".vipReserveModal")) return;
+
+  const modal = document.createElement("div");
+  modal.className = "vipReserveModal";
+  modal.innerHTML = `
+    <div class="vipReserveModal__backdrop"></div>
+    <div class="vipReserveModal__panel">
+      <div class="vipReserveModal__head">
+        <div class="vipReserveModal__title">VIP Reservation</div>
+        <button type="button" class="vipReserveModal__close" aria-label="Close">×</button>
+      </div>
+
+      <div class="vipReserveModal__sub">
+        Fill this out, then tap the button below to send your request by text message.
+      </div>
+
+      <form class="vipReserveForm">
+        <div class="vipReserveGrid">
+          <div class="vipField">
+            <label for="vipName">Name</label>
+            <input id="vipName" name="vipName" type="text" placeholder="Your full name" />
+          </div>
+
+          <div class="vipField">
+            <label for="vipPhone">Phone</label>
+            <input id="vipPhone" name="vipPhone" type="tel" placeholder="Your phone number" />
+          </div>
+        </div>
+
+        <div class="vipReserveGrid">
+          <div class="vipField">
+            <label for="vipDate">Event Date</label>
+            <input id="vipDate" name="vipDate" type="date" />
+          </div>
+
+          <div class="vipField">
+            <label for="vipGuests">Guests</label>
+            <select id="vipGuests" name="vipGuests">
+              <option value="">Select</option>
+              <option>2-4</option>
+              <option>5-8</option>
+              <option>9-12</option>
+              <option>12+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="vipReserveGrid">
+          <div class="vipField">
+            <label for="vipPackage">Package</label>
+            <select id="vipPackage" name="vipPackage">
+              <option value="">Select</option>
+              <option>Birthday Bronze</option>
+              <option>Birthday Gold</option>
+              <option>Birthday Luxe</option>
+              <option>Bottle Service Gold</option>
+              <option>Bottle Service Platinum</option>
+              <option>Celebration Package</option>
+            </select>
+          </div>
+
+          <div class="vipField">
+            <label for="vipTime">Preferred Time</label>
+            <input id="vipTime" name="vipTime" type="text" placeholder="Example: 10:30 PM" />
+          </div>
+        </div>
+
+        <div class="vipField">
+          <label for="vipNotes">Notes</label>
+          <textarea id="vipNotes" name="vipNotes" placeholder="Birthday, bottle preference, section request, special setup..."></textarea>
+        </div>
+
+        <div class="vipReserveActions">
+          <button type="submit" class="vipReserveBtn vipReserveBtn--primary">Send Request</button>
+          <a class="vipReserveBtn vipReserveBtn--ghost" href="tel:${PHONE}">Call Now</a>
+        </div>
+
+        <div class="vipReserveHint">
+          This will open your phone’s text message app with your reservation request pre-filled.
+        </div>
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const close = () => modal.classList.remove("is-open");
+
+  modal.querySelector(".vipReserveModal__backdrop").addEventListener("click", close);
+  modal.querySelector(".vipReserveModal__close").addEventListener("click", close);
+
+  modal.querySelector(".vipReserveForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = modal.querySelector("#vipName").value.trim();
+    const phone = modal.querySelector("#vipPhone").value.trim();
+    const date = modal.querySelector("#vipDate").value.trim();
+    const guests = modal.querySelector("#vipGuests").value.trim();
+    const pack = modal.querySelector("#vipPackage").value.trim();
+    const time = modal.querySelector("#vipTime").value.trim();
+    const notes = modal.querySelector("#vipNotes").value.trim();
+
+    const msg =
+      `VIP Reservation Request%0A` +
+      `Name: ${name || "-"}%0A` +
+      `Phone: ${phone || "-"}%0A` +
+      `Date: ${date || "-"}%0A` +
+      `Guests: ${guests || "-"}%0A` +
+      `Package: ${pack || "-"}%0A` +
+      `Preferred Time: ${time || "-"}%0A` +
+      `Notes: ${notes || "-"}`;
+
+    const smsLink = `sms:${PHONE}?body=${msg}`;
+    window.location.href = smsLink;
+
+    phase10ShowToast("Opening your message app...");
+  });
+}
+
+function phase10UpgradeQrSpotlight() {
+  document.querySelectorAll(".qrReserve").forEach((box) => {
+    box.classList.add("qrReserve--spotlight");
+  });
+}
+
+(function phase10PatchActivateDay() {
+  const originalActivateDayPhase10 = activateDay;
+
+  activateDay = function(day) {
+    originalActivateDayPhase10(day);
+
+    setTimeout(() => {
+      phase10UpgradeQrSpotlight();
+    }, 0);
+  };
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  phase10EnsureLoader();
+  phase10EnsureToast();
+  phase10EnsureVipButton();
+  phase10EnsureVipModal();
+  phase10UpgradeQrSpotlight();
+});
