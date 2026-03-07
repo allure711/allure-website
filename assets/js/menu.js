@@ -1,5 +1,5 @@
 /* =========================
-   Menu Page JS (Full Fixed Version)
+   Menu Page JS (Clean + Phase 3)
    ========================= */
 
 const PHONE = "+12025550123";
@@ -349,22 +349,16 @@ const LATE_MON_SUN = {
 const MENU_DATA = {
   "monday-happy": HH_MON_SUN,
   "monday-late": LATE_MON_SUN,
-
   "tuesday-happy": HH_TUE_SAT,
   "tuesday-late": LATE_TUE_SAT,
-
   "wednesday-happy": HH_TUE_SAT,
   "wednesday-late": LATE_TUE_SAT,
-
   "thursday-happy": HH_TUE_SAT,
   "thursday-late": LATE_TUE_SAT,
-
   "friday-happy": HH_TUE_SAT,
   "friday-late": LATE_TUE_SAT,
-
   "saturday-happy": HH_TUE_SAT,
   "saturday-late": LATE_TUE_SAT,
-
   "sunday-happy": HH_MON_SUN,
   "sunday-late": LATE_MON_SUN
 };
@@ -390,6 +384,22 @@ function getPromoMarkup(day) {
   `;
 }
 
+function applyDayTheme(day) {
+  document.body.setAttribute("data-day-theme", day || "monday");
+}
+
+function ensureMobileReserve() {
+  let btn = document.querySelector(".mobileReserve");
+  if (btn) return;
+
+  btn = document.createElement("a");
+  btn.className = "mobileReserve";
+  btn.href = `tel:${PHONE}`;
+  btn.textContent = "Reserve / Call";
+
+  document.body.appendChild(btn);
+}
+
 function setClosedState(root = document) {
   const activePanel =
     root.querySelector(".dayPanel.active") ||
@@ -399,6 +409,8 @@ function setClosedState(root = document) {
   if (activePanel) {
     day = activePanel.getAttribute("data-daypanel") || "monday";
   }
+
+  applyDayTheme(day);
 
   root.querySelectorAll("[data-scopebody]").forEach((body) => {
     body.innerHTML = getPromoMarkup(day);
@@ -681,6 +693,7 @@ function bindCategoryBarsOnce(root = document) {
           bar.closest(".dayPanel") || document.querySelector(".dayPanel.active");
 
         const day = activePanel?.getAttribute("data-daypanel") || "monday";
+        applyDayTheme(day);
         target.innerHTML = getPromoMarkup(day);
 
         back.remove();
@@ -720,6 +733,7 @@ function bindDayTabsOnce() {
       const panel = document.querySelector(`.dayPanel[data-daypanel="${key}"]`);
       if (panel) panel.classList.add("active");
 
+      applyDayTheme(key);
       bindCategoryBarsOnce(panel || document);
       setClosedState(panel || document);
       updateLimitedTablesTag();
@@ -784,6 +798,7 @@ function revealOnScrollTick() {
    ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+  ensureMobileReserve();
   bindDayTabsOnce();
   bindCategoryBarsOnce(document);
   setClosedState(document);
