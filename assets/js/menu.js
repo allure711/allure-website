@@ -1429,3 +1429,167 @@ function phase7Render(day) {
     phase7Render(day);
   };
 })();
+/* =========================
+   PHASE 8 ADD-ON
+   Real Images for Flyers / Gallery / QR
+   Safe extension
+   ========================= */
+
+/*
+  HOW TO USE:
+  Replace any empty string "" below with your real image path.
+
+  Example:
+  "assets/img/flyers/monday-1.jpg"
+  "assets/img/gallery/friday-2.jpg"
+  "assets/img/qr/reserve-qr.png"
+*/
+
+const PHASE8_IMAGES = {
+  monday: {
+    flyers: [
+      "",
+      "",
+      ""
+    ],
+    gallery: [
+      "", "", "", "", "", ""
+    ],
+    qr: ""
+  },
+  tuesday: {
+    flyers: [
+      "",
+      "",
+      ""
+    ],
+    gallery: [
+      "", "", "", "", "", ""
+    ],
+    qr: ""
+  },
+  wednesday: {
+    flyers: [
+      "",
+      "",
+      ""
+    ],
+    gallery: [
+      "", "", "", "", "", ""
+    ],
+    qr: ""
+  },
+  thursday: {
+    flyers: [
+      "",
+      "",
+      ""
+    ],
+    gallery: [
+      "", "", "", "", "", ""
+    ],
+    qr: ""
+  },
+  friday: {
+    flyers: [
+      "",
+      "",
+      ""
+    ],
+    gallery: [
+      "", "", "", "", "", ""
+    ],
+    qr: ""
+  },
+  saturday: {
+    flyers: [
+      "",
+      "",
+      ""
+    ],
+    gallery: [
+      "", "", "", "", "", ""
+    ],
+    qr: ""
+  },
+  sunday: {
+    flyers: [
+      "",
+      "",
+      ""
+    ],
+    gallery: [
+      "", "", "", "", "", ""
+    ],
+    qr: ""
+  }
+};
+
+function phase8ApplyImages(day) {
+  const panel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+  if (!panel) return;
+
+  const config = PHASE8_IMAGES[day] || PHASE8_IMAGES.monday;
+  if (!config) return;
+
+  /* DJ flyers */
+  const flyerCards = panel.querySelectorAll(".djFlyer");
+  flyerCards.forEach((card, index) => {
+    const src = config.flyers?.[index];
+    if (!src) return;
+
+    if (card.querySelector(".djFlyer__img")) return;
+
+    card.classList.add("has-image");
+
+    const img = document.createElement("img");
+    img.className = "djFlyer__img";
+    img.src = src;
+    img.alt = "Event flyer";
+
+    card.prepend(img);
+  });
+
+  /* Instagram wall */
+  const igTiles = panel.querySelectorAll(".igTile");
+  igTiles.forEach((tile, index) => {
+    const src = config.gallery?.[index];
+    if (!src) return;
+
+    if (tile.querySelector(".igTile__img")) return;
+
+    tile.classList.add("has-image");
+
+    const img = document.createElement("img");
+    img.className = "igTile__img";
+    img.src = src;
+    img.alt = "Gallery image";
+
+    tile.prepend(img);
+  });
+
+  /* QR */
+  const qrBox = panel.querySelector(".qrBox");
+  if (qrBox && config.qr && !qrBox.querySelector(".qrBox__img")) {
+    qrBox.classList.add("has-image");
+
+    const img = document.createElement("img");
+    img.className = "qrBox__img";
+    img.src = config.qr;
+    img.alt = "QR code";
+
+    qrBox.innerHTML = "";
+    qrBox.appendChild(img);
+  }
+}
+
+(function phase8PatchActivateDay() {
+  const originalActivateDayPhase8 = activateDay;
+  activateDay = function(day) {
+    originalActivateDayPhase8(day);
+
+    setTimeout(() => {
+      phase8ApplyImages(day);
+    }, 0);
+  };
+})();
