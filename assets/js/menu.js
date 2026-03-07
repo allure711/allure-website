@@ -1,41 +1,111 @@
 /* =========================
-   Menu Page JS (Clean + Phase 3)
+   Menu Page JS (Phase 4)
    ========================= */
 
 const PHONE = "+12025550123";
 
 /* =========================
-   DAY PROMOS
+   DAY PROMOS / BANNERS / POPULAR
    ========================= */
 
-const DAY_PROMOS = {
+const DAY_CONTENT = {
   monday: {
-    title: "FREE HOOKAH MONDAY",
-    text: "Tap a category to explore tonight’s menu."
+    promoTitle: "FREE HOOKAH MONDAY",
+    promoText: "Tap a category to explore tonight’s menu.",
+    bannerTitle: "MONDAY VIP EXPERIENCE",
+    bannerMeta: "Free Hookah • Lounge Vibes • Late Night Energy",
+    lineup: "Afrobeats • R&B • Hip-Hop",
+    badge: "MONDAY SPECIAL",
+    popular: [
+      ["Salmon Sliders w/ Fries", "$12"],
+      ["Allure Lemon Drop", "$10"],
+      ["Hookah", "$23"],
+      ["Fishbowl", "$23"]
+    ]
   },
   tuesday: {
-    title: "TACO TUESDAY",
-    text: "Tap a category to explore tacos, drinks, and bottles."
+    promoTitle: "TACO TUESDAY",
+    promoText: "Tap a category to explore tacos, drinks, and bottles.",
+    bannerTitle: "TACO TUESDAY VIP",
+    bannerMeta: "Tacos • Cocktails • Hookah • Good Energy",
+    lineup: "Latin • Hip-Hop • Party Mix",
+    badge: "TUESDAY SPECIAL",
+    popular: [
+      ["Shrimp Tacos", "$16"],
+      ["Chicken Tacos", "$14"],
+      ["Margarita / Cocktails", "$10"],
+      ["Hookah", "$23"]
+    ]
   },
   wednesday: {
-    title: "MIDWEEK WEDNESDAY",
-    text: "Tap a category to explore tonight’s specials."
+    promoTitle: "MIDWEEK WEDNESDAY",
+    promoText: "Tap a category to explore tonight’s specials.",
+    bannerTitle: "MIDWEEK LUXE",
+    bannerMeta: "After-Work Drinks • Hookah • Premium Lounge",
+    lineup: "R&B • Amapiano • Smooth Hip-Hop",
+    badge: "MIDWEEK VIBES",
+    popular: [
+      ["Rasta Pasta / Alfredo", "$16+"],
+      ["Moscow Mule", "$10"],
+      ["High Noon", "$8"],
+      ["Bottles", "VIP"]
+    ]
   },
   thursday: {
-    title: "KARAOKE THURSDAY",
-    text: "Tap a category to explore the karaoke night menu."
+    promoTitle: "KARAOKE THURSDAY",
+    promoText: "Tap a category to explore the karaoke night menu.",
+    bannerTitle: "KARAOKE THURSDAY LIVE",
+    bannerMeta: "Mic Night • Groups • Cocktails • VIP Seating",
+    lineup: "Open Mic • Party Anthems • Crowd Favorites",
+    badge: "LIVE THURSDAY",
+    popular: [
+      ["Wings", "$8+"],
+      ["Long Island", "$10"],
+      ["Fishbowl", "$23"],
+      ["Bottle Packages", "VIP"]
+    ]
   },
   friday: {
-    title: "ALLURE FRIDAY",
-    text: "Tap a category to explore the Friday experience."
+    promoTitle: "ALLURE FRIDAY",
+    promoText: "Tap a category to explore the Friday experience.",
+    bannerTitle: "ALLURE FRIDAY NIGHT",
+    bannerMeta: "DJ • VIP Sections • Bottles • Hookah",
+    lineup: "Hip-Hop • Afrobeats • Club Anthems",
+    badge: "FRIDAY NIGHT",
+    popular: [
+      ["Bottles", "VIP"],
+      ["Hookah", "$23"],
+      ["Fishbowl", "$23"],
+      ["Premium Cocktails", "$10+"]
+    ]
   },
   saturday: {
-    title: "ALLURE SATURDAY",
-    text: "Tap a category to explore Saturday night specials."
+    promoTitle: "ALLURE SATURDAY",
+    promoText: "Tap a category to explore Saturday night specials.",
+    bannerTitle: "SATURDAY VIP TAKEOVER",
+    bannerMeta: "Prime Night • Bottle Service • DJ Energy",
+    lineup: "Open Format • Afrobeat • Hip-Hop • Dancehall",
+    badge: "SATURDAY VIP",
+    popular: [
+      ["VIP Bottle Packages", "🔥"],
+      ["Hookah", "$23"],
+      ["Fishbowl", "$23"],
+      ["Premium Bottles", "$650+"]
+    ]
   },
   sunday: {
-    title: "SOCIAL SUNDAY",
-    text: "Tap a category to explore Sunday food and drinks."
+    promoTitle: "SOCIAL SUNDAY",
+    promoText: "Tap a category to explore Sunday food and drinks.",
+    bannerTitle: "SOCIAL SUNDAY",
+    bannerMeta: "Relaxed Vibes • Food • Drinks • Hookah",
+    lineup: "R&B • Soul • Chill Lounge",
+    badge: "SUNDAY SOCIAL",
+    popular: [
+      ["Salmon Dinner", "$20"],
+      ["Wine", "$6"],
+      ["Hookah", "$23"],
+      ["Bottles", "VIP"]
+    ]
   }
 };
 
@@ -162,11 +232,11 @@ const BOTTLES_BLOCK = {
       ]
     },
     {
-      title: "VIP",
+      title: "VIP Packages",
       items: [
-        ["Ace of Spades", "$900"],
-        ["Don Julio 1942 (VIP)", "$750"],
-        ["Clase Azul Gold", "$900"]
+        ["VIP Gold Package", "$900"],
+        ["VIP Platinum Package", "$1200"],
+        ["Celebration Package", "$1500"]
       ]
     }
   ]
@@ -373,13 +443,17 @@ function el(html) {
   return d.firstElementChild;
 }
 
+function getDayData(day) {
+  return DAY_CONTENT[day] || DAY_CONTENT.monday;
+}
+
 function getPromoMarkup(day) {
-  const promo = DAY_PROMOS[day] || DAY_PROMOS.monday;
+  const content = getDayData(day);
   return `
     <div class="menuPromo">
       <div class="menuPromoIcon">✨</div>
-      <div class="menuPromoTitle">${promo.title}</div>
-      <div class="menuPromoText">${promo.text}</div>
+      <div class="menuPromoTitle">${content.promoTitle}</div>
+      <div class="menuPromoText">${content.promoText}</div>
     </div>
   `;
 }
@@ -389,14 +463,12 @@ function applyDayTheme(day) {
 }
 
 function ensureMobileReserve() {
-  let btn = document.querySelector(".mobileReserve");
-  if (btn) return;
+  if (document.querySelector(".mobileReserve")) return;
 
-  btn = document.createElement("a");
+  const btn = document.createElement("a");
   btn.className = "mobileReserve";
   btn.href = `tel:${PHONE}`;
   btn.textContent = "Reserve / Call";
-
   document.body.appendChild(btn);
 }
 
@@ -405,10 +477,7 @@ function setClosedState(root = document) {
     root.querySelector(".dayPanel.active") ||
     document.querySelector(".dayPanel.active");
 
-  let day = "monday";
-  if (activePanel) {
-    day = activePanel.getAttribute("data-daypanel") || "monday";
-  }
+  const day = activePanel?.getAttribute("data-daypanel") || "monday";
 
   applyDayTheme(day);
 
@@ -428,11 +497,79 @@ function wireAccordion(container) {
   container.querySelectorAll("details.acc").forEach((details) => {
     details.addEventListener("toggle", () => {
       if (!details.open) return;
-
       container.querySelectorAll("details.acc").forEach((other) => {
         if (other !== details) other.open = false;
       });
     });
+  });
+}
+
+function renderPopularTonight(day) {
+  const content = getDayData(day);
+  const section = document.createElement("section");
+  section.className = "popularTonight reveal inView";
+
+  const head = document.createElement("div");
+  head.className = "popularTonight__head";
+  head.innerHTML = `
+    <div class="popularTonight__eyebrow">🔥 Popular Tonight</div>
+    <div class="popularTonight__lineup">${content.lineup}</div>
+  `;
+
+  const grid = document.createElement("div");
+  grid.className = "popularTonight__grid";
+
+  content.popular.forEach(([name, price]) => {
+    const card = document.createElement("div");
+    card.className = "popularTonight__card";
+    card.innerHTML = `
+      <span class="popularTonight__name">${name}</span>
+      <span class="popularTonight__price">${price}</span>
+    `;
+    grid.appendChild(card);
+  });
+
+  section.appendChild(head);
+  section.appendChild(grid);
+  return section;
+}
+
+function renderVipNightBanner(day) {
+  const content = getDayData(day);
+  const banner = document.createElement("section");
+  banner.className = "vipNightBanner reveal inView";
+  banner.innerHTML = `
+    <div class="vipNightBanner__badge">${content.badge}</div>
+    <div class="vipNightBanner__title">${content.bannerTitle}</div>
+    <div class="vipNightBanner__meta">${content.bannerMeta}</div>
+    <div class="vipNightBanner__lineup">DJ Sound: ${content.lineup}</div>
+  `;
+  return banner;
+}
+
+function mountDayEnhancements() {
+  document.querySelectorAll(".dayPanel").forEach((panel) => {
+    const day = panel.getAttribute("data-daypanel");
+    if (!day) return;
+
+    panel.querySelectorAll(".vipNightBanner, .popularTonight").forEach((x) => x.remove());
+
+    const heroRow = panel.querySelector(".heroRow");
+    const container = panel.querySelector(".container");
+    const menuSplit = panel.querySelector(".menuSplit");
+
+    if (!container || !menuSplit) return;
+
+    const banner = renderVipNightBanner(day);
+    const popular = renderPopularTonight(day);
+
+    if (heroRow) {
+      heroRow.insertAdjacentElement("afterend", banner);
+      banner.insertAdjacentElement("afterend", popular);
+    } else {
+      container.insertBefore(banner, menuSplit);
+      container.insertBefore(popular, menuSplit);
+    }
   });
 }
 
@@ -447,7 +584,6 @@ function renderFoodAccordion(data) {
   (data.sections || []).forEach((section) => {
     const details = document.createElement("details");
     details.className = "acc";
-    details.open = false;
 
     const summary = document.createElement("summary");
     summary.className = "acc__summary";
@@ -466,9 +602,7 @@ function renderFoodAccordion(data) {
     });
 
     if (section.note) {
-      box.appendChild(
-        el(`<div class="muted" style="margin-top:8px; text-align:left; padding:0;">${section.note}</div>`)
-      );
+      box.appendChild(el(`<div class="muted" style="margin-top:8px; text-align:left; padding:0;">${section.note}</div>`));
     }
 
     details.appendChild(summary);
@@ -492,7 +626,6 @@ function renderSpiritColsAccordion(data) {
 
     const details = document.createElement("details");
     details.className = "acc";
-    details.open = false;
 
     const summary = document.createElement("summary");
     summary.className = "acc__summary";
@@ -504,9 +637,7 @@ function renderSpiritColsAccordion(data) {
     const ul = document.createElement("ul");
     ul.className = "bullets";
 
-    cols[title].forEach((i) => {
-      ul.appendChild(el(`<li>${i}</li>`));
-    });
+    cols[title].forEach((i) => ul.appendChild(el(`<li>${i}</li>`)));
 
     box.appendChild(ul);
     details.appendChild(summary);
@@ -525,7 +656,6 @@ function renderBottlesAccordion(data) {
   (data.sections || []).forEach((section) => {
     const details = document.createElement("details");
     details.className = "acc";
-    details.open = false;
 
     const summary = document.createElement("summary");
     summary.className = "acc__summary";
@@ -569,31 +699,21 @@ function renderCategory(scopeKey, catKey) {
 
   if (data.type === "foodBlock") {
     wrap.appendChild(renderFoodAccordion(data));
-
   } else if (data.type === "spiritCols") {
     wrap.appendChild(renderSpiritColsAccordion(data));
-
   } else if (data.type === "bottlesBlock") {
     wrap.appendChild(renderBottlesAccordion(data));
-
   } else if (data.type === "simpleList") {
     const box = document.createElement("div");
     box.className = "colBox";
-
     const ul = document.createElement("ul");
     ul.className = "bullets";
-
-    (data.items || []).forEach((i) => {
-      ul.appendChild(el(`<li>${i}</li>`));
-    });
-
+    (data.items || []).forEach((i) => ul.appendChild(el(`<li>${i}</li>`)));
     box.appendChild(ul);
     wrap.appendChild(box);
-
   } else if (data.type === "pricedList") {
     const box = document.createElement("div");
     box.className = "colBox";
-
     (data.items || []).forEach(([name, price]) => {
       box.appendChild(el(`
         <div class="itemRow">
@@ -602,25 +722,18 @@ function renderCategory(scopeKey, catKey) {
         </div>
       `));
     });
-
     wrap.appendChild(box);
-
   } else if (data.type === "cocktails") {
     const box = document.createElement("div");
     box.className = "colBox cocktailList";
-
     (data.items || []).forEach(([name, desc]) => {
       const row = document.createElement("div");
       row.className = "cocktailItem";
-
       row.appendChild(el(`<div class="cocktailName">${name}</div>`));
       row.appendChild(el(`<div class="cocktailDesc">${desc}</div>`));
-
       box.appendChild(row);
     });
-
     wrap.appendChild(box);
-
   } else if (data.type === "twoCols") {
     const two = document.createElement("div");
     two.className = "twoCols";
@@ -630,7 +743,6 @@ function renderCategory(scopeKey, catKey) {
 
     const ulL = document.createElement("ul");
     ulL.className = "bullets";
-
     const ulR = document.createElement("ul");
     ulR.className = "bullets";
 
@@ -642,9 +754,7 @@ function renderCategory(scopeKey, catKey) {
 
     two.appendChild(left);
     two.appendChild(right);
-
     wrap.appendChild(two);
-
   } else {
     wrap.appendChild(el(`<div class="muted">Unknown category type.</div>`));
   }
@@ -689,23 +799,18 @@ function bindCategoryBarsOnce(root = document) {
         bar.style.display = "";
         bar.querySelectorAll(".cat").forEach((b) => b.classList.remove("active"));
 
-        const activePanel =
-          bar.closest(".dayPanel") || document.querySelector(".dayPanel.active");
-
+        const activePanel = bar.closest(".dayPanel") || document.querySelector(".dayPanel.active");
         const day = activePanel?.getAttribute("data-daypanel") || "monday";
+
         applyDayTheme(day);
         target.innerHTML = getPromoMarkup(day);
-
         back.remove();
       });
 
       target.prepend(back);
 
       setTimeout(() => {
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 120);
     });
   });
@@ -736,6 +841,7 @@ function bindDayTabsOnce() {
       applyDayTheme(key);
       bindCategoryBarsOnce(panel || document);
       setClosedState(panel || document);
+      mountDayEnhancements();
       updateLimitedTablesTag();
       revealOnScrollTick();
     });
@@ -802,6 +908,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindDayTabsOnce();
   bindCategoryBarsOnce(document);
   setClosedState(document);
+  mountDayEnhancements();
   initRevealObserver();
   updateLimitedTablesTag();
   setInterval(updateLimitedTablesTag, 60 * 1000);
