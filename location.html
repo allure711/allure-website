@@ -1,1 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location | Allure Bar & Lounge | Washington, DC</title>
+  <meta name="description" content="Visit Allure Bar & Lounge in Washington, DC. Find our location, hours, contact information, and plan your next night out.">
+  <link rel="stylesheet" href="assets/css/styles.css">
 
+  <style>
+    :root{
+      --gold:#d7b46a;
+      --gold2:#f2d38a;
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.10);
+      --textSoft:rgba(255,255,255,.78);
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
+        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
+        linear-gradient(180deg,#07070a,#0a0a10);
+      color:#fff;
+      font-family:Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    .glassCard{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:0 18px 60px rgba(0,0,0,.22);
+    }
+
+    .btnGold{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 20px;
+      background:var(--gold);
+      color:#111;
+      text-decoration:none;
+      border-radius:10px;
+      font-weight:900;
+      border:none;
+      cursor:pointer;
+    }
+
+    .btnGhost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 20px;
+      border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+      text-decoration:none;
+      border-radius:10px;
+      font-weight:800;
+      background:rgba(255,255,255,.04);
+      cursor:pointer;
+    }
+
+    .sectionTitle{
+      font-size:30px;
+      font-weight:900;
+      margin:0 0 10px;
+    }
+
+    .sectionText{
+      color:var(--textSoft);
+      line-height:1.65;
+      margin:0;
+    }
+
+    /* HERO */
+
+    .locationHero{
+      padding:84px 0 34px;
+    }
+
+    .locationKicker{
+      display:inline-block;
+      color:var(--gold2);
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .locationHero h1{
+      font-size:52px;
+      line-height:1.02;
+      margin:0 0 12px;
+    }
+
+    .locationHero p{
+      max-width:760px;
+      color:rgba(255,255,255,.84);
+      line-height:1.65;
+      margin:0;
+      font-size:16px;
+    }
+
+    .locationHeroActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:20px;
+    }
+
+    /* STATS */
+
+    .locationStats{
+      margin-top:26px;
+      padding:14px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+
+    .statBox{
+      border-radius:16px;
+      padding:18px 16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.10), transparent 30%),
+        rgba(255,255,255,.03);
+      text-align:center;
+    }
+
+    .statNum{
+      font-size:28px;
+      font-weight:950;
+      color:var(--gold2);
+      line-height:1;
+    }
+
+    .statLabel{
+      margin-top:8px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.72);
+    }
+
+    /* LOCATION SPLIT */
+
+    .locationSplit{
+      margin-top:34px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:20px;
+      align-items:stretch;
+    }
+
+    .locationInfo{
+      padding:28px;
+    }
+
+    .locationInfo h2{
+      margin:0 0 12px;
+      font-size:34px;
+      font-weight:950;
+    }
+
+    .locationInfo p{
+      margin:0 0 16px;
+      color:var(--textSoft);
+      line-height:1.75;
+    }
+
+    .locationMeta{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .locationMetaRow{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+    }
+
+    .locationMetaLabel{
+      color:rgba(255,255,255,.72);
+      font-weight:800;
+    }
+
+    .locationMetaValue{
+      font-weight:900;
+      text-align:right;
+    }
+
+    .locationMapCard{
+      position:relative;
+      overflow:hidden;
+      border-radius:20px;
+      border:1px solid var(--line);
+      min-height:100%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+        linear-gradient(135deg,#15151f,#101018 60%,#181824);
+      min-height:420px;
+    }
+
+    .locationMapEmbed{
+      width:100%;
+      height:100%;
+      min-height:420px;
+      border:0;
+      display:block;
+      filter:grayscale(1) contrast(1.05) brightness(.8);
+    }
+
+    .locationMapOverlay{
+      position:absolute;
+      inset:auto 0 0 0;
+      padding:22px;
+      background:linear-gradient(180deg, transparent, rgba(0,0,0,.72));
+      pointer-events:none;
+    }
+
+    .locationMapBadge{
+      display:inline-flex;
+      margin-bottom:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .locationMapTitle{
+      font-size:28px;
+      font-weight:950;
+      margin:0 0 6px;
+      line-height:1.05;
+    }
+
+    .locationMapText{
+      color:rgba(255,255,255,.82);
+      line-height:1.55;
+      margin:0;
+    }
+
+    /* HOURS + PARKING */
+
+    .locationDetails{
+      margin-top:60px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .hoursCard,
+    .parkingCard{
+      padding:26px;
+    }
+
+    .hoursCard h2,
+    .parkingCard h2{
+      margin:0 0 12px;
+      font-size:30px;
+      font-weight:950;
+    }
+
+    .hoursRows{
+      display:grid;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .hoursRow{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      font-weight:800;
+    }
+
+    .parkingList{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .parkingItem{
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:var(--textSoft);
+      line-height:1.65;
+    }
+
+    /* CTA */
+
+    .locationCta{
+      margin-top:60px;
+      padding:28px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      align-items:center;
+    }
+
+    .locationCtaTitle{
+      font-size:34px;
+      font-weight:950;
+      line-height:1.05;
+      margin:0 0 10px;
+    }
+
+    .locationCtaText{
+      color:var(--textSoft);
+      line-height:1.65;
+      margin:0;
+    }
+
+    .locationCtaActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:flex-end;
+    }
+
+    /* PREMIUM FOOTER */
+
+    .footerPremium{
+      margin-top:80px;
+      padding:36px 0 90px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.03));
+    }
+
+    .footerPremium__grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr;
+      gap:24px;
+    }
+
+    .footerBrand{
+      font-size:24px;
+      font-weight:950;
+      margin-bottom:8px;
+    }
+
+    .footerText{
+      color:var(--textSoft);
+      line-height:1.6;
+    }
+
+    .footerHead{
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gold2);
+      font-weight:900;
+      margin-bottom:12px;
+    }
+
+    .footerLinks{
+      display:grid;
+      gap:10px;
+    }
+
+    .footerLinks a{
+      color:rgba(255,255,255,.82);
+      text-decoration:none;
+    }
+
+    .footerLinks a:hover{
+      color:var(--gold2);
+    }
+
+    .footerBottom{
+      margin-top:24px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.58);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      font-size:13px;
+    }
+
+    /* MOBILE STICKY */
+
+    .mobileStickyReserve{
+      position:fixed;
+      left:14px;
+      right:14px;
+      bottom:14px;
+      z-index:1500;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:14px 16px;
+      border-radius:999px;
+      background:var(--gold);
+      color:#111;
+      text-decoration:none;
+      font-weight:950;
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width:900px){
+      .locationHero h1{
+        font-size:40px;
+      }
+
+      .locationStats,
+      .locationSplit,
+      .locationDetails,
+      .locationCta,
+      .footerPremium__grid{
+        grid-template-columns:1fr;
+      }
+
+      .locationCtaActions{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (max-width:700px){
+      .mobileStickyReserve{
+        display:flex;
+      }
+
+      .footerPremium{
+        padding-bottom:100px;
+      }
+    }
+
+    @media (max-width:560px){
+      .locationHero h1{
+        font-size:34px;
+      }
+
+      .locationInfo h2,
+      .hoursCard h2,
+      .parkingCard h2,
+      .locationCtaTitle{
+        font-size:30px;
+      }
+
+      .locationMetaRow,
+      .hoursRow{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .locationMetaValue{
+        text-align:left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+
+    <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">Menu</button>
+
+    <nav class="nav" aria-label="Primary">
+      <ul id="navMenu" class="nav__list">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="location.html" class="active">Location</a></li>
+        <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="locationHero container">
+  <div class="locationKicker">Washington, DC</div>
+  <h1>Visit Allure</h1>
+  <p>
+    Find Allure Bar &amp; Lounge in Washington, DC and plan your next night out with premium cocktails, weekly events, VIP reservations, and upscale lounge energy.
+  </p>
+
+  <div class="locationHeroActions">
+    <a href="tel:2022974949" class="btnGold">Call Now</a>
+    <a href="events.html" class="btnGhost">See Events</a>
+  </div>
+
+  <section class="locationStats glassCard">
+    <div class="statBox">
+      <div class="statNum">DC</div>
+      <div class="statLabel">Location</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">5PM</div>
+      <div class="statLabel">Doors Open</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">2AM</div>
+      <div class="statLabel">Weekend Close</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">VIP</div>
+      <div class="statLabel">Reservations</div>
+    </div>
+  </section>
+
+  <section class="locationSplit">
+    <div class="locationInfo glassCard">
+      <h2>Where We Are</h2>
+      <p>
+        Allure Bar &amp; Lounge is located in Washington, DC and built for guests who want premium nightlife, curated weekly events, polished cocktails, and a stronger lounge atmosphere.
+      </p>
+      <p>
+        Use the map for directions, call ahead for reservations, and plan your visit around happy hour, weekday events, or weekend nightlife.
+      </p>
+
+      <div class="locationMeta">
+        <div class="locationMetaRow">
+          <div class="locationMetaLabel">Venue</div>
+          <div class="locationMetaValue">Allure Bar &amp; Lounge</div>
+        </div>
+
+        <div class="locationMetaRow">
+          <div class="locationMetaLabel">Phone</div>
+          <div class="locationMetaValue">202-297-4949</div>
+        </div>
+
+        <div class="locationMetaRow">
+          <div class="locationMetaLabel">City</div>
+          <div class="locationMetaValue">Washington, DC</div>
+        </div>
+
+        <div class="locationMetaRow">
+          <div class="locationMetaLabel">Reservations</div>
+          <div class="locationMetaValue">Walk-ins + VIP booking</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="locationMapCard">
+      <iframe
+        class="locationMapEmbed"
+        title="Allure Bar & Lounge Map"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Washington%2C%20DC&z=14&output=embed">
+      </iframe>
+
+      <div class="locationMapOverlay">
+        <div class="locationMapBadge">Map & Directions</div>
+        <div class="locationMapTitle">Plan Your Route</div>
+        <p class="locationMapText">
+          Open directions, call ahead, and arrive ready for cocktails, curated music, and premium nightlife energy.
+        </p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section class="container locationDetails">
+  <div class="hoursCard glassCard">
+    <h2>Hours</h2>
+    <p class="sectionText">Visit during the week for social nights or late on the weekend for the full Allure energy.</p>
+
+    <div class="hoursRows">
+      <div class="hoursRow">
+        <span>Monday</span>
+        <span>5PM – 1AM</span>
+      </div>
+      <div class="hoursRow">
+        <span>Tuesday</span>
+        <span>5PM – 1AM</span>
+      </div>
+      <div class="hoursRow">
+        <span>Wednesday</span>
+        <span>5PM – 1AM</span>
+      </div>
+      <div class="hoursRow">
+        <span>Thursday</span>
+        <span>5PM – 1AM</span>
+      </div>
+      <div class="hoursRow">
+        <span>Friday</span>
+        <span>5PM – 2AM</span>
+      </div>
+      <div class="hoursRow">
+        <span>Saturday</span>
+        <span>5PM – 2AM</span>
+      </div>
+      <div class="hoursRow">
+        <span>Sunday</span>
+        <span>5PM – 1AM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="parkingCard glassCard">
+    <h2>What to Know Before You Arrive</h2>
+    <p class="sectionText">A few simple details to make your visit smoother.</p>
+
+    <div class="parkingList">
+      <div class="parkingItem">
+        Call ahead for VIP reservations, birthdays, and premium table requests.
+      </div>
+
+      <div class="parkingItem">
+        Weekends are the strongest nights for bottle service, lounge traffic, and late-night energy.
+      </div>
+
+      <div class="parkingItem">
+        Arriving earlier is best if you want easier seating, quicker service, and a more relaxed start to the night.
+      </div>
+
+      <div class="parkingItem">
+        Use the menu and events pages before you arrive so you know the night’s vibe and specials.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container locationCta glassCard">
+  <div>
+    <h2 class="locationCtaTitle">Ready for Your Next Night Out?</h2>
+    <p class="locationCtaText">
+      Call now, check the weekly lineup, and make your next visit to Allure a premium Washington, DC nightlife experience.
+    </p>
+  </div>
+
+  <div class="locationCtaActions">
+    <a href="tel:2022974949" class="btnGold">Reserve by Phone</a>
+    <a href="events.html" class="btnGhost">See Events</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footerPremium">
+  <div class="container">
+    <div class="footerPremium__grid">
+      <div>
+        <div class="footerBrand">Allure Bar &amp; Lounge</div>
+        <div class="footerText">
+          Premium nightlife, curated weekly events, cocktails, and upscale lounge energy in Washington, DC.
+        </div>
+      </div>
+
+      <div>
+        <div class="footerHead">Explore</div>
+        <div class="footerLinks">
+          <a href="index.html">Home</a>
+          <a href="menu.html">Menu</a>
+          <a href="events.html">Events</a>
+          <a href="gallery.html">Gallery</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footerHead">Visit</div>
+        <div class="footerLinks">
+          <a href="tel:2022974949">Call 202-297-4949</a>
+          <a href="about.html">About Allure</a>
+          <a href="location.html">Location</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footerBottom">
+      <span>© Allure Bar &amp; Lounge</span>
+      <span>Washington, DC</span>
+    </div>
+  </div>
+</footer>
+
+<a class="mobileStickyReserve" href="tel:2022974949">Reserve Now</a>
+
+<script>
+(() => {
+  const navToggle = document.querySelector(".nav__toggle");
+  const navMenu = document.querySelector(".nav__list");
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      const open = navMenu.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
