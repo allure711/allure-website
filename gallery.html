@@ -1,21 +1,547 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery | Allure Bar & Lounge | Washington, DC</title>
-<meta name="description" content="View the gallery of Allure Bar & Lounge in Washington, DC — premium cocktails, upscale seating, and nightlife vibes." />
-<link rel="stylesheet" href="assets/css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | Allure Bar & Lounge | Washington, DC</title>
+  <meta name="description" content="View the gallery of Allure Bar & Lounge in Washington, DC — premium cocktails, upscale seating, and nightlife vibes.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <style>
+    :root{
+      --gold:#d7b46a;
+      --gold2:#f2d38a;
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.10);
+      --textSoft:rgba(255,255,255,.78);
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
+        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
+        linear-gradient(180deg,#07070a,#0a0a10);
+      color:#fff;
+      font-family:Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    .glassCard{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:0 18px 60px rgba(0,0,0,.22);
+    }
+
+    .sectionTitle{
+      font-size:30px;
+      font-weight:900;
+      margin:0 0 10px;
+    }
+
+    .sectionText{
+      color:var(--textSoft);
+      line-height:1.6;
+      margin:0;
+    }
+
+    .btnGold{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 20px;
+      background:var(--gold);
+      color:#111;
+      text-decoration:none;
+      border-radius:10px;
+      font-weight:900;
+      border:none;
+      cursor:pointer;
+    }
+
+    .btnGhost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 20px;
+      border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+      text-decoration:none;
+      border-radius:10px;
+      font-weight:800;
+      background:rgba(255,255,255,.04);
+      cursor:pointer;
+    }
+
+    /* HERO */
+
+    .galleryHero{
+      padding:84px 0 34px;
+    }
+
+    .galleryKicker{
+      display:inline-block;
+      color:var(--gold2);
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .galleryHero h1{
+      font-size:52px;
+      line-height:1.02;
+      margin:0 0 12px;
+    }
+
+    .galleryHero p{
+      max-width:760px;
+      color:rgba(255,255,255,.84);
+      line-height:1.65;
+      margin:0;
+      font-size:16px;
+    }
+
+    .galleryHeroActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:20px;
+    }
+
+    /* STATS */
+
+    .galleryStats{
+      margin-top:26px;
+      padding:14px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+
+    .statBox{
+      border-radius:16px;
+      padding:18px 16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.10), transparent 30%),
+        rgba(255,255,255,.03);
+      text-align:center;
+    }
+
+    .statNum{
+      font-size:28px;
+      font-weight:950;
+      color:var(--gold2);
+      line-height:1;
+    }
+
+    .statLabel{
+      margin-top:8px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.72);
+    }
+
+    /* FEATURE BANNER */
+
+    .galleryFeature{
+      margin-top:28px;
+      min-height:360px;
+      position:relative;
+      overflow:hidden;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.16), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+        linear-gradient(135deg,#11111a,#171723 55%,#101018);
+    }
+
+    .galleryFeature img{
+      width:100%;
+      height:100%;
+      min-height:360px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .galleryFeatureOverlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:26px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.76));
+    }
+
+    .galleryFeatureBadge{
+      display:inline-flex;
+      width:max-content;
+      margin-bottom:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .galleryFeatureTitle{
+      font-size:38px;
+      font-weight:950;
+      margin:0 0 8px;
+      line-height:1.02;
+    }
+
+    .galleryFeatureText{
+      color:rgba(255,255,255,.84);
+      line-height:1.55;
+      max-width:700px;
+      margin:0;
+    }
+
+    /* FILTERS */
+
+    .galleryFilterSection{
+      margin-top:60px;
+    }
+
+    .galleryFilters{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .galleryFilterBtn{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .galleryFilterBtn.active{
+      background:rgba(215,180,106,.14);
+      border-color:rgba(215,180,106,.35);
+      color:var(--gold2);
+    }
+
+    /* GRID */
+
+    .gallerySection{
+      margin-top:38px;
+    }
+
+    .galleryGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+
+    .galleryCard{
+      position:relative;
+      overflow:hidden;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      min-height:280px;
+      cursor:pointer;
+      box-shadow:0 14px 40px rgba(0,0,0,.18);
+      transition:transform .18s ease, border-color .18s ease;
+    }
+
+    .galleryCard:hover{
+      transform:translateY(-3px);
+      border-color:rgba(215,180,106,.32);
+    }
+
+    .galleryCard img{
+      width:100%;
+      height:100%;
+      min-height:280px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .galleryCardOverlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:flex-end;
+      padding:16px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.58));
+    }
+
+    .galleryCardTag{
+      display:inline-flex;
+      padding:7px 11px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.30);
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .hiddenGallery{
+      display:none;
+    }
+
+    /* CTA */
+
+    .galleryCta{
+      margin-top:60px;
+      padding:28px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      align-items:center;
+    }
+
+    .galleryCtaTitle{
+      font-size:34px;
+      font-weight:950;
+      line-height:1.05;
+      margin:0 0 10px;
+    }
+
+    .galleryCtaText{
+      color:var(--textSoft);
+      line-height:1.65;
+      margin:0;
+    }
+
+    .galleryCtaActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:flex-end;
+    }
+
+    /* PREMIUM FOOTER */
+
+    .footerPremium{
+      margin-top:80px;
+      padding:36px 0 90px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.03));
+    }
+
+    .footerPremium__grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr;
+      gap:24px;
+    }
+
+    .footerBrand{
+      font-size:24px;
+      font-weight:950;
+      margin-bottom:8px;
+    }
+
+    .footerText{
+      color:var(--textSoft);
+      line-height:1.6;
+    }
+
+    .footerHead{
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gold2);
+      font-weight:900;
+      margin-bottom:12px;
+    }
+
+    .footerLinks{
+      display:grid;
+      gap:10px;
+    }
+
+    .footerLinks a{
+      color:rgba(255,255,255,.82);
+      text-decoration:none;
+    }
+
+    .footerLinks a:hover{
+      color:var(--gold2);
+    }
+
+    .footerBottom{
+      margin-top:24px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.58);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      font-size:13px;
+    }
+
+    /* LIGHTBOX */
+
+    .lightbox{
+      position:fixed;
+      inset:0;
+      display:none;
+      z-index:2100;
+    }
+
+    .lightbox.open{
+      display:block;
+    }
+
+    .lightboxBackdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.84);
+      backdrop-filter:blur(6px);
+    }
+
+    .lightboxPanel{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:min(1100px, calc(100vw - 24px));
+      max-height:92vh;
+      display:grid;
+      gap:12px;
+      justify-items:center;
+    }
+
+    .lightboxImg{
+      max-width:100%;
+      max-height:80vh;
+      width:auto;
+      height:auto;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:#111;
+      box-shadow:0 24px 80px rgba(0,0,0,.5);
+    }
+
+    .lightboxClose{
+      position:absolute;
+      top:-6px;
+      right:0;
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      font-size:20px;
+      cursor:pointer;
+    }
+
+    .lightboxCaption{
+      color:#fff;
+      font-weight:800;
+      text-align:center;
+    }
+
+    /* MOBILE STICKY */
+
+    .mobileStickyReserve{
+      position:fixed;
+      left:14px;
+      right:14px;
+      bottom:14px;
+      z-index:1500;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:14px 16px;
+      border-radius:999px;
+      background:var(--gold);
+      color:#111;
+      text-decoration:none;
+      font-weight:950;
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width:900px){
+      .galleryHero h1{
+        font-size:40px;
+      }
+
+      .galleryStats,
+      .galleryCta,
+      .footerPremium__grid{
+        grid-template-columns:1fr;
+      }
+
+      .galleryGrid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .galleryCtaActions{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (max-width:700px){
+      .mobileStickyReserve{
+        display:flex;
+      }
+
+      .footerPremium{
+        padding-bottom:100px;
+      }
+    }
+
+    @media (max-width:560px){
+      .galleryHero h1{
+        font-size:34px;
+      }
+
+      .galleryGrid{
+        grid-template-columns:1fr;
+      }
+
+      .galleryFeatureTitle{
+        font-size:30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header class="header">
   <div class="container header__inner">
-    <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">
-      <span class="brand__name">Allure Bar & Lounge</span>
-    </a>
+    <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">Allure Bar &amp; Lounge</a>
+
+    <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">Menu</button>
 
     <nav class="nav" aria-label="Primary">
       <ul id="navMenu" class="nav__list">
@@ -24,48 +550,263 @@
         <li><a href="gallery.html" class="active">Gallery</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="location.html">Location</a></li>
-        <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a>
+        <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
+<main>
 
-<!-- HERO -->
-<section class="page-hero">
-  <div class="container">
-    <h1>Gallery</h1>
-    <p>A look inside the Allure experience — cocktails, ambiance, and nightlife in Washington, DC.</p>
+<section class="galleryHero container">
+  <div class="galleryKicker">Washington, DC</div>
+  <h1>Inside the Allure Experience</h1>
+  <p>
+    A closer look at the atmosphere, cocktails, seating, nightlife energy, and premium moments that make Allure Bar &amp; Lounge stand out.
+  </p>
+
+  <div class="galleryHeroActions">
+    <a href="events.html" class="btnGold">See This Week’s Events</a>
+    <a href="menu.html" class="btnGhost">View Menu</a>
+  </div>
+
+  <section class="galleryStats glassCard">
+    <div class="statBox">
+      <div class="statNum">6+</div>
+      <div class="statLabel">Gallery Images</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">VIP</div>
+      <div class="statLabel">Nightlife Feel</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">DC</div>
+      <div class="statLabel">Lounge Energy</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">2AM</div>
+      <div class="statLabel">Weekend Vibes</div>
+    </div>
+  </section>
+
+  <section class="galleryFeature glassCard">
+    <img src="assets/images/hero.jpg" alt="Allure nightlife and cocktails" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+    <div class="galleryFeatureOverlay">
+      <div class="galleryFeatureBadge">Featured Scene</div>
+      <h2 class="galleryFeatureTitle">Cocktails, Atmosphere, and Nightlife</h2>
+      <p class="galleryFeatureText">
+        The Allure gallery highlights the polished lounge setting, signature drinks, and late-night energy that define the venue.
+      </p>
+    </div>
+  </section>
+</section>
+
+<section class="container galleryFilterSection">
+  <h2 class="sectionTitle">Browse the Space</h2>
+  <p class="sectionText">Filter the gallery by vibe and experience.</p>
+
+  <div class="galleryFilters">
+    <button class="galleryFilterBtn active" data-filter="all" type="button">All</button>
+    <button class="galleryFilterBtn" data-filter="cocktails" type="button">Cocktails</button>
+    <button class="galleryFilterBtn" data-filter="lounge" type="button">Lounge</button>
+    <button class="galleryFilterBtn" data-filter="nightlife" type="button">Nightlife</button>
   </div>
 </section>
 
-<!-- GALLERY GRID -->
-<section class="section">
-  <div class="container">
+<section class="container gallerySection">
+  <div class="galleryGrid" id="galleryGrid">
 
-    <div class="gallery-grid">
+    <div class="galleryCard" data-tags="cocktails nightlife" data-src="assets/images/hero.jpg" data-title="Signature cocktails at Allure">
       <img src="assets/images/hero.jpg" alt="Signature cocktails at Allure Bar & Lounge DC" loading="lazy">
-      <img src="assets/images/gallery-1.jpg" alt="Upscale lounge seating at Allure in Washington, DC" loading="lazy">
-      <img src="assets/images/gallery-2.jpg" alt="Craft cocktails served at Allure Bar & Lounge" loading="lazy">
-      <img src="assets/images/gallery-3.jpg" alt="Nightlife atmosphere at Allure Bar & Lounge DC" loading="lazy">
-      <img src="assets/images/gallery-4.jpg" alt="Premium drinks and lounge vibes at Allure" loading="lazy">
-      <img src="assets/images/fav-cocktail.jpg" alt="Cocktail close-up at Allure Bar & Lounge" loading="lazy">
+      <div class="galleryCardOverlay">
+        <div class="galleryCardTag">Cocktails</div>
+      </div>
     </div>
 
-    <div style="margin-top:40px; text-align:center;">
-      <a href="events.html" class="btn btn--primary">See This Week’s Events</a>
-      <a href="menu.html" class="btn btn--outline" style="margin-left:12px;">View Menu</a>
+    <div class="galleryCard" data-tags="lounge" data-src="assets/images/gallery-1.jpg" data-title="Upscale lounge seating">
+      <img src="assets/images/gallery-1.jpg" alt="Upscale lounge seating at Allure in Washington, DC" loading="lazy">
+      <div class="galleryCardOverlay">
+        <div class="galleryCardTag">Lounge</div>
+      </div>
+    </div>
+
+    <div class="galleryCard" data-tags="cocktails" data-src="assets/images/gallery-2.jpg" data-title="Craft cocktails">
+      <img src="assets/images/gallery-2.jpg" alt="Craft cocktails served at Allure Bar & Lounge" loading="lazy">
+      <div class="galleryCardOverlay">
+        <div class="galleryCardTag">Cocktails</div>
+      </div>
+    </div>
+
+    <div class="galleryCard" data-tags="nightlife" data-src="assets/images/gallery-3.jpg" data-title="Nightlife atmosphere">
+      <img src="assets/images/gallery-3.jpg" alt="Nightlife atmosphere at Allure Bar & Lounge DC" loading="lazy">
+      <div class="galleryCardOverlay">
+        <div class="galleryCardTag">Nightlife</div>
+      </div>
+    </div>
+
+    <div class="galleryCard" data-tags="nightlife cocktails" data-src="assets/images/gallery-4.jpg" data-title="Premium drinks and lounge vibes">
+      <img src="assets/images/gallery-4.jpg" alt="Premium drinks and lounge vibes at Allure" loading="lazy">
+      <div class="galleryCardOverlay">
+        <div class="galleryCardTag">Vibes</div>
+      </div>
+    </div>
+
+    <div class="galleryCard" data-tags="cocktails" data-src="assets/images/fav-cocktail.jpg" data-title="Cocktail close-up">
+      <img src="assets/images/fav-cocktail.jpg" alt="Cocktail close-up at Allure Bar & Lounge" loading="lazy">
+      <div class="galleryCardOverlay">
+        <div class="galleryCardTag">Signature Drink</div>
+      </div>
     </div>
 
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer">
+<section class="container galleryCta glassCard">
+  <div>
+    <h2 class="galleryCtaTitle">Come Experience It in Person</h2>
+    <p class="galleryCtaText">
+      The gallery gives a preview, but the real Allure experience is the energy in the room, the cocktails at the bar, and the premium nightlife atmosphere.
+    </p>
+  </div>
+
+  <div class="galleryCtaActions">
+    <a href="events.html" class="btnGold">See This Week’s Events</a>
+    <a href="menu.html" class="btnGhost">View Menu</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footerPremium">
   <div class="container">
-    <p>Allure Bar & Lounge • Washington, DC • 202-297-4949</p>
+    <div class="footerPremium__grid">
+      <div>
+        <div class="footerBrand">Allure Bar &amp; Lounge</div>
+        <div class="footerText">
+          Premium nightlife, cocktails, lounge seating, and a polished Washington DC experience built for memorable nights.
+        </div>
+      </div>
+
+      <div>
+        <div class="footerHead">Explore</div>
+        <div class="footerLinks">
+          <a href="index.html">Home</a>
+          <a href="menu.html">Menu</a>
+          <a href="events.html">Events</a>
+          <a href="gallery.html">Gallery</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footerHead">Visit</div>
+        <div class="footerLinks">
+          <a href="tel:2022974949">Call 202-297-4949</a>
+          <a href="events.html">Weekly Events</a>
+          <a href="location.html">Location</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footerBottom">
+      <span>© Allure Bar &amp; Lounge</span>
+      <span>Washington, DC</span>
+    </div>
   </div>
 </footer>
+
+<a class="mobileStickyReserve" href="tel:2022974949">Reserve Now</a>
+
+<div class="lightbox" id="galleryLightbox" aria-hidden="true">
+  <div class="lightboxBackdrop"></div>
+  <div class="lightboxPanel">
+    <button class="lightboxClose" type="button" aria-label="Close">×</button>
+    <img class="lightboxImg" id="lightboxImg" src="" alt="">
+    <div class="lightboxCaption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const navToggle = document.querySelector(".nav__toggle");
+  const navMenu = document.querySelector(".nav__list");
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      const open = navMenu.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+
+  const filterBtns = document.querySelectorAll(".galleryFilterBtn");
+  const galleryCards = document.querySelectorAll(".galleryCard");
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const filter = btn.dataset.filter;
+
+      galleryCards.forEach((card) => {
+        if (filter === "all") {
+          card.classList.remove("hiddenGallery");
+          return;
+        }
+
+        const tags = card.dataset.tags || "";
+        if (tags.includes(filter)) {
+          card.classList.remove("hiddenGallery");
+        } else {
+          card.classList.add("hiddenGallery");
+        }
+      });
+    });
+  });
+
+  const lightbox = document.getElementById("galleryLightbox");
+  const lightboxBackdrop = lightbox.querySelector(".lightboxBackdrop");
+  const lightboxClose = lightbox.querySelector(".lightboxClose");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxCaption = document.getElementById("lightboxCaption");
+
+  function openLightbox(src, title){
+    lightboxImg.src = src;
+    lightboxImg.alt = title;
+    lightboxCaption.textContent = title;
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxImg.src = "";
+  }
+
+  galleryCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      openLightbox(card.dataset.src, card.dataset.title);
+    });
+  });
+
+  lightboxBackdrop.addEventListener("click", closeLightbox);
+  lightboxClose.addEventListener("click", closeLightbox);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeLightbox();
+    }
+  });
+
+  const galleryImages = document.querySelectorAll(".galleryCard img");
+  galleryImages.forEach((img) => {
+    img.addEventListener("error", () => {
+      img.style.display = "none";
+      img.parentElement.classList.add("imgFallback");
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
