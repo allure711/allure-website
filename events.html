@@ -20,7 +20,6 @@
     }
 
     *{ box-sizing:border-box; }
-
     html{ scroll-behavior:smooth; }
 
     body{
@@ -55,6 +54,14 @@
       border:1px solid rgba(255,255,255,.09);
       box-shadow:0 18px 60px rgba(0,0,0,.30);
       backdrop-filter:blur(10px);
+    }
+
+    .img-fallback{
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+        radial-gradient(circle at 30% 30%, rgba(215,180,106,.16), transparent 35%),
+        #121218 !important;
+      object-fit:cover;
     }
 
     /* ===== HERO ===== */
@@ -126,6 +133,7 @@
       color:#fff;
       background:rgba(255,255,255,.04);
       font-weight:700;
+      cursor:pointer;
     }
 
     .events-pills{
@@ -211,6 +219,22 @@
       color:var(--gold2);
       font-weight:900;
       font-size:14px;
+    }
+
+    .live-banner__status{
+      position:relative;
+      z-index:1;
+      display:inline-flex;
+      margin-top:10px;
+      padding:7px 11px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.10);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.10em;
+      text-transform:uppercase;
     }
 
     /* ===== COUNTDOWN ===== */
@@ -310,7 +334,7 @@
 
     .featured-track{
       position:relative;
-      min-height:294px;
+      min-height:330px;
     }
 
     .fslide{
@@ -345,10 +369,11 @@
 
     .fcard__img{
       width:100%;
-      height:170px;
+      height:190px;
       object-fit:cover;
       display:block;
       background:#111;
+      cursor:pointer;
     }
 
     .fcard__body{
@@ -416,6 +441,69 @@
       letter-spacing:.02em;
       margin-right:6px;
       margin-top:6px;
+    }
+
+    /* ===== CTA STRIP ===== */
+    .cta-strip{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:16px;
+    }
+
+    .cta-strip__main,
+    .cta-strip__qr{
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .cta-strip__title{
+      font-size:26px;
+      font-weight:950;
+      line-height:1.05;
+      margin:0 0 8px;
+    }
+
+    .cta-strip__text{
+      color:var(--textSoft);
+      line-height:1.45;
+      margin:0 0 12px;
+    }
+
+    .cta-strip__actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .qr-box{
+      display:grid;
+      grid-template-columns:110px 1fr;
+      gap:14px;
+      align-items:center;
+    }
+
+    .qr-box__img{
+      width:110px;
+      height:110px;
+      object-fit:contain;
+      border-radius:14px;
+      background:#fff;
+      padding:8px;
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    .qr-box__title{
+      font-size:18px;
+      font-weight:900;
+      margin:0 0 6px;
+    }
+
+    .qr-box__text{
+      margin:0;
+      color:var(--textSoft);
+      line-height:1.4;
+      font-size:14px;
     }
 
     /* ===== PHASE 13 GRID ===== */
@@ -590,6 +678,171 @@
       gap:10px;
       flex-wrap:wrap;
       margin-top:4px;
+    }
+
+    /* ===== PHASE 15 GRID ===== */
+    .phase15-grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:16px;
+    }
+
+    .poster-wall{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+
+    .poster-card{
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+
+    .poster-card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(215,180,106,.35);
+      box-shadow:0 20px 60px rgba(0,0,0,.32);
+    }
+
+    .poster-card__img{
+      width:100%;
+      aspect-ratio:4/5;
+      object-fit:cover;
+      display:block;
+      background:#111;
+    }
+
+    .poster-card__body{
+      padding:10px;
+    }
+
+    .poster-card__title{
+      margin:0;
+      font-size:13px;
+      font-weight:900;
+      line-height:1.2;
+    }
+
+    .poster-card__meta{
+      margin-top:4px;
+      font-size:12px;
+      color:rgba(255,255,255,.72);
+    }
+
+    .reserve-qr{
+      display:grid;
+      grid-template-columns:140px 1fr;
+      gap:14px;
+      align-items:center;
+      border-radius:18px;
+      padding:14px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.03)),
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.10), transparent 30%);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .reserve-qr__img{
+      width:140px;
+      height:140px;
+      object-fit:contain;
+      border-radius:16px;
+      background:#fff;
+      padding:10px;
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    .reserve-qr__title{
+      font-size:22px;
+      font-weight:950;
+      line-height:1.04;
+      margin:0;
+    }
+
+    .reserve-qr__text{
+      margin-top:8px;
+      color:var(--textSoft);
+      line-height:1.45;
+    }
+
+    .reserve-qr__actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+
+    .quick-actions{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .quick-action{
+      border-radius:14px;
+      padding:14px 12px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.18);
+      text-align:center;
+      cursor:pointer;
+      transition:transform .16s ease, border-color .16s ease;
+      color:#fff;
+      text-decoration:none;
+      font-weight:900;
+    }
+
+    .quick-action:hover{
+      transform:translateY(-2px);
+      border-color:rgba(215,180,106,.35);
+    }
+
+    .quick-action__label{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      color:rgba(255,255,255,.72);
+      font-weight:700;
+    }
+
+    .tonight-strip{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+    }
+
+    .tonight-strip__left{
+      display:grid;
+      gap:4px;
+    }
+
+    .tonight-strip__eyebrow{
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.12em;
+      color:rgba(255,255,255,.60);
+      text-transform:uppercase;
+    }
+
+    .tonight-strip__title{
+      font-size:18px;
+      font-weight:950;
+    }
+
+    .tonight-strip__meta{
+      color:var(--textSoft);
+      font-size:14px;
     }
 
     /* ===== STICKY FILTER BAR ===== */
@@ -938,7 +1191,9 @@
     /* ===== RESPONSIVE ===== */
     @media (max-width: 980px){
       .events-hero__inner,
-      .phase13-grid{
+      .cta-strip,
+      .phase13-grid,
+      .phase15-grid{
         grid-template-columns:1fr;
       }
 
@@ -946,7 +1201,8 @@
         grid-template-columns:1fr;
       }
 
-      .gallery-strip{
+      .gallery-strip,
+      .poster-wall{
         grid-template-columns:repeat(2,1fr);
       }
     }
@@ -959,10 +1215,15 @@
       .vip-grid{
         grid-template-columns:1fr;
       }
+
+      .quick-actions{
+        grid-template-columns:1fr;
+      }
     }
 
     @media (max-width: 620px){
-      .gallery-strip{
+      .gallery-strip,
+      .poster-wall{
         grid-template-columns:1fr;
       }
 
@@ -977,6 +1238,11 @@
 
       .live-countdown{
         align-items:flex-start;
+      }
+
+      .reserve-qr,
+      .qr-box{
+        grid-template-columns:1fr;
       }
     }
   </style>
@@ -1069,7 +1335,7 @@
 
                 <div class="fslide is-active" data-slide="0" data-day="friday">
                   <article class="fcard">
-                    <img class="fcard__img" src="assets/images/featured-event-friday.jpg" alt="Allure Friday" loading="lazy" />
+                    <img class="fcard__img poster-open" src="assets/images/featured-event-friday.jpg" data-poster="assets/images/featured-event-friday.jpg" data-caption="Allure Friday Poster" alt="Allure Friday" loading="lazy" />
                     <div class="fcard__body">
                       <div class="fcard__top">
                         <h3 class="fcard__name">Allure Friday</h3>
@@ -1083,7 +1349,7 @@
 
                 <div class="fslide" data-slide="1" data-day="saturday">
                   <article class="fcard">
-                    <img class="fcard__img" src="assets/images/featured-event-saturday.jpg" alt="Allure Saturday" loading="lazy" />
+                    <img class="fcard__img poster-open" src="assets/images/featured-event-saturday.jpg" data-poster="assets/images/featured-event-saturday.jpg" data-caption="Allure Saturday Poster" alt="Allure Saturday" loading="lazy" />
                     <div class="fcard__body">
                       <div class="fcard__top">
                         <h3 class="fcard__name">Allure Saturday</h3>
@@ -1097,7 +1363,7 @@
 
                 <div class="fslide" data-slide="2" data-day="thursday">
                   <article class="fcard">
-                    <img class="fcard__img" src="assets/images/featured-event-thursday.jpg" alt="Karaoke Thursday" loading="lazy" />
+                    <img class="fcard__img poster-open" src="assets/images/featured-event-thursday.jpg" data-poster="assets/images/featured-event-thursday.jpg" data-caption="Karaoke Thursday Poster" alt="Karaoke Thursday" loading="lazy" />
                     <div class="fcard__body">
                       <div class="fcard__top">
                         <h3 class="fcard__name">Karaoke Thursday</h3>
@@ -1120,6 +1386,27 @@
           </aside>
 
         </div>
+
+        <section class="cta-strip fade-up delay-2">
+          <section class="cta-strip__main glass-card">
+            <h2 class="cta-strip__title">Tonight Starts Here</h2>
+            <p class="cta-strip__text">Book your section early, lock in your table, and share tonight’s event with your crew before the best spots fill.</p>
+            <div class="cta-strip__actions">
+              <button class="btn btn--primary open-vip-modal" type="button">Book VIP</button>
+              <a class="btn--ghost" href="tel:2022974949">Call 202-297-4949</a>
+            </div>
+          </section>
+
+          <section class="cta-strip__qr glass-card">
+            <div class="qr-box">
+              <img class="qr-box__img" src="assets/images/reserve-qr.png" alt="Reservation QR code" loading="lazy" />
+              <div>
+                <h3 class="qr-box__title">Scan to Reserve</h3>
+                <p class="qr-box__text">Use this QR code for quick reservation access on a second device, flyers, or printed promo materials.</p>
+              </div>
+            </div>
+          </section>
+        </section>
 
         <section class="phase13-grid fade-up delay-2">
           <div class="phase13-stack">
@@ -1230,6 +1517,91 @@
             </section>
 
           </div>
+        </section>
+
+        <section class="phase15-grid fade-up delay-3">
+          <section class="phase-card glass-card">
+            <h2 class="phase-card__title">Weekly Poster Wall</h2>
+            <div class="poster-wall">
+              <article class="poster-card">
+                <img class="poster-card__img poster-open" src="assets/images/poster-monday.jpg" data-poster="assets/images/poster-monday.jpg" data-caption="Free Hookah Monday Poster" alt="Free Hookah Monday poster" loading="lazy" />
+                <div class="poster-card__body">
+                  <h3 class="poster-card__title">Free Hookah Monday</h3>
+                  <div class="poster-card__meta">Mon • 5PM–1AM</div>
+                </div>
+              </article>
+
+              <article class="poster-card">
+                <img class="poster-card__img poster-open" src="assets/images/poster-thursday.jpg" data-poster="assets/images/poster-thursday.jpg" data-caption="Karaoke Thursday Poster" alt="Karaoke Thursday poster" loading="lazy" />
+                <div class="poster-card__body">
+                  <h3 class="poster-card__title">Karaoke Thursday</h3>
+                  <div class="poster-card__meta">Thu • 5PM–1AM</div>
+                </div>
+              </article>
+
+              <article class="poster-card">
+                <img class="poster-card__img poster-open" src="assets/images/poster-friday.jpg" data-poster="assets/images/poster-friday.jpg" data-caption="Allure Friday Poster" alt="Allure Friday poster" loading="lazy" />
+                <div class="poster-card__body">
+                  <h3 class="poster-card__title">Allure Friday</h3>
+                  <div class="poster-card__meta">Fri • 5PM–2AM</div>
+                </div>
+              </article>
+
+              <article class="poster-card">
+                <img class="poster-card__img poster-open" src="assets/images/poster-saturday.jpg" data-poster="assets/images/poster-saturday.jpg" data-caption="Allure Saturday Poster" alt="Allure Saturday poster" loading="lazy" />
+                <div class="poster-card__body">
+                  <h3 class="poster-card__title">Allure Saturday</h3>
+                  <div class="poster-card__meta">Sat • 5PM–2AM</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="phase-card glass-card">
+            <h2 class="phase-card__title">Reserve / Share</h2>
+
+            <div class="reserve-qr">
+              <img class="reserve-qr__img" src="assets/images/reserve-qr.png" alt="Reservation QR code" loading="lazy" />
+              <div>
+                <h3 class="reserve-qr__title">Scan to Reserve</h3>
+                <div class="reserve-qr__text">
+                  Guests can scan this QR code to call instantly, or use the quick actions below to share tonight’s event and book a VIP section.
+                </div>
+
+                <div class="reserve-qr__actions">
+                  <a class="btn btn--primary" href="tel:2022974949">Call to Reserve</a>
+                  <button class="btn--ghost open-vip-modal" type="button">Book VIP</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="quick-actions">
+              <button class="quick-action" type="button" id="shareTonightBtn">
+                Share Tonight
+                <span class="quick-action__label">Send current event</span>
+              </button>
+
+              <button class="quick-action" type="button" id="copyNumberBtn">
+                Copy Number
+                <span class="quick-action__label">202-297-4949</span>
+              </button>
+
+              <a class="quick-action" href="tel:2022974949">
+                Call Now
+                <span class="quick-action__label">Direct reservation line</span>
+              </a>
+            </div>
+
+            <div class="tonight-strip">
+              <div class="tonight-strip__left">
+                <div class="tonight-strip__eyebrow">Tonight’s priority</div>
+                <div class="tonight-strip__title" id="tonightStripTitle">Loading...</div>
+                <div class="tonight-strip__meta" id="tonightStripMeta">Loading...</div>
+              </div>
+
+              <button class="btn btn--primary open-vip-modal" type="button">Reserve Tonight</button>
+            </div>
+          </section>
         </section>
 
         <div class="events-filter" role="navigation" aria-label="Event filters">
@@ -1450,6 +1822,13 @@
       });
     })();
 
+    /* image fallbacks */
+    document.querySelectorAll("img").forEach((img) => {
+      img.addEventListener("error", () => {
+        img.classList.add("img-fallback");
+      }, { once: true });
+    });
+
     /* event data */
     const EVENTS = {
       sunday: {
@@ -1506,6 +1885,21 @@
     liveBanner.querySelector(".live-banner__meta").textContent = todayEvent.meta;
     liveBanner.querySelector(".live-banner__sub").textContent = todayEvent.sub;
 
+    const statusBadge = document.createElement("div");
+    statusBadge.className = "live-banner__status";
+    const nowHour = new Date().getHours();
+
+    let statusText = "Reservations Open";
+    if ((todayKey === "friday" || todayKey === "saturday") && nowHour >= 20) {
+      statusText = "Limited Tables Tonight";
+    } else if (todayKey === "thursday" && nowHour >= 18) {
+      statusText = "Karaoke Night Active";
+    } else if (todayKey === "monday") {
+      statusText = "Free Hookah Night";
+    }
+    statusBadge.textContent = statusText;
+    liveBanner.appendChild(statusBadge);
+
     /* countdown */
     const countdownTitle = document.getElementById("countdownTitle");
 
@@ -1561,6 +1955,14 @@
         card.classList.add("schedule-highlight");
       }
     });
+
+    /* tonight strip */
+    const tonightStripTitle = document.getElementById("tonightStripTitle");
+    const tonightStripMeta = document.getElementById("tonightStripMeta");
+    if (tonightStripTitle && tonightStripMeta) {
+      tonightStripTitle.textContent = todayEvent.title;
+      tonightStripMeta.textContent = todayEvent.meta;
+    }
 
     /* filter logic */
     const btns = document.querySelectorAll(".filter-btn");
@@ -1628,13 +2030,20 @@
     autoStartFromDay();
     startSlider();
 
+    /* toast */
+    const toast = document.getElementById("toast");
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("is-show");
+      setTimeout(() => toast.classList.remove("is-show"), 2200);
+    }
+
     /* vip modal */
     const vipModal = document.getElementById("vipModal");
     const vipBackdrop = vipModal.querySelector(".vip-modal__backdrop");
     const vipClose = vipModal.querySelector(".vip-close");
     const vipOpeners = document.querySelectorAll(".open-vip-modal");
     const vipForm = document.getElementById("vipForm");
-    const toast = document.getElementById("toast");
 
     function openVipModal(e){
       if (e) e.preventDefault();
@@ -1650,12 +2059,6 @@
     vipOpeners.forEach(btn => btn.addEventListener("click", openVipModal));
     vipBackdrop.addEventListener("click", closeVipModal);
     vipClose.addEventListener("click", closeVipModal);
-
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.classList.add("is-show");
-      setTimeout(() => toast.classList.remove("is-show"), 2200);
-    }
 
     vipForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -1682,7 +2085,7 @@
       window.location.href = `sms:2022974949?body=${body}`;
     });
 
-    /* gallery lightbox */
+    /* gallery lightbox + poster modal reuse */
     const lightbox = document.getElementById("galleryLightbox");
     const lightboxBackdrop = lightbox.querySelector(".lightbox__backdrop");
     const lightboxClose = lightbox.querySelector(".lightbox__close");
@@ -1709,8 +2112,51 @@
       });
     });
 
+    document.querySelectorAll(".poster-open").forEach(img => {
+      img.addEventListener("click", () => {
+        openLightbox(img.dataset.poster || img.src, img.dataset.caption || img.alt || "Event Poster");
+      });
+    });
+
     lightboxBackdrop.addEventListener("click", closeLightbox);
     lightboxClose.addEventListener("click", closeLightbox);
+
+    /* phase 15 quick actions */
+    const copyNumberBtn = document.getElementById("copyNumberBtn");
+    if (copyNumberBtn) {
+      copyNumberBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText("202-297-4949");
+          showToast("Phone number copied");
+        } catch (err) {
+          showToast("Copy failed");
+        }
+      });
+    }
+
+    const shareTonightBtn = document.getElementById("shareTonightBtn");
+    if (shareTonightBtn) {
+      shareTonightBtn.addEventListener("click", async () => {
+        const shareData = {
+          title: `${todayEvent.title} | Allure Bar & Lounge`,
+          text: `${todayEvent.title} — ${todayEvent.meta} ${todayEvent.sub}`,
+          url: window.location.href
+        };
+
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+          } catch (err) {}
+        } else {
+          try {
+            await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}\n${shareData.url}`);
+            showToast("Tonight’s event copied");
+          } catch (err) {
+            showToast("Share not supported");
+          }
+        }
+      });
+    }
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
