@@ -21,6 +21,8 @@
 
     *{ box-sizing:border-box; }
 
+    html{ scroll-behavior:smooth; }
+
     body{
       background:
         radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
@@ -273,7 +275,7 @@
       text-transform:uppercase;
     }
 
-    /* ===== FEATURED ===== */
+    /* ===== FEATURED / SLIDER ===== */
     .featured{
       border-radius:18px;
       padding:14px;
@@ -302,10 +304,29 @@
       color:rgba(215,180,106,.85);
     }
 
-    .featured-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
+    .featured-slider{
+      position:relative;
+    }
+
+    .featured-track{
+      position:relative;
+      min-height:294px;
+    }
+
+    .fslide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(8px);
+      transition:opacity .4s ease, transform .4s ease;
+    }
+
+    .fslide.is-active{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+      position:relative;
     }
 
     .fcard{
@@ -324,7 +345,7 @@
 
     .fcard__img{
       width:100%;
-      height:150px;
+      height:170px;
       object-fit:cover;
       display:block;
       background:#111;
@@ -360,6 +381,28 @@
       color:rgba(255,255,255,.78);
       font-size:13.5px;
       line-height:1.35;
+    }
+
+    .featured-dots{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .featured-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      border:0;
+      cursor:pointer;
+      background:rgba(255,255,255,.22);
+      padding:0;
+    }
+
+    .featured-dot.is-active{
+      background:var(--gold2);
+      box-shadow:0 0 0 1px rgba(215,180,106,.18);
     }
 
     .tag{
@@ -502,6 +545,7 @@
       background:
         linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
         radial-gradient(circle at 25% 25%, rgba(215,180,106,.14), transparent 30%);
+      cursor:pointer;
     }
 
     .gallery-tile img{
@@ -521,6 +565,7 @@
       font-weight:800;
       color:#fff;
       text-shadow:0 2px 10px rgba(0,0,0,.45);
+      pointer-events:none;
     }
 
     /* CTA */
@@ -598,7 +643,7 @@
 
     /* ===== EVENT LIST ===== */
     .events-wrap{
-      padding-bottom:40px;
+      padding-bottom:90px;
     }
 
     .divider{
@@ -673,6 +718,223 @@
       background:rgba(215,180,106,.05) !important;
     }
 
+    /* ===== PHASE 14 MODAL / LIGHTBOX / STICKY BUTTON ===== */
+    .sticky-book{
+      position:fixed;
+      right:16px;
+      bottom:18px;
+      z-index:1000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:14px 18px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.35);
+      background:rgba(10,10,14,.92);
+      color:#fff;
+      text-decoration:none;
+      font-weight:900;
+      box-shadow:0 18px 50px rgba(0,0,0,.40);
+      backdrop-filter:blur(10px);
+    }
+
+    .sticky-book span{
+      color:var(--gold2);
+    }
+
+    .vip-modal,
+    .lightbox{
+      position:fixed;
+      inset:0;
+      z-index:1100;
+      display:none;
+    }
+
+    .vip-modal.is-open,
+    .lightbox.is-open{
+      display:block;
+    }
+
+    .vip-modal__backdrop,
+    .lightbox__backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.74);
+      backdrop-filter:blur(8px);
+    }
+
+    .vip-modal__panel{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:min(720px, calc(100vw - 24px));
+      max-height:86vh;
+      overflow:auto;
+      border-radius:22px;
+      background:#0d0d12;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 30px 90px rgba(0,0,0,.55);
+      padding:18px;
+    }
+
+    .vip-modal__head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .vip-modal__title{
+      font-size:26px;
+      font-weight:950;
+    }
+
+    .vip-close,
+    .lightbox__close{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      font-size:20px;
+      cursor:pointer;
+    }
+
+    .vip-modal__sub{
+      color:var(--textSoft);
+      margin-bottom:14px;
+    }
+
+    .vip-form{
+      display:grid;
+      gap:12px;
+    }
+
+    .vip-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .vip-field{
+      display:grid;
+      gap:7px;
+    }
+
+    .vip-field label{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.72);
+    }
+
+    .vip-field input,
+    .vip-field select,
+    .vip-field textarea{
+      width:100%;
+      padding:13px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      color:#fff;
+      font:inherit;
+      outline:none;
+    }
+
+    .vip-field textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .vip-field input:focus,
+    .vip-field select:focus,
+    .vip-field textarea:focus{
+      border-color:rgba(215,180,106,.35);
+      box-shadow:0 0 0 1px rgba(215,180,106,.12);
+    }
+
+    .vip-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:4px;
+    }
+
+    .vip-submit{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:13px 16px;
+      border-radius:14px;
+      border:0;
+      background:var(--gold);
+      color:#111;
+      font-weight:950;
+      cursor:pointer;
+    }
+
+    .vip-hint{
+      color:rgba(255,255,255,.62);
+      font-size:13px;
+    }
+
+    .lightbox__panel{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:min(960px, calc(100vw - 24px));
+      max-height:90vh;
+      display:grid;
+      gap:12px;
+      justify-items:center;
+    }
+
+    .lightbox__img{
+      max-width:100%;
+      max-height:76vh;
+      width:auto;
+      height:auto;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 24px 80px rgba(0,0,0,.5);
+      background:#111;
+    }
+
+    .lightbox__caption{
+      color:#fff;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .toast{
+      position:fixed;
+      top:16px;
+      left:50%;
+      transform:translateX(-50%) translateY(-10px);
+      z-index:1200;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s ease, transform .25s ease;
+      padding:12px 16px;
+      border-radius:14px;
+      background:#101018;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+      font-weight:900;
+    }
+
+    .toast.is-show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 980px){
       .events-hero__inner,
@@ -689,11 +951,17 @@
       }
     }
 
-    @media (max-width: 620px){
-      .featured-grid{
-        grid-template-columns:1fr;
+    @media (max-width: 768px){
+      .sticky-book{
+        display:inline-flex;
       }
 
+      .vip-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 620px){
       .gallery-strip{
         grid-template-columns:1fr;
       }
@@ -756,7 +1024,6 @@
               <span class="pill">Premium lounge</span>
             </div>
 
-            <!-- PHASE 11 -->
             <section class="live-banner fade-up delay-1" id="liveBanner">
               <div class="live-banner__eyebrow">Tonight at Allure</div>
               <div class="live-banner__title">Loading...</div>
@@ -793,40 +1060,67 @@
 
           <aside class="featured glass-card fade-up delay-1" aria-label="Featured events">
             <div class="featured__head">
-              <h2 class="featured__title">Featured</h2>
-              <p class="featured__note">Best nights to pull up</p>
+              <h2 class="featured__title">Featured Flyers</h2>
+              <p class="featured__note">Swipe the best nights</p>
             </div>
 
-            <div class="featured-grid">
-              <article class="fcard">
-                <img class="fcard__img" src="assets/images/featured-event-friday.jpg" alt="Allure Friday" loading="lazy" />
-                <div class="fcard__body">
-                  <div class="fcard__top">
-                    <h3 class="fcard__name">Allure Friday</h3>
-                    <p class="fcard__time">Fri • 5PM–2AM</p>
-                  </div>
-                  <p class="fcard__desc">Premium lounge energy all night — come dressed, come ready.</p>
-                  <span class="tag">Weekend</span><span class="tag">Top Night</span>
-                </div>
-              </article>
+            <div class="featured-slider">
+              <div class="featured-track" id="featuredTrack">
 
-              <article class="fcard">
-                <img class="fcard__img" src="assets/images/featured-event-saturday.jpg" alt="Allure Saturday" loading="lazy" />
-                <div class="fcard__body">
-                  <div class="fcard__top">
-                    <h3 class="fcard__name">Allure Saturday</h3>
-                    <p class="fcard__time">Sat • 5PM–2AM</p>
-                  </div>
-                  <p class="fcard__desc">Late-night vibes, premium crowd, and signature cocktails.</p>
-                  <span class="tag">Weekend</span><span class="tag">Best Vibes</span>
+                <div class="fslide is-active" data-slide="0" data-day="friday">
+                  <article class="fcard">
+                    <img class="fcard__img" src="assets/images/featured-event-friday.jpg" alt="Allure Friday" loading="lazy" />
+                    <div class="fcard__body">
+                      <div class="fcard__top">
+                        <h3 class="fcard__name">Allure Friday</h3>
+                        <p class="fcard__time">Fri • 5PM–2AM</p>
+                      </div>
+                      <p class="fcard__desc">Premium lounge energy all night — come dressed, come ready.</p>
+                      <span class="tag">Weekend</span><span class="tag">Top Night</span>
+                    </div>
+                  </article>
                 </div>
-              </article>
+
+                <div class="fslide" data-slide="1" data-day="saturday">
+                  <article class="fcard">
+                    <img class="fcard__img" src="assets/images/featured-event-saturday.jpg" alt="Allure Saturday" loading="lazy" />
+                    <div class="fcard__body">
+                      <div class="fcard__top">
+                        <h3 class="fcard__name">Allure Saturday</h3>
+                        <p class="fcard__time">Sat • 5PM–2AM</p>
+                      </div>
+                      <p class="fcard__desc">Late-night vibes, premium crowd, and signature cocktails.</p>
+                      <span class="tag">Weekend</span><span class="tag">Best Vibes</span>
+                    </div>
+                  </article>
+                </div>
+
+                <div class="fslide" data-slide="2" data-day="thursday">
+                  <article class="fcard">
+                    <img class="fcard__img" src="assets/images/featured-event-thursday.jpg" alt="Karaoke Thursday" loading="lazy" />
+                    <div class="fcard__body">
+                      <div class="fcard__top">
+                        <h3 class="fcard__name">Karaoke Thursday</h3>
+                        <p class="fcard__time">Thu • 5PM–1AM</p>
+                      </div>
+                      <p class="fcard__desc">Bring the crew and own the mic — cozy upscale vibes all night.</p>
+                      <span class="tag">Karaoke</span><span class="tag">Weekdays</span>
+                    </div>
+                  </article>
+                </div>
+
+              </div>
+
+              <div class="featured-dots" id="featuredDots">
+                <button class="featured-dot is-active" type="button" data-dot="0" aria-label="Show Friday flyer"></button>
+                <button class="featured-dot" type="button" data-dot="1" aria-label="Show Saturday flyer"></button>
+                <button class="featured-dot" type="button" data-dot="2" aria-label="Show Thursday flyer"></button>
+              </div>
             </div>
           </aside>
 
         </div>
 
-        <!-- PHASE 13 -->
         <section class="phase13-grid fade-up delay-2">
           <div class="phase13-stack">
 
@@ -871,19 +1165,19 @@
             <section class="phase-card glass-card">
               <h2 class="phase-card__title">Nightlife Gallery</h2>
               <div class="gallery-strip">
-                <article class="gallery-tile">
+                <article class="gallery-tile" data-lightbox-src="assets/images/gallery-1.jpg" data-lightbox-caption="Bottle Service">
                   <img src="assets/images/gallery-1.jpg" alt="Bottle service" loading="lazy">
                   <div class="gallery-tile__label">Bottle Service</div>
                 </article>
-                <article class="gallery-tile">
+                <article class="gallery-tile" data-lightbox-src="assets/images/gallery-2.jpg" data-lightbox-caption="Hookah Lounge">
                   <img src="assets/images/gallery-2.jpg" alt="Hookah lounge" loading="lazy">
                   <div class="gallery-tile__label">Hookah Lounge</div>
                 </article>
-                <article class="gallery-tile">
+                <article class="gallery-tile" data-lightbox-src="assets/images/gallery-3.jpg" data-lightbox-caption="DJ Booth">
                   <img src="assets/images/gallery-3.jpg" alt="DJ booth" loading="lazy">
                   <div class="gallery-tile__label">DJ Booth</div>
                 </article>
-                <article class="gallery-tile">
+                <article class="gallery-tile" data-lightbox-src="assets/images/gallery-4.jpg" data-lightbox-caption="Crowd Vibe">
                   <img src="assets/images/gallery-4.jpg" alt="Crowd vibe" loading="lazy">
                   <div class="gallery-tile__label">Crowd Vibe</div>
                 </article>
@@ -929,7 +1223,7 @@
                 <div class="birthday-cta__title">Celebrate at Allure</div>
                 <div class="birthday-cta__text">Book a premium section for birthdays, bottle service, or special nights out. The earlier you reserve, the better your placement.</div>
                 <div class="birthday-cta__actions">
-                  <a class="btn btn--primary" href="tel:2022974949">Book a Section</a>
+                  <button class="btn btn--primary open-vip-modal" type="button">Book a Section</button>
                   <a class="btn--ghost" href="tel:2022974949">Call Now</a>
                 </div>
               </div>
@@ -1052,6 +1346,94 @@
       </div>
     </div>
   </footer>
+
+  <a class="sticky-book open-vip-modal" href="#book-section">
+    <span>👑</span> Book Section
+  </a>
+
+  <div class="vip-modal" id="vipModal" aria-hidden="true">
+    <div class="vip-modal__backdrop"></div>
+    <div class="vip-modal__panel">
+      <div class="vip-modal__head">
+        <div class="vip-modal__title">VIP Reservation</div>
+        <button class="vip-close" type="button" aria-label="Close">×</button>
+      </div>
+
+      <div class="vip-modal__sub">Fill this out, then tap send to open your message app with the reservation details pre-filled.</div>
+
+      <form class="vip-form" id="vipForm">
+        <div class="vip-grid">
+          <div class="vip-field">
+            <label for="vipName">Name</label>
+            <input id="vipName" type="text" placeholder="Your full name" />
+          </div>
+
+          <div class="vip-field">
+            <label for="vipPhone">Phone</label>
+            <input id="vipPhone" type="tel" placeholder="Your phone number" />
+          </div>
+        </div>
+
+        <div class="vip-grid">
+          <div class="vip-field">
+            <label for="vipDate">Date</label>
+            <input id="vipDate" type="date" />
+          </div>
+
+          <div class="vip-field">
+            <label for="vipGuests">Guests</label>
+            <select id="vipGuests">
+              <option value="">Select</option>
+              <option>2-4</option>
+              <option>5-8</option>
+              <option>9-12</option>
+              <option>12+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="vip-grid">
+          <div class="vip-field">
+            <label for="vipPackage">Package</label>
+            <select id="vipPackage">
+              <option value="">Select</option>
+              <option>Gold</option>
+              <option>Platinum</option>
+              <option>Celebration</option>
+            </select>
+          </div>
+
+          <div class="vip-field">
+            <label for="vipTime">Preferred Time</label>
+            <input id="vipTime" type="text" placeholder="Example: 10:30 PM" />
+          </div>
+        </div>
+
+        <div class="vip-field">
+          <label for="vipNotes">Notes</label>
+          <textarea id="vipNotes" placeholder="Birthday, bottle preference, section request, special setup..."></textarea>
+        </div>
+
+        <div class="vip-actions">
+          <button class="vip-submit" type="submit">Send Request</button>
+          <a class="btn--ghost" href="tel:2022974949">Call Now</a>
+        </div>
+
+        <div class="vip-hint">This opens your phone’s message app.</div>
+      </form>
+    </div>
+  </div>
+
+  <div class="lightbox" id="galleryLightbox" aria-hidden="true">
+    <div class="lightbox__backdrop"></div>
+    <div class="lightbox__panel">
+      <button class="lightbox__close" type="button" aria-label="Close">×</button>
+      <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+      <div class="lightbox__caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Opening your message app...</div>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -1205,6 +1587,136 @@
         setActive(btn);
         applyFilter(btn.dataset.filter);
       });
+    });
+
+    /* phase 14 featured slider */
+    const slides = [...document.querySelectorAll(".fslide")];
+    const dots = [...document.querySelectorAll(".featured-dot")];
+    let slideIndex = 0;
+    let slideTimer = null;
+
+    function showSlide(index){
+      slideIndex = index;
+      slides.forEach((slide, i) => slide.classList.toggle("is-active", i === index));
+      dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
+    }
+
+    function autoStartFromDay(){
+      const map = { thursday: 2, friday: 0, saturday: 1 };
+      if (map[todayKey] !== undefined) {
+        showSlide(map[todayKey]);
+      } else {
+        showSlide(0);
+      }
+    }
+
+    function startSlider(){
+      if (slideTimer) clearInterval(slideTimer);
+      slideTimer = setInterval(() => {
+        const next = (slideIndex + 1) % slides.length;
+        showSlide(next);
+      }, 4000);
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        showSlide(index);
+        startSlider();
+      });
+    });
+
+    autoStartFromDay();
+    startSlider();
+
+    /* vip modal */
+    const vipModal = document.getElementById("vipModal");
+    const vipBackdrop = vipModal.querySelector(".vip-modal__backdrop");
+    const vipClose = vipModal.querySelector(".vip-close");
+    const vipOpeners = document.querySelectorAll(".open-vip-modal");
+    const vipForm = document.getElementById("vipForm");
+    const toast = document.getElementById("toast");
+
+    function openVipModal(e){
+      if (e) e.preventDefault();
+      vipModal.classList.add("is-open");
+      vipModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeVipModal(){
+      vipModal.classList.remove("is-open");
+      vipModal.setAttribute("aria-hidden", "true");
+    }
+
+    vipOpeners.forEach(btn => btn.addEventListener("click", openVipModal));
+    vipBackdrop.addEventListener("click", closeVipModal);
+    vipClose.addEventListener("click", closeVipModal);
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("is-show");
+      setTimeout(() => toast.classList.remove("is-show"), 2200);
+    }
+
+    vipForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("vipName").value.trim();
+      const phone = document.getElementById("vipPhone").value.trim();
+      const date = document.getElementById("vipDate").value.trim();
+      const guests = document.getElementById("vipGuests").value.trim();
+      const pack = document.getElementById("vipPackage").value.trim();
+      const time = document.getElementById("vipTime").value.trim();
+      const notes = document.getElementById("vipNotes").value.trim();
+
+      const body =
+        `VIP Reservation Request%0A` +
+        `Name: ${name || "-"}%0A` +
+        `Phone: ${phone || "-"}%0A` +
+        `Date: ${date || "-"}%0A` +
+        `Guests: ${guests || "-"}%0A` +
+        `Package: ${pack || "-"}%0A` +
+        `Preferred Time: ${time || "-"}%0A` +
+        `Notes: ${notes || "-"}`;
+
+      showToast("Opening your message app...");
+      window.location.href = `sms:2022974949?body=${body}`;
+    });
+
+    /* gallery lightbox */
+    const lightbox = document.getElementById("galleryLightbox");
+    const lightboxBackdrop = lightbox.querySelector(".lightbox__backdrop");
+    const lightboxClose = lightbox.querySelector(".lightbox__close");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+
+    function openLightbox(src, caption){
+      lightboxImg.src = src;
+      lightboxImg.alt = caption;
+      lightboxCaption.textContent = caption;
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImg.src = "";
+    }
+
+    document.querySelectorAll(".gallery-tile").forEach(tile => {
+      tile.addEventListener("click", () => {
+        openLightbox(tile.dataset.lightboxSrc, tile.dataset.lightboxCaption);
+      });
+    });
+
+    lightboxBackdrop.addEventListener("click", closeLightbox);
+    lightboxClose.addEventListener("click", closeLightbox);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeVipModal();
+        closeLightbox();
+      }
     });
   </script>
 </body>
