@@ -1,114 +1,210 @@
-(() => {
+document.addEventListener("DOMContentLoaded", function () {
+
+  /* -------------------------
+     MOBILE NAVIGATION
+  ------------------------- */
+
   const navToggle = document.querySelector(".nav__toggle");
   const navMenu = document.querySelector(".nav__list");
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener("click", () => {
+  if(navToggle && navMenu){
+
+    navToggle.addEventListener("click", function(){
+
       const open = navMenu.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+
+      navToggle.setAttribute(
+        "aria-expanded",
+        open ? "true" : "false"
+      );
+
     });
+
   }
 
-  const imageNodes = document.querySelectorAll("img[data-fallback], .has-fallback img, .flyerPoster img, .galleryCard img, .featuredPoster img, .previewCard img, .heroVisual img");
-  imageNodes.forEach((img) => {
-    img.addEventListener("error", () => {
-      img.style.display = "none";
-      if (img.parentElement) {
-        img.parentElement.classList.add("imgFallback");
+
+
+  /* -------------------------
+     EVENT FLYER SLIDER
+  ------------------------- */
+
+  const slides = document.querySelectorAll(".slide");
+  const dots = document.querySelectorAll(".sliderDot");
+
+  let slideIndex = 0;
+
+  function showSlide(index){
+
+    slides.forEach(s => s.classList.remove("active"));
+    dots.forEach(d => d.classList.remove("active"));
+
+    slides[index].classList.add("active");
+
+    if(dots[index]){
+      dots[index].classList.add("active");
+    }
+
+  }
+
+  if(slides.length){
+
+    showSlide(0);
+
+    setInterval(function(){
+
+      slideIndex++;
+
+      if(slideIndex >= slides.length){
+        slideIndex = 0;
       }
+
+      showSlide(slideIndex);
+
+    },5000);
+
+  }
+
+  dots.forEach((dot,i)=>{
+
+    dot.addEventListener("click",function(){
+
+      slideIndex = i;
+
+      showSlide(slideIndex);
+
     });
+
   });
 
-  const modal = document.getElementById("bookingModal");
-  if (modal) {
-    const modalBackdrop = modal.querySelector(".modalBackdrop");
-    const modalClose = modal.querySelector(".modalClose");
-    const openButtons = document.querySelectorAll(".openBooking");
 
-    function openModal(e){
-      if (e) e.preventDefault();
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-    }
 
-    function closeModal(){
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-    }
+  /* -------------------------
+     GALLERY LIGHTBOX
+  ------------------------- */
 
-    openButtons.forEach((button) => {
-      button.addEventListener("click", openModal);
-    });
+  const galleryCards = document.querySelectorAll(".galleryCard");
 
-    if (modalBackdrop) modalBackdrop.addEventListener("click", closeModal);
-    if (modalClose) modalClose.addEventListener("click", closeModal);
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxCaption = document.getElementById("lightboxCaption");
+  const lightboxClose = document.getElementById("lightboxClose");
 
-    const bookingForm = document.getElementById("bookingForm");
-    if (bookingForm) {
-      bookingForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+  if(galleryCards.length && lightbox){
 
-        const name = document.getElementById("bookName")?.value.trim() || "";
-        const phone = document.getElementById("bookPhone")?.value.trim() || "";
-        const date = document.getElementById("bookDate")?.value.trim() || "";
-        const guests = document.getElementById("bookGuests")?.value.trim() || "";
-        const pack = document.getElementById("bookPackage")?.value.trim() || "";
-        const time = document.getElementById("bookTime")?.value.trim() || "";
-        const notes = document.getElementById("bookNotes")?.value.trim() || "";
+    galleryCards.forEach(card => {
 
-        const smsBody =
-          `VIP Booking Request%0A` +
-          `Name: ${name || "-"}%0A` +
-          `Phone: ${phone || "-"}%0A` +
-          `Date: ${date || "-"}%0A` +
-          `Guests: ${guests || "-"}%0A` +
-          `Package: ${pack || "-"}%0A` +
-          `Preferred Time: ${time || "-"}%0A` +
-          `Notes: ${notes || "-"}`;
+      card.addEventListener("click", function(){
 
-        window.location.href = `sms:2022974949?body=${smsBody}`;
+        const img = card.querySelector("img");
+
+        lightboxImg.src = img.src;
+
+        lightboxCaption.textContent =
+          img.alt || "Allure Bar & Lounge";
+
+        lightbox.classList.add("open");
+
       });
-    }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModal();
     });
+
   }
 
-  const lightbox = document.getElementById("siteLightbox");
-  if (lightbox) {
-    const lightboxBackdrop = lightbox.querySelector(".lightboxBackdrop");
-    const lightboxClose = lightbox.querySelector(".lightboxClose");
-    const lightboxImg = document.getElementById("lightboxImg");
-    const lightboxCaption = document.getElementById("lightboxCaption");
+  if(lightboxClose){
 
-    function openLightbox(src, title){
-      if (!lightboxImg) return;
-      lightboxImg.src = src;
-      lightboxImg.alt = title || "";
-      if (lightboxCaption) lightboxCaption.textContent = title || "";
-      lightbox.classList.add("open");
-      lightbox.setAttribute("aria-hidden", "false");
-    }
+    lightboxClose.addEventListener("click", function(){
 
-    function closeLightbox(){
       lightbox.classList.remove("open");
-      lightbox.setAttribute("aria-hidden", "true");
-      if (lightboxImg) lightboxImg.src = "";
-    }
 
-    document.querySelectorAll("[data-lightbox-src]").forEach((node) => {
-      node.addEventListener("click", (e) => {
-        if (e.target.closest(".btnGold") || e.target.closest(".btnGhost")) return;
-        openLightbox(node.dataset.lightboxSrc, node.dataset.lightboxTitle || "");
-      });
     });
 
-    if (lightboxBackdrop) lightboxBackdrop.addEventListener("click", closeLightbox);
-    if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeLightbox();
-    });
   }
-})();
+
+  if(lightbox){
+
+    lightbox.addEventListener("click", function(e){
+
+      if(e.target.classList.contains("lightboxBackdrop")){
+
+        lightbox.classList.remove("open");
+
+      }
+
+    });
+
+  }
+
+
+
+  /* -------------------------
+     VIP RESERVATION MODAL
+  ------------------------- */
+
+  const reserveBtns = document.querySelectorAll(".openReserveModal");
+
+  const reserveModal = document.getElementById("reserveModal");
+
+  const modalClose = document.getElementById("modalClose");
+
+  if(reserveBtns.length && reserveModal){
+
+    reserveBtns.forEach(btn => {
+
+      btn.addEventListener("click", function(){
+
+        reserveModal.classList.add("open");
+
+      });
+
+    });
+
+  }
+
+  if(modalClose){
+
+    modalClose.addEventListener("click", function(){
+
+      reserveModal.classList.remove("open");
+
+    });
+
+  }
+
+  if(reserveModal){
+
+    reserveModal.addEventListener("click", function(e){
+
+      if(e.target.classList.contains("modalBackdrop")){
+
+        reserveModal.classList.remove("open");
+
+      }
+
+    });
+
+  }
+
+
+
+  /* -------------------------
+     IMAGE FALLBACK
+     prevents broken images
+  ------------------------- */
+
+  const images = document.querySelectorAll("img");
+
+  images.forEach(img => {
+
+    img.addEventListener("error", function(){
+
+      img.classList.add("imgFallback");
+
+      img.src = "";
+
+    });
+
+  });
+
+
+
+});
