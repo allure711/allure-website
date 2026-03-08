@@ -1,36 +1,996 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Allure Bar & Lounge</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allure Bar & Lounge | Washington, DC</title>
+  <meta name="description" content="Allure Bar & Lounge in Washington, DC — premium cocktails, curated weekly events, VIP sections, and upscale nightlife energy.">
   <link rel="stylesheet" href="assets/css/styles.css">
+
+  <style>
+    :root{
+      --gold:#d7b46a;
+      --gold2:#f2d38a;
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.10);
+      --textSoft:rgba(255,255,255,.78);
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
+        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
+        linear-gradient(180deg,#07070a,#0a0a10);
+      color:#fff;
+      font-family:Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    .glassCard{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:0 18px 60px rgba(0,0,0,.22);
+    }
+
+    .btnGold{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 20px;
+      background:var(--gold);
+      color:#111;
+      text-decoration:none;
+      border-radius:10px;
+      font-weight:900;
+      border:none;
+      cursor:pointer;
+    }
+
+    .btnGhost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 20px;
+      border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+      text-decoration:none;
+      border-radius:10px;
+      font-weight:800;
+      background:rgba(255,255,255,.04);
+      cursor:pointer;
+    }
+
+    .sectionTitle{
+      font-size:30px;
+      font-weight:900;
+      margin:0 0 10px;
+    }
+
+    .sectionText{
+      color:var(--textSoft);
+      line-height:1.65;
+      margin:0;
+    }
+
+    /* HERO */
+
+    .homeHero{
+      padding:84px 0 34px;
+    }
+
+    .homeHeroGrid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:20px;
+      align-items:stretch;
+    }
+
+    .homeHeroCopy{
+      padding:10px 0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .heroKicker{
+      display:inline-block;
+      color:var(--gold2);
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .homeHeroCopy h1{
+      font-size:60px;
+      line-height:1;
+      margin:0 0 14px;
+      font-weight:950;
+    }
+
+    .homeHeroCopy p{
+      max-width:700px;
+      color:rgba(255,255,255,.84);
+      line-height:1.7;
+      margin:0;
+      font-size:16px;
+    }
+
+    .heroActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    .heroHighlights{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .heroPill{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      color:rgba(255,255,255,.82);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.04em;
+    }
+
+    .heroVisual{
+      position:relative;
+      min-height:520px;
+      overflow:hidden;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+        linear-gradient(135deg,#15151f,#101018 60%,#181824);
+    }
+
+    .heroVisual img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .heroVisual::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.22)),
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,.05), transparent 42%);
+      pointer-events:none;
+    }
+
+    .heroOverlay{
+      position:absolute;
+      inset:auto 0 0 0;
+      padding:24px;
+      background:linear-gradient(180deg, transparent, rgba(0,0,0,.76));
+    }
+
+    .heroBadge{
+      display:inline-flex;
+      margin-bottom:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .heroOverlayTitle{
+      font-size:30px;
+      font-weight:950;
+      margin:0 0 8px;
+      line-height:1.05;
+    }
+
+    .heroOverlayText{
+      color:rgba(255,255,255,.82);
+      line-height:1.55;
+      margin:0;
+    }
+
+    /* STATS */
+
+    .homeStats{
+      margin-top:26px;
+      padding:14px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+
+    .statBox{
+      border-radius:16px;
+      padding:18px 16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.10), transparent 30%),
+        rgba(255,255,255,.03);
+      text-align:center;
+    }
+
+    .statNum{
+      font-size:28px;
+      font-weight:950;
+      color:var(--gold2);
+      line-height:1;
+    }
+
+    .statLabel{
+      margin-top:8px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.72);
+    }
+
+    /* FEATURED NIGHTS */
+
+    .featuredSection{
+      margin-top:60px;
+    }
+
+    .featuredWrap{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:20px;
+    }
+
+    .featuredMain{
+      position:relative;
+      min-height:420px;
+      overflow:hidden;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.16), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+        linear-gradient(135deg,#11111a,#171723 55%,#101018);
+    }
+
+    .featuredSlide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .45s ease;
+    }
+
+    .featuredSlide.active{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .featuredPoster{
+      width:100%;
+      height:100%;
+      position:relative;
+    }
+
+    .featuredPoster img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .featuredOverlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:26px;
+      background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.78));
+    }
+
+    .featuredBadge{
+      display:inline-flex;
+      width:max-content;
+      margin-bottom:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .featuredTitle{
+      font-size:40px;
+      font-weight:950;
+      margin:0 0 8px;
+      line-height:1;
+    }
+
+    .featuredMeta{
+      color:#fff;
+      font-weight:800;
+      margin:0 0 10px;
+    }
+
+    .featuredDesc{
+      color:rgba(255,255,255,.82);
+      line-height:1.55;
+      margin:0 0 16px;
+      max-width:600px;
+    }
+
+    .featuredDots{
+      position:absolute;
+      right:18px;
+      bottom:18px;
+      display:flex;
+      gap:8px;
+      z-index:5;
+    }
+
+    .featuredDot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      border:0;
+      background:rgba(255,255,255,.28);
+      cursor:pointer;
+      padding:0;
+    }
+
+    .featuredDot.active{
+      background:var(--gold2);
+    }
+
+    .featuredSide{
+      display:grid;
+      gap:14px;
+    }
+
+    .featuredMini{
+      padding:18px;
+      min-height:128px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.12), transparent 30%),
+        linear-gradient(135deg,#14141d,#101018);
+    }
+
+    .featuredMiniTag{
+      color:var(--gold2);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .featuredMiniTitle{
+      font-size:21px;
+      font-weight:900;
+      margin:0 0 6px;
+    }
+
+    .featuredMiniText{
+      color:var(--textSoft);
+      line-height:1.55;
+      margin:0;
+    }
+
+    /* MENU PREVIEW */
+
+    .previewSection{
+      margin-top:60px;
+    }
+
+    .previewGrid{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+
+    .previewCard{
+      overflow:hidden;
+      border-radius:20px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      box-shadow:0 14px 40px rgba(0,0,0,.18);
+    }
+
+    .previewCard img{
+      width:100%;
+      height:240px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .previewBody{
+      padding:20px;
+    }
+
+    .previewTitle{
+      font-size:24px;
+      font-weight:900;
+      margin:0 0 8px;
+    }
+
+    .previewText{
+      color:var(--textSoft);
+      line-height:1.6;
+      margin:0 0 14px;
+    }
+
+    .previewPrice{
+      color:var(--gold2);
+      font-weight:900;
+      font-size:18px;
+    }
+
+    /* EXPERIENCE BAND */
+
+    .experienceSection{
+      margin-top:60px;
+    }
+
+    .experienceBand{
+      padding:28px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      align-items:center;
+    }
+
+    .experienceTitle{
+      font-size:34px;
+      font-weight:950;
+      line-height:1.05;
+      margin:0 0 10px;
+    }
+
+    .experienceText{
+      color:var(--textSoft);
+      line-height:1.7;
+      margin:0;
+    }
+
+    .experiencePoints{
+      display:grid;
+      gap:12px;
+    }
+
+    .experienceItem{
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:#fff;
+      font-weight:800;
+    }
+
+    /* VIP CTA */
+
+    .vipBanner{
+      margin-top:60px;
+      padding:28px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      align-items:center;
+    }
+
+    .vipBannerTitle{
+      font-size:36px;
+      font-weight:950;
+      line-height:1.05;
+      margin:0 0 10px;
+    }
+
+    .vipBannerText{
+      color:var(--textSoft);
+      line-height:1.7;
+      margin:0;
+    }
+
+    .vipBannerActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:flex-end;
+    }
+
+    /* FOOTER */
+
+    .footerPremium{
+      margin-top:80px;
+      padding:36px 0 90px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.03));
+    }
+
+    .footerPremium__grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr;
+      gap:24px;
+    }
+
+    .footerBrand{
+      font-size:24px;
+      font-weight:950;
+      margin-bottom:8px;
+    }
+
+    .footerText{
+      color:var(--textSoft);
+      line-height:1.6;
+    }
+
+    .footerHead{
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gold2);
+      font-weight:900;
+      margin-bottom:12px;
+    }
+
+    .footerLinks{
+      display:grid;
+      gap:10px;
+    }
+
+    .footerLinks a{
+      color:rgba(255,255,255,.82);
+      text-decoration:none;
+    }
+
+    .footerLinks a:hover{
+      color:var(--gold2);
+    }
+
+    .footerBottom{
+      margin-top:24px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.58);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      font-size:13px;
+    }
+
+    /* MOBILE STICKY */
+
+    .mobileStickyReserve{
+      position:fixed;
+      left:14px;
+      right:14px;
+      bottom:14px;
+      z-index:1500;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:14px 16px;
+      border-radius:999px;
+      background:var(--gold);
+      color:#111;
+      text-decoration:none;
+      font-weight:950;
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+
+    /* FALLBACK */
+
+    .imgFallback{
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+        linear-gradient(135deg,#15151f,#101018 60%,#181824) !important;
+      min-height:100%;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width:900px){
+      .homeHeroGrid,
+      .homeStats,
+      .featuredWrap,
+      .previewGrid,
+      .experienceBand,
+      .vipBanner,
+      .footerPremium__grid{
+        grid-template-columns:1fr;
+      }
+
+      .homeHeroCopy h1{
+        font-size:42px;
+      }
+
+      .vipBannerActions{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (max-width:700px){
+      .mobileStickyReserve{
+        display:flex;
+      }
+
+      .footerPremium{
+        padding-bottom:100px;
+      }
+    }
+
+    @media (max-width:560px){
+      .homeHeroCopy h1{
+        font-size:34px;
+      }
+
+      .featuredTitle{
+        font-size:32px;
+      }
+
+      .experienceTitle,
+      .vipBannerTitle{
+        font-size:30px;
+      }
+
+      .heroVisual{
+        min-height:380px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
 <header class="header">
   <div class="container header__inner">
-    <a class="brand" href="index.html">Allure Bar & Lounge</a>
+    <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-    <button class="nav__toggle" aria-expanded="false">Menu</button>
+    <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">Menu</button>
 
-    <ul class="nav__list">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="menu.html">Menu</a></li>
-      <li><a href="events.html">Events</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
+    <nav class="nav" aria-label="Primary">
+      <ul id="navMenu" class="nav__list">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="location.html">Location</a></li>
+        <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
-<main class="container hero">
-  <h1>Upscale Cocktail Lounge in Washington, DC</h1>
-  <p>Premium cocktails. Vibrant energy. Elevated nightlife.</p>
-  <a class="btn btn--primary" href="menu.html">View Menu</a>
+<main>
+
+<section class="homeHero container">
+  <div class="homeHeroGrid">
+    <div class="homeHeroCopy">
+      <div class="heroKicker">Washington, DC Nightlife</div>
+      <h1>Premium Nights Start at Allure</h1>
+      <p>
+        Allure Bar &amp; Lounge blends premium cocktails, curated weekly events, VIP sections, and upscale lounge energy into one polished Washington, DC nightlife experience.
+      </p>
+
+      <div class="heroActions">
+        <a href="events.html" class="btnGold">See This Week’s Events</a>
+        <a href="menu.html" class="btnGhost">View Menu</a>
+      </div>
+
+      <div class="heroHighlights">
+        <div class="heroPill">VIP Reservations</div>
+        <div class="heroPill">Craft Cocktails</div>
+        <div class="heroPill">Weekly Events</div>
+      </div>
+    </div>
+
+    <div class="heroVisual glassCard">
+      <img src="assets/images/hero.jpg" alt="Allure Bar & Lounge nightlife scene" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+      <div class="heroOverlay">
+        <div class="heroBadge">Featured Experience</div>
+        <div class="heroOverlayTitle">Upscale Lounge Energy</div>
+        <p class="heroOverlayText">
+          Signature drinks, curated music, and premium lounge vibes designed for memorable nights in Washington, DC.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section class="homeStats glassCard">
+    <div class="statBox">
+      <div class="statNum">6</div>
+      <div class="statLabel">Weekly Events</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">3</div>
+      <div class="statLabel">VIP Packages</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">2AM</div>
+      <div class="statLabel">Weekend Close</div>
+    </div>
+    <div class="statBox">
+      <div class="statNum">711</div>
+      <div class="statLabel">H St NE</div>
+    </div>
+  </section>
+</section>
+
+<section class="container featuredSection">
+  <h2 class="sectionTitle">Featured Nights</h2>
+  <p class="sectionText">The strongest nights at Allure, ready for reservations and premium lounge energy.</p>
+
+  <div class="featuredWrap">
+    <div class="featuredMain glassCard">
+      <div class="featuredSlide active">
+        <div class="featuredPoster">
+          <img src="assets/images/flyer-friday.jpg" alt="Allure Friday flyer" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+          <div class="featuredOverlay">
+            <div class="featuredBadge">Top Night</div>
+            <div class="featuredTitle">ALLURE FRIDAY</div>
+            <p class="featuredMeta">Friday • 5PM – 2AM</p>
+            <p class="featuredDesc">Premium lounge energy, VIP sections, and a dressed-up crowd that sets the tone for the weekend.</p>
+            <div class="heroActions">
+              <a href="events.html" class="btnGold">View Friday</a>
+              <a href="tel:2022974949" class="btnGhost">Reserve Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="featuredSlide">
+        <div class="featuredPoster">
+          <img src="assets/images/flyer-saturday.jpg" alt="Allure Saturday flyer" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+          <div class="featuredOverlay">
+            <div class="featuredBadge">Weekend Energy</div>
+            <div class="featuredTitle">ALLURE SATURDAY</div>
+            <p class="featuredMeta">Saturday • 5PM – 2AM</p>
+            <p class="featuredDesc">Packed lounge energy, premium cocktails, bottle service, and one of the strongest nightlife atmospheres of the week.</p>
+            <div class="heroActions">
+              <a href="events.html" class="btnGold">View Saturday</a>
+              <a href="tel:2022974949" class="btnGhost">Reserve Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="featuredSlide">
+        <div class="featuredPoster">
+          <img src="assets/images/flyer-thursday.jpg" alt="Karaoke Thursday flyer" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+          <div class="featuredOverlay">
+            <div class="featuredBadge">Weekly Feature</div>
+            <div class="featuredTitle">KARAOKE THURSDAY</div>
+            <p class="featuredMeta">Thursday • 5PM – 1AM</p>
+            <p class="featuredDesc">Bring the crew, enjoy the cocktails, and turn a weekday into a real Allure night with live mic energy.</p>
+            <div class="heroActions">
+              <a href="events.html" class="btnGold">View Thursday</a>
+              <a href="tel:2022974949" class="btnGhost">Reserve Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="featuredDots">
+        <button class="featuredDot active" type="button" data-slide="0"></button>
+        <button class="featuredDot" type="button" data-slide="1"></button>
+        <button class="featuredDot" type="button" data-slide="2"></button>
+      </div>
+    </div>
+
+    <div class="featuredSide">
+      <div class="featuredMini glassCard">
+        <div class="featuredMiniTag">Monday</div>
+        <div class="featuredMiniTitle">Free Hookah Monday</div>
+        <p class="featuredMiniText">Start the week with free hookah and an easy lounge vibe.</p>
+      </div>
+
+      <div class="featuredMini glassCard">
+        <div class="featuredMiniTag">Tuesday</div>
+        <div class="featuredMiniTitle">Taco Tuesday</div>
+        <p class="featuredMiniText">Cocktails, tacos, and weekday social energy in the heart of DC.</p>
+      </div>
+
+      <div class="featuredMini glassCard">
+        <div class="featuredMiniTag">VIP</div>
+        <div class="featuredMiniTitle">Sections Move Fast</div>
+        <p class="featuredMiniText">Prime tables and premium placement are best reserved early.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container previewSection">
+  <h2 class="sectionTitle">Signature Highlights</h2>
+  <p class="sectionText">A quick look at the drinks and dishes that help define the Allure experience.</p>
+
+  <div class="previewGrid">
+    <div class="previewCard glassCard">
+      <img src="assets/images/fav-cocktail.jpg" alt="Signature cocktail" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+      <div class="previewBody">
+        <div class="previewTitle">Signature Cocktails</div>
+        <p class="previewText">Premium spirits, polished presentation, and drinks built for lounge culture.</p>
+        <div class="previewPrice">Crafted fresh nightly</div>
+      </div>
+    </div>
+
+    <div class="previewCard glassCard">
+      <img src="assets/images/gallery-2.jpg" alt="Premium drinks" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+      <div class="previewBody">
+        <div class="previewTitle">Premium Drinks</div>
+        <p class="previewText">A stronger bar experience with cocktails, bottles, and weekend-ready energy.</p>
+        <div class="previewPrice">Bar + table service</div>
+      </div>
+    </div>
+
+    <div class="previewCard glassCard">
+      <img src="assets/images/gallery-1.jpg" alt="Lounge seating" onerror="this.style.display='none'; this.parentElement.classList.add('imgFallback');">
+      <div class="previewBody">
+        <div class="previewTitle">Lounge Seating</div>
+        <p class="previewText">Comfortable, polished, and designed for social nights, birthdays, and VIP moments.</p>
+        <div class="previewPrice">Reserve ahead</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container experienceSection">
+  <div class="experienceBand glassCard">
+    <div>
+      <h2 class="experienceTitle">More Than a Bar. A Full Nightlife Experience.</h2>
+      <p class="experienceText">
+        Allure is built around the full night out — premium cocktails, weekly themed nights, curated sound, comfortable seating, and a stronger upscale atmosphere from weekday socials to weekend energy.
+      </p>
+    </div>
+
+    <div class="experiencePoints">
+      <div class="experienceItem">Craft cocktails and premium spirits</div>
+      <div class="experienceItem">Curated weekly events and themed nights</div>
+      <div class="experienceItem">VIP sections for birthdays and celebrations</div>
+      <div class="experienceItem">Upscale lounge energy in Washington, DC</div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="vipBanner glassCard">
+    <div>
+      <h2 class="vipBannerTitle">Reserve Your Table Before the Crowd Arrives</h2>
+      <p class="vipBannerText">
+        Whether it’s a birthday, a premium night out, or your regular weekend move, VIP reservations make the Allure experience stronger from the start.
+      </p>
+    </div>
+
+    <div class="vipBannerActions">
+      <a href="tel:2022974949" class="btnGold">Reserve by Phone</a>
+      <a href="location.html" class="btnGhost">Get Directions</a>
+    </div>
+  </div>
+</section>
+
 </main>
 
-<script src="assets/js/nav.js"></script>
+<footer class="footerPremium">
+  <div class="container">
+    <div class="footerPremium__grid">
+      <div>
+        <div class="footerBrand">Allure Bar &amp; Lounge</div>
+        <div class="footerText">
+          Premium nightlife, cocktails, curated weekly events, and upscale lounge energy in Washington, DC.
+        </div>
+      </div>
+
+      <div>
+        <div class="footerHead">Explore</div>
+        <div class="footerLinks">
+          <a href="menu.html">Menu</a>
+          <a href="events.html">Events</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="about.html">About</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footerHead">Visit</div>
+        <div class="footerLinks">
+          <a href="location.html">711 H St NE, Washington, DC</a>
+          <a href="tel:2022974949">Call 202-297-4949</a>
+          <a href="events.html">See Weekly Events</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footerBottom">
+      <span>© Allure Bar &amp; Lounge</span>
+      <span>Washington, DC</span>
+    </div>
+  </div>
+</footer>
+
+<a class="mobileStickyReserve" href="tel:2022974949">Reserve Now</a>
+
+<script>
+(() => {
+  const navToggle = document.querySelector(".nav__toggle");
+  const navMenu = document.querySelector(".nav__list");
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      const open = navMenu.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+
+  const slides = document.querySelectorAll(".featuredSlide");
+  const dots = document.querySelectorAll(".featuredDot");
+  let current = 0;
+  let timer = null;
+
+  function showSlide(index){
+    slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+    current = index;
+  }
+
+  function nextSlide(){
+    let next = current + 1;
+    if(next >= slides.length) next = 0;
+    showSlide(next);
+  }
+
+  function startSlider(){
+    timer = setInterval(nextSlide, 4500);
+  }
+
+  function resetSlider(){
+    clearInterval(timer);
+    startSlider();
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      showSlide(index);
+      resetSlider();
+    });
+  });
+
+  startSlider();
+})();
+</script>
+
 </body>
 </html>
