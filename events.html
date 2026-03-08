@@ -9,10 +9,6 @@
 <link rel="stylesheet" href="assets/css/styles.css">
 
 <style>
-/* -----------------------
-GLOBAL
------------------------ */
-
 :root{
   --gold:#d7b46a;
   --gold2:#f2d38a;
@@ -20,6 +16,8 @@ GLOBAL
   --panel:rgba(255,255,255,.06);
   --line:rgba(255,255,255,.10);
   --textSoft:rgba(255,255,255,.78);
+  --purple:rgba(143,92,255,.18);
+  --cyan:rgba(56,214,255,.12);
 }
 
 *{
@@ -56,11 +54,10 @@ body{
 .sectionText{
   color:var(--textSoft);
   line-height:1.55;
+  margin:0;
 }
 
-/* -----------------------
-HEADER
------------------------ */
+/* HEADER */
 
 .header{
   position:sticky;
@@ -115,9 +112,7 @@ HEADER
   border-radius:10px;
 }
 
-/* -----------------------
-BUTTONS
------------------------ */
+/* BUTTONS */
 
 .btnGold{
   display:inline-flex;
@@ -146,12 +141,10 @@ BUTTONS
   background:rgba(255,255,255,.04);
 }
 
-/* -----------------------
-HERO
------------------------ */
+/* HERO */
 
 .eventsHero{
-  padding:90px 0 40px;
+  padding:80px 0 36px;
 }
 
 .eventsKicker{
@@ -185,12 +178,10 @@ HERO
   margin-top:20px;
 }
 
-/* -----------------------
-SOCIAL WALL
------------------------ */
+/* SOCIAL WALL */
 
 .socialWall{
-  margin-top:30px;
+  margin-top:28px;
   display:grid;
   grid-template-columns:2fr 1fr;
   gap:20px;
@@ -202,16 +193,20 @@ SOCIAL WALL
   overflow:hidden;
   border:1px solid var(--line);
   min-height:420px;
-  background:rgba(255,255,255,.04);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+    linear-gradient(135deg, #11111a, #171723 55%, #101018);
   box-shadow:0 20px 70px rgba(0,0,0,.28);
 }
 
-.socialHero img{
-  width:100%;
-  height:100%;
-  min-height:420px;
-  object-fit:cover;
-  display:block;
+.socialHero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18)),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.03), transparent 45%);
 }
 
 .socialHeroOverlay{
@@ -219,6 +214,20 @@ SOCIAL WALL
   inset:auto 0 0 0;
   padding:24px;
   background:linear-gradient(transparent,rgba(0,0,0,.82));
+}
+
+.socialHeroBadge{
+  display:inline-flex;
+  margin-bottom:10px;
+  padding:7px 12px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.30);
+  background:rgba(215,180,106,.12);
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.10em;
+  text-transform:uppercase;
 }
 
 .socialHeroOverlay h2{
@@ -244,21 +253,35 @@ SOCIAL WALL
   overflow:hidden;
   border:1px solid var(--line);
   min-height:205px;
-  background:rgba(255,255,255,.04);
+  background:
+    radial-gradient(circle at 25% 25%, rgba(215,180,106,.14), transparent 30%),
+    radial-gradient(circle at 75% 20%, rgba(56,214,255,.12), transparent 28%),
+    linear-gradient(135deg, #14141d, #101018);
   box-shadow:0 14px 40px rgba(0,0,0,.22);
+  display:flex;
+  align-items:flex-end;
+  position:relative;
 }
 
-.socialTile img{
+.socialTile::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.24));
+}
+
+.socialTileLabel{
+  position:relative;
+  z-index:1;
   width:100%;
-  height:100%;
-  min-height:205px;
-  object-fit:cover;
-  display:block;
+  padding:14px;
+  font-size:14px;
+  font-weight:900;
+  color:white;
+  background:linear-gradient(transparent,rgba(0,0,0,.62));
 }
 
-/* -----------------------
-EVENT LIST
------------------------ */
+/* EVENTS */
 
 .eventsBlock{
   margin-top:60px;
@@ -303,9 +326,7 @@ EVENT LIST
   line-height:1.55;
 }
 
-/* -----------------------
-VIP SECTION
------------------------ */
+/* VIP */
 
 .vipSection{
   margin-top:60px;
@@ -337,20 +358,57 @@ VIP SECTION
   overflow:hidden;
   border:1px solid var(--line);
   min-height:320px;
-  background:rgba(255,255,255,.04);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+    linear-gradient(135deg,#15151f,#101018 60%,#181824);
+  position:relative;
+  display:flex;
+  align-items:flex-end;
 }
 
-.vipImageWrap img{
-  width:100%;
-  height:100%;
-  min-height:320px;
-  object-fit:cover;
-  display:block;
+.vipImageWrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.28)),
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,.04), transparent 42%);
 }
 
-/* -----------------------
-BRAND STORY
------------------------ */
+.vipImageText{
+  position:relative;
+  z-index:1;
+  padding:24px;
+}
+
+.vipImageTag{
+  display:inline-flex;
+  margin-bottom:10px;
+  padding:7px 12px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.30);
+  background:rgba(215,180,106,.12);
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+}
+
+.vipImageTitle{
+  font-size:30px;
+  font-weight:950;
+  margin:0 0 8px;
+}
+
+.vipImageSub{
+  color:rgba(255,255,255,.82);
+  line-height:1.45;
+  margin:0;
+}
+
+/* BRAND STORY */
 
 .brandStory{
   margin-top:60px;
@@ -373,9 +431,7 @@ BRAND STORY
   margin:0;
 }
 
-/* -----------------------
-FOOTER
------------------------ */
+/* FOOTER */
 
 .footerSimple{
   margin-top:80px;
@@ -384,9 +440,7 @@ FOOTER
   font-size:14px;
 }
 
-/* -----------------------
-RESPONSIVE
------------------------ */
+/* RESPONSIVE */
 
 @media (max-width:900px){
 
@@ -462,16 +516,10 @@ RESPONSIVE
     min-height:300px;
   }
 
-  .socialHero img{
-    min-height:300px;
-  }
-
-  .socialTile,
-  .socialTile img{
+  .socialTile{
     min-height:220px;
   }
 }
-
 </style>
 </head>
 
@@ -509,13 +557,11 @@ RESPONSIVE
   </div>
 </section>
 
-<!-- SOCIAL WALL -->
 <section class="container socialWall">
 
   <div class="socialHero">
-    <img src="assets/images/social-hero.jpg" alt="Allure nightlife crowd and VIP atmosphere">
-
     <div class="socialHeroOverlay">
+      <div class="socialHeroBadge">Featured Night</div>
       <h2>DC Nightlife Energy</h2>
       <p>VIP tables • DJ nights • bottle service • premium lounge vibes</p>
     </div>
@@ -523,25 +569,24 @@ RESPONSIVE
 
   <div class="socialGrid">
     <div class="socialTile">
-      <img src="assets/images/social1.jpg" alt="VIP table experience">
+      <div class="socialTileLabel">VIP Sections</div>
     </div>
 
     <div class="socialTile">
-      <img src="assets/images/social2.jpg" alt="Cocktails and nightlife scene">
+      <div class="socialTileLabel">Signature Cocktails</div>
     </div>
 
     <div class="socialTile">
-      <img src="assets/images/social3.jpg" alt="Crowd energy inside Allure">
+      <div class="socialTileLabel">Crowd Energy</div>
     </div>
 
     <div class="socialTile">
-      <img src="assets/images/social4.jpg" alt="Nightclub lighting and party atmosphere">
+      <div class="socialTileLabel">Late Night Vibes</div>
     </div>
   </div>
 
 </section>
 
-<!-- EVENTS -->
 <section class="container eventsBlock">
   <h2 class="sectionTitle">Weekly Events</h2>
   <p class="sectionText">Plan your week around Allure’s signature nights.</p>
@@ -611,7 +656,6 @@ RESPONSIVE
   </div>
 </section>
 
-<!-- VIP -->
 <section class="container vipSection">
 
   <div>
@@ -622,28 +666,28 @@ RESPONSIVE
       special nights out, and bottle service.
     </p>
 
-    <a class="btnGold" href="tel:2022974949">
-      Reserve Now
-    </a>
+    <a class="btnGold" href="tel:2022974949">Reserve Now</a>
   </div>
 
   <div class="vipImageWrap">
-    <img src="assets/images/vip-table.jpg" alt="VIP table section at Allure Bar and Lounge">
+    <div class="vipImageText">
+      <div class="vipImageTag">Premium Experience</div>
+      <div class="vipImageTitle">VIP Table Nights</div>
+      <p class="vipImageSub">
+        Bottle service, lounge seating, birthday-ready atmosphere, and premium weekend energy.
+      </p>
+    </div>
   </div>
 
 </section>
 
-<!-- BRAND STORY -->
 <section class="container brandStory">
-
   <h2>The Allure Experience</h2>
-
   <p>
     Allure Bar &amp; Lounge blends upscale nightlife with relaxed lounge culture.
     Guests enjoy signature cocktails, VIP bottle service, DJ-driven music,
     and a stylish atmosphere designed for unforgettable nights in Washington DC.
   </p>
-
 </section>
 
 </main>
