@@ -1,483 +1,1211 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events | Allure Bar & Lounge | Washington, DC</title>
+  <meta name="description" content="Weekly events at Allure Bar & Lounge — upscale vibes, happy hour specials, karaoke nights, and weekend energy." />
 
-<title>Events | Allure Bar & Lounge | Washington DC</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
 
-<link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    :root{
+      --gold:#d7b46a;
+      --gold2:#f2d38a;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.085);
+      --line:rgba(255,255,255,.10);
+      --textSoft:rgba(255,255,255,.78);
+      --bgDark:#07070a;
+    }
 
-<style>
+    *{ box-sizing:border-box; }
 
-/* =========================
-GLOBAL
-========================= */
+    body{
+      background:
+        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
+        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.12), transparent 55%),
+        radial-gradient(1200px 720px at 50% 100%, rgba(215,180,106,.08), transparent 60%),
+        linear-gradient(180deg, #07070a 0%, #0a0a10 100%);
+      color:#fff;
+      overflow-x:hidden;
+    }
 
-:root{
---gold:#d7b46a;
---gold2:#f2d38a;
-}
+    .fade-up{
+      opacity:0;
+      transform:translateY(12px);
+      animation:fadeUp .55s ease forwards;
+    }
 
-body{
-background:
-radial-gradient(circle at 20% 20%,rgba(215,180,106,.12),transparent 60%),
-radial-gradient(circle at 80% 20%,rgba(150,85,255,.12),transparent 55%),
-linear-gradient(180deg,#07070a,#0a0a10);
-}
+    .fade-up.delay-1{ animation-delay:.08s; }
+    .fade-up.delay-2{ animation-delay:.16s; }
+    .fade-up.delay-3{ animation-delay:.24s; }
 
-/* =========================
-HERO
-========================= */
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
 
-.events-hero{
-padding:110px 0 20px;
-}
+    .glass-card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.09);
+      box-shadow:0 18px 60px rgba(0,0,0,.30);
+      backdrop-filter:blur(10px);
+    }
 
-.events-title{
-font-size:clamp(38px,4vw,60px);
-margin:0 0 10px;
-}
+    /* ===== HERO ===== */
+    .events-hero{
+      padding:118px 0 20px;
+      position:relative;
+      overflow:hidden;
+    }
 
-.events-subtitle{
-color:rgba(255,255,255,.85);
-max-width:70ch;
-}
+    .events-hero::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background:
+        radial-gradient(circle at 22% 28%, rgba(215,180,106,.18), transparent 55%),
+        radial-gradient(circle at 78% 22%, rgba(140,90,255,.14), transparent 58%),
+        radial-gradient(circle at 55% 80%, rgba(255,255,255,.07), transparent 50%);
+      filter:blur(18px);
+      opacity:.85;
+      pointer-events:none;
+    }
 
-.events-ctas{
-margin-top:12px;
-display:flex;
-gap:10px;
-}
+    .events-hero__inner{
+      position:relative;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:22px;
+      align-items:start;
+    }
 
-.events-pills{
-margin-top:12px;
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-}
+    .events-kicker{
+      margin:0 0 8px;
+      color:rgba(215,180,106,.85);
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:12px;
+    }
 
-.pill{
-padding:6px 12px;
-border-radius:999px;
-border:1px solid rgba(215,180,106,.35);
-background:rgba(0,0,0,.3);
-font-size:12px;
-}
+    .events-title{
+      margin:0 0 10px;
+      font-size:clamp(38px,4.2vw,62px);
+      line-height:1.02;
+      letter-spacing:-.02em;
+    }
 
-/* =========================
-FEATURED
-========================= */
+    .events-subtitle{
+      margin:0 0 14px;
+      color:rgba(255,255,255,.84);
+      max-width:70ch;
+      font-size:16.5px;
+    }
 
-.featured{
-background:rgba(255,255,255,.05);
-border-radius:16px;
-padding:16px;
-border:1px solid rgba(255,255,255,.1);
-}
+    .events-ctas{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin-top:10px;
+    }
 
-.featured-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
+    .btn--ghost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 22px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.14);
+      text-decoration:none;
+      color:#fff;
+      background:rgba(255,255,255,.04);
+      font-weight:700;
+    }
 
-.fcard{
-border-radius:14px;
-overflow:hidden;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.1);
-}
+    .events-pills{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
 
-.fcard__img{
-width:100%;
-height:150px;
-object-fit:cover;
-}
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.28);
+      background:rgba(0,0,0,.22);
+      color:rgba(255,255,255,.88);
+      font-size:12.5px;
+      letter-spacing:.02em;
+      box-shadow:0 14px 40px rgba(0,0,0,.25);
+    }
 
-.fcard__body{
-padding:12px;
-}
+    /* ===== LIVE BANNER ===== */
+    .live-banner{
+      border-radius:22px;
+      padding:22px;
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.03)),
+        radial-gradient(circle at 82% 18%, rgba(215,180,106,.10), transparent 34%);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 20px 60px rgba(0,0,0,.32);
+    }
 
-.tag{
-display:inline-block;
-padding:5px 10px;
-border-radius:999px;
-background:rgba(215,180,106,.15);
-border:1px solid rgba(215,180,106,.3);
-font-size:12px;
-margin-right:6px;
-}
+    .live-banner::after{
+      content:"";
+      position:absolute;
+      inset:auto -10% -35% auto;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(215,180,106,.13), transparent 68%);
+      pointer-events:none;
+    }
 
-/* =========================
-LIVE EVENT BANNER
-========================= */
+    .live-banner__eyebrow{
+      position:relative;
+      z-index:1;
+      display:inline-flex;
+      padding:7px 11px;
+      border-radius:999px;
+      background:rgba(215,180,106,.14);
+      border:1px solid rgba(215,180,106,.35);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
 
-.live-banner{
-margin:20px 0;
-padding:20px;
-border-radius:18px;
-background:linear-gradient(135deg,#3b2b00,#0c0c0c);
-border:1px solid rgba(255,212,90,.35);
-}
+    .live-banner__title{
+      position:relative;
+      z-index:1;
+      margin:14px 0 6px;
+      font-size:clamp(28px,3vw,42px);
+      line-height:1.02;
+      font-weight:950;
+    }
 
-.live-banner__title{
-font-size:30px;
-font-weight:900;
-}
+    .live-banner__meta{
+      position:relative;
+      z-index:1;
+      color:rgba(255,255,255,.82);
+      font-size:15px;
+    }
 
-.live-banner__meta{
-margin-top:6px;
-opacity:.8;
-}
+    .live-banner__sub{
+      position:relative;
+      z-index:1;
+      margin-top:10px;
+      color:var(--gold2);
+      font-weight:900;
+      font-size:14px;
+    }
 
-.live-banner__sub{
-color:#ffd45a;
-margin-top:6px;
-font-weight:800;
-}
+    /* ===== COUNTDOWN ===== */
+    .live-countdown{
+      margin-top:14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      border-radius:18px;
+      padding:16px;
+    }
 
-/* =========================
-COUNTDOWN
-========================= */
+    .live-countdown__left{
+      display:grid;
+      gap:4px;
+    }
 
-.live-countdown{
-display:flex;
-justify-content:space-between;
-gap:12px;
-flex-wrap:wrap;
-padding:16px;
-border-radius:16px;
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.1);
-}
+    .live-countdown__eyebrow{
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.12em;
+      color:rgba(255,255,255,.60);
+      text-transform:uppercase;
+    }
 
-.live-clock{
-display:flex;
-gap:10px;
-}
+    .live-countdown__title{
+      font-size:16px;
+      font-weight:900;
+    }
 
-.live-chip{
-text-align:center;
-padding:10px;
-border-radius:12px;
-background:rgba(0,0,0,.4);
-}
+    .live-clock{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-.live-chip__num{
-font-size:18px;
-font-weight:900;
-}
+    .live-chip{
+      min-width:70px;
+      text-align:center;
+      padding:10px 10px 8px;
+      border-radius:14px;
+      background:rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.08);
+    }
 
-/* =========================
-EVENT LIST
-========================= */
+    .live-chip__num{
+      display:block;
+      font-size:18px;
+      font-weight:950;
+      line-height:1;
+    }
 
-.event-list{
-display:grid;
-gap:10px;
-}
+    .live-chip__label{
+      display:block;
+      margin-top:4px;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      color:rgba(255,255,255,.58);
+      text-transform:uppercase;
+    }
 
-.event{
-background:rgba(255,255,255,.04);
-border-radius:14px;
-border:1px solid rgba(255,255,255,.08);
-padding:14px;
-transition:.2s;
-}
+    /* ===== FEATURED ===== */
+    .featured{
+      border-radius:18px;
+      padding:14px;
+    }
 
-.event:hover{
-border-color:rgba(215,180,106,.4);
-transform:translateY(-2px);
-}
+    .featured__head{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:12px;
+      margin-bottom:10px;
+      padding:2px 6px;
+    }
 
-.event__top{
-display:flex;
-justify-content:space-between;
-}
+    .featured__title{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.78);
+    }
 
-.event__when{
-color:var(--gold2);
-font-weight:900;
-}
+    .featured__note{
+      margin:0;
+      font-size:12.5px;
+      color:rgba(215,180,106,.85);
+    }
 
-.is-hidden{
-display:none!important;
-}
+    .featured-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
 
-.schedule-highlight{
-border-color:rgba(215,180,106,.5)!important;
-background:rgba(215,180,106,.06)!important;
-}
+    .fcard{
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
 
-/* =========================
-FILTER
-========================= */
+    .fcard:hover{
+      transform:translateY(-2px);
+      border-color:rgba(215,180,106,.35);
+      box-shadow:0 26px 90px rgba(0,0,0,.45);
+    }
 
-.events-filter{
-margin:16px 0;
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-}
+    .fcard__img{
+      width:100%;
+      height:150px;
+      object-fit:cover;
+      display:block;
+      background:#111;
+    }
 
-.filter-btn{
-padding:8px 12px;
-border-radius:999px;
-border:1px solid rgba(255,255,255,.15);
-background:transparent;
-color:white;
-cursor:pointer;
-}
+    .fcard__body{
+      padding:12px;
+    }
 
-.filter-btn.is-active{
-background:rgba(215,180,106,.15);
-border-color:rgba(215,180,106,.4);
-}
+    .fcard__top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:start;
+    }
 
-/* =========================
-ANIMATION
-========================= */
+    .fcard__name{
+      margin:0;
+      font-size:16px;
+      font-weight:800;
+    }
 
-.fade{
-animation:fade .5s ease;
-}
+    .fcard__time{
+      margin:0;
+      color:var(--gold2);
+      font-weight:800;
+      white-space:nowrap;
+      font-size:13px;
+    }
 
-@keyframes fade{
-from{opacity:0;transform:translateY(8px)}
-to{opacity:1;transform:translateY(0)}
-}
+    .fcard__desc{
+      margin:6px 0 10px;
+      color:rgba(255,255,255,.78);
+      font-size:13.5px;
+      line-height:1.35;
+    }
 
-</style>
+    .tag{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.10);
+      color:rgba(255,255,255,.90);
+      font-size:12px;
+      letter-spacing:.02em;
+      margin-right:6px;
+      margin-top:6px;
+    }
+
+    /* ===== PHASE 13 GRID ===== */
+    .phase13-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:16px;
+    }
+
+    .phase13-stack{
+      display:grid;
+      gap:16px;
+    }
+
+    .phase-card{
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .phase-card__title{
+      margin:0 0 12px;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.78);
+    }
+
+    /* VIP packages */
+    .vip-packages{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .vip-pack{
+      border-radius:16px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.18);
+      transition:transform .16s ease, border-color .16s ease;
+    }
+
+    .vip-pack:hover{
+      transform:translateY(-2px);
+      border-color:rgba(215,180,106,.34);
+    }
+
+    .vip-pack__tier{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(215,180,106,.12);
+      border:1px solid rgba(215,180,106,.28);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .vip-pack__price{
+      margin-top:12px;
+      font-size:30px;
+      font-weight:950;
+    }
+
+    .vip-pack ul{
+      margin:12px 0 0;
+      padding-left:18px;
+      color:var(--textSoft);
+    }
+
+    .vip-pack li{
+      margin:6px 0;
+    }
+
+    /* Lineup */
+    .lineup-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .lineup-item{
+      display:grid;
+      grid-template-columns:100px 1fr;
+      gap:12px;
+      align-items:center;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.18);
+    }
+
+    .lineup-item__day{
+      font-size:12px;
+      font-weight:950;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gold2);
+    }
+
+    .lineup-item__name{
+      font-size:16px;
+      font-weight:900;
+    }
+
+    .lineup-item__meta{
+      margin-top:4px;
+      color:var(--textSoft);
+      font-size:13px;
+    }
+
+    /* Gallery */
+    .gallery-strip{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+
+    .gallery-tile{
+      aspect-ratio:1/1;
+      border-radius:16px;
+      overflow:hidden;
+      position:relative;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
+        radial-gradient(circle at 25% 25%, rgba(215,180,106,.14), transparent 30%);
+    }
+
+    .gallery-tile img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      background:#111;
+    }
+
+    .gallery-tile__label{
+      position:absolute;
+      left:10px;
+      right:10px;
+      bottom:10px;
+      font-size:12px;
+      font-weight:800;
+      color:#fff;
+      text-shadow:0 2px 10px rgba(0,0,0,.45);
+    }
+
+    /* CTA */
+    .birthday-cta{
+      display:grid;
+      gap:10px;
+    }
+
+    .birthday-cta__title{
+      font-size:24px;
+      font-weight:950;
+      line-height:1.05;
+    }
+
+    .birthday-cta__text{
+      color:var(--textSoft);
+      line-height:1.45;
+    }
+
+    .birthday-cta__actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:4px;
+    }
+
+    /* ===== STICKY FILTER BAR ===== */
+    .events-filter{
+      position:sticky;
+      top:74px;
+      z-index:50;
+      margin:16px 0 18px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(10,10,14,.78);
+      backdrop-filter:blur(12px);
+      box-shadow:0 18px 70px rgba(0,0,0,.40);
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .events-filter__inner{
+      display:flex;
+      gap:8px;
+      padding:8px;
+      min-width:max-content;
+      align-items:center;
+    }
+
+    .filter-btn{
+      appearance:none;
+      border:1px solid transparent;
+      background:transparent;
+      color:rgba(255,255,255,.86);
+      padding:9px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:13px;
+      white-space:nowrap;
+      transition:background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+    }
+
+    .filter-btn:hover{
+      border-color:rgba(215,180,106,.30);
+      background:rgba(215,180,106,.10);
+      color:rgba(255,255,255,.95);
+    }
+
+    .filter-btn.is-active{
+      border-color:rgba(215,180,106,.45);
+      background:rgba(215,180,106,.14);
+      box-shadow:0 18px 70px rgba(215,180,106,.10);
+      color:rgba(255,255,255,.98);
+    }
+
+    /* ===== EVENT LIST ===== */
+    .events-wrap{
+      padding-bottom:40px;
+    }
+
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(215,180,106,.35), transparent);
+      margin:18px 0;
+      opacity:.9;
+    }
+
+    .event-list{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+
+    .event{
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:16px;
+      padding:14px;
+      box-shadow:0 14px 55px rgba(0,0,0,.25);
+      transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+    }
+
+    .event:hover{
+      border-color:rgba(215,180,106,.22);
+      transform:translateY(-1px);
+      box-shadow:0 20px 70px rgba(0,0,0,.30);
+    }
+
+    .event__top{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:baseline;
+    }
+
+    .event__name{
+      margin:0;
+      font-size:16px;
+      font-weight:800;
+    }
+
+    .event__when{
+      margin:0;
+      font-weight:800;
+      color:rgba(215,180,106,.95);
+      white-space:nowrap;
+      font-size:13px;
+    }
+
+    .event__desc{
+      margin:6px 0 10px;
+      color:rgba(255,255,255,.76);
+      font-size:13.5px;
+      line-height:1.35;
+      max-width:85ch;
+    }
+
+    .event__meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+
+    .is-hidden{ display:none !important; }
+
+    .schedule-highlight{
+      border-color:rgba(215,180,106,.36) !important;
+      box-shadow:0 0 0 1px rgba(215,180,106,.08);
+      background:rgba(215,180,106,.05) !important;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 980px){
+      .events-hero__inner,
+      .phase13-grid{
+        grid-template-columns:1fr;
+      }
+
+      .vip-packages{
+        grid-template-columns:1fr;
+      }
+
+      .gallery-strip{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media (max-width: 620px){
+      .featured-grid{
+        grid-template-columns:1fr;
+      }
+
+      .gallery-strip{
+        grid-template-columns:1fr;
+      }
+
+      .lineup-item{
+        grid-template-columns:1fr;
+      }
+
+      .event__top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .live-countdown{
+        align-items:flex-start;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header class="header">
-<div class="container header__inner">
-
-<a class="brand" href="index.html">Allure Bar & Lounge</a>
-
-<nav class="nav">
-
-<button class="nav__toggle">Menu</button>
-
-<ul class="nav__list">
-
-<li><a href="menu.html">Menu</a></li>
-<li><a href="events.html">Events</a></li>
-<li><a href="gallery.html">Gallery</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="location.html">Location</a></li>
-<li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
-
-</ul>
-</nav>
-
-</div>
-</header>
-
-<main>
-
-<section class="events-hero">
-
-<div class="container">
-
-<h1 class="events-title">This Week at Allure</h1>
-
-<p class="events-subtitle">
-Weekly programming built for a premium lounge crowd — happy hour energy, nightlife vibes, and weekend heat.
-</p>
-
-<div class="events-ctas">
-
-<a class="btn btn--primary" href="tel:2022974949">Reserve by Phone</a>
-
-<a class="btn btn--ghost" href="menu.html">View Menu</a>
-
-</div>
-
-<div class="events-pills">
-
-<span class="pill">Happy hour specials</span>
-<span class="pill">Late night vibe</span>
-<span class="pill">Premium lounge</span>
-
-</div>
-
-<!-- LIVE BANNER -->
-
-<div class="live-banner fade" id="liveBanner">
-
-<div class="live-banner__title">Loading event...</div>
-<div class="live-banner__meta"></div>
-<div class="live-banner__sub"></div>
-
-</div>
-
-<div class="live-countdown fade">
-
-<div>Next event begins in</div>
-
-<div class="live-clock">
-
-<div class="live-chip">
-<span class="live-chip__num" id="cdHours">00</span>
-Hours
-</div>
-
-<div class="live-chip">
-<span class="live-chip__num" id="cdMin">00</span>
-Min
-</div>
-
-<div class="live-chip">
-<span class="live-chip__num" id="cdSec">00</span>
-Sec
-</div>
-
-</div>
-
-</div>
-
-<div class="events-filter">
-
-<button class="filter-btn is-active" data-filter="all">All</button>
-<button class="filter-btn" data-filter="weekdays">Weekdays</button>
-<button class="filter-btn" data-filter="weekend">Weekend</button>
-<button class="filter-btn" data-filter="karaoke">Karaoke</button>
-
-</div>
-
-<div class="event-list" id="eventList">
-
-<article class="event fade" data-tags="weekdays">
-<h3 class="event__name">Free Hookah Monday</h3>
-<p class="event__when">Mon • 5PM–1AM</p>
-<p>Enjoy free hookah with $50 bar tab.</p>
-</article>
-
-<article class="event fade" data-tags="weekdays">
-<h3 class="event__name">Taco Tuesday</h3>
-<p class="event__when">Tue • 5PM–9PM</p>
-<p>Craft cocktails, tacos and upscale vibes.</p>
-</article>
-
-<article class="event fade" data-tags="weekdays">
-<h3 class="event__name">Midweek Social</h3>
-<p class="event__when">Wed • 5PM–1AM</p>
-<p>$5 shots • $7 top shelf shots.</p>
-</article>
-
-<article class="event fade" data-tags="weekdays karaoke">
-<h3 class="event__name">Karaoke Thursday</h3>
-<p class="event__when">Thu • 5PM–1AM</p>
-<p>Bring the crew and own the mic.</p>
-</article>
-
-<article class="event fade" data-tags="weekend">
-<h3 class="event__name">Allure Friday</h3>
-<p class="event__when">Fri • 5PM–2AM</p>
-<p>Premium lounge energy all night.</p>
-</article>
-
-<article class="event fade" data-tags="weekend">
-<h3 class="event__name">Allure Saturday</h3>
-<p class="event__when">Sat • 5PM–2AM</p>
-<p>Signature cocktails and premium crowd.</p>
-</article>
-
-<article class="event fade" data-tags="weekend">
-<h3 class="event__name">Sunday Social</h3>
-<p class="event__when">Sun • 5PM–1AM</p>
-<p>Relaxed lounge vibes and drinks.</p>
-</article>
-
-</div>
-
-</div>
-</section>
-
-</main>
-
-<script>
-
-/* FILTER */
-
-const btns=document.querySelectorAll('.filter-btn')
-const cards=document.querySelectorAll('.event')
-
-btns.forEach(btn=>{
-
-btn.onclick=()=>{
-
-btns.forEach(b=>b.classList.remove('is-active'))
-btn.classList.add('is-active')
-
-const key=btn.dataset.filter
-
-cards.forEach(card=>{
-
-const tags=card.dataset.tags
-
-if(key==='all'||tags.includes(key))
-card.classList.remove('is-hidden')
-else
-card.classList.add('is-hidden')
-
-})
-
-}
-
-})
-
-/* LIVE EVENT */
-
-const events={
-
-sunday:["Sunday Social","Relaxed lounge vibes.","Sun • 5PM–1AM"],
-monday:["Free Hookah Monday","Enjoy free hookah with $50 bar tab.","Mon • 5PM–1AM"],
-tuesday:["Taco Tuesday","Tacos and cocktails.","Tue • 5PM–9PM"],
-wednesday:["Midweek Social","$5 shots all night.","Wed • 5PM–1AM"],
-thursday:["Karaoke Thursday","Grab the mic.","Thu • 5PM–1AM"],
-friday:["Allure Friday","Premium lounge night.","Fri • 5PM–2AM"],
-saturday:["Allure Saturday","Signature cocktails.","Sat • 5PM–2AM"]
-
-}
-
-const day=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][new Date().getDay()]
-
-const banner=document.getElementById("liveBanner")
-
-banner.children[0].textContent=events[day][0]
-banner.children[1].textContent=events[day][1]
-banner.children[2].textContent=events[day][2]
-
-/* COUNTDOWN */
-
-function countdown(){
-
-const now=new Date()
-const target=new Date()
-target.setHours(17,0,0)
-
-let diff=target-now
-
-if(diff<0) diff+=86400000
-
-const h=Math.floor(diff/3600000)
-const m=Math.floor(diff%3600000/60000)
-const s=Math.floor(diff%60000/1000)
-
-document.getElementById("cdHours").textContent=h
-document.getElementById("cdMin").textContent=m
-document.getElementById("cdSec").textContent=s
-
-}
-
-setInterval(countdown,1000)
-
-</script>
-
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" aria-label="Allure Bar & Lounge Home">Allure Bar &amp; Lounge</a>
+
+      <nav class="nav" aria-label="Primary navigation">
+        <button class="nav__toggle" aria-controls="navMenu" aria-expanded="false">Menu</button>
+
+        <ul id="navMenu" class="nav__list">
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="events.html" aria-current="page">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="location.html">Location</a></li>
+          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="events-hero">
+      <div class="container">
+        <div class="events-hero__inner">
+
+          <div class="fade-up">
+            <p class="events-kicker">Washington, DC</p>
+            <h1 class="events-title">This Week at Allure</h1>
+            <p class="events-subtitle">Weekly programming built for a premium lounge crowd — happy hour energy, nightlife vibes, and weekend heat.</p>
+
+            <div class="events-ctas">
+              <a class="btn btn--primary" href="tel:2022974949">Reserve by Phone</a>
+              <a class="btn--ghost" href="menu.html">View Menu</a>
+            </div>
+
+            <div class="events-pills">
+              <span class="pill">Happy hour specials</span>
+              <span class="pill">Late-night vibe</span>
+              <span class="pill">Premium lounge</span>
+            </div>
+
+            <!-- PHASE 11 -->
+            <section class="live-banner fade-up delay-1" id="liveBanner">
+              <div class="live-banner__eyebrow">Tonight at Allure</div>
+              <div class="live-banner__title">Loading...</div>
+              <div class="live-banner__meta">Loading tonight’s event...</div>
+              <div class="live-banner__sub">Please wait</div>
+            </section>
+
+            <section class="live-countdown glass-card fade-up delay-2">
+              <div class="live-countdown__left">
+                <div class="live-countdown__eyebrow">Next event countdown</div>
+                <div class="live-countdown__title" id="countdownTitle">Loading...</div>
+              </div>
+
+              <div class="live-clock">
+                <div class="live-chip">
+                  <span class="live-chip__num" id="cdDays">00</span>
+                  <span class="live-chip__label">Days</span>
+                </div>
+                <div class="live-chip">
+                  <span class="live-chip__num" id="cdHours">00</span>
+                  <span class="live-chip__label">Hours</span>
+                </div>
+                <div class="live-chip">
+                  <span class="live-chip__num" id="cdMins">00</span>
+                  <span class="live-chip__label">Min</span>
+                </div>
+                <div class="live-chip">
+                  <span class="live-chip__num" id="cdSecs">00</span>
+                  <span class="live-chip__label">Sec</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <aside class="featured glass-card fade-up delay-1" aria-label="Featured events">
+            <div class="featured__head">
+              <h2 class="featured__title">Featured</h2>
+              <p class="featured__note">Best nights to pull up</p>
+            </div>
+
+            <div class="featured-grid">
+              <article class="fcard">
+                <img class="fcard__img" src="assets/images/featured-event-friday.jpg" alt="Allure Friday" loading="lazy" />
+                <div class="fcard__body">
+                  <div class="fcard__top">
+                    <h3 class="fcard__name">Allure Friday</h3>
+                    <p class="fcard__time">Fri • 5PM–2AM</p>
+                  </div>
+                  <p class="fcard__desc">Premium lounge energy all night — come dressed, come ready.</p>
+                  <span class="tag">Weekend</span><span class="tag">Top Night</span>
+                </div>
+              </article>
+
+              <article class="fcard">
+                <img class="fcard__img" src="assets/images/featured-event-saturday.jpg" alt="Allure Saturday" loading="lazy" />
+                <div class="fcard__body">
+                  <div class="fcard__top">
+                    <h3 class="fcard__name">Allure Saturday</h3>
+                    <p class="fcard__time">Sat • 5PM–2AM</p>
+                  </div>
+                  <p class="fcard__desc">Late-night vibes, premium crowd, and signature cocktails.</p>
+                  <span class="tag">Weekend</span><span class="tag">Best Vibes</span>
+                </div>
+              </article>
+            </div>
+          </aside>
+
+        </div>
+
+        <!-- PHASE 13 -->
+        <section class="phase13-grid fade-up delay-2">
+          <div class="phase13-stack">
+
+            <section class="phase-card glass-card">
+              <h2 class="phase-card__title">VIP Table Packages</h2>
+              <div class="vip-packages">
+                <article class="vip-pack">
+                  <div class="vip-pack__tier">Gold</div>
+                  <div class="vip-pack__price">$900</div>
+                  <ul>
+                    <li>2 bottles</li>
+                    <li>1 hookah</li>
+                    <li>VIP seating</li>
+                    <li>Mixer package</li>
+                  </ul>
+                </article>
+
+                <article class="vip-pack">
+                  <div class="vip-pack__tier">Platinum</div>
+                  <div class="vip-pack__price">$1200</div>
+                  <ul>
+                    <li>3 bottles</li>
+                    <li>2 hookahs</li>
+                    <li>VIP seating</li>
+                    <li>Celebration setup</li>
+                  </ul>
+                </article>
+
+                <article class="vip-pack">
+                  <div class="vip-pack__tier">Celebration</div>
+                  <div class="vip-pack__price">$1500</div>
+                  <ul>
+                    <li>4 bottles</li>
+                    <li>2 hookahs</li>
+                    <li>VIP seating</li>
+                    <li>Birthday energy</li>
+                  </ul>
+                </article>
+              </div>
+            </section>
+
+            <section class="phase-card glass-card">
+              <h2 class="phase-card__title">Nightlife Gallery</h2>
+              <div class="gallery-strip">
+                <article class="gallery-tile">
+                  <img src="assets/images/gallery-1.jpg" alt="Bottle service" loading="lazy">
+                  <div class="gallery-tile__label">Bottle Service</div>
+                </article>
+                <article class="gallery-tile">
+                  <img src="assets/images/gallery-2.jpg" alt="Hookah lounge" loading="lazy">
+                  <div class="gallery-tile__label">Hookah Lounge</div>
+                </article>
+                <article class="gallery-tile">
+                  <img src="assets/images/gallery-3.jpg" alt="DJ booth" loading="lazy">
+                  <div class="gallery-tile__label">DJ Booth</div>
+                </article>
+                <article class="gallery-tile">
+                  <img src="assets/images/gallery-4.jpg" alt="Crowd vibe" loading="lazy">
+                  <div class="gallery-tile__label">Crowd Vibe</div>
+                </article>
+              </div>
+            </section>
+
+          </div>
+
+          <div class="phase13-stack">
+
+            <section class="phase-card glass-card">
+              <h2 class="phase-card__title">DJ / Host Lineup</h2>
+              <div class="lineup-list">
+                <article class="lineup-item">
+                  <div class="lineup-item__day">Thursday</div>
+                  <div>
+                    <div class="lineup-item__name">Karaoke Host</div>
+                    <div class="lineup-item__meta">Mic energy • crowd interaction</div>
+                  </div>
+                </article>
+
+                <article class="lineup-item">
+                  <div class="lineup-item__day">Friday</div>
+                  <div>
+                    <div class="lineup-item__name">DJ Hype</div>
+                    <div class="lineup-item__meta">Hip-Hop • Afrobeats • Prime night set</div>
+                  </div>
+                </article>
+
+                <article class="lineup-item">
+                  <div class="lineup-item__day">Saturday</div>
+                  <div>
+                    <div class="lineup-item__name">DJ Flame</div>
+                    <div class="lineup-item__meta">VIP takeover • celebration soundtrack</div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="phase-card glass-card">
+              <h2 class="phase-card__title">Birthdays / Sections</h2>
+              <div class="birthday-cta">
+                <div class="birthday-cta__title">Celebrate at Allure</div>
+                <div class="birthday-cta__text">Book a premium section for birthdays, bottle service, or special nights out. The earlier you reserve, the better your placement.</div>
+                <div class="birthday-cta__actions">
+                  <a class="btn btn--primary" href="tel:2022974949">Book a Section</a>
+                  <a class="btn--ghost" href="tel:2022974949">Call Now</a>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </section>
+
+        <div class="events-filter" role="navigation" aria-label="Event filters">
+          <div class="events-filter__inner">
+            <button class="filter-btn is-active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="weekdays">Weekdays</button>
+            <button class="filter-btn" data-filter="weekend">Weekend</button>
+            <button class="filter-btn" data-filter="karaoke">Karaoke</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container events-wrap">
+      <div class="divider"></div>
+
+      <section aria-label="Event list">
+        <div class="event-list" id="eventList">
+
+          <article class="event" data-key="monday" data-tags="weekdays hookah">
+            <div class="event__top">
+              <h3 class="event__name">Free Hookah Monday</h3>
+              <p class="event__when">Mon • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">Enjoy free hookah with $50 bar tab.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+              <span class="tag">Hookah</span>
+            </div>
+          </article>
+
+          <article class="event" data-key="tuesday" data-tags="weekdays tacos">
+            <div class="event__top">
+              <h3 class="event__name">Taco Tuesday</h3>
+              <p class="event__when">Tue • 5PM–9PM</p>
+            </div>
+            <p class="event__desc">Crafted cocktails, tacos, and upscale vibes.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+              <span class="tag">Tacos</span>
+            </div>
+          </article>
+
+          <article class="event" data-key="wednesday" data-tags="weekdays happyhour">
+            <div class="event__top">
+              <h3 class="event__name">Midweek Social</h3>
+              <p class="event__when">Wed • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">$5 shots • $7 top shelf shots all night.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+              <span class="tag">Happy Hour</span>
+            </div>
+          </article>
+
+          <article class="event" data-key="thursday" data-tags="weekdays karaoke">
+            <div class="event__top">
+              <h3 class="event__name">Karaoke Thursday</h3>
+              <p class="event__when">Thu • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">Bring the crew and own the mic — cozy upscale vibes all night.</p>
+            <div class="event__meta">
+              <span class="tag">Weekdays</span>
+              <span class="tag">Karaoke</span>
+            </div>
+          </article>
+
+          <article class="event" data-key="friday" data-tags="weekend">
+            <div class="event__top">
+              <h3 class="event__name">Allure Friday</h3>
+              <p class="event__when">Fri • 5PM–2AM</p>
+            </div>
+            <p class="event__desc">Premium lounge energy all night — come dressed, come ready.</p>
+            <div class="event__meta">
+              <span class="tag">Weekend</span>
+              <span class="tag">Top Night</span>
+            </div>
+          </article>
+
+          <article class="event" data-key="saturday" data-tags="weekend">
+            <div class="event__top">
+              <h3 class="event__name">Allure Saturday</h3>
+              <p class="event__when">Sat • 5PM–2AM</p>
+            </div>
+            <p class="event__desc">Late-night vibes with premium crowd and signature cocktails.</p>
+            <div class="event__meta">
+              <span class="tag">Weekend</span>
+              <span class="tag">Best Vibes</span>
+            </div>
+          </article>
+
+          <article class="event" data-key="sunday" data-tags="weekend">
+            <div class="event__top">
+              <h3 class="event__name">Sunday Social</h3>
+              <p class="event__when">Sun • 5PM–1AM</p>
+            </div>
+            <p class="event__desc">Wind down the weekend with relaxed lounge vibes and crafted drinks.</p>
+            <div class="event__meta">
+              <span class="tag">Weekend</span>
+              <span class="tag">Chill</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer" style="padding:26px 0 40px;">
+    <div class="container" style="color:rgba(255,255,255,.65); font-size:13px;">
+      <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center;">
+        <span>© <span id="year"></span> Allure Bar &amp; Lounge</span>
+        <span style="color:rgba(215,180,106,.70);">Washington, DC</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    /* nav toggle */
+    (() => {
+      const btn = document.querySelector(".nav__toggle");
+      const nav = document.querySelector(".nav__list");
+      if (!btn || !nav) return;
+
+      btn.addEventListener("click", () => {
+        const open = nav.classList.toggle("is-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    })();
+
+    /* event data */
+    const EVENTS = {
+      sunday: {
+        title: "Sunday Social",
+        meta: "Wind down the weekend with relaxed lounge vibes and crafted drinks.",
+        sub: "Sun • 5PM–1AM • Weekend • Chill",
+        startHour: 17
+      },
+      monday: {
+        title: "Free Hookah Monday",
+        meta: "Enjoy free hookah with $50 bar tab.",
+        sub: "Mon • 5PM–1AM • Weekdays • Hookah",
+        startHour: 17
+      },
+      tuesday: {
+        title: "Taco Tuesday",
+        meta: "Crafted cocktails, tacos, and upscale vibes.",
+        sub: "Tue • 5PM–9PM • Weekdays • Tacos",
+        startHour: 17
+      },
+      wednesday: {
+        title: "Midweek Social",
+        meta: "$5 shots • $7 top shelf shots all night.",
+        sub: "Wed • 5PM–1AM • Weekdays • Happy Hour",
+        startHour: 17
+      },
+      thursday: {
+        title: "Karaoke Thursday",
+        meta: "Bring the crew and own the mic — cozy upscale vibes all night.",
+        sub: "Thu • 5PM–1AM • Karaoke • Weekdays",
+        startHour: 17
+      },
+      friday: {
+        title: "Allure Friday",
+        meta: "Premium lounge energy all night — come dressed, come ready.",
+        sub: "Fri • 5PM–2AM • Weekend • Top Night",
+        startHour: 17
+      },
+      saturday: {
+        title: "Allure Saturday",
+        meta: "Late-night vibes with premium crowd and signature cocktails.",
+        sub: "Sat • 5PM–2AM • Weekend • Best Vibes",
+        startHour: 17
+      }
+    };
+
+    const DAY_KEYS = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    const todayKey = DAY_KEYS[new Date().getDay()];
+    const todayEvent = EVENTS[todayKey];
+
+    /* live banner */
+    const liveBanner = document.getElementById("liveBanner");
+    liveBanner.querySelector(".live-banner__title").textContent = todayEvent.title;
+    liveBanner.querySelector(".live-banner__meta").textContent = todayEvent.meta;
+    liveBanner.querySelector(".live-banner__sub").textContent = todayEvent.sub;
+
+    /* countdown */
+    const countdownTitle = document.getElementById("countdownTitle");
+
+    function getNextOccurrence(dayKey, hour) {
+      const now = new Date();
+      const target = new Date(now);
+      const targetIndex = DAY_KEYS.indexOf(dayKey);
+      const todayIndex = now.getDay();
+
+      let dayDiff = targetIndex - todayIndex;
+      if (dayDiff < 0) dayDiff += 7;
+
+      target.setDate(now.getDate() + dayDiff);
+      target.setHours(hour, 0, 0, 0);
+
+      if (dayDiff === 0 && target <= now) {
+        target.setDate(target.getDate() + 7);
+      }
+
+      return target;
+    }
+
+    const nextEventDate = getNextOccurrence(todayKey, todayEvent.startHour);
+    countdownTitle.textContent = `${todayEvent.title} begins soon`;
+
+    function updateCountdown() {
+      const now = new Date();
+      let diff = Math.max(0, nextEventDate.getTime() - now.getTime());
+
+      const days = Math.floor(diff / 86400000);
+      diff -= days * 86400000;
+
+      const hours = Math.floor(diff / 3600000);
+      diff -= hours * 3600000;
+
+      const mins = Math.floor(diff / 60000);
+      diff -= mins * 60000;
+
+      const secs = Math.floor(diff / 1000);
+
+      document.getElementById("cdDays").textContent = String(days).padStart(2, "0");
+      document.getElementById("cdHours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("cdMins").textContent = String(mins).padStart(2, "0");
+      document.getElementById("cdSecs").textContent = String(secs).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    /* highlight current day */
+    document.querySelectorAll(".event").forEach(card => {
+      if (card.dataset.key === todayKey) {
+        card.classList.add("schedule-highlight");
+      }
+    });
+
+    /* filter logic */
+    const btns = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".event");
+
+    function setActive(btn){
+      btns.forEach(b => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+    }
+
+    function applyFilter(key){
+      cards.forEach(card => {
+        const tags = (card.dataset.tags || "").toLowerCase();
+        if (key === "all") {
+          card.classList.remove("is-hidden");
+        } else {
+          card.classList.toggle("is-hidden", !tags.includes(key));
+        }
+      });
+    }
+
+    btns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        setActive(btn);
+        applyFilter(btn.dataset.filter);
+      });
+    });
+  </script>
 </body>
 </html>
