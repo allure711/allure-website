@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderFlatMenu(items) {
     return `
       <div class="menuList">
-        ${items.map(item => `
+        ${(items || []).map(item => `
           <div class="menuItem">
             <div class="menuItem__left">
               <div class="menuItem__name">${item.name || ""}</div>
@@ -19,10 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderSectionedMenu(content) {
+    const sections = content.sections || [];
     return `
       <div class="menuNested">
         <div class="menuSubTabs">
-          ${content.sections.map(section => `
+          ${sections.map(section => `
             <button class="menuSubTab" type="button" data-subsection="${section.title}">
               ${section.title}
             </button>
@@ -34,10 +35,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderMenu(content) {
-    if (!content) return "";
-    if (Array.isArray(content)) return renderFlatMenu(content);
-    if (content.sections) return renderSectionedMenu(content);
-    return "";
+    if (!content) {
+      return `
+        <div class="menuEmpty">
+          Click a category on the left to view menu items.
+        </div>
+      `;
+    }
+
+    if (Array.isArray(content)) {
+      return renderFlatMenu(content);
+    }
+
+    if (content.sections) {
+      return renderSectionedMenu(content);
+    }
+
+    return `
+      <div class="menuEmpty">
+        This section will be updated soon.
+      </div>
+    `;
   }
 
   function renderHighlights(day, panel) {
@@ -66,17 +84,19 @@ document.addEventListener("DOMContentLoaded", () => {
     hero.after(section);
   }
 
-  function bindNestedTabs(body, content) {
-    const tabs = body.querySelectorAll(".menuSubTab");
-    const subBody = body.querySelector(".menuSubBody");
-    if (!tabs.length || !subBody) return;
+  function bindSubTabs(panelBody, content) {
+    const tabs = panelBody.querySelectorAll(".menuSubTab");
+    const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content.sections || [];
 
-    function activate(title) {
+    if (!tabs.length || !subBody || !sections.length) return;
+
+    function activateSubsection(title) {
       tabs.forEach(tab => {
         tab.classList.toggle("active", tab.dataset.subsection === title);
       });
 
-      const section = content.sections.find(s => s.title === title);
+      const section = sections.find(s => s.title === title);
       if (!section) return;
 
       subBody.innerHTML = `
@@ -88,35 +108,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     tabs.forEach(tab => {
-      tab.onclick = () => activate(tab.dataset.subsection);
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
     });
   }
 
-  function setupCategoryBar(bar) {
-    const scope = bar.dataset.scope;
-    const panel = bar.closest(".dayPanel");
-    const body = panel ? panel.querySelector(`[data-scopebody="${scope}"]`) : null;
-    const buttons = [...bar.querySelectorAll(".cat")];
-    if (!body || !buttons.length) return;
+  function setupSidebarLayout(layout) {
+    const buttons = [...layout.querySelectorAll(".menuSideBtn")];
+    const panelBody = layout.querySelector(".menuPanelBody");
 
-    function activate(cat) {
-      buttons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.cat === cat);
+    if (!buttons.length || !panelBody) return;
+
+    function activateCategory(cat) {
+      buttons.forEach(button => {
+        button.classList.toggle("active", button.dataset.cat === cat);
       });
 
       const content = CATEGORY_CONTENT[cat];
-      body.innerHTML = renderMenu(content);
+      panelBody.innerHTML = renderMenu(content);
 
       if (content && content.sections) {
-        bindNestedTabs(body, content);
+        bindSubTabs(panelBody, content);
       }
     }
 
-    buttons.forEach(btn => {
-      btn.onclick = () => activate(btn.dataset.cat);
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        activateCategory(button.dataset.cat);
+      });
     });
 
-    body.innerHTML = "";
+    panelBody.innerHTML = `
+      <div class="menuEmpty">
+        Click a category on the left to view menu items.
+      </div>
+    `;
   }
 
   function activateDay(day) {
@@ -125,12 +152,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.querySelectorAll(".dayPanel").forEach(panel => {
-      const active = panel.dataset.daypanel === day;
-      panel.classList.toggle("active", active);
+      const isActive = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", isActive);
 
-      if (active) {
+      if (isActive) {
         renderHighlights(day, panel);
-        panel.querySelectorAll(".catBar").forEach(setupCategoryBar);
+        panel.querySelectorAll(".menuSidebarLayout").forEach(setupSidebarLayout);
       }
     });
   }
@@ -149,7 +176,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.onclick = () => activateDay(tab.dataset.daytab);
+    tab.addEventListener("click", () => {
+      activateDay(tab.dataset.daytab);
+    });
   });
 
   activateDay(getTodayDay());
