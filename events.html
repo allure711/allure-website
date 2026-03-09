@@ -1,1874 +1,734 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Events | Allure Bar & Lounge</title>
-<meta name="description" content="Weekly nightlife events at Allure Bar & Lounge in Washington DC. VIP sections, hookah, cocktails, DJs, and premium lounge vibes.">
-
-<link rel="stylesheet" href="assets/css/styles.css">
-
-<style>
-:root{
-  --gold:#d7b46a;
-  --gold2:#f2d38a;
-  --bg:#0a0a0f;
-  --panel:rgba(255,255,255,.06);
-  --line:rgba(255,255,255,.10);
-  --textSoft:rgba(255,255,255,.78);
-  --purple:rgba(143,92,255,.18);
-  --cyan:rgba(56,214,255,.12);
-}
-
-*{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
-
-body{
-  margin:0;
-  background:
-    radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
-    radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
-    linear-gradient(180deg,#07070a,#0a0a10);
-  color:white;
-  font-family:Arial, sans-serif;
-  overflow-x:hidden;
-}
-
-.container{
-  width:90%;
-  max-width:1200px;
-  margin:auto;
-}
-
-.sectionTitle{
-  font-size:30px;
-  font-weight:900;
-  margin:0 0 10px;
-}
-
-.sectionText{
-  color:var(--textSoft);
-  line-height:1.55;
-  margin:0;
-}
-
-.glassCard{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:20px;
-  box-shadow:0 18px 60px rgba(0,0,0,.22);
-}
-
-.imgFallback{
-  background:
-    radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
-    radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-    linear-gradient(135deg,#15151f,#101018 60%,#181824) !important;
-}
-
-/* HEADER */
-
-.header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(10,10,14,.82);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  backdrop-filter:blur(12px);
-}
-
-.header__inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:relative;
-  padding:14px 0;
-}
-
-.brand{
-  font-weight:900;
-  text-decoration:none;
-  color:white;
-  font-size:20px;
-  letter-spacing:.02em;
-}
-
-.nav__list{
-  display:flex;
-  gap:20px;
-  list-style:none;
-  margin:0;
-  padding:0;
-}
-
-.nav__list a{
-  color:white;
-  text-decoration:none;
-  font-weight:600;
-}
-
-.nav__list a:hover{
-  color:var(--gold);
-}
-
-.nav__toggle{
-  display:none;
-  cursor:pointer;
-  border:1px solid rgba(255,255,255,.15);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  padding:10px 12px;
-  border-radius:10px;
-}
-
-/* BUTTONS */
-
-.btnGold{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:12px 20px;
-  background:var(--gold);
-  color:black;
-  text-decoration:none;
-  border-radius:10px;
-  font-weight:900;
-  border:none;
-  cursor:pointer;
-}
-
-.btnGhost{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:12px 20px;
-  border:1px solid rgba(255,255,255,.14);
-  color:white;
-  text-decoration:none;
-  border-radius:10px;
-  font-weight:800;
-  background:rgba(255,255,255,.04);
-  cursor:pointer;
-}
-
-/* HERO */
-
-.eventsHero{
-  padding:80px 0 36px;
-}
-
-.eventsKicker{
-  display:inline-block;
-  color:var(--gold2);
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  font-size:12px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-
-.eventsHero h1{
-  font-size:52px;
-  line-height:1.02;
-  margin:0 0 12px;
-}
-
-.eventsHero p{
-  opacity:.86;
-  max-width:650px;
-  line-height:1.6;
-  font-size:16px;
-  margin:0;
-}
-
-.eventsHeroActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:20px;
-}
-
-/* STATS STRIP */
-
-.statsStrip{
-  margin-top:26px;
-  padding:14px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-}
-
-.statBox{
-  border-radius:16px;
-  padding:18px 16px;
-  border:1px solid rgba(255,255,255,.08);
-  background:
-    radial-gradient(circle at 20% 20%, rgba(215,180,106,.10), transparent 30%),
-    rgba(255,255,255,.03);
-  text-align:center;
-}
-
-.statNum{
-  font-size:28px;
-  font-weight:950;
-  color:var(--gold2);
-  line-height:1;
-}
-
-.statLabel{
-  margin-top:8px;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.72);
-}
-
-/* COUNTDOWN */
-
-.countdownBar{
-  margin-top:22px;
-  padding:16px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  flex-wrap:wrap;
-}
-
-.countdownLeft{
-  display:grid;
-  gap:4px;
-}
-
-.countdownLabel{
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.countdownTitle{
-  font-size:22px;
-  font-weight:950;
-}
-
-.countdownMeta{
-  color:var(--textSoft);
-  font-size:14px;
-}
-
-.countdownClock{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.clockBox{
-  min-width:74px;
-  padding:10px 12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(0,0,0,.18);
-  text-align:center;
-}
-
-.clockNum{
-  font-size:22px;
-  font-weight:950;
-  line-height:1;
-}
-
-.clockTxt{
-  margin-top:4px;
-  font-size:10px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.6);
-  font-weight:900;
-}
-
-/* FLYER SLIDER */
-
-.flyerShowcase{
-  margin-top:28px;
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:20px;
-}
-
-.flyerMain{
-  position:relative;
-  min-height:460px;
-  overflow:hidden;
-  border-radius:20px;
-  border:1px solid var(--line);
-  background:
-    radial-gradient(circle at 20% 20%, rgba(215,180,106,.16), transparent 35%),
-    radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-    linear-gradient(135deg,#11111a,#171723 55%,#101018);
-}
-
-.flyerSlide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .45s ease;
-}
-
-.flyerSlide.active{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.flyerPoster{
-  width:100%;
-  height:100%;
-  position:relative;
-  cursor:pointer;
-}
-
-.flyerPoster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-
-.flyerOverlay{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:28px;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.78)),
-    radial-gradient(circle at 70% 20%, rgba(255,255,255,.05), transparent 26%);
-}
-
-.flyerBadge{
-  display:inline-flex;
-  width:max-content;
-  margin-bottom:12px;
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.30);
-  background:rgba(215,180,106,.12);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-}
-
-.flyerDay{
-  font-size:44px;
-  font-weight:950;
-  line-height:1;
-  margin:0 0 8px;
-}
-
-.flyerMeta{
-  font-size:17px;
-  font-weight:800;
-  color:#fff;
-  margin:0 0 10px;
-}
-
-.flyerDesc{
-  color:rgba(255,255,255,.82);
-  line-height:1.55;
-  max-width:520px;
-  margin:0 0 18px;
-}
-
-.flyerActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.flyerDots{
-  position:absolute;
-  right:18px;
-  bottom:18px;
-  display:flex;
-  gap:8px;
-  z-index:5;
-}
-
-.flyerDot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  border:0;
-  background:rgba(255,255,255,.28);
-  cursor:pointer;
-  padding:0;
-}
-
-.flyerDot.active{
-  background:var(--gold2);
-}
-
-.flyerSide{
-  display:grid;
-  gap:14px;
-}
-
-.flyerMini{
-  padding:18px;
-  min-height:140px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(215,180,106,.12), transparent 30%),
-    linear-gradient(135deg,#14141d,#101018);
-}
-
-.flyerMiniTitle{
-  font-size:20px;
-  font-weight:900;
-  margin:0 0 6px;
-}
-
-.flyerMiniText{
-  color:var(--textSoft);
-  line-height:1.5;
-  margin:0;
-}
-
-.flyerMiniTag{
-  color:var(--gold2);
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  margin-bottom:8px;
-}
-
-/* FILTER TABS */
-
-.filterSection{
-  margin-top:60px;
-}
-
-.filterTabs{
-  margin-top:18px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.filterBtn{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:999px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.filterBtn.active{
-  background:rgba(215,180,106,.14);
-  border-color:rgba(215,180,106,.35);
-  color:var(--gold2);
-}
-
-/* SOCIAL WALL */
-
-.socialWall{
-  margin-top:40px;
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:20px;
-}
-
-.socialHero{
-  position:relative;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  min-height:420px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
-    radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-    linear-gradient(135deg, #11111a, #171723 55%, #101018);
-  box-shadow:0 20px 70px rgba(0,0,0,.28);
-}
-
-.socialHero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18)),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,.03), transparent 45%);
-}
-
-.socialHeroOverlay{
-  position:absolute;
-  inset:auto 0 0 0;
-  padding:24px;
-  background:linear-gradient(transparent,rgba(0,0,0,.82));
-}
-
-.socialHeroBadge{
-  display:inline-flex;
-  margin-bottom:10px;
-  padding:7px 12px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.30);
-  background:rgba(215,180,106,.12);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-}
-
-.socialHeroOverlay h2{
-  font-size:30px;
-  margin:0 0 8px;
-  font-weight:950;
-}
-
-.socialHeroOverlay p{
-  margin:0;
-  color:rgba(255,255,255,.82);
-  line-height:1.45;
-}
-
-.socialGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.socialTile{
-  border-radius:16px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  min-height:205px;
-  background:
-    radial-gradient(circle at 25% 25%, rgba(215,180,106,.14), transparent 30%),
-    radial-gradient(circle at 75% 20%, rgba(56,214,255,.12), transparent 28%),
-    linear-gradient(135deg, #14141d, #101018);
-  box-shadow:0 14px 40px rgba(0,0,0,.22);
-  display:flex;
-  align-items:flex-end;
-  position:relative;
-}
-
-.socialTile::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.24));
-}
-
-.socialTileLabel{
-  position:relative;
-  z-index:1;
-  width:100%;
-  padding:14px;
-  font-size:14px;
-  font-weight:900;
-  color:white;
-  background:linear-gradient(transparent,rgba(0,0,0,.62));
-}
-
-/* DJ */
-
-.djSection{
-  margin-top:60px;
-}
-
-.djGrid{
-  margin-top:20px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-
-.djCard{
-  padding:22px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(143,92,255,.16), transparent 28%),
-    linear-gradient(135deg,#15151f,#101018 60%,#181824);
-}
-
-.djRole{
-  display:inline-flex;
-  padding:7px 11px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.05);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.10em;
-}
-
-.djName{
-  margin:14px 0 8px;
-  font-size:28px;
-  font-weight:950;
-}
-
-.djStyle{
-  color:var(--gold2);
-  font-weight:800;
-  margin-bottom:10px;
-}
-
-.djDesc{
-  color:var(--textSoft);
-  line-height:1.55;
-}
-
-/* EVENTS */
-
-.eventsBlock{
-  margin-top:60px;
-}
-
-.eventsList{
-  margin-top:20px;
-  display:grid;
-  gap:14px;
-}
-
-.eventCard{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:20px;
-  box-shadow:0 14px 45px rgba(0,0,0,.18);
-  transition:transform .18s ease, border-color .18s ease;
-}
-
-.eventCard:hover{
-  transform:translateY(-2px);
-  border-color:rgba(215,180,106,.24);
-}
-
-.eventTop{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  font-weight:900;
-  font-size:17px;
-}
-
-.eventTime{
-  color:var(--gold2);
-  white-space:nowrap;
-}
-
-.eventDesc{
-  color:var(--textSoft);
-  margin-top:8px;
-  line-height:1.55;
-}
-
-.hiddenEvent{
-  display:none;
-}
-
-/* VIP */
-
-.vipSection{
-  margin-top:60px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:30px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
-  align-items:center;
-  box-shadow:0 18px 60px rgba(0,0,0,.22);
-}
-
-.vipSection h2{
-  font-size:32px;
-  margin:0 0 10px;
-}
-
-.vipSection p{
-  color:var(--textSoft);
-  line-height:1.6;
-  margin:0 0 18px;
-}
-
-.vipImageWrap{
-  width:100%;
-  border-radius:16px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  min-height:320px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
-    radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-    linear-gradient(135deg,#15151f,#101018 60%,#181824);
-  position:relative;
-  display:flex;
-  align-items:flex-end;
-}
-
-.vipImageWrap::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.28)),
-    radial-gradient(circle at 50% 45%, rgba(255,255,255,.04), transparent 42%);
-}
-
-.vipImageText{
-  position:relative;
-  z-index:1;
-  padding:24px;
-}
-
-.vipImageTag{
-  display:inline-flex;
-  margin-bottom:10px;
-  padding:7px 12px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.30);
-  background:rgba(215,180,106,.12);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-}
-
-.vipImageTitle{
-  font-size:30px;
-  font-weight:950;
-  margin:0 0 8px;
-}
-
-.vipImageSub{
-  color:rgba(255,255,255,.82);
-  line-height:1.45;
-  margin:0;
-}
-
-/* VIP PRICING */
-
-.vipPricing{
-  margin-top:60px;
-}
-
-.vipPricingGrid{
-  margin-top:20px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-
-.vipPriceCard{
-  padding:24px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(215,180,106,.14), transparent 30%),
-    linear-gradient(135deg,#15151f,#101018);
-}
-
-.vipPriceTier{
-  color:var(--gold2);
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.vipPriceAmount{
-  font-size:42px;
-  font-weight:950;
-  margin:12px 0 10px;
-}
-
-.vipPriceList{
-  margin:0;
-  padding-left:18px;
-  color:var(--textSoft);
-  line-height:1.7;
-}
-
-.vipPriceList li{ margin:4px 0; }
-
-/* BRAND */
-
-.brandStory{
-  margin-top:60px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:30px;
-  box-shadow:0 18px 60px rgba(0,0,0,.22);
-}
-
-.brandStory h2{
-  font-size:32px;
-  margin:0 0 12px;
-}
-
-.brandStory p{
-  color:var(--textSoft);
-  max-width:760px;
-  line-height:1.7;
-  margin:0;
-}
-
-/* PREMIUM FOOTER */
-
-.footerPremium{
-  margin-top:80px;
-  padding:36px 0 90px;
-  border-top:1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.03));
-}
-
-.footerPremium__grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr .8fr;
-  gap:24px;
-}
-
-.footerBrand{
-  font-size:24px;
-  font-weight:950;
-  margin-bottom:8px;
-}
-
-.footerText{
-  color:var(--textSoft);
-  line-height:1.6;
-}
-
-.footerHead{
-  font-size:14px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  font-weight:900;
-  margin-bottom:12px;
-}
-
-.footerLinks{
-  display:grid;
-  gap:10px;
-}
-
-.footerLinks a{
-  color:rgba(255,255,255,.82);
-  text-decoration:none;
-}
-
-.footerLinks a:hover{
-  color:var(--gold2);
-}
-
-.footerBottom{
-  margin-top:24px;
-  padding-top:18px;
-  border-top:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.58);
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  font-size:13px;
-}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  z-index:2000;
-}
-
-.modal.open{
-  display:block;
-}
-
-.modalBackdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(6px);
-}
-
-.modalPanel{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:min(680px, calc(100vw - 24px));
-  max-height:86vh;
-  overflow:auto;
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,.10);
-  background:#0d0d12;
-  box-shadow:0 30px 90px rgba(0,0,0,.5);
-  padding:20px;
-}
-
-.modalHead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:10px;
-}
-
-.modalTitle{
-  font-size:28px;
-  font-weight:950;
-}
-
-.modalClose{
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  font-size:20px;
-  cursor:pointer;
-}
-
-.modalSub{
-  color:var(--textSoft);
-  line-height:1.5;
-  margin-bottom:16px;
-}
-
-.formGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.formField{
-  display:grid;
-  gap:7px;
-  margin-bottom:12px;
-}
-
-.formField label{
-  font-size:12px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.72);
-  font-weight:900;
-}
-
-.formField input,
-.formField select,
-.formField textarea{
-  width:100%;
-  padding:13px 14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  outline:none;
-  font:inherit;
-}
-
-.formField textarea{
-  min-height:110px;
-  resize:vertical;
-}
-
-.formActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:6px;
-}
-
-.formHint{
-  margin-top:10px;
-  font-size:13px;
-  color:rgba(255,255,255,.62);
-}
-
-/* LIGHTBOX */
-
-.lightbox{
-  position:fixed;
-  inset:0;
-  display:none;
-  z-index:2100;
-}
-
-.lightbox.open{
-  display:block;
-}
-
-.lightboxBackdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.82);
-  backdrop-filter:blur(6px);
-}
-
-.lightboxPanel{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:min(980px, calc(100vw - 24px));
-  max-height:90vh;
-  display:grid;
-  gap:12px;
-  justify-items:center;
-}
-
-.lightboxImg{
-  max-width:100%;
-  max-height:78vh;
-  width:auto;
-  height:auto;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.10);
-  background:#111;
-  box-shadow:0 24px 80px rgba(0,0,0,.5);
-}
-
-.lightboxClose{
-  position:absolute;
-  top:-6px;
-  right:0;
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  font-size:20px;
-  cursor:pointer;
-}
-
-.lightboxCaption{
-  color:#fff;
-  font-weight:800;
-  text-align:center;
-}
-
-/* STICKY MOBILE BUTTON */
-
-.mobileStickyReserve{
-  position:fixed;
-  left:14px;
-  right:14px;
-  bottom:14px;
-  z-index:1500;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:14px 16px;
-  border-radius:999px;
-  background:var(--gold);
-  color:#111;
-  text-decoration:none;
-  font-weight:950;
-  box-shadow:0 18px 50px rgba(0,0,0,.35);
-}
-
-/* RESPONSIVE */
-
-@media (max-width:900px){
-  .nav__toggle{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-  }
-
-  .nav__list{
-    display:none;
-    position:absolute;
-    top:100%;
-    right:0;
-    left:0;
-    flex-direction:column;
-    gap:0;
-    background:rgba(10,10,14,.96);
-    border:1px solid rgba(255,255,255,.10);
-    border-radius:14px;
-    padding:10px;
-    margin-top:10px;
-    z-index:999;
-  }
-
-  .nav__list.is-open{
-    display:flex;
-  }
-
-  .nav__list li a{
-    display:block;
-    padding:12px 10px;
-    border-radius:10px;
-  }
-
-  .eventsHero{
-    padding:70px 0 30px;
-  }
-
-  .eventsHero h1{
-    font-size:40px;
-  }
-
-  .statsStrip,
-  .flyerShowcase,
-  .socialWall,
-  .vipSection,
-  .formGrid,
-  .footerPremium__grid{
-    grid-template-columns:1fr;
-  }
-
-  .djGrid,
-  .vipPricingGrid{
-    grid-template-columns:1fr;
-  }
-
-  .eventTop{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:6px;
-  }
-}
-
-@media (max-width:700px){
-  .mobileStickyReserve{
-    display:flex;
-  }
-
-  .footerPremium{
-    padding-bottom:100px;
-  }
-}
-
-@media (max-width:560px){
-  .eventsHero h1{ font-size:34px; }
-  .socialGrid{ grid-template-columns:1fr; }
-  .socialHero{ min-height:300px; }
-  .socialTile{ min-height:220px; }
-  .flyerMain{ min-height:380px; }
-  .flyerDay{ font-size:34px; }
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Events | Allure Bar & Lounge | Washington, DC</title>
+  <meta name="description" content="Weekly nightlife events at Allure Bar & Lounge in Washington, DC. VIP sections, hookah, cocktails, DJs, and premium lounge vibes.">
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <style>
+    .eventsHero{
+      padding:84px 0 36px;
+    }
+
+    .eventsKicker{
+      display:inline-block;
+      color:var(--gold2);
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .eventsHero h1{
+      font-size:52px;
+      line-height:1.02;
+      margin:0 0 12px;
+    }
+
+    .eventsHero p{
+      opacity:.86;
+      max-width:680px;
+      line-height:1.65;
+      font-size:16px;
+      margin:0;
+    }
+
+    .eventsHeroActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    .eventsStats{
+      margin-top:26px;
+    }
+
+    .flyerSection{
+      margin-top:30px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:20px;
+    }
+
+    .flyerMain{
+      min-height:460px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      overflow:hidden;
+      position:relative;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.16), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+        linear-gradient(135deg,#11111a,#171723 55%,#101018);
+      box-shadow:var(--shadow);
+    }
+
+    .flyerPoster{
+      width:100%;
+      height:100%;
+      position:relative;
+    }
+
+    .flyerPoster img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .flyerOverlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:28px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.80)),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,.05), transparent 26%);
+    }
+
+    .flyerBadge{
+      display:inline-flex;
+      width:max-content;
+      margin-bottom:12px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .flyerDay{
+      font-size:44px;
+      font-weight:950;
+      line-height:1;
+      margin:0 0 8px;
+    }
+
+    .flyerMeta{
+      font-size:17px;
+      font-weight:800;
+      color:#fff;
+      margin:0 0 10px;
+    }
+
+    .flyerDesc{
+      color:rgba(255,255,255,.82);
+      line-height:1.55;
+      max-width:520px;
+      margin:0 0 18px;
+    }
+
+    .flyerActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .flyerSide{
+      display:grid;
+      gap:14px;
+    }
+
+    .flyerMini{
+      padding:18px;
+      min-height:140px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.12), transparent 30%),
+        linear-gradient(135deg,#14141d,#101018);
+    }
+
+    .flyerMiniTag{
+      color:var(--gold2);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .flyerMiniTitle{
+      font-size:20px;
+      font-weight:900;
+      margin:0 0 6px;
+    }
+
+    .flyerMiniText{
+      color:var(--textSoft);
+      line-height:1.55;
+      margin:0;
+    }
+
+    .filterSection{
+      margin-top:60px;
+    }
+
+    .filterTabs{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .filterBtn{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:800;
+      cursor:pointer;
+      transition:all .18s ease;
+    }
+
+    .filterBtn:hover{
+      border-color:rgba(215,180,106,.35);
+      color:var(--gold2);
+    }
+
+    .filterBtn.active{
+      background:rgba(215,180,106,.14);
+      border-color:rgba(215,180,106,.35);
+      color:var(--gold2);
+    }
+
+    .eventsBlock{
+      margin-top:28px;
+    }
+
+    .eventsList{
+      margin-top:20px;
+    }
+
+    .socialWall{
+      margin-top:60px;
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:20px;
+    }
+
+    .socialHero{
+      position:relative;
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      min-height:420px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
+        linear-gradient(135deg, #11111a, #171723 55%, #101018);
+      box-shadow:var(--shadow);
+    }
+
+    .socialHero img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .socialHeroOverlay{
+      position:absolute;
+      inset:auto 0 0 0;
+      padding:24px;
+      background:linear-gradient(transparent,rgba(0,0,0,.82));
+    }
+
+    .socialHeroBadge{
+      display:inline-flex;
+      margin-bottom:10px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .socialHeroOverlay h2{
+      font-size:30px;
+      margin:0 0 8px;
+      font-weight:950;
+    }
+
+    .socialHeroOverlay p{
+      margin:0;
+      color:rgba(255,255,255,.82);
+      line-height:1.45;
+    }
+
+    .socialStack{
+      display:grid;
+      gap:16px;
+    }
+
+    .socialCard{
+      min-height:202px;
+    }
+
+    .socialCard img{
+      min-height:202px;
+    }
+
+    .vipBanner{
+      margin-top:60px;
+      padding:28px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      align-items:center;
+    }
+
+    .vipBannerTitle{
+      font-size:36px;
+      font-weight:950;
+      line-height:1.05;
+      margin:0 0 10px;
+    }
+
+    .vipBannerText{
+      color:var(--textSoft);
+      line-height:1.7;
+      margin:0;
+    }
+
+    .vipBannerActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:flex-end;
+    }
+
+    @media (max-width:900px){
+      .eventsHero h1{
+        font-size:40px;
+      }
+
+      .flyerSection,
+      .socialWall,
+      .vipBanner{
+        grid-template-columns:1fr;
+      }
+
+      .vipBannerActions{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (max-width:560px){
+      .eventsHero h1{
+        font-size:34px;
+      }
+
+      .flyerDay{
+        font-size:34px;
+      }
+
+      .flyerMain{
+        min-height:380px;
+      }
+
+      .vipBannerTitle{
+        font-size:30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="container header__inner">
-    <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-    <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
 
-    <ul class="nav__list" id="siteNav">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="menu.html">Menu</a></li>
-      <li><a href="events.html">Events</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
-  </div>
-</header>
-
-<main>
-
-<section class="eventsHero container">
-  <div class="eventsKicker">Washington, DC</div>
-  <h1>This Week at Allure</h1>
-  <p>
-    Premium lounge vibes in Washington DC. Weekly nightlife events, bottle service,
-    hookah, signature cocktails, and VIP experiences.
-  </p>
-
-  <div class="eventsHeroActions">
-    <a class="btnGold" href="tel:2022974949">Reserve by Phone</a>
-    <a class="btnGhost" href="menu.html">View Menu</a>
-    <button class="btnGhost openBooking" type="button">Book VIP</button>
-  </div>
-
-  <section class="statsStrip glassCard">
-    <div class="statBox">
-      <div class="statNum">6</div>
-      <div class="statLabel">Weekly Events</div>
+      <nav class="nav" aria-label="Primary">
+        <ul class="nav__list" id="siteNav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="events.html" class="active">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="location.html">Location</a></li>
+          <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
+        </ul>
+      </nav>
     </div>
-    <div class="statBox">
-      <div class="statNum">3</div>
-      <div class="statLabel">VIP Packages</div>
-    </div>
-    <div class="statBox">
-      <div class="statNum">2AM</div>
-      <div class="statLabel">Weekend Close</div>
-    </div>
-    <div class="statBox">
-      <div class="statNum">DC</div>
-      <div class="statLabel">Nightlife Energy</div>
-    </div>
-  </section>
+  </header>
 
-  <section class="countdownBar glassCard">
-    <div class="countdownLeft">
-      <div class="countdownLabel">Next Event Countdown</div>
-      <div class="countdownTitle" id="countdownEventName">Loading...</div>
-      <div class="countdownMeta" id="countdownEventMeta">Loading...</div>
-    </div>
+  <main>
 
-    <div class="countdownClock">
-      <div class="clockBox">
-        <div class="clockNum" id="cdDays">00</div>
-        <div class="clockTxt">Days</div>
-      </div>
-      <div class="clockBox">
-        <div class="clockNum" id="cdHours">00</div>
-        <div class="clockTxt">Hours</div>
-      </div>
-      <div class="clockBox">
-        <div class="clockNum" id="cdMinutes">00</div>
-        <div class="clockTxt">Min</div>
-      </div>
-      <div class="clockBox">
-        <div class="clockNum" id="cdSeconds">00</div>
-        <div class="clockTxt">Sec</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="flyerShowcase">
-    <div class="flyerMain glassCard">
-      <div class="flyerSlide active">
-        <div class="flyerPoster" data-lightbox-src="assets/images/flyer-friday.jpg" data-lightbox-title="Allure Friday Flyer">
-          <img src="assets/images/flyer-friday.jpg" alt="Allure Friday flyer">
-          <div class="flyerOverlay">
-            <div class="flyerBadge">Featured Flyer</div>
-            <h2 class="flyerDay">ALLURE FRIDAY</h2>
-            <p class="flyerMeta">Friday • 5PM – 2AM</p>
-            <p class="flyerDesc">Premium lounge energy, signature cocktails, VIP sections, and a dressed-up weekend crowd.</p>
-            <div class="flyerActions">
-              <a class="btnGold" href="tel:2022974949">Reserve Friday</a>
-              <button class="btnGhost openBooking" type="button">Book Table</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flyerSlide">
-        <div class="flyerPoster" data-lightbox-src="assets/images/flyer-saturday.jpg" data-lightbox-title="Allure Saturday Flyer">
-          <img src="assets/images/flyer-saturday.jpg" alt="Allure Saturday flyer">
-          <div class="flyerOverlay">
-            <div class="flyerBadge">Featured Flyer</div>
-            <h2 class="flyerDay">ALLURE SATURDAY</h2>
-            <p class="flyerMeta">Saturday • 5PM – 2AM</p>
-            <p class="flyerDesc">Late-night premium vibes, packed sections, bottle service, and the strongest party energy of the week.</p>
-            <div class="flyerActions">
-              <a class="btnGold" href="tel:2022974949">Reserve Saturday</a>
-              <button class="btnGhost openBooking" type="button">Book Table</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flyerSlide">
-        <div class="flyerPoster" data-lightbox-src="assets/images/flyer-thursday.jpg" data-lightbox-title="Karaoke Thursday Flyer">
-          <img src="assets/images/flyer-thursday.jpg" alt="Karaoke Thursday flyer">
-          <div class="flyerOverlay">
-            <div class="flyerBadge">Featured Flyer</div>
-            <h2 class="flyerDay">KARAOKE THURSDAY</h2>
-            <p class="flyerMeta">Thursday • 5PM – 1AM</p>
-            <p class="flyerDesc">Bring the crew, hit the mic, and turn a weekday into a real lounge night.</p>
-            <div class="flyerActions">
-              <a class="btnGold" href="tel:2022974949">Reserve Thursday</a>
-              <button class="btnGhost openBooking" type="button">Book Table</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flyerDots">
-        <button class="flyerDot active" type="button" data-slide="0"></button>
-        <button class="flyerDot" type="button" data-slide="1"></button>
-        <button class="flyerDot" type="button" data-slide="2"></button>
-      </div>
-    </div>
-
-    <div class="flyerSide">
-      <div class="flyerMini glassCard">
-        <div class="flyerMiniTag">Weekend Highlight</div>
-        <h3 class="flyerMiniTitle">VIP Tables Move Fast</h3>
-        <p class="flyerMiniText">Prime tables and premium seating should be reserved early for Friday and Saturday.</p>
-      </div>
-
-      <div class="flyerMini glassCard">
-        <div class="flyerMiniTag">Weekly Feature</div>
-        <h3 class="flyerMiniTitle">Karaoke + Cocktails</h3>
-        <p class="flyerMiniText">Thursday brings the crowd together with a live mic vibe and lounge atmosphere.</p>
-      </div>
-
-      <div class="flyerMini glassCard">
-        <div class="flyerMiniTag">Signature Experience</div>
-        <h3 class="flyerMiniTitle">Bottle Service Nights</h3>
-        <p class="flyerMiniText">Allure blends nightlife energy with a more polished premium-lounge look.</p>
-      </div>
-    </div>
-  </section>
-</section>
-
-<section class="container filterSection">
-  <h2 class="sectionTitle">Find Your Night</h2>
-  <p class="sectionText">Use the filters to view the kind of event you want.</p>
-
-  <div class="filterTabs">
-    <button class="filterBtn active" data-filter="all" type="button">All</button>
-    <button class="filterBtn" data-filter="weekday" type="button">Weekday</button>
-    <button class="filterBtn" data-filter="weekend" type="button">Weekend</button>
-    <button class="filterBtn" data-filter="karaoke" type="button">Karaoke</button>
-    <button class="filterBtn" data-filter="hookah" type="button">Hookah</button>
-  </div>
-</section>
-
-<section class="container socialWall">
-  <div class="socialHero">
-    <div class="socialHeroOverlay">
-      <div class="socialHeroBadge">Featured Night</div>
-      <h2>DC Nightlife Energy</h2>
-      <p>VIP tables • DJ nights • bottle service • premium lounge vibes</p>
-    </div>
-  </div>
-
-  <div class="socialGrid">
-    <div class="socialTile"><div class="socialTileLabel">VIP Sections</div></div>
-    <div class="socialTile"><div class="socialTileLabel">Signature Cocktails</div></div>
-    <div class="socialTile"><div class="socialTileLabel">Crowd Energy</div></div>
-    <div class="socialTile"><div class="socialTileLabel">Late Night Vibes</div></div>
-  </div>
-</section>
-
-<section class="container djSection">
-  <h2 class="sectionTitle">DJ / Host Lineup</h2>
-  <p class="sectionText">Put real names here later. This section is built and ready now.</p>
-
-  <div class="djGrid">
-    <div class="djCard glassCard">
-      <div class="djRole">Thursday Host</div>
-      <div class="djName">Karaoke Host</div>
-      <div class="djStyle">Live Mic • Crowd Energy</div>
-      <div class="djDesc">Keeps the room active, gets the crowd involved, and builds the karaoke vibe all night.</div>
-    </div>
-
-    <div class="djCard glassCard">
-      <div class="djRole">Friday DJ</div>
-      <div class="djName">DJ Friday Set</div>
-      <div class="djStyle">Hip-Hop • Afrobeats • Lounge Flow</div>
-      <div class="djDesc">Drives the premium Friday atmosphere with a dressed-up weekend soundtrack.</div>
-    </div>
-
-    <div class="djCard glassCard">
-      <div class="djRole">Saturday DJ</div>
-      <div class="djName">DJ Saturday Set</div>
-      <div class="djStyle">Prime Night • Club Energy • Bottles</div>
-      <div class="djDesc">The biggest energy of the week with VIP-ready music and a packed late-night crowd.</div>
-    </div>
-  </div>
-</section>
-
-<section class="container eventsBlock">
-  <h2 class="sectionTitle">Weekly Events</h2>
-  <p class="sectionText">Plan your week around Allure’s signature nights.</p>
-
-  <div class="eventsList" id="eventsList">
-    <div class="eventCard" data-tags="weekday hookah">
-      <div class="eventTop">
-        <span>Free Hookah Monday</span>
-        <span class="eventTime">5PM – 1AM</span>
-      </div>
-      <div class="eventDesc">Free hookah with $50 bar tab.</div>
-    </div>
-
-    <div class="eventCard" data-tags="weekday">
-      <div class="eventTop">
-        <span>Taco Tuesday</span>
-        <span class="eventTime">5PM – 9PM</span>
-      </div>
-      <div class="eventDesc">Tacos and crafted cocktails.</div>
-    </div>
-
-    <div class="eventCard" data-tags="weekday karaoke">
-      <div class="eventTop">
-        <span>Karaoke Thursday</span>
-        <span class="eventTime">5PM – 1AM</span>
-      </div>
-      <div class="eventDesc">Bring the crew and own the mic.</div>
-    </div>
-
-    <div class="eventCard" data-tags="weekend">
-      <div class="eventTop">
-        <span>Allure Friday</span>
-        <span class="eventTime">5PM – 2AM</span>
-      </div>
-      <div class="eventDesc">Premium nightlife energy all night.</div>
-    </div>
-
-    <div class="eventCard" data-tags="weekend">
-      <div class="eventTop">
-        <span>Allure Saturday</span>
-        <span class="eventTime">5PM – 2AM</span>
-      </div>
-      <div class="eventDesc">Signature cocktails and packed dance floor.</div>
-    </div>
-
-    <div class="eventCard" data-tags="weekend">
-      <div class="eventTop">
-        <span>Sunday Social</span>
-        <span class="eventTime">5PM – 1AM</span>
-      </div>
-      <div class="eventDesc">Relaxed lounge vibes to end the weekend.</div>
-    </div>
-  </div>
-</section>
-
-<section class="container vipSection">
-  <div>
-    <h2>VIP Sections</h2>
-    <p>
-      Reserve a premium table experience for birthdays, celebrations,
-      special nights out, and bottle service.
-    </p>
-    <button class="btnGold openBooking" type="button">Reserve Now</button>
-  </div>
-
-  <div class="vipImageWrap">
-    <div class="vipImageText">
-      <div class="vipImageTag">Premium Experience</div>
-      <div class="vipImageTitle">VIP Table Nights</div>
-      <p class="vipImageSub">
-        Bottle service, lounge seating, birthday-ready atmosphere, and premium weekend energy.
+    <section class="eventsHero container fadeUp">
+      <div class="eventsKicker">Washington, DC Nightlife</div>
+      <h1>This Week at Allure</h1>
+      <p>
+        Weekly nightlife programming built for premium lounge energy — hookah, cocktails, karaoke, bottle service, and the strongest weekend vibe in DC.
       </p>
+
+      <div class="eventsHeroActions">
+        <a class="btnGold" href="tel:2022974949">Reserve by Phone</a>
+        <a class="btnGhost" href="menu.html">View Menu</a>
+        <button class="btnGhost openReserveModal" type="button">Book VIP</button>
+      </div>
+
+      <div class="eventsStats statsGrid glassCard" style="padding:14px;">
+        <div class="statBox">
+          <div class="statNum">6</div>
+          <div class="statLabel">Weekly Events</div>
+        </div>
+        <div class="statBox">
+          <div class="statNum">VIP</div>
+          <div class="statLabel">Table Nights</div>
+        </div>
+        <div class="statBox">
+          <div class="statNum">2AM</div>
+          <div class="statLabel">Weekend Close</div>
+        </div>
+        <div class="statBox">
+          <div class="statNum">711</div>
+          <div class="statLabel">H St NE</div>
+        </div>
+      </div>
+
+      <section class="flyerSection">
+        <div class="flyerMain slider">
+          <div class="slide active">
+            <div class="flyerPoster">
+              <img src="assets/images/flyer-friday.jpg" alt="Allure Friday flyer">
+              <div class="flyerOverlay">
+                <div class="flyerBadge">Featured Flyer</div>
+                <h2 class="flyerDay">ALLURE FRIDAY</h2>
+                <p class="flyerMeta">Friday • 5PM – 2AM</p>
+                <p class="flyerDesc">Premium lounge energy, signature cocktails, VIP sections, and a dressed-up weekend crowd.</p>
+                <div class="flyerActions">
+                  <a class="btnGold" href="tel:2022974949">Reserve Friday</a>
+                  <button class="btnGhost openReserveModal" type="button">Book Table</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="flyerPoster">
+              <img src="assets/images/flyer-saturday.jpg" alt="Allure Saturday flyer">
+              <div class="flyerOverlay">
+                <div class="flyerBadge">Featured Flyer</div>
+                <h2 class="flyerDay">ALLURE SATURDAY</h2>
+                <p class="flyerMeta">Saturday • 5PM – 2AM</p>
+                <p class="flyerDesc">Packed sections, bottle service, late-night cocktails, and the strongest party energy of the week.</p>
+                <div class="flyerActions">
+                  <a class="btnGold" href="tel:2022974949">Reserve Saturday</a>
+                  <button class="btnGhost openReserveModal" type="button">Book Table</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="flyerPoster">
+              <img src="assets/images/flyer-thursday.jpg" alt="Karaoke Thursday flyer">
+              <div class="flyerOverlay">
+                <div class="flyerBadge">Featured Flyer</div>
+                <h2 class="flyerDay">KARAOKE THURSDAY</h2>
+                <p class="flyerMeta">Thursday • 5PM – 1AM</p>
+                <p class="flyerDesc">Bring the crew, hit the mic, and turn a weekday into a real lounge night.</p>
+                <div class="flyerActions">
+                  <a class="btnGold" href="tel:2022974949">Reserve Thursday</a>
+                  <button class="btnGhost openReserveModal" type="button">Book Table</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sliderDots">
+            <button class="sliderDot active" type="button"></button>
+            <button class="sliderDot" type="button"></button>
+            <button class="sliderDot" type="button"></button>
+          </div>
+        </div>
+
+        <div class="flyerSide">
+          <div class="flyerMini glassCard">
+            <div class="flyerMiniTag">Monday</div>
+            <h3 class="flyerMiniTitle">Free Hookah Monday</h3>
+            <p class="flyerMiniText">An easy way to start the week with lounge energy and hookah specials.</p>
+          </div>
+
+          <div class="flyerMini glassCard">
+            <div class="flyerMiniTag">Tuesday</div>
+            <h3 class="flyerMiniTitle">Taco Tuesday</h3>
+            <p class="flyerMiniText">Cocktails, tacos, and weekday social energy in the heart of DC.</p>
+          </div>
+
+          <div class="flyerMini glassCard">
+            <div class="flyerMiniTag">VIP</div>
+            <h3 class="flyerMiniTitle">Sections Move Fast</h3>
+            <p class="flyerMiniText">Prime tables and premium placement should be reserved early.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="container filterSection fadeUp delay1">
+      <h2 class="sectionTitle">Weekly Events</h2>
+      <p class="sectionText">Plan your week around Allure’s signature nights.</p>
+
+      <div class="filterTabs">
+        <button class="filterBtn active" data-filter="all" type="button">All</button>
+        <button class="filterBtn" data-filter="weekday" type="button">Weekday</button>
+        <button class="filterBtn" data-filter="weekend" type="button">Weekend</button>
+        <button class="filterBtn" data-filter="karaoke" type="button">Karaoke</button>
+        <button class="filterBtn" data-filter="hookah" type="button">Hookah</button>
+      </div>
+
+      <div class="eventsBlock">
+        <div class="eventsList">
+          <div class="eventCard" data-tags="weekday hookah">
+            <div class="eventTop">
+              <span>Free Hookah Monday</span>
+              <span style="color:var(--gold2);">5PM – 1AM</span>
+            </div>
+            <div class="eventDesc">Free hookah with $50 bar tab.</div>
+          </div>
+
+          <div class="eventCard" data-tags="weekday">
+            <div class="eventTop">
+              <span>Taco Tuesday</span>
+              <span style="color:var(--gold2);">5PM – 9PM</span>
+            </div>
+            <div class="eventDesc">Tacos and crafted cocktails with weekday social energy.</div>
+          </div>
+
+          <div class="eventCard" data-tags="weekday">
+            <div class="eventTop">
+              <span>Midweek Wednesday</span>
+              <span style="color:var(--gold2);">5PM – 1AM</span>
+            </div>
+            <div class="eventDesc">After-work drinks, lounge seating, and premium midweek energy.</div>
+          </div>
+
+          <div class="eventCard" data-tags="weekday karaoke">
+            <div class="eventTop">
+              <span>Karaoke Thursday</span>
+              <span style="color:var(--gold2);">5PM – 1AM</span>
+            </div>
+            <div class="eventDesc">Bring the crew and own the mic all night.</div>
+          </div>
+
+          <div class="eventCard" data-tags="weekend">
+            <div class="eventTop">
+              <span>Allure Friday</span>
+              <span style="color:var(--gold2);">5PM – 2AM</span>
+            </div>
+            <div class="eventDesc">Premium nightlife energy, signature cocktails, and weekend crowd.</div>
+          </div>
+
+          <div class="eventCard" data-tags="weekend">
+            <div class="eventTop">
+              <span>Allure Saturday</span>
+              <span style="color:var(--gold2);">5PM – 2AM</span>
+            </div>
+            <div class="eventDesc">Bottle service, late-night vibes, and peak lounge energy.</div>
+          </div>
+
+          <div class="eventCard" data-tags="weekend">
+            <div class="eventTop">
+              <span>Sunday Social</span>
+              <span style="color:var(--gold2);">5PM – 1AM</span>
+            </div>
+            <div class="eventDesc">Relaxed lounge vibes to close the weekend.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container socialWall fadeUp delay2">
+      <div class="socialHero">
+        <img src="assets/images/social-hero.jpg" alt="Allure nightlife crowd">
+        <div class="socialHeroOverlay">
+          <div class="socialHeroBadge">Nightlife Energy</div>
+          <h2>DC Lounge Vibes</h2>
+          <p>VIP tables • DJ nights • premium cocktails • bottle service</p>
+        </div>
+      </div>
+
+      <div class="socialStack">
+        <div class="socialCard">
+          <img src="assets/images/gallery-1.jpg" alt="VIP seating">
+          <div class="socialCardOverlay">
+            <div class="socialCardLabel">VIP Seating</div>
+          </div>
+        </div>
+
+        <div class="socialCard">
+          <img src="assets/images/gallery-2.jpg" alt="Cocktail service">
+          <div class="socialCardOverlay">
+            <div class="socialCardLabel">Cocktail Service</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="vipBanner glassCard fadeUp delay3">
+        <div>
+          <h2 class="vipBannerTitle">Reserve Your Section Before the Weekend Rush</h2>
+          <p class="vipBannerText">
+            Whether it’s a birthday, a celebration, or your regular weekend move, VIP reservations make the Allure experience stronger from the start.
+          </p>
+        </div>
+
+        <div class="vipBannerActions">
+          <button class="btnGold openReserveModal" type="button">Book VIP</button>
+          <a class="btnGhost" href="tel:2022974949">Call 202-297-4949</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footerPremium">
+    <div class="container">
+      <div class="footerPremium__grid">
+        <div>
+          <div class="footerBrand">Allure Bar &amp; Lounge</div>
+          <div class="footerText">
+            Premium nightlife, VIP sections, signature cocktails, and weekly events built for a polished Washington DC lounge crowd.
+          </div>
+        </div>
+
+        <div>
+          <div class="footerHead">Explore</div>
+          <div class="footerLinks">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="events.html">Events</a>
+            <a href="gallery.html">Gallery</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footerHead">Reservations</div>
+          <div class="footerLinks">
+            <a href="tel:2022974949">Call 202-297-4949</a>
+            <a href="#" class="openReserveModal">Book VIP</a>
+            <a href="location.html">711 H St NE, Washington, DC</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footerBottom">
+        <span>© Allure Bar &amp; Lounge</span>
+        <span>Washington, DC</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="mobileStickyReserve openReserveModal" href="#">Reserve VIP Now</a>
+
+  <div class="modal" id="reserveModal" aria-hidden="true">
+    <div class="modalBackdrop"></div>
+    <div class="modalPanel">
+      <div class="modalHead">
+        <div class="modalTitle">VIP Booking Request</div>
+        <button class="modalClose" id="modalClose" type="button" aria-label="Close">×</button>
+      </div>
+
+      <div class="modalSub">
+        Fill this out and tap submit. Your team can use this as the booking capture form for VIP reservations.
+      </div>
+
+      <form>
+        <div class="formGrid">
+          <div class="formField">
+            <label for="vipName">Name</label>
+            <input id="vipName" type="text" placeholder="Full name">
+          </div>
+
+          <div class="formField">
+            <label for="vipPhone">Phone</label>
+            <input id="vipPhone" type="tel" placeholder="Phone number">
+          </div>
+        </div>
+
+        <div class="formGrid">
+          <div class="formField">
+            <label for="vipDate">Date</label>
+            <input id="vipDate" type="date">
+          </div>
+
+          <div class="formField">
+            <label for="vipGuests">Guests</label>
+            <select id="vipGuests">
+              <option value="">Select</option>
+              <option>2-4</option>
+              <option>5-8</option>
+              <option>9-12</option>
+              <option>12+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formField">
+          <label for="vipNotes">Notes</label>
+          <textarea id="vipNotes" placeholder="Birthday, bottle preference, section request..."></textarea>
+        </div>
+
+        <div class="formActions">
+          <button class="btnGold" type="submit">Submit Request</button>
+          <a class="btnGhost" href="tel:2022974949">Call Instead</a>
+        </div>
+
+        <div class="formHint">You can connect this later to email, SMS, or a booking app.</div>
+      </form>
     </div>
   </div>
-</section>
 
-<section class="container vipPricing">
-  <h2 class="sectionTitle">VIP Table Pricing</h2>
-  <p class="sectionText">Easy pricing blocks that make reservations feel real and premium.</p>
+  <script>
+    (() => {
+      const filterBtns = document.querySelectorAll(".filterBtn");
+      const eventCards = document.querySelectorAll(".eventCard");
 
-  <div class="vipPricingGrid">
-    <div class="vipPriceCard glassCard">
-      <div class="vipPriceTier">Gold</div>
-      <div class="vipPriceAmount">$900</div>
-      <ul class="vipPriceList">
-        <li>2 bottles</li>
-        <li>1 hookah</li>
-        <li>Priority seating</li>
-        <li>Mixer package</li>
-      </ul>
-    </div>
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
 
-    <div class="vipPriceCard glassCard">
-      <div class="vipPriceTier">Platinum</div>
-      <div class="vipPriceAmount">$1200</div>
-      <ul class="vipPriceList">
-        <li>3 bottles</li>
-        <li>2 hookahs</li>
-        <li>Premium section</li>
-        <li>Celebration setup</li>
-      </ul>
-    </div>
+          const filter = btn.dataset.filter;
 
-    <div class="vipPriceCard glassCard">
-      <div class="vipPriceTier">Celebration</div>
-      <div class="vipPriceAmount">$1500</div>
-      <ul class="vipPriceList">
-        <li>4 bottles</li>
-        <li>2 hookahs</li>
-        <li>Prime placement</li>
-        <li>Birthday-style energy</li>
-      </ul>
-    </div>
-  </div>
-</section>
+          eventCards.forEach((card) => {
+            if (filter === "all") {
+              card.classList.remove("hiddenEvent");
+              return;
+            }
 
-<section class="container brandStory">
-  <h2>The Allure Experience</h2>
-  <p>
-    Allure Bar &amp; Lounge blends upscale nightlife with relaxed lounge culture.
-    Guests enjoy signature cocktails, VIP bottle service, DJ-driven music,
-    and a stylish atmosphere designed for unforgettable nights in Washington DC.
-  </p>
-</section>
-
-</main>
-
-<footer class="footerPremium">
-  <div class="container">
-    <div class="footerPremium__grid">
-      <div>
-        <div class="footerBrand">Allure Bar &amp; Lounge</div>
-        <div class="footerText">
-          Premium nightlife, VIP sections, signature cocktails, and weekly events built for a polished Washington DC lounge crowd.
-        </div>
-      </div>
-
-      <div>
-        <div class="footerHead">Explore</div>
-        <div class="footerLinks">
-          <a href="index.html">Home</a>
-          <a href="menu.html">Menu</a>
-          <a href="events.html">Events</a>
-          <a href="gallery.html">Gallery</a>
-        </div>
-      </div>
-
-      <div>
-        <div class="footerHead">Reservations</div>
-        <div class="footerLinks">
-          <a href="tel:2022974949">Call 202-297-4949</a>
-          <a href="#" class="openBooking">Book VIP</a>
-          <a href="about.html">About Allure</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footerBottom">
-      <span>© Allure Bar &amp; Lounge</span>
-      <span>Washington, DC</span>
-    </div>
-  </div>
-</footer>
-
-<a class="mobileStickyReserve openBooking" href="#book-vip">Reserve VIP Now</a>
-
-<div class="modal" id="bookingModal" aria-hidden="true">
-  <div class="modalBackdrop"></div>
-  <div class="modalPanel">
-    <div class="modalHead">
-      <div class="modalTitle">VIP Booking Request</div>
-      <button class="modalClose" type="button" aria-label="Close">×</button>
-    </div>
-
-    <div class="modalSub">
-      Fill this out and tap send. Your phone will open a text message with your booking details.
-    </div>
-
-    <form id="bookingForm">
-      <div class="formGrid">
-        <div class="formField">
-          <label for="bookName">Name</label>
-          <input id="bookName" type="text" placeholder="Full name">
-        </div>
-
-        <div class="formField">
-          <label for="bookPhone">Phone</label>
-          <input id="bookPhone" type="tel" placeholder="Phone number">
-        </div>
-      </div>
-
-      <div class="formGrid">
-        <div class="formField">
-          <label for="bookDate">Date</label>
-          <input id="bookDate" type="date">
-        </div>
-
-        <div class="formField">
-          <label for="bookGuests">Guests</label>
-          <select id="bookGuests">
-            <option value="">Select</option>
-            <option>2-4</option>
-            <option>5-8</option>
-            <option>9-12</option>
-            <option>12+</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="formGrid">
-        <div class="formField">
-          <label for="bookPackage">Package</label>
-          <select id="bookPackage">
-            <option value="">Select</option>
-            <option>Gold</option>
-            <option>Platinum</option>
-            <option>Celebration</option>
-          </select>
-        </div>
-
-        <div class="formField">
-          <label for="bookTime">Preferred Time</label>
-          <input id="bookTime" type="text" placeholder="10:30 PM">
-        </div>
-      </div>
-
-      <div class="formField">
-        <label for="bookNotes">Notes</label>
-        <textarea id="bookNotes" placeholder="Birthday, special setup, section request..."></textarea>
-      </div>
-
-      <div class="formActions">
-        <button class="btnGold" type="submit">Send Request</button>
-        <a class="btnGhost" href="tel:2022974949">Call Instead</a>
-      </div>
-
-      <div class="formHint">This opens your text message app.</div>
-    </form>
-  </div>
-</div>
-
-<div class="lightbox" id="flyerLightbox" aria-hidden="true">
-  <div class="lightboxBackdrop"></div>
-  <div class="lightboxPanel">
-    <button class="lightboxClose" type="button" aria-label="Close">×</button>
-    <img class="lightboxImg" id="lightboxImg" src="" alt="">
-    <div class="lightboxCaption" id="lightboxCaption"></div>
-  </div>
-</div>
-
-<script>
-(() => {
-  const btn = document.querySelector(".nav__toggle");
-  const nav = document.querySelector(".nav__list");
-  if (btn && nav) {
-    btn.addEventListener("click", () => {
-      const open = nav.classList.toggle("is-open");
-      btn.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-  }
-
-  const flyerImages = document.querySelectorAll(".flyerPoster img");
-  flyerImages.forEach((img) => {
-    img.addEventListener("error", () => {
-      img.style.display = "none";
-      img.parentElement.classList.add("imgFallback");
-    });
-  });
-
-  const slides = document.querySelectorAll(".flyerSlide");
-  const dots = document.querySelectorAll(".flyerDot");
-  let current = 0;
-  let timer = null;
-
-  function showSlide(index){
-    slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
-    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
-    current = index;
-  }
-
-  function nextSlide(){
-    let next = current + 1;
-    if(next >= slides.length) next = 0;
-    showSlide(next);
-  }
-
-  function startSlider(){
-    timer = setInterval(nextSlide, 4500);
-  }
-
-  function resetSlider(){
-    clearInterval(timer);
-    startSlider();
-  }
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      showSlide(index);
-      resetSlider();
-    });
-  });
-
-  startSlider();
-
-  const EVENTS = [
-    { name: "Free Hookah Monday", label: "Monday • 5PM", day: 1, hour: 17 },
-    { name: "Taco Tuesday", label: "Tuesday • 5PM", day: 2, hour: 17 },
-    { name: "Karaoke Thursday", label: "Thursday • 5PM", day: 4, hour: 17 },
-    { name: "Allure Friday", label: "Friday • 5PM", day: 5, hour: 17 },
-    { name: "Allure Saturday", label: "Saturday • 5PM", day: 6, hour: 17 },
-    { name: "Sunday Social", label: "Sunday • 5PM", day: 0, hour: 17 }
-  ];
-
-  function getNextEventDate(dayIndex, hour){
-    const now = new Date();
-    const target = new Date(now);
-    let diff = dayIndex - now.getDay();
-    if (diff < 0) diff += 7;
-    target.setDate(now.getDate() + diff);
-    target.setHours(hour, 0, 0, 0);
-    if (diff === 0 && target <= now) {
-      target.setDate(target.getDate() + 7);
-    }
-    return target;
-  }
-
-  let nextEvent = null;
-  let nextEventDate = null;
-
-  EVENTS.forEach((event) => {
-    const date = getNextEventDate(event.day, event.hour);
-    if (!nextEventDate || date < nextEventDate) {
-      nextEventDate = date;
-      nextEvent = event;
-    }
-  });
-
-  document.getElementById("countdownEventName").textContent = nextEvent.name;
-  document.getElementById("countdownEventMeta").textContent = nextEvent.label;
-
-  function updateCountdown(){
-    const now = new Date();
-    let diff = Math.max(0, nextEventDate.getTime() - now.getTime());
-
-    const days = Math.floor(diff / 86400000);
-    diff -= days * 86400000;
-
-    const hours = Math.floor(diff / 3600000);
-    diff -= hours * 3600000;
-
-    const minutes = Math.floor(diff / 60000);
-    diff -= minutes * 60000;
-
-    const seconds = Math.floor(diff / 1000);
-
-    document.getElementById("cdDays").textContent = String(days).padStart(2, "0");
-    document.getElementById("cdHours").textContent = String(hours).padStart(2, "0");
-    document.getElementById("cdMinutes").textContent = String(minutes).padStart(2, "0");
-    document.getElementById("cdSeconds").textContent = String(seconds).padStart(2, "0");
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  const modal = document.getElementById("bookingModal");
-  const modalBackdrop = modal.querySelector(".modalBackdrop");
-  const modalClose = modal.querySelector(".modalClose");
-  const openButtons = document.querySelectorAll(".openBooking");
-
-  function openModal(e){
-    if (e) e.preventDefault();
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-  }
-
-  function closeModal(){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-  }
-
-  openButtons.forEach((button) => {
-    button.addEventListener("click", openModal);
-  });
-
-  modalBackdrop.addEventListener("click", closeModal);
-  modalClose.addEventListener("click", closeModal);
-
-  document.getElementById("bookingForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById("bookName").value.trim();
-    const phone = document.getElementById("bookPhone").value.trim();
-    const date = document.getElementById("bookDate").value.trim();
-    const guests = document.getElementById("bookGuests").value.trim();
-    const pack = document.getElementById("bookPackage").value.trim();
-    const time = document.getElementById("bookTime").value.trim();
-    const notes = document.getElementById("bookNotes").value.trim();
-
-    const smsBody =
-      `VIP Booking Request%0A` +
-      `Name: ${name || "-"}%0A` +
-      `Phone: ${phone || "-"}%0A` +
-      `Date: ${date || "-"}%0A` +
-      `Guests: ${guests || "-"}%0A` +
-      `Package: ${pack || "-"}%0A` +
-      `Preferred Time: ${time || "-"}%0A` +
-      `Notes: ${notes || "-"}`;
-
-    window.location.href = `sms:2022974949?body=${smsBody}`;
-  });
-
-  const filterBtns = document.querySelectorAll(".filterBtn");
-  const eventCards = document.querySelectorAll(".eventCard");
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const filter = btn.dataset.filter;
-
-      eventCards.forEach((card) => {
-        if (filter === "all") {
-          card.classList.remove("hiddenEvent");
-          return;
-        }
-
-        const tags = card.dataset.tags || "";
-        if (tags.includes(filter)) {
-          card.classList.remove("hiddenEvent");
-        } else {
-          card.classList.add("hiddenEvent");
-        }
+            const tags = card.dataset.tags || "";
+            if (tags.includes(filter)) {
+              card.classList.remove("hiddenEvent");
+            } else {
+              card.classList.add("hiddenEvent");
+            }
+          });
+        });
       });
-    });
-  });
+    })();
+  </script>
+  <script src="assets/js/main.js"></script>
 
-  const lightbox = document.getElementById("flyerLightbox");
-  const lightboxBackdrop = lightbox.querySelector(".lightboxBackdrop");
-  const lightboxClose = lightbox.querySelector(".lightboxClose");
-  const lightboxImg = document.getElementById("lightboxImg");
-  const lightboxCaption = document.getElementById("lightboxCaption");
-  const flyerPosters = document.querySelectorAll(".flyerPoster");
-
-  function openLightbox(src, title){
-    lightboxImg.src = src;
-    lightboxImg.alt = title;
-    lightboxCaption.textContent = title;
-    lightbox.classList.add("open");
-    lightbox.setAttribute("aria-hidden", "false");
-  }
-
-  function closeLightbox(){
-    lightbox.classList.remove("open");
-    lightbox.setAttribute("aria-hidden", "true");
-    lightboxImg.src = "";
-  }
-
-  flyerPosters.forEach((poster) => {
-    poster.addEventListener("click", (e) => {
-      if (e.target.closest(".btnGold") || e.target.closest(".btnGhost")) return;
-      openLightbox(poster.dataset.lightboxSrc, poster.dataset.lightboxTitle);
-    });
-  });
-
-  lightboxBackdrop.addEventListener("click", closeLightbox);
-  lightboxClose.addEventListener("click", closeLightbox);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeModal();
-      closeLightbox();
-    }
-  });
-})();
-</script>
-<script src="assets/js/main.js"></script>
 </body>
 </html>
