@@ -2,255 +2,238 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Location | Allure Bar & Lounge | Washington, DC</title>
 
-<meta name="description" content="Visit Allure Bar & Lounge at 711 H St NE Washington DC 20002. Find our hours, directions, and plan your next night out.">
+<meta name="description" content="Visit Allure Bar & Lounge at 711 H St NE, Washington, DC 20002. Find directions, hours, contact info, and plan your next night out.">
 
 <link rel="stylesheet" href="assets/css/styles.css">
 
 <style>
 
-:root{
---gold:#d7b46a;
---gold2:#f2d38a;
---panel:rgba(255,255,255,.06);
---line:rgba(255,255,255,.10);
---textSoft:rgba(255,255,255,.78);
+.locationHero{
+padding:84px 0 36px;
 }
 
-*{box-sizing:border-box;}
-
-body{
-margin:0;
-background:
-radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
-radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
-linear-gradient(180deg,#07070a,#0a0a10);
-color:#fff;
-font-family:Arial, sans-serif;
-}
-
-.container{
-width:90%;
-max-width:1200px;
-margin:auto;
-}
-
-.glassCard{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:20px;
-box-shadow:0 18px 60px rgba(0,0,0,.22);
-}
-
-.btnGold{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-padding:12px 20px;
-background:var(--gold);
-color:#111;
-text-decoration:none;
-border-radius:10px;
-font-weight:900;
-}
-
-.btnGhost{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-padding:12px 20px;
-border:1px solid rgba(255,255,255,.14);
-color:#fff;
-text-decoration:none;
-border-radius:10px;
-font-weight:800;
-background:rgba(255,255,255,.04);
-}
-
-.sectionTitle{
-font-size:30px;
+.locationKicker{
+display:inline-block;
+color:var(--gold2);
+letter-spacing:.16em;
+text-transform:uppercase;
+font-size:12px;
 font-weight:900;
 margin-bottom:10px;
-}
-
-.sectionText{
-color:var(--textSoft);
-line-height:1.65;
-}
-
-/* HERO */
-
-.locationHero{
-padding:80px 0 30px;
 }
 
 .locationHero h1{
 font-size:52px;
-margin-bottom:10px;
+line-height:1.05;
+margin:0 0 12px;
 }
 
 .locationHero p{
-max-width:700px;
-color:rgba(255,255,255,.85);
+max-width:720px;
+color:rgba(255,255,255,.84);
+line-height:1.7;
+margin:0;
+font-size:16px;
 }
 
-/* MAP SECTION */
+.locationStats{
+margin-top:26px;
+padding:14px;
+}
 
-.locationSplit{
+.locationMain{
 margin-top:40px;
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+grid-template-columns:1.05fr .95fr;
+gap:24px;
+align-items:start;
 }
 
-.locationInfo{
-padding:28px;
+.locationInfoCard{
+padding:26px;
 }
 
-.locationInfo h2{
-font-size:32px;
-margin-bottom:10px;
+.locationInfoTitle{
+font-size:30px;
+font-weight:900;
+margin:0 0 12px;
 }
 
-.locationMeta{
+.locationInfoText{
+color:var(--textSoft);
+line-height:1.7;
+margin:0 0 18px;
+}
+
+.locationList{
 display:grid;
 gap:12px;
-margin-top:20px;
 }
 
-.locationMetaRow{
+.locationRow{
 display:flex;
 justify-content:space-between;
+gap:16px;
 padding:14px 16px;
 border-radius:14px;
 border:1px solid rgba(255,255,255,.08);
 background:rgba(255,255,255,.03);
 }
 
-.locationMap{
-border-radius:20px;
+.locationRowLabel{
+font-weight:800;
+color:rgba(255,255,255,.74);
+}
+
+.locationRowValue{
+font-weight:900;
+text-align:right;
+}
+
+.locationMapWrap{
 overflow:hidden;
+border-radius:20px;
 border:1px solid var(--line);
+box-shadow:var(--shadow);
+background:rgba(255,255,255,.04);
 }
 
-.locationMap iframe{
+.locationMapWrap iframe{
 width:100%;
-height:420px;
+height:100%;
+min-height:460px;
 border:0;
-filter:grayscale(1) contrast(1.05) brightness(.8);
+display:block;
+filter:grayscale(1) contrast(1.03) brightness(.88);
 }
-
-/* HOURS */
 
 .hoursSection{
-margin-top:50px;
-padding:28px;
+margin-top:60px;
 }
 
 .hoursGrid{
 margin-top:20px;
 display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.hoursCard,
+.visitTipsCard{
+padding:24px;
+}
+
+.hoursCard h2,
+.visitTipsCard h2{
+margin:0 0 10px;
+font-size:28px;
+font-weight:900;
+}
+
+.hoursRows{
+display:grid;
 gap:10px;
+margin-top:18px;
 }
 
 .hoursRow{
 display:flex;
 justify-content:space-between;
+gap:14px;
 padding:14px 16px;
 border-radius:14px;
 border:1px solid rgba(255,255,255,.08);
 background:rgba(255,255,255,.03);
-font-weight:700;
+font-weight:800;
 }
 
-/* CTA */
+.visitTipsList{
+display:grid;
+gap:12px;
+margin-top:18px;
+}
+
+.visitTip{
+padding:14px 16px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.08);
+background:rgba(255,255,255,.03);
+color:var(--textSoft);
+line-height:1.65;
+}
 
 .locationCTA{
 margin-top:60px;
-padding:30px;
-display:flex;
-justify-content:space-between;
+padding:28px;
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:24px;
 align-items:center;
-flex-wrap:wrap;
-gap:20px;
 }
 
-/* FOOTER */
-
-.footerPremium{
-margin-top:80px;
-padding:36px 0 90px;
-border-top:1px solid rgba(255,255,255,.08);
-background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.03));
+.locationCTATitle{
+font-size:34px;
+font-weight:950;
+line-height:1.05;
+margin:0 0 10px;
 }
 
-.footerGrid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:20px;
+.locationCTAText{
+color:var(--textSoft);
+line-height:1.7;
+margin:0;
 }
 
-.footerBrand{
-font-size:22px;
-font-weight:900;
-}
-
-.footerLinks{
-display:grid;
-gap:10px;
-}
-
-.footerLinks a{
-color:rgba(255,255,255,.82);
-text-decoration:none;
-}
-
-.footerLinks a:hover{
-color:var(--gold2);
-}
-
-.footerBottom{
-margin-top:20px;
-border-top:1px solid rgba(255,255,255,.08);
-padding-top:10px;
-color:rgba(255,255,255,.6);
-font-size:13px;
+.locationCTAActions{
 display:flex;
-justify-content:space-between;
-}
-
-/* MOBILE */
-
-.mobileReserve{
-position:fixed;
-left:14px;
-right:14px;
-bottom:14px;
-background:var(--gold);
-color:#111;
-text-align:center;
-padding:14px;
-border-radius:999px;
-font-weight:900;
-text-decoration:none;
-display:none;
+flex-wrap:wrap;
+gap:12px;
+justify-content:flex-end;
 }
 
 @media(max-width:900px){
 
-.locationSplit{
+.locationHero h1{
+font-size:40px;
+}
+
+.locationMain,
+.hoursGrid,
+.locationCTA{
 grid-template-columns:1fr;
 }
 
-.footerGrid{
-grid-template-columns:1fr;
+.locationCTAActions{
+justify-content:flex-start;
 }
 
-.mobileReserve{
-display:block;
+}
+
+@media(max-width:560px){
+
+.locationHero h1{
+font-size:34px;
+}
+
+.locationInfoTitle,
+.hoursCard h2,
+.visitTipsCard h2,
+.locationCTATitle{
+font-size:26px;
+}
+
+.locationRow,
+.hoursRow{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.locationRowValue{
+text-align:left;
 }
 
 }
@@ -265,14 +248,22 @@ display:block;
 
 <a class="brand" href="index.html">Allure Bar & Lounge</a>
 
+<button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+
 <nav class="nav">
-<ul id="navMenu" class="nav__list">
+<ul class="nav__list" id="siteNav">
+
+<li><a href="index.html">Home</a></li>
 <li><a href="menu.html">Menu</a></li>
 <li><a href="events.html">Events</a></li>
 <li><a href="gallery.html">Gallery</a></li>
 <li><a href="about.html">About</a></li>
-<li><a href="location.html">Location</a></li>
-<li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
+<li><a href="location.html" class="active">Location</a></li>
+
+<li>
+<a class="btnGold" href="tel:2022974949">Reserve Now</a>
+</li>
+
 </ul>
 </nav>
 
@@ -281,59 +272,91 @@ display:block;
 
 <main>
 
-<section class="locationHero container">
-<h1>Visit Allure</h1>
+<section class="locationHero container fadeUp">
+
+<div class="locationKicker">Visit Allure</div>
+
+<h1>Find Us in the Heart of Washington, DC</h1>
+
 <p>
-Find Allure Bar & Lounge in the heart of Washington, DC at 711 H St NE.
-Join us for cocktails, weekly events, and premium nightlife energy.
+Allure Bar & Lounge is located at 711 H St NE, Washington, DC 20002.
+Join us for premium cocktails, curated weekly events, VIP sections,
+and a polished nightlife atmosphere built for memorable nights.
 </p>
 
-<div style="margin-top:20px;">
-<a href="tel:2022974949" class="btnGold">Call Now</a>
-<a href="events.html" class="btnGhost">See Events</a>
+<div class="locationStats statsGrid glassCard">
+
+<div class="statBox">
+<div class="statNum">711</div>
+<div class="statLabel">H St NE</div>
 </div>
+
+<div class="statBox">
+<div class="statNum">DC</div>
+<div class="statLabel">Nightlife District</div>
+</div>
+
+<div class="statBox">
+<div class="statNum">5PM</div>
+<div class="statLabel">Doors Open</div>
+</div>
+
+<div class="statBox">
+<div class="statNum">2AM</div>
+<div class="statLabel">Weekend Close</div>
+</div>
+
+</div>
+
 </section>
 
-<section class="container locationSplit">
+<section class="container locationMain fadeUp delay1">
 
-<div class="locationInfo glassCard">
+<div class="locationInfoCard glassCard">
 
-<h2>Location Details</h2>
+<h2 class="locationInfoTitle">Location Details</h2>
 
-<p class="sectionText">
-Allure Bar & Lounge is located on H Street NE, one of Washington DC’s
-most vibrant nightlife districts.
+<p class="locationInfoText">
+Allure Bar & Lounge sits on H Street NE, one of the city’s most active nightlife corridors.
+Whether you’re planning a casual evening, a birthday, or a full VIP night out,
+this location puts you in the center of the experience.
 </p>
 
-<div class="locationMeta">
+<div class="locationList">
 
-<div class="locationMetaRow">
-<span>Venue</span>
-<span>Allure Bar & Lounge</span>
+<div class="locationRow">
+<div class="locationRowLabel">Venue</div>
+<div class="locationRowValue">Allure Bar &amp; Lounge</div>
 </div>
 
-<div class="locationMetaRow">
-<span>Address</span>
-<span>711 H St NE Washington DC</span>
+<div class="locationRow">
+<div class="locationRowLabel">Address</div>
+<div class="locationRowValue">711 H St NE, Washington, DC 20002</div>
 </div>
 
-<div class="locationMetaRow">
-<span>Zip Code</span>
-<span>20002</span>
+<div class="locationRow">
+<div class="locationRowLabel">Phone</div>
+<div class="locationRowValue">202-297-4949</div>
 </div>
 
-<div class="locationMetaRow">
-<span>Phone</span>
-<span>202-297-4949</span>
+<div class="locationRow">
+<div class="locationRowLabel">Reservations</div>
+<div class="locationRowValue">Walk-ins + VIP Booking</div>
+</div>
+
+<div class="locationRow">
+<div class="locationRowLabel">Neighborhood</div>
+<div class="locationRowValue">H Street NE</div>
 </div>
 
 </div>
 
 </div>
 
-<div class="locationMap">
+<div class="locationMapWrap">
 
 <iframe
+title="Allure Bar & Lounge Map"
 loading="lazy"
 referrerpolicy="no-referrer-when-downgrade"
 src="https://www.google.com/maps?q=711%20H%20St%20NE%2C%20Washington%2C%20DC%2020002&z=16&output=embed">
@@ -343,11 +366,18 @@ src="https://www.google.com/maps?q=711%20H%20St%20NE%2C%20Washington%2C%20DC%202
 
 </section>
 
-<section class="container hoursSection glassCard">
+<section class="container hoursSection fadeUp delay2">
 
-<h2 class="sectionTitle">Hours</h2>
+<h2 class="sectionTitle">Hours & Visit Info</h2>
+<p class="sectionText">Plan ahead so your night starts smoothly.</p>
 
 <div class="hoursGrid">
+
+<div class="hoursCard glassCard">
+
+<h2>Hours</h2>
+
+<div class="hoursRows">
 
 <div class="hoursRow">
 <span>Monday</span>
@@ -386,20 +416,61 @@ src="https://www.google.com/maps?q=711%20H%20St%20NE%2C%20Washington%2C%20DC%202
 
 </div>
 
-</section>
-
-<section class="container locationCTA glassCard">
-
-<div>
-<h2>Plan Your Night at Allure</h2>
-<p class="sectionText">
-Call ahead for VIP reservations or check the weekly events lineup before visiting.
-</p>
 </div>
 
+<div class="visitTipsCard glassCard">
+
+<h2>Visit Tips</h2>
+
+<div class="visitTipsList">
+
+<div class="visitTip">
+Call ahead for VIP reservations, birthdays, and premium table requests.
+</div>
+
+<div class="visitTip">
+Weekend nights are the strongest times for bottle service, crowd energy, and late-night lounge vibes.
+</div>
+
+<div class="visitTip">
+Arriving earlier gives you a smoother start, better seating options, and easier entry into the night.
+</div>
+
+<div class="visitTip">
+Check the menu and events pages before you arrive so you know the night’s specials and overall vibe.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="container fadeUp delay3">
+
+<div class="locationCTA glassCard">
+
 <div>
-<a href="tel:2022974949" class="btnGold">Reserve by Phone</a>
-<a href="events.html" class="btnGhost">See Events</a>
+
+<h2 class="locationCTATitle">Ready for Your Next Night Out?</h2>
+
+<p class="locationCTAText">
+Call ahead, plan your visit, and make your next stop at Allure
+a premium Washington, DC nightlife experience.
+</p>
+
+</div>
+
+<div class="locationCTAActions">
+
+<a class="btnGold" href="tel:2022974949">Reserve by Phone</a>
+<a class="btnGhost" href="events.html">See Events</a>
+<a class="btnGhost" href="menu.html">View Menu</a>
+
+</div>
+
 </div>
 
 </section>
@@ -410,53 +481,51 @@ Call ahead for VIP reservations or check the weekly events lineup before visitin
 
 <div class="container">
 
-<div class="footerGrid">
+<div class="footerPremium__grid">
 
 <div>
 <div class="footerBrand">Allure Bar & Lounge</div>
-<p class="sectionText">
-Premium cocktails, curated events, and upscale nightlife energy in Washington DC.
-</p>
+<div class="footerText">
+Premium nightlife, curated weekly events, cocktails, and upscale lounge energy
+in Washington, DC.
+</div>
 </div>
 
+<div>
+<div class="footerHead">Explore</div>
 <div class="footerLinks">
 <a href="index.html">Home</a>
 <a href="menu.html">Menu</a>
 <a href="events.html">Events</a>
 <a href="gallery.html">Gallery</a>
 </div>
+</div>
 
+<div>
+<div class="footerHead">Visit</div>
 <div class="footerLinks">
-<a href="tel:2022974949">Call 202-297-4949</a>
-<a href="about.html">About</a>
-<a href="location.html">Location</a>
+<a href="location.html">711 H St NE</a>
+<a href="tel:2022974949">202-297-4949</a>
+<a href="events.html">Weekly Events</a>
+</div>
 </div>
 
 </div>
 
 <div class="footerBottom">
+
 <span>© Allure Bar & Lounge</span>
-<span>Washington DC</span>
+<span>Washington, DC</span>
+
 </div>
 
 </div>
 
 </footer>
 
-<a class="mobileReserve" href="tel:2022974949">Reserve Now</a>
+<a class="mobileStickyReserve" href="tel:2022974949">Reserve Now</a>
 
-<script>
-(() => {
-const btn=document.querySelector(".nav__toggle");
-const nav=document.querySelector(".nav__list");
-if(btn && nav){
-btn.addEventListener("click",()=>{
-const open=nav.classList.toggle("is-open");
-btn.setAttribute("aria-expanded",open?"true":"false");
-});
-}
-})();
-</script>
 <script src="assets/js/main.js"></script>
+
 </body>
 </html>
