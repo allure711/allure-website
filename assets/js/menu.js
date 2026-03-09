@@ -1,9 +1,3 @@
-const PHONE = "+12022974949";
-
-/* =========================
-   DAY CONTENT
-========================= */
-
 const DAY_CONTENT = {
   monday: {
     promoTitle: "FREE HOOKAH MONDAY",
@@ -105,10 +99,6 @@ const DAY_CONTENT = {
   }
 };
 
-/* =========================
-   CATEGORY CONTENT
-========================= */
-
 const CATEGORY_CONTENT = {
   food: [
     { name: "Wings", desc: "Crispy wings with house sauce.", price: "$12+" },
@@ -117,85 +107,70 @@ const CATEGORY_CONTENT = {
     { name: "Shrimp Tacos", desc: "Grilled shrimp tacos.", price: "$16" },
     { name: "Rasta Pasta", desc: "Creamy jerk pasta.", price: "$16+" }
   ],
-
   shots5: [
     { name: "Green Tea Shot", desc: "Smooth and sweet house favorite.", price: "$5" },
     { name: "Lemon Drop Shot", desc: "Citrus-forward party shot.", price: "$5" },
     { name: "Tequila Shot", desc: "Select house tequila.", price: "$5" }
   ],
-
   shots7: [
     { name: "Casamigos Shot", desc: "Premium tequila shot.", price: "$7" },
     { name: "Patron Shot", desc: "Top shelf tequila option.", price: "$7" },
     { name: "Hennessy Shot", desc: "Premium cognac pour.", price: "$7" }
   ],
-
   drinks10: [
     { name: "Rum Punch", desc: "House rum punch mix.", price: "$10" },
     { name: "Vodka Cranberry", desc: "Simple mixed drink favorite.", price: "$10" },
     { name: "Tequila Sunrise", desc: "Classic mixed drink.", price: "$10" }
   ],
-
   drinks14: [
     { name: "Hennessy Mix", desc: "Premium mixed drink.", price: "$14" },
     { name: "Casamigos Mix", desc: "Top shelf tequila mixed drink.", price: "$14" },
     { name: "Patron Mix", desc: "Premium tequila cocktail.", price: "$14" }
   ],
-
   cocktails10: [
     { name: "Allure Lemon Drop", desc: "Signature cocktail.", price: "$10" },
     { name: "Moscow Mule", desc: "Vodka, ginger beer, lime.", price: "$10" },
     { name: "Margarita", desc: "Fresh citrus margarita.", price: "$10" },
     { name: "Long Island", desc: "Strong house favorite.", price: "$10" }
   ],
-
   premium: [
     { name: "Don Julio 1942", desc: "Premium tequila bottle or pour.", price: "Market" },
     { name: "Clase Azul", desc: "Luxury tequila option.", price: "Market" },
     { name: "Ace of Spades", desc: "Premium champagne selection.", price: "Market" }
   ],
-
   wine6: [
     { name: "House White", desc: "White wine by the glass.", price: "$6" },
     { name: "House Red", desc: "Red wine by the glass.", price: "$6" }
   ],
-
   beer4: [
     { name: "Domestic Beer", desc: "Selected domestic beers.", price: "$4" },
     { name: "Imported Beer", desc: "Ask for current import selection.", price: "$4+" }
   ],
-
   highnoon8: [
     { name: "High Noon Pineapple", desc: "Vodka seltzer.", price: "$8" },
     { name: "High Noon Watermelon", desc: "Vodka seltzer.", price: "$8" },
     { name: "High Noon Peach", desc: "Vodka seltzer.", price: "$8" }
   ],
-
   na: [
     { name: "Mocktail", desc: "House non-alcoholic drink.", price: "$8" },
     { name: "Soft Drink", desc: "Coke, Sprite, Ginger Ale.", price: "$4" },
     { name: "Red Bull", desc: "Regular or sugar free.", price: "$6" }
   ],
-
   hookah23: [
     { name: "House Hookah", desc: "Standard hookah flavor selection.", price: "$23" },
     { name: "Mint Hookah", desc: "Cool and smooth flavor option.", price: "$23" },
     { name: "Fruit Mix Hookah", desc: "Popular house fruit blend.", price: "$23" }
   ],
-
   refill12: [
     { name: "Hookah Refill", desc: "Refresh your bowl.", price: "$12" }
   ],
-
   tower43: [
     { name: "Drink Tower", desc: "Large table drink tower.", price: "$43" }
   ],
-
   fishbowl23: [
     { name: "Blue Fishbowl", desc: "Large share cocktail.", price: "$23" },
     { name: "Tropical Fishbowl", desc: "Fruit-forward share drink.", price: "$23" }
   ],
-
   bottles: [
     { name: "Hennessy Bottle", desc: "Bottle service option.", price: "VIP" },
     { name: "Casamigos Bottle", desc: "Premium bottle service.", price: "VIP" },
@@ -204,24 +179,8 @@ const CATEGORY_CONTENT = {
   ]
 };
 
-/* =========================
-   HELPERS
-========================= */
-
-function getDayData(day) {
-  return DAY_CONTENT[day] || DAY_CONTENT.monday;
-}
-
 function getToday() {
-  const days = [
-    "sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday"
-  ];
+  const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   return days[new Date().getDay()];
 }
 
@@ -252,9 +211,10 @@ function createMenuList(items) {
 }
 
 function renderVipBanner(day) {
-  const c = getDayData(day);
-  const section = document.createElement("section");
+  const c = DAY_CONTENT[day];
+  if (!c) return null;
 
+  const section = document.createElement("section");
   section.className = "vipNightBanner reveal";
   section.innerHTML = `
     <div class="vipNightBanner__badge">${c.badge}</div>
@@ -262,14 +222,14 @@ function renderVipBanner(day) {
     <div class="vipNightBanner__meta">${c.bannerMeta}</div>
     <div class="vipNightBanner__lineup">DJ: ${c.lineup}</div>
   `;
-
   return section;
 }
 
 function renderPopular(day) {
-  const c = getDayData(day);
-  const section = document.createElement("section");
+  const c = DAY_CONTENT[day];
+  if (!c) return null;
 
+  const section = document.createElement("section");
   section.className = "popularTonight reveal";
   section.innerHTML = `
     <div class="popularTonight__title">🔥 Popular Tonight</div>
@@ -282,13 +242,8 @@ function renderPopular(day) {
       `).join("")}
     </div>
   `;
-
   return section;
 }
-
-/* =========================
-   CATEGORY SYSTEM
-========================= */
 
 function setupCategoryBar(bar) {
   const scope = bar.dataset.scope;
@@ -321,26 +276,20 @@ function setupPanel(panel, day) {
   if (hero) {
     const banner = renderVipBanner(day);
     const popular = renderPopular(day);
-    hero.after(banner);
-    banner.after(popular);
+
+    if (banner) hero.after(banner);
+    if (banner && popular) banner.after(popular);
   }
 
   panel.querySelectorAll(".catBar").forEach(bar => setupCategoryBar(bar));
 }
 
-/* =========================
-   DAY SWITCH
-========================= */
-
 function activateDay(day) {
-  const tabs = document.querySelectorAll(".dayTab");
-  const panels = document.querySelectorAll(".dayPanel");
-
-  tabs.forEach(tab => {
+  document.querySelectorAll(".dayTab").forEach(tab => {
     tab.classList.toggle("active", tab.dataset.daytab === day);
   });
 
-  panels.forEach(panel => {
+  document.querySelectorAll(".dayPanel").forEach(panel => {
     const isActive = panel.dataset.daypanel === day;
     panel.classList.toggle("active", isActive);
 
@@ -358,13 +307,8 @@ function bindDayTabs() {
   });
 }
 
-/* =========================
-   INIT
-========================= */
-
 document.addEventListener("DOMContentLoaded", () => {
   bindDayTabs();
-
   const today = getToday();
   const allowed = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   activateDay(allowed.includes(today) ? today : "monday");
