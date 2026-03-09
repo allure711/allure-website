@@ -136,3 +136,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activateDay(getTodayMenuDay());
 });
+window.MENU_HIGHLIGHTS = {
+  sunday: [
+    { name: "Salmon Dinner", price: "$20" },
+    { name: "Hookah", price: "$23" },
+    { name: "House Wine", price: "$6" },
+    { name: "Fishbowl", price: "$23" }
+  ],
+  monday: [
+    { name: "Salmon Sliders", price: "$12" },
+    { name: "Hookah", price: "$23" },
+    { name: "Allure Lemon Drop", price: "$10" },
+    { name: "Fishbowl", price: "$23" }
+  ],
+  tuesday: [
+    { name: "Chicken Tacos", price: "$14" },
+    { name: "Shrimp Tacos", price: "$16" },
+    { name: "Margarita", price: "$10" },
+    { name: "Hookah", price: "$23" }
+  ],
+  wednesday: [
+    { name: "Rasta Pasta", price: "$16+" },
+    { name: "Vodka Mix", price: "$10" },
+    { name: "High Noon", price: "$8" },
+    { name: "Hookah", price: "$23" }
+  ],
+  thursday: [
+    { name: "Wings", price: "$12+" },
+    { name: "Long Island", price: "$10" },
+    { name: "Fishbowl", price: "$23" },
+    { name: "Hookah", price: "$23" }
+  ],
+  friday: [
+    { name: "Bottles", price: "VIP" },
+    { name: "Hookah", price: "$23" },
+    { name: "Fishbowl", price: "$23" },
+    { name: "Casamigos Mix", price: "$14" }
+  ],
+  saturday: [
+    { name: "Bottles", price: "VIP" },
+    { name: "Hookah", price: "$23" },
+    { name: "Fishbowl", price: "$23" },
+    { name: "Clase Azul", price: "Market" }
+  ]
+};
