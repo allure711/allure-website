@@ -18,12 +18,38 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function renderSectionedMenu(content) {
+  function filterSectionItemsByMode(section, mode) {
+    if (!mode) return section.items || [];
+
+    if (mode === "drinks") {
+      return (section.items || []).filter(item => {
+        const price = String(item.price || "");
+        return price.includes("/"); // "$5 / $10" or "$7 / $14"
+      }).map(item => {
+        const parts = String(item.price).split("/");
+        return {
+          ...item,
+          price: (parts[1] || parts[0] || "").trim()
+        };
+      });
+    }
+
+    return section.items || [];
+  }
+
+  function renderSectionedMenu(content, mode = null) {
     const sections = content.sections || [];
+    const filteredSections = sections
+      .map(section => ({
+        ...section,
+        items: filterSectionItemsByMode(section, mode)
+      }))
+      .filter(section => (section.items || []).length > 0);
+
     return `
       <div class="menuNested">
         <div class="menuSubTabs">
-          ${sections.map(section => `
+          ${filteredSections.map(section => `
             <button class="menuSubTab" type="button" data-subsection="${section.title}">
               ${section.title}
             </button>
@@ -34,11 +60,26 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function renderMenu(content) {
+  function renderSingleListFromSections(content, mode = null) {
+    const sections = content.sections || [];
+    const allItems = sections.flatMap(section => filterSectionItemsByMode(section, mode));
+
+    if (!allItems.length) {
+      return `
+        <div class="menuEmpty">
+          No items found in this section.
+        </div>
+      `;
+    }
+
+    return renderFlatMenu(allItems);
+  }
+
+  function renderMenu(content, mode = null) {
     if (!content) {
       return `
         <div class="menuEmpty">
-          Click a category on the left to view menu items.
+          Click a category above or below to view menu items.
         </div>
       `;
     }
@@ -48,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (content.sections) {
-      return renderSectionedMenu(content);
+      return renderSectionedMenu(content, mode);
     }
 
     return `
@@ -68,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!hero) return;
 
     const section = document.createElement("section");
-    section.className = "popularTonight reveal";
+    section.className = "popularTonight";
     section.innerHTML = `
       <div class="popularTonight__title">🔥 Popular Tonight</div>
       <div class="popularTonight__grid">
@@ -84,10 +125,15 @@ document.addEventListener("DOMContentLoaded", () => {
     hero.after(section);
   }
 
-  function bindSubTabs(panelBody, content) {
+  function bindSubTabs(panelBody, content, mode = null) {
     const tabs = panelBody.querySelectorAll(".menuSubTab");
     const subBody = panelBody.querySelector(".menuSubBody");
-    const sections = content.sections || [];
+    const sections = (content.sections || [])
+      .map(section => ({
+        ...section,
+        items: filterSectionItemsByMode(section, mode)
+      }))
+      .filter(section => (section.items || []).length > 0);
 
     if (!tabs.length || !subBody || !sections.length) return;
 
@@ -114,34 +160,51 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function setupSidebarLayout(layout) {
-    const buttons = [...layout.querySelectorAll(".menuSideBtn")];
-    const panelBody = layout.querySelector(".menuPanelBody");
+  function setupCenterWrap(wrap) {
+    const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
+    const panelBody = wrap.querySelector(".menuPanelBody");
 
     if (!buttons.length || !panelBody) return;
 
-    function activateCategory(cat) {
+    function activateButton(clickedButton) {
+      const cat = clickedButton.dataset.cat;
+      const mode = clickedButton.dataset.mode || null;
+
       buttons.forEach(button => {
-        button.classList.toggle("active", button.dataset.cat === cat);
+        button.classList.toggle("active", button === clickedButton);
       });
 
       const content = CATEGORY_CONTENT[cat];
-      panelBody.innerHTML = renderMenu(content);
 
-      if (content && content.sections) {
-        bindSubTabs(panelBody, content);
+      if (!content) {
+        panelBody.innerHTML = `
+          <div class="menuEmpty">
+            This section will be updated soon.
+          </div>
+        `;
+        return;
       }
+
+      // Food / grouped categories keep subsection tabs
+      if (content.sections) {
+        panelBody.innerHTML = renderMenu(content, mode);
+        bindSubTabs(panelBody, content, mode);
+        return;
+      }
+
+      // Fallback
+      panelBody.innerHTML = renderMenu(content, mode);
     }
 
     buttons.forEach(button => {
       button.addEventListener("click", () => {
-        activateCategory(button.dataset.cat);
+        activateButton(button);
       });
     });
 
     panelBody.innerHTML = `
       <div class="menuEmpty">
-        Click a category on the left to view menu items.
+        Click a category above or below to view menu items.
       </div>
     `;
   }
@@ -157,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isActive) {
         renderHighlights(day, panel);
-        panel.querySelectorAll(".menuSidebarLayout").forEach(setupSidebarLayout);
+        panel.querySelectorAll(".menuCenterWrap").forEach(setupCenterWrap);
       }
     });
   }
