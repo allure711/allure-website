@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
 
   function renderFlatMenu(items) {
     return `
@@ -39,18 +40,39 @@ document.addEventListener("DOMContentLoaded", () => {
     return "";
   }
 
-  function animateBodyOpen(body) {
-    body.classList.remove("menuBodyAnimated");
-    void body.offsetWidth;
-    body.classList.add("menuBodyAnimated");
+  function renderHighlights(day, panel) {
+    panel.querySelectorAll(".popularTonight").forEach(node => node.remove());
+
+    const items = MENU_HIGHLIGHTS[day];
+    if (!items || !items.length) return;
+
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
+
+    const section = document.createElement("section");
+    section.className = "popularTonight reveal";
+    section.innerHTML = `
+      <div class="popularTonight__title">🔥 Popular Tonight</div>
+      <div class="popularTonight__grid">
+        ${items.map(item => `
+          <div class="popularCard">
+            <span>${item.name}</span>
+            <span class="price">${item.price}</span>
+          </div>
+        `).join("")}
+      </div>
+    `;
+
+    hero.after(section);
   }
 
   function bindNestedTabs(body, content) {
-    const subTabs = body.querySelectorAll(".menuSubTab");
+    const tabs = body.querySelectorAll(".menuSubTab");
     const subBody = body.querySelector(".menuSubBody");
+    if (!tabs.length || !subBody) return;
 
     function activate(title) {
-      subTabs.forEach(tab => {
+      tabs.forEach(tab => {
         tab.classList.toggle("active", tab.dataset.subsection === title);
       });
 
@@ -63,11 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
           ${renderFlatMenu(section.items || [])}
         </div>
       `;
-
-      animateBodyOpen(subBody);
     }
 
-    subTabs.forEach(tab => {
+    tabs.forEach(tab => {
       tab.onclick = () => activate(tab.dataset.subsection);
     });
   }
@@ -77,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const panel = bar.closest(".dayPanel");
     const body = panel ? panel.querySelector(`[data-scopebody="${scope}"]`) : null;
     const buttons = [...bar.querySelectorAll(".cat")];
-
     if (!body || !buttons.length) return;
 
     function activate(cat) {
@@ -87,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const content = CATEGORY_CONTENT[cat];
       body.innerHTML = renderMenu(content);
-      animateBodyOpen(body);
 
       if (content && content.sections) {
         bindNestedTabs(body, content);
@@ -111,13 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
       panel.classList.toggle("active", active);
 
       if (active) {
+        renderHighlights(day, panel);
         panel.querySelectorAll(".catBar").forEach(setupCategoryBar);
       }
     });
   }
 
-  function getTodayMenuDay() {
-    const dayNames = [
+  function getTodayDay() {
+    const days = [
       "sunday",
       "monday",
       "tuesday",
@@ -126,57 +145,12 @@ document.addEventListener("DOMContentLoaded", () => {
       "friday",
       "saturday"
     ];
-
-    return dayNames[new Date().getDay()];
+    return days[new Date().getDay()];
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
     tab.onclick = () => activateDay(tab.dataset.daytab);
   });
 
-  activateDay(getTodayMenuDay());
+  activateDay(getTodayDay());
 });
-window.MENU_HIGHLIGHTS = {
-  sunday: [
-    { name: "Salmon Dinner", price: "$20" },
-    { name: "Hookah", price: "$23" },
-    { name: "House Wine", price: "$6" },
-    { name: "Fishbowl", price: "$23" }
-  ],
-  monday: [
-    { name: "Salmon Sliders", price: "$12" },
-    { name: "Hookah", price: "$23" },
-    { name: "Allure Lemon Drop", price: "$10" },
-    { name: "Fishbowl", price: "$23" }
-  ],
-  tuesday: [
-    { name: "Chicken Tacos", price: "$14" },
-    { name: "Shrimp Tacos", price: "$16" },
-    { name: "Margarita", price: "$10" },
-    { name: "Hookah", price: "$23" }
-  ],
-  wednesday: [
-    { name: "Rasta Pasta", price: "$16+" },
-    { name: "Vodka Mix", price: "$10" },
-    { name: "High Noon", price: "$8" },
-    { name: "Hookah", price: "$23" }
-  ],
-  thursday: [
-    { name: "Wings", price: "$12+" },
-    { name: "Long Island", price: "$10" },
-    { name: "Fishbowl", price: "$23" },
-    { name: "Hookah", price: "$23" }
-  ],
-  friday: [
-    { name: "Bottles", price: "VIP" },
-    { name: "Hookah", price: "$23" },
-    { name: "Fishbowl", price: "$23" },
-    { name: "Casamigos Mix", price: "$14" }
-  ],
-  saturday: [
-    { name: "Bottles", price: "VIP" },
-    { name: "Hookah", price: "$23" },
-    { name: "Fishbowl", price: "$23" },
-    { name: "Clase Azul", price: "Market" }
-  ]
-};
