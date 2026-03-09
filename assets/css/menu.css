@@ -530,3 +530,22 @@
 .menuSubBody{
   display:block;
 }
+.catBody,
+.menuSubBody{
+  transform-origin: top center;
+}
+
+.menuBodyAnimated{
+  animation: menuDropIn .32s ease;
+}
+
+@keyframes menuDropIn{
+  0%{
+    opacity:0;
+    transform:translateY(-8px) scaleY(.96);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) scaleY(1);
+  }
+}
