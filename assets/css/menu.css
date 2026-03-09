@@ -20,7 +20,7 @@
 }
 
 .menuWrap{
-  padding:34px 0 110px;
+  padding:10px 0 80px;
 }
 
 .menuHero{
@@ -38,7 +38,7 @@
 }
 
 .menuHero h1{
-  margin:0 0 12px;
+  margin:0 0 6px;
   font-size:clamp(38px,5vw,58px);
   line-height:1.02;
   letter-spacing:-.03em;
