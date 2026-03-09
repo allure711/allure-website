@@ -506,3 +506,148 @@
     white-space:normal;
   }
 }
+/* ===== Desktop one-screen tighter layout ===== */
+@media (min-width: 1024px){
+  .menuWrap{
+    padding:20px 0 60px;
+  }
+
+  .menuHero{
+    padding:20px 0 12px;
+  }
+
+  .menuHero h1{
+    font-size:48px;
+    margin-bottom:8px;
+  }
+
+  .menuHero p{
+    font-size:15px;
+    line-height:1.5;
+  }
+
+  .menuHeroActions{
+    margin-top:14px;
+    gap:10px;
+  }
+
+  .dayTabs{
+    margin:12px 0 16px;
+    gap:8px;
+  }
+
+  .dayTab{
+    padding:9px 12px;
+    font-size:14px;
+  }
+
+  .heroRow{
+    margin:4px 0 12px;
+    gap:12px;
+  }
+
+  .dayName{
+    font-size:28px;
+  }
+
+  .daySub{
+    margin-top:6px;
+    font-size:14px;
+  }
+
+  .menuCenterWrap{
+    gap:12px;
+  }
+
+  .menuSplit{
+    gap:14px;
+  }
+
+  .menuTopCategories,
+  .menuBottomCategories{
+    gap:8px;
+  }
+
+  .menuCenterBtn{
+    min-height:42px;
+    padding:8px 8px;
+    font-size:13px;
+    border-radius:12px;
+  }
+
+  .menuBigPanel{
+    min-height:250px;
+    padding:16px;
+    border-radius:18px;
+  }
+
+  .menuPanelTitle{
+    font-size:14px;
+    margin-bottom:10px;
+  }
+
+  .menuPanelBody{
+    min-height:150px;
+  }
+
+  .menuSubTabs{
+    gap:8px;
+  }
+
+  .menuSubTab{
+    padding:7px 10px;
+    font-size:13px;
+  }
+
+  .menuSectionBlock__title{
+    font-size:13px;
+    margin-bottom:8px;
+    padding-bottom:6px;
+  }
+
+  .menuList{
+    gap:8px;
+  }
+
+  .menuItem{
+    padding:10px 0;
+    gap:10px;
+  }
+
+  .menuItem__name{
+    font-size:14px;
+    margin-bottom:2px;
+  }
+
+  .menuItem__desc{
+    font-size:12px;
+    line-height:1.35;
+  }
+
+  .menuItem__price{
+    font-size:14px;
+  }
+
+  .reserveInline{
+    margin-top:14px;
+    padding:10px 14px;
+  }
+
+  .popularTonight{
+    margin:10px 0 12px;
+  }
+
+  .popularTonight__title{
+    margin-bottom:8px;
+    font-size:14px;
+  }
+
+  .popularTonight__grid{
+    gap:8px;
+  }
+
+  .popularCard{
+    padding:10px 12px;
+    font-size:13px;
+  }
+}
