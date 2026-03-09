@@ -7,346 +7,7 @@
   <meta name="description" content="Weekly nightlife events at Allure Bar & Lounge in Washington, DC. VIP sections, hookah, cocktails, DJs, and premium lounge vibes.">
 
   <link rel="stylesheet" href="assets/css/styles.css">
-
-  <style>
-    .eventsHero{
-      padding:84px 0 36px;
-    }
-
-    .eventsKicker{
-      display:inline-block;
-      color:var(--gold2);
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      font-size:12px;
-      font-weight:900;
-      margin-bottom:10px;
-    }
-
-    .eventsHero h1{
-      font-size:52px;
-      line-height:1.02;
-      margin:0 0 12px;
-    }
-
-    .eventsHero p{
-      opacity:.86;
-      max-width:680px;
-      line-height:1.65;
-      font-size:16px;
-      margin:0;
-    }
-
-    .eventsHeroActions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:22px;
-    }
-
-    .eventsStats{
-      margin-top:26px;
-    }
-
-    .flyerSection{
-      margin-top:30px;
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:20px;
-    }
-
-    .flyerMain{
-      min-height:460px;
-      border-radius:22px;
-      border:1px solid var(--line);
-      overflow:hidden;
-      position:relative;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(215,180,106,.16), transparent 35%),
-        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-        linear-gradient(135deg,#11111a,#171723 55%,#101018);
-      box-shadow:var(--shadow);
-    }
-
-    .flyerPoster{
-      width:100%;
-      height:100%;
-      position:relative;
-    }
-
-    .flyerPoster img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .flyerOverlay{
-      position:absolute;
-      inset:0;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      padding:28px;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.80)),
-        radial-gradient(circle at 70% 20%, rgba(255,255,255,.05), transparent 26%);
-    }
-
-    .flyerBadge{
-      display:inline-flex;
-      width:max-content;
-      margin-bottom:12px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(215,180,106,.30);
-      background:rgba(215,180,106,.12);
-      color:var(--gold2);
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-    }
-
-    .flyerDay{
-      font-size:44px;
-      font-weight:950;
-      line-height:1;
-      margin:0 0 8px;
-    }
-
-    .flyerMeta{
-      font-size:17px;
-      font-weight:800;
-      color:#fff;
-      margin:0 0 10px;
-    }
-
-    .flyerDesc{
-      color:rgba(255,255,255,.82);
-      line-height:1.55;
-      max-width:520px;
-      margin:0 0 18px;
-    }
-
-    .flyerActions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
-    .flyerSide{
-      display:grid;
-      gap:14px;
-    }
-
-    .flyerMini{
-      padding:18px;
-      min-height:140px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(215,180,106,.12), transparent 30%),
-        linear-gradient(135deg,#14141d,#101018);
-    }
-
-    .flyerMiniTag{
-      color:var(--gold2);
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      margin-bottom:8px;
-    }
-
-    .flyerMiniTitle{
-      font-size:20px;
-      font-weight:900;
-      margin:0 0 6px;
-    }
-
-    .flyerMiniText{
-      color:var(--textSoft);
-      line-height:1.55;
-      margin:0;
-    }
-
-    .filterSection{
-      margin-top:60px;
-    }
-
-    .filterTabs{
-      margin-top:18px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .filterBtn{
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:800;
-      cursor:pointer;
-      transition:all .18s ease;
-    }
-
-    .filterBtn:hover{
-      border-color:rgba(215,180,106,.35);
-      color:var(--gold2);
-    }
-
-    .filterBtn.active{
-      background:rgba(215,180,106,.14);
-      border-color:rgba(215,180,106,.35);
-      color:var(--gold2);
-    }
-
-    .eventsBlock{
-      margin-top:28px;
-    }
-
-    .eventsList{
-      margin-top:20px;
-    }
-
-    .socialWall{
-      margin-top:60px;
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:20px;
-    }
-
-    .socialHero{
-      position:relative;
-      border-radius:20px;
-      overflow:hidden;
-      border:1px solid var(--line);
-      min-height:420px;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
-        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-        linear-gradient(135deg, #11111a, #171723 55%, #101018);
-      box-shadow:var(--shadow);
-    }
-
-    .socialHero img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .socialHeroOverlay{
-      position:absolute;
-      inset:auto 0 0 0;
-      padding:24px;
-      background:linear-gradient(transparent,rgba(0,0,0,.82));
-    }
-
-    .socialHeroBadge{
-      display:inline-flex;
-      margin-bottom:10px;
-      padding:7px 12px;
-      border-radius:999px;
-      border:1px solid rgba(215,180,106,.30);
-      background:rgba(215,180,106,.12);
-      color:var(--gold2);
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-    }
-
-    .socialHeroOverlay h2{
-      font-size:30px;
-      margin:0 0 8px;
-      font-weight:950;
-    }
-
-    .socialHeroOverlay p{
-      margin:0;
-      color:rgba(255,255,255,.82);
-      line-height:1.45;
-    }
-
-    .socialStack{
-      display:grid;
-      gap:16px;
-    }
-
-    .socialCard{
-      min-height:202px;
-    }
-
-    .socialCard img{
-      min-height:202px;
-    }
-
-    .vipBanner{
-      margin-top:60px;
-      padding:28px;
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:24px;
-      align-items:center;
-    }
-
-    .vipBannerTitle{
-      font-size:36px;
-      font-weight:950;
-      line-height:1.05;
-      margin:0 0 10px;
-    }
-
-    .vipBannerText{
-      color:var(--textSoft);
-      line-height:1.7;
-      margin:0;
-    }
-
-    .vipBannerActions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      justify-content:flex-end;
-    }
-
-    @media (max-width:900px){
-      .eventsHero h1{
-        font-size:40px;
-      }
-
-      .flyerSection,
-      .socialWall,
-      .vipBanner{
-        grid-template-columns:1fr;
-      }
-
-      .vipBannerActions{
-        justify-content:flex-start;
-      }
-    }
-
-    @media (max-width:560px){
-      .eventsHero h1{
-        font-size:34px;
-      }
-
-      .flyerDay{
-        font-size:34px;
-      }
-
-      .flyerMain{
-        min-height:380px;
-      }
-
-      .vipBannerTitle{
-        font-size:30px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/events.css">
 </head>
 
 <body>
@@ -388,17 +49,20 @@
 
       <div class="eventsStats statsGrid glassCard" style="padding:14px;">
         <div class="statBox">
-          <div class="statNum">6</div>
+          <div class="statNum">7</div>
           <div class="statLabel">Weekly Events</div>
         </div>
+
         <div class="statBox">
           <div class="statNum">VIP</div>
           <div class="statLabel">Table Nights</div>
         </div>
+
         <div class="statBox">
           <div class="statNum">2AM</div>
           <div class="statLabel">Weekend Close</div>
         </div>
+
         <div class="statBox">
           <div class="statNum">711</div>
           <div class="statLabel">H St NE</div>
@@ -407,6 +71,7 @@
 
       <section class="flyerSection">
         <div class="flyerMain slider">
+
           <div class="slide active">
             <div class="flyerPoster">
               <img src="assets/images/flyer-friday.jpg" alt="Allure Friday flyer">
@@ -456,10 +121,11 @@
           </div>
 
           <div class="sliderDots">
-            <button class="sliderDot active" type="button"></button>
-            <button class="sliderDot" type="button"></button>
-            <button class="sliderDot" type="button"></button>
+            <button class="sliderDot active" type="button" aria-label="Show flyer 1"></button>
+            <button class="sliderDot" type="button" aria-label="Show flyer 2"></button>
+            <button class="sliderDot" type="button" aria-label="Show flyer 3"></button>
           </div>
+
         </div>
 
         <div class="flyerSide">
@@ -605,6 +271,7 @@
   <footer class="footerPremium">
     <div class="container">
       <div class="footerPremium__grid">
+
         <div>
           <div class="footerBrand">Allure Bar &amp; Lounge</div>
           <div class="footerText">
@@ -630,6 +297,7 @@
             <a href="location.html">711 H St NE, Washington, DC</a>
           </div>
         </div>
+
       </div>
 
       <div class="footerBottom">
@@ -728,6 +396,7 @@
       });
     })();
   </script>
+
   <script src="assets/js/main.js"></script>
 
 </body>
