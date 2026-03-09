@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.onclick = () => activate(btn.dataset.cat);
     });
 
-    /* nothing auto opens */
     body.innerHTML = "";
   }
 
@@ -117,9 +116,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function getTodayMenuDay() {
+    const dayNames = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday"
+    ];
+
+    return dayNames[new Date().getDay()];
+  }
+
   document.querySelectorAll(".dayTab").forEach(tab => {
     tab.onclick = () => activateDay(tab.dataset.daytab);
   });
 
-  activateDay("monday");
+  activateDay(getTodayMenuDay());
 });
