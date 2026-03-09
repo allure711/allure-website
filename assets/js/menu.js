@@ -1,313 +1,179 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const DAY_CONTENT = {
-    monday: {
-      bannerTitle: "MONDAY VIP EXPERIENCE",
-      bannerMeta: "Free Hookah • Cocktails • Lounge Energy",
-      lineup: "Afrobeats • R&B • Hip-Hop",
-      badge: "MONDAY SPECIAL",
-      popular: [
-        ["Salmon Sliders", "$12"],
-        ["Allure Lemon Drop", "$10"],
-        ["Hookah", "$23"],
-        ["Fishbowl", "$23"]
-      ]
-    },
-    tuesday: {
-      bannerTitle: "TACO TUESDAY VIP",
-      bannerMeta: "Tacos • Margaritas • Hookah",
-      lineup: "Latin • Hip-Hop • Party Mix",
-      badge: "TUESDAY SPECIAL",
-      popular: [
-        ["Shrimp Tacos", "$16"],
-        ["Chicken Tacos", "$14"],
-        ["Cocktails", "$10"],
-        ["Hookah", "$23"]
-      ]
-    },
-    wednesday: {
-      bannerTitle: "MIDWEEK LUXE",
-      bannerMeta: "After Work Drinks • Lounge",
-      lineup: "R&B • Amapiano",
-      badge: "MIDWEEK",
-      popular: [
-        ["Rasta Pasta", "$16+"],
-        ["Moscow Mule", "$10"],
-        ["High Noon", "$8"],
-        ["Bottles", "VIP"]
-      ]
-    },
-    thursday: {
-      bannerTitle: "KARAOKE NIGHT",
-      bannerMeta: "Live Mic • Cocktails",
-      lineup: "Open Mic • Party Anthems",
-      badge: "LIVE THURSDAY",
-      popular: [
-        ["Wings", "$12+"],
-        ["Long Island", "$10"],
-        ["Fishbowl", "$23"],
-        ["Bottle Service", "VIP"]
-      ]
-    },
-    friday: {
-      bannerTitle: "FRIDAY NIGHT VIP",
-      bannerMeta: "DJ • VIP Sections • Hookah",
-      lineup: "Hip-Hop • Afrobeats",
-      badge: "FRIDAY NIGHT",
-      popular: [
-        ["Bottles", "VIP"],
-        ["Hookah", "$23"],
-        ["Fishbowl", "$23"],
-        ["Premium Cocktails", "$10+"]
-      ]
-    },
-    saturday: {
-      bannerTitle: "SATURDAY VIP TAKEOVER",
-      bannerMeta: "Bottle Service • DJ Energy",
-      lineup: "Hip-Hop • Afrobeats",
-      badge: "SATURDAY VIP",
-      popular: [
-        ["VIP Bottles", "🔥"],
-        ["Hookah", "$23"],
-        ["Fishbowl", "$23"],
-        ["Clase Azul", "$650"]
-      ]
-    },
-    sunday: {
-      bannerTitle: "SOCIAL SUNDAY",
-      bannerMeta: "Relaxed Vibes • Food",
-      lineup: "R&B • Soul",
-      badge: "SUNDAY SOCIAL",
-      popular: [
-        ["Salmon Dinner", "$20"],
-        ["Wine", "$6"],
-        ["Hookah", "$23"],
-        ["Bottles", "VIP"]
-      ]
-    }
-  };
 
-  const CATEGORY_CONTENT = {
-    food: [
-      { name: "Wings", desc: "Crispy wings with house sauce.", price: "$12+" },
-      { name: "Salmon Sliders", desc: "Fresh salmon sliders.", price: "$12" },
-      { name: "Chicken Tacos", desc: "Seasoned chicken tacos.", price: "$14" },
-      { name: "Shrimp Tacos", desc: "Grilled shrimp tacos.", price: "$16" },
-      { name: "Rasta Pasta", desc: "Creamy jerk pasta.", price: "$16+" }
-    ],
+const CATEGORY_CONTENT = {
 
-    shots5: [
-      { name: "Green Tea Shot", desc: "Smooth and sweet house favorite.", price: "$5" },
-      { name: "Lemon Drop Shot", desc: "Citrus-forward party shot.", price: "$5" },
-      { name: "Tequila Shot", desc: "Select house tequila.", price: "$5" }
-    ],
+food:[
+{name:"Wings",desc:"Crispy wings with house sauce.",price:"$12+"},
+{name:"Salmon Sliders",desc:"Fresh salmon sliders.",price:"$12"},
+{name:"Chicken Tacos",desc:"Seasoned chicken tacos.",price:"$14"},
+{name:"Shrimp Tacos",desc:"Grilled shrimp tacos.",price:"$16"},
+{name:"Rasta Pasta",desc:"Creamy jerk pasta.",price:"$16+"}
+],
 
-    shots7: [
-      { name: "Casamigos Shot", desc: "Premium tequila shot.", price: "$7" },
-      { name: "Patron Shot", desc: "Top shelf tequila option.", price: "$7" },
-      { name: "Hennessy Shot", desc: "Premium cognac pour.", price: "$7" }
-    ],
+shots5:[
+{name:"Vodka Shot",desc:"House vodka.",price:"$5"},
+{name:"Tequila Shot",desc:"House tequila.",price:"$5"},
+{name:"Rum Shot",desc:"House rum.",price:"$5"},
+{name:"Whiskey Shot",desc:"House whiskey.",price:"$5"}
+],
 
-    drinks10: [
-      { name: "Rum Punch", desc: "House rum punch mix.", price: "$10" },
-      { name: "Vodka Cranberry", desc: "Simple mixed drink favorite.", price: "$10" },
-      { name: "Tequila Sunrise", desc: "Classic mixed drink.", price: "$10" }
-    ],
+shots7:[
+{name:"Hennessy Shot",desc:"Premium cognac.",price:"$7"},
+{name:"Patron Shot",desc:"Premium tequila.",price:"$7"},
+{name:"Casamigos Shot",desc:"Premium tequila.",price:"$7"},
+{name:"Ciroc Shot",desc:"Premium vodka.",price:"$7"}
+],
 
-    drinks14: [
-      { name: "Hennessy Mix", desc: "Premium mixed drink.", price: "$14" },
-      { name: "Casamigos Mix", desc: "Top shelf tequila mixed drink.", price: "$14" },
-      { name: "Patron Mix", desc: "Premium tequila cocktail.", price: "$14" }
-    ],
+drinks10:[
+{name:"Vodka Mix",desc:"Vodka + mixer.",price:"$10"},
+{name:"Tequila Mix",desc:"Tequila + mixer.",price:"$10"},
+{name:"Rum Mix",desc:"Rum + mixer.",price:"$10"},
+{name:"Gin Mix",desc:"Gin + mixer.",price:"$10"}
+],
 
-    cocktails10: [
-      { name: "Allure Lemon Drop", desc: "Signature cocktail.", price: "$10" },
-      { name: "Moscow Mule", desc: "Vodka, ginger beer, lime.", price: "$10" },
-      { name: "Margarita", desc: "Fresh citrus margarita.", price: "$10" },
-      { name: "Long Island", desc: "Strong house favorite.", price: "$10" }
-    ],
+drinks14:[
+{name:"Hennessy Mix",desc:"Hennessy + mixer.",price:"$14"},
+{name:"Patron Mix",desc:"Patron + mixer.",price:"$14"},
+{name:"Casamigos Mix",desc:"Casamigos + mixer.",price:"$14"},
+{name:"Ciroc Mix",desc:"Ciroc + mixer.",price:"$14"}
+],
 
-    premium: [
-      { name: "Don Julio 1942", desc: "Premium tequila bottle or pour.", price: "Market" },
-      { name: "Clase Azul", desc: "Luxury tequila option.", price: "Market" },
-      { name: "Ace of Spades", desc: "Premium champagne selection.", price: "Market" }
-    ],
+cocktails10:[
+{name:"Allure Lemon Drop",desc:"Signature cocktail.",price:"$10"},
+{name:"Margarita",desc:"Fresh citrus margarita.",price:"$10"},
+{name:"Moscow Mule",desc:"Vodka ginger beer.",price:"$10"},
+{name:"Long Island",desc:"Strong house cocktail.",price:"$10"}
+],
 
-    wine6: [
-      { name: "House White", desc: "White wine by the glass.", price: "$6" },
-      { name: "House Red", desc: "Red wine by the glass.", price: "$6" }
-    ],
+premium:[
+{name:"Don Julio 1942",desc:"Luxury tequila.",price:"Market"},
+{name:"Clase Azul",desc:"Premium tequila.",price:"Market"},
+{name:"Ace of Spades",desc:"Luxury champagne.",price:"Market"}
+],
 
-    beer4: [
-      { name: "Domestic Beer", desc: "Selected domestic beers.", price: "$4" },
-      { name: "Imported Beer", desc: "Ask for current import selection.", price: "$4+" }
-    ],
+wine6:[
+{name:"House White Wine",desc:"Glass of white wine.",price:"$6"},
+{name:"House Red Wine",desc:"Glass of red wine.",price:"$6"}
+],
 
-    highnoon8: [
-      { name: "High Noon Pineapple", desc: "Vodka seltzer.", price: "$8" },
-      { name: "High Noon Watermelon", desc: "Vodka seltzer.", price: "$8" },
-      { name: "High Noon Peach", desc: "Vodka seltzer.", price: "$8" }
-    ],
+beer4:[
+{name:"Bud Light",desc:"Domestic beer.",price:"$4"},
+{name:"Corona",desc:"Imported beer.",price:"$4"},
+{name:"Heineken",desc:"Imported beer.",price:"$4"}
+],
 
-    na: [
-      { name: "Mocktail", desc: "House non-alcoholic drink.", price: "$8" },
-      { name: "Soft Drink", desc: "Coke, Sprite, Ginger Ale.", price: "$4" },
-      { name: "Red Bull", desc: "Regular or sugar free.", price: "$6" }
-    ],
+highnoon8:[
+{name:"High Noon Pineapple",desc:"Vodka seltzer.",price:"$8"},
+{name:"High Noon Watermelon",desc:"Vodka seltzer.",price:"$8"},
+{name:"High Noon Peach",desc:"Vodka seltzer.",price:"$8"}
+],
 
-    hookah23: [
-      { name: "House Hookah", desc: "Standard hookah flavor selection.", price: "$23" },
-      { name: "Mint Hookah", desc: "Cool and smooth flavor option.", price: "$23" },
-      { name: "Fruit Mix Hookah", desc: "Popular house fruit blend.", price: "$23" }
-    ],
+na:[
+{name:"Mocktail",desc:"Non-alcoholic cocktail.",price:"$8"},
+{name:"Soft Drinks",desc:"Coke, Sprite, Ginger Ale.",price:"$4"},
+{name:"Red Bull",desc:"Energy drink.",price:"$6"}
+],
 
-    refill12: [
-      { name: "Hookah Refill", desc: "Refresh your bowl.", price: "$12" }
-    ],
+hookah23:[
+{name:"House Hookah",desc:"Standard hookah flavors.",price:"$23"},
+{name:"Mint Hookah",desc:"Mint flavor.",price:"$23"},
+{name:"Fruit Mix Hookah",desc:"Fruit blend.",price:"$23"}
+],
 
-    tower43: [
-      { name: "Drink Tower", desc: "Large table drink tower.", price: "$43" }
-    ],
+refill12:[
+{name:"Hookah Refill",desc:"New bowl refill.",price:"$12"}
+],
 
-    fishbowl23: [
-      { name: "Blue Fishbowl", desc: "Large share cocktail.", price: "$23" },
-      { name: "Tropical Fishbowl", desc: "Fruit-forward share drink.", price: "$23" }
-    ],
+tower43:[
+{name:"Drink Tower",desc:"Large group drink tower.",price:"$43"}
+],
 
-    bottles: [
-      { name: "Hennessy Bottle", desc: "Bottle service option.", price: "VIP" },
-      { name: "Casamigos Bottle", desc: "Premium bottle service.", price: "VIP" },
-      { name: "Patron Bottle", desc: "Tequila bottle service.", price: "VIP" },
-      { name: "Champagne Bottle", desc: "Ask for current champagne list.", price: "VIP" }
-    ]
-  };
+fishbowl23:[
+{name:"Blue Fishbowl",desc:"Large share cocktail.",price:"$23"},
+{name:"Tropical Fishbowl",desc:"Fruit punch bowl.",price:"$23"}
+],
 
-  function createMenuList(items) {
-    if (!items || !items.length) {
-      return `
-        <div class="menuPromo">
-          <div class="menuPromoIcon">✨</div>
-          <div class="menuPromoTitle">Coming Soon</div>
-          <div class="menuPromoText">This section will be updated with the full menu soon.</div>
-        </div>
-      `;
-    }
+bottles:[
+{name:"Hennessy Bottle",desc:"Bottle service.",price:"VIP"},
+{name:"Casamigos Bottle",desc:"Bottle service.",price:"VIP"},
+{name:"Patron Bottle",desc:"Bottle service.",price:"VIP"},
+{name:"Ciroc Bottle",desc:"Bottle service.",price:"VIP"}
+]
 
-    return `
-      <div class="menuList">
-        ${items.map(item => `
-          <div class="menuItem">
-            <div class="menuItem__left">
-              <div class="menuItem__name">${item.name}</div>
-              <div class="menuItem__desc">${item.desc}</div>
-            </div>
-            <div class="menuItem__price">${item.price}</div>
-          </div>
-        `).join("")}
-      </div>
-    `;
-  }
+};
 
-  function renderVipBanner(day) {
-    const c = DAY_CONTENT[day];
-    if (!c) return null;
+function renderMenu(items){
 
-    const section = document.createElement("section");
-    section.className = "vipNightBanner reveal";
-    section.innerHTML = `
-      <div class="vipNightBanner__badge">${c.badge}</div>
-      <div class="vipNightBanner__title">${c.bannerTitle}</div>
-      <div class="vipNightBanner__meta">${c.bannerMeta}</div>
-      <div class="vipNightBanner__lineup">DJ: ${c.lineup}</div>
-    `;
-    return section;
-  }
+return `
+<div class="menuList">
+${items.map(i=>`
+<div class="menuItem">
+<div>
+<div class="menuItem__name">${i.name}</div>
+<div class="menuItem__desc">${i.desc}</div>
+</div>
+<div class="menuItem__price">${i.price}</div>
+</div>
+`).join("")}
+</div>
+`;
 
-  function renderPopular(day) {
-    const c = DAY_CONTENT[day];
-    if (!c) return null;
+}
 
-    const section = document.createElement("section");
-    section.className = "popularTonight reveal";
-    section.innerHTML = `
-      <div class="popularTonight__title">🔥 Popular Tonight</div>
-      <div class="popularTonight__grid">
-        ${c.popular.map(item => `
-          <div class="popularCard">
-            <span>${item[0]}</span>
-            <span class="price">${item[1]}</span>
-          </div>
-        `).join("")}
-      </div>
-    `;
-    return section;
-  }
+function setupCategoryBar(bar){
 
-  function setupPanel(panel, day) {
-    panel.querySelectorAll(".vipNightBanner, .popularTonight").forEach(node => node.remove());
+const scope=bar.dataset.scope;
+const body=document.querySelector(`[data-scopebody="${scope}"]`);
+const buttons=[...bar.querySelectorAll(".cat")];
 
-    const hero = panel.querySelector(".heroRow");
-    if (hero) {
-      const banner = renderVipBanner(day);
-      const popular = renderPopular(day);
+function activate(cat){
 
-      if (banner) hero.after(banner);
-      if (banner && popular) banner.after(popular);
-    }
+buttons.forEach(b=>b.classList.toggle("active",b.dataset.cat===cat));
 
-    const categoryBars = panel.querySelectorAll(".catBar");
+body.innerHTML=renderMenu(CATEGORY_CONTENT[cat]||[]);
 
-    categoryBars.forEach(bar => {
-      const scope = bar.dataset.scope;
-      const body = panel.querySelector(`[data-scopebody="${scope}"]`);
-      const buttons = Array.from(bar.querySelectorAll(".cat"));
+}
 
-      if (!body || !buttons.length) return;
+buttons.forEach(btn=>{
+btn.onclick=()=>activate(btn.dataset.cat);
+});
 
-      function activateCategory(catKey) {
-        buttons.forEach(btn => {
-          btn.classList.toggle("active", btn.dataset.cat === catKey);
-        });
+activate(buttons[0].dataset.cat);
 
-        body.innerHTML = createMenuList(CATEGORY_CONTENT[catKey] || []);
-      }
+}
 
-      buttons.forEach(btn => {
-        btn.onclick = () => {
-          activateCategory(btn.dataset.cat);
-        };
-      });
+function activateDay(day){
 
-      activateCategory(buttons[0].dataset.cat);
-    });
-  }
+document.querySelectorAll(".dayTab").forEach(tab=>{
+tab.classList.toggle("active",tab.dataset.daytab===day);
+});
 
-  function activateDay(day) {
-    document.querySelectorAll(".dayTab").forEach(tab => {
-      tab.classList.toggle("active", tab.dataset.daytab === day);
-    });
+document.querySelectorAll(".dayPanel").forEach(panel=>{
 
-    document.querySelectorAll(".dayPanel").forEach(panel => {
-      const isActive = panel.dataset.daypanel === day;
-      panel.classList.toggle("active", isActive);
+const active=panel.dataset.daypanel===day;
 
-      if (isActive) {
-        setupPanel(panel, day);
-      }
-    });
-  }
+panel.classList.toggle("active",active);
 
-  document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      activateDay(tab.dataset.daytab);
-    });
-  });
+if(active){
 
-  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-  const today = days.includes(
-    ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()]
-  )
-    ? ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()]
-    : "monday";
+panel.querySelectorAll(".catBar").forEach(setupCategoryBar);
 
-  activateDay(today);
+}
+
+});
+
+}
+
+document.querySelectorAll(".dayTab").forEach(tab=>{
+
+tab.addEventListener("click",()=>{
+
+activateDay(tab.dataset.daytab);
+
+});
+
+});
+
+activateDay("monday");
+
 });
