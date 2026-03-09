@@ -1,714 +1,391 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About | Allure Bar & Lounge | Washington, DC</title>
-  <meta name="description" content="Learn about Allure Bar & Lounge — a modern upscale cocktail lounge in Washington, DC offering premium cocktails, weekly events, and elevated nightlife experiences.">
-  <link rel="stylesheet" href="assets/css/styles.css">
-
-  <style>
-    :root{
-      --gold:#d7b46a;
-      --gold2:#f2d38a;
-      --panel:rgba(255,255,255,.06);
-      --line:rgba(255,255,255,.10);
-      --textSoft:rgba(255,255,255,.78);
-    }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-
-    body{
-      margin:0;
-      background:
-        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
-        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
-        linear-gradient(180deg,#07070a,#0a0a10);
-      color:#fff;
-      font-family:Arial, sans-serif;
-      overflow-x:hidden;
-    }
-
-    .container{
-      width:90%;
-      max-width:1200px;
-      margin:auto;
-    }
-
-    .glassCard{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:20px;
-      box-shadow:0 18px 60px rgba(0,0,0,.22);
-    }
-
-    .btnGold{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px 20px;
-      background:var(--gold);
-      color:#111;
-      text-decoration:none;
-      border-radius:10px;
-      font-weight:900;
-      border:none;
-      cursor:pointer;
-    }
-
-    .btnGhost{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px 20px;
-      border:1px solid rgba(255,255,255,.14);
-      color:#fff;
-      text-decoration:none;
-      border-radius:10px;
-      font-weight:800;
-      background:rgba(255,255,255,.04);
-      cursor:pointer;
-    }
-
-    .sectionTitle{
-      font-size:30px;
-      font-weight:900;
-      margin:0 0 10px;
-    }
-
-    .sectionText{
-      color:var(--textSoft);
-      line-height:1.65;
-      margin:0;
-    }
-
-    /* HERO */
-
-    .aboutHero{
-      padding:84px 0 34px;
-    }
-
-    .aboutKicker{
-      display:inline-block;
-      color:var(--gold2);
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      font-size:12px;
-      font-weight:900;
-      margin-bottom:10px;
-    }
-
-    .aboutHero h1{
-      font-size:52px;
-      line-height:1.02;
-      margin:0 0 12px;
-    }
-
-    .aboutHero p{
-      max-width:760px;
-      color:rgba(255,255,255,.84);
-      line-height:1.65;
-      margin:0;
-      font-size:16px;
-    }
-
-    .aboutHeroActions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:20px;
-    }
-
-    /* STATS */
-
-    .aboutStats{
-      margin-top:26px;
-      padding:14px;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-    }
-
-    .statBox{
-      border-radius:16px;
-      padding:18px 16px;
-      border:1px solid rgba(255,255,255,.08);
-      background:
-        radial-gradient(circle at 20% 20%, rgba(215,180,106,.10), transparent 30%),
-        rgba(255,255,255,.03);
-      text-align:center;
-    }
-
-    .statNum{
-      font-size:28px;
-      font-weight:950;
-      color:var(--gold2);
-      line-height:1;
-    }
-
-    .statLabel{
-      margin-top:8px;
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.72);
-    }
-
-    /* STORY SPLIT */
-
-    .aboutStory{
-      margin-top:34px;
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:20px;
-      align-items:stretch;
-    }
-
-    .aboutStoryText{
-      padding:28px;
-    }
-
-    .aboutStoryText h2{
-      font-size:34px;
-      margin:0 0 12px;
-      font-weight:950;
-    }
-
-    .aboutStoryText p{
-      color:var(--textSoft);
-      line-height:1.75;
-      margin:0 0 16px;
-    }
-
-    .aboutStoryVisual{
-      position:relative;
-      overflow:hidden;
-      min-height:100%;
-      border-radius:20px;
-      border:1px solid var(--line);
-      background:
-        radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
-        radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-        linear-gradient(135deg,#15151f,#101018 60%,#181824);
-      min-height:360px;
-    }
-
-    .aboutStoryVisual::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.22)),
-        radial-gradient(circle at 50% 45%, rgba(255,255,255,.05), transparent 42%);
-    }
-
-    .aboutStoryOverlay{
-      position:absolute;
-      inset:auto 0 0 0;
-      padding:24px;
-      background:linear-gradient(180deg, transparent, rgba(0,0,0,.72));
-    }
-
-    .aboutStoryTag{
-      display:inline-flex;
-      margin-bottom:10px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(215,180,106,.30);
-      background:rgba(215,180,106,.12);
-      color:var(--gold2);
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-    }
-
-    .aboutStoryTitle{
-      font-size:30px;
-      font-weight:950;
-      margin:0 0 8px;
-      line-height:1.05;
-    }
-
-    .aboutStorySub{
-      color:rgba(255,255,255,.82);
-      line-height:1.55;
-      margin:0;
-    }
-
-    /* VALUES */
-
-    .aboutValues{
-      margin-top:60px;
-    }
-
-    .aboutGrid{
-      margin-top:20px;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-
-    .aboutBox{
-      padding:24px;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(215,180,106,.12), transparent 30%),
-        linear-gradient(135deg,#15151f,#101018);
-    }
-
-    .aboutBox h3{
-      margin:0 0 10px;
-      font-size:22px;
-      font-weight:900;
-    }
-
-    .aboutBox p{
-      margin:0;
-      color:var(--textSoft);
-      line-height:1.65;
-    }
-
-    /* HIGHLIGHT */
-
-    .aboutHighlight{
-      margin-top:60px;
-      padding:28px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:24px;
-      align-items:center;
-    }
-
-    .aboutHighlightInfo h2{
-      margin:0 0 12px;
-      font-size:34px;
-      font-weight:950;
-    }
-
-    .aboutHighlightInfo p{
-      margin:0 0 14px;
-      color:var(--textSoft);
-      line-height:1.65;
-    }
-
-    .aboutHours{
-      display:grid;
-      gap:10px;
-    }
-
-    .aboutHoursRow{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      font-weight:700;
-    }
-
-    .aboutContactCard{
-      padding:24px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.08);
-      background:
-        radial-gradient(circle at 20% 20%, rgba(143,92,255,.14), transparent 30%),
-        rgba(255,255,255,.03);
-    }
-
-    .aboutContactLabel{
-      color:var(--gold2);
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      margin-bottom:10px;
-    }
-
-    .aboutContactTitle{
-      font-size:28px;
-      font-weight:950;
-      margin-bottom:10px;
-    }
-
-    .aboutContactText{
-      color:var(--textSoft);
-      line-height:1.65;
-      margin-bottom:18px;
-    }
-
-    .aboutContactMeta{
-      display:grid;
-      gap:10px;
-      color:#fff;
-      font-weight:700;
-    }
-
-    /* CTA */
-
-    .aboutCta{
-      margin-top:60px;
-      padding:28px;
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:24px;
-      align-items:center;
-    }
-
-    .aboutCtaTitle{
-      font-size:34px;
-      font-weight:950;
-      line-height:1.05;
-      margin:0 0 10px;
-    }
-
-    .aboutCtaText{
-      color:var(--textSoft);
-      line-height:1.65;
-      margin:0;
-    }
-
-    .aboutCtaActions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      justify-content:flex-end;
-    }
-
-    /* PREMIUM FOOTER */
-
-    .footerPremium{
-      margin-top:80px;
-      padding:36px 0 90px;
-      border-top:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.03));
-    }
-
-    .footerPremium__grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .8fr;
-      gap:24px;
-    }
-
-    .footerBrand{
-      font-size:24px;
-      font-weight:950;
-      margin-bottom:8px;
-    }
-
-    .footerText{
-      color:var(--textSoft);
-      line-height:1.6;
-    }
-
-    .footerHead{
-      font-size:14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:var(--gold2);
-      font-weight:900;
-      margin-bottom:12px;
-    }
-
-    .footerLinks{
-      display:grid;
-      gap:10px;
-    }
-
-    .footerLinks a{
-      color:rgba(255,255,255,.82);
-      text-decoration:none;
-    }
-
-    .footerLinks a:hover{
-      color:var(--gold2);
-    }
-
-    .footerBottom{
-      margin-top:24px;
-      padding-top:18px;
-      border-top:1px solid rgba(255,255,255,.08);
-      color:rgba(255,255,255,.58);
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      font-size:13px;
-    }
-
-    /* MOBILE STICKY */
-
-    .mobileStickyReserve{
-      position:fixed;
-      left:14px;
-      right:14px;
-      bottom:14px;
-      z-index:1500;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:14px 16px;
-      border-radius:999px;
-      background:var(--gold);
-      color:#111;
-      text-decoration:none;
-      font-weight:950;
-      box-shadow:0 18px 50px rgba(0,0,0,.35);
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width:900px){
-      .aboutHero h1{
-        font-size:40px;
-      }
-
-      .aboutStats,
-      .aboutStory,
-      .aboutGrid,
-      .aboutHighlight,
-      .aboutCta,
-      .footerPremium__grid{
-        grid-template-columns:1fr;
-      }
-
-      .aboutCtaActions{
-        justify-content:flex-start;
-      }
-    }
-
-    @media (max-width:700px){
-      .mobileStickyReserve{
-        display:flex;
-      }
-
-      .footerPremium{
-        padding-bottom:100px;
-      }
-    }
-
-    @media (max-width:560px){
-      .aboutHero h1{
-        font-size:34px;
-      }
-
-      .aboutStoryTitle,
-      .aboutHighlightInfo h2,
-      .aboutCtaTitle{
-        font-size:30px;
-      }
-
-      .aboutHoursRow{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>About | Allure Bar & Lounge | Washington, DC</title>
+
+<meta name="description" content="Learn about Allure Bar & Lounge — a modern upscale cocktail lounge in Washington, DC offering premium cocktails, nightlife events, VIP sections, and elevated lounge experiences.">
+
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<style>
+
+.aboutHero{
+padding:84px 0 36px;
+}
+
+.aboutKicker{
+display:inline-block;
+color:var(--gold2);
+letter-spacing:.16em;
+text-transform:uppercase;
+font-size:12px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.aboutHero h1{
+font-size:52px;
+line-height:1.05;
+margin:0 0 12px;
+}
+
+.aboutHero p{
+max-width:700px;
+color:rgba(255,255,255,.84);
+line-height:1.7;
+margin:0;
+font-size:16px;
+}
+
+.aboutStats{
+margin-top:26px;
+padding:14px;
+}
+
+.aboutSection{
+margin-top:60px;
+}
+
+.aboutGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin-top:26px;
+}
+
+.aboutCard{
+padding:22px;
+border-radius:18px;
+border:1px solid var(--line);
+background:rgba(255,255,255,.04);
+box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+
+.aboutCard h3{
+margin:0 0 8px;
+font-size:20px;
+font-weight:900;
+}
+
+.aboutCard p{
+margin:0;
+color:var(--textSoft);
+line-height:1.6;
+}
+
+.aboutStory{
+margin-top:40px;
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:24px;
+align-items:center;
+}
+
+.aboutStory img{
+width:100%;
+border-radius:18px;
+border:1px solid var(--line);
+}
+
+.aboutStoryText h2{
+font-size:34px;
+margin:0 0 12px;
+}
+
+.aboutStoryText p{
+color:var(--textSoft);
+line-height:1.7;
+margin:0 0 14px;
+}
+
+.aboutVisit{
+margin-top:60px;
+padding:28px;
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:24px;
+align-items:center;
+}
+
+.aboutVisitTitle{
+font-size:32px;
+font-weight:900;
+margin:0 0 8px;
+}
+
+.aboutVisitText{
+color:var(--textSoft);
+line-height:1.7;
+}
+
+.aboutVisitActions{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+justify-content:flex-end;
+}
+
+@media(max-width:900px){
+
+.aboutHero h1{
+font-size:40px;
+}
+
+.aboutGrid{
+grid-template-columns:1fr;
+}
+
+.aboutStory{
+grid-template-columns:1fr;
+}
+
+.aboutVisit{
+grid-template-columns:1fr;
+}
+
+.aboutVisitActions{
+justify-content:flex-start;
+}
+
+}
+
+@media(max-width:560px){
+
+.aboutHero h1{
+font-size:34px;
+}
+
+.aboutStoryText h2{
+font-size:28px;
+}
+
+.aboutVisitTitle{
+font-size:26px;
+}
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <header class="header">
-  <div class="container header__inner">
-    <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+<div class="container header__inner">
 
-    <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">Menu</button>
+<a class="brand" href="index.html">Allure Bar & Lounge</a>
 
-    <nav class="nav" aria-label="Primary">
-      <ul id="navMenu" class="nav__list">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="about.html" class="active">About</a></li>
-        <li><a href="location.html">Location</a></li>
-        <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
-      </ul>
-    </nav>
-  </div>
+<button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+
+<nav class="nav">
+<ul class="nav__list" id="siteNav">
+
+<li><a href="index.html">Home</a></li>
+<li><a href="menu.html">Menu</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="gallery.html">Gallery</a></li>
+<li><a href="about.html" class="active">About</a></li>
+<li><a href="location.html">Location</a></li>
+
+<li>
+<a class="btnGold" href="tel:2022974949">Reserve Now</a>
+</li>
+
+</ul>
+</nav>
+
+</div>
 </header>
 
 <main>
 
-<section class="aboutHero container">
-  <div class="aboutKicker">Washington, DC</div>
-  <h1>About Allure</h1>
-  <p>
-    Allure Bar &amp; Lounge was built to deliver a modern upscale nightlife experience in Washington, DC — blending premium cocktails, curated events, polished design, and the kind of atmosphere that feels elevated from the moment you walk in.
-  </p>
+<section class="aboutHero container fadeUp">
 
-  <div class="aboutHeroActions">
-    <a href="events.html" class="btnGold">See Events</a>
-    <a href="menu.html" class="btnGhost">View Menu</a>
-  </div>
+<div class="aboutKicker">Washington DC Lounge</div>
 
-  <section class="aboutStats glassCard">
-    <div class="statBox">
-      <div class="statNum">6</div>
-      <div class="statLabel">Weekly Events</div>
-    </div>
-    <div class="statBox">
-      <div class="statNum">DC</div>
-      <div class="statLabel">Nightlife Energy</div>
-    </div>
-    <div class="statBox">
-      <div class="statNum">2AM</div>
-      <div class="statLabel">Weekend Close</div>
-    </div>
-    <div class="statBox">
-      <div class="statNum">VIP</div>
-      <div class="statLabel">Experience</div>
-    </div>
-  </section>
+<h1>About Allure</h1>
 
-  <section class="aboutStory">
-    <div class="aboutStoryText glassCard">
-      <h2>Our Vision</h2>
-      <p>
-        Allure Bar &amp; Lounge was created to deliver a refined yet energetic nightlife experience in Washington, DC. Our space blends modern design, curated music, and premium cocktails to create an atmosphere built for professionals, tastemakers, and nightlife enthusiasts.
-      </p>
-      <p>
-        Whether you're joining us for happy hour, weekday social nights, or high-energy weekends, Allure offers the balance of comfort, sophistication, and vibrant energy that turns a simple night out into a memorable experience.
-      </p>
-    </div>
+<p>
+Allure Bar & Lounge blends upscale nightlife with a relaxed lounge experience.
+Our space is designed for professionals, nightlife lovers, and anyone looking
+for a polished atmosphere with great drinks, music, and premium hospitality.
+</p>
 
-    <div class="aboutStoryVisual">
-      <div class="aboutStoryOverlay">
-        <div class="aboutStoryTag">The Allure Experience</div>
-        <div class="aboutStoryTitle">Upscale Lounge Culture</div>
-        <p class="aboutStorySub">
-          Premium drinks, elevated ambiance, curated music, and polished service — all designed to create a stronger nightlife identity in DC.
-        </p>
-      </div>
-    </div>
-  </section>
+<div class="aboutStats statsGrid glassCard">
+
+<div class="statBox">
+<div class="statNum">VIP</div>
+<div class="statLabel">Table Experience</div>
+</div>
+
+<div class="statBox">
+<div class="statNum">7</div>
+<div class="statLabel">Weekly Events</div>
+</div>
+
+<div class="statBox">
+<div class="statNum">DC</div>
+<div class="statLabel">Nightlife Energy</div>
+</div>
+
+<div class="statBox">
+<div class="statNum">711</div>
+<div class="statLabel">H St NE</div>
+</div>
+
+</div>
+
 </section>
 
-<section class="container aboutValues">
-  <h2 class="sectionTitle">What Makes Allure Different</h2>
-  <p class="sectionText">The details behind the atmosphere, energy, and identity of the venue.</p>
+<section class="container aboutSection fadeUp delay1">
 
-  <div class="aboutGrid">
-    <div class="aboutBox glassCard">
-      <h3>Premium Cocktails</h3>
-      <p>Crafted drinks using top-tier spirits, fresh ingredients, and a presentation that fits the upscale lounge experience.</p>
-    </div>
+<h2 class="sectionTitle">What Makes Allure Different</h2>
 
-    <div class="aboutBox glassCard">
-      <h3>Curated Events</h3>
-      <p>From Free Hookah Monday and Taco Tuesday to Karaoke Thursday and Allure Weekend nights, every day has a purpose and vibe.</p>
-    </div>
+<p class="sectionText">
+Allure combines premium cocktails, curated events, and a refined lounge setting
+to create one of the most balanced nightlife experiences in Washington, DC.
+</p>
 
-    <div class="aboutBox glassCard">
-      <h3>Upscale Atmosphere</h3>
-      <p>Modern design, warm lighting, comfortable seating, and a premium energy that feels polished without losing nightlife excitement.</p>
-    </div>
-  </div>
+<div class="aboutGrid">
+
+<div class="aboutCard">
+<h3>Premium Cocktails</h3>
+<p>
+Crafted drinks made with quality spirits and balanced flavors designed
+for both casual evenings and full nightlife experiences.
+</p>
+</div>
+
+<div class="aboutCard">
+<h3>Curated Weekly Events</h3>
+<p>
+Free Hookah Monday, Taco Tuesday, Midweek Social, Karaoke Thursday,
+and signature weekend nightlife events.
+</p>
+</div>
+
+<div class="aboutCard">
+<h3>Upscale Lounge Atmosphere</h3>
+<p>
+Modern interior design, warm lighting, comfortable seating,
+and a stylish environment built for conversation and nightlife.
+</p>
+</div>
+
+</div>
+
 </section>
 
-<section class="container aboutHighlight glassCard">
-  <div class="aboutHighlightInfo">
-    <h2>Visit Allure</h2>
-    <p>
-      Located in Washington, DC, Allure Bar &amp; Lounge is designed for guests looking for a stronger nightlife experience with cocktails, curated events, and polished lounge energy.
-    </p>
+<section class="container aboutStory fadeUp delay2">
 
-    <div class="aboutHours">
-      <div class="aboutHoursRow">
-        <span>Mon–Thu &amp; Sun</span>
-        <span>5PM – 1AM</span>
-      </div>
-      <div class="aboutHoursRow">
-        <span>Fri–Sat</span>
-        <span>5PM – 2AM</span>
-      </div>
-    </div>
-  </div>
+<div class="aboutStoryText">
 
-  <div class="aboutContactCard">
-    <div class="aboutContactLabel">Contact</div>
-    <div class="aboutContactTitle">Allure Bar &amp; Lounge</div>
-    <div class="aboutContactText">
-      Premium cocktails, weekly events, and elevated nightlife experiences in Washington, DC.
-    </div>
+<h2>The Allure Experience</h2>
 
-    <div class="aboutContactMeta">
-      <div>Washington, DC</div>
-      <div>202-297-4949</div>
-      <div>VIP reservations available</div>
-    </div>
-  </div>
+<p>
+From early evening cocktails to late-night energy,
+Allure transitions smoothly throughout the night.
+Guests can enjoy lounge seating, premium drinks,
+and a vibrant crowd that defines the atmosphere.
+</p>
+
+<p>
+Whether you're celebrating a birthday, hosting a group,
+or just meeting friends after work,
+Allure provides a welcoming environment with a refined nightlife vibe.
+</p>
+
+</div>
+
+<img src="assets/images/social-hero.jpg" alt="Allure lounge atmosphere">
+
 </section>
 
-<section class="container aboutCta glassCard">
-  <div>
-    <h2 class="aboutCtaTitle">Experience Allure Tonight</h2>
-    <p class="aboutCtaText">
-      Whether you're planning a casual evening, a birthday, or a full VIP night out, Allure is built for memorable nights in Washington, DC.
-    </p>
-  </div>
+<section class="container">
 
-  <div class="aboutCtaActions">
-    <a href="menu.html" class="btnGold">View Menu</a>
-    <a href="events.html" class="btnGhost">See Events</a>
-  </div>
+<div class="aboutVisit glassCard fadeUp delay3">
+
+<div>
+
+<h2 class="aboutVisitTitle">Visit Allure Tonight</h2>
+
+<p class="aboutVisitText">
+Located in the heart of Washington DC, Allure Bar & Lounge offers
+signature cocktails, weekly events, and premium lounge energy
+in a modern nightlife environment.
+</p>
+
+</div>
+
+<div class="aboutVisitActions">
+
+<a class="btnGold" href="menu.html">View Menu</a>
+
+<a class="btnGhost" href="events.html">See Events</a>
+
+<a class="btnGhost" href="tel:2022974949">Call 202-297-4949</a>
+
+</div>
+
+</div>
+
 </section>
 
 </main>
 
 <footer class="footerPremium">
-  <div class="container">
-    <div class="footerPremium__grid">
-      <div>
-        <div class="footerBrand">Allure Bar &amp; Lounge</div>
-        <div class="footerText">
-          Premium nightlife, cocktails, curated events, and an upscale Washington DC lounge experience built for memorable nights.
-        </div>
-      </div>
 
-      <div>
-        <div class="footerHead">Explore</div>
-        <div class="footerLinks">
-          <a href="index.html">Home</a>
-          <a href="menu.html">Menu</a>
-          <a href="events.html">Events</a>
-          <a href="gallery.html">Gallery</a>
-        </div>
-      </div>
+<div class="container">
 
-      <div>
-        <div class="footerHead">Visit</div>
-        <div class="footerLinks">
-          <a href="tel:2022974949">Call 202-297-4949</a>
-          <a href="location.html">Location</a>
-          <a href="events.html">Weekly Events</a>
-        </div>
-      </div>
-    </div>
+<div class="footerPremium__grid">
 
-    <div class="footerBottom">
-      <span>© Allure Bar &amp; Lounge</span>
-      <span>Washington, DC</span>
-    </div>
-  </div>
+<div>
+<div class="footerBrand">Allure Bar & Lounge</div>
+<div class="footerText">
+Premium cocktails, curated nightlife events, and upscale lounge vibes
+in Washington DC.
+</div>
+</div>
+
+<div>
+<div class="footerHead">Explore</div>
+<div class="footerLinks">
+<a href="index.html">Home</a>
+<a href="menu.html">Menu</a>
+<a href="events.html">Events</a>
+<a href="gallery.html">Gallery</a>
+</div>
+</div>
+
+<div>
+<div class="footerHead">Visit</div>
+<div class="footerLinks">
+<a href="location.html">711 H St NE</a>
+<a href="tel:2022974949">202-297-4949</a>
+<a href="events.html">Weekly Events</a>
+</div>
+</div>
+
+</div>
+
+<div class="footerBottom">
+
+<span>© Allure Bar & Lounge</span>
+<span>Washington, DC</span>
+
+</div>
+
+</div>
+
 </footer>
 
 <a class="mobileStickyReserve" href="tel:2022974949">Reserve Now</a>
 
-<script>
-(() => {
-  const navToggle = document.querySelector(".nav__toggle");
-  const navMenu = document.querySelector(".nav__list");
-
-  if (navToggle && navMenu) {
-    navToggle.addEventListener("click", () => {
-      const open = navMenu.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-  }
-})();
-</script>
 <script src="assets/js/main.js"></script>
+
 </body>
 </html>
