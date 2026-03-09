@@ -651,3 +651,33 @@
     font-size:13px;
   }
 }
+/* Keep page compact; scroll inside middle menu box on desktop */
+@media (min-width: 1024px){
+  .menuBigPanel{
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .menuPanelBody{
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+  }
+
+  .menuPanelBody::-webkit-scrollbar{
+    width: 8px;
+  }
+
+  .menuPanelBody::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,.18);
+    border-radius: 999px;
+  }
+
+  .menuPanelBody::-webkit-scrollbar-track{
+    background: transparent;
+  }
+}
