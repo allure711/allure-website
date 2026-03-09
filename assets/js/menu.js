@@ -4,38 +4,41 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderFlatMenu(items) {
     return `
       <div class="menuList">
-        ${items.map(i => `
+        ${items.map(item => `
           <div class="menuItem">
-            <div>
-              <div class="menuItem__name">${i.name}</div>
-              <div class="menuItem__desc">${i.desc || ""}</div>
+            <div class="menuItem__left">
+              <div class="menuItem__name">${item.name || ""}</div>
+              <div class="menuItem__desc">${item.desc || ""}</div>
             </div>
-            <div class="menuItem__price">${i.price || ""}</div>
+            <div class="menuItem__price">${item.price || ""}</div>
           </div>
         `).join("")}
       </div>
     `;
   }
 
-  function renderSectionedMenu(data) {
+  function renderNestedSectionedMenu(content) {
+    const firstSection = content.sections[0];
+
     return `
-      <div class="menuSectioned">
-        ${data.sections.map(section => `
+      <div class="menuNested">
+        <div class="menuSubTabs">
+          ${content.sections.map((section, index) => `
+            <button
+              class="menuSubTab ${index === 0 ? "active" : ""}"
+              type="button"
+              data-subsection="${section.title}">
+              ${section.title}
+            </button>
+          `).join("")}
+        </div>
+
+        <div class="menuSubBody">
           <div class="menuSectionBlock">
-            <div class="menuSectionBlock__title">${section.title}</div>
-            <div class="menuList">
-              ${section.items.map(i => `
-                <div class="menuItem">
-                  <div>
-                    <div class="menuItem__name">${i.name}</div>
-                    <div class="menuItem__desc">${i.desc || ""}</div>
-                  </div>
-                  <div class="menuItem__price">${i.price || ""}</div>
-                </div>
-              `).join("")}
-            </div>
+            <div class="menuSectionBlock__title">${firstSection.title}</div>
+            ${renderFlatMenu(firstSection.items || [])}
           </div>
-        `).join("")}
+        </div>
       </div>
     `;
   }
@@ -55,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return renderFlatMenu(content);
     }
 
-    if (content.sections) {
-      return renderSectionedMenu(content);
+    if (content && Array.isArray(content.sections)) {
+      return renderNestedSectionedMenu(content);
     }
 
     return `
@@ -68,6 +71,35 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  function bindNestedSectionTabs(body, content) {
+    const subTabs = body.querySelectorAll(".menuSubTab");
+    const subBody = body.querySelector(".menuSubBody");
+
+    if (!subTabs.length || !subBody || !content || !content.sections) return;
+
+    function activateSubsection(title) {
+      subTabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
+
+      const section = content.sections.find(s => s.title === title);
+      if (!section) return;
+
+      subBody.innerHTML = `
+        <div class="menuSectionBlock">
+          <div class="menuSectionBlock__title">${section.title}</div>
+          ${renderFlatMenu(section.items || [])}
+        </div>
+      `;
+    }
+
+    subTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
+    });
+  }
+
   function setupCategoryBar(bar) {
     const scope = bar.dataset.scope;
     const panel = bar.closest(".dayPanel");
@@ -77,12 +109,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!body || !buttons.length) return;
 
     function activate(cat) {
-      buttons.forEach(b => b.classList.toggle("active", b.dataset.cat === cat));
-      body.innerHTML = renderMenu(CATEGORY_CONTENT[cat]);
+      buttons.forEach(button => {
+        button.classList.toggle("active", button.dataset.cat === cat);
+      });
+
+      const content = CATEGORY_CONTENT[cat];
+      body.innerHTML = renderMenu(content);
+
+      if (content && content.sections) {
+        bindNestedSectionTabs(body, content);
+      }
     }
 
-    buttons.forEach(btn => {
-      btn.onclick = () => activate(btn.dataset.cat);
+    buttons.forEach(button => {
+      button.onclick = () => activate(button.dataset.cat);
     });
 
     activate(buttons[0].dataset.cat);
@@ -94,10 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.querySelectorAll(".dayPanel").forEach(panel => {
-      const active = panel.dataset.daypanel === day;
-      panel.classList.toggle("active", active);
+      const isActive = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", isActive);
 
-      if (active) {
+      if (isActive) {
         panel.querySelectorAll(".catBar").forEach(setupCategoryBar);
       }
     });
