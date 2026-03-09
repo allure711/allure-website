@@ -1,241 +1,514 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Menu | Allure Bar & Lounge | Washington, DC</title>
+  <title>Menu | Allure Bar & Lounge | Washington, DC</title>
+  <meta name="description" content="Explore the weekly menu at Allure Bar & Lounge in Washington, DC. Daily specials, cocktails, hookah, bottle service, happy hour, and late-night menus.">
 
-<meta name="description" content="View the food and drink menu at Allure Bar & Lounge in Washington, DC. Premium cocktails, lounge bites, and signature plates.">
-
-<link rel="stylesheet" href="assets/css/styles.css">
-<link rel="stylesheet" href="assets/css/menu.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/menu.css">
 </head>
 
-<body>
-
-<header class="header">
-  <div class="container header__inner">
-
-    <a class="brand" href="index.html">Allure Bar & Lounge</a>
-
-    <button class="nav__toggle" aria-expanded="false">Menu</button>
-
-    <nav class="nav">
-      <ul class="nav__list">
-
-        <li><a href="index.html">Home</a></li>
-
-        <li><a href="menu.html" class="active">Menu</a></li>
-
-        <li><a href="events.html">Events</a></li>
-
-        <li><a href="gallery.html">Gallery</a></li>
-
-        <li><a href="about.html">About</a></li>
-
-        <li><a href="location.html">Location</a></li>
-
-        <li>
-          <a class="btnGold" href="tel:2022974949">
-          Reserve Now
-          </a>
-        </li>
-
-      </ul>
-    </nav>
-
-  </div>
-</header>
-
-
-<main>
-
-<section class="menuHero container fadeUp">
-
-<div class="menuKicker">
-Allure Bar & Lounge
-</div>
-
-<h1>Menu</h1>
-
-<p>
-Craft cocktails, premium spirits, and lounge-style food designed
-to match the Allure nightlife experience.
-</p>
-
-<div class="menuHeroActions">
-
-<a href="events.html" class="btnGold">
-See Weekly Events
-</a>
-
-<a href="tel:2022974949" class="btnGhost">
-Reserve Now
-</a>
-
-</div>
-
-</section>
-
-
-<section class="container menuSection">
-
-<div class="menuTabs">
-
-<button class="menuTab active" data-menu="food">
-Food
-</button>
-
-<button class="menuTab" data-menu="cocktails">
-Cocktails
-</button>
-
-<button class="menuTab" data-menu="beer">
-Beer
-</button>
-
-<button class="menuTab" data-menu="wine">
-Wine
-</button>
-
-</div>
-
-
-<div id="menuContent" class="menuGrid">
-
-<!-- menu.js will populate this -->
-
-</div>
-
-</section>
-
-
-<section class="container">
-
-<div class="menuCta glassCard fadeUp">
-
-<div>
-
-<h2 class="menuCtaTitle">
-Pair Your Drinks with a Night Out
-</h2>
-
-<p class="menuCtaText">
-Our menu is built around the lounge experience —
-signature cocktails, small plates, and premium spirits
-that fit perfectly with Allure's nightlife energy.
-</p>
-
-</div>
-
-<div class="menuCtaActions">
-
-<a href="events.html" class="btnGold">
-See Events
-</a>
-
-<a href="tel:2022974949" class="btnGhost">
-Reserve Now
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-
-<footer class="footerPremium">
-
-<div class="container">
-
-<div class="footerPremium__grid">
-
-<div>
-
-<div class="footerBrand">
-Allure Bar & Lounge
-</div>
-
-<div class="footerText">
-Premium cocktails, lounge bites, VIP sections,
-and nightlife experiences in Washington, DC.
-</div>
-
-</div>
-
-
-<div>
-
-<div class="footerHead">
-Explore
-</div>
-
-<div class="footerLinks">
-
-<a href="index.html">Home</a>
-
-<a href="menu.html">Menu</a>
-
-<a href="events.html">Events</a>
-
-<a href="gallery.html">Gallery</a>
-
-</div>
-
-</div>
-
-
-<div>
-
-<div class="footerHead">
-Visit
-</div>
-
-<div class="footerLinks">
-
-<a href="location.html">
-711 H St NE, Washington, DC
-</a>
-
-<a href="tel:2022974949">
-202-297-4949
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="footerBottom">
-
-<span>
-© Allure Bar & Lounge
-</span>
-
-<span>
-Washington, DC
-</span>
-
-</div>
-
-</div>
-
-</footer>
-
-
-<a class="mobileStickyReserve" href="tel:2022974949">
-Reserve Now
-</a>
-
-
-<script src="assets/js/main.js"></script>
-<script src="assets/js/menu.js"></script>
-
+<body class="menu-page">
+
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+
+      <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+
+      <nav class="nav" aria-label="Primary">
+        <ul class="nav__list" id="siteNav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html" class="active">Menu</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="location.html">Location</a></li>
+          <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="menuWrap">
+    <div class="container">
+      <section class="menuHero fadeUp">
+        <div class="menuKicker">Allure Bar &amp; Lounge</div>
+        <h1>Weekly Menu</h1>
+        <p>
+          Explore daily specials, cocktails, hookah, bottles, and premium lounge menu options all week long.
+        </p>
+
+        <div class="menuHeroActions">
+          <a href="events.html" class="btnGold">See Weekly Events</a>
+          <a href="tel:2022974949" class="btnGhost">Reserve Now</a>
+        </div>
+      </section>
+
+      <div class="dayTabs" role="tablist" aria-label="Day selector">
+        <button class="dayTab active" data-daytab="monday" type="button">Monday</button>
+        <button class="dayTab" data-daytab="tuesday" type="button">Tuesday</button>
+        <button class="dayTab" data-daytab="wednesday" type="button">Wednesday</button>
+        <button class="dayTab" data-daytab="thursday" type="button">Thursday</button>
+        <button class="dayTab" data-daytab="friday" type="button">Friday</button>
+        <button class="dayTab" data-daytab="saturday" type="button">Saturday</button>
+        <button class="dayTab" data-daytab="sunday" type="button">Sunday</button>
+      </div>
+    </div>
+
+    <!-- MONDAY -->
+    <section class="dayPanel active" data-daypanel="monday">
+      <div class="container">
+        <div class="heroRow">
+          <div>
+            <div class="dayName">MONDAY <span class="vipBadge">VIP</span></div>
+            <div class="daySub">FREE HOOKAH MONDAY • HAPPY HOUR ALL NIGHT</div>
+          </div>
+          <div class="heroRight">
+            <span class="limitedTag">LIMITED TABLES</span>
+            <a class="reserveTop" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuSplit menuSplit--single">
+          <div class="menuCard reveal">
+            <div class="cardTitle">HAPPY HOUR • ALL NIGHT</div>
+
+            <div class="catBar" data-scope="monday-happy">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots5" type="button">$5 Shots</button>
+              <button class="cat" data-cat="drinks10" type="button">$10 Drinks</button>
+              <button class="cat" data-cat="cocktails10" type="button">$10 Cocktails</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="monday-happy"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TUESDAY -->
+    <section class="dayPanel" data-daypanel="tuesday">
+      <div class="container">
+        <div class="heroRow">
+          <div>
+            <div class="dayName">TUESDAY <span class="vipBadge">VIP</span></div>
+            <div class="daySub">TACO TUESDAY • HAPPY HOUR 5PM–9PM • AFTER 9PM LATE NIGHT</div>
+          </div>
+          <div class="heroRight">
+            <span class="limitedTag">LIMITED TABLES</span>
+            <a class="reserveTop" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuSplit">
+          <div class="menuCard reveal">
+            <div class="cardTitle">HAPPY HOUR • 5PM–9PM</div>
+
+            <div class="catBar" data-scope="tuesday-happy">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots5" type="button">$5 Shots</button>
+              <button class="cat" data-cat="drinks10" type="button">$10 Drinks</button>
+              <button class="cat" data-cat="cocktails10" type="button">$10 Cocktails</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="refill12" type="button">$12 Refill</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="tuesday-happy"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+
+          <div class="menuCard reveal">
+            <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
+
+            <div class="catBar" data-scope="tuesday-late">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="tuesday-late"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEDNESDAY -->
+    <section class="dayPanel" data-daypanel="wednesday">
+      <div class="container">
+        <div class="heroRow">
+          <div>
+            <div class="dayName">WEDNESDAY <span class="vipBadge">VIP</span></div>
+            <div class="daySub">MIDWEEK WEDNESDAY • HAPPY HOUR 5PM–9PM • AFTER 9PM LATE NIGHT</div>
+          </div>
+          <div class="heroRight">
+            <span class="limitedTag">LIMITED TABLES</span>
+            <a class="reserveTop" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuSplit">
+          <div class="menuCard reveal">
+            <div class="cardTitle">HAPPY HOUR • 5PM–9PM</div>
+
+            <div class="catBar" data-scope="wednesday-happy">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots5" type="button">$5 Shots</button>
+              <button class="cat" data-cat="drinks10" type="button">$10 Drinks</button>
+              <button class="cat" data-cat="cocktails10" type="button">$10 Cocktails</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="refill12" type="button">$12 Refill</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="wednesday-happy"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+
+          <div class="menuCard reveal">
+            <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
+
+            <div class="catBar" data-scope="wednesday-late">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="wednesday-late"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THURSDAY -->
+    <section class="dayPanel" data-daypanel="thursday">
+      <div class="container">
+        <div class="heroRow">
+          <div>
+            <div class="dayName">THURSDAY <span class="vipBadge">VIP</span></div>
+            <div class="daySub">KARAOKE THURSDAY • HAPPY HOUR 5PM–9PM • AFTER 9PM LATE NIGHT</div>
+          </div>
+          <div class="heroRight">
+            <span class="limitedTag">LIMITED TABLES</span>
+            <a class="reserveTop" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuSplit">
+          <div class="menuCard reveal">
+            <div class="cardTitle">HAPPY HOUR • 5PM–9PM</div>
+
+            <div class="catBar" data-scope="thursday-happy">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots5" type="button">$5 Shots</button>
+              <button class="cat" data-cat="drinks10" type="button">$10 Drinks</button>
+              <button class="cat" data-cat="cocktails10" type="button">$10 Cocktails</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="refill12" type="button">$12 Refill</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="thursday-happy"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+
+          <div class="menuCard reveal">
+            <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
+
+            <div class="catBar" data-scope="thursday-late">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="thursday-late"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRIDAY -->
+    <section class="dayPanel" data-daypanel="friday">
+      <div class="container">
+        <div class="heroRow">
+          <div>
+            <div class="dayName">FRIDAY <span class="vipBadge">VIP</span></div>
+            <div class="daySub">ALLURE FRIDAY • HAPPY HOUR 5PM–9PM • AFTER 9PM LATE NIGHT</div>
+          </div>
+          <div class="heroRight">
+            <span class="limitedTag">LIMITED TABLES</span>
+            <a class="reserveTop" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuSplit">
+          <div class="menuCard reveal">
+            <div class="cardTitle">HAPPY HOUR • 5PM–9PM</div>
+
+            <div class="catBar" data-scope="friday-happy">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots5" type="button">$5 Shots</button>
+              <button class="cat" data-cat="drinks10" type="button">$10 Drinks</button>
+              <button class="cat" data-cat="cocktails10" type="button">$10 Cocktails</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="refill12" type="button">$12 Refill</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="friday-happy"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+
+          <div class="menuCard reveal">
+            <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
+
+            <div class="catBar" data-scope="friday-late">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="friday-late"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SATURDAY -->
+    <section class="dayPanel" data-daypanel="saturday">
+      <div class="container">
+        <div class="heroRow">
+          <div>
+            <div class="dayName">SATURDAY <span class="vipBadge">VIP</span></div>
+            <div class="daySub">ALLURE SATURDAY • HAPPY HOUR 5PM–9PM • AFTER 9PM LATE NIGHT</div>
+          </div>
+          <div class="heroRight">
+            <span class="limitedTag">LIMITED TABLES</span>
+            <a class="reserveTop" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuSplit">
+          <div class="menuCard reveal">
+            <div class="cardTitle">HAPPY HOUR • 5PM–9PM</div>
+
+            <div class="catBar" data-scope="saturday-happy">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots5" type="button">$5 Shots</button>
+              <button class="cat" data-cat="drinks10" type="button">$10 Drinks</button>
+              <button class="cat" data-cat="cocktails10" type="button">$10 Cocktails</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="refill12" type="button">$12 Refill</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="saturday-happy"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+
+          <div class="menuCard reveal">
+            <div class="cardTitle">AFTER 9PM • LATE NIGHT MENU</div>
+
+            <div class="catBar" data-scope="saturday-late">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots7" type="button">$7 Shots</button>
+              <button class="cat" data-cat="drinks14" type="button">$14 Drinks</button>
+              <button class="cat" data-cat="premium" type="button">Premium</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="saturday-late"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUNDAY -->
+    <section class="dayPanel" data-daypanel="sunday">
+      <div class="container">
+        <div class="heroRow">
+          <div>
+            <div class="dayName">SUNDAY <span class="vipBadge">VIP</span></div>
+            <div class="daySub">SOCIAL SUNDAY • HAPPY HOUR ALL NIGHT</div>
+          </div>
+          <div class="heroRight">
+            <span class="limitedTag">LIMITED TABLES</span>
+            <a class="reserveTop" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+
+        <div class="menuSplit menuSplit--single">
+          <div class="menuCard reveal">
+            <div class="cardTitle">HAPPY HOUR • ALL NIGHT</div>
+
+            <div class="catBar" data-scope="sunday-happy">
+              <button class="cat" data-cat="food" type="button">Food</button>
+              <button class="cat" data-cat="shots5" type="button">$5 Shots</button>
+              <button class="cat" data-cat="drinks10" type="button">$10 Drinks</button>
+              <button class="cat" data-cat="cocktails10" type="button">$10 Cocktails</button>
+              <button class="cat" data-cat="wine6" type="button">$6 Wine</button>
+              <button class="cat" data-cat="beer4" type="button">$4 Beer</button>
+              <button class="cat" data-cat="highnoon8" type="button">$8 High Noon</button>
+              <button class="cat" data-cat="na" type="button">Non-Alcoholic</button>
+              <button class="cat" data-cat="hookah23" type="button">$23 Hookah</button>
+              <button class="cat" data-cat="tower43" type="button">$43 Tower</button>
+              <button class="cat" data-cat="fishbowl23" type="button">$23 Fishbowl</button>
+              <button class="cat" data-cat="bottles" type="button">Bottles</button>
+            </div>
+
+            <div class="catBody" data-scopebody="sunday-happy"></div>
+            <a class="reserveInline" href="tel:2022974949">Reserve / Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footerPremium">
+    <div class="container">
+      <div class="footerPremium__grid">
+        <div>
+          <div class="footerBrand">Allure Bar &amp; Lounge</div>
+          <div class="footerText">
+            Premium cocktails, curated weekly events, and upscale lounge energy in Washington, DC.
+          </div>
+        </div>
+
+        <div>
+          <div class="footerHead">Explore</div>
+          <div class="footerLinks">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="events.html">Events</a>
+            <a href="gallery.html">Gallery</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footerHead">Visit</div>
+          <div class="footerLinks">
+            <a href="location.html">711 H St NE, Washington, DC</a>
+            <a href="tel:2022974949">Call 202-297-4949</a>
+            <a href="about.html">About</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footerBottom">
+        <span>© Allure Bar &amp; Lounge</span>
+        <span>Washington, DC</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/menu.js"></script>
 </body>
 </html>
