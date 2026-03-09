@@ -9,518 +9,178 @@
 <meta name="description" content="Visit Allure Bar & Lounge at 711 H St NE, Washington, DC 20002. Find directions, hours, contact info, and plan your next night out.">
 
 <link rel="stylesheet" href="assets/css/styles.css">
-
-<style>
-
-.locationHero{
-padding:84px 0 36px;
-}
-
-.locationKicker{
-display:inline-block;
-color:var(--gold2);
-letter-spacing:.16em;
-text-transform:uppercase;
-font-size:12px;
-font-weight:900;
-margin-bottom:10px;
-}
-
-.locationHero h1{
-font-size:52px;
-line-height:1.05;
-margin:0 0 12px;
-}
-
-.locationHero p{
-max-width:720px;
-color:rgba(255,255,255,.84);
-line-height:1.7;
-margin:0;
-font-size:16px;
-}
-
-.locationStats{
-margin-top:26px;
-padding:14px;
-}
-
-.locationMain{
-margin-top:40px;
-display:grid;
-grid-template-columns:1.05fr .95fr;
-gap:24px;
-align-items:start;
-}
-
-.locationInfoCard{
-padding:26px;
-}
-
-.locationInfoTitle{
-font-size:30px;
-font-weight:900;
-margin:0 0 12px;
-}
-
-.locationInfoText{
-color:var(--textSoft);
-line-height:1.7;
-margin:0 0 18px;
-}
-
-.locationList{
-display:grid;
-gap:12px;
-}
-
-.locationRow{
-display:flex;
-justify-content:space-between;
-gap:16px;
-padding:14px 16px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
-}
-
-.locationRowLabel{
-font-weight:800;
-color:rgba(255,255,255,.74);
-}
-
-.locationRowValue{
-font-weight:900;
-text-align:right;
-}
-
-.locationMapWrap{
-overflow:hidden;
-border-radius:20px;
-border:1px solid var(--line);
-box-shadow:var(--shadow);
-background:rgba(255,255,255,.04);
-}
-
-.locationMapWrap iframe{
-width:100%;
-height:100%;
-min-height:460px;
-border:0;
-display:block;
-filter:grayscale(1) contrast(1.03) brightness(.88);
-}
-
-.hoursSection{
-margin-top:60px;
-}
-
-.hoursGrid{
-margin-top:20px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-}
-
-.hoursCard,
-.visitTipsCard{
-padding:24px;
-}
-
-.hoursCard h2,
-.visitTipsCard h2{
-margin:0 0 10px;
-font-size:28px;
-font-weight:900;
-}
-
-.hoursRows{
-display:grid;
-gap:10px;
-margin-top:18px;
-}
-
-.hoursRow{
-display:flex;
-justify-content:space-between;
-gap:14px;
-padding:14px 16px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
-font-weight:800;
-}
-
-.visitTipsList{
-display:grid;
-gap:12px;
-margin-top:18px;
-}
-
-.visitTip{
-padding:14px 16px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
-color:var(--textSoft);
-line-height:1.65;
-}
-
-.locationCTA{
-margin-top:60px;
-padding:28px;
-display:grid;
-grid-template-columns:1.1fr .9fr;
-gap:24px;
-align-items:center;
-}
-
-.locationCTATitle{
-font-size:34px;
-font-weight:950;
-line-height:1.05;
-margin:0 0 10px;
-}
-
-.locationCTAText{
-color:var(--textSoft);
-line-height:1.7;
-margin:0;
-}
-
-.locationCTAActions{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-justify-content:flex-end;
-}
-
-@media(max-width:900px){
-
-.locationHero h1{
-font-size:40px;
-}
-
-.locationMain,
-.hoursGrid,
-.locationCTA{
-grid-template-columns:1fr;
-}
-
-.locationCTAActions{
-justify-content:flex-start;
-}
-
-}
-
-@media(max-width:560px){
-
-.locationHero h1{
-font-size:34px;
-}
-
-.locationInfoTitle,
-.hoursCard h2,
-.visitTipsCard h2,
-.locationCTATitle{
-font-size:26px;
-}
-
-.locationRow,
-.hoursRow{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.locationRowValue{
-text-align:left;
-}
-
-}
-
-</style>
+<link rel="stylesheet" href="assets/css/location.css">
 </head>
 
 <body>
 
 <header class="header">
-<div class="container header__inner">
+  <div class="container header__inner">
 
-<a class="brand" href="index.html">Allure Bar & Lounge</a>
+    <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-<button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+    <button class="nav__toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
 
-<nav class="nav">
-<ul class="nav__list" id="siteNav">
+    <nav class="nav">
+      <ul class="nav__list" id="siteNav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="location.html" class="active">Location</a></li>
+        <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
+      </ul>
+    </nav>
 
-<li><a href="index.html">Home</a></li>
-<li><a href="menu.html">Menu</a></li>
-<li><a href="events.html">Events</a></li>
-<li><a href="gallery.html">Gallery</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="location.html" class="active">Location</a></li>
-
-<li>
-<a class="btnGold" href="tel:2022974949">Reserve Now</a>
-</li>
-
-</ul>
-</nav>
-
-</div>
+  </div>
 </header>
 
 <main>
 
-<section class="locationHero container fadeUp">
+  <section class="locationHero container fadeUp">
 
-<div class="locationKicker">Visit Allure</div>
+    <div class="locationKicker">Visit Allure</div>
 
-<h1>Find Us in the Heart of Washington, DC</h1>
+    <h1>Find Us in the Heart of Washington, DC</h1>
 
-<p>
-Allure Bar & Lounge is located at 711 H St NE, Washington, DC 20002.
-Join us for premium cocktails, curated weekly events, VIP sections,
-and a polished nightlife atmosphere built for memorable nights.
-</p>
+    <p>
+      Allure Bar &amp; Lounge is located at 711 H St NE, Washington, DC 20002.
+      Join us for premium cocktails, curated weekly events, VIP sections,
+      and a polished nightlife atmosphere built for memorable nights.
+    </p>
 
-<div class="locationStats statsGrid glassCard">
+    <div class="statsGrid glassCard locationStats">
 
-<div class="statBox">
-<div class="statNum">711</div>
-<div class="statLabel">H St NE</div>
-</div>
+      <div class="statBox">
+        <div class="statNum">711</div>
+        <div class="statLabel">H St NE</div>
+      </div>
 
-<div class="statBox">
-<div class="statNum">DC</div>
-<div class="statLabel">Nightlife District</div>
-</div>
+      <div class="statBox">
+        <div class="statNum">DC</div>
+        <div class="statLabel">Nightlife District</div>
+      </div>
 
-<div class="statBox">
-<div class="statNum">5PM</div>
-<div class="statLabel">Doors Open</div>
-</div>
+      <div class="statBox">
+        <div class="statNum">5PM</div>
+        <div class="statLabel">Doors Open</div>
+      </div>
 
-<div class="statBox">
-<div class="statNum">2AM</div>
-<div class="statLabel">Weekend Close</div>
-</div>
+      <div class="statBox">
+        <div class="statNum">2AM</div>
+        <div class="statLabel">Weekend Close</div>
+      </div>
 
-</div>
+    </div>
 
-</section>
+  </section>
 
-<section class="container locationMain fadeUp delay1">
+  <section class="container locationMapSection fadeUp delay1">
 
-<div class="locationInfoCard glassCard">
+    <div class="locationMap">
+      <iframe
+        title="Allure Bar & Lounge Map"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=711%20H%20St%20NE%2C%20Washington%2C%20DC%2020002&z=16&output=embed">
+      </iframe>
+    </div>
 
-<h2 class="locationInfoTitle">Location Details</h2>
+  </section>
 
-<p class="locationInfoText">
-Allure Bar & Lounge sits on H Street NE, one of the city’s most active nightlife corridors.
-Whether you’re planning a casual evening, a birthday, or a full VIP night out,
-this location puts you in the center of the experience.
-</p>
+  <section class="container locationInfoSection fadeUp delay2">
 
-<div class="locationList">
+    <div class="locationCard">
+      <h3>Address</h3>
+      <p>
+        711 H St NE<br>
+        Washington, DC 20002
+      </p>
+    </div>
 
-<div class="locationRow">
-<div class="locationRowLabel">Venue</div>
-<div class="locationRowValue">Allure Bar &amp; Lounge</div>
-</div>
+    <div class="locationCard">
+      <h3>Hours</h3>
+      <p>
+        Sun – Thu: 5PM – 1AM<br>
+        Fri – Sat: 5PM – 2AM
+      </p>
+    </div>
 
-<div class="locationRow">
-<div class="locationRowLabel">Address</div>
-<div class="locationRowValue">711 H St NE, Washington, DC 20002</div>
-</div>
+    <div class="locationCard">
+      <h3>Contact</h3>
+      <p>
+        Phone: 202-297-4949<br>
+        Reservations available by phone
+      </p>
+    </div>
 
-<div class="locationRow">
-<div class="locationRowLabel">Phone</div>
-<div class="locationRowValue">202-297-4949</div>
-</div>
+  </section>
 
-<div class="locationRow">
-<div class="locationRowLabel">Reservations</div>
-<div class="locationRowValue">Walk-ins + VIP Booking</div>
-</div>
+  <section class="container">
 
-<div class="locationRow">
-<div class="locationRowLabel">Neighborhood</div>
-<div class="locationRowValue">H Street NE</div>
-</div>
+    <div class="locationCTA glassCard fadeUp delay3">
 
-</div>
+      <div>
+        <h2 class="locationCTATitle">Plan Your Night at Allure</h2>
+        <p class="locationCTAText">
+          Reserve ahead, check the weekly events, and make your next stop at Allure
+          a premium Washington, DC nightlife experience.
+        </p>
+      </div>
 
-</div>
+      <div class="locationCTAActions">
+        <a class="btnGold" href="tel:2022974949">Call Now</a>
+        <a class="btnGhost" href="events.html">See Events</a>
+        <a class="btnGhost" href="https://maps.google.com/?q=711+H+St+NE+Washington+DC+20002">Get Directions</a>
+      </div>
 
-<div class="locationMapWrap">
+    </div>
 
-<iframe
-title="Allure Bar & Lounge Map"
-loading="lazy"
-referrerpolicy="no-referrer-when-downgrade"
-src="https://www.google.com/maps?q=711%20H%20St%20NE%2C%20Washington%2C%20DC%2020002&z=16&output=embed">
-</iframe>
-
-</div>
-
-</section>
-
-<section class="container hoursSection fadeUp delay2">
-
-<h2 class="sectionTitle">Hours & Visit Info</h2>
-<p class="sectionText">Plan ahead so your night starts smoothly.</p>
-
-<div class="hoursGrid">
-
-<div class="hoursCard glassCard">
-
-<h2>Hours</h2>
-
-<div class="hoursRows">
-
-<div class="hoursRow">
-<span>Monday</span>
-<span>5PM – 1AM</span>
-</div>
-
-<div class="hoursRow">
-<span>Tuesday</span>
-<span>5PM – 1AM</span>
-</div>
-
-<div class="hoursRow">
-<span>Wednesday</span>
-<span>5PM – 1AM</span>
-</div>
-
-<div class="hoursRow">
-<span>Thursday</span>
-<span>5PM – 1AM</span>
-</div>
-
-<div class="hoursRow">
-<span>Friday</span>
-<span>5PM – 2AM</span>
-</div>
-
-<div class="hoursRow">
-<span>Saturday</span>
-<span>5PM – 2AM</span>
-</div>
-
-<div class="hoursRow">
-<span>Sunday</span>
-<span>5PM – 1AM</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="visitTipsCard glassCard">
-
-<h2>Visit Tips</h2>
-
-<div class="visitTipsList">
-
-<div class="visitTip">
-Call ahead for VIP reservations, birthdays, and premium table requests.
-</div>
-
-<div class="visitTip">
-Weekend nights are the strongest times for bottle service, crowd energy, and late-night lounge vibes.
-</div>
-
-<div class="visitTip">
-Arriving earlier gives you a smoother start, better seating options, and easier entry into the night.
-</div>
-
-<div class="visitTip">
-Check the menu and events pages before you arrive so you know the night’s specials and overall vibe.
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="container fadeUp delay3">
-
-<div class="locationCTA glassCard">
-
-<div>
-
-<h2 class="locationCTATitle">Ready for Your Next Night Out?</h2>
-
-<p class="locationCTAText">
-Call ahead, plan your visit, and make your next stop at Allure
-a premium Washington, DC nightlife experience.
-</p>
-
-</div>
-
-<div class="locationCTAActions">
-
-<a class="btnGold" href="tel:2022974949">Reserve by Phone</a>
-<a class="btnGhost" href="events.html">See Events</a>
-<a class="btnGhost" href="menu.html">View Menu</a>
-
-</div>
-
-</div>
-
-</section>
+  </section>
 
 </main>
 
 <footer class="footerPremium">
+  <div class="container">
 
-<div class="container">
+    <div class="footerPremium__grid">
 
-<div class="footerPremium__grid">
+      <div>
+        <div class="footerBrand">Allure Bar &amp; Lounge</div>
+        <div class="footerText">
+          Premium nightlife, curated weekly events, cocktails, and upscale lounge energy
+          in Washington, DC.
+        </div>
+      </div>
 
-<div>
-<div class="footerBrand">Allure Bar & Lounge</div>
-<div class="footerText">
-Premium nightlife, curated weekly events, cocktails, and upscale lounge energy
-in Washington, DC.
-</div>
-</div>
+      <div>
+        <div class="footerHead">Explore</div>
+        <div class="footerLinks">
+          <a href="index.html">Home</a>
+          <a href="menu.html">Menu</a>
+          <a href="events.html">Events</a>
+          <a href="gallery.html">Gallery</a>
+        </div>
+      </div>
 
-<div>
-<div class="footerHead">Explore</div>
-<div class="footerLinks">
-<a href="index.html">Home</a>
-<a href="menu.html">Menu</a>
-<a href="events.html">Events</a>
-<a href="gallery.html">Gallery</a>
-</div>
-</div>
+      <div>
+        <div class="footerHead">Visit</div>
+        <div class="footerLinks">
+          <a href="location.html">711 H St NE</a>
+          <a href="tel:2022974949">202-297-4949</a>
+          <a href="events.html">Weekly Events</a>
+        </div>
+      </div>
 
-<div>
-<div class="footerHead">Visit</div>
-<div class="footerLinks">
-<a href="location.html">711 H St NE</a>
-<a href="tel:2022974949">202-297-4949</a>
-<a href="events.html">Weekly Events</a>
-</div>
-</div>
+    </div>
 
-</div>
+    <div class="footerBottom">
+      <span>© Allure Bar &amp; Lounge</span>
+      <span>Washington, DC</span>
+    </div>
 
-<div class="footerBottom">
-
-<span>© Allure Bar & Lounge</span>
-<span>Washington, DC</span>
-
-</div>
-
-</div>
-
+  </div>
 </footer>
 
 <a class="mobileStickyReserve" href="tel:2022974949">Reserve Now</a>
