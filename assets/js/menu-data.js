@@ -1,11 +1,65 @@
 window.MENU_CATEGORY_CONTENT = {
   food: [
-    { name: "Wings", desc: "Crispy wings with house sauce.", price: "$12+" },
-    { name: "Salmon Sliders", desc: "Fresh salmon sliders.", price: "$12" },
-    { name: "Chicken Tacos", desc: "Seasoned chicken tacos.", price: "$14" },
-    { name: "Shrimp Tacos", desc: "Grilled shrimp tacos.", price: "$16" },
-    { name: "Rasta Pasta", desc: "Creamy jerk pasta.", price: "$16+" }
-  ],
+
+{ name:"Salmon Sliders w/ Fries", desc:"Fresh salmon sliders served with fries.", price:"$12"},
+{ name:"Beef Sliders w/ Fries", desc:"Mini beef sliders served with fries.", price:"$10"},
+{ name:"Mozzarella Sticks", desc:"Fried mozzarella sticks.", price:"$7"},
+{ name:"Fried Pickles", desc:"Crispy fried pickles.", price:"$5"},
+{ name:"Chips & Salsa", desc:"Fresh chips with salsa.", price:"$5"},
+{ name:"Onion Rings", desc:"Crispy onion rings.", price:"$7"},
+{ name:"Fries", desc:"Seasoned fries.", price:"$5"},
+
+{ name:"12pc Wings w/ Fries", desc:"12 wings served with fries.", price:"$16"},
+{ name:"8pc Wings w/ Fries", desc:"8 wings served with fries.", price:"$14"},
+{ name:"6pc Wings w/ Fries", desc:"6 wings served with fries.", price:"$12"},
+{ name:"12pc Wings Only", desc:"12 wings only.", price:"$14"},
+{ name:"8pc Wings Only", desc:"8 wings only.", price:"$10"},
+{ name:"6pc Wings Only", desc:"6 wings only.", price:"$8"},
+
+{ name:"Cheese Quesadilla", desc:"Cheese quesadilla.", price:"$8"},
+{ name:"Chicken Quesadilla", desc:"Chicken quesadilla.", price:"$10"},
+{ name:"Shrimp Quesadilla", desc:"Shrimp quesadilla.", price:"$12"},
+{ name:"Salmon Quesadilla", desc:"Salmon quesadilla.", price:"$14"},
+
+{ name:"Rasta Pasta (Chicken)", desc:"Creamy rasta pasta with chicken.", price:"$16"},
+{ name:"Rasta Pasta (Shrimp)", desc:"Creamy rasta pasta with shrimp.", price:"$18"},
+{ name:"Rasta Pasta (Salmon)", desc:"Creamy rasta pasta with salmon.", price:"$20"},
+
+{ name:"Salad", desc:"Fresh salad.", price:"$8"},
+{ name:"Salad w/ Chicken", desc:"Salad with grilled chicken.", price:"$10"},
+{ name:"Salad w/ Shrimp", desc:"Salad with shrimp.", price:"$12"},
+{ name:"Salad w/ Salmon", desc:"Salad with salmon.", price:"$13"},
+
+{ name:"Salmon Dinner", desc:"Salmon with yellow rice & broccoli.", price:"$20"},
+{ name:"General Tso Dinner", desc:"General Tso chicken with rice & broccoli.", price:"$18"},
+{ name:"Beef Burger w/ Fries", desc:"Burger with lettuce, tomato, cheese.", price:"$13"},
+
+{ name:"Fried Shrimp Basket", desc:"Crispy shrimp basket.", price:"$18"},
+{ name:"Crab Fries Basket", desc:"Seasoned crab fries.", price:"$18"},
+{ name:"Fried Whiting Basket", desc:"Fried whiting basket.", price:"$15"},
+{ name:"Salmon Nugget Basket", desc:"Salmon nugget basket.", price:"$15"},
+{ name:"Catfish Nuggets Basket", desc:"Catfish nuggets basket.", price:"$13"},
+
+{ name:"Shrimp Tacos", desc:"Lettuce, cheese, sour cream, salsa.", price:"$16"},
+{ name:"Chicken Tacos", desc:"Lettuce, cheese, sour cream, salsa.", price:"$14"}
+
+],
+
+wingflavors: [
+
+{ name:"Honey Lemon Pepper", desc:"Wet flavor", price:""},
+{ name:"Honey Old Bay", desc:"Wet flavor", price:""},
+{ name:"Buffalo BBQ", desc:"Wet flavor", price:""},
+{ name:"Honey Sazon", desc:"Wet flavor", price:""},
+{ name:"Sweet Chili", desc:"Wet flavor", price:""},
+{ name:"Teriyaki", desc:"Wet flavor", price:""},
+{ name:"Mumbo", desc:"Wet flavor", price:""},
+
+{ name:"Lemon Pepper", desc:"Dry flavor", price:""},
+{ name:"Jerk Rub", desc:"Dry flavor", price:""},
+{ name:"Old Bay", desc:"Dry flavor", price:""}
+
+],
 
   shots5: [
     { name: "Vodka Shot", desc: "House vodka.", price: "$5" },
