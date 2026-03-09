@@ -493,3 +493,40 @@
   padding-bottom:8px;
   border-bottom:1px solid rgba(255,255,255,.10);
 }
+.menuNested{
+  display:grid;
+  gap:14px;
+}
+
+.menuSubTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.menuSubTab{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  padding:9px 12px;
+  border-radius:999px;
+  font-weight:800;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+
+.menuSubTab:hover{
+  border-color:rgba(215,180,106,.35);
+  color:var(--gold2);
+}
+
+.menuSubTab.active{
+  background:rgba(215,180,106,.14);
+  border-color:rgba(215,180,106,.40);
+  color:var(--gold2);
+}
+
+.menuSubBody{
+  display:block;
+}
