@@ -18,21 +18,21 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function filterItemsByMode(items, mode) {
+  function mapItemsForMode(items, mode) {
     if (!mode) return items || [];
 
     return (items || []).map(item => {
-      const raw = String(item.price || "");
-      if (!raw.includes("/")) return item;
+      const rawPrice = String(item.price || "");
+      if (!rawPrice.includes("/")) return item;
 
-      const parts = raw.split("/").map(p => p.trim());
+      const parts = rawPrice.split("/").map(p => p.trim());
 
       if (mode === "shots") {
-        return { ...item, price: parts[0] || raw };
+        return { ...item, price: parts[0] || rawPrice };
       }
 
       if (mode === "drinks") {
-        return { ...item, price: parts[1] || parts[0] || raw };
+        return { ...item, price: parts[1] || parts[0] || rawPrice };
       }
 
       return item;
@@ -95,8 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="popularTonight__grid">
         ${items.map(item => `
           <div class="popularCard">
-            <span>${item.name}</span>
-            <span class="price">${item.price}</span>
+            <span>${item.name || ""}</span>
+            <span class="price">${item.price || ""}</span>
           </div>
         `).join("")}
       </div>
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function bindSubTabs(panelBody, content, mode = null) {
-    const tabs = panelBody.querySelectorAll(".menuSubTab");
+    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
     const subBody = panelBody.querySelector(".menuSubBody");
     const sections = content.sections || [];
 
@@ -139,11 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const section = sections.find(s => s.title === title);
       if (!section) return;
 
-      const items = filterItemsByMode(section.items || [], mode);
+      const items = mapItemsForMode(section.items || [], mode);
 
       subBody.innerHTML = `
         <div class="menuSectionBlock">
-          <div class="menuSectionBlock__title">${section.title}</div>
+          <div class="menuSectionBlock__title">${section.title || ""}</div>
           ${renderFlatMenu(items)}
         </div>
       `;
@@ -154,54 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
         activateSubsection(tab.dataset.subsection);
       });
     });
-  }
 
-  function setupCenterWrap(wrap) {
-    const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
-    const panelBody = wrap.querySelector(".menuPanelBody");
-
-    if (!buttons.length || !panelBody) return;
-
-    function activateButton(clickedButton) {
-      const cat = clickedButton.dataset.cat;
-      const mode = clickedButton.dataset.mode || null;
-
-      buttons.forEach(button => {
-        button.classList.toggle("active", button === clickedButton);
-      });
-
-      const content = CATEGORY_CONTENT[cat];
-
-      if (!content) {
-        panelBody.innerHTML = `
-          <div class="menuEmpty">
-            This section will be updated soon.
-          </div>
-        `;
-        return;
-      }
-
-      if (content.sections) {
-        panelBody.innerHTML = renderMenu(content);
-        bindSubTabs(panelBody, content, mode);
-        return;
-      }
-
-      const items = filterItemsByMode(content, mode);
-      panelBody.innerHTML = renderFlatMenu(items);
-    }
-
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        activateButton(button);
-      });
-    });
-
-    panelBody.innerHTML = `
-      <div class="menuEmpty">
-        Click a category above or below to view menu items.
-      </div>
-    `;
+    activateSubsection(sections[0].title);
   }
 
   function applyVipNightMode(day) {
@@ -218,11 +172,66 @@ document.addEventListener("DOMContentLoaded", () => {
       const titleEl = wrap.querySelector(".menuPanelTitle");
       if (!titleEl) return;
 
-      const titleText = titleEl.textContent.toLowerCase();
-      if (titleText.includes("after 9pm")) {
+      const text = titleEl.textContent.toLowerCase();
+      if (text.includes("after 9")) {
         wrap.classList.add("vipNightMode");
       }
     });
+  }
+
+  function setupCenterWrap(wrap) {
+    const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
+    const panelBody = wrap.querySelector(".menuPanelBody");
+
+    if (!buttons.length || !panelBody) return;
+
+    function activateButton(button) {
+      const cat = button.dataset.cat;
+      const mode = button.dataset.mode || null;
+      const content = CATEGORY_CONTENT[cat];
+
+      buttons.forEach(btn => {
+        btn.classList.toggle("active", btn === button);
+      });
+
+      if (!content) {
+        panelBody.innerHTML = `
+          <div class="menuEmpty">
+            This section will be updated soon.
+          </div>
+        `;
+        return;
+      }
+
+      if (content.sections) {
+        panelBody.innerHTML = renderMenu(content);
+        bindSubTabs(panelBody, content, mode);
+        return;
+      }
+
+      if (Array.isArray(content)) {
+        panelBody.innerHTML = renderFlatMenu(mapItemsForMode(content, mode));
+        return;
+      }
+
+      panelBody.innerHTML = `
+        <div class="menuEmpty">
+          This section will be updated soon.
+        </div>
+      `;
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        activateButton(button);
+      });
+    });
+
+    panelBody.innerHTML = `
+      <div class="menuEmpty">
+        Click a category above or below to view menu items.
+      </div>
+    `;
   }
 
   function activateDay(day) {
