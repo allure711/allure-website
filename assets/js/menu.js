@@ -18,6 +18,33 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  function renderGroupedMenu(section) {
+    const groups = section.groups || [];
+
+    return `
+      <div class="menuGrouped">
+        <div class="menuGrouped__title">${section.title || ""}</div>
+        <div class="menuGrouped__grid">
+          ${groups.map(group => `
+            <div class="menuGrouped__box">
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+              <div class="menuList">
+                ${(group.items || []).map(item => `
+                  <div class="menuItem">
+                    <div class="menuItem__left">
+                      <div class="menuItem__name">${item.name || ""}</div>
+                    </div>
+                    <div class="menuItem__price">${item.price || ""}</div>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function mapItemsForMode(items, mode) {
     if (!mode) return items || [];
 
@@ -93,13 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
     section.innerHTML = `
       <div class="popularTonight__title">🔥 Popular Tonight</div>
       <div class="popularTonight__grid">
-      ${items.map(item => `
-  <div class="popularCard ${item.special === "free-hookah" ? "popularCard--freeHookah" : ""}">
-    <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
-      ${item.name || ""}
-    </span>
-  </div>
-`).join("")}
+        ${items.map(item => `
+          <div class="popularCard ${item.special === "free-hookah" ? "popularCard--freeHookah" : ""}">
+            <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
+              ${item.name || ""}
+            </span>
+          </div>
+        `).join("")}
       </div>
     `;
 
@@ -140,11 +167,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const section = sections.find(s => s.title === title);
       if (!section) return;
 
+      if (section.layout === "wingsGrouped") {
+        subBody.innerHTML = `
+          <div class="menuSectionBlock">
+            ${renderGroupedMenu(section)}
+          </div>
+        `;
+        return;
+      }
+
       const items = mapItemsForMode(section.items || [], mode);
 
       subBody.innerHTML = `
         <div class="menuSectionBlock">
-            ${renderFlatMenu(items)}
+          ${renderFlatMenu(items)}
         </div>
       `;
     }
