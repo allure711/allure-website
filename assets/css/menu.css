@@ -785,3 +785,25 @@
       0 0 30px rgba(155,70,255,.14);
   }
 }
+.popularCard--freeHookah{
+  overflow:hidden;
+}
+
+/* moving text */
+.freeHookahText{
+  display:inline-block;
+  white-space:nowrap;
+  animation:freeHookahSlide 3s ease-in-out infinite alternate;
+}
+
+@keyframes freeHookahSlide{
+
+  0%{
+    transform:translateX(-10px);
+  }
+
+  100%{
+    transform:translateX(10px);
+  }
+
+}
