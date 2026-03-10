@@ -2,6 +2,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
 
+  /* =========================
+     MOBILE NAV TOGGLE
+  ========================= */
+  const navToggle = document.querySelector(".nav__toggle");
+  const navList = document.querySelector(".nav__list");
+
+  if (navToggle && navList) {
+    navToggle.addEventListener("click", () => {
+      const isOpen = navList.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navList.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navList.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
   function renderFlatMenu(items) {
     return `
       <div class="menuList">
