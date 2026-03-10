@@ -681,3 +681,39 @@
     background: transparent;
   }
 }
+/* ===== VIP NIGHT MODE ===== */
+.vipNightMode .menuBigPanel{
+  background:
+    radial-gradient(circle at top right, rgba(165, 92, 255, .18), transparent 35%),
+    radial-gradient(circle at top left, rgba(215,180,106,.18), transparent 38%),
+    linear-gradient(180deg, rgba(22,16,30,.96), rgba(10,10,16,.96));
+  border:1px solid rgba(215,180,106,.30);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.06),
+    0 18px 60px rgba(0,0,0,.38),
+    0 0 34px rgba(165,92,255,.12),
+    0 0 28px rgba(215,180,106,.08);
+}
+
+.vipNightMode .menuPanelTitle{
+  color:var(--gold2);
+  text-shadow:0 0 14px rgba(215,180,106,.12);
+}
+
+.vipNightMode .menuCenterBtn{
+  border-color:rgba(255,255,255,.12);
+}
+
+.vipNightMode .menuCenterBtn:hover{
+  border-color:rgba(215,180,106,.36);
+  box-shadow:0 10px 24px rgba(215,180,106,.08);
+}
+
+.vipNightMode .reserveInline{
+  box-shadow:0 10px 24px rgba(215,180,106,.18);
+}
+
+.vipNightMode .menuEmpty{
+  border-color:rgba(215,180,106,.16);
+  background:rgba(255,255,255,.03);
+}
