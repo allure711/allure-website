@@ -230,19 +230,19 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$16 Shots / $32 Drinks",
         items: [
-          { name: "1942", desc: "Premium pour.", price: "$16 / $32" },
-          { name: "Azul", desc: "Premium pour.", price: "$16 / $32" },
-          { name: "Dusse XO", desc: "Premium pour.", price: "$16 / $32" },
-          { name: "Remy XO", desc: "Premium pour.", price: "$16 / $32" }
+          { name: "1942", price: "$16 / $32" },
+          { name: "Azul", price: "$16 / $32" },
+          { name: "Dusse XO", price: "$16 / $32" },
+          { name: "Remy XO", price: "$16 / $32" }
         ]
       },
       {
         title: "$10 Shots / $20 Drinks",
         items: [
-          { name: "Gran Coramino", desc: "Premium pour.", price: "$10 / $20" },
-          { name: "JW Black", desc: "Premium pour.", price: "$10 / $20" },
-          { name: "JW Double Black", desc: "Premium pour.", price: "$10 / $20" },
-          { name: "JW Gold", desc: "Premium pour.", price: "$10 / $20" }
+          { name: "Gran Coramino", price: "$10 / $20" },
+          { name: "JW Black", price: "$10 / $20" },
+          { name: "JW Double Black", price: "$10 / $20" },
+          { name: "JW Gold", price: "$10 / $20" }
         ]
       }
     ]
@@ -253,13 +253,13 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$6 Wine",
         items: [
-          { name: "Cabernet Sauvignon", desc: "Glass of wine.", price: "$6" },
-          { name: "Chardonnay", desc: "Glass of wine.", price: "$6" },
-          { name: "Merlot", desc: "Glass of wine.", price: "$6" },
-          { name: "Moscato", desc: "Red / White.", price: "$6" },
-          { name: "Pinot Grigio", desc: "Glass of wine.", price: "$6" },
-          { name: "Sauvignon Blanc", desc: "Glass of wine.", price: "$6" },
-          { name: "Sweet Red", desc: "Glass of wine.", price: "$6" }
+          { name: "Cabernet Sauvignon", price: "$6" },
+          { name: "Chardonnay", price: "$6" },
+          { name: "Merlot", price: "$6" },
+          { name: "Moscato", price: "$6" },
+          { name: "Pinot Grigio", price: "$6" },
+          { name: "Sauvignon Blanc", price: "$6" },
+          { name: "Sweet Red", price: "$6" }
         ]
       }
     ]
@@ -270,14 +270,14 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$4 Beer",
         items: [
-          { name: "Angry Orchard", desc: "Beer / cider.", price: "$4" },
-          { name: "Corona", desc: "Beer.", price: "$4" },
-          { name: "Guinness", desc: "Beer.", price: "$4" },
-          { name: "Heineken", desc: "Beer.", price: "$4" },
-          { name: "Modelo", desc: "Beer.", price: "$4" },
-          { name: "Stella", desc: "Beer.", price: "$4" },
-          { name: "Goose Island IPA", desc: "Beer.", price: "$4" },
-          { name: "Voodoo Ranger IPA", desc: "Beer.", price: "$4" }
+          { name: "Angry Orchard", price: "$4" },
+          { name: "Corona", price: "$4" },
+          { name: "Guinness", price: "$4" },
+          { name: "Heineken", price: "$4" },
+          { name: "Modelo", price: "$4" },
+          { name: "Stella", price: "$4" },
+          { name: "Goose Island IPA", price: "$4" },
+          { name: "Voodoo Ranger IPA", price: "$4" }
         ]
       }
     ]
@@ -288,15 +288,15 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Vodka",
         items: [
-          { name: "Grapefruit", desc: "High Noon Vodka.", price: "$8" },
-          { name: "Mango", desc: "High Noon Vodka.", price: "$8" }
+          { name: "Grapefruit", price: "$8" },
+          { name: "Mango", price: "$8" }
         ]
       },
       {
         title: "Tequila",
         items: [
-          { name: "Lime", desc: "High Noon Tequila.", price: "$8" },
-          { name: "Strawberry", desc: "High Noon Tequila.", price: "$8" }
+          { name: "Lime", price: "$8" },
+          { name: "Strawberry", price: "$8" }
         ]
       }
     ]
@@ -307,12 +307,12 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Non-Alcoholic",
         items: [
-          { name: "Red Bull", desc: "Energy drink.", price: "$5" },
-          { name: "Ginger Beer", desc: "Soft drink.", price: "$5" },
-          { name: "Frozen Drinks", desc: "Non-alcoholic frozen drink.", price: "$5" },
-          { name: "Soda", desc: "Soft drink.", price: "$4" },
-          { name: "Juice", desc: "Juice selection.", price: "$4" },
-          { name: "Water", desc: "Bottle of water.", price: "$3" }
+          { name: "Red Bull", price: "$5" },
+          { name: "Ginger Beer", price: "$5" },
+          { name: "Frozen Drinks", price: "$5" },
+          { name: "Soda", price: "$4" },
+          { name: "Juice", price: "$4" },
+          { name: "Water", price: "$3" }
         ]
       }
     ]
@@ -326,27 +326,27 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Bluemist", desc: "+$2", price: "$23" },
           { name: "Lady Killer", desc: "+$2", price: "$23" },
           { name: "Love 66", desc: "+$2", price: "$23" },
-          { name: "Magic Love", desc: "+$2", price: "$23" },
-          { name: "Blueberry", desc: "Flavor", price: "$23" },
-          { name: "BMW", desc: "Flavor", price: "$23" },
-          { name: "Blueberry Mint", desc: "Flavor", price: "$23" },
-          { name: "Double Apple", desc: "Flavor", price: "$23" },
-          { name: "Grape", desc: "Flavor", price: "$23" },
-          { name: "Grapefruit", desc: "Flavor", price: "$23" },
-          { name: "Grapefruit Mint", desc: "Flavor", price: "$23" },
-          { name: "Guava", desc: "Flavor", price: "$23" },
-          { name: "Gum Mint", desc: "Flavor", price: "$23" },
-          { name: "Kiwi", desc: "Flavor", price: "$23" },
-          { name: "Lemon Mint", desc: "Flavor", price: "$23" },
-          { name: "Mango", desc: "Flavor", price: "$23" },
-          { name: "Mint", desc: "Flavor", price: "$23" },
-          { name: "Orange Mint", desc: "Flavor", price: "$23" },
-          { name: "Peach", desc: "Flavor", price: "$23" },
-          { name: "Pineapple", desc: "Flavor", price: "$23" },
-          { name: "Strawberry", desc: "Flavor", price: "$23" },
-          { name: "Vanilla", desc: "Flavor", price: "$23" },
-          { name: "Watermelon", desc: "Flavor", price: "$23" },
-          { name: "Watermelon Mint", desc: "Flavor", price: "$23" }
+          { name: "Magic Love", price: "$23" },
+          { name: "Blueberry", price: "$23" },
+          { name: "BMW", price: "$23" },
+          { name: "Blueberry Mint", price: "$23" },
+          { name: "Double Apple", price: "$23" },
+          { name: "Grape", price: "$23" },
+          { name: "Grapefruit", price: "$23" },
+          { name: "Grapefruit Mint", price: "$23" },
+          { name: "Guava", price: "$23" },
+          { name: "Gum Mint", price: "$23" },
+          { name: "Kiwi", price: "$23" },
+          { name: "Lemon Mint", price: "$23" },
+          { name: "Mango", price: "$23" },
+          { name: "Mint", price: "$23" },
+          { name: "Orange Mint", price: "$23" },
+          { name: "Peach", price: "$23" },
+          { name: "Pineapple", price: "$23" },
+          { name: "Strawberry", price: "$23" },
+          { name: "Vanilla", price: "$23" },
+          { name: "Watermelon", price: "$23" },
+          { name: "Watermelon Mint", price: "$23" }
         ]
       }
     ]
@@ -357,7 +357,7 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$12 Refill",
         items: [
-          { name: "Hookah Refill", desc: "Refill your hookah bowl.", price: "$12" }
+          { name: "Hookah Refill", price: "$12" }
         ]
       }
     ]
@@ -368,7 +368,7 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$43 Tower",
         items: [
-          { name: "House Tower", desc: "Large-format group drink.", price: "$43" }
+          { name: "House Tower", price: "$43" }
         ]
       }
     ]
@@ -379,7 +379,7 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$23 Fishbowl",
         items: [
-          { name: "House Fishbowl", desc: "Large share cocktail.", price: "$23" }
+          { name: "House Fishbowl", price: "$23" }
         ]
       }
     ]
@@ -390,36 +390,36 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Vodka",
         items: [
-          { name: "Tito's", desc: "Vodka bottle service.", price: "VIP" },
-          { name: "Grey Goose", desc: "Premium vodka bottle service.", price: "VIP" },
-          { name: "Belvedere", desc: "Premium vodka bottle service.", price: "VIP" },
-          { name: "Ciroc", desc: "Premium vodka bottle service.", price: "VIP" }
+          { name: "Tito's", price: "VIP" },
+          { name: "Grey Goose", price: "VIP" },
+          { name: "Belvedere", price: "VIP" },
+          { name: "Ciroc", price: "VIP" }
         ]
       },
       {
         title: "Tequila",
         items: [
-          { name: "Patron Silver", desc: "Tequila bottle service.", price: "VIP" },
-          { name: "Casamigos Blanco", desc: "Premium tequila bottle service.", price: "VIP" },
-          { name: "Casamigos Reposado", desc: "Premium tequila bottle service.", price: "VIP" },
-          { name: "Don Julio 1942", desc: "Luxury tequila bottle service.", price: "Market" },
-          { name: "Clase Azul", desc: "Luxury tequila bottle service.", price: "Market" }
+          { name: "Patron Silver", price: "VIP" },
+          { name: "Casamigos Blanco", price: "VIP" },
+          { name: "Casamigos Reposado", price: "VIP" },
+          { name: "Don Julio 1942", price: "Market" },
+          { name: "Clase Azul", price: "Market" }
         ]
       },
       {
         title: "Cognac",
         items: [
-          { name: "Hennessy", desc: "Cognac bottle service.", price: "VIP" },
-          { name: "D'Ussé", desc: "Premium cognac bottle service.", price: "VIP" },
-          { name: "Rémy Martin", desc: "Premium cognac bottle service.", price: "VIP" }
+          { name: "Hennessy", price: "VIP" },
+          { name: "D'Ussé", price: "VIP" },
+          { name: "Rémy Martin", price: "VIP" }
         ]
       },
       {
         title: "Whiskey",
         items: [
-          { name: "Jack Daniel's", desc: "Whiskey bottle service.", price: "VIP" },
-          { name: "Jameson", desc: "Irish whiskey bottle service.", price: "VIP" },
-          { name: "Crown Royal", desc: "Whiskey bottle service.", price: "VIP" }
+          { name: "Jack Daniel's", price: "VIP" },
+          { name: "Jameson", price: "VIP" },
+          { name: "Crown Royal", price: "VIP" }
         ]
       },
       {
@@ -432,9 +432,9 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Champagne",
         items: [
-          { name: "Moët", desc: "Champagne bottle service.", price: "VIP" },
-          { name: "Veuve Clicquot", desc: "Premium champagne bottle service.", price: "VIP" },
-          { name: "Ace of Spades", desc: "Luxury champagne bottle service.", price: "Market" }
+          { name: "Moët", price: "VIP" },
+          { name: "Veuve Clicquot", price: "VIP" },
+          { name: "Ace of Spades", price: "Market" }
         ]
       }
     ]
