@@ -144,8 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       subBody.innerHTML = `
         <div class="menuSectionBlock">
-          <div class="menuSectionBlock__title">${section.title || ""}</div>
-          ${renderFlatMenu(items)}
+            ${renderFlatMenu(items)}
         </div>
       `;
     }
