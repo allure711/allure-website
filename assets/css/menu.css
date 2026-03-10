@@ -900,3 +900,91 @@ FREE HOOKAH MONDAY – FLAME PROMO ANIMATION
   }
 
 }
+/* ===== Premium menu item upgrades ===== */
+
+/* smooth scroll inside middle menu box */
+.menuPanelBody{
+  scroll-behavior:smooth;
+}
+
+/* cleaner item row layout */
+.menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  padding:12px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  transition:
+    background .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease,
+    transform .22s ease;
+}
+
+/* keep left text flexible */
+.menuItem__left{
+  min-width:0;
+  flex:1 1 auto;
+}
+
+/* keep prices aligned right */
+.menuItem__price{
+  margin-left:auto;
+  flex:0 0 auto;
+  min-width:72px;
+  text-align:right;
+  white-space:nowrap;
+  font-weight:900;
+  color:var(--gold2);
+}
+
+/* premium hover glow */
+.menuItem:hover{
+  background:rgba(215,180,106,.08);
+  border-color:rgba(215,180,106,.18);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 8px 22px rgba(0,0,0,.18),
+    0 0 18px rgba(215,180,106,.08);
+  transform:translateY(-1px);
+}
+
+.menuItem:hover .menuItem__name{
+  color:var(--gold2);
+}
+
+.menuItem:hover .menuItem__price{
+  text-shadow:0 0 10px rgba(215,180,106,.18);
+}
+
+/* slightly cleaner description spacing */
+.menuItem__name{
+  font-weight:900;
+  line-height:1.25;
+}
+
+.menuItem__desc{
+  margin-top:4px;
+  color:rgba(255,255,255,.68);
+  line-height:1.4;
+}
+
+/* nicer scrollbar inside menu box */
+.menuPanelBody::-webkit-scrollbar{
+  width:8px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb{
+  background:rgba(215,180,106,.22);
+  border-radius:999px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb:hover{
+  background:rgba(215,180,106,.36);
+}
+
+.menuPanelBody::-webkit-scrollbar-track{
+  background:transparent;
+}
