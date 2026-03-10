@@ -18,38 +18,33 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function filterSectionItemsByMode(section, mode) {
-    if (!mode) return section.items || [];
+  function filterItemsByMode(items, mode) {
+    if (!mode) return items || [];
 
-    if (mode === "drinks") {
-      return (section.items || []).filter(item => {
-        const price = String(item.price || "");
-        return price.includes("/"); // "$5 / $10" or "$7 / $14"
-      }).map(item => {
-        const parts = String(item.price).split("/");
-        return {
-          ...item,
-          price: (parts[1] || parts[0] || "").trim()
-        };
-      });
-    }
+    return (items || []).map(item => {
+      const raw = String(item.price || "");
+      if (!raw.includes("/")) return item;
 
-    return section.items || [];
+      const parts = raw.split("/").map(p => p.trim());
+
+      if (mode === "shots") {
+        return { ...item, price: parts[0] || raw };
+      }
+
+      if (mode === "drinks") {
+        return { ...item, price: parts[1] || parts[0] || raw };
+      }
+
+      return item;
+    });
   }
 
-  function renderSectionedMenu(content, mode = null) {
+  function renderSectionedMenu(content) {
     const sections = content.sections || [];
-    const filteredSections = sections
-      .map(section => ({
-        ...section,
-        items: filterSectionItemsByMode(section, mode)
-      }))
-      .filter(section => (section.items || []).length > 0);
-
     return `
       <div class="menuNested">
         <div class="menuSubTabs">
-          ${filteredSections.map(section => `
+          ${sections.map(section => `
             <button class="menuSubTab" type="button" data-subsection="${section.title}">
               ${section.title}
             </button>
@@ -60,22 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function renderSingleListFromSections(content, mode = null) {
-    const sections = content.sections || [];
-    const allItems = sections.flatMap(section => filterSectionItemsByMode(section, mode));
-
-    if (!allItems.length) {
-      return `
-        <div class="menuEmpty">
-          No items found in this section.
-        </div>
-      `;
-    }
-
-    return renderFlatMenu(allItems);
-  }
-
-  function renderMenu(content, mode = null) {
+  function renderMenu(content) {
     if (!content) {
       return `
         <div class="menuEmpty">
@@ -89,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (content.sections) {
-      return renderSectionedMenu(content, mode);
+      return renderSectionedMenu(content);
     }
 
     return `
@@ -128,12 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function bindSubTabs(panelBody, content, mode = null) {
     const tabs = panelBody.querySelectorAll(".menuSubTab");
     const subBody = panelBody.querySelector(".menuSubBody");
-    const sections = (content.sections || [])
-      .map(section => ({
-        ...section,
-        items: filterSectionItemsByMode(section, mode)
-      }))
-      .filter(section => (section.items || []).length > 0);
+    const sections = content.sections || [];
 
     if (!tabs.length || !subBody || !sections.length) return;
 
@@ -145,10 +120,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const section = sections.find(s => s.title === title);
       if (!section) return;
 
+      const items = filterItemsByMode(section.items || [], mode);
+
       subBody.innerHTML = `
         <div class="menuSectionBlock">
           <div class="menuSectionBlock__title">${section.title}</div>
-          ${renderFlatMenu(section.items || [])}
+          ${renderFlatMenu(items)}
         </div>
       `;
     }
@@ -185,15 +162,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Food / grouped categories keep subsection tabs
       if (content.sections) {
-        panelBody.innerHTML = renderMenu(content, mode);
+        panelBody.innerHTML = renderMenu(content);
         bindSubTabs(panelBody, content, mode);
         return;
       }
 
-      // Fallback
-      panelBody.innerHTML = renderMenu(content, mode);
+      const items = filterItemsByMode(content, mode);
+      panelBody.innerHTML = renderFlatMenu(items);
     }
 
     buttons.forEach(button => {
@@ -207,6 +183,27 @@ document.addEventListener("DOMContentLoaded", () => {
         Click a category above or below to view menu items.
       </div>
     `;
+  }
+
+  function applyVipNightMode(day) {
+    document.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      wrap.classList.remove("vipNightMode");
+    });
+
+    if (day !== "friday" && day !== "saturday") return;
+
+    const activePanel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+    if (!activePanel) return;
+
+    activePanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      const titleEl = wrap.querySelector(".menuPanelTitle");
+      if (!titleEl) return;
+
+      const titleText = titleEl.textContent.toLowerCase();
+      if (titleText.includes("after 9pm")) {
+        wrap.classList.add("vipNightMode");
+      }
+    });
   }
 
   function activateDay(day) {
@@ -223,6 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
         panel.querySelectorAll(".menuCenterWrap").forEach(setupCenterWrap);
       }
     });
+
+    applyVipNightMode(day);
   }
 
   function getTodayDay() {
