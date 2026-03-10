@@ -105,6 +105,25 @@ document.addEventListener("DOMContentLoaded", () => {
     hero.after(section);
   }
 
+  function renderVipNightBanner(day, panel) {
+    panel.querySelectorAll(".vipNightBannerFloating").forEach(node => node.remove());
+
+    if (day !== "friday" && day !== "saturday") return;
+
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
+
+    const section = document.createElement("section");
+    section.className = "vipNightBannerFloating";
+    section.innerHTML = `
+      <div class="vipNightBannerFloating__badge">VIP NIGHT ACTIVE</div>
+      <div class="vipNightBannerFloating__title">Late Night Energy • Bottle Service • DJ Vibes</div>
+      <div class="vipNightBannerFloating__meta">Premium cocktails • VIP tables • Hookah • Fishbowls</div>
+    `;
+
+    hero.after(section);
+  }
+
   function bindSubTabs(panelBody, content, mode = null) {
     const tabs = panelBody.querySelectorAll(".menuSubTab");
     const subBody = panelBody.querySelector(".menuSubBody");
@@ -216,6 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
       panel.classList.toggle("active", isActive);
 
       if (isActive) {
+        renderVipNightBanner(day, panel);
         renderHighlights(day, panel);
         panel.querySelectorAll(".menuCenterWrap").forEach(setupCenterWrap);
       }
