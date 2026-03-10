@@ -175,21 +175,21 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Premium",
         items: [
-          { name: "818", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Casa Azul", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Casamigos", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Ciroc VS", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Don Julio", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Dusse", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Equiano", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Hendricks", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Hennessy VSOP", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Herradura", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Old Forester", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Patron", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Remy 1738", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Remy VSOP", desc: "Shot or mixed drink.", price: "$7 / $14" },
-          { name: "Sir Davis", desc: "Shot or mixed drink.", price: "$7 / $14" }
+          { name: "818", "Shot.", price: "$7 },
+          { name: "Casa Azul", "Shot.", price: "$7 },
+          { name: "Casamigos", "Shot.", price: "$7 },
+          { name: "Ciroc VS", "Shot", price: "$7 },
+          { name: "Don Julio", "Shot.", price: "$7 },
+          { name: "Dusse", "Shot.", price: "$7 },
+          { name: "Equiano", "Shot.", price: "$7 },
+          { name: "Hendricks", "Shot.", price: "$7 },
+          { name: "Hennessy VSOP", "Shot.", price: "$7 },
+          { name: "Herradura", "Shot.", price: "$7 },
+          { name: "Old Forester", "Shot.", price: "$7 },
+          { name: "Patron", "Shot.", price: "$7 },
+          { name: "Remy 1738", "Shot.", price: "$7 },
+          { name: "Remy VSOP", "Shot.", price: "$7 },
+          { name: "Sir Davis", "Shot.", price: "$7 }
         ]
       }
     ]
