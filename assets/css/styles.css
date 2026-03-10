@@ -1301,3 +1301,118 @@ EVENTS PAGE — FINAL FIX
 
 </body>
 </html>
+/* =========================================
+SIMPLE EVENTS GRID PAGE
+========================================= */
+
+.eventsPageActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:24px;
+}
+
+.eventsGridSimple{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-top:14px;
+}
+
+.eventSimpleCard{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  transition:transform .18s ease,border-color .18s ease;
+}
+
+.eventSimpleCard:hover{
+  transform:translateY(-3px);
+  border-color:rgba(215,180,106,.28);
+}
+
+.eventSimpleDay{
+  color:var(--gold2);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.eventSimpleCard h3{
+  margin:0 0 10px;
+  font-size:28px;
+  line-height:1.08;
+}
+
+.eventSimpleCard p{
+  margin:0 0 14px;
+  color:var(--textSoft);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.eventSimpleTags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.eventSimpleTags span{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:11px;
+  font-weight:800;
+}
+
+.eventSimpleCard .btn{
+  width:100%;
+  min-height:44px;
+}
+
+.eventSimpleCard--gold{
+  border-color:rgba(215,180,106,.22);
+  background:
+    radial-gradient(circle at top left, rgba(215,180,106,.12), transparent 35%),
+    rgba(255,255,255,.04);
+}
+
+.eventSimpleCard--glow{
+  border-color:rgba(215,180,106,.24);
+  background:
+    radial-gradient(circle at top right, rgba(155,70,255,.12), transparent 35%),
+    radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 35%),
+    rgba(255,255,255,.04);
+}
+
+.eventSimpleCard--weekend{
+  border-color:rgba(215,180,106,.28);
+  background:
+    radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 35%),
+    radial-gradient(circle at top left, rgba(215,180,106,.14), transparent 35%),
+    rgba(255,255,255,.05);
+}
+
+@media (max-width:1050px){
+  .eventsGridSimple{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:700px){
+  .eventsGridSimple{
+    grid-template-columns:1fr;
+  }
+
+  .eventSimpleCard h3{
+    font-size:24px;
+  }
+}
