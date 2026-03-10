@@ -717,3 +717,147 @@
   border-color:rgba(215,180,106,.16);
   background:rgba(255,255,255,.03);
 }
+/* ==============================
+VIP NIGHT MODE — STRONG VERSION
+============================== */
+
+.vipNightMode .menuBigPanel{
+
+  background:
+    radial-gradient(circle at top right, rgba(155,70,255,.25), transparent 40%),
+    radial-gradient(circle at top left, rgba(215,180,106,.25), transparent 45%),
+    linear-gradient(180deg, rgba(15,10,22,.95), rgba(8,8,14,.95));
+
+  border:1px solid rgba(215,180,106,.45);
+
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.10),
+    0 18px 70px rgba(0,0,0,.45),
+    0 0 40px rgba(155,70,255,.25),
+    0 0 50px rgba(215,180,106,.15);
+
+  animation:vipPanelGlow 4s ease-in-out infinite alternate;
+}
+
+/* panel glow animation */
+
+@keyframes vipPanelGlow{
+  from{
+    box-shadow:
+      0 0 0 1px rgba(215,180,106,.12),
+      0 20px 70px rgba(0,0,0,.45),
+      0 0 35px rgba(155,70,255,.20),
+      0 0 40px rgba(215,180,106,.12);
+  }
+
+  to{
+    box-shadow:
+      0 0 0 1px rgba(215,180,106,.20),
+      0 24px 90px rgba(0,0,0,.55),
+      0 0 50px rgba(155,70,255,.35),
+      0 0 65px rgba(215,180,106,.25);
+  }
+}
+
+
+/* ==============================
+VIP PANEL TITLE
+============================== */
+
+.vipNightMode .menuPanelTitle{
+
+  color:var(--gold2);
+
+  text-shadow:
+    0 0 10px rgba(215,180,106,.4),
+    0 0 20px rgba(215,180,106,.25);
+
+  animation:vipTitleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes vipTitleGlow{
+  from{
+    text-shadow:
+      0 0 8px rgba(215,180,106,.3),
+      0 0 14px rgba(215,180,106,.18);
+  }
+
+  to{
+    text-shadow:
+      0 0 16px rgba(215,180,106,.6),
+      0 0 24px rgba(215,180,106,.35);
+  }
+}
+
+
+/* ==============================
+VIP CATEGORY BUTTONS
+============================== */
+
+.vipNightMode .menuCenterBtn{
+
+  border-color:rgba(215,180,106,.35);
+  background:rgba(255,255,255,.03);
+
+}
+
+.vipNightMode .menuCenterBtn:hover{
+
+  border-color:rgba(215,180,106,.65);
+
+  background:rgba(215,180,106,.12);
+
+  box-shadow:
+    0 0 12px rgba(215,180,106,.35),
+    0 0 20px rgba(155,70,255,.25);
+
+  transform:translateY(-1px);
+}
+
+
+/* ==============================
+VIP RESERVE BUTTON
+============================== */
+
+.vipNightMode .reserveInline{
+
+  background:linear-gradient(45deg,#d7b46a,#f2d38a);
+
+  box-shadow:
+    0 10px 24px rgba(215,180,106,.35),
+    0 0 30px rgba(215,180,106,.25);
+}
+
+
+/* ==============================
+VIP BORDER SHIMMER
+============================== */
+
+.vipNightMode .menuBigPanel::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:-2px;
+
+  border-radius:24px;
+
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(215,180,106,.35),
+    transparent
+  );
+
+  opacity:.35;
+
+  animation:vipBorderMove 6s linear infinite;
+
+  pointer-events:none;
+}
+
+@keyframes vipBorderMove{
+  from{transform:translateX(-60%);}
+  to{transform:translateX(60%);}
+}
