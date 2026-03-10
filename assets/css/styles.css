@@ -1136,3 +1136,168 @@ EVENTS PAGE — FINAL FIX
   }
 
 }
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Events | Allure Bar & Lounge</title>
+  <meta name="description" content="See this week’s events at Allure Bar & Lounge in Washington, DC. Free Hookah Monday, Taco Tuesday, Midweek Social, Karaoke Thursday, Allure Friday, Allure Saturday, and Sunday Social." />
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="index.html">Allure Bar & Lounge</a>
+
+    <nav class="nav">
+      <ul class="nav__list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="events.html" class="active">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="location.html">Location</a></li>
+        <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="events-page-compact">
+
+  <section class="events-compact-hero">
+    <div class="container">
+      <p class="events-kicker">Washington, DC Nightlife</p>
+      <h1>This Week at Allure</h1>
+      <p class="events-compact-lead">
+        Premium weekly programming with hookah, karaoke, cocktails, happy hour, and strong weekend energy.
+      </p>
+
+      <div class="events-compact-actions">
+        <a class="btn btn--primary" href="tel:2022974949">Reserve by Phone</a>
+        <a class="btn btn--outline" href="menu.html">View Menu</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="events-compact-grid-wrap">
+    <div class="container">
+
+      <div class="events-compact-grid">
+
+        <article class="events-compact-card events-compact-card--gold">
+          <div class="events-compact-day">Monday</div>
+          <h3>Free Hookah Monday</h3>
+          <p>Free hookah with $50 bar tab.</p>
+          <div class="events-compact-tags">
+            <span>5PM–1AM</span>
+            <span>Featured</span>
+          </div>
+          <a class="btn btn--primary" href="tel:2022974949">Reserve</a>
+        </article>
+
+        <article class="events-compact-card">
+          <div class="events-compact-day">Tuesday</div>
+          <h3>🌮 Taco Tuesday</h3>
+          <p>Tacos, cocktails, and weekday lounge energy.</p>
+          <div class="events-compact-tags">
+            <span>5PM–9PM</span>
+            <span>Happy Hour</span>
+          </div>
+          <a class="btn btn--outline" href="tel:2022974949">Reserve</a>
+        </article>
+
+        <article class="events-compact-card">
+          <div class="events-compact-day">Wednesday</div>
+          <h3>Midweek Social</h3>
+          <p>Happy hour all night with $5 shots and $7 top shelf shots.</p>
+          <div class="events-compact-tags">
+            <span>5PM–1AM</span>
+            <span>All Night</span>
+          </div>
+          <a class="btn btn--outline" href="tel:2022974949">Reserve</a>
+        </article>
+
+        <article class="events-compact-card events-compact-card--glow">
+          <div class="events-compact-day">Thursday</div>
+          <h3>🎤 Karaoke Thursday</h3>
+          <p>Karaoke from 9PM–1AM. Happy hour all night.</p>
+          <div class="events-compact-tags">
+            <span>Door 5PM–1AM</span>
+            <span>Karaoke 9PM</span>
+          </div>
+          <a class="btn btn--primary" href="tel:2022974949">Reserve</a>
+        </article>
+
+        <article class="events-compact-card events-compact-card--weekend">
+          <div class="events-compact-day">Friday</div>
+          <h3>ALLURE FRIDAY</h3>
+          <p>R&amp;B, Hip Hop, Afrobeats, and Latino night.</p>
+          <div class="events-compact-tags">
+            <span>5PM–2AM</span>
+            <span>Weekend</span>
+          </div>
+          <a class="btn btn--primary" href="tel:2022974949">Reserve</a>
+        </article>
+
+        <article class="events-compact-card events-compact-card--weekend">
+          <div class="events-compact-day">Saturday</div>
+          <h3>ALLURE SATURDAY</h3>
+          <p>Late-night premium lounge vibes and weekend energy.</p>
+          <div class="events-compact-tags">
+            <span>5PM–2AM</span>
+            <span>Weekend</span>
+          </div>
+          <a class="btn btn--primary" href="tel:2022974949">Reserve</a>
+        </article>
+
+        <article class="events-compact-card">
+          <div class="events-compact-day">Sunday</div>
+          <h3>Sunday Social</h3>
+          <p>Relaxed lounge vibe to close out the weekend.</p>
+          <div class="events-compact-tags">
+            <span>5PM–1AM</span>
+            <span>Late Night</span>
+          </div>
+          <a class="btn btn--outline" href="tel:2022974949">Reserve</a>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footerPremium">
+  <div class="container">
+    <div class="footerPremium__grid">
+      <div>
+        <div class="footerBrand">Allure Bar & Lounge</div>
+        <div class="footerText">Cozy • Modern • Upscale nightlife destination in Washington, DC.</div>
+      </div>
+
+      <div>
+        <div class="footerHead">Hours</div>
+        <div class="footerText">Mon–Thu: 5PM–1AM<br>Fri–Sat: 5PM–2AM<br>Sun: 5PM–1AM</div>
+      </div>
+
+      <div>
+        <div class="footerHead">Contact</div>
+        <div class="footerLinks">
+          <a href="tel:2022974949">202-297-4949</a>
+          <a href="menu.html">View Menu</a>
+          <a href="location.html">Location</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
