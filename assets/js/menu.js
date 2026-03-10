@@ -93,12 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     section.innerHTML = `
       <div class="popularTonight__title">🔥 Popular Tonight</div>
       <div class="popularTonight__grid">
-        ${items.map(item => `
-          <div class="popularCard">
-            <span>${item.name || ""}</span>
-            <span class="price">${item.price || ""}</span>
-          </div>
-        `).join("")}
+        vvv
       </div>
     `;
 
