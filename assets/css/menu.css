@@ -749,3 +749,39 @@
     font-size:13px;
   }
 }
+.popularCard--freeHookah{
+  position:relative;
+  border-color:rgba(215,180,106,.34);
+  background:
+    radial-gradient(circle at top left, rgba(215,180,106,.16), transparent 45%),
+    radial-gradient(circle at bottom right, rgba(155,70,255,.14), transparent 45%),
+    rgba(255,255,255,.05);
+  color:var(--gold2);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.10),
+    0 0 18px rgba(215,180,106,.12),
+    0 0 26px rgba(155,70,255,.10);
+  animation:freeHookahPulse 2.2s ease-in-out infinite alternate;
+}
+
+.popularCard--freeHookah::before{
+  content:"🔥";
+  margin-right:8px;
+}
+
+@keyframes freeHookahPulse{
+  from{
+    transform:translateY(0);
+    box-shadow:
+      0 0 0 1px rgba(215,180,106,.08),
+      0 0 12px rgba(215,180,106,.10),
+      0 0 18px rgba(155,70,255,.08);
+  }
+  to{
+    transform:translateY(-1px);
+    box-shadow:
+      0 0 0 1px rgba(215,180,106,.16),
+      0 0 20px rgba(215,180,106,.18),
+      0 0 30px rgba(155,70,255,.14);
+  }
+}
