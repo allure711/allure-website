@@ -98,8 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
       ${item.name || ""}
     </span>
-
-    ${item.price ? `<span class="price">${item.price}</span>` : ``}
   </div>
 `).join("")}
       </div>
