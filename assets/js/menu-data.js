@@ -480,7 +480,7 @@ window.MENU_HIGHLIGHTS = {
   ],
   monday: [
     { name: "Salmon Sliders w/ Fries", price: "$12" },
-    { name: "Hookah", price: "$23" },
+    { name: "Free Hookah Mondy", price: "", special: "free-hookah" },
     { name: "Allure Lemon Drop", price: "$10" }
   ],
   tuesday: [
