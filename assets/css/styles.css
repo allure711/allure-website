@@ -821,3 +821,23 @@ img{
     padding-bottom:100px;
   }
 }
+.menu-section-inside{
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.menu-section-inside .menu-section-header{
+  margin-bottom: 16px;
+}
+
+.menu-section-inside .menu-section-header h2{
+  font-size: 26px;
+}
+
+.menu-section-inside .menu-box{
+  background: rgba(255,255,255,.02);
+}
