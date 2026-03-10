@@ -93,7 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
     section.innerHTML = `
       <div class="popularTonight__title">🔥 Popular Tonight</div>
       <div class="popularTonight__grid">
-      vv
+      ${items.map(item => `
+  <div class="popularCard ${item.special === "free-hookah" ? "popularCard--freeHookah" : ""}">
+    <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
+      ${item.name || ""}
+    </span>
+
+    ${item.price ? `<span class="price">${item.price}</span>` : ``}
+  </div>
+`).join("")}
       </div>
     `;
 
