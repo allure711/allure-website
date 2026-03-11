@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   return `
     <div class="menuGrouped">
-      <div class="menuGrouped__title">${section.title || ""}</div>
+    ${section.title === "Wing Flavors" ? "" : '<div class="menuGrouped__title">${section.title || ""}</div>'}
       <div class="menuGrouped__grid">
 
         ${groups.map(group => `
