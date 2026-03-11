@@ -1466,3 +1466,124 @@
     transform:translateX(120%);
   }
 }
+/* ==================================
+   PREMIUM AUTO-FIT MENU PANEL
+   (smart spacing for large menus)
+================================== */
+
+.menuBigPanel{
+  padding:10px;
+}
+
+.menuPanelTitle{
+  margin-bottom:6px;
+  font-size:13px;
+  letter-spacing:.08em;
+}
+
+/* tighter list */
+.menuList{
+  display:grid;
+  gap:2px;
+}
+
+/* flat clean list look */
+.menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:6px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+
+  background:none;
+  border-radius:0;
+  box-shadow:none;
+}
+
+/* subtle hover */
+.menuItem:hover{
+  background:rgba(215,180,106,.06);
+}
+
+/* tighter text */
+.menuItem__name{
+  font-size:13px;
+  font-weight:700;
+}
+
+.menuItem__desc{
+  font-size:11px;
+  opacity:.75;
+}
+
+.menuItem__price{
+  font-size:13px;
+  font-weight:800;
+}
+
+/* ===============================
+   AUTO FIT WHEN MANY ITEMS
+=============================== */
+
+.menuPanelBody:has(.menuItem:nth-child(8)){
+  font-size:0.95em;
+}
+
+.menuPanelBody:has(.menuItem:nth-child(12)){
+  font-size:0.9em;
+}
+
+.menuPanelBody:has(.menuItem:nth-child(15)){
+  font-size:0.85em;
+}
+
+/* ===============================
+   PREMIUM SCROLL (if needed)
+=============================== */
+
+.menuPanelBody::-webkit-scrollbar{
+  width:6px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb{
+  background:rgba(215,180,106,.25);
+  border-radius:999px;
+}
+
+/* ===============================
+   DESKTOP PANEL HEIGHT
+=============================== */
+
+@media (min-width:1024px){
+
+.menuBigPanel{
+  height:280px;
+}
+
+.menuPanelBody{
+  overflow-y:auto;
+}
+
+}
+
+/* ===============================
+   MOBILE OPTIMIZATION
+=============================== */
+
+@media (max-width:640px){
+
+.menuItem{
+  padding:5px 0;
+}
+
+.menuItem__name{
+  font-size:12px;
+}
+
+.menuItem__price{
+  font-size:12px;
+}
+
+}
