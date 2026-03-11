@@ -899,3 +899,54 @@
     font-size:16px;
   }
 }
+/* ===== PREMIUM GROUPED MENU (WINGS / FLAVORS) ===== */
+
+.menuGrouped{
+  padding:6px 0;
+}
+
+.menuGrouped__title{
+  font-size:22px;
+  font-weight:900;
+  color:var(--gold2);
+  margin-bottom:12px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+
+.menuGrouped__grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.menuGrouped__box{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border:1px solid rgba(215,180,106,.22);
+  border-radius:18px;
+  padding:16px;
+  position:relative;
+  overflow:hidden;
+  transition:all .25s ease;
+}
+
+.menuGrouped__box:hover{
+  border-color:rgba(215,180,106,.45);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 12px 32px rgba(0,0,0,.35),
+    0 0 22px rgba(215,180,106,.12);
+  transform:translateY(-2px);
+}
+
+.menuGrouped__boxTitle{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:10px;
+  padding-bottom:6px;
+  border-bottom:1px solid rgba(215,180,106,.20);
+}
