@@ -1,4 +1,4 @@
-ok:root{
+:root{
   --gold:#d7b46a;
   --gold2:#f2d38a;
   --bg:#07070a;
@@ -25,10 +25,6 @@ ok:root{
   padding:10px 0 12px;
 }
 
-.menuKicker{
-  display:none;
-}
-
 .menuHero h1{
   margin:0 0 6px;
   font-size:clamp(38px,5vw,58px);
@@ -42,13 +38,6 @@ ok:root{
   color:var(--textSoft);
   line-height:1.6;
   font-size:15px;
-}
-
-.menuHeroActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:14px;
 }
 
 .dayTabs{
@@ -114,74 +103,6 @@ ok:root{
   font-weight:500;
 }
 
-.vipBadge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  margin-left:8px;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  border:1px solid rgba(215,180,106,.35);
-  background:rgba(215,180,106,.12);
-  vertical-align:middle;
-}
-
-.heroRight{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-
-.limitedTag{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:9px 12px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  color:#fff;
-}
-
-.reserveTop,
-.reserveInline{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  background:var(--gold);
-  color:#111;
-  font-weight:900;
-  border-radius:12px;
-  transition:transform .18s ease, opacity .18s ease;
-}
-
-.reserveTop:hover,
-.reserveInline:hover{
-  transform:translateY(-1px);
-  opacity:.96;
-}
-
-.reserveTop{
-  padding:12px 16px;
-}
-
-.reserveInline{
-  margin-top:14px;
-  padding:10px 14px;
-}
-
 .menuSplit{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -242,22 +163,30 @@ ok:root{
   border:1px solid rgba(255,255,255,.08);
   box-shadow:var(--shadow);
   backdrop-filter:blur(10px);
-  padding:16px;
-  min-height:250px;
+  padding:12px;
+  min-height:220px;
+  overflow:hidden;
+  isolation:isolate;
 }
 
 .menuPanelTitle{
-  font-size:14px;
+  font-size:13px;
   font-weight:950;
   letter-spacing:.10em;
   text-transform:uppercase;
   color:rgba(255,255,255,.88);
-  margin-bottom:10px;
+  margin-bottom:8px;
+  position:relative;
+  z-index:1;
 }
 
 .menuPanelBody{
-  min-height:150px;
-  scroll-behavior:smooth;
+  min-height:auto;
+  height:auto;
+  max-height:none;
+  overflow:visible;
+  position:relative;
+  z-index:1;
 }
 
 .menuEmpty{
@@ -271,7 +200,7 @@ ok:root{
 
 .menuNested{
   display:grid;
-  gap:14px;
+  gap:12px;
 }
 
 .menuSubTabs{
@@ -309,42 +238,35 @@ ok:root{
 }
 
 .menuSectionBlock{
-  padding:8px 0 4px;
-}
-
-.menuSectionBlock__title{
-  font-size:13px;
-  font-weight:950;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  margin-bottom:8px;
-  padding-bottom:6px;
-  border-bottom:1px solid rgba(255,255,255,.10);
+  padding:6px 0 2px;
 }
 
 .menuList{
   display:grid;
-  gap:8px;
+  gap:2px;
 }
 
 .menuItem{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:16px;
-  padding:12px 14px;
+  align-items:center;
+  gap:10px;
+  padding:6px 0;
   border-bottom:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  transition:
-    background .22s ease,
-    border-color .22s ease,
-    box-shadow .22s ease,
-    transform .22s ease;
+  background:none;
+  border-radius:0;
+  box-shadow:none;
+  transition:background .18s ease,color .18s ease;
 }
 
 .menuItem:last-child{
   border-bottom:none;
+}
+
+.menuItem:hover{
+  background:rgba(215,180,106,.06);
+  transform:none;
+  box-shadow:none;
 }
 
 .menuItem__left{
@@ -353,80 +275,61 @@ ok:root{
 }
 
 .menuItem__name{
-  font-weight:900;
-  font-size:14px;
+  font-weight:800;
+  font-size:13px;
   line-height:1.25;
-  margin-bottom:2px;
+  margin-bottom:0;
   color:#fff;
 }
 
 .menuItem__desc{
-  margin-top:4px;
+  margin-top:2px;
   color:rgba(255,255,255,.68);
-  line-height:1.4;
-  font-size:12px;
+  line-height:1.35;
+  font-size:11px;
 }
 
 .menuItem__price{
   margin-left:auto;
   flex:0 0 auto;
-  min-width:72px;
+  min-width:64px;
   text-align:right;
   white-space:nowrap;
   color:var(--gold2);
-  font-weight:950;
-  font-size:14px;
+  font-weight:900;
+  font-size:13px;
 }
 
-.menuItem:hover{
-  background:rgba(215,180,106,.08);
-  border-color:rgba(215,180,106,.18);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 8px 22px rgba(0,0,0,.18),
-    0 0 18px rgba(215,180,106,.08);
-  transform:translateY(-1px);
-}
-
-.menuItem:hover .menuItem__name{
-  color:var(--gold2);
-}
-
-.menuItem:hover .menuItem__price{
-  text-shadow:0 0 10px rgba(215,180,106,.18);
-}
-
-/* Grouped Wings layout inside big panel */
 .menuGrouped{
   padding:4px 0;
 }
 
 .menuGrouped__title{
-  font-size:28px;
-  font-weight:800;
-  color:var(--gold);
-  margin-bottom:18px;
-  letter-spacing:.4px;
+  font-size:24px;
+  font-weight:900;
+  color:var(--gold2);
+  margin-bottom:14px;
+  letter-spacing:.02em;
 }
 
 .menuGrouped__grid{
   display:grid;
-  grid-template-columns:1fr;
-  gap:16px;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
 
 .menuGrouped__box{
   border:1px solid rgba(215,180,106,.18);
   background:rgba(255,255,255,.03);
   border-radius:18px;
-  padding:16px;
+  padding:14px;
 }
 
 .menuGrouped__boxTitle{
-  font-size:18px;
-  font-weight:700;
+  font-size:16px;
+  font-weight:800;
   color:#fff;
-  margin-bottom:12px;
+  margin-bottom:10px;
   padding-bottom:8px;
   border-bottom:1px solid rgba(215,180,106,.16);
 }
@@ -443,7 +346,7 @@ ok:root{
 
 .popularTonight__grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:8px;
 }
 
@@ -457,12 +360,6 @@ ok:root{
   border:1px solid rgba(255,255,255,.08);
   font-size:13px;
   font-weight:700;
-}
-
-.popularCard .price{
-  color:#ffd45a;
-  font-weight:900;
-  white-space:nowrap;
 }
 
 .popularCard--freeHookah{
@@ -528,87 +425,6 @@ ok:root{
   }
 }
 
-.footerPremium{
-  padding:40px 0 24px;
-  border-top:1px solid rgba(255,255,255,.08);
-  background:rgba(0,0,0,.22);
-}
-
-.footerPremium__grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr .8fr;
-  gap:24px;
-}
-
-.footerBrand{
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.footerText{
-  color:var(--textSoft);
-  line-height:1.7;
-}
-
-.footerHead{
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  margin-bottom:10px;
-}
-
-.footerLinks{
-  display:grid;
-  gap:8px;
-}
-
-.footerLinks a{
-  color:rgba(255,255,255,.78);
-  text-decoration:none;
-}
-
-.footerLinks a:hover{
-  color:var(--gold2);
-}
-
-.menuPanelBody::-webkit-scrollbar{
-  width:8px;
-}
-
-.menuPanelBody::-webkit-scrollbar-thumb{
-  background:rgba(215,180,106,.22);
-  border-radius:999px;
-}
-
-.menuPanelBody::-webkit-scrollbar-thumb:hover{
-  background:rgba(215,180,106,.36);
-}
-
-.menuPanelBody::-webkit-scrollbar-track{
-  background:transparent;
-}
-
-/* Desktop internal scroll only in middle box */
-@media (min-width:1024px){
-  .menuBigPanel{
-    height:340px;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-  }
-
-  .menuPanelBody{
-    flex:1 1 auto;
-    min-height:0;
-    overflow-y:auto;
-    padding-right:6px;
-    scrollbar-width:thin;
-  }
-}
-
 /* VIP NIGHT MODE */
 .vipNightMode .menuBigPanel{
   background:
@@ -646,20 +462,6 @@ ok:root{
   text-shadow:
     0 0 10px rgba(215,180,106,.4),
     0 0 20px rgba(215,180,106,.25);
-  animation:vipTitleGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes vipTitleGlow{
-  from{
-    text-shadow:
-      0 0 8px rgba(215,180,106,.3),
-      0 0 14px rgba(215,180,106,.18);
-  }
-  to{
-    text-shadow:
-      0 0 16px rgba(215,180,106,.6),
-      0 0 24px rgba(215,180,106,.35);
-  }
 }
 
 .vipNightMode .menuCenterBtn{
@@ -673,14 +475,6 @@ ok:root{
   box-shadow:
     0 0 12px rgba(215,180,106,.35),
     0 0 20px rgba(155,70,255,.25);
-  transform:translateY(-1px);
-}
-
-.vipNightMode .reserveInline{
-  background:linear-gradient(45deg,#d7b46a,#f2d38a);
-  box-shadow:
-    0 10px 24px rgba(215,180,106,.35),
-    0 0 30px rgba(215,180,106,.25);
 }
 
 .vipNightMode .menuEmpty{
@@ -699,14 +493,15 @@ ok:root{
     rgba(215,180,106,.35),
     transparent
   );
-  opacity:.35;
+  opacity:.18;
   animation:vipBorderMove 6s linear infinite;
   pointer-events:none;
+  z-index:0;
 }
 
 @keyframes vipBorderMove{
-  from{transform:translateX(-60%);}
-  to{transform:translateX(60%);}
+  from{ transform:translateX(-60%); }
+  to{ transform:translateX(60%); }
 }
 
 /* Floating VIP Banner */
@@ -770,7 +565,6 @@ ok:root{
   letter-spacing:.12em;
   text-transform:uppercase;
   margin-bottom:8px;
-  text-shadow:0 0 10px rgba(215,180,106,.18);
 }
 
 .vipNightBannerFloating__title{
@@ -780,9 +574,6 @@ ok:root{
   color:#fff;
   line-height:1.25;
   margin-bottom:4px;
-  text-shadow:
-    0 0 8px rgba(215,180,106,.16),
-    0 0 18px rgba(155,70,255,.14);
 }
 
 .vipNightBannerFloating__meta{
@@ -795,124 +586,29 @@ ok:root{
 @keyframes vipBannerFloat{
   from{
     transform:translateY(0);
-    box-shadow:
-      0 0 0 1px rgba(215,180,106,.08),
-      0 18px 44px rgba(0,0,0,.34),
-      0 0 24px rgba(155,70,255,.14),
-      0 0 18px rgba(215,180,106,.10);
   }
   to{
     transform:translateY(-2px);
-    box-shadow:
-      0 0 0 1px rgba(215,180,106,.14),
-      0 24px 58px rgba(0,0,0,.42),
-      0 0 40px rgba(155,70,255,.22),
-      0 0 28px rgba(215,180,106,.16);
   }
 }
 
 @keyframes vipBannerShimmer{
-  from{transform:translateX(-120%);}
-  to{transform:translateX(120%);}
+  from{ transform:translateX(-120%); }
+  to{ transform:translateX(120%); }
 }
 
-@media (max-width:1100px){
-  .menuTopCategories{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .menuBottomCategories{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .popularTonight__grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media (max-width:920px){
-  .menuSplit{
-    grid-template-columns:1fr;
-  }
-
-  .heroRow{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .heroRight{
-    justify-content:flex-start;
-  }
-
-  .footerPremium__grid{
-    grid-template-columns:1fr;
-  }
-
-  .menuGrouped__grid{
-    grid-template-columns:1fr;
-  }
-}
-
-@media (max-width:640px){
-  .menuWrap{
-    padding-bottom:80px;
-  }
-
-  .menuHero h1{
-    font-size:34px;
-  }
-
-  .menuTopCategories,
-  .menuBottomCategories{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .popularTonight__grid{
-    grid-template-columns:1fr;
-  }
-
-  .menuItem{
-    flex-direction:column;
-    gap:6px;
-  }
-
-  .menuItem__price{
-    margin-left:0;
-    min-width:auto;
-    text-align:left;
-    white-space:normal;
-  }
-
-  .vipNightBannerFloating__title{
-    font-size:17px;
-  }
-
-  .vipNightBannerFloating__meta{
-    font-size:13px;
-  }
-
-  .menuGrouped__title{
-    font-size:22px;
-  }
-
-  .menuGrouped__boxTitle{
-    font-size:16px;
-  }
-}
 /* =========================
-   INSTAGRAM GATED SPIN GAME
+   INSTAGRAM SPIN GAME
 ========================= */
 
 .menuGameGate{
   display:grid;
   place-items:center;
-  min-height:100%;
-  padding:8px 0;
+  width:100%;
 }
 
 .menuGameGate__card{
   width:100%;
-  min-height:220px;
   border-radius:22px;
   border:1px solid rgba(215,180,106,.22);
   background:
@@ -920,10 +616,10 @@ ok:root{
     radial-gradient(circle at top right, rgba(155,70,255,.10), transparent 36%),
     rgba(255,255,255,.03);
   padding:22px;
+  text-align:center;
   box-shadow:
     0 18px 50px rgba(0,0,0,.24),
     0 0 28px rgba(215,180,106,.06);
-  text-align:center;
 }
 
 .menuGameGate__badge{
@@ -932,8 +628,8 @@ ok:root{
   justify-content:center;
   padding:6px 10px;
   border-radius:999px;
-  border:1px solid rgba(215,180,106,.34);
-  background:rgba(215,180,106,.10);
+  border:1px solid rgba(215,180,106,.35);
+  background:rgba(215,180,106,.12);
   color:var(--gold2);
   font-size:11px;
   font-weight:900;
@@ -943,25 +639,23 @@ ok:root{
 }
 
 .menuGameGate__title{
-  margin:0 0 10px;
   font-size:28px;
-  font-weight:950;
-  line-height:1.08;
+  font-weight:900;
+  margin:0 0 10px;
   color:#fff;
 }
 
 .menuGameGate__text{
-  margin:0 auto 18px;
-  max-width:620px;
   color:rgba(255,255,255,.78);
-  line-height:1.6;
+  margin:0 0 18px;
   font-size:14px;
+  line-height:1.6;
 }
 
 .menuGameGate__actions{
   display:flex;
-  flex-wrap:wrap;
   justify-content:center;
+  flex-wrap:wrap;
   gap:12px;
 }
 
@@ -973,11 +667,11 @@ ok:root{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-height:46px;
+  min-height:44px;
   padding:12px 16px;
   border-radius:12px;
   font-weight:900;
-  transition:transform .18s ease, opacity .18s ease, border-color .18s ease;
+  transition:transform .2s ease, opacity .2s ease;
 }
 
 .menuGameBtn:hover{
@@ -1005,7 +699,6 @@ ok:root{
   font-weight:900;
   letter-spacing:.12em;
   text-transform:uppercase;
-  margin-bottom:6px;
 }
 
 .menuSpinHeader__sub{
@@ -1018,372 +711,73 @@ ok:root{
   position:relative;
   display:grid;
   place-items:center;
-  min-height:130px;
   margin-bottom:14px;
 }
 
 .menuBottlePointer{
   position:absolute;
-  top:6px;
+  top:-6px;
   width:0;
   height:0;
   border-left:10px solid transparent;
   border-right:10px solid transparent;
   border-top:16px solid var(--gold2);
-  filter:drop-shadow(0 0 10px rgba(215,180,106,.35));
 }
 
 .menuBottle{
-  width:108px;
-  height:108px;
-  border-radius:999px;
+  width:110px;
+  height:110px;
+  border-radius:100px;
   border:1px solid rgba(215,180,106,.30);
-  background:
-    radial-gradient(circle at 30% 30%, rgba(215,180,106,.18), transparent 38%),
-    rgba(255,255,255,.04);
-  color:#fff;
-  font-size:48px;
+  background:rgba(255,255,255,.05);
+  font-size:46px;
   cursor:pointer;
+  color:#fff;
   box-shadow:
     0 0 0 1px rgba(215,180,106,.08),
-    0 0 18px rgba(215,180,106,.08),
     0 18px 40px rgba(0,0,0,.22);
   transition:transform .2s ease;
 }
 
 .menuBottle:hover{
-  transform:scale(1.02);
+  transform:scale(1.04);
 }
 
 .menuBottle.is-spinning{
-  animation:menuBottleSpin 1.9s cubic-bezier(.2,.8,.2,1);
+  animation:bottleSpin 2s cubic-bezier(.2,.8,.2,1);
 }
 
-@keyframes menuBottleSpin{
-  0%{ transform:rotate(0deg) scale(1); }
-  20%{ transform:rotate(300deg) scale(1.04); }
-  45%{ transform:rotate(720deg) scale(1); }
-  70%{ transform:rotate(1060deg) scale(1.03); }
-  100%{ transform:rotate(1440deg) scale(1); }
+@keyframes bottleSpin{
+  0%{ transform:rotate(0deg); }
+  25%{ transform:rotate(360deg); }
+  50%{ transform:rotate(720deg); }
+  75%{ transform:rotate(1080deg); }
+  100%{ transform:rotate(1440deg); }
 }
 
 .menuPrizeResult{
-  min-height:54px;
+  min-height:50px;
   display:grid;
   place-items:center;
-  padding:14px 16px;
-  border-radius:16px;
+  padding:12px;
+  border-radius:14px;
   border:1px solid rgba(255,255,255,.08);
   background:rgba(255,255,255,.03);
-  color:#fff;
   font-weight:800;
-  line-height:1.5;
+  color:#fff;
 }
 
 .menuPrizeActions{
+  margin-top:12px;
   display:flex;
   justify-content:center;
-  gap:10px;
-  margin-top:12px;
 }
 
 .is-hidden{
   display:none !important;
 }
 
-@media (max-width:640px){
-  .menuGameGate__title{
-    font-size:22px;
-  }
-
-  .menuGameGate__actions{
-    flex-direction:column;
-  }
-
-  .menuGameBtn{
-    width:100%;
-  }
-}
-/* =========================
-   MENU SPACING OVERRIDE
-   (fits more items in panel)
-========================= */
-
-.menuBigPanel{
-  padding:10px;
-}
-
-.menuPanelTitle{
-  margin-bottom:6px;
-  font-size:13px;
-}
-
-.menuPanelBody{
-  padding-right:4px;
-}
-
-.menuList{
-  display:grid;
-  gap:2px;
-}
-
-/* remove card look */
-.menuItem{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-
-  padding:6px 0;
-
-  border-bottom:1px solid rgba(255,255,255,.08);
-
-  background:none;
-  border-radius:0;
-  box-shadow:none;
-}
-
-/* clean hover */
-.menuItem:hover{
-  background:none;
-  transform:none;
-  box-shadow:none;
-}
-
-/* tighten text */
-.menuItem__name{
-  font-size:13px;
-  margin-bottom:0;
-}
-
-.menuItem__desc{
-  font-size:11px;
-  margin-top:2px;
-}
-
-.menuItem__price{
-  font-size:13px;
-}
-
-/* desktop height tuning */
-@media (min-width:1024px){
-
-.menuBigPanel{
-  height:280px;
-}
-
-.menuPanelBody{
-  overflow-y:auto;
-  scrollbar-width:thin;
-}
-
-}
-
-/* mobile compact */
-@media (max-width:640px){
-
-.menuItem{
-  padding:6px 0;
-}
-
-.menuItem__name{
-  font-size:13px;
-}
-
-}
-/* ==================================
-   PREMIUM AUTO-FIT MENU PANEL
-   (smart spacing for large menus)
-================================== */
-
-.menuBigPanel{
-  padding:10px;
-}
-
-.menuPanelTitle{
-  margin-bottom:6px;
-  font-size:13px;
-  letter-spacing:.08em;
-}
-
-/* tighter list */
-.menuList{
-  display:grid;
-  gap:2px;
-}
-
-/* flat clean list look */
-.menuItem{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:6px 0;
-
-  border-bottom:1px solid rgba(255,255,255,.08);
-
-  background:none;
-  border-radius:0;
-  box-shadow:none;
-}
-
-/* subtle hover */
-.menuItem:hover{
-  background:rgba(215,180,106,.06);
-}
-
-/* tighter text */
-.menuItem__name{
-  font-size:13px;
-  font-weight:700;
-}
-
-.menuItem__desc{
-  font-size:11px;
-  opacity:.75;
-}
-
-.menuItem__price{
-  font-size:13px;
-  font-weight:800;
-}
-
-/* ===============================
-   AUTO FIT WHEN MANY ITEMS
-=============================== */
-
-.menuPanelBody:has(.menuItem:nth-child(8)){
-  font-size:0.95em;
-}
-
-.menuPanelBody:has(.menuItem:nth-child(12)){
-  font-size:0.9em;
-}
-
-.menuPanelBody:has(.menuItem:nth-child(15)){
-  font-size:0.85em;
-}
-
-/* ===============================
-   PREMIUM SCROLL (if needed)
-=============================== */
-
-.menuPanelBody::-webkit-scrollbar{
-  width:6px;
-}
-
-.menuPanelBody::-webkit-scrollbar-thumb{
-  background:rgba(215,180,106,.25);
-  border-radius:999px;
-}
-
-/* ===============================
-   DESKTOP PANEL HEIGHT
-=============================== */
-
-@media (min-width:1024px){
-
-.menuBigPanel{
-  height:280px;
-}
-
-.menuPanelBody{
-  overflow-y:auto;
-}
-
-}
-
-/* ===============================
-   MOBILE OPTIMIZATION
-=============================== */
-
-@media (max-width:640px){
-
-.menuItem{
-  padding:5px 0;
-}
-
-.menuItem__name{
-  font-size:12px;
-}
-
-.menuItem__price{
-  font-size:12px;
-}
-
-}
-/* ==================================
-   FLOATING COCKTAIL BACKGROUND
-   Premium lounge effect
-================================== */
-
-.menuBigPanel{
-  position:relative;
-  overflow:hidden;
-}
-
-/* cocktail icons layer */
-.menuBigPanel::before{
-  content:"🍸 🍹 🥃 🍷 🍾 🍸 🍹 🥃 🍷 🍾";
-  position:absolute;
-  top:0;
-  left:0;
-  width:200%;
-  height:200%;
-
-  font-size:42px;
-  line-height:120px;
-
-  opacity:.035;
-
-  transform:rotate(-12deg);
-
-  animation:cocktailFloat 80s linear infinite;
-
-  pointer-events:none;
-}
-
-/* floating animation */
-@keyframes cocktailFloat{
-
-  0%{
-    transform:translateY(0) rotate(-12deg);
-  }
-
-  50%{
-    transform:translateY(-120px) rotate(-12deg);
-  }
-
-  100%{
-    transform:translateY(0) rotate(-12deg);
-  }
-
-}
-/* ==================================
-   VIP LIGHT + FLOATING COCKTAILS
-================================== */
-
-.menuBigPanel{
-  position:relative;
-  overflow:hidden;
-  isolation:isolate;
-}
-
-/* soft ambient gold/purple glow */
-.menuBigPanel::before{
-  content:"";
-  position:absolute;
-  inset:-20%;
-  background:
-    radial-gradient(circle at 18% 20%, rgba(215,180,106,.10), transparent 22%),
-    radial-gradient(circle at 82% 18%, rgba(155,70,255,.08), transparent 24%),
-    radial-gradient(circle at 50% 78%, rgba(215,180,106,.06), transparent 26%);
-  animation:vipAmbientGlow 10s ease-in-out infinite alternate;
-  pointer-events:none;
-  z-index:0;
-}
-
-/* floating cocktail icon layer */
+/* Premium ambient background inside big panel */
 .menuBigPanel::after{
   content:"🍸 🍹 🥃 🍷 🍾 🍸 🍹 🥃 🍷 🍾";
   position:absolute;
@@ -1401,40 +795,6 @@ ok:root{
   z-index:0;
 }
 
-/* keep actual content above effects */
-.menuBigPanel > *{
-  position:relative;
-  z-index:1;
-}
-
-/* moving shimmer sweep */
-.menuBigPanel .menuPanelBody::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.02) 35%,
-    rgba(215,180,106,.06) 50%,
-    rgba(255,255,255,.02) 65%,
-    transparent 100%
-  );
-  transform:translateX(-120%);
-  animation:vipShimmerSweep 9s linear infinite;
-  pointer-events:none;
-  z-index:0;
-}
-
-.menuPanelBody{
-  position:relative;
-}
-
-.menuPanelBody > *{
-  position:relative;
-  z-index:1;
-}
-
 @keyframes cocktailFloatPremium{
   0%{
     transform:translateY(0) rotate(-12deg);
@@ -1447,282 +807,100 @@ ok:root{
   }
 }
 
-@keyframes vipAmbientGlow{
-  0%{
-    opacity:.9;
-    transform:scale(1) translateY(0);
+/* Responsive */
+@media (max-width:1100px){
+  .menuTopCategories{
+    grid-template-columns:repeat(4,1fr);
   }
-  100%{
-    opacity:1;
-    transform:scale(1.04) translateY(-8px);
-  }
-}
 
-@keyframes vipShimmerSweep{
-  0%{
-    transform:translateX(-120%);
+  .menuBottomCategories{
+    grid-template-columns:repeat(3,1fr);
   }
-  100%{
-    transform:translateX(120%);
+
+  .popularTonight__grid{
+    grid-template-columns:repeat(2,1fr);
   }
 }
-/* ==================================
-   PREMIUM AUTO-FIT MENU PANEL
-   (smart spacing for large menus)
-================================== */
 
-.menuBigPanel{
-  padding:10px;
+@media (max-width:920px){
+  .menuSplit{
+    grid-template-columns:1fr;
+  }
+
+  .heroRow{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .menuGrouped__grid{
+    grid-template-columns:1fr;
+  }
 }
-
-.menuPanelTitle{
-  margin-bottom:6px;
-  font-size:13px;
-  letter-spacing:.08em;
-}
-
-/* tighter list */
-.menuList{
-  display:grid;
-  gap:2px;
-}
-
-/* flat clean list look */
-.menuItem{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:6px 0;
-
-  border-bottom:1px solid rgba(255,255,255,.08);
-
-  background:none;
-  border-radius:0;
-  box-shadow:none;
-}
-
-/* subtle hover */
-.menuItem:hover{
-  background:rgba(215,180,106,.06);
-}
-
-/* tighter text */
-.menuItem__name{
-  font-size:13px;
-  font-weight:700;
-}
-
-.menuItem__desc{
-  font-size:11px;
-  opacity:.75;
-}
-
-.menuItem__price{
-  font-size:13px;
-  font-weight:800;
-}
-
-/* ===============================
-   AUTO FIT WHEN MANY ITEMS
-=============================== */
-
-.menuPanelBody:has(.menuItem:nth-child(8)){
-  font-size:0.95em;
-}
-
-.menuPanelBody:has(.menuItem:nth-child(12)){
-  font-size:0.9em;
-}
-
-.menuPanelBody:has(.menuItem:nth-child(15)){
-  font-size:0.85em;
-}
-
-/* ===============================
-   PREMIUM SCROLL (if needed)
-=============================== */
-
-.menuPanelBody::-webkit-scrollbar{
-  width:6px;
-}
-
-.menuPanelBody::-webkit-scrollbar-thumb{
-  background:rgba(215,180,106,.25);
-  border-radius:999px;
-}
-
-/* ===============================
-   DESKTOP PANEL HEIGHT
-=============================== */
-
-@media (min-width:1024px){
-
-.menuBigPanel{
-  height:280px;
-}
-
-.menuPanelBody{
-  overflow-y:auto;
-}
-
-}
-
-/* ===============================
-   MOBILE OPTIMIZATION
-=============================== */
 
 @media (max-width:640px){
+  .menuWrap{
+    padding-bottom:80px;
+  }
 
-.menuItem{
-  padding:5px 0;
-}
+  .menuHero h1{
+    font-size:34px;
+  }
 
-.menuItem__name{
-  font-size:12px;
-}
+  .menuTopCategories,
+  .menuBottomCategories{
+    grid-template-columns:1fr 1fr;
+  }
 
-.menuItem__price{
-  font-size:12px;
-}
+  .popularTonight__grid{
+    grid-template-columns:1fr;
+  }
 
-}
-/* =========================
-   FIX MENU PANEL SCROLL
-========================= */
+  .menuItem{
+    align-items:flex-start;
+    padding:6px 0;
+  }
 
-.menuBigPanel{
-  display:flex;
-  flex-direction:column;
-}
+  .menuItem__name{
+    font-size:12px;
+  }
 
-.menuPanelBody{
-  flex:1;
-  overflow-y:auto;
-  min-height:0;
-}
+  .menuItem__desc{
+    font-size:11px;
+  }
 
-/* smooth scrolling */
-.menuPanelBody{
-  scroll-behavior:smooth;
-}
+  .menuItem__price{
+    margin-left:0;
+    min-width:auto;
+    text-align:left;
+    white-space:normal;
+    font-size:12px;
+  }
 
-/* nicer scrollbar */
-.menuPanelBody::-webkit-scrollbar{
-  width:6px;
-}
+  .vipNightBannerFloating__title{
+    font-size:17px;
+  }
 
-.menuPanelBody::-webkit-scrollbar-thumb{
-  background:rgba(215,180,106,.35);
-  border-radius:999px;
-}
-/* ==================================
-   APP-LIKE SNAP SCROLL MENU
-================================== */
+  .vipNightBannerFloating__meta{
+    font-size:13px;
+  }
 
-.menuBigPanel{
-  display:flex;
-  flex-direction:column;
-}
+  .menuGrouped__title{
+    font-size:22px;
+  }
 
-.menuPanelBody{
-  flex:1;
-  overflow-y:auto;
-  min-height:0;
+  .menuGrouped__boxTitle{
+    font-size:15px;
+  }
 
-  /* snap scrolling */
-  scroll-snap-type:y mandatory;
-  scroll-behavior:smooth;
-}
+  .menuGameGate__title{
+    font-size:22px;
+  }
 
-/* each section snaps */
-.menuSectionBlock{
-  scroll-snap-align:start;
-}
+  .menuGameGate__actions{
+    flex-direction:column;
+  }
 
-/* scrollbar styling */
-.menuPanelBody::-webkit-scrollbar{
-  width:6px;
-}
-
-.menuPanelBody::-webkit-scrollbar-thumb{
-  background:rgba(215,180,106,.35);
-  border-radius:999px;
-}
-
-/* optional subtle fade edges */
-.menuBigPanel::after{
-  content:"";
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height:30px;
-
-  background:linear-gradient(
-    to bottom,
-    rgba(0,0,0,0),
-    rgba(7,7,10,0.85)
-  );
-
-  pointer-events:none;
-}
-/* ==================================
-   EXPAND MENU PANEL TO FULL HEIGHT
-================================== */
-
-.menuWrap{
-  min-height:calc(100vh - 120px);
-  display:flex;
-  flex-direction:column;
-}
-
-.dayPanel.active{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-.dayPanel.active .container{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-.menuCenterWrap{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-.menuBigPanel{
-  flex:1;0 0 320px;
-  max-height:320px;
-}
-/* ================================
-REMOVE ALL MENU SCROLLING
-================================ */
-
-.menuBigPanel{
-  height:auto !important;
-  max-height:none !important;
-  overflow:visible !important;
-}
-
-.menuPanelBody{
-  height:auto !important;
-  max-height:none !important;
-  overflow:visible !important;
-}
-
-.menuWrap{
-  min-height:auto !important;
-}
-
-.menuCenterWrap{
-  height:auto !important;
-}
-
-.dayPanel.active{
-  display:block !important;
+  .menuGameBtn{
+    width:100%;
+  }
 }
