@@ -93,32 +93,7 @@ items: [
 ]
 },
 
-{
-  title: "Wing Flavors",
-  layout: "wingsGrouped",
-  groups: [
-    {
-      title: "Dry",
-      items: [
-        { name: "Lemon Pepper" },
-        { name: "Jerk Rub" },
-        { name: "Old Bay" }
-      ]
-    },
-    {
-      title: "Wet",
-      items: [
-        { name: "Honey Lemon Pepper" },
-        { name: "Honey Old Bay" },
-        { name: "Buffalo BBQ" },
-        { name: "Honey Sazon" },
-        { name: "Sweet Chili" },
-        { name: "Teriyaki" },
-        { name: "Mumbo" }
-      ]
-    }
-  ]
-}
+
 
 shots5: {
 sections: [
