@@ -1359,3 +1359,110 @@
   }
 
 }
+/* ==================================
+   VIP LIGHT + FLOATING COCKTAILS
+================================== */
+
+.menuBigPanel{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* soft ambient gold/purple glow */
+.menuBigPanel::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(215,180,106,.10), transparent 22%),
+    radial-gradient(circle at 82% 18%, rgba(155,70,255,.08), transparent 24%),
+    radial-gradient(circle at 50% 78%, rgba(215,180,106,.06), transparent 26%);
+  animation:vipAmbientGlow 10s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* floating cocktail icon layer */
+.menuBigPanel::after{
+  content:"🍸 🍹 🥃 🍷 🍾 🍸 🍹 🥃 🍷 🍾";
+  position:absolute;
+  top:-20%;
+  left:-20%;
+  width:160%;
+  height:160%;
+  font-size:38px;
+  line-height:110px;
+  letter-spacing:18px;
+  opacity:.03;
+  transform:rotate(-12deg);
+  animation:cocktailFloatPremium 70s linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* keep actual content above effects */
+.menuBigPanel > *{
+  position:relative;
+  z-index:1;
+}
+
+/* moving shimmer sweep */
+.menuBigPanel .menuPanelBody::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,.02) 35%,
+    rgba(215,180,106,.06) 50%,
+    rgba(255,255,255,.02) 65%,
+    transparent 100%
+  );
+  transform:translateX(-120%);
+  animation:vipShimmerSweep 9s linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+.menuPanelBody{
+  position:relative;
+}
+
+.menuPanelBody > *{
+  position:relative;
+  z-index:1;
+}
+
+@keyframes cocktailFloatPremium{
+  0%{
+    transform:translateY(0) rotate(-12deg);
+  }
+  50%{
+    transform:translateY(-140px) rotate(-12deg);
+  }
+  100%{
+    transform:translateY(0) rotate(-12deg);
+  }
+}
+
+@keyframes vipAmbientGlow{
+  0%{
+    opacity:.9;
+    transform:scale(1) translateY(0);
+  }
+  100%{
+    opacity:1;
+    transform:scale(1.04) translateY(-8px);
+  }
+}
+
+@keyframes vipShimmerSweep{
+  0%{
+    transform:translateX(-120%);
+  }
+  100%{
+    transform:translateX(120%);
+  }
+}
