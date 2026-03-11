@@ -18,32 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function renderGroupedMenu(section) {
-    const groups = section.groups || [];
-
-    return `
-      <div class="menuGrouped">
-        <div class="menuGrouped__title">${section.title || ""}</div>
-        <div class="menuGrouped__grid">
-          ${groups.map(group => `
-            <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
-              <div class="menuList">
-                ${(group.items || []).map(item => `
-                  <div class="menuItem">
-                    <div class="menuItem__left">
-                      <div class="menuItem__name">${item.name || ""}</div>
-                    </div>
-                    <div class="menuItem__price">${item.price || ""}</div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    `;
-  }
+  ggg
 
   function mapItemsForMode(items, mode) {
     if (!mode) return items || [];
