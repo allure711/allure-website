@@ -1587,3 +1587,32 @@
 }
 
 }
+/* =========================
+   FIX MENU PANEL SCROLL
+========================= */
+
+.menuBigPanel{
+  display:flex;
+  flex-direction:column;
+}
+
+.menuPanelBody{
+  flex:1;
+  overflow-y:auto;
+  min-height:0;
+}
+
+/* smooth scrolling */
+.menuPanelBody{
+  scroll-behavior:smooth;
+}
+
+/* nicer scrollbar */
+.menuPanelBody::-webkit-scrollbar{
+  width:6px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb{
+  background:rgba(215,180,106,.35);
+  border-radius:999px;
+}
