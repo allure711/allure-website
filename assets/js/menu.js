@@ -2,26 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
 
-  /* =========================
-     MOBILE NAV TOGGLE
-  ========================= */
-  const navToggle = document.querySelector(".nav__toggle");
-  const navList = document.querySelector(".nav__list");
-
-  if (navToggle && navList) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = navList.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", String(isOpen));
-    });
-
-    navList.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
-        navList.classList.remove("is-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
-
   function renderFlatMenu(items) {
     return `
       <div class="menuList">
@@ -214,60 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
     activateSubsection(sections[0].title);
   }
 
-  function bindMenuGame(panelBody) {
-    const unlockGameBtn = panelBody.querySelector("#unlockGameBtn");
-    const menuSpinWrap = panelBody.querySelector("#menuSpinWrap");
-    const spinBottleBtn = panelBody.querySelector("#spinBottleBtn");
-    const menuPrizeResult = panelBody.querySelector("#menuPrizeResult");
-    const spinAgainBtn = panelBody.querySelector("#spinAgainBtn");
-    const menuPrizeActions = panelBody.querySelector("#menuPrizeActions");
-
-    const prizes = [
-      "🥃 You won a Free Shot",
-      "🍟 You won Free Fries",
-      "💨 You won a Hookah Upgrade",
-      "🍹 You won $2 Off a Fishbowl",
-      "🎉 Lucky You — Ask Staff About Tonight’s Surprise"
-    ];
-
-    if (unlockGameBtn && menuSpinWrap) {
-      unlockGameBtn.addEventListener("click", () => {
-        menuSpinWrap.classList.remove("is-hidden");
-        unlockGameBtn.classList.add("is-hidden");
-      });
-    }
-
-    function runBottleSpin() {
-      if (!spinBottleBtn || !menuPrizeResult || !menuPrizeActions) return;
-
-      spinBottleBtn.disabled = true;
-      spinBottleBtn.classList.remove("is-spinning");
-
-      void spinBottleBtn.offsetWidth;
-      spinBottleBtn.classList.add("is-spinning");
-
-      menuPrizeResult.textContent = "Spinning…";
-      menuPrizeActions.classList.add("is-hidden");
-
-      const prize = prizes[Math.floor(Math.random() * prizes.length)];
-
-      setTimeout(() => {
-        menuPrizeResult.textContent = prize;
-        menuPrizeActions.classList.remove("is-hidden");
-        spinBottleBtn.disabled = false;
-        spinBottleBtn.classList.remove("is-spinning");
-      }, 1900);
-    }
-
-    if (spinBottleBtn) {
-      spinBottleBtn.addEventListener("click", runBottleSpin);
-    }
-
-    if (spinAgainBtn) {
-      spinAgainBtn.addEventListener("click", runBottleSpin);
-    }
-  }
-
   function applyVipNightMode(day) {
     document.querySelectorAll(".menuCenterWrap").forEach(wrap => {
       wrap.classList.remove("vipNightMode");
@@ -338,60 +264,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     panelBody.innerHTML = `
-      <div class="menuGameGate" id="menuGameGate">
-        <div class="menuGameGate__card" id="menuGameCard">
-
-          <div class="menuGameGate__badge">Instagram Exclusive</div>
-          <h3 class="menuGameGate__title">Spin the Bottle — Free Shot Game</h3>
-          <p class="menuGameGate__text">
-            Follow us on Instagram to unlock tonight’s lucky spin.
-            Winners can reveal a surprise perk before ordering.
-          </p>
-
-          <div class="menuGameGate__actions" id="gameGateActions">
-            <a
-              class="menuGameBtn menuGameBtn--gold"
-              href="https://www.instagram.com/allurehstdc/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Follow on Instagram
-            </a>
-
-            <button class="menuGameBtn menuGameBtn--ghost" id="unlockGameBtn" type="button">
-              I Followed — Unlock Game
-            </button>
-          </div>
-
-          <div class="menuSpinWrap is-hidden" id="menuSpinWrap">
-            <div class="menuSpinHeader">
-              <div class="menuSpinHeader__kicker">Tonight’s Lucky Spin</div>
-              <div class="menuSpinHeader__sub">Tap the bottle and see what you win</div>
-            </div>
-
-            <div class="menuBottleZone">
-              <div class="menuBottlePointer"></div>
-              <button class="menuBottle" id="spinBottleBtn" type="button" aria-label="Spin the bottle">
-                🍾
-              </button>
-            </div>
-
-            <div class="menuPrizeResult" id="menuPrizeResult">
-              Follow us, unlock the game, and spin for a surprise.
-            </div>
-
-            <div class="menuPrizeActions is-hidden" id="menuPrizeActions">
-              <button class="menuGameBtn menuGameBtn--gold" id="spinAgainBtn" type="button">
-                Spin Again
-              </button>
-            </div>
-          </div>
-
-        </div>
+      <div class="menuEmpty">
+        Click a category above or below to view menu items.
       </div>
     `;
-
-    bindMenuGame(panelBody);
   }
 
   function activateDay(day) {
