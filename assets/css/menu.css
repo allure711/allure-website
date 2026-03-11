@@ -1,4 +1,4 @@
-:root{
+ok:root{
   --gold:#d7b46a;
   --gold2:#f2d38a;
   --bg:#07070a;
@@ -1666,4 +1666,36 @@
   );
 
   pointer-events:none;
+}
+/* ==================================
+   EXPAND MENU PANEL TO FULL HEIGHT
+================================== */
+
+.menuWrap{
+  min-height:calc(100vh - 120px);
+  display:flex;
+  flex-direction:column;
+}
+
+.dayPanel.active{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+.dayPanel.active .container{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+.menuCenterWrap{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+.menuBigPanel{
+  flex:1;
+  min-height:420px;
 }
