@@ -1011,3 +1011,18 @@
 .menuGrouped__boxTitle:contains("Wet"){
   color:#ff9d6a;
 }
+/* Balance grouped flavor boxes */
+.menuGrouped{
+  max-width:980px;
+  margin:0 auto;
+}
+
+.menuGrouped__boxTitle{
+  text-align:left;
+}
+
+@media (max-width:920px){
+  .menuGrouped{
+    max-width:none;
+  }
+}
