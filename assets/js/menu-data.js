@@ -93,24 +93,7 @@ items: [
 ]
 },
 
-{
-title: "Wing Flavors",
-items: [
-{ name: "Honey Lemon Pepper", desc: "Wet" },
-{ name: "Honey Old Bay", desc: "Wet" },
-{ name: "Buffalo BBQ", desc: "Wet" },
-{ name: "Honey Sazon", desc: "Wet" },
-{ name: "Sweet Chili", desc: "Wet" },
-{ name: "Teriyaki", desc: "Wet" },
-{ name: "Mumbo", desc: "Wet" },
-{ name: "Lemon Pepper", desc: "Dry" },
-{ name: "Jerk Rub", desc: "Dry" },
-{ name: "Old Bay", desc: "Dry" }
-]
-}
 
-]
-},
 
 shots5: {
 sections: [
