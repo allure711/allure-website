@@ -1696,6 +1696,6 @@ ok:root{
 }
 
 .menuBigPanel{
-  flex:1;
-  min-height:420px;
+  flex:1;0 0 320px;
+  max-height:320px;
 }
