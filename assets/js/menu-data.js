@@ -123,6 +123,9 @@ items: [
 ]
 }
 
+]
+},
+
 shots5: {
 sections: [
 {
@@ -149,76 +152,6 @@ items: [
 { name: "Lunazul", price: "$5 / $10" },
 { name: "Milagro", price: "$5 / $10" },
 { name: "Teremana", price: "$5 / $10" }
-]
-},
-
-{
-title: "Whiskey",
-items: [
-{ name: "Basil Hayden", price: "$5 / $10" },
-{ name: "Bulleit", price: "$5 / $10" },
-{ name: "Chivas Regal", price: "$5 / $10" },
-{ name: "Crown", price: "$5 / $10" },
-{ name: "Dewar's", price: "$5 / $10" },
-{ name: "Fireball", price: "$5 / $10" },
-{ name: "Jack Daniels", price: "$5 / $10" },
-{ name: "Jameson", price: "$5 / $10" },
-{ name: "Jim Beam", price: "$5 / $10" },
-{ name: "Makers Mark", price: "$5 / $10" },
-{ name: "Woodford", price: "$5 / $10" }
-]
-},
-
-{
-title: "Rum",
-items: [
-{ name: "Bacardi", price: "$5 / $10" },
-{ name: "Captain Morgan", price: "$5 / $10" },
-{ name: "Malibu", price: "$5 / $10" },
-{ name: "Myers", price: "$5 / $10" }
-]
-},
-
-{
-title: "Gin",
-items: [
-{ name: "Bombay", price: "$5 / $10" },
-{ name: "Roku", price: "$5 / $10" },
-{ name: "Tanqueray", price: "$5 / $10" }
-]
-},
-
-{
-title: "Cognac",
-items: [
-{ name: "Courvoisier", price: "$5 / $10" },
-{ name: "Hennessy", price: "$5 / $10" }
-]
-}
-
-]
-},
-
-shots7: {
-sections: [
-{
-title: "Premium",
-items: [
-{ name: "818", price: "$7 / $14" },
-{ name: "Casa Azul", price: "$7 / $14" },
-{ name: "Casamigos", price: "$7 / $14" },
-{ name: "Ciroc VS", price: "$7 / $14" },
-{ name: "Don Julio", price: "$7 / $14" },
-{ name: "Dusse", price: "$7 / $14" },
-{ name: "Equiano", price: "$7 / $14" },
-{ name: "Hendricks", price: "$7 / $14" },
-{ name: "Hennessy VSOP", price: "$7 / $14" },
-{ name: "Herradura", price: "$7 / $14" },
-{ name: "Old Forester", price: "$7 / $14" },
-{ name: "Patron", price: "$7 / $14" },
-{ name: "Remy 1738", price: "$7 / $14" },
-{ name: "Remy VSOP", price: "$7 / $14" },
-{ name: "Sir Davis", price: "$7 / $14" }
 ]
 }
 ]
@@ -251,9 +184,7 @@ items: [
 { name: "Guinness", price: "$4" },
 { name: "Heineken", price: "$4" },
 { name: "Modelo", price: "$4" },
-{ name: "Stella", price: "$4" },
-{ name: "Goose Island IPA", price: "$4" },
-{ name: "Voodoo Ranger IPA", price: "$4" }
+{ name: "Stella", price: "$4" }
 ]
 }
 ]
@@ -291,30 +222,12 @@ sections: [
 {
 title: "$23 Hookah",
 items: [
-{ name: "Bluemist", desc: "+$2", price: "$23" },
-{ name: "Lady Killer", desc: "+$2", price: "$23" },
-{ name: "Love 66", desc: "+$2", price: "$23" },
-{ name: "Magic Love", desc: "+$2", price: "$23" },
+{ name: "Bluemist", price: "$23" },
+{ name: "Lady Killer", price: "$23" },
+{ name: "Love 66", price: "$23" },
+{ name: "Magic Love", price: "$23" },
 { name: "Blueberry", price: "$23" },
-{ name: "BMW", price: "$23" },
-{ name: "Blueberry Mint", price: "$23" },
-{ name: "Double Apple", price: "$23" },
-{ name: "Grape", price: "$23" },
-{ name: "Grape Fruit", price: "$23" },
-{ name: "Grape Fruit Mint", price: "$23" },
-{ name: "Guava", price: "$23" },
-{ name: "Gum Mint", price: "$23" },
-{ name: "Kiwi", price: "$23" },
-{ name: "Lemon Mint", price: "$23" },
-{ name: "Mango", price: "$23" },
-{ name: "Mint", price: "$23" },
-{ name: "Orange Mint", price: "$23" },
-{ name: "Peach", price: "$23" },
-{ name: "Pineapple", price: "$23" },
-{ name: "Strawberry", price: "$23" },
-{ name: "Vanilla", price: "$23" },
-{ name: "Watermelon", price: "$23" },
-{ name: "Watermelon Mint", price: "$23" }
+{ name: "BMW", price: "$23" }
 ]
 }
 ]
@@ -355,48 +268,49 @@ items: [
 
 };
 
+
 window.MENU_HIGHLIGHTS = {
 
 monday: [
-{ name: "Salmon Sliders w/ Fries", price: "$12" },
-{ name: "Free Hookah Monday", price: "", special: "free-hookah" },
-{ name: "Allure Lemon Drop", price: "$10" }
+{ name: "Salmon Sliders w/ Fries" },
+{ name: "Free Hookah Monday", special: "free-hookah" },
+{ name: "Allure Lemon Drop" }
 ],
 
 tuesday: [
-{ name: "Classic Margarita", price: "$10" },
-{ name: "Hookah", price: "$23" },
-{ name: "Fishbowl", price: "$23" }
+{ name: "Classic Margarita" },
+{ name: "Hookah" },
+{ name: "Fishbowl" }
 ],
 
 wednesday: [
-{ name: "Long Island", price: "$10" },
-{ name: "Hookah", price: "$23" },
-{ name: "High Noon", price: "$8" }
+{ name: "Long Island" },
+{ name: "Hookah" },
+{ name: "High Noon" }
 ],
 
 thursday: [
-{ name: "Mojito", price: "$10" },
-{ name: "Hookah", price: "$23" },
-{ name: "Fishbowl", price: "$23" }
+{ name: "Mojito" },
+{ name: "Hookah" },
+{ name: "Fishbowl" }
 ],
 
 friday: [
-{ name: "Premium", price: "$10+" },
-{ name: "Hookah", price: "$23" },
-{ name: "Tower", price: "$43" }
+{ name: "Premium" },
+{ name: "Hookah" },
+{ name: "Tower" }
 ],
 
 saturday: [
-{ name: "Premium", price: "$10+" },
-{ name: "Hookah", price: "$23" },
-{ name: "Fishbowl", price: "$23" }
+{ name: "Premium" },
+{ name: "Hookah" },
+{ name: "Fishbowl" }
 ],
 
 sunday: [
-{ name: "Hookah", price: "$23" },
-{ name: "Fishbowl", price: "$23" },
-{ name: "Allure Lemon Drop", price: "$10" }
+{ name: "Hookah" },
+{ name: "Fishbowl" },
+{ name: "Allure Lemon Drop" }
 ]
 
 };
