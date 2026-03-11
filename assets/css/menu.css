@@ -1001,3 +1001,16 @@
   padding-bottom:6px;
   border-bottom:1px solid rgba(215,180,106,.20);
 }
+/* Wing Flavor icons */
+
+.menuGrouped__boxTitle:before{
+  margin-right:6px;
+}
+
+.menuGrouped__boxTitle:contains("Dry"){
+  color:#ffd27a;
+}
+
+.menuGrouped__boxTitle:contains("Wet"){
+  color:#ff9d6a;
+}
