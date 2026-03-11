@@ -233,11 +233,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setupCenterWrap(wrap) {
-
     const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
     const panelBody = wrap.querySelector(".menuPanelBody");
 
     if (!buttons.length || !panelBody) return;
+
+    if (wrap.dataset.initialized === "true") return;
+    wrap.dataset.initialized = "true";
 
     function activateButton(button) {
       const cat = button.dataset.cat;
@@ -281,14 +283,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    panelBody.innerHTML = `
-      <div class="menuEmpty">
-        Click a category above or below to view menu items.
-      </div>
-    `;
-
     const defaultButton = buttons.find(btn => btn.dataset.cat === "food") || buttons[0];
-    if (defaultButton) activateButton(defaultButton);
+    if (defaultButton) {
+      activateButton(defaultButton);
+    }
   }
 
   function activateDay(day) {
