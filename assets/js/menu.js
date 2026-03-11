@@ -233,8 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setupCenterWrap(wrap) {
-    if (wrap.dataset.initialized === "true") return;
-    wrap.dataset.initialized = "true";
 
     const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
     const panelBody = wrap.querySelector(".menuPanelBody");
