@@ -25,6 +25,10 @@
   padding:10px 0 12px;
 }
 
+.menuKicker{
+  display:none;
+}
+
 .menuHero h1{
   margin:0 0 6px;
   font-size:clamp(38px,5vw,58px);
@@ -38,6 +42,13 @@
   color:var(--textSoft);
   line-height:1.6;
   font-size:15px;
+}
+
+.menuHeroActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:14px;
 }
 
 .dayTabs{
@@ -103,6 +114,74 @@
   font-weight:500;
 }
 
+.vipBadge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  border:1px solid rgba(215,180,106,.35);
+  background:rgba(215,180,106,.12);
+  vertical-align:middle;
+}
+
+.heroRight{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.limitedTag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.reserveTop,
+.reserveInline{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  background:var(--gold);
+  color:#111;
+  font-weight:900;
+  border-radius:12px;
+  transition:transform .18s ease, opacity .18s ease;
+}
+
+.reserveTop:hover,
+.reserveInline:hover{
+  transform:translateY(-1px);
+  opacity:.96;
+}
+
+.reserveTop{
+  padding:12px 16px;
+}
+
+.reserveInline{
+  margin-top:14px;
+  padding:10px 14px;
+}
+
 .menuSplit{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -163,30 +242,22 @@
   border:1px solid rgba(255,255,255,.08);
   box-shadow:var(--shadow);
   backdrop-filter:blur(10px);
-  padding:12px;
-  min-height:220px;
-  overflow:hidden;
-  isolation:isolate;
+  padding:16px;
+  min-height:250px;
 }
 
 .menuPanelTitle{
-  font-size:13px;
+  font-size:14px;
   font-weight:950;
   letter-spacing:.10em;
   text-transform:uppercase;
   color:rgba(255,255,255,.88);
-  margin-bottom:8px;
-  position:relative;
-  z-index:1;
+  margin-bottom:10px;
 }
 
 .menuPanelBody{
-  min-height:auto;
-  height:auto;
-  max-height:none;
-  overflow:visible;
-  position:relative;
-  z-index:1;
+  min-height:150px;
+  scroll-behavior:smooth;
 }
 
 .menuEmpty{
@@ -200,7 +271,7 @@
 
 .menuNested{
   display:grid;
-  gap:12px;
+  gap:14px;
 }
 
 .menuSubTabs{
@@ -238,35 +309,42 @@
 }
 
 .menuSectionBlock{
-  padding:6px 0 2px;
+  padding:8px 0 4px;
+}
+
+.menuSectionBlock__title{
+  font-size:13px;
+  font-weight:950;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:8px;
+  padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,.10);
 }
 
 .menuList{
   display:grid;
-  gap:2px;
+  gap:8px;
 }
 
 .menuItem{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:6px 0;
+  align-items:flex-start;
+  gap:16px;
+  padding:12px 14px;
   border-bottom:1px solid rgba(255,255,255,.08);
-  background:none;
-  border-radius:0;
-  box-shadow:none;
-  transition:background .18s ease,color .18s ease;
+  border-radius:12px;
+  transition:
+    background .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease,
+    transform .22s ease;
 }
 
 .menuItem:last-child{
   border-bottom:none;
-}
-
-.menuItem:hover{
-  background:rgba(215,180,106,.06);
-  transform:none;
-  box-shadow:none;
 }
 
 .menuItem__left{
@@ -275,61 +353,80 @@
 }
 
 .menuItem__name{
-  font-weight:800;
-  font-size:13px;
+  font-weight:900;
+  font-size:14px;
   line-height:1.25;
-  margin-bottom:0;
+  margin-bottom:2px;
   color:#fff;
 }
 
 .menuItem__desc{
-  margin-top:2px;
+  margin-top:4px;
   color:rgba(255,255,255,.68);
-  line-height:1.35;
-  font-size:11px;
+  line-height:1.4;
+  font-size:12px;
 }
 
 .menuItem__price{
   margin-left:auto;
   flex:0 0 auto;
-  min-width:64px;
+  min-width:72px;
   text-align:right;
   white-space:nowrap;
   color:var(--gold2);
-  font-weight:900;
-  font-size:13px;
+  font-weight:950;
+  font-size:14px;
 }
 
+.menuItem:hover{
+  background:rgba(215,180,106,.08);
+  border-color:rgba(215,180,106,.18);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 8px 22px rgba(0,0,0,.18),
+    0 0 18px rgba(215,180,106,.08);
+  transform:translateY(-1px);
+}
+
+.menuItem:hover .menuItem__name{
+  color:var(--gold2);
+}
+
+.menuItem:hover .menuItem__price{
+  text-shadow:0 0 10px rgba(215,180,106,.18);
+}
+
+/* Grouped Wings layout inside big panel */
 .menuGrouped{
   padding:4px 0;
 }
 
 .menuGrouped__title{
-  font-size:24px;
-  font-weight:900;
-  color:var(--gold2);
-  margin-bottom:14px;
-  letter-spacing:.02em;
+  font-size:28px;
+  font-weight:800;
+  color:var(--gold);
+  margin-bottom:18px;
+  letter-spacing:.4px;
 }
 
 .menuGrouped__grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
+  grid-template-columns:1fr;
+  gap:16px;
 }
 
 .menuGrouped__box{
   border:1px solid rgba(215,180,106,.18);
   background:rgba(255,255,255,.03);
   border-radius:18px;
-  padding:14px;
+  padding:16px;
 }
 
 .menuGrouped__boxTitle{
-  font-size:16px;
-  font-weight:800;
+  font-size:18px;
+  font-weight:700;
   color:#fff;
-  margin-bottom:10px;
+  margin-bottom:12px;
   padding-bottom:8px;
   border-bottom:1px solid rgba(215,180,106,.16);
 }
@@ -346,7 +443,7 @@
 
 .popularTonight__grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:8px;
 }
 
@@ -360,6 +457,12 @@
   border:1px solid rgba(255,255,255,.08);
   font-size:13px;
   font-weight:700;
+}
+
+.popularCard .price{
+  color:#ffd45a;
+  font-weight:900;
+  white-space:nowrap;
 }
 
 .popularCard--freeHookah{
@@ -425,6 +528,87 @@
   }
 }
 
+.footerPremium{
+  padding:40px 0 24px;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.22);
+}
+
+.footerPremium__grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr .8fr;
+  gap:24px;
+}
+
+.footerBrand{
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.footerText{
+  color:var(--textSoft);
+  line-height:1.7;
+}
+
+.footerHead{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:10px;
+}
+
+.footerLinks{
+  display:grid;
+  gap:8px;
+}
+
+.footerLinks a{
+  color:rgba(255,255,255,.78);
+  text-decoration:none;
+}
+
+.footerLinks a:hover{
+  color:var(--gold2);
+}
+
+.menuPanelBody::-webkit-scrollbar{
+  width:8px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb{
+  background:rgba(215,180,106,.22);
+  border-radius:999px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb:hover{
+  background:rgba(215,180,106,.36);
+}
+
+.menuPanelBody::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+/* Desktop internal scroll only in middle box */
+@media (min-width:1024px){
+  .menuBigPanel{
+    height:340px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  .menuPanelBody{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    padding-right:6px;
+    scrollbar-width:thin;
+  }
+}
+
 /* VIP NIGHT MODE */
 .vipNightMode .menuBigPanel{
   background:
@@ -462,6 +646,20 @@
   text-shadow:
     0 0 10px rgba(215,180,106,.4),
     0 0 20px rgba(215,180,106,.25);
+  animation:vipTitleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes vipTitleGlow{
+  from{
+    text-shadow:
+      0 0 8px rgba(215,180,106,.3),
+      0 0 14px rgba(215,180,106,.18);
+  }
+  to{
+    text-shadow:
+      0 0 16px rgba(215,180,106,.6),
+      0 0 24px rgba(215,180,106,.35);
+  }
 }
 
 .vipNightMode .menuCenterBtn{
@@ -475,6 +673,14 @@
   box-shadow:
     0 0 12px rgba(215,180,106,.35),
     0 0 20px rgba(155,70,255,.25);
+  transform:translateY(-1px);
+}
+
+.vipNightMode .reserveInline{
+  background:linear-gradient(45deg,#d7b46a,#f2d38a);
+  box-shadow:
+    0 10px 24px rgba(215,180,106,.35),
+    0 0 30px rgba(215,180,106,.25);
 }
 
 .vipNightMode .menuEmpty{
@@ -493,15 +699,14 @@
     rgba(215,180,106,.35),
     transparent
   );
-  opacity:.18;
+  opacity:.35;
   animation:vipBorderMove 6s linear infinite;
   pointer-events:none;
-  z-index:0;
 }
 
 @keyframes vipBorderMove{
-  from{ transform:translateX(-60%); }
-  to{ transform:translateX(60%); }
+  from{transform:translateX(-60%);}
+  to{transform:translateX(60%);}
 }
 
 /* Floating VIP Banner */
@@ -565,6 +770,7 @@
   letter-spacing:.12em;
   text-transform:uppercase;
   margin-bottom:8px;
+  text-shadow:0 0 10px rgba(215,180,106,.18);
 }
 
 .vipNightBannerFloating__title{
@@ -574,6 +780,9 @@
   color:#fff;
   line-height:1.25;
   margin-bottom:4px;
+  text-shadow:
+    0 0 8px rgba(215,180,106,.16),
+    0 0 18px rgba(155,70,255,.14);
 }
 
 .vipNightBannerFloating__meta{
@@ -586,228 +795,27 @@
 @keyframes vipBannerFloat{
   from{
     transform:translateY(0);
+    box-shadow:
+      0 0 0 1px rgba(215,180,106,.08),
+      0 18px 44px rgba(0,0,0,.34),
+      0 0 24px rgba(155,70,255,.14),
+      0 0 18px rgba(215,180,106,.10);
   }
   to{
     transform:translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(215,180,106,.14),
+      0 24px 58px rgba(0,0,0,.42),
+      0 0 40px rgba(155,70,255,.22),
+      0 0 28px rgba(215,180,106,.16);
   }
 }
 
 @keyframes vipBannerShimmer{
-  from{ transform:translateX(-120%); }
-  to{ transform:translateX(120%); }
+  from{transform:translateX(-120%);}
+  to{transform:translateX(120%);}
 }
 
-/* =========================
-   INSTAGRAM SPIN GAME
-========================= */
-
-.menuGameGate{
-  display:grid;
-  place-items:center;
-  width:100%;
-}
-
-.menuGameGate__card{
-  width:100%;
-  border-radius:22px;
-  border:1px solid rgba(215,180,106,.22);
-  background:
-    radial-gradient(circle at top left, rgba(215,180,106,.12), transparent 32%),
-    radial-gradient(circle at top right, rgba(155,70,255,.10), transparent 36%),
-    rgba(255,255,255,.03);
-  padding:22px;
-  text-align:center;
-  box-shadow:
-    0 18px 50px rgba(0,0,0,.24),
-    0 0 28px rgba(215,180,106,.06);
-}
-
-.menuGameGate__badge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.35);
-  background:rgba(215,180,106,.12);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  margin-bottom:12px;
-}
-
-.menuGameGate__title{
-  font-size:28px;
-  font-weight:900;
-  margin:0 0 10px;
-  color:#fff;
-}
-
-.menuGameGate__text{
-  color:rgba(255,255,255,.78);
-  margin:0 0 18px;
-  font-size:14px;
-  line-height:1.6;
-}
-
-.menuGameGate__actions{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:12px;
-}
-
-.menuGameBtn{
-  appearance:none;
-  border:none;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:44px;
-  padding:12px 16px;
-  border-radius:12px;
-  font-weight:900;
-  transition:transform .2s ease, opacity .2s ease;
-}
-
-.menuGameBtn:hover{
-  transform:translateY(-1px);
-}
-
-.menuGameBtn--gold{
-  background:var(--gold);
-  color:#111;
-}
-
-.menuGameBtn--ghost{
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.04);
-  color:#fff;
-}
-
-.menuSpinWrap{
-  margin-top:20px;
-}
-
-.menuSpinHeader__kicker{
-  color:var(--gold2);
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.menuSpinHeader__sub{
-  color:rgba(255,255,255,.72);
-  font-size:13px;
-  margin-bottom:16px;
-}
-
-.menuBottleZone{
-  position:relative;
-  display:grid;
-  place-items:center;
-  margin-bottom:14px;
-}
-
-.menuBottlePointer{
-  position:absolute;
-  top:-6px;
-  width:0;
-  height:0;
-  border-left:10px solid transparent;
-  border-right:10px solid transparent;
-  border-top:16px solid var(--gold2);
-}
-
-.menuBottle{
-  width:110px;
-  height:110px;
-  border-radius:100px;
-  border:1px solid rgba(215,180,106,.30);
-  background:rgba(255,255,255,.05);
-  font-size:46px;
-  cursor:pointer;
-  color:#fff;
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 18px 40px rgba(0,0,0,.22);
-  transition:transform .2s ease;
-}
-
-.menuBottle:hover{
-  transform:scale(1.04);
-}
-
-.menuBottle.is-spinning{
-  animation:bottleSpin 2s cubic-bezier(.2,.8,.2,1);
-}
-
-@keyframes bottleSpin{
-  0%{ transform:rotate(0deg); }
-  25%{ transform:rotate(360deg); }
-  50%{ transform:rotate(720deg); }
-  75%{ transform:rotate(1080deg); }
-  100%{ transform:rotate(1440deg); }
-}
-
-.menuPrizeResult{
-  min-height:50px;
-  display:grid;
-  place-items:center;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.03);
-  font-weight:800;
-  color:#fff;
-}
-
-.menuPrizeActions{
-  margin-top:12px;
-  display:flex;
-  justify-content:center;
-}
-
-.is-hidden{
-  display:none !important;
-}
-
-/* Premium ambient background inside big panel */
-.menuBigPanel::after{
-  content:"🍸 🍹 🥃 🍷 🍾 🍸 🍹 🥃 🍷 🍾";
-  position:absolute;
-  top:-20%;
-  left:-20%;
-  width:160%;
-  height:160%;
-  font-size:38px;
-  line-height:110px;
-  letter-spacing:18px;
-  opacity:.03;
-  transform:rotate(-12deg);
-  animation:cocktailFloatPremium 70s linear infinite;
-  pointer-events:none;
-  z-index:0;
-}
-
-@keyframes cocktailFloatPremium{
-  0%{
-    transform:translateY(0) rotate(-12deg);
-  }
-  50%{
-    transform:translateY(-140px) rotate(-12deg);
-  }
-  100%{
-    transform:translateY(0) rotate(-12deg);
-  }
-}
-
-/* Responsive */
 @media (max-width:1100px){
   .menuTopCategories{
     grid-template-columns:repeat(4,1fr);
@@ -830,6 +838,14 @@
   .heroRow{
     flex-direction:column;
     align-items:flex-start;
+  }
+
+  .heroRight{
+    justify-content:flex-start;
+  }
+
+  .footerPremium__grid{
+    grid-template-columns:1fr;
   }
 
   .menuGrouped__grid{
@@ -856,16 +872,8 @@
   }
 
   .menuItem{
-    align-items:flex-start;
-    padding:6px 0;
-  }
-
-  .menuItem__name{
-    font-size:12px;
-  }
-
-  .menuItem__desc{
-    font-size:11px;
+    flex-direction:column;
+    gap:6px;
   }
 
   .menuItem__price{
@@ -873,7 +881,6 @@
     min-width:auto;
     text-align:left;
     white-space:normal;
-    font-size:12px;
   }
 
   .vipNightBannerFloating__title{
@@ -889,18 +896,6 @@
   }
 
   .menuGrouped__boxTitle{
-    font-size:15px;
-  }
-
-  .menuGameGate__title{
-    font-size:22px;
-  }
-
-  .menuGameGate__actions{
-    flex-direction:column;
-  }
-
-  .menuGameBtn{
-    width:100%;
+    font-size:16px;
   }
 }
