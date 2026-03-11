@@ -94,7 +94,6 @@ items: [
 },
 
 {
-{
 title: "Wing Flavors",
 layout: "wingsGrouped",
 groups: [
