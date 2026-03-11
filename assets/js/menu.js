@@ -18,7 +18,60 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  ggg
+  function renderGroupedMenu(section) {
+
+  const groups = section.groups || [];
+
+  function getFlavorIcon(name) {
+    const label = String(name || "").toLowerCase();
+
+    if (label.includes("lemon pepper")) return "🌶️";
+    if (label.includes("jerk")) return "🔥";
+    if (label.includes("old bay")) return "🧂";
+    if (label.includes("honey")) return "🍯";
+    if (label.includes("buffalo")) return "🍗";
+    if (label.includes("sweet chili")) return "🌶️";
+    if (label.includes("teriyaki")) return "🥢";
+    if (label.includes("mumbo")) return "👑";
+
+    return "";
+  }
+
+  const isWingFlavors = (section.title || "").toLowerCase() === "wing flavors";
+
+  return `
+    <div class="menuGrouped">
+      <div class="menuGrouped__title">${section.title || ""}</div>
+      <div class="menuGrouped__grid">
+
+        ${groups.map(group => `
+          <div class="menuGrouped__box">
+            <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+
+            <div class="menuList">
+              ${(group.items || []).map(item => `
+                <div class="menuItem">
+
+                  <div class="menuItem__left">
+                    <div class="menuItem__name">
+                      ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
+                      ${item.name || ""}
+                    </div>
+                  </div>
+
+                  <div class="menuItem__price">${item.price || ""}</div>
+
+                </div>
+              `).join("")}
+            </div>
+
+          </div>
+        `).join("")}
+
+      </div>
+    </div>
+  `;
+}
 
   function mapItemsForMode(items, mode) {
     if (!mode) return items || [];
