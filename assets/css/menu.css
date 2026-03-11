@@ -1312,3 +1312,50 @@
 }
 
 }
+/* ==================================
+   FLOATING COCKTAIL BACKGROUND
+   Premium lounge effect
+================================== */
+
+.menuBigPanel{
+  position:relative;
+  overflow:hidden;
+}
+
+/* cocktail icons layer */
+.menuBigPanel::before{
+  content:"🍸 🍹 🥃 🍷 🍾 🍸 🍹 🥃 🍷 🍾";
+  position:absolute;
+  top:0;
+  left:0;
+  width:200%;
+  height:200%;
+
+  font-size:42px;
+  line-height:120px;
+
+  opacity:.035;
+
+  transform:rotate(-12deg);
+
+  animation:cocktailFloat 80s linear infinite;
+
+  pointer-events:none;
+}
+
+/* floating animation */
+@keyframes cocktailFloat{
+
+  0%{
+    transform:translateY(0) rotate(-12deg);
+  }
+
+  50%{
+    transform:translateY(-120px) rotate(-12deg);
+  }
+
+  100%{
+    transform:translateY(0) rotate(-12deg);
+  }
+
+}
