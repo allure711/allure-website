@@ -1699,3 +1699,30 @@ ok:root{
   flex:1;0 0 320px;
   max-height:320px;
 }
+/* ================================
+REMOVE ALL MENU SCROLLING
+================================ */
+
+.menuBigPanel{
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+
+.menuPanelBody{
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+
+.menuWrap{
+  min-height:auto !important;
+}
+
+.menuCenterWrap{
+  height:auto !important;
+}
+
+.dayPanel.active{
+  display:block !important;
+}
