@@ -922,14 +922,10 @@
 }
 
 .menuGrouped__box{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
   border:1px solid rgba(215,180,106,.22);
   border-radius:18px;
   padding:16px;
-  position:relative;
-  overflow:hidden;
-  transition:all .25s ease;
+  height:100%;
 }
 
 .menuGrouped__box:hover{
