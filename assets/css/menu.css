@@ -1104,3 +1104,90 @@
     width:100%;
   }
 }
+/* =========================
+   MENU SPACING OVERRIDE
+   (fits more items in panel)
+========================= */
+
+.menuBigPanel{
+  padding:10px;
+}
+
+.menuPanelTitle{
+  margin-bottom:6px;
+  font-size:13px;
+}
+
+.menuPanelBody{
+  padding-right:4px;
+}
+
+.menuList{
+  display:grid;
+  gap:2px;
+}
+
+/* remove card look */
+.menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+
+  padding:6px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+
+  background:none;
+  border-radius:0;
+  box-shadow:none;
+}
+
+/* clean hover */
+.menuItem:hover{
+  background:none;
+  transform:none;
+  box-shadow:none;
+}
+
+/* tighten text */
+.menuItem__name{
+  font-size:13px;
+  margin-bottom:0;
+}
+
+.menuItem__desc{
+  font-size:11px;
+  margin-top:2px;
+}
+
+.menuItem__price{
+  font-size:13px;
+}
+
+/* desktop height tuning */
+@media (min-width:1024px){
+
+.menuBigPanel{
+  height:280px;
+}
+
+.menuPanelBody{
+  overflow-y:auto;
+  scrollbar-width:thin;
+}
+
+}
+
+/* mobile compact */
+@media (max-width:640px){
+
+.menuItem{
+  padding:6px 0;
+}
+
+.menuItem__name{
+  font-size:13px;
+}
+
+}
