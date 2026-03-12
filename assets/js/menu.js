@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   return `
     <div class="menuGrouped">
-    ${section.title === "Wings" || section.title === "Wing Flavors" ? "" : `000000000000000000000000000000000000
+    ${section.title === "Wings" || section.title === "Wing Flavors" ? "" : ${["Wings","Wing Flavors","Appetizers"].includes(section.title) ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
       <div class="menuGrouped__grid">
 
         ${groups.map(group => `
