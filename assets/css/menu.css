@@ -1261,3 +1261,18 @@
     grid-template-columns:1fr;
   }
 }
+/* ===== Bare grouped sections only for Appetizers / Wings / Wing Flavors ===== */
+
+.menuSectionBlock--bare{
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
+
+.menuSectionBlock--bare:hover{
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
