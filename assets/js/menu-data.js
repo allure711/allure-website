@@ -1,8 +1,214 @@
 window.MENU_CATEGORY_CONTENT = {
 
+food: {
+sections: [
 
+{
+title: "Appetizers",
+layout: "wingsGrouped",
+groups: [
 
+{
+title: "Starters",
+items: [
+{ name: "Salmon Sliders w/ Fries", price: "$12" },
+{ name: "Beef Sliders w/ Fries", price: "$10" },
+{ name: "Mozzarella Sticks", price: "$7" },
+{ name: "Fried Pickles", price: "$5" }
+]
+},
 
+{
+title: "Sides",
+items: [
+{ name: "Chips & Salsa", price: "$5" },
+{ name: "Onion Rings", price: "$7" },
+{ name: "Fries", price: "$5" }
+]
+}
+
+]
+},
+
+{
+title: "Wings",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "With Fries",
+items: [
+{ name: "12 pcs Wings", price: "$16" },
+{ name: "8 pcs Wings", price: "$14" },
+{ name: "6 pcs Wings", price: "$12" }
+]
+},
+
+{
+title: "Wings Only",
+items: [
+{ name: "12 pcs Wings", price: "$14" },
+{ name: "8 pcs Wings", price: "$10" },
+{ name: "6 pcs Wings", price: "$8" }
+]
+}
+
+]
+},
+
+{
+title: "Quesadillas",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "Classic",
+items: [
+{ name: "Cheese Quesadilla", price: "$8" },
+{ name: "Chicken Quesadilla", price: "$10" }
+]
+},
+
+{
+title: "Premium",
+items: [
+{ name: "Shrimp Quesadilla", price: "$12" },
+{ name: "Salmon Quesadilla", price: "$14" }
+]
+}
+
+]
+},
+
+{
+title: "Rasta Pasta or Alfredo",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "Pasta Choices",
+items: [
+{ name: "Chicken", price: "$16" },
+{ name: "Shrimp", price: "$18" }
+]
+},
+
+{
+title: "Premium Choice",
+items: [
+{ name: "Salmon", price: "$20" }
+]
+}
+
+]
+},
+
+{
+title: "Salads",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "Classic",
+items: [
+{ name: "Salad", price: "$8" },
+{ name: "Chicken Salad", price: "$10" }
+]
+},
+
+{
+title: "Premium",
+items: [
+{ name: "Shrimp Salad", price: "$12" },
+{ name: "Salmon Salad", price: "$13" }
+]
+}
+
+]
+},
+
+{
+title: "Dinner",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "Entrees",
+items: [
+{ name: "Salmon", price: "$20" },
+{ name: "General Tso", price: "$18" },
+{ name: "Beef Burger w/ Fries", price: "$13" },
+{ name: "Fried Shrimp Basket", price: "$18" }
+]
+},
+
+{
+title: "Baskets",
+items: [
+{ name: "Crab Fries Basket", price: "$18" },
+{ name: "Fried Whiting Basket", price: "$15" },
+{ name: "Salmon Nugget Basket", price: "$15" },
+{ name: "Catfish Nuggets Basket", price: "$13" }
+]
+}
+
+]
+},
+
+{
+title: "Tacos",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "Taco Choices",
+items: [
+{ name: "Shrimp Tacos", price: "$16" }
+]
+},
+
+{
+title: "More Tacos",
+items: [
+{ name: "Chicken Tacos", price: "$14" }
+]
+}
+
+]
+},
+
+{
+title: "Wing Flavors",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "Dry",
+items: [
+{ name: "Lemon Pepper" },
+{ name: "Jerk Rub" },
+{ name: "Old Bay" }
+]
+},
+
+{
+title: "Wet",
+items: [
+{ name: "Honey Lemon Pepper" },
+{ name: "Honey Old Bay" },
+{ name: "Buffalo BBQ" },
+{ name: "Honey Sazon" },
+{ name: "Sweet Chili" },
+{ name: "Teriyaki" },
+{ name: "Mumbo" }
+]
+}
+
+]
+}
+
+]
+},
 
 
 shots5: {
