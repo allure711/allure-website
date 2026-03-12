@@ -309,9 +309,18 @@
 }
 
 .menuSectionBlock{
-  padding:0;
-  background:transparent;
-  border:none;
+  border:1px solid rgba(215,180,106,.18);
+  background:rgba(255,255,255,.03);
+  border-radius:18px;
+  padding:16px;
+  height:100%;
+}
+
+.menuSectionBlock:hover{
+  border-color:rgba(215,180,106,.28);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.06),
+    0 12px 30px rgba(0,0,0,.24);
 }
 
 .menuSectionBlock__title{
@@ -398,17 +407,20 @@
   text-shadow:0 0 10px rgba(215,180,106,.18);
 }
 
-/* Grouped Wings layout inside big panel */
+/* grouped menu */
 .menuGrouped{
+  max-width:980px;
+  margin:0 auto;
   padding:4px 0;
 }
 
 .menuGrouped__title{
-  font-size:28px;
-  font-weight:800;
-  color:var(--gold);
-  margin-bottom:18px;
-  letter-spacing:.4px;
+  font-size:22px;
+  font-weight:900;
+  color:var(--gold2);
+  margin-bottom:12px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
 }
 
 .menuGrouped__grid{
@@ -419,19 +431,119 @@
 }
 
 .menuGrouped__box{
-  border:1px solid rgba(215,180,106,.18);
-  background:rgba(255,255,255,.03);
+  border:1px solid rgba(215,180,106,.22);
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
   border-radius:18px;
   padding:16px;
+  position:relative;
+  overflow:hidden;
+  transition:
+    border-color .22s ease,
+    box-shadow .22s ease,
+    transform .22s ease;
+}
+
+.menuGrouped__box:hover{
+  border-color:rgba(215,180,106,.42);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 12px 32px rgba(0,0,0,.28),
+    0 0 20px rgba(215,180,106,.10);
+  transform:translateY(-1px);
 }
 
 .menuGrouped__boxTitle{
-  font-size:18px;
-  font-weight:700;
-  color:#fff;
-  margin-bottom:12px;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:10px;
   padding-bottom:8px;
-  border-bottom:1px solid rgba(215,180,106,.16);
+  border-bottom:1px solid rgba(215,180,106,.18);
+  text-align:left;
+}
+
+.menuGrouped__box .menuList{
+  display:grid;
+  gap:4px;
+}
+
+.menuGrouped__box .menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  padding:12px 8px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  transition:
+    background .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease,
+    transform .22s ease;
+}
+
+.menuGrouped__box .menuItem:last-child{
+  border-bottom:none;
+}
+
+.menuGrouped__box .menuItem:hover{
+  background:rgba(215,180,106,.10);
+  border-color:rgba(215,180,106,.25);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 8px 24px rgba(0,0,0,.25),
+    0 0 14px rgba(215,180,106,.08);
+  transform:translateY(-1px);
+}
+
+.flavorIcon{
+  display:inline-flex;
+  width:22px;
+  margin-right:6px;
+  font-size:15px;
+  filter:drop-shadow(0 0 6px rgba(215,180,106,.25));
+}
+
+/* special styling for first/second grouped box */
+.menuGrouped__box:nth-child(1){
+  border-color:rgba(255,120,80,.30);
+  background:
+    radial-gradient(circle at top left, rgba(255,80,40,.08), transparent 60%),
+    rgba(255,255,255,.03);
+}
+
+.menuGrouped__box:nth-child(1) .menuGrouped__boxTitle{
+  color:#ffb08a;
+  text-shadow:0 0 8px rgba(255,120,80,.30);
+}
+
+.menuGrouped__box:nth-child(2){
+  border-color:rgba(215,180,106,.38);
+  background:
+    radial-gradient(circle at top right, rgba(255,200,120,.10), transparent 60%),
+    rgba(255,255,255,.03);
+}
+
+.menuGrouped__box:nth-child(2) .menuGrouped__boxTitle{
+  color:var(--gold2);
+  text-shadow:0 0 10px rgba(215,180,106,.35);
+}
+
+/* bare grouped sections only when JS adds this class */
+.menuSectionBlock--bare{
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
+
+.menuSectionBlock--bare:hover{
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
 }
 
 .popularTonight{
@@ -594,7 +706,7 @@
   background:transparent;
 }
 
-/* Desktop internal scroll only in middle box */
+/* desktop scroll area */
 @media (min-width:1024px){
   .menuBigPanel{
     height:340px;
@@ -851,6 +963,10 @@
     grid-template-columns:1fr;
   }
 
+  .menuGrouped{
+    max-width:none;
+  }
+
   .menuGrouped__grid{
     grid-template-columns:1fr;
   }
@@ -901,386 +1017,4 @@
   .menuGrouped__boxTitle{
     font-size:16px;
   }
-}
-/* ===== PREMIUM GROUPED MENU (WINGS / FLAVORS) ===== */
-
-.menuGrouped{
-  padding:6px 0;
-}
-
-.menuGrouped__title{
-  font-size:22px;
-  font-weight:900;
-  color:var(--gold2);
-  margin-bottom:12px;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-}
-
-.menuGrouped__grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.menuGrouped__box{
-  border:1px solid rgba(215,180,106,.22);
-  border-radius:18px;
-  padding:16px;
-  height:100%;
-}
-
-.menuGrouped__box:hover{
-  border-color:rgba(215,180,106,.45);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 12px 32px rgba(0,0,0,.35),
-    0 0 22px rgba(215,180,106,.12);
-  transform:translateY(-2px);
-}
-
-.menuGrouped__boxTitle{
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  margin-bottom:10px;
-  padding-bottom:6px;
-  border-bottom:1px solid rgba(215,180,106,.20);
-}
-/* ===== PREMIUM GROUPED MENU (WINGS / FLAVORS) ===== */
-
-.menuGrouped{
-  padding:6px 0;
-}
-
-.menuGrouped__title{
-  font-size:22px;
-  font-weight:900;
-  color:var(--gold2);
-  margin-bottom:12px;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-}
-
-.menuGrouped__grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.menuGrouped__box{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-  border:1px solid rgba(215,180,106,.22);
-  border-radius:18px;
-  padding:16px;
-  position:relative;
-  overflow:hidden;
-  transition:all .25s ease;
-}
-
-.menuGrouped__box:hover{
-  border-color:rgba(215,180,106,.45);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 12px 32px rgba(0,0,0,.35),
-    0 0 22px rgba(215,180,106,.12);
-  transform:translateY(-2px);
-}
-
-.menuGrouped__boxTitle{
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  margin-bottom:10px;
-  padding-bottom:6px;
-  border-bottom:1px solid rgba(215,180,106,.20);
-}
-/* Wing Flavor icons */
-
-.menuGrouped__boxTitle:before{
-  margin-right:6px;
-}
-
-.menuGrouped__boxTitle:contains("Dry"){
-  color:#ffd27a;
-}
-
-.menuGrouped__boxTitle:contains("Wet"){
-  color:#ff9d6a;
-}
-/* Balance grouped flavor boxes */
-.menuGrouped{
-  max-width:980px;
-  margin:0 auto;
-}
-
-.menuGrouped__boxTitle{
-  text-align:left;
-}
-
-@media (max-width:920px){
-  .menuGrouped{
-    max-width:none;
-  }
-}
-/* Wing Flavor Box Color Effects */
-
-.menuGrouped__box:nth-child(1){
-  border-color:rgba(255,120,80,.35);
-  background:
-    radial-gradient(circle at top left, rgba(255,80,40,.10), transparent 60%),
-    rgba(255,255,255,.03);
-}
-
-.menuGrouped__box:nth-child(1) .menuGrouped__boxTitle{
-  color:#ffb08a;
-  text-shadow:0 0 8px rgba(255,120,80,.35);
-}
-
-.menuGrouped__box:nth-child(2){
-  border-color:rgba(215,180,106,.45);
-  background:
-    radial-gradient(circle at top right, rgba(255,200,120,.12), transparent 60%),
-    rgba(255,255,255,.03);
-}
-
-.menuGrouped__box:nth-child(2) .menuGrouped__boxTitle{
-  color:var(--gold2);
-  text-shadow:0 0 10px rgba(215,180,106,.45);
-}
-/* Make normal food sections match boxed wings layout */
-.menuSectionBlock .menuItem{
-  padding:12px 8px;
-}
-
-.menuSectionBlock .menuItem:first-child{
-  padding-top:6px;
-}
-
-.menuSectionBlock .menuItem:last-child{
-  padding-bottom:6px;
-}
-
-.menuSectionBlock:hover{
-  border-color:rgba(215,180,106,.28);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.06),
-    0 12px 30px rgba(0,0,0,.24);
-}
-/* =========================================================
-   GROUPED FOOD MENU POLISH
-   Paste at bottom of assets/css/menu.css
-========================================================= */
-
-.menuSectionBlock{
-  border:1px solid rgba(215,180,106,.18);
-  background:rgba(255,255,255,.03);
-  border-radius:18px;
-  padding:16px;
-  height:100%;
-}
-
-.menuSectionBlock:hover{
-  border-color:rgba(215,180,106,.28);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.06),
-    0 12px 30px rgba(0,0,0,.24);
-}
-
-.menuGrouped{
-  max-width:980px;
-  margin:0 auto;
-  padding:4px 0;
-}
-
-.menuGrouped__grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(260px, 1fr));
-  gap:16px;
-  align-items:start;
-}
-
-.menuGrouped__box{
-  border:1px solid rgba(215,180,106,.18);
-  background:rgba(255,255,255,.03);
-  border-radius:18px;
-  padding:16px;
-  height:100%;
-  transition:
-    border-color .22s ease,
-    box-shadow .22s ease,
-    transform .22s ease;
-}
-
-.menuGrouped__box:hover{
-  border-color:rgba(215,180,106,.38);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 12px 32px rgba(0,0,0,.28),
-    0 0 20px rgba(215,180,106,.10);
-  transform:translateY(-1px);
-}
-
-.menuGrouped__title{
-  font-size:22px;
-  font-weight:900;
-  color:var(--gold2);
-  margin-bottom:12px;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-}
-
-.menuGrouped__boxTitle{
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  margin-bottom:10px;
-  padding-bottom:8px;
-  border-bottom:1px solid rgba(215,180,106,.18);
-}
-
-.menuSectionBlock .menuList,
-.menuGrouped__box .menuList{
-  display:grid;
-  gap:4px;
-}
-
-.menuSectionBlock .menuItem,
-.menuGrouped__box .menuItem{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:16px;
-  padding:12px 8px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  transition:
-    background .22s ease,
-    border-color .22s ease,
-    box-shadow .22s ease,
-    transform .22s ease;
-}
-
-.menuSectionBlock .menuItem:last-child,
-.menuGrouped__box .menuItem:last-child{
-  border-bottom:none;
-}
-
-.menuSectionBlock .menuItem:hover,
-.menuGrouped__box .menuItem:hover{
-  background:rgba(215,180,106,.10);
-  border-color:rgba(215,180,106,.25);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 8px 24px rgba(0,0,0,.25),
-    0 0 14px rgba(215,180,106,.08);
-  transform:translateY(-1px);
-}
-
-.menuSectionBlock .menuItem__left,
-.menuGrouped__box .menuItem__left{
-  min-width:0;
-  flex:1 1 auto;
-}
-
-.menuSectionBlock .menuItem__name,
-.menuGrouped__box .menuItem__name{
-  font-weight:900;
-  font-size:14px;
-  line-height:1.25;
-  color:#fff;
-}
-
-.menuSectionBlock .menuItem__desc,
-.menuGrouped__box .menuItem__desc{
-  margin-top:4px;
-  color:rgba(255,255,255,.68);
-  line-height:1.4;
-  font-size:12px;
-}
-
-.menuSectionBlock .menuItem__price,
-.menuGrouped__box .menuItem__price{
-  margin-left:auto;
-  flex:0 0 auto;
-  min-width:72px;
-  text-align:right;
-  white-space:nowrap;
-  color:var(--gold2);
-  font-weight:950;
-  font-size:14px;
-}
-
-.flavorIcon{
-  display:inline-flex;
-  width:22px;
-  margin-right:6px;
-  font-size:15px;
-  filter:drop-shadow(0 0 6px rgba(215,180,106,.25));
-}
-
-/* Dry / Wet color styling */
-.menuGrouped__box:nth-child(1){
-  border-color:rgba(255,120,80,.30);
-  background:
-    radial-gradient(circle at top left, rgba(255,80,40,.08), transparent 60%),
-    rgba(255,255,255,.03);
-}
-
-.menuGrouped__box:nth-child(1) .menuGrouped__boxTitle{
-  color:#ffb08a;
-  text-shadow:0 0 8px rgba(255,120,80,.30);
-}
-
-.menuGrouped__box:nth-child(2){
-  border-color:rgba(215,180,106,.38);
-  background:
-    radial-gradient(circle at top right, rgba(255,200,120,.10), transparent 60%),
-    rgba(255,255,255,.03);
-}
-
-.menuGrouped__box:nth-child(2) .menuGrouped__boxTitle{
-  color:var(--gold2);
-  text-shadow:0 0 10px rgba(215,180,106,.35);
-}
-
-/* Keep grouped boxes one column on smaller screens */
-@media (max-width:920px){
-  .menuGrouped{
-    max-width:none;
-  }
-
-  .menuGrouped__grid{
-    grid-template-columns:1fr;
-  }
-}
-/* ===== Bare grouped sections only for Appetizers / Wings / Wing Flavors ===== */
-
-.menuSectionBlock--bare{
-  padding:0;
-  background:transparent;
-  border:none;
-  box-shadow:none;
-}
-
-.menuSectionBlock--bare:hover{
-  padding:0;
-  background:transparent;
-  border:none;
-  box-shadow:none;
-}
-/* Remove outer wrapper for food sections */
-
-.menuSectionBlock{
-  padding:0;
-  border:none;
-  background:transparent;
-  box-shadow:none;
 }
