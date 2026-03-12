@@ -3,7 +3,32 @@ window.MENU_CATEGORY_CONTENT = {
 food: {
 sections: [
 
-d
+{
+title: "Appetizers",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "Starters",
+items: [
+{ name: "Salmon Sliders w/ Fries", price: "$12" },
+{ name: "Beef Sliders w/ Fries", price: "$10" },
+{ name: "Mozzarella Sticks", price: "$7" },
+{ name: "Fried Pickles", price: "$5" }
+]
+},
+
+{
+title: "Sides",
+items: [
+{ name: "Chips & Salsa", price: "$5" },
+{ name: "Onion Rings", price: "$7" },
+{ name: "Fries", price: "$5" }
+]
+}
+
+]
+},
 
 {
 title: "Wings",
