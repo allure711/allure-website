@@ -20,15 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderGroupedMenu(section) {
     const groups = section.groups || [];
+
     const hiddenTitles = [
       "Wings",
       "Wing Flavors",
-      "Appetizers",
-      "Quesadillas",
-      "Rasta Pasta or Alfredo",
-      "Salads",
-      "Dinner",
-      "Tacos"
+      "Appetizers"
     ];
 
     const hideMainTitle = hiddenTitles.includes(section.title || "");
@@ -203,12 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const bareGroupedTitles = [
         "Wings",
         "Wing Flavors",
-        "Appetizers",
-        "Quesadillas",
-        "Rasta Pasta or Alfredo",
-        "Salads",
-        "Dinner",
-        "Tacos"
+        "Appetizers"
       ];
 
       const isBareGroupedSection =
