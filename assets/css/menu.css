@@ -1026,3 +1026,28 @@
     max-width:none;
   }
 }
+/* Wing Flavor Box Color Effects */
+
+.menuGrouped__box:nth-child(1){
+  border-color:rgba(255,120,80,.35);
+  background:
+    radial-gradient(circle at top left, rgba(255,80,40,.10), transparent 60%),
+    rgba(255,255,255,.03);
+}
+
+.menuGrouped__box:nth-child(1) .menuGrouped__boxTitle{
+  color:#ffb08a;
+  text-shadow:0 0 8px rgba(255,120,80,.35);
+}
+
+.menuGrouped__box:nth-child(2){
+  border-color:rgba(215,180,106,.45);
+  background:
+    radial-gradient(circle at top right, rgba(255,200,120,.12), transparent 60%),
+    rgba(255,255,255,.03);
+}
+
+.menuGrouped__box:nth-child(2) .menuGrouped__boxTitle{
+  color:var(--gold2);
+  text-shadow:0 0 10px rgba(215,180,106,.45);
+}
