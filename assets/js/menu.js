@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return `
       <div class="menuGrouped">
-        ${hideMainTitle ? "" : 4444444444444444444444444444444444444444444
+        ${hideMainTitle ? "" : ${["Wings","Wing Flavors","Appetizers","Quesadillas","Rasta Pasta or Alfredo","Salads","Dinner","Tacos"].includes(section.title || "") ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
 
         <div class="menuGrouped__grid">
           ${groups.map(group => `
