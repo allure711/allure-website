@@ -19,59 +19,55 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderGroupedMenu(section) {
+    const groups = section.groups || [];
+    const hideMainTitle = ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
 
-  const groups = section.groups || [];
+    function getFlavorIcon(name) {
+      const label = String(name || "").toLowerCase();
 
-  function getFlavorIcon(name) {
-    const label = String(name || "").toLowerCase();
+      if (label.includes("lemon pepper")) return "🌶️";
+      if (label.includes("jerk")) return "🔥";
+      if (label.includes("old bay")) return "🧂";
+      if (label.includes("honey")) return "🍯";
+      if (label.includes("buffalo")) return "🍗";
+      if (label.includes("sweet chili")) return "🌶️";
+      if (label.includes("teriyaki")) return "🥢";
+      if (label.includes("mumbo")) return "👑";
 
-    if (label.includes("lemon pepper")) return "🌶️";
-    if (label.includes("jerk")) return "🔥";
-    if (label.includes("old bay")) return "🧂";
-    if (label.includes("honey")) return "🍯";
-    if (label.includes("buffalo")) return "🍗";
-    if (label.includes("sweet chili")) return "🌶️";
-    if (label.includes("teriyaki")) return "🥢";
-    if (label.includes("mumbo")) return "👑";
+      return "";
+    }
 
-    return "";
-  }
+    const isWingFlavors = (section.title || "").toLowerCase() === "wing flavors";
 
-  const isWingFlavors = (section.title || "").toLowerCase() === "wing flavors";
+    return `
+      <div class="menuGrouped">
+        ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
 
-  return `
-    <div class="menuGrouped">
-    ${section.title === "Wings" || section.title === "Wing Flavors" ? "" : ${["Wings","Wing Flavors","Appetizers"].includes(section.title) ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
-      <div class="menuGrouped__grid">
+        <div class="menuGrouped__grid">
+          ${groups.map(group => `
+            <div class="menuGrouped__box">
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
 
-        ${groups.map(group => `
-          <div class="menuGrouped__box">
-            <div class="menuGrouped__boxTitle">${group.title || ""}</div>
-
-            <div class="menuList">
-              ${(group.items || []).map(item => `
-                <div class="menuItem">
-
-                  <div class="menuItem__left">
-                    <div class="menuItem__name">
-                      ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
-                      ${item.name || ""}
+              <div class="menuList">
+                ${(group.items || []).map(item => `
+                  <div class="menuItem">
+                    <div class="menuItem__left">
+                      <div class="menuItem__name">
+                        ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
+                        ${item.name || ""}
+                      </div>
                     </div>
+                    <div class="menuItem__price">${item.price || ""}</div>
                   </div>
+                `).join("")}
+              </div>
 
-                  <div class="menuItem__price">${item.price || ""}</div>
-
-                </div>
-              `).join("")}
             </div>
-
-          </div>
-        `).join("")}
-
+          `).join("")}
+        </div>
       </div>
-    </div>
-  `;
-}
+    `;
+  }
 
   function mapItemsForMode(items, mode) {
     if (!mode) return items || [];
@@ -195,9 +191,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const section = sections.find(s => s.title === title);
       if (!section) return;
 
+      const isBareGroupedSection =
+        section.layout === "wingsGrouped" &&
+        ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
+
       if (section.layout === "wingsGrouped") {
         subBody.innerHTML = `
-          <div class="menuSectionBlock">
+          <div class="menuSectionBlock ${isBareGroupedSection ? "menuSectionBlock--bare" : ""}">
             ${renderGroupedMenu(section)}
           </div>
         `;
