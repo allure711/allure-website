@@ -309,11 +309,9 @@
 }
 
 .menuSectionBlock{
-  border:1px solid rgba(215,180,106,.18);
-  background:rgba(255,255,255,.03);
-  border-radius:18px;
-  padding:16px;
-  height:100%;
+  padding:0;
+  background:transparent;
+  border:none;
 }
 
 .menuSectionBlock__title{
