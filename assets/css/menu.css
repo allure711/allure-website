@@ -1276,3 +1276,11 @@
   border:none;
   box-shadow:none;
 }
+/* Remove outer wrapper for food sections */
+
+.menuSectionBlock{
+  padding:0;
+  border:none;
+  background:transparent;
+  box-shadow:none;
+}
