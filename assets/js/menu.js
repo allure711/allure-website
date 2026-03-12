@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return `
       <div class="menuGrouped">
-        ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
+        ${hideMainTitle ? "" : 4444444444444444444444444444444444444444444
 
         <div class="menuGrouped__grid">
           ${groups.map(group => `
