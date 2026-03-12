@@ -3,18 +3,7 @@ window.MENU_CATEGORY_CONTENT = {
 food: {
 sections: [
 
-{
-title: "Appetizers",
-items: [
-{ name: "Salmon Sliders w/ Fries", price: "$12" },
-{ name: "Beef Sliders w/ Fries", price: "$10" },
-{ name: "Mozzarella Sticks", price: "$7" },
-{ name: "Fried Pickles", price: "$5" },
-{ name: "Chips & Salsa", price: "$5" },
-{ name: "Onion Rings", price: "$7" },
-{ name: "Fries", price: "$5" }
-]
-},
+d
 
 {
 title: "Wings",
