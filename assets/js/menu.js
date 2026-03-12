@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderGroupedMenu(section) {
     const groups = section.groups || [];
+    const hideMainTitle = ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
 
     function getFlavorIcon(name) {
       const label = String(name || "").toLowerCase();
@@ -40,7 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return `
       <div class="menuGrouped">
-        <div class="menuGrouped__title">${section.title || ""}</div>
+        ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
+
         <div class="menuGrouped__grid">
           ${groups.map(group => `
             <div class="menuGrouped__box">
@@ -59,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   </div>
                 `).join("")}
               </div>
+
             </div>
           `).join("")}
         </div>
@@ -188,9 +191,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const section = sections.find(s => s.title === title);
       if (!section) return;
 
+      const isBareGroupedSection =
+        section.layout === "wingsGrouped" &&
+        ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
+
       if (section.layout === "wingsGrouped") {
         subBody.innerHTML = `
-          <div class="menuSectionBlock">
+          <div class="menuSectionBlock ${isBareGroupedSection ? "menuSectionBlock--bare" : ""}">
             ${renderGroupedMenu(section)}
           </div>
         `;
@@ -289,11 +296,6 @@ document.addEventListener("DOMContentLoaded", () => {
         Click a category above or below to view menu items.
       </div>
     `;
-
-    const defaultButton = buttons.find(btn => btn.dataset.cat === "food") || buttons[0];
-    if (defaultButton) {
-      activateButton(defaultButton);
-    }
   }
 
   function activateDay(day) {
