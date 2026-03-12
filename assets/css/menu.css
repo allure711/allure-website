@@ -1051,3 +1051,22 @@
   color:var(--gold2);
   text-shadow:0 0 10px rgba(215,180,106,.45);
 }
+/* Make normal food sections match boxed wings layout */
+.menuSectionBlock .menuItem{
+  padding:12px 8px;
+}
+
+.menuSectionBlock .menuItem:first-child{
+  padding-top:6px;
+}
+
+.menuSectionBlock .menuItem:last-child{
+  padding-bottom:6px;
+}
+
+.menuSectionBlock:hover{
+  border-color:rgba(215,180,106,.28);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.06),
+    0 12px 30px rgba(0,0,0,.24);
+}
