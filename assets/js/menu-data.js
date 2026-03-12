@@ -1,440 +1,371 @@
-window.MENU_CATEGORY_CONTENT = {
+document.addEventListener("DOMContentLoaded", () => {
+  const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
 
-food: {
-sections: [
+  function renderFlatMenu(items) {
+    return `
+      <div class="menuList">
+        ${(items || []).map(item => `
+          <div class="menuItem">
+            <div class="menuItem__left">
+              <div class="menuItem__name">${item.name || ""}</div>
+              <div class="menuItem__desc">${item.desc || ""}</div>
+            </div>
+            <div class="menuItem__price">${item.price || ""}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
 
-{
-title: "Appetizers",
-layout: "wingsGrouped",
-groups: [
+  function renderGroupedMenu(section) {
+    const groups = section.groups || [];
 
-{
-title: "Starters",
-items: [
-{ name: "Salmon Sliders w/ Fries", price: "$12" },
-{ name: "Beef Sliders w/ Fries", price: "$10" },
-{ name: "Mozzarella Sticks", price: "$7" },
-{ name: "Fried Pickles", price: "$5" }
-]
-},
+    const hiddenTitles = [
+      "Appetizers",
+      "Wings",
+      "Quesadillas",
+      "Rasta Pasta or Alfredo",
+      "Salads",
+      "Dinner",
+      "Tacos",
+      "Wing Flavors"
+    ];
 
-{
-title: "Sides",
-items: [
-{ name: "Chips & Salsa", price: "$5" },
-{ name: "Onion Rings", price: "$7" },
-{ name: "Fries", price: "$5" }
-]
-}
+    const hideMainTitle = hiddenTitles.includes(section.title || "");
 
-]
-},
+    function getFlavorIcon(name) {
+      const label = String(name || "").toLowerCase();
 
-{
-title: "Wings",
-layout: "wingsGrouped",
-groups: [
+      if (label.includes("lemon pepper")) return "🌶️";
+      if (label.includes("jerk")) return "🔥";
+      if (label.includes("old bay")) return "🧂";
+      if (label.includes("honey")) return "🍯";
+      if (label.includes("buffalo")) return "🍗";
+      if (label.includes("sweet chili")) return "🌶️";
+      if (label.includes("teriyaki")) return "🥢";
+      if (label.includes("mumbo")) return "👑";
 
-{
-title: "With Fries",
-items: [
-{ name: "12 pcs Wings", price: "$16" },
-{ name: "8 pcs Wings", price: "$14" },
-{ name: "6 pcs Wings", price: "$12" }
-]
-},
-
-{
-title: "Wings Only",
-items: [
-{ name: "12 pcs Wings", price: "$14" },
-{ name: "8 pcs Wings", price: "$10" },
-{ name: "6 pcs Wings", price: "$8" }
-]
-}
-
-]
-},
-
-{
-title: "Quesadillas",
-layout: "wingsGrouped",
-groups: [
-
-{
-title: "Classic",
-items: [
-{ name: "Cheese Quesadilla", price: "$8" },
-{ name: "Chicken Quesadilla", price: "$10" }
-]
-},
-
-{
-title: "Premium",
-items: [
-{ name: "Shrimp Quesadilla", price: "$12" },
-{ name: "Salmon Quesadilla", price: "$14" }
-]
-}
-
-]
-},
-
-{
-title: "Rasta Pasta or Alfredo",
-layout: "wingsGrouped",
-groups: [
-
-{
-title: "Pasta Choices",
-items: [
-{ name: "Chicken", price: "$16" },
-{ name: "Shrimp", price: "$18" }
-]
-},
-
-{
-title: "Premium Choice",
-items: [
-{ name: "Salmon", price: "$20" }
-]
-}
-
-]
-},
-
-{
-title: "Salads",
-layout: "wingsGrouped",
-groups: [
-
-{
-title: "Classic",
-items: [
-{ name: "Salad", price: "$8" },
-{ name: "Chicken Salad", price: "$10" }
-]
-},
-
-{
-title: "Premium",
-items: [
-{ name: "Shrimp Salad", price: "$12" },
-{ name: "Salmon Salad", price: "$13" }
-]
-}
-
-]
-},
-
-{
-title: "Dinner",
-layout: "wingsGrouped",
-groups: [
-
-{
-title: "Entrees",
-items: [
-{ name: "Salmon", price: "$20" },
-{ name: "General Tso", price: "$18" },
-{ name: "Beef Burger w/ Fries", price: "$13" },
-{ name: "Fried Shrimp Basket", price: "$18" }
-]
-},
-
-{
-title: "Baskets",
-items: [
-{ name: "Crab Fries Basket", price: "$18" },
-{ name: "Fried Whiting Basket", price: "$15" },
-{ name: "Salmon Nugget Basket", price: "$15" },
-{ name: "Catfish Nuggets Basket", price: "$13" }
-]
-}
-
-]
-},
-
-{
-title: "Tacos",
-layout: "wingsGrouped",
-groups: [
-
-{
-title: "Taco Choices",
-items: [
-{ name: "Shrimp Tacos", price: "$16" }
-]
-},
-
-{
-title: "More Tacos",
-items: [
-{ name: "Chicken Tacos", price: "$14" }
-]
-}
-
-]
-},
-
-{
-title: "Wing Flavors",
-layout: "wingsGrouped",
-groups: [
-
-{
-title: "Dry",
-items: [
-{ name: "Lemon Pepper" },
-{ name: "Jerk Rub" },
-{ name: "Old Bay" }
-]
-},
-
-{
-title: "Wet",
-items: [
-{ name: "Honey Lemon Pepper" },
-{ name: "Honey Old Bay" },
-{ name: "Buffalo BBQ" },
-{ name: "Honey Sazon" },
-{ name: "Sweet Chili" },
-{ name: "Teriyaki" },
-{ name: "Mumbo" }
-]
-}
-
-]
-}
-
-]
-},
-
-
-shots5: {
-  sections: [
-    {
-      title: "Vodka",
-      items: [
-        { name: "Absolut", price: "$5 / $10" },
-        { name: "Belvedere", price: "$5 / $10" },
-        { name: "Ciroc", price: "$5 / $10" },
-        { name: "Grey Goose", price: "$5 / $10" },
-        { name: "Kettle One", price: "$5 / $10" },
-        { name: "Stoli Orange", price: "$5 / $10" },
-        { name: "Titos", price: "$5 / $10" }
-      ]
-    },
-    {
-      title: "Tequila",
-      items: [
-        { name: "1800", desc: "Blanco / Repo", price: "$5 / $10" },
-        { name: "Altos", price: "$5 / $10" },
-        { name: "Espolon", price: "$5 / $10" },
-        { name: "Hornitos", price: "$5 / $10" },
-        { name: "Jose Cuervo", price: "$5 / $10" },
-        { name: "Lunazul", price: "$5 / $10" },
-        { name: "Milagro", price: "$5 / $10" },
-        { name: "Teremana", price: "$5 / $10" }
-      ]
-    },
-    {
-      title: "Whiskey",
-      items: [
-        { name: "Basil Hayden", price: "$5 / $10" },
-        { name: "Bulleit", price: "$5 / $10" },
-        { name: "Chivas Regal", price: "$5 / $10" },
-        { name: "Crown", price: "$5 / $10" },
-        { name: "Dewar's", price: "$5 / $10" },
-        { name: "Fireball", price: "$5 / $10" },
-        { name: "Jack Daniels", price: "$5 / $10" },
-        { name: "Jameson", price: "$5 / $10" },
-        { name: "Jim Beam", price: "$5 / $10" },
-        { name: "Makers Mark", price: "$5 / $10" },
-        { name: "Woodford", price: "$5 / $10" }
-      ]
-    },
-    {
-      title: "Rum",
-      items: [
-        { name: "Bacardi", price: "$5 / $10" },
-        { name: "Captain Morgan", price: "$5 / $10" },
-        { name: "Malibu", price: "$5 / $10" },
-        { name: "Myers", price: "$5 / $10" }
-      ]
-    },
-    {
-      title: "Gin",
-      items: [
-        { name: "Bombay", price: "$5 / $10" },
-        { name: "Roku", price: "$5 / $10" },
-        { name: "Tanqueray", price: "$5 / $10" }
-      ]
-    },
-    {
-      title: "Cognac",
-      items: [
-        { name: "Courvoisier", price: "$5 / $10" },
-        { name: "Hennessy", price: "$5 / $10" }
-      ]
+      return "";
     }
-  ]
-},
 
-wine6: {
-sections: [
-{
-title: "$6 Wine",
-items: [
-{ name: "Cabernet Sauvignon", price: "$6" },
-{ name: "Chardonnay", price: "$6" },
-{ name: "Merlot", price: "$6" },
-{ name: "Moscato", desc: "Red / White", price: "$6" },
-{ name: "Pinot Grigio", price: "$6" },
-{ name: "Sauvignon Blanc", price: "$6" },
-{ name: "Sweet Red", price: "$6" }
-]
-}
-]
-},
+    const isWingFlavors = (section.title || "").toLowerCase() === "wing flavors";
 
-beer4: {
-sections: [
-{
-title: "$4 Beer",
-items: [
-{ name: "Angry Orchard", price: "$4" },
-{ name: "Corona", price: "$4" },
-{ name: "Guinness", price: "$4" },
-{ name: "Heineken", price: "$4" },
-{ name: "Modelo", price: "$4" },
-{ name: "Stella", price: "$4" }
-]
-}
-]
-},
+    return `
+      <div class="menuGrouped">
+        ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
+        <div class="menuGrouped__grid">
+          ${groups.map(group => `
+            <div class="menuGrouped__box">
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+              <div class="menuList">
+                ${(group.items || []).map(item => `
+                  <div class="menuItem">
+                    <div class="menuItem__left">
+                      <div class="menuItem__name">
+                        ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
+                        ${item.name || ""}
+                      </div>
+                    </div>
+                    <div class="menuItem__price">${item.price || ""}</div>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
 
-highnoon8: {
-sections: [
-{
-title: "High Noon",
-items: [
-{ name: "Grapefruit", price: "$8" },
-{ name: "Mango", price: "$8" },
-{ name: "Lime", price: "$8" },
-{ name: "Strawberry", price: "$8" }
-]
-}
-]
-},
+  function mapItemsForMode(items, mode) {
+    if (!mode) return items || [];
 
-na: {
-sections: [
-{
-title: "Non-Alcoholic",
-items: [
-{ name: "Red Bull", price: "$5" },
-{ name: "Ginger Beer", price: "$5" },
-{ name: "Frozen Drinks", price: "$5" }
-]
-}
-]
-},
+    return (items || []).map(item => {
+      const rawPrice = String(item.price || "");
+      if (!rawPrice.includes("/")) return item;
 
-hookah23: {
-sections: [
-{
-title: "$23 Hookah",
-items: [
-{ name: "Bluemist", price: "$23" },
-{ name: "Lady Killer", price: "$23" },
-{ name: "Love 66", price: "$23" },
-{ name: "Magic Love", price: "$23" },
-{ name: "Blueberry", price: "$23" },
-{ name: "BMW", price: "$23" }
-]
-}
-]
-},
+      const parts = rawPrice.split("/").map(p => p.trim());
 
-tower43: {
-sections: [
-{
-title: "$43 Tower",
-items: [
-{ name: "Tower", price: "$43" }
-]
-}
-]
-},
+      if (mode === "shots") {
+        return { ...item, price: parts[0] || rawPrice };
+      }
 
-fishbowl23: {
-sections: [
-{
-title: "$23 Fishbowl",
-items: [
-{ name: "Fishbowl", price: "$23" }
-]
-}
-]
-},
+      if (mode === "drinks") {
+        return { ...item, price: parts[1] || parts[0] || rawPrice };
+      }
 
-bottles: {
-sections: [
-{
-title: "Bottle Service",
-items: [
-{ name: "Bottle menu coming soon" }
-]
-}
-]
-}
+      return item;
+    });
+  }
 
-};
+  function renderSectionedMenu(content) {
+    const sections = content.sections || [];
+    return `
+      <div class="menuNested">
+        <div class="menuSubTabs">
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
+          `).join("")}
+        </div>
+        <div class="menuSubBody"></div>
+      </div>
+    `;
+  }
 
+  function renderMenu(content) {
+    if (!content) {
+      return `
+        <div class="menuEmpty">
+          Click a category above or below to view menu items.
+        </div>
+      `;
+    }
 
-window.MENU_HIGHLIGHTS = {
+    if (Array.isArray(content)) {
+      return renderFlatMenu(content);
+    }
 
-monday: [
-{ name: "Salmon Sliders w/ Fries" },
-{ name: "Free Hookah Monday", special: "free-hookah" },
-{ name: "Allure Lemon Drop" }
-],
+    if (content.sections) {
+      return renderSectionedMenu(content);
+    }
 
-tuesday: [
-{ name: "Classic Margarita" },
-{ name: "Hookah" },
-{ name: "Fishbowl" }
-],
+    return `
+      <div class="menuEmpty">
+        This section will be updated soon.
+      </div>
+    `;
+  }
 
-wednesday: [
-{ name: "Long Island" },
-{ name: "Hookah" },
-{ name: "High Noon" }
-],
+  function renderHighlights(day, panel) {
+    panel.querySelectorAll(".popularTonight").forEach(node => node.remove());
 
-thursday: [
-{ name: "Mojito" },
-{ name: "Hookah" },
-{ name: "Fishbowl" }
-],
+    const items = MENU_HIGHLIGHTS[day];
+    if (!items || !items.length) return;
 
-friday: [
-{ name: "Premium" },
-{ name: "Hookah" },
-{ name: "Tower" }
-],
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
 
-saturday: [
-{ name: "Premium" },
-{ name: "Hookah" },
-{ name: "Fishbowl" }
-],
+    const section = document.createElement("section");
+    section.className = "popularTonight";
+    section.innerHTML = `
+      <div class="popularTonight__title">🔥 Popular Tonight</div>
+      <div class="popularTonight__grid">
+        ${items.map(item => `
+          <div class="popularCard ${item.special === "free-hookah" ? "popularCard--freeHookah" : ""}">
+            <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
+              ${item.name || ""}
+            </span>
+          </div>
+        `).join("")}
+      </div>
+    `;
 
-sunday: [
-{ name: "Hookah" },
-{ name: "Fishbowl" },
-{ name: "Allure Lemon Drop" }
-]
+    hero.after(section);
+  }
 
-};
+  function renderVipNightBanner(day, panel) {
+    panel.querySelectorAll(".vipNightBannerFloating").forEach(node => node.remove());
+
+    if (day !== "friday" && day !== "saturday") return;
+
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
+
+    const section = document.createElement("section");
+    section.className = "vipNightBannerFloating";
+    section.innerHTML = `
+      <div class="vipNightBannerFloating__badge">VIP NIGHT ACTIVE</div>
+      <div class="vipNightBannerFloating__title">Late Night Energy • Bottle Service • DJ Vibes</div>
+      <div class="vipNightBannerFloating__meta">Premium cocktails • VIP tables • Hookah • Fishbowls</div>
+    `;
+
+    hero.after(section);
+  }
+
+  function bindSubTabs(panelBody, content, mode = null) {
+    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
+    const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content.sections || [];
+
+    if (!tabs.length || !subBody || !sections.length) return;
+
+    function activateSubsection(title) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
+
+      const section = sections.find(s => s.title === title);
+      if (!section) return;
+
+      const bareGroupedTitles = [
+        "Appetizers",
+        "Wings",
+        "Quesadillas",
+        "Rasta Pasta or Alfredo",
+        "Salads",
+        "Dinner",
+        "Tacos",
+        "Wing Flavors"
+      ];
+
+      const isBareGroupedSection =
+        section.layout === "wingsGrouped" &&
+        bareGroupedTitles.includes(section.title || "");
+
+      if (section.layout === "wingsGrouped") {
+        subBody.innerHTML = `
+          <div class="menuSectionBlock ${isBareGroupedSection ? "menuSectionBlock--bare" : ""}">
+            ${renderGroupedMenu(section)}
+          </div>
+        `;
+        return;
+      }
+
+      const items = mapItemsForMode(section.items || [], mode);
+
+      subBody.innerHTML = `
+        <div class="menuSectionBlock">
+          ${renderFlatMenu(items)}
+        </div>
+      `;
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
+    });
+
+    activateSubsection(sections[0].title);
+  }
+
+  function applyVipNightMode(day) {
+    document.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      wrap.classList.remove("vipNightMode");
+    });
+
+    if (day !== "friday" && day !== "saturday") return;
+
+    const activePanel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+    if (!activePanel) return;
+
+    activePanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      const titleEl = wrap.querySelector(".menuPanelTitle");
+      if (!titleEl) return;
+
+      const text = titleEl.textContent.toLowerCase();
+      if (text.includes("after 9")) {
+        wrap.classList.add("vipNightMode");
+      }
+    });
+  }
+
+  function setupCenterWrap(wrap) {
+    const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
+    const panelBody = wrap.querySelector(".menuPanelBody");
+
+    if (!buttons.length || !panelBody) return;
+
+    function activateButton(button) {
+      const cat = button.dataset.cat;
+      const mode = button.dataset.mode || null;
+      const content = CATEGORY_CONTENT[cat];
+
+      buttons.forEach(btn => {
+        btn.classList.toggle("active", btn === button);
+      });
+
+      if (!content) {
+        panelBody.classList.remove("menuPanelBody--shots");
+        panelBody.innerHTML = `
+          <div class="menuEmpty">
+            This section will be updated soon.
+          </div>
+        `;
+        return;
+      }
+
+      if (content.sections) {
+        panelBody.innerHTML = renderMenu(content);
+
+        if (["shots5", "shots7", "premium"].includes(cat)) {
+          panelBody.classList.add("menuPanelBody--shots");
+        } else {
+          panelBody.classList.remove("menuPanelBody--shots");
+        }
+
+        bindSubTabs(panelBody, content, mode);
+        return;
+      }
+
+      if (Array.isArray(content)) {
+        panelBody.classList.remove("menuPanelBody--shots");
+        panelBody.innerHTML = renderFlatMenu(mapItemsForMode(content, mode));
+        return;
+      }
+
+      panelBody.classList.remove("menuPanelBody--shots");
+      panelBody.innerHTML = `
+        <div class="menuEmpty">
+          This section will be updated soon.
+        </div>
+      `;
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        activateButton(button);
+      });
+    });
+
+    panelBody.classList.remove("menuPanelBody--shots");
+    panelBody.innerHTML = `
+      <div class="menuEmpty">
+        Click a category above or below to view menu items.
+      </div>
+    `;
+  }
+
+  function activateDay(day) {
+    document.querySelectorAll(".dayTab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.daytab === day);
+    });
+
+    document.querySelectorAll(".dayPanel").forEach(panel => {
+      const isActive = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", isActive);
+
+      if (isActive) {
+        renderVipNightBanner(day, panel);
+        renderHighlights(day, panel);
+        panel.querySelectorAll(".menuCenterWrap").forEach(setupCenterWrap);
+      }
+    });
+
+    applyVipNightMode(day);
+  }
+
+  function getTodayDay() {
+    const days = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday"
+    ];
+    return days[new Date().getDay()];
+  }
+
+  document.querySelectorAll(".dayTab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      activateDay(tab.dataset.daytab);
+    });
+  });
+
+  activateDay(getTodayDay());
+});
