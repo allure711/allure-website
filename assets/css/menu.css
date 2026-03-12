@@ -1003,3 +1003,19 @@
     font-size:16px;
   }
 }
+/* Remove wrapper only for the grouped food sections marked by JS */
+.menuSectionBlock--bare{
+  padding:0 !important;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+
+.menuSectionBlock--bare:hover{
+  padding:0 !important;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
