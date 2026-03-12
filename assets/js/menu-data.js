@@ -211,36 +211,7 @@ items: [
 },
 
 
-shots5: {
-sections: [
-{
-title: "Vodka",
-items: [
-{ name: "Absolut", price: "$5 / $10" },
-{ name: "Belvedere", price: "$5 / $10" },
-{ name: "Ciroc", price: "$5 / $10" },
-{ name: "Grey Goose", price: "$5 / $10" },
-{ name: "Kettle One", price: "$5 / $10" },
-{ name: "Stoli Orange", price: "$5 / $10" },
-{ name: "Titos", price: "$5 / $10" }
-]
-},
 
-{
-title: "Tequila",
-items: [
-{ name: "1800", desc: "Blanco / Repo", price: "$5 / $10" },
-{ name: "Altos", price: "$5 / $10" },
-{ name: "Espolon", price: "$5 / $10" },
-{ name: "Hornitos", price: "$5 / $10" },
-{ name: "Jose Cuervo", price: "$5 / $10" },
-{ name: "Lunazul", price: "$5 / $10" },
-{ name: "Milagro", price: "$5 / $10" },
-{ name: "Teremana", price: "$5 / $10" }
-]
-}
-]
-},
 
 wine6: {
 sections: [
