@@ -1108,3 +1108,119 @@
     grid-template-columns:1fr;
   }
 }
+/* =========================================
+   HOOKAH LOUNGE PREMIUM LOOK
+   Paste at bottom of assets/css/menu.css
+========================================= */
+
+.menuGrouped__title{
+  position:relative;
+}
+
+.menuGrouped__title::after{
+  content:"";
+  display:block;
+  width:84px;
+  height:2px;
+  margin-top:8px;
+  background:linear-gradient(90deg, rgba(215,180,106,.85), rgba(255,255,255,0));
+  border-radius:999px;
+}
+
+.menuGrouped__box{
+  position:relative;
+}
+
+.menuGrouped__box::before{
+  content:"";
+  position:absolute;
+  inset:auto -10% -18% auto;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle, rgba(255,255,255,.06), transparent 68%);
+  filter:blur(10px);
+  opacity:.75;
+}
+
+.menuGrouped__boxTitle{
+  position:relative;
+}
+
+.menuGrouped__boxTitle::after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:50%;
+  width:34px;
+  height:34px;
+  transform:translateY(-50%);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.10), transparent 70%);
+  filter:blur(4px);
+  opacity:.7;
+  pointer-events:none;
+}
+
+.menuGrouped__box:first-child{
+  border-color:rgba(215,180,106,.52);
+  background:
+    radial-gradient(circle at top left, rgba(255,220,120,.14), transparent 58%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 16px 36px rgba(0,0,0,.28),
+    0 0 26px rgba(215,180,106,.14);
+}
+
+.menuGrouped__box:first-child .menuGrouped__boxTitle{
+  color:#ffd98a;
+  text-shadow:
+    0 0 8px rgba(215,180,106,.28),
+    0 0 16px rgba(215,180,106,.14);
+}
+
+.menuGrouped__box:first-child .menuItem__desc{
+  display:inline-flex;
+  align-items:center;
+  margin-top:5px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.30);
+  background:rgba(215,180,106,.12);
+  color:#ffd98a;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+.menuGrouped__box:first-child .menuItem__name{
+  text-shadow:0 0 10px rgba(255,255,255,.08);
+}
+
+.menuGrouped__box:last-child{
+  background:
+    radial-gradient(circle at top right, rgba(255,255,255,.06), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+}
+
+.menuGrouped__box:last-child .menuGrouped__boxTitle{
+  color:#f2d38a;
+}
+
+.menuGrouped__box .menuItem{
+  position:relative;
+}
+
+.menuGrouped__box .menuItem:hover{
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 8px 24px rgba(0,0,0,.22),
+    0 0 18px rgba(255,255,255,.05);
+}
+
+.menuGrouped__box .menuItem__price{
+  text-shadow:0 0 10px rgba(215,180,106,.16);
+}
