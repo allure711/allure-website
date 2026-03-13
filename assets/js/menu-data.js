@@ -309,21 +309,7 @@ items: [
 ]
 },
 
-hookah23: {
-sections: [
-{
-title: "$23 Hookah",
-items: [
-{ name: "Bluemist", price: "$23" },
-{ name: "Lady Killer", price: "$23" },
-{ name: "Love 66", price: "$23" },
-{ name: "Magic Love", price: "$23" },
-{ name: "Blueberry", price: "$23" },
-{ name: "BMW", price: "$23" }
-]
-}
-]
-},
+d
 
 tower43: {
 sections: [
