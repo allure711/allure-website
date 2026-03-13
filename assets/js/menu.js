@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="menuEmpty">
           Click a category above or below to view menu items.
         </div>
-      `;
+      `;q
     }
 
     if (Array.isArray(content)) {
@@ -260,11 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!content) {
         panelBody.classList.remove("menuPanelBody--shots");
-        panelBody.innerHTML = `
-          <div class="menuEmpty">
-            This section will be updated soon.
-          </div>
-        `;
+        3
         return;
       }
 
