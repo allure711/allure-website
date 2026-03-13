@@ -201,6 +201,54 @@ items: [
 ]
 },
 
+shots7: {
+sections: [
+{
+title: "Premium",
+items: [
+{ name: "818", price: "$7 / $14" },
+{ name: "Casa Azul", price: "$7 / $14" },
+{ name: "Casamigos", price: "$7 / $14" },
+{ name: "Ciroc VS", price: "$7 / $14" },
+{ name: "Don Julio", price: "$7 / $14" },
+{ name: "Dusse", price: "$7 / $14" },
+{ name: "Equiano", price: "$7 / $14" },
+{ name: "Hendricks", price: "$7 / $14" },
+{ name: "Hennessy VSOP", price: "$7 / $14" },
+{ name: "Herradura", price: "$7 / $14" },
+{ name: "Old Forester", price: "$7 / $14" },
+{ name: "Patron", price: "$7 / $14" },
+{ name: "Remy 1738", price: "$7 / $14" },
+{ name: "Remy VSOP", price: "$7 / $14" },
+{ name: "Sir Davis", price: "$7 / $14" }
+]
+}
+]
+},
+
+premium: {
+sections: [
+{
+title: "$16 Shots / $32 Drinks",
+items: [
+{ name: "1942", price: "$16 / $32" },
+{ name: "Azul", price: "$16 / $32" },
+{ name: "Dusse XO", price: "$16 / $32" },
+{ name: "Remy XO", price: "$16 / $32" }
+]
+},
+{
+title: "$10 Shots / $20 Drinks",
+items: [
+{ name: "Gran Coramino", price: "$10 / $20" },
+{ name: "JW Black", price: "$10 / $20" },
+{ name: "JW DBL Black", price: "$10 / $20" },
+{ name: "JW Gold", price: "$10 / $20" }
+]
+}
+]
+},
+
 wine6: {
 sections: [
 {
