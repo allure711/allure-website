@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="menuEmpty">
           Click a category above or below to view menu items.
         </div>
-      `;q
+      `;
     }
 
     if (Array.isArray(content)) {
@@ -261,73 +261,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!content) {
         panelBody.classList.remove("menuPanelBody--shots");
         panelBody.innerHTML = `
-  <div class="menuEmpty menuEmpty--dashboard">
-    <div class="menuEmptyDashboardGlow"></div>
-
-    <div class="menuEmptyDashboardTop">
-      <div>
-        <div class="menuEmptyDashboardEyebrow">Allure Experience</div>
-        <div class="menuEmptyDashboardTitle">Choose Your Vibe Tonight</div>
-        <div class="menuEmptyDashboardText">
-          Tap a category to explore signature food, premium hookah, cocktails, towers, and late-night favorites.
-        </div>
-      </div>
-
-      <div class="menuEmptyDashboardBadges">
-        <span class="menuEmptyDashboardBadge">Live Menu</span>
-        <span class="menuEmptyDashboardBadge">Lounge Picks</span>
-        <span class="menuEmptyDashboardBadge">Late Night</span>
-      </div>
-    </div>
-
-    <div class="menuEmptyDashboardStats">
-      <div class="menuEmptyDashboardStat">
-        <div class="menuEmptyDashboardStatNum">Food</div>
-        <div class="menuEmptyDashboardStatLabel">Sliders • Wings • Tacos • Pasta</div>
-      </div>
-
-      <div class="menuEmptyDashboardStat">
-        <div class="menuEmptyDashboardStatNum">Drinks</div>
-        <div class="menuEmptyDashboardStatLabel">Shots • Cocktails • Fishbowls • Towers</div>
-      </div>
-
-      <div class="menuEmptyDashboardStat">
-        <div class="menuEmptyDashboardStatNum">Hookah</div>
-        <div class="menuEmptyDashboardStatLabel">Classic Flavors • Premium Gold</div>
-      </div>
-    </div>
-
-    <div class="menuEmptyDashboardGrid">
-      <div class="menuEmptyDashboardCard">
-        <div class="menuEmptyDashboardCardIcon">🍽️</div>
-        <div class="menuEmptyDashboardCardTitle">Food Favorites</div>
-        <div class="menuEmptyDashboardCardText">
-          Explore starters, wings, tacos, pasta, dinner, and house favorites.
-        </div>
-      </div>
-
-      <div class="menuEmptyDashboardCard">
-        <div class="menuEmptyDashboardCardIcon">🥂</div>
-        <div class="menuEmptyDashboardCardTitle">Drink Menu</div>
-        <div class="menuEmptyDashboardCardText">
-          Browse $5 shots, premium pours, wine, beer, towers, and fishbowls.
-        </div>
-      </div>
-
-      <div class="menuEmptyDashboardCard">
-        <div class="menuEmptyDashboardCardIcon">💨</div>
-        <div class="menuEmptyDashboardCardTitle">Hookah Lounge</div>
-        <div class="menuEmptyDashboardCardText">
-          View classic blends, premium flavors, and late-night hookah options.
-        </div>
-      </div>
-    </div>
-
-    <div class="menuEmptyDashboardFooter">
-      Start by tapping a category above or below.
-    </div>
-  </div>
-`;
+          <div class="menuEmpty">
+            This section will be updated soon.
+          </div>
+        `;
         return;
       }
 
@@ -366,8 +303,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panelBody.classList.remove("menuPanelBody--shots");
     panelBody.innerHTML = `
-      <div class="menuEmpty">
-        Click a category above or below to view menu items.
+      <div class="menuEmpty menuEmpty--dashboard">
+        <div class="menuEmptyDashboardGlow"></div>
+
+        <div class="menuEmptyDashboardTop">
+          <div>
+            <div class="menuEmptyDashboardEyebrow">Allure Experience</div>
+            <div class="menuEmptyDashboardTitle">Choose Your Vibe Tonight</div>
+            <div class="menuEmptyDashboardText">
+              Tap a category to explore signature food, premium hookah, cocktails, towers, and late-night favorites.
+            </div>
+          </div>
+
+          <div class="menuEmptyDashboardBadges">
+            <span class="menuEmptyDashboardBadge">Live Menu</span>
+            <span class="menuEmptyDashboardBadge">Lounge Picks</span>
+            <span class="menuEmptyDashboardBadge">Late Night</span>
+          </div>
+        </div>
+
+        <div class="menuEmptyDashboardStats">
+          <div class="menuEmptyDashboardStat">
+            <div class="menuEmptyDashboardStatNum">Food</div>
+            <div class="menuEmptyDashboardStatLabel">Sliders • Wings • Tacos • Pasta</div>
+          </div>
+
+          <div class="menuEmptyDashboardStat">
+            <div class="menuEmptyDashboardStatNum">Drinks</div>
+            <div class="menuEmptyDashboardStatLabel">Shots • Cocktails • Fishbowls • Towers</div>
+          </div>
+
+          <div class="menuEmptyDashboardStat">
+            <div class="menuEmptyDashboardStatNum">Hookah</div>
+            <div class="menuEmptyDashboardStatLabel">Classic Flavors • Premium Gold</div>
+          </div>
+        </div>
+
+        <div class="menuEmptyDashboardGrid">
+          <div class="menuEmptyDashboardCard">
+            <div class="menuEmptyDashboardCardIcon">🍽️</div>
+            <div class="menuEmptyDashboardCardTitle">Food Favorites</div>
+            <div class="menuEmptyDashboardCardText">
+              Explore starters, wings, tacos, pasta, dinner, and house favorites.
+            </div>
+          </div>
+
+          <div class="menuEmptyDashboardCard">
+            <div class="menuEmptyDashboardCardIcon">🥂</div>
+            <div class="menuEmptyDashboardCardTitle">Drink Menu</div>
+            <div class="menuEmptyDashboardCardText">
+              Browse $5 shots, premium pours, wine, beer, towers, and fishbowls.
+            </div>
+          </div>
+
+          <div class="menuEmptyDashboardCard">
+            <div class="menuEmptyDashboardCardIcon">💨</div>
+            <div class="menuEmptyDashboardCardTitle">Hookah Lounge</div>
+            <div class="menuEmptyDashboardCardText">
+              View classic blends, premium flavors, and late-night hookah options.
+            </div>
+          </div>
+        </div>
+
+        <div class="menuEmptyDashboardFooter">
+          Start by tapping a category above or below.
+        </div>
       </div>
     `;
   }
@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".dayTab").forEach(tab => {
     tab.addEventListener("click", () => {
-      activateDay(tab.dataset.daytab);
+      activateDay(tab.dataset.daytab === day);
     });
   });
 
