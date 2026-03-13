@@ -319,36 +319,36 @@ groups: [
 {
 title: "✨ Premium Gold (+$2)",
 items: [
-{ name: "💨 Bluemist", desc: "Premium Gold", price: "$25" },
-{ name: "💨 Lady Killer", desc: "Premium Gold", price: "$25" },
-{ name: "💨 Love 66", desc: "Premium Gold", price: "$25" },
-{ name: "💨 Magic Love", desc: "Premium Gold", price: "$25" }
+{ name: "💨 Bluemist", desc: "Premium Gold", price: "$35" },
+{ name: "💨 Lady Killer", desc: "Premium Gold", price: "$35" },
+{ name: "💨 Love 66", desc: "Premium Gold", price: "$35" },
+{ name: "💨 Magic Love", desc: "Premium Gold", price: "$35" }
 ]
 },
 
 {
 title: "💨 Classic Flavors",
 items: [
-{ name: "Blueberry", price: "$23" },
-{ name: "BMW", price: "$23" },
-{ name: "Blueberry Mint", price: "$23" },
-{ name: "Double Apple", price: "$23" },
-{ name: "Grape", price: "$23" },
-{ name: "Grape Fruit", price: "$23" },
-{ name: "Grape Fruit Mint", price: "$23" },
-{ name: "Guava", price: "$23" },
-{ name: "Gum Mint", price: "$23" },
-{ name: "Kiwi", price: "$23" },
-{ name: "Lemon Mint", price: "$23" },
-{ name: "Mango", price: "$23" },
-{ name: "Mint", price: "$23" },
-{ name: "Orange Mint", price: "$23" },
-{ name: "Peach", price: "$23" },
-{ name: "Pineapple", price: "$23" },
-{ name: "Strawberry", price: "$23" },
-{ name: "Vanilla", price: "$23" },
-{ name: "Watermelon", price: "$23" },
-{ name: "Watermelon Mint", price: "$23" }
+{ name: "Blueberry", price: "$33" },
+{ name: "BMW", price: "$33" },
+{ name: "Blueberry Mint", price: "$33" },
+{ name: "Double Apple", price: "$33" },
+{ name: "Grape", price: "$33" },
+{ name: "Grape Fruit", price: "$33" },
+{ name: "Grape Fruit Mint", price: "$33" },
+{ name: "Guava", price: "$33" },
+{ name: "Gum Mint", price: "$33" },
+{ name: "Kiwi", price: "$33" },
+{ name: "Lemon Mint", price: "$33" },
+{ name: "Mango", price: "$33" },
+{ name: "Mint", price: "$33" },
+{ name: "Orange Mint", price: "$33" },
+{ name: "Peach", price: "$33" },
+{ name: "Pineapple", price: "$33" },
+{ name: "Strawberry", price: "$33" },
+{ name: "Vanilla", price: "$33" },
+{ name: "Watermelon", price: "$33" },
+{ name: "Watermelon Mint", price: "$33" }
 ]
 }
 
