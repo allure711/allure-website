@@ -1749,3 +1749,45 @@ html{
     font-size:10px;
   }
 }
+/* Premium nightclub hero glow */
+
+.menuHero {
+  position: relative;
+  overflow: hidden;
+}
+
+.menuHero::before {
+  content: "";
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle at center,
+    rgba(212,175,55,0.25),
+    rgba(212,175,55,0.05),
+    transparent 70%);
+  top: -300px;
+  left: -200px;
+  filter: blur(120px);
+  animation: heroGlowMove 18s linear infinite;
+}
+
+.menuHero::after {
+  content: "";
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle at center,
+    rgba(120,90,255,0.25),
+    rgba(120,90,255,0.05),
+    transparent 70%);
+  bottom: -300px;
+  right: -200px;
+  filter: blur(120px);
+  animation: heroGlowMove 22s linear infinite reverse;
+}
+
+@keyframes heroGlowMove {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(60px,40px); }
+  100% { transform: translate(0,0); }
+}
