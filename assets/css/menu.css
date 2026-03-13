@@ -1257,3 +1257,43 @@
     opacity:.34;
   }
 }
+/* Fix grouped boxes so they fit inside split Tuesday panels */
+.menuPanelBody .menuGrouped{
+  max-width:100%;
+  margin:0;
+}
+
+.menuPanelBody .menuGrouped__grid{
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+  width:100%;
+}
+
+.menuPanelBody .menuGrouped__box{
+  min-width:0;
+  width:100%;
+  padding:14px;
+}
+
+.menuPanelBody .menuGrouped__boxTitle{
+  font-size:13px;
+}
+
+.menuPanelBody .menuGrouped__box .menuItem{
+  min-width:0;
+  padding:10px 6px;
+}
+
+.menuPanelBody .menuGrouped__box .menuItem__left{
+  min-width:0;
+}
+
+.menuPanelBody .menuGrouped__box .menuItem__name{
+  overflow-wrap:anywhere;
+}
+
+@media (max-width:920px){
+  .menuPanelBody .menuGrouped__grid{
+    grid-template-columns:1fr;
+  }
+}
