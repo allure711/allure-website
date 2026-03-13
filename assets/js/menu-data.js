@@ -128,6 +128,7 @@ items: [
 
 shots5: {
 sections: [
+
 {
 title: "Vodka",
 items: [
@@ -153,7 +154,52 @@ items: [
 { name: "Milagro", price: "$5 / $10" },
 { name: "Teremana", price: "$5 / $10" }
 ]
+},
+
+{
+title: "Whiskey",
+items: [
+{ name: "Basil Hayden", price: "$5 / $10" },
+{ name: "Bulleit", price: "$5 / $10" },
+{ name: "Chivas Regal", price: "$5 / $10" },
+{ name: "Crown", price: "$5 / $10" },
+{ name: "Dewar's", price: "$5 / $10" },
+{ name: "Fireball", price: "$5 / $10" },
+{ name: "Jack Daniels", price: "$5 / $10" },
+{ name: "Jameson", price: "$5 / $10" },
+{ name: "Jim Beam", price: "$5 / $10" },
+{ name: "Makers Mark", price: "$5 / $10" },
+{ name: "Woodford", price: "$5 / $10" }
+]
+},
+
+{
+title: "Rum",
+items: [
+{ name: "Bacardi", price: "$5 / $10" },
+{ name: "Captain Morgan", price: "$5 / $10" },
+{ name: "Malibu", price: "$5 / $10" },
+{ name: "Myers", price: "$5 / $10" }
+]
+},
+
+{
+title: "Gin",
+items: [
+{ name: "Bombay", price: "$5 / $10" },
+{ name: "Roku", price: "$5 / $10" },
+{ name: "Tanqueray", price: "$5 / $10" }
+]
+},
+
+{
+title: "Cognac",
+items: [
+{ name: "Courvoisier", price: "$5 / $10" },
+{ name: "Hennessy", price: "$5 / $10" }
+]
 }
+
 ]
 },
 
