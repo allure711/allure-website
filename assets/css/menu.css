@@ -2013,3 +2013,211 @@ html{
     transform:translateY(0);
   }
 }
+/* =========================================
+   $50K HOSPITALITY UPGRADE — PHASE 1
+========================================= */
+
+.menu-page{
+  background:
+    radial-gradient(1200px 700px at 10% 8%, rgba(215,180,106,.12), transparent 58%),
+    radial-gradient(1000px 600px at 85% 12%, rgba(120,90,255,.10), transparent 52%),
+    radial-gradient(900px 500px at 50% 100%, rgba(255,255,255,.03), transparent 45%),
+    linear-gradient(180deg, #06060a 0%, #090910 48%, #06060a 100%);
+}
+
+.menuWrap{
+  padding:0 0 90px;
+}
+
+.menuHero--premium{
+  position:relative;
+  isolation:isolate;
+}
+
+.menuHero--premium::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 18%),
+    radial-gradient(circle at 22% 28%, rgba(255,215,140,.10), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(120,90,255,.10), transparent 24%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.menuHero__grid,
+.menuHero__content,
+.menuHero__cards{
+  position:relative;
+  z-index:1;
+}
+
+.menuHero__content{
+  border:1px solid rgba(255,255,255,.10);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.34),
+    0 0 0 1px rgba(215,180,106,.05),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menuHero__content h1{
+  text-shadow:
+    0 0 18px rgba(255,255,255,.04),
+    0 0 32px rgba(215,180,106,.06);
+}
+
+.menuHeroCard{
+  border:1px solid rgba(255,255,255,.10);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menuInfoStrip__item{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.dayTab{
+  backdrop-filter:blur(10px);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.dayTab.active{
+  box-shadow:
+    0 12px 32px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menuBigPanel{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.24),
+    0 0 0 1px rgba(255,255,255,.02),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menuBigPanel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,.035) 18%,
+    transparent 38%
+  );
+  pointer-events:none;
+}
+
+.menuCenterBtn{
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.menuCenterBtn:hover{
+  box-shadow:
+    0 16px 32px rgba(0,0,0,.20),
+    0 0 0 1px rgba(215,180,106,.05);
+}
+
+.menuCenterBtn.active{
+  box-shadow:
+    0 16px 38px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menuItem{
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.menuItem:hover{
+  background:
+    linear-gradient(90deg, rgba(215,180,106,.08), rgba(255,255,255,.02));
+}
+
+.menuEmptyDashboardCard,
+.menuEmptyDashboardStat{
+  box-shadow:
+    0 14px 32px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.menuHeroCard,
+.menuInfoStrip__item,
+.menuCenterBtn,
+.menuBigPanel,
+.menuItem,
+.menuEmptyDashboardCard{
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease,
+    background .28s ease,
+    color .28s ease;
+}
+
+.dayName::after{
+  content:"";
+  display:block;
+  width:68px;
+  height:2px;
+  margin-top:10px;
+  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
+  border-radius:999px;
+}
+
+.reserveTop,
+.menuHeroViewBtn{
+  min-width:140px;
+  letter-spacing:.01em;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.18);
+}
+
+.reserveTop{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+}
+
+.reserveTop:hover{
+  box-shadow:
+    0 18px 36px rgba(215,180,106,.22);
+}
+
+.dayPanel.active .menuBigPanel,
+.dayPanel.active .menuInfoStrip__item,
+.dayPanel.active .popularTonight,
+.dayPanel.active .vipNightBannerFloating{
+  animation:allureSoftReveal .45s ease both;
+}
+
+@keyframes allureSoftReveal{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
