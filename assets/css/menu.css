@@ -1877,3 +1877,179 @@
     grid-template-columns:1fr;
   }
 }
+/* =========================================
+   HERO-FIRST SCREEN SEPARATION FIX
+   Paste at very bottom of assets/css/menu.css
+========================================= */
+
+.menuWrap{
+  padding:0 0 80px;
+}
+
+.menuHero--premium{
+  position:relative;
+  overflow:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:110px 0 70px;
+  margin-bottom:0;
+}
+
+.menuHero--premium::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(215,180,106,.16), transparent 34%),
+    radial-gradient(circle at 82% 22%, rgba(155,70,255,.14), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(255,255,255,.04), transparent 30%);
+  pointer-events:none;
+}
+
+.menuHero__grid{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.2fr .9fr;
+  gap:22px;
+  align-items:center;
+}
+
+.menuHero__content{
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border-radius:28px;
+  padding:32px;
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.28),
+    0 0 0 1px rgba(215,180,106,.05);
+  backdrop-filter:blur(12px);
+}
+
+.menuHero__content h1{
+  margin:0 0 12px;
+  font-size:clamp(46px, 6vw, 76px);
+  line-height:.95;
+  letter-spacing:-.05em;
+}
+
+.menuHero__content p{
+  margin:0;
+  max-width:760px;
+  color:rgba(255,255,255,.80);
+  font-size:16px;
+  line-height:1.8;
+}
+
+.menuHeroActions{
+  margin-top:22px;
+}
+
+.menuHeroViewBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  padding:12px 16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-weight:900;
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease,
+    color .18s ease;
+}
+
+.menuHeroViewBtn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(215,180,106,.36);
+  background:rgba(215,180,106,.08);
+  color:var(--gold2);
+}
+
+.menuHero__cards{
+  display:grid;
+  gap:14px;
+}
+
+.menuHeroCard{
+  border:1px solid rgba(215,180,106,.16);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 16px 40px rgba(0,0,0,.22);
+}
+
+.menuInfoStrip{
+  margin:0 0 42px;
+}
+
+#menuStart.menuStartAnchor{
+  display:block;
+  height:30px;
+}
+
+.dayTabs{
+  position:relative;
+  z-index:2;
+  margin:0 0 28px;
+  padding-top:0;
+}
+
+/* Make the real menu feel like section two */
+.dayPanel.active{
+  display:block;
+  animation:menuSectionReveal .45s ease;
+}
+
+@keyframes menuSectionReveal{
+  from{
+    opacity:.0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Stronger visual separation line before menu area */
+.dayTabs::before{
+  content:"";
+  display:block;
+  width:100%;
+  height:1px;
+  margin:0 0 20px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(215,180,106,.22),
+    transparent
+  );
+}
+
+/* Mobile */
+@media (max-width:920px){
+  .menuHero--premium{
+    min-height:auto;
+    padding:92px 0 42px;
+  }
+
+  .menuHero__grid{
+    grid-template-columns:1fr;
+  }
+
+  .menuInfoStrip{
+    margin:0 0 28px;
+  }
+
+  #menuStart.menuStartAnchor{
+    height:18px;
+  }
+}
