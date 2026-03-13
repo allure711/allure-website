@@ -407,7 +407,6 @@
   text-shadow:0 0 10px rgba(215,180,106,.18);
 }
 
-/* grouped menu */
 .menuGrouped{
   max-width:980px;
   margin:0 auto;
@@ -506,7 +505,6 @@
   filter:drop-shadow(0 0 6px rgba(215,180,106,.25));
 }
 
-/* special styling for first/second grouped box */
 .menuGrouped__box:nth-child(1){
   border-color:rgba(255,120,80,.30);
   background:
@@ -691,7 +689,6 @@
   background:transparent;
 }
 
-/* desktop scroll area */
 @media (min-width:1024px){
   .menuBigPanel{
     height:340px;
@@ -709,7 +706,6 @@
   }
 }
 
-/* VIP NIGHT MODE */
 .vipNightMode .menuBigPanel{
   background:
     radial-gradient(circle at top right, rgba(155,70,255,.25), transparent 40%),
@@ -809,7 +805,6 @@
   to{transform:translateX(60%);}
 }
 
-/* Floating VIP Banner */
 .vipNightBannerFloating{
   position:relative;
   margin:10px 0 16px;
@@ -916,6 +911,107 @@
   to{transform:translateX(120%);}
 }
 
+.menuSectionBlock--bare{
+  padding:0 !important;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+
+.menuSectionBlock--bare:hover{
+  padding:0 !important;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+
+/* Exact-fit shots layout for 340px center box */
+.menuPanelBody--shots{
+  overflow:hidden;
+}
+
+.menuPanelBody--shots .menuSubTabs{
+  gap:6px;
+  margin-bottom:8px;
+}
+
+.menuPanelBody--shots .menuSubTab{
+  padding:6px 9px;
+  font-size:12px;
+}
+
+.menuPanelBody--shots .menuSectionBlock{
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  height:auto;
+}
+
+.menuPanelBody--shots .menuSectionBlock:hover{
+  border:none;
+  background:transparent;
+  box-shadow:none;
+}
+
+.menuPanelBody--shots .menuList{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:4px 18px;
+}
+
+.menuPanelBody--shots .menuItem{
+  padding:3px 0;
+  border-bottom:none;
+  background:transparent;
+  box-shadow:none;
+  transform:none;
+  min-height:auto;
+  gap:8px;
+}
+
+.menuPanelBody--shots .menuItem:hover{
+  background:transparent;
+  box-shadow:none;
+  transform:none;
+}
+
+.menuPanelBody--shots .menuItem__name{
+  font-size:13px;
+  font-weight:800;
+  line-height:1.2;
+}
+
+.menuPanelBody--shots .menuItem__desc{
+  font-size:10px;
+  margin-top:1px;
+  line-height:1.2;
+}
+
+.menuPanelBody--shots .menuItem__price{
+  display:none;
+}
+
+@media (min-width:1024px){
+  .menuPanelBody--shots .menuList{
+    gap:3px 16px;
+  }
+
+  .menuPanelBody--shots .menuItem{
+    padding:2px 0;
+  }
+
+  .menuPanelBody--shots .menuItem__name{
+    font-size:12.5px;
+  }
+
+  .menuPanelBody--shots .menuItem__desc{
+    font-size:10px;
+  }
+}
+
 @media (max-width:1100px){
   .menuTopCategories{
     grid-template-columns:repeat(4,1fr);
@@ -954,6 +1050,11 @@
 
   .menuGrouped__grid{
     grid-template-columns:1fr;
+  }
+
+  .menuPanelBody--shots .menuList{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:6px 14px;
   }
 }
 
@@ -1002,65 +1103,8 @@
   .menuGrouped__boxTitle{
     font-size:16px;
   }
-}
-/* ================================
-   Compact layout for $5 Shots menu
-   ================================ */
 
-.menuPanelBody--shots .menuSectionBlock{
-  border:none;
-  background:transparent;
-  box-shadow:none;
-  padding:0;
-}
-
-.menuPanelBody--shots .menuList{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:6px 18px;
-}
-
-.menuPanelBody--shots .menuItem{
-  padding:4px 0;
-  border-bottom:none;
-  background:transparent;
-  box-shadow:none;
-}
-
-.menuPanelBody--shots .menuItem:hover{
-  background:transparent;
-  box-shadow:none;
-  transform:none;
-}
-
-.menuPanelBody--shots .menuItem__name{
-  font-size:14px;
-  font-weight:800;
-}
-
-.menuPanelBody--shots .menuItem__desc{
-  font-size:11px;
-  margin-top:1px;
-}
-
-.menuPanelBody--shots .menuItem__price{
-  display:none;
-}
-
-/* tablet */
-@media (max-width:900px){
-
-.menuPanelBody--shots .menuList{
-  grid-template-columns:repeat(2,1fr);
-}
-
-}
-
-/* phone */
-@media (max-width:600px){
-
-.menuPanelBody--shots .menuList{
-  grid-template-columns:1fr;
-}
-
+  .menuPanelBody--shots .menuList{
+    grid-template-columns:1fr;
+  }
 }
