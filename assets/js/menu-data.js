@@ -309,7 +309,53 @@ items: [
 ]
 },
 
-d
+hookah23: {
+sections: [
+{
+title: "💨 $23 Hookah Lounge",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "✨ Premium Gold (+$2)",
+items: [
+{ name: "💨 Bluemist", desc: "Premium Gold", price: "$25" },
+{ name: "💨 Lady Killer", desc: "Premium Gold", price: "$25" },
+{ name: "💨 Love 66", desc: "Premium Gold", price: "$25" },
+{ name: "💨 Magic Love", desc: "Premium Gold", price: "$25" }
+]
+},
+
+{
+title: "💨 Classic Flavors",
+items: [
+{ name: "Blueberry", price: "$23" },
+{ name: "BMW", price: "$23" },
+{ name: "Blueberry Mint", price: "$23" },
+{ name: "Double Apple", price: "$23" },
+{ name: "Grape", price: "$23" },
+{ name: "Grape Fruit", price: "$23" },
+{ name: "Grape Fruit Mint", price: "$23" },
+{ name: "Guava", price: "$23" },
+{ name: "Gum Mint", price: "$23" },
+{ name: "Kiwi", price: "$23" },
+{ name: "Lemon Mint", price: "$23" },
+{ name: "Mango", price: "$23" },
+{ name: "Mint", price: "$23" },
+{ name: "Orange Mint", price: "$23" },
+{ name: "Peach", price: "$23" },
+{ name: "Pineapple", price: "$23" },
+{ name: "Strawberry", price: "$23" },
+{ name: "Vanilla", price: "$23" },
+{ name: "Watermelon", price: "$23" },
+{ name: "Watermelon Mint", price: "$23" }
+]
+}
+
+]
+}
+]
+},
 
 tower43: {
 sections: [
