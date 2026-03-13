@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".dayTab").forEach(tab => {
     tab.addEventListener("click", () => {
-      activateDay(tab.dataset.daytab === day);
+      activateDay(tab.dataset.daytab);
     });
   });
 
