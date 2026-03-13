@@ -259,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!content) {
+        panelBody.classList.remove("menuPanelBody--shots");
         panelBody.innerHTML = `
           <div class="menuEmpty">
             This section will be updated soon.
@@ -269,15 +270,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (content.sections) {
         panelBody.innerHTML = renderMenu(content);
+
+        if (["shots5", "shots7", "premium"].includes(cat)) {
+          panelBody.classList.add("menuPanelBody--shots");
+        } else {
+          panelBody.classList.remove("menuPanelBody--shots");
+        }
+
         bindSubTabs(panelBody, content, mode);
         return;
       }
 
       if (Array.isArray(content)) {
+        panelBody.classList.remove("menuPanelBody--shots");
         panelBody.innerHTML = renderFlatMenu(mapItemsForMode(content, mode));
         return;
       }
 
+      panelBody.classList.remove("menuPanelBody--shots");
       panelBody.innerHTML = `
         <div class="menuEmpty">
           This section will be updated soon.
@@ -291,6 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    panelBody.classList.remove("menuPanelBody--shots");
     panelBody.innerHTML = `
       <div class="menuEmpty">
         Click a category above or below to view menu items.
