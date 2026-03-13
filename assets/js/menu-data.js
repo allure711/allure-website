@@ -128,7 +128,6 @@ items: [
 
 shots5: {
 sections: [
-
 {
 title: "Vodka",
 items: [
@@ -199,7 +198,6 @@ items: [
 { name: "Hennessy", price: "$5 / $10" }
 ]
 }
-
 ]
 },
 
@@ -313,7 +311,6 @@ items: [
 }
 
 };
-
 
 window.MENU_HIGHLIGHTS = {
 
