@@ -1003,3 +1003,64 @@
     font-size:16px;
   }
 }
+/* ================================
+   Compact layout for $5 Shots menu
+   ================================ */
+
+.menuPanelBody--shots .menuSectionBlock{
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+}
+
+.menuPanelBody--shots .menuList{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:6px 18px;
+}
+
+.menuPanelBody--shots .menuItem{
+  padding:4px 0;
+  border-bottom:none;
+  background:transparent;
+  box-shadow:none;
+}
+
+.menuPanelBody--shots .menuItem:hover{
+  background:transparent;
+  box-shadow:none;
+  transform:none;
+}
+
+.menuPanelBody--shots .menuItem__name{
+  font-size:14px;
+  font-weight:800;
+}
+
+.menuPanelBody--shots .menuItem__desc{
+  font-size:11px;
+  margin-top:1px;
+}
+
+.menuPanelBody--shots .menuItem__price{
+  display:none;
+}
+
+/* tablet */
+@media (max-width:900px){
+
+.menuPanelBody--shots .menuList{
+  grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+/* phone */
+@media (max-width:600px){
+
+.menuPanelBody--shots .menuList{
+  grid-template-columns:1fr;
+}
+
+}
