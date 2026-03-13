@@ -139,64 +139,6 @@ items: [
 { name: "Stoli Orange", price: "$5 / $10" },
 { name: "Titos", price: "$5 / $10" }
 ]
-},
-
-{
-title: "Tequila",
-items: [
-{ name: "1800", desc: "Blanco / Repo", price: "$5 / $10" },
-{ name: "Altos", price: "$5 / $10" },
-{ name: "Espolon", price: "$5 / $10" },
-{ name: "Hornitos", price: "$5 / $10" },
-{ name: "Jose Cuervo", price: "$5 / $10" },
-{ name: "Lunazul", price: "$5 / $10" },
-{ name: "Milagro", price: "$5 / $10" },
-{ name: "Teremana", price: "$5 / $10" }
-]
-},
-
-{
-title: "Whiskey",
-items: [
-{ name: "Basil Hayden", price: "$5 / $10" },
-{ name: "Bulleit", price: "$5 / $10" },
-{ name: "Chivas Regal", price: "$5 / $10" },
-{ name: "Crown", price: "$5 / $10" },
-{ name: "Dewar's", price: "$5 / $10" },
-{ name: "Fireball", price: "$5 / $10" },
-{ name: "Jack Daniels", price: "$5 / $10" },
-{ name: "Jameson", price: "$5 / $10" },
-{ name: "Jim Beam", price: "$5 / $10" },
-{ name: "Makers Mark", price: "$5 / $10" },
-{ name: "Woodford", price: "$5 / $10" }
-]
-},
-
-{
-title: "Rum",
-items: [
-{ name: "Bacardi", price: "$5 / $10" },
-{ name: "Captain Morgan", price: "$5 / $10" },
-{ name: "Malibu", price: "$5 / $10" },
-{ name: "Myers", price: "$5 / $10" }
-]
-},
-
-{
-title: "Gin",
-items: [
-{ name: "Bombay", price: "$5 / $10" },
-{ name: "Roku", price: "$5 / $10" },
-{ name: "Tanqueray", price: "$5 / $10" }
-]
-},
-
-{
-title: "Cognac",
-items: [
-{ name: "Courvoisier", price: "$5 / $10" },
-{ name: "Hennessy", price: "$5 / $10" }
-]
 }
 ]
 },
@@ -207,43 +149,11 @@ sections: [
 title: "Premium",
 items: [
 { name: "818", price: "$7 / $14" },
-{ name: "Casa Azul", price: "$7 / $14" },
 { name: "Casamigos", price: "$7 / $14" },
-{ name: "Ciroc VS", price: "$7 / $14" },
 { name: "Don Julio", price: "$7 / $14" },
 { name: "Dusse", price: "$7 / $14" },
-{ name: "Equiano", price: "$7 / $14" },
-{ name: "Hendricks", price: "$7 / $14" },
-{ name: "Hennessy VSOP", price: "$7 / $14" },
-{ name: "Herradura", price: "$7 / $14" },
-{ name: "Old Forester", price: "$7 / $14" },
 { name: "Patron", price: "$7 / $14" },
-{ name: "Remy 1738", price: "$7 / $14" },
-{ name: "Remy VSOP", price: "$7 / $14" },
-{ name: "Sir Davis", price: "$7 / $14" }
-]
-}
-]
-},
-
-premium: {
-sections: [
-{
-title: "$16 Shots / $32 Drinks",
-items: [
-{ name: "1942", price: "$16 / $32" },
-{ name: "Azul", price: "$16 / $32" },
-{ name: "Dusse XO", price: "$16 / $32" },
-{ name: "Remy XO", price: "$16 / $32" }
-]
-},
-{
-title: "$10 Shots / $20 Drinks",
-items: [
-{ name: "Gran Coramino", price: "$10 / $20" },
-{ name: "JW Black", price: "$10 / $20" },
-{ name: "JW DBL Black", price: "$10 / $20" },
-{ name: "JW Gold", price: "$10 / $20" }
+{ name: "Remy VSOP", price: "$7 / $14" }
 ]
 }
 ]
@@ -311,6 +221,7 @@ items: [
 
 hookah23: {
 sections: [
+
 {
 title: "💨 $23 Hookah Lounge",
 layout: "wingsGrouped",
@@ -319,10 +230,54 @@ groups: [
 {
 title: "✨ Premium Gold (+$2)",
 items: [
-{ name: "💨 Bluemist", desc: "Premium Gold", price: "$35" },
-{ name: "💨 Lady Killer", desc: "Premium Gold", price: "$35" },
-{ name: "💨 Love 66", desc: "Premium Gold", price: "$35" },
-{ name: "💨 Magic Love", desc: "Premium Gold", price: "$35" }
+{ name: "💨 Bluemist", price: "$25" },
+{ name: "💨 Lady Killer", price: "$25" },
+{ name: "💨 Love 66", price: "$25" },
+{ name: "💨 Magic Love", price: "$25" }
+]
+},
+
+{
+title: "💨 Classic Flavors",
+items: [
+{ name: "Blueberry", price: "$23" },
+{ name: "BMW", price: "$23" },
+{ name: "Blueberry Mint", price: "$23" },
+{ name: "Double Apple", price: "$23" },
+{ name: "Grape", price: "$23" },
+{ name: "Grape Fruit", price: "$23" },
+{ name: "Grape Fruit Mint", price: "$23" },
+{ name: "Guava", price: "$23" },
+{ name: "Gum Mint", price: "$23" },
+{ name: "Kiwi", price: "$23" },
+{ name: "Lemon Mint", price: "$23" },
+{ name: "Mango", price: "$23" },
+{ name: "Mint", price: "$23" },
+{ name: "Orange Mint", price: "$23" },
+{ name: "Peach", price: "$23" },
+{ name: "Pineapple", price: "$23" },
+{ name: "Strawberry", price: "$23" },
+{ name: "Vanilla", price: "$23" },
+{ name: "Watermelon", price: "$23" },
+{ name: "Watermelon Mint", price: "$23" }
+]
+}
+
+]
+},
+
+{
+title: "💨 Late Night Hookah",
+layout: "wingsGrouped",
+groups: [
+
+{
+title: "✨ Premium Gold",
+items: [
+{ name: "💨 Bluemist", price: "$35" },
+{ name: "💨 Lady Killer", price: "$35" },
+{ name: "💨 Love 66", price: "$35" },
+{ name: "💨 Magic Love", price: "$35" }
 ]
 },
 
@@ -354,6 +309,7 @@ items: [
 
 ]
 }
+
 ]
 },
 
