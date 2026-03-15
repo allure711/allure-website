@@ -137,6 +137,39 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Milagro", price: "$5 / $10" },
           { name: "Teremana", price: "$5 / $10" }
         ]
+      },
+      {
+        title: "Whiskey",
+        items: [
+          { name: "Jack Daniel's", price: "$5 / $10" },
+          { name: "Jim Beam", price: "$5 / $10" },
+          { name: "Evan Williams", price: "$5 / $10" },
+          { name: "Canadian Club", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Rum",
+        items: [
+          { name: "Bacardi", price: "$5 / $10" },
+          { name: "Captain Morgan", price: "$5 / $10" },
+          { name: "Malibu", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Gin",
+        items: [
+          { name: "Bombay", price: "$5 / $10" },
+          { name: "Tanqueray", price: "$5 / $10" },
+          { name: "Gordon's", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Cognac",
+        items: [
+          { name: "Hennessy", price: "$5 / $10" },
+          { name: "E&J", price: "$5 / $10" },
+          { name: "Paul Masson", price: "$5 / $10" }
+        ]
       }
     ]
   },
