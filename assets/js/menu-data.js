@@ -1,4 +1,5 @@
 window.MENU_CATEGORY_CONTENT = {
+
   food: {
     sections: [
       {
@@ -13,6 +14,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Fries", price: "$5" }
         ]
       },
+
       {
         title: "Wings",
         layout: "wingsGrouped",
@@ -35,6 +37,7 @@ window.MENU_CATEGORY_CONTENT = {
           }
         ]
       },
+
       {
         title: "Quesadillas",
         items: [
@@ -44,6 +47,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon Quesadilla", price: "$14" }
         ]
       },
+
       {
         title: "Rasta Pasta or Alfredo",
         items: [
@@ -52,6 +56,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon", price: "$20" }
         ]
       },
+
       {
         title: "Salads",
         items: [
@@ -61,6 +66,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon Salad", price: "$13" }
         ]
       },
+
       {
         title: "Dinner",
         items: [
@@ -74,6 +80,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Catfish Nuggets Basket", price: "$13" }
         ]
       },
+
       {
         title: "Tacos",
         items: [
@@ -81,6 +88,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
         ]
       },
+
       {
         title: "Wing Flavors",
         layout: "wingsGrouped",
@@ -119,9 +127,9 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Belvedere", price: "$5 / $10" },
           { name: "Ciroc", price: "$5 / $10" },
           { name: "Grey Goose", price: "$5 / $10" },
-          { name: "Kettle One", price: "$5 / $10" },
+          { name: "Ketel One", price: "$5 / $10" },
           { name: "Stoli Orange", price: "$5 / $10" },
-          { name: "Titos", price: "$5 / $10" }
+          { name: "Tito's", price: "$5 / $10" }
         ]
       },
       {
@@ -135,6 +143,39 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Lunazul", price: "$5 / $10" },
           { name: "Milagro", price: "$5 / $10" },
           { name: "Teremana", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Whiskey",
+        items: [
+          { name: "Jameson", price: "$5 / $10" },
+          { name: "Jack Daniel's", price: "$5 / $10" },
+          { name: "Crown Royal", price: "$5 / $10" },
+          { name: "Maker's Mark", price: "$5 / $10" },
+          { name: "Jim Beam", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Rum",
+        items: [
+          { name: "Bacardi", price: "$5 / $10" },
+          { name: "Captain Morgan", price: "$5 / $10" },
+          { name: "Malibu", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Gin",
+        items: [
+          { name: "Tanqueray", price: "$5 / $10" },
+          { name: "Bombay Sapphire", price: "$5 / $10" },
+          { name: "Beefeater", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Cognac",
+        items: [
+          { name: "Hennessy", price: "$5 / $10" },
+          { name: "D'usse", price: "$5 / $10" }
         ]
       }
     ]
@@ -168,7 +209,30 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Jameson", price: "$7 / $14" },
           { name: "Jack Daniel's", price: "$7 / $14" },
           { name: "Crown Royal", price: "$7 / $14" },
-          { name: "Maker's Mark", price: "$7 / $14" }
+          { name: "Maker's Mark", price: "$7 / $14" },
+          { name: "Bulleit", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Rum",
+        items: [
+          { name: "Bacardi Reserva", price: "$7 / $14" },
+          { name: "Captain Morgan Private Stock", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Gin",
+        items: [
+          { name: "Hendrick's", price: "$7 / $14" },
+          { name: "Bombay Sapphire", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Cognac",
+        items: [
+          { name: "Hennessy VS", price: "$7 / $14" },
+          { name: "D'usse", price: "$7 / $14" },
+          { name: "Remy Martin", price: "$7 / $14" }
         ]
       }
     ]
@@ -280,7 +344,40 @@ window.MENU_CATEGORY_CONTENT = {
             title: "Classic Flavors",
             items: [
               { name: "Blueberry", price: "$23" },
-              { name: "BMW", price: "$23" }
+              { name: "BMW", price: "$23" },
+              { name: "Mint", price: "$23" },
+              { name: "Watermelon", price: "$23" },
+              { name: "Gum Mint", price: "$23" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  hookahLate: {
+    sections: [
+      {
+        title: "After 9 Hookah Lounge",
+        layout: "wingsGrouped",
+        groups: [
+          {
+            title: "Premium Gold",
+            items: [
+              { name: "Bluemist", desc: "Premium", price: "$35" },
+              { name: "Lady Killer", desc: "Premium", price: "$35" },
+              { name: "Love 66", desc: "Premium", price: "$35" },
+              { name: "Magic Love", desc: "Premium", price: "$35" }
+            ]
+          },
+          {
+            title: "Classic Flavors",
+            items: [
+              { name: "Blueberry", price: "$33" },
+              { name: "BMW", price: "$33" },
+              { name: "Mint", price: "$33" },
+              { name: "Watermelon", price: "$33" },
+              { name: "Gum Mint", price: "$33" }
             ]
           }
         ]
@@ -293,7 +390,7 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$43 Tower",
         items: [
-          { name: "Tower", price: "$43" }
+          { name: "Tower", desc: "Signature house tower", price: "$43" }
         ]
       }
     ]
@@ -304,7 +401,7 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "$23 Fishbowl",
         items: [
-          { name: "Fishbowl", price: "$23" }
+          { name: "Fishbowl", desc: "Signature fishbowl cocktail", price: "$23" }
         ]
       }
     ]
@@ -313,13 +410,37 @@ window.MENU_CATEGORY_CONTENT = {
   bottles: {
     sections: [
       {
-        title: "Bottle Service",
+        title: "Vodka Bottles",
         items: [
-          { name: "Bottle menu coming soon" }
+          { name: "Tito's", price: "$150+" },
+          { name: "Grey Goose", price: "$180+" },
+          { name: "Belvedere", price: "$180+" },
+          { name: "Ciroc", price: "$180+" }
+        ]
+      },
+      {
+        title: "Tequila Bottles",
+        items: [
+          { name: "Casamigos", price: "$200+" },
+          { name: "Don Julio", price: "$220+" },
+          { name: "Patron", price: "$220+" },
+          { name: "Don Julio 1942", price: "$450+" },
+          { name: "Clase Azul", price: "$500+" }
+        ]
+      },
+      {
+        title: "Whiskey & Cognac",
+        items: [
+          { name: "Crown Royal", price: "$180+" },
+          { name: "Jack Daniel's", price: "$170+" },
+          { name: "Hennessy", price: "$220+" },
+          { name: "Hennessy VSOP", price: "$280+" },
+          { name: "D'usse", price: "$240+" }
         ]
       }
     ]
   }
+
 };
 
 window.MENU_HIGHLIGHTS = {
@@ -328,31 +449,37 @@ window.MENU_HIGHLIGHTS = {
     { name: "Free Hookah Monday", special: "free-hookah" },
     { name: "Allure Lemon Drop" }
   ],
+
   tuesday: [
     { name: "Classic Margarita" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
+
   wednesday: [
     { name: "Long Island" },
     { name: "Hookah" },
     { name: "High Noon" }
   ],
+
   thursday: [
     { name: "Mojito" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
+
   friday: [
     { name: "Premium" },
     { name: "Hookah" },
     { name: "Tower" }
   ],
+
   saturday: [
     { name: "Premium" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
+
   sunday: [
     { name: "Hookah" },
     { name: "Fishbowl" },
