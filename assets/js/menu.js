@@ -1,396 +1,331 @@
-window.MENU_CATEGORY_CONTENT = {
+document.addEventListener("DOMContentLoaded", () => {
+  const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
 
-  food: {
-    sections: [
-      {
-        title: "Appetizers",
-        items: [
-          { name: "Salmon Sliders w/ Fries", price: "$12" },
-          { name: "Beef Sliders w/ Fries", price: "$10" },
-          { name: "Mozzarella Sticks", price: "$7" },
-          { name: "Fried Pickles", price: "$5" },
-          { name: "Chips & Salsa", price: "$5" },
-          { name: "Onion Rings", price: "$7" },
-          { name: "Fries", price: "$5" }
-        ]
-      },
-      {
-        title: "Wings",
-        layout: "wingsGrouped",
-        groups: [
-          {
-            title: "With Fries",
-            items: [
-              { name: "12 pcs Wings", price: "$16" },
-              { name: "8 pcs Wings", price: "$14" },
-              { name: "6 pcs Wings", price: "$12" }
-            ]
-          },
-          {
-            title: "Wings Only",
-            items: [
-              { name: "12 pcs Wings", price: "$14" },
-              { name: "8 pcs Wings", price: "$10" },
-              { name: "6 pcs Wings", price: "$8" }
-            ]
-          }
-        ]
-      },
-      {
-        title: "Quesadillas",
-        items: [
-          { name: "Cheese Quesadilla", price: "$8" },
-          { name: "Chicken Quesadilla", price: "$10" },
-          { name: "Shrimp Quesadilla", price: "$12" },
-          { name: "Salmon Quesadilla", price: "$14" }
-        ]
-      },
-      {
-        title: "Rasta Pasta or Alfredo",
-        items: [
-          { name: "Chicken", price: "$16" },
-          { name: "Shrimp", price: "$18" },
-          { name: "Salmon", price: "$20" }
-        ]
-      },
-      {
-        title: "Salads",
-        items: [
-          { name: "Salad", price: "$8" },
-          { name: "Chicken Salad", price: "$10" },
-          { name: "Shrimp Salad", price: "$12" },
-          { name: "Salmon Salad", price: "$13" }
-        ]
-      },
-      {
-        title: "Dinner",
-        items: [
-          { name: "Salmon", desc: "Yellow rice & broccoli", price: "$20" },
-          { name: "General Tso", desc: "Yellow rice & broccoli", price: "$18" },
-          { name: "Beef Burger w/ Fries", desc: "Mayo, lettuce, tomato, cheese", price: "$13" },
-          { name: "Fried Shrimp Basket", price: "$18" },
-          { name: "Crab Fries Basket", price: "$18" },
-          { name: "Fried Whiting Basket", price: "$15" },
-          { name: "Salmon Nugget Basket", price: "$15" },
-          { name: "Catfish Nuggets Basket", price: "$13" }
-        ]
-      },
-      {
-        title: "Tacos",
-        items: [
-          { name: "Shrimp Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$16" },
-          { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
-        ]
-      },
-      {
-        title: "Wing Flavors",
-        layout: "wingsGrouped",
-        groups: [
-          {
-            title: "Dry",
-            items: [
-              { name: "Lemon Pepper" },
-              { name: "Jerk Rub" },
-              { name: "Old Bay" }
-            ]
-          },
-          {
-            title: "Wet",
-            items: [
-              { name: "Honey Lemon Pepper" },
-              { name: "Honey Old Bay" },
-              { name: "Buffalo BBQ" },
-              { name: "Honey Sazon" },
-              { name: "Sweet Chili" },
-              { name: "Teriyaki" },
-              { name: "Mumbo" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-
-  shots5: {
-    sections: [
-      {
-        title: "Vodka",
-        items: [
-          { name: "Absolut", price: "$5 / $10" },
-          { name: "Belvedere", price: "$5 / $10" },
-          { name: "Ciroc", price: "$5 / $10" },
-          { name: "Grey Goose", price: "$5 / $10" },
-          { name: "Kettle One", price: "$5 / $10" },
-          { name: "Stoli Orange", price: "$5 / $10" },
-          { name: "Titos", price: "$5 / $10" }
-        ]
-      },
-      {
-        title: "Tequila",
-        items: [
-          { name: "1800", desc: "Blanco / Repo", price: "$5 / $10" },
-          { name: "Altos", price: "$5 / $10" },
-          { name: "Espolon", price: "$5 / $10" },
-          { name: "Hornitos", price: "$5 / $10" },
-          { name: "Jose Cuervo", price: "$5 / $10" },
-          { name: "Lunazul", price: "$5 / $10" },
-          { name: "Milagro", price: "$5 / $10" },
-          { name: "Teremana", price: "$5 / $10" }
-        ]
-      }
-    ]
-  },
-
-  shots7: {
-    sections: [
-      {
-        title: "Vodka",
-        items: [
-          { name: "Tito's Handmade", price: "$7 / $14" },
-          { name: "Grey Goose", price: "$7 / $14" },
-          { name: "Belvedere", price: "$7 / $14" },
-          { name: "Ciroc", price: "$7 / $14" },
-          { name: "Ketel One", price: "$7 / $14" }
-        ]
-      },
-      {
-        title: "Tequila",
-        items: [
-          { name: "Casamigos", price: "$7 / $14" },
-          { name: "Don Julio", price: "$7 / $14" },
-          { name: "Patron", price: "$7 / $14" },
-          { name: "Teremana", price: "$7 / $14" },
-          { name: "Espolon", price: "$7 / $14" }
-        ]
-      },
-      {
-        title: "Whiskey",
-        items: [
-          { name: "Jameson", price: "$7 / $14" },
-          { name: "Jack Daniel's", price: "$7 / $14" },
-          { name: "Crown Royal", price: "$7 / $14" },
-          { name: "Maker's Mark", price: "$7 / $14" }
-        ]
-      }
-    ]
-  },
-
-  premium: {
-    sections: [
-      {
-        title: "Premium Shots",
-        items: [
-          { name: "Don Julio 1942", price: "$20 / $35" },
-          { name: "Clase Azul", price: "$25 / $40" },
-          { name: "Casamigos Reposado", price: "$12 / $20" },
-          { name: "Patron Reposado", price: "$12 / $20" },
-          { name: "Hennessy VSOP", price: "$12 / $20" },
-          { name: "D'usse", price: "$12 / $20" }
-        ]
-      },
-      {
-        title: "Premium Drinks",
-        items: [
-          { name: "Don Julio 1942 Cocktail", price: "$35" },
-          { name: "Clase Azul Cocktail", price: "$40" },
-          { name: "Casamigos Cocktail", price: "$20" },
-          { name: "Patron Cocktail", price: "$20" },
-          { name: "Hennessy VSOP Cocktail", price: "$20" },
-          { name: "D'usse Cocktail", price: "$20" }
-        ]
-      }
-    ]
-  },
-
-  wine6: {
-    sections: [
-      {
-        title: "$6 Wine",
-        items: [
-          { name: "Cabernet Sauvignon", price: "$6" },
-          { name: "Chardonnay", price: "$6" },
-          { name: "Merlot", price: "$6" },
-          { name: "Moscato", desc: "Red / White", price: "$6" },
-          { name: "Pinot Grigio", price: "$6" },
-          { name: "Sauvignon Blanc", price: "$6" },
-          { name: "Sweet Red", price: "$6" }
-        ]
-      }
-    ]
-  },
-
-  beer4: {
-    sections: [
-      {
-        title: "$4 Beer",
-        items: [
-          { name: "Angry Orchard", price: "$4" },
-          { name: "Corona", price: "$4" },
-          { name: "Guinness", price: "$4" },
-          { name: "Heineken", price: "$4" },
-          { name: "Modelo", price: "$4" },
-          { name: "Stella", price: "$4" }
-        ]
-      }
-    ]
-  },
-
-  highnoon8: {
-    sections: [
-      {
-        title: "High Noon",
-        items: [
-          { name: "Grapefruit", price: "$8" },
-          { name: "Mango", price: "$8" },
-          { name: "Lime", price: "$8" },
-          { name: "Strawberry", price: "$8" }
-        ]
-      }
-    ]
-  },
-
-  na: {
-    sections: [
-      {
-        title: "Non-Alcoholic",
-        items: [
-          { name: "Red Bull", price: "$5" },
-          { name: "Ginger Beer", price: "$5" },
-          { name: "Frozen Drinks", price: "$5" }
-        ]
-      }
-    ]
-  },
-
-  hookah23: {
-    sections: [
-      {
-        title: "$23 Hookah Lounge",
-        layout: "wingsGrouped",
-        groups: [
-          {
-            title: "Premium Gold (+$2)",
-            items: [
-              { name: "Bluemist", desc: "Premium", price: "$25" },
-              { name: "Lady Killer", desc: "Premium", price: "$25" },
-              { name: "Love 66", desc: "Premium", price: "$25" },
-              { name: "Magic Love", desc: "Premium", price: "$25" }
-            ]
-          },
-          {
-            title: "Classic Flavors",
-            items: [
-              { name: "Blueberry", price: "$23" },
-              { name: "BMW", price: "$23" },
-              { name: "Mint", price: "$23" },
-              { name: "Watermelon", price: "$23" },
-              { name: "Gum Mint", price: "$23" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-
-  hookahLate: {
-    sections: [
-      {
-        title: "After 9 Hookah Lounge",
-        layout: "wingsGrouped",
-        groups: [
-          {
-            title: "Premium Gold",
-            items: [
-              { name: "Bluemist", desc: "Premium", price: "$35" },
-              { name: "Lady Killer", desc: "Premium", price: "$35" },
-              { name: "Love 66", desc: "Premium", price: "$35" },
-              { name: "Magic Love", desc: "Premium", price: "$35" }
-            ]
-          },
-          {
-            title: "Classic Flavors",
-            items: [
-              { name: "Blueberry", price: "$33" },
-              { name: "BMW", price: "$33" },
-              { name: "Mint", price: "$33" },
-              { name: "Watermelon", price: "$33" },
-              { name: "Gum Mint", price: "$33" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-
-  tower43: {
-    sections: [
-      {
-        title: "$43 Tower",
-        items: [
-          { name: "Tower", price: "$43" }
-        ]
-      }
-    ]
-  },
-
-  fishbowl23: {
-    sections: [
-      {
-        title: "$23 Fishbowl",
-        items: [
-          { name: "Fishbowl", price: "$23" }
-        ]
-      }
-    ]
-  },
-
-  bottles: {
-    sections: [
-      {
-        title: "Bottle Service",
-        items: [
-          { name: "Bottle menu coming soon" }
-        ]
-      }
-    ]
+  function renderFlatMenu(items) {
+    return `
+      <div class="menuList menuList--compact">
+        ${(items || []).map(item => `
+          <div class="menuItem menuItem--compact">
+            <div class="menuItem__left">
+              <div class="menuItem__name">${item.name || ""}</div>
+              ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
+            </div>
+            <div class="menuItem__price">${item.price || ""}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
   }
 
-};
+  function renderGroupedMenu(section) {
+    const groups = section.groups || [];
+    const hideMainTitle = ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
 
-window.MENU_HIGHLIGHTS = {
-  monday: [
-    { name: "Salmon Sliders w/ Fries" },
-    { name: "Free Hookah Monday", special: "free-hookah" },
-    { name: "Allure Lemon Drop" }
-  ],
-  tuesday: [
-    { name: "Classic Margarita" },
-    { name: "Hookah" },
-    { name: "Fishbowl" }
-  ],
-  wednesday: [
-    { name: "Long Island" },
-    { name: "Hookah" },
-    { name: "High Noon" }
-  ],
-  thursday: [
-    { name: "Mojito" },
-    { name: "Hookah" },
-    { name: "Fishbowl" }
-  ],
-  friday: [
-    { name: "Premium" },
-    { name: "Hookah" },
-    { name: "Tower" }
-  ],
-  saturday: [
-    { name: "Premium" },
-    { name: "Hookah" },
-    { name: "Fishbowl" }
-  ],
-  sunday: [
-    { name: "Hookah" },
-    { name: "Fishbowl" },
-    { name: "Allure Lemon Drop" }
-  ]
-};
+    function getFlavorIcon(name) {
+      const label = String(name || "").toLowerCase();
+      if (label.includes("lemon pepper")) return "🌶️";
+      if (label.includes("jerk")) return "🔥";
+      if (label.includes("old bay")) return "🧂";
+      if (label.includes("honey")) return "🍯";
+      if (label.includes("buffalo")) return "🍗";
+      if (label.includes("sweet chili")) return "🌶️";
+      if (label.includes("teriyaki")) return "🥢";
+      if (label.includes("mumbo")) return "👑";
+      return "";
+    }
+
+    const isWingFlavors = (section.title || "").toLowerCase() === "wing flavors";
+
+    return `
+      <div class="menuGrouped menuGrouped--compact">
+        ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
+        <div class="menuGrouped__grid">
+          ${groups.map(group => `
+            <div class="menuGrouped__box">
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+              <div class="menuList menuList--compact">
+                ${(group.items || []).map(item => `
+                  <div class="menuItem menuItem--compact">
+                    <div class="menuItem__left">
+                      <div class="menuItem__name">
+                        ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
+                        ${item.name || ""}
+                      </div>
+                      ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
+                    </div>
+                    <div class="menuItem__price">${item.price || ""}</div>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function mapItemsForMode(items, mode) {
+    if (!mode) return items || [];
+
+    return (items || []).map(item => {
+      const rawPrice = String(item.price || "");
+      if (!rawPrice.includes("/")) return item;
+
+      const parts = rawPrice.split("/").map(p => p.trim());
+
+      if (mode === "shots") return { ...item, price: parts[0] || rawPrice };
+      if (mode === "drinks") return { ...item, price: parts[1] || parts[0] || rawPrice };
+
+      return item;
+    });
+  }
+
+  function renderSectionedMenu(content) {
+    const sections = content.sections || [];
+    return `
+      <div class="menuNested">
+        <div class="menuSubTabs">
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
+          `).join("")}
+        </div>
+        <div class="menuSubBody"></div>
+      </div>
+    `;
+  }
+
+  function renderMenu(content) {
+    if (!content) return `<div class="menuEmpty">Click a category above or below to view menu items.</div>`;
+    if (Array.isArray(content)) return renderFlatMenu(content);
+    if (content.sections) return renderSectionedMenu(content);
+    return `<div class="menuEmpty">This section will be updated soon.</div>`;
+  }
+
+  function renderHighlights(day, panel) {
+    panel.querySelectorAll(".popularTonight").forEach(node => node.remove());
+
+    const items = MENU_HIGHLIGHTS[day];
+    if (!items || !items.length) return;
+
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
+
+    const section = document.createElement("section");
+    section.className = "popularTonight";
+    section.innerHTML = `
+      <div class="popularTonight__title">🔥 Popular Tonight</div>
+      <div class="popularTonight__grid">
+        ${items.map(item => `
+          <div class="popularCard ${item.special === "free-hookah" ? "popularCard--freeHookah" : ""}">
+            <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
+              ${item.name || ""}
+            </span>
+          </div>
+        `).join("")}
+      </div>
+    `;
+    hero.after(section);
+  }
+
+  function renderVipNightBanner(day, panel) {
+    panel.querySelectorAll(".vipNightBannerFloating").forEach(node => node.remove());
+
+    if (day !== "friday" && day !== "saturday" && day !== "tuesday" && day !== "wednesday" && day !== "thursday") return;
+
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
+
+    const titles = [...panel.querySelectorAll(".menuPanelTitle")].map(el => el.textContent.toLowerCase());
+    const hasAfter9 = titles.some(t => t.includes("after 9") || t.includes("vip night"));
+    if (!hasAfter9) return;
+
+    const section = document.createElement("section");
+    section.className = "vipNightBannerFloating";
+    section.innerHTML = `
+      <div class="vipNightBannerFloating__badge">VIP NIGHT ACTIVE</div>
+      <div class="vipNightBannerFloating__title">Late Night Energy • Bottle Service • DJ Vibes</div>
+      <div class="vipNightBannerFloating__meta">Premium cocktails • VIP tables • Hookah • Fishbowls</div>
+    `;
+    hero.after(section);
+  }
+
+  function bindSubTabs(panelBody, content, mode = null) {
+    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
+    const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content.sections || [];
+
+    if (!tabs.length || !subBody || !sections.length) return;
+
+    function activateSubsection(title) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
+
+      const section = sections.find(s => s.title === title);
+      if (!section) return;
+
+      if (section.layout === "wingsGrouped") {
+        subBody.innerHTML = `
+          <div class="menuSectionBlock menuSectionBlock--compact">
+            ${renderGroupedMenu(section)}
+          </div>
+        `;
+        return;
+      }
+
+      const items = mapItemsForMode(section.items || [], mode);
+      subBody.innerHTML = `
+        <div class="menuSectionBlock menuSectionBlock--compact">
+          ${renderFlatMenu(items)}
+        </div>
+      `;
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => activateSubsection(tab.dataset.subsection));
+    });
+
+    activateSubsection(sections[0].title);
+  }
+
+  function applyVipNightMode(day) {
+    document.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      wrap.classList.remove("vipNightMode");
+    });
+
+    const activePanel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+    if (!activePanel) return;
+
+    activePanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      const titleEl = wrap.querySelector(".menuPanelTitle");
+      if (!titleEl) return;
+      const text = titleEl.textContent.toLowerCase();
+      if (text.includes("after 9") || text.includes("vip night")) {
+        wrap.classList.add("vipNightMode");
+      }
+    });
+  }
+
+  function renderDashboard(panelBody) {
+    panelBody.innerHTML = `
+      <div class="menuEmpty menuEmpty--dashboard">
+        <div class="menuEmptyDashboardGlow"></div>
+        <div class="menuEmptyDashboardTop">
+          <div>
+            <div class="menuEmptyDashboardEyebrow">Allure Experience</div>
+            <div class="menuEmptyDashboardTitle">Choose Your Vibe Tonight</div>
+            <div class="menuEmptyDashboardText">
+              Tap a category to explore signature food, premium hookah, cocktails, towers, and late-night favorites.
+            </div>
+          </div>
+          <div class="menuEmptyDashboardBadges">
+            <span class="menuEmptyDashboardBadge">Live Menu</span>
+            <span class="menuEmptyDashboardBadge">Lounge Picks</span>
+            <span class="menuEmptyDashboardBadge">Late Night</span>
+          </div>
+        </div>
+
+        <div class="menuEmptyDashboardStats">
+          <div class="menuEmptyDashboardStat">
+            <div class="menuEmptyDashboardStatNum">Food</div>
+            <div class="menuEmptyDashboardStatLabel">Sliders • Wings • Tacos • Pasta</div>
+          </div>
+          <div class="menuEmptyDashboardStat">
+            <div class="menuEmptyDashboardStatNum">Drinks</div>
+            <div class="menuEmptyDashboardStatLabel">Shots • Cocktails • Fishbowls • Towers</div>
+          </div>
+          <div class="menuEmptyDashboardStat">
+            <div class="menuEmptyDashboardStatNum">Hookah</div>
+            <div class="menuEmptyDashboardStatLabel">Classic Flavors • Premium Gold</div>
+          </div>
+        </div>
+
+        <div class="menuEmptyDashboardGrid">
+          <div class="menuEmptyDashboardCard">
+            <div class="menuEmptyDashboardCardIcon">🍽️</div>
+            <div class="menuEmptyDashboardCardTitle">Food Favorites</div>
+            <div class="menuEmptyDashboardCardText">Explore starters, wings, tacos, pasta, dinner, and house favorites.</div>
+          </div>
+          <div class="menuEmptyDashboardCard">
+            <div class="menuEmptyDashboardCardIcon">🥂</div>
+            <div class="menuEmptyDashboardCardTitle">Drink Menu</div>
+            <div class="menuEmptyDashboardCardText">Browse $5 shots, premium pours, wine, beer, towers, and fishbowls.</div>
+          </div>
+          <div class="menuEmptyDashboardCard">
+            <div class="menuEmptyDashboardCardIcon">💨</div>
+            <div class="menuEmptyDashboardCardTitle">Hookah Lounge</div>
+            <div class="menuEmptyDashboardCardText">View classic blends, premium flavors, and late-night hookah options.</div>
+          </div>
+        </div>
+
+        <div class="menuEmptyDashboardFooter">
+          Start by tapping a category above or below.
+        </div>
+      </div>
+    `;
+  }
+
+  function setupCenterWrap(wrap) {
+    const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
+    const panelBody = wrap.querySelector(".menuPanelBody");
+    if (!buttons.length || !panelBody) return;
+
+    function activateButton(button) {
+      const cat = button.dataset.cat;
+      const mode = button.dataset.mode || null;
+      const content = CATEGORY_CONTENT[cat];
+
+      buttons.forEach(btn => btn.classList.toggle("active", btn === button));
+
+      if (!content) {
+        panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
+        return;
+      }
+
+      panelBody.innerHTML = renderMenu(content);
+
+      if (content.sections) {
+        bindSubTabs(panelBody, content, mode);
+      }
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => activateButton(button));
+    });
+
+    renderDashboard(panelBody);
+  }
+
+  function activateDay(day) {
+    document.querySelectorAll(".dayTab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.daytab === day);
+    });
+
+    document.querySelectorAll(".dayPanel").forEach(panel => {
+      const isActive = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", isActive);
+
+      if (isActive) {
+        renderVipNightBanner(day, panel);
+        renderHighlights(day, panel);
+        panel.querySelectorAll(".menuCenterWrap").forEach(setupCenterWrap);
+      }
+    });
+
+    applyVipNightMode(day);
+  }
+
+  function getTodayDay() {
+    const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    return days[new Date().getDay()];
+  }
+
+  document.querySelectorAll(".dayTab").forEach(tab => {
+    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
+  });
+
+  activateDay(getTodayDay());
+});
