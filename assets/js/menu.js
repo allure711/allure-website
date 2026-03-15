@@ -2,7 +2,6 @@ window.MENU_CATEGORY_CONTENT = {
 
   food: {
     sections: [
-
       {
         title: "Appetizers",
         items: [
@@ -15,12 +14,10 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Fries", price: "$5" }
         ]
       },
-
       {
         title: "Wings",
         layout: "wingsGrouped",
         groups: [
-
           {
             title: "With Fries",
             items: [
@@ -29,7 +26,6 @@ window.MENU_CATEGORY_CONTENT = {
               { name: "6 pcs Wings", price: "$12" }
             ]
           },
-
           {
             title: "Wings Only",
             items: [
@@ -38,10 +34,8 @@ window.MENU_CATEGORY_CONTENT = {
               { name: "6 pcs Wings", price: "$8" }
             ]
           }
-
         ]
       },
-
       {
         title: "Quesadillas",
         items: [
@@ -51,7 +45,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon Quesadilla", price: "$14" }
         ]
       },
-
       {
         title: "Rasta Pasta or Alfredo",
         items: [
@@ -60,7 +53,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon", price: "$20" }
         ]
       },
-
       {
         title: "Salads",
         items: [
@@ -70,7 +62,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon Salad", price: "$13" }
         ]
       },
-
       {
         title: "Dinner",
         items: [
@@ -84,15 +75,39 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Catfish Nuggets Basket", price: "$13" }
         ]
       },
-
       {
         title: "Tacos",
         items: [
           { name: "Shrimp Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$16" },
           { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
         ]
+      },
+      {
+        title: "Wing Flavors",
+        layout: "wingsGrouped",
+        groups: [
+          {
+            title: "Dry",
+            items: [
+              { name: "Lemon Pepper" },
+              { name: "Jerk Rub" },
+              { name: "Old Bay" }
+            ]
+          },
+          {
+            title: "Wet",
+            items: [
+              { name: "Honey Lemon Pepper" },
+              { name: "Honey Old Bay" },
+              { name: "Buffalo BBQ" },
+              { name: "Honey Sazon" },
+              { name: "Sweet Chili" },
+              { name: "Teriyaki" },
+              { name: "Mumbo" }
+            ]
+          }
+        ]
       }
-
     ]
   },
 
@@ -110,7 +125,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Titos", price: "$5 / $10" }
         ]
       },
-
       {
         title: "Tequila",
         items: [
@@ -129,7 +143,6 @@ window.MENU_CATEGORY_CONTENT = {
 
   shots7: {
     sections: [
-
       {
         title: "Vodka",
         items: [
@@ -140,7 +153,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Ketel One", price: "$7 / $14" }
         ]
       },
-
       {
         title: "Tequila",
         items: [
@@ -151,7 +163,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Espolon", price: "$7 / $14" }
         ]
       },
-
       {
         title: "Whiskey",
         items: [
@@ -161,7 +172,93 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Maker's Mark", price: "$7 / $14" }
         ]
       }
+    ]
+  },
 
+  premium: {
+    sections: [
+      {
+        title: "Premium Shots",
+        items: [
+          { name: "Don Julio 1942", price: "$20 / $35" },
+          { name: "Clase Azul", price: "$25 / $40" },
+          { name: "Casamigos Reposado", price: "$12 / $20" },
+          { name: "Patron Reposado", price: "$12 / $20" },
+          { name: "Hennessy VSOP", price: "$12 / $20" },
+          { name: "D'usse", price: "$12 / $20" }
+        ]
+      },
+      {
+        title: "Premium Drinks",
+        items: [
+          { name: "Don Julio 1942 Cocktail", price: "$35" },
+          { name: "Clase Azul Cocktail", price: "$40" },
+          { name: "Casamigos Cocktail", price: "$20" },
+          { name: "Patron Cocktail", price: "$20" },
+          { name: "Hennessy VSOP Cocktail", price: "$20" },
+          { name: "D'usse Cocktail", price: "$20" }
+        ]
+      }
+    ]
+  },
+
+  wine6: {
+    sections: [
+      {
+        title: "$6 Wine",
+        items: [
+          { name: "Cabernet Sauvignon", price: "$6" },
+          { name: "Chardonnay", price: "$6" },
+          { name: "Merlot", price: "$6" },
+          { name: "Moscato", desc: "Red / White", price: "$6" },
+          { name: "Pinot Grigio", price: "$6" },
+          { name: "Sauvignon Blanc", price: "$6" },
+          { name: "Sweet Red", price: "$6" }
+        ]
+      }
+    ]
+  },
+
+  beer4: {
+    sections: [
+      {
+        title: "$4 Beer",
+        items: [
+          { name: "Angry Orchard", price: "$4" },
+          { name: "Corona", price: "$4" },
+          { name: "Guinness", price: "$4" },
+          { name: "Heineken", price: "$4" },
+          { name: "Modelo", price: "$4" },
+          { name: "Stella", price: "$4" }
+        ]
+      }
+    ]
+  },
+
+  highnoon8: {
+    sections: [
+      {
+        title: "High Noon",
+        items: [
+          { name: "Grapefruit", price: "$8" },
+          { name: "Mango", price: "$8" },
+          { name: "Lime", price: "$8" },
+          { name: "Strawberry", price: "$8" }
+        ]
+      }
+    ]
+  },
+
+  na: {
+    sections: [
+      {
+        title: "Non-Alcoholic",
+        items: [
+          { name: "Red Bull", price: "$5" },
+          { name: "Ginger Beer", price: "$5" },
+          { name: "Frozen Drinks", price: "$5" }
+        ]
+      }
     ]
   },
 
@@ -171,7 +268,6 @@ window.MENU_CATEGORY_CONTENT = {
         title: "$23 Hookah Lounge",
         layout: "wingsGrouped",
         groups: [
-
           {
             title: "Premium Gold (+$2)",
             items: [
@@ -181,7 +277,6 @@ window.MENU_CATEGORY_CONTENT = {
               { name: "Magic Love", desc: "Premium", price: "$25" }
             ]
           },
-
           {
             title: "Classic Flavors",
             items: [
@@ -192,7 +287,6 @@ window.MENU_CATEGORY_CONTENT = {
               { name: "Gum Mint", price: "$23" }
             ]
           }
-
         ]
       }
     ]
@@ -204,7 +298,6 @@ window.MENU_CATEGORY_CONTENT = {
         title: "After 9 Hookah Lounge",
         layout: "wingsGrouped",
         groups: [
-
           {
             title: "Premium Gold",
             items: [
@@ -214,7 +307,6 @@ window.MENU_CATEGORY_CONTENT = {
               { name: "Magic Love", desc: "Premium", price: "$35" }
             ]
           },
-
           {
             title: "Classic Flavors",
             items: [
@@ -225,7 +317,39 @@ window.MENU_CATEGORY_CONTENT = {
               { name: "Gum Mint", price: "$33" }
             ]
           }
+        ]
+      }
+    ]
+  },
 
+  tower43: {
+    sections: [
+      {
+        title: "$43 Tower",
+        items: [
+          { name: "Tower", price: "$43" }
+        ]
+      }
+    ]
+  },
+
+  fishbowl23: {
+    sections: [
+      {
+        title: "$23 Fishbowl",
+        items: [
+          { name: "Fishbowl", price: "$23" }
+        ]
+      }
+    ]
+  },
+
+  bottles: {
+    sections: [
+      {
+        title: "Bottle Service",
+        items: [
+          { name: "Bottle menu coming soon" }
         ]
       }
     ]
@@ -234,47 +358,39 @@ window.MENU_CATEGORY_CONTENT = {
 };
 
 window.MENU_HIGHLIGHTS = {
-
   monday: [
     { name: "Salmon Sliders w/ Fries" },
     { name: "Free Hookah Monday", special: "free-hookah" },
     { name: "Allure Lemon Drop" }
   ],
-
   tuesday: [
     { name: "Classic Margarita" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
-
   wednesday: [
     { name: "Long Island" },
     { name: "Hookah" },
     { name: "High Noon" }
   ],
-
   thursday: [
     { name: "Mojito" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
-
   friday: [
     { name: "Premium" },
     { name: "Hookah" },
     { name: "Tower" }
   ],
-
   saturday: [
     { name: "Premium" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
-
   sunday: [
     { name: "Hookah" },
     { name: "Fishbowl" },
     { name: "Allure Lemon Drop" }
   ]
-
 };
