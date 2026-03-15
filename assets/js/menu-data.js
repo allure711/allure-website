@@ -1,5 +1,4 @@
 window.MENU_CATEGORY_CONTENT = {
-
   food: {
     sections: [
       {
@@ -14,7 +13,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Fries", price: "$5" }
         ]
       },
-
       {
         title: "Wings",
         layout: "wingsGrouped",
@@ -37,7 +35,6 @@ window.MENU_CATEGORY_CONTENT = {
           }
         ]
       },
-
       {
         title: "Quesadillas",
         items: [
@@ -47,7 +44,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon Quesadilla", price: "$14" }
         ]
       },
-
       {
         title: "Rasta Pasta or Alfredo",
         items: [
@@ -56,7 +52,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon", price: "$20" }
         ]
       },
-
       {
         title: "Salads",
         items: [
@@ -66,7 +61,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon Salad", price: "$13" }
         ]
       },
-
       {
         title: "Dinner",
         items: [
@@ -80,7 +74,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Catfish Nuggets Basket", price: "$13" }
         ]
       },
-
       {
         title: "Tacos",
         items: [
@@ -88,7 +81,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
         ]
       },
-
       {
         title: "Wing Flavors",
         layout: "wingsGrouped",
@@ -328,7 +320,6 @@ window.MENU_CATEGORY_CONTENT = {
       }
     ]
   }
-
 };
 
 window.MENU_HIGHLIGHTS = {
@@ -337,37 +328,31 @@ window.MENU_HIGHLIGHTS = {
     { name: "Free Hookah Monday", special: "free-hookah" },
     { name: "Allure Lemon Drop" }
   ],
-
   tuesday: [
     { name: "Classic Margarita" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
-
   wednesday: [
     { name: "Long Island" },
     { name: "Hookah" },
     { name: "High Noon" }
   ],
-
   thursday: [
     { name: "Mojito" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
-
   friday: [
     { name: "Premium" },
     { name: "Hookah" },
     { name: "Tower" }
   ],
-
   saturday: [
     { name: "Premium" },
     { name: "Hookah" },
     { name: "Fishbowl" }
   ],
-
   sunday: [
     { name: "Hookah" },
     { name: "Fishbowl" },
