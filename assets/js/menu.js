@@ -133,14 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderVipNightBanner(day, panel) {
     panel.querySelectorAll(".vipNightBannerFloating").forEach(node => node.remove());
 
-    if (day !== "friday" && day !== "saturday" && day !== "tuesday" && day !== "wednesday" && day !== "thursday") return;
-
-    const hero = panel.querySelector(".heroRow");
-    if (!hero) return;
-
     const titles = [...panel.querySelectorAll(".menuPanelTitle")].map(el => el.textContent.toLowerCase());
     const hasAfter9 = titles.some(t => t.includes("after 9") || t.includes("vip night"));
     if (!hasAfter9) return;
+
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
 
     const section = document.createElement("section");
     section.className = "vipNightBannerFloating";
@@ -319,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getTodayDay() {
-    const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     return days[new Date().getDay()];
   }
 
