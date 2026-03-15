@@ -1,12 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
 
-  function renderFlatMenu(items) {
+  /* =========================
+     RENDER FLAT MENU
+  ========================= */
+
+  function renderFlatMenu(items){
     return `
-      <div class="menuList">
+      <div class="menuList menuList--compact">
         ${(items || []).map(item => `
-          <div class="menuItem">
+          <div class="menuItem menuItem--compact">
             <div class="menuItem__left">
               <div class="menuItem__name">${item.name || ""}</div>
               ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
@@ -18,21 +23,25 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function renderGroupedMenu(section) {
-    const groups = section.groups || [];
-    const hideMainTitle = ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
+  /* =========================
+     RENDER GROUPED MENU
+  ========================= */
 
-    function getFlavorIcon(name) {
+  function renderGroupedMenu(section){
+
+    const groups = section.groups || [];
+
+    function getFlavorIcon(name){
       const label = String(name || "").toLowerCase();
 
-      if (label.includes("lemon pepper")) return "🌶️";
-      if (label.includes("jerk")) return "🔥";
-      if (label.includes("old bay")) return "🧂";
-      if (label.includes("honey")) return "🍯";
-      if (label.includes("buffalo")) return "🍗";
-      if (label.includes("sweet chili")) return "🌶️";
-      if (label.includes("teriyaki")) return "🥢";
-      if (label.includes("mumbo")) return "👑";
+      if(label.includes("lemon pepper")) return "🌶️";
+      if(label.includes("jerk")) return "🔥";
+      if(label.includes("old bay")) return "🧂";
+      if(label.includes("honey")) return "🍯";
+      if(label.includes("buffalo")) return "🍗";
+      if(label.includes("sweet chili")) return "🌶️";
+      if(label.includes("teriyaki")) return "🥢";
+      if(label.includes("mumbo")) return "👑";
 
       return "";
     }
@@ -40,345 +49,255 @@ document.addEventListener("DOMContentLoaded", () => {
     const isWingFlavors = (section.title || "").toLowerCase() === "wing flavors";
 
     return `
-      <div class="menuGrouped">
-        ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
+      <div class="menuGrouped menuGrouped--compact">
+
         <div class="menuGrouped__grid">
+
           ${groups.map(group => `
             <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
-              <div class="menuList">
+
+              <div class="menuGrouped__boxTitle">
+                ${group.title || ""}
+              </div>
+
+              <div class="menuList menuList--compact">
+
                 ${(group.items || []).map(item => `
-                  <div class="menuItem">
+                  <div class="menuItem menuItem--compact">
+
                     <div class="menuItem__left">
+
                       <div class="menuItem__name">
+
                         ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
+
                         ${item.name || ""}
+
                       </div>
+
                       ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
+
                     </div>
+
                     <div class="menuItem__price">${item.price || ""}</div>
+
                   </div>
                 `).join("")}
+
               </div>
+
             </div>
           `).join("")}
+
         </div>
+
       </div>
     `;
   }
 
-  function mapItemsForMode(items, mode) {
-    if (!mode) return items || [];
+  /* =========================
+     MAP PRICE MODE
+  ========================= */
+
+  function mapItemsForMode(items, mode){
+
+    if(!mode) return items || [];
 
     return (items || []).map(item => {
+
       const rawPrice = String(item.price || "");
-      if (!rawPrice.includes("/")) return item;
+
+      if(!rawPrice.includes("/")) return item;
 
       const parts = rawPrice.split("/").map(p => p.trim());
 
-      if (mode === "shots") {
+      if(mode === "shots"){
         return { ...item, price: parts[0] || rawPrice };
       }
 
-      if (mode === "drinks") {
+      if(mode === "drinks"){
         return { ...item, price: parts[1] || parts[0] || rawPrice };
       }
 
       return item;
+
     });
+
   }
 
-  function renderSectionedMenu(content) {
+  /* =========================
+     RENDER SECTION MENU
+  ========================= */
+
+  function renderSectionedMenu(content){
+
     const sections = content.sections || [];
+
     return `
       <div class="menuNested">
+
         <div class="menuSubTabs">
+
           ${sections.map(section => `
             <button class="menuSubTab" type="button" data-subsection="${section.title}">
               ${section.title}
             </button>
           `).join("")}
+
         </div>
+
         <div class="menuSubBody"></div>
+
       </div>
     `;
+
   }
 
-  function renderMenu(content) {
-    if (!content) {
-      return `<div class="menuEmpty">Click a category above or below to view menu items.</div>`;
+  /* =========================
+     RENDER MENU
+  ========================= */
+
+  function renderMenu(content){
+
+    if(!content){
+      return `<div class="menuEmpty">Click a category above to view menu.</div>`;
     }
 
-    if (Array.isArray(content)) {
+    if(Array.isArray(content)){
       return renderFlatMenu(content);
     }
 
-    if (content.sections) {
+    if(content.sections){
       return renderSectionedMenu(content);
     }
 
-    return `<div class="menuEmpty">This section will be updated soon.</div>`;
+    return `<div class="menuEmpty">Menu coming soon</div>`;
+
   }
 
-  function renderHighlights(day, panel) {
-    panel.querySelectorAll(".popularTonight").forEach(node => node.remove());
+  /* =========================
+     BIND SUB TABS
+  ========================= */
 
-    const items = MENU_HIGHLIGHTS[day];
-    if (!items || !items.length) return;
+  function bindSubTabs(panelBody, content, mode = null){
 
-    const hero = panel.querySelector(".heroRow");
-    if (!hero) return;
-
-    const section = document.createElement("section");
-    section.className = "popularTonight";
-    section.innerHTML = `
-      <div class="popularTonight__title">🔥 Popular Tonight</div>
-      <div class="popularTonight__grid">
-        ${items.map(item => `
-          <div class="popularCard ${item.special === "free-hookah" ? "popularCard--freeHookah" : ""}">
-            <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
-              ${item.name || ""}
-            </span>
-          </div>
-        `).join("")}
-      </div>
-    `;
-
-    hero.after(section);
-  }
-
-  function renderVipNightBanner(day, panel) {
-    panel.querySelectorAll(".vipNightBannerFloating").forEach(node => node.remove());
-
-    if (day !== "friday" && day !== "saturday") return;
-
-    const hero = panel.querySelector(".heroRow");
-    if (!hero) return;
-
-    const section = document.createElement("section");
-    section.className = "vipNightBannerFloating";
-    section.innerHTML = `
-      <div class="vipNightBannerFloating__badge">VIP NIGHT ACTIVE</div>
-      <div class="vipNightBannerFloating__title">Late Night Energy • Bottle Service • DJ Vibes</div>
-      <div class="vipNightBannerFloating__meta">Premium cocktails • VIP tables • Hookah • Fishbowls</div>
-    `;
-
-    hero.after(section);
-  }
-
-  function bindSubTabs(panelBody, content, mode = null) {
     const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
     const subBody = panelBody.querySelector(".menuSubBody");
     const sections = content.sections || [];
 
-    if (!tabs.length || !subBody || !sections.length) return;
+    if(!tabs.length) return;
 
-    function activateSubsection(title) {
-      tabs.forEach(tab => {
+    function activateSubsection(title){
+
+      tabs.forEach(tab=>{
         tab.classList.toggle("active", tab.dataset.subsection === title);
       });
 
       const section = sections.find(s => s.title === title);
-      if (!section) return;
 
-      const isBareGroupedSection =
-        section.layout === "wingsGrouped" &&
-        ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
+      if(!section) return;
 
-      if (section.layout === "wingsGrouped") {
+      if(section.layout === "wingsGrouped"){
+
         subBody.innerHTML = `
-          <div class="menuSectionBlock ${isBareGroupedSection ? "menuSectionBlock--bare" : ""}">
+          <div class="menuSectionBlock menuSectionBlock--compact">
             ${renderGroupedMenu(section)}
           </div>
         `;
+
         return;
+
       }
 
       const items = mapItemsForMode(section.items || [], mode);
 
       subBody.innerHTML = `
-        <div class="menuSectionBlock">
+        <div class="menuSectionBlock menuSectionBlock--compact">
           ${renderFlatMenu(items)}
         </div>
       `;
+
     }
 
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
+    tabs.forEach(tab=>{
+      tab.addEventListener("click",()=>{
         activateSubsection(tab.dataset.subsection);
       });
     });
 
     activateSubsection(sections[0].title);
+
   }
 
-  function applyVipNightMode(day) {
-    document.querySelectorAll(".menuCenterWrap").forEach(wrap => {
-      wrap.classList.remove("vipNightMode");
-    });
+  /* =========================
+     CATEGORY CLICK
+  ========================= */
 
-    if (day !== "friday" && day !== "saturday") return;
+  function setupCenterWrap(wrap){
 
-    const activePanel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
-    if (!activePanel) return;
-
-    activePanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
-      const titleEl = wrap.querySelector(".menuPanelTitle");
-      if (!titleEl) return;
-
-      const text = titleEl.textContent.toLowerCase();
-      if (text.includes("after 9")) {
-        wrap.classList.add("vipNightMode");
-      }
-    });
-  }
-
-  function renderDashboard(panelBody) {
-    panelBody.classList.remove("menuPanelBody--shots");
-    panelBody.innerHTML = `
-      <div class="menuEmpty menuEmpty--dashboard">
-        <div class="menuEmptyDashboardGlow"></div>
-
-        <div class="menuEmptyDashboardTop">
-          <div>
-            <div class="menuEmptyDashboardEyebrow">Allure Experience</div>
-            <div class="menuEmptyDashboardTitle">Choose Your Vibe Tonight</div>
-            <div class="menuEmptyDashboardText">
-              Tap a category to explore signature food, premium hookah, cocktails, towers, and late-night favorites.
-            </div>
-          </div>
-
-          <div class="menuEmptyDashboardBadges">
-            <span class="menuEmptyDashboardBadge">Live Menu</span>
-            <span class="menuEmptyDashboardBadge">Lounge Picks</span>
-            <span class="menuEmptyDashboardBadge">Late Night</span>
-          </div>
-        </div>
-
-        <div class="menuEmptyDashboardStats">
-          <div class="menuEmptyDashboardStat">
-            <div class="menuEmptyDashboardStatNum">Food</div>
-            <div class="menuEmptyDashboardStatLabel">Sliders • Wings • Tacos • Pasta</div>
-          </div>
-
-          <div class="menuEmptyDashboardStat">
-            <div class="menuEmptyDashboardStatNum">Drinks</div>
-            <div class="menuEmptyDashboardStatLabel">Shots • Cocktails • Fishbowls • Towers</div>
-          </div>
-
-          <div class="menuEmptyDashboardStat">
-            <div class="menuEmptyDashboardStatNum">Hookah</div>
-            <div class="menuEmptyDashboardStatLabel">Classic Flavors • Premium Gold</div>
-          </div>
-        </div>
-
-        <div class="menuEmptyDashboardGrid">
-          <div class="menuEmptyDashboardCard">
-            <div class="menuEmptyDashboardCardIcon">🍽️</div>
-            <div class="menuEmptyDashboardCardTitle">Food Favorites</div>
-            <div class="menuEmptyDashboardCardText">
-              Explore starters, wings, tacos, pasta, dinner, and house favorites.
-            </div>
-          </div>
-
-          <div class="menuEmptyDashboardCard">
-            <div class="menuEmptyDashboardCardIcon">🥂</div>
-            <div class="menuEmptyDashboardCardTitle">Drink Menu</div>
-            <div class="menuEmptyDashboardCardText">
-              Browse $5 shots, premium pours, wine, beer, towers, and fishbowls.
-            </div>
-          </div>
-
-          <div class="menuEmptyDashboardCard">
-            <div class="menuEmptyDashboardCardIcon">💨</div>
-            <div class="menuEmptyDashboardCardTitle">Hookah Lounge</div>
-            <div class="menuEmptyDashboardCardText">
-              View classic blends, premium flavors, and late-night hookah options.
-            </div>
-          </div>
-        </div>
-
-        <div class="menuEmptyDashboardFooter">
-          Start by tapping a category above or below.
-        </div>
-      </div>
-    `;
-  }
-
-  function setupCenterWrap(wrap) {
     const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
     const panelBody = wrap.querySelector(".menuPanelBody");
 
-    if (!buttons.length || !panelBody) return;
+    function activateButton(button){
 
-    function activateButton(button) {
       const cat = button.dataset.cat;
       const mode = button.dataset.mode || null;
       const content = CATEGORY_CONTENT[cat];
 
-      buttons.forEach(btn => {
+      buttons.forEach(btn=>{
         btn.classList.toggle("active", btn === button);
       });
 
-      if (!content) {
-        panelBody.classList.remove("menuPanelBody--shots");
-        panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
+      if(!content){
+        panelBody.innerHTML = `<div class="menuEmpty">Coming soon</div>`;
         return;
       }
 
-      if (content.sections) {
-        panelBody.innerHTML = renderMenu(content);
+      panelBody.innerHTML = renderMenu(content);
 
-        if (cat === "shots5" || cat === "shots7" || cat === "premium") {
-          panelBody.classList.add("menuPanelBody--shots");
-        } else {
-          panelBody.classList.remove("menuPanelBody--shots");
-        }
-
+      if(content.sections){
         bindSubTabs(panelBody, content, mode);
-        return;
       }
 
-      if (Array.isArray(content)) {
-        panelBody.classList.remove("menuPanelBody--shots");
-        panelBody.innerHTML = renderFlatMenu(mapItemsForMode(content, mode));
-        return;
-      }
-
-      panelBody.classList.remove("menuPanelBody--shots");
-      panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
     }
 
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
+    buttons.forEach(button=>{
+      button.addEventListener("click",()=>{
         activateButton(button);
       });
     });
 
-    renderDashboard(panelBody);
   }
 
-  function activateDay(day) {
-    document.querySelectorAll(".dayTab").forEach(tab => {
+  /* =========================
+     DAY SWITCH
+  ========================= */
+
+  function activateDay(day){
+
+    document.querySelectorAll(".dayTab").forEach(tab=>{
       tab.classList.toggle("active", tab.dataset.daytab === day);
     });
 
-    document.querySelectorAll(".dayPanel").forEach(panel => {
+    document.querySelectorAll(".dayPanel").forEach(panel=>{
+
       const isActive = panel.dataset.daypanel === day;
+
       panel.classList.toggle("active", isActive);
 
-      if (isActive) {
-        renderVipNightBanner(day, panel);
-        renderHighlights(day, panel);
+      if(isActive){
+
         panel.querySelectorAll(".menuCenterWrap").forEach(setupCenterWrap);
+
       }
+
     });
 
-    applyVipNightMode(day);
   }
 
-  function getTodayDay() {
-    const days = [
+  function getTodayDay(){
+
+    const days=[
       "sunday",
       "monday",
       "tuesday",
@@ -387,14 +306,17 @@ document.addEventListener("DOMContentLoaded", () => {
       "friday",
       "saturday"
     ];
+
     return days[new Date().getDay()];
+
   }
 
-  document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.addEventListener("click", () => {
+  document.querySelectorAll(".dayTab").forEach(tab=>{
+    tab.addEventListener("click",()=>{
       activateDay(tab.dataset.daytab);
     });
   });
 
   activateDay(getTodayDay());
+
 });
