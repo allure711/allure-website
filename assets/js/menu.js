@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="menuItem">
             <div class="menuItem__left">
               <div class="menuItem__name">${item.name || ""}</div>
-              <div class="menuItem__desc">${item.desc || ""}</div>
+              ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
             </div>
             <div class="menuItem__price">${item.price || ""}</div>
           </div>
@@ -42,12 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return `
       <div class="menuGrouped">
         ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
-
         <div class="menuGrouped__grid">
           ${groups.map(group => `
             <div class="menuGrouped__box">
               <div class="menuGrouped__boxTitle">${group.title || ""}</div>
-
               <div class="menuList">
                 ${(group.items || []).map(item => `
                   <div class="menuItem">
@@ -56,12 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
                         ${item.name || ""}
                       </div>
+                      ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
                     </div>
                     <div class="menuItem__price">${item.price || ""}</div>
                   </div>
                 `).join("")}
               </div>
-
             </div>
           `).join("")}
         </div>
@@ -108,11 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderMenu(content) {
     if (!content) {
-      return `
-        <div class="menuEmpty">
-          Click a category above or below to view menu items.
-        </div>
-      `;
+      return `<div class="menuEmpty">Click a category above or below to view menu items.</div>`;
     }
 
     if (Array.isArray(content)) {
@@ -123,11 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return renderSectionedMenu(content);
     }
 
-    return `
-      <div class="menuEmpty">
-        This section will be updated soon.
-      </div>
-    `;
+    return `<div class="menuEmpty">This section will be updated soon.</div>`;
   }
 
   function renderHighlights(day, panel) {
@@ -243,64 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function setupCenterWrap(wrap) {
-    const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
-    const panelBody = wrap.querySelector(".menuPanelBody");
-
-    if (!buttons.length || !panelBody) return;
-
-    function activateButton(button) {
-      const cat = button.dataset.cat;
-      const mode = button.dataset.mode || null;
-      const content = CATEGORY_CONTENT[cat];
-
-      buttons.forEach(btn => {
-        btn.classList.toggle("active", btn === button);
-      });
-
-      if (!content) {
-        panelBody.classList.remove("menuPanelBody--shots");
-        panelBody.innerHTML = `
-          <div class="menuEmpty">
-            This section will be updated soon.
-          </div>
-        `;
-        return;
-      }
-
-      if (content.sections) {
-        panelBody.innerHTML = renderMenu(content);
-
-        if (["shots5", "shots7", "premium"].includes(cat)) {
-          panelBody.classList.add("menuPanelBody--shots");
-        } else {
-          panelBody.classList.remove("menuPanelBody--shots");
-        }
-
-        bindSubTabs(panelBody, content, mode);
-        return;
-      }
-
-      if (Array.isArray(content)) {
-        panelBody.classList.remove("menuPanelBody--shots");
-        panelBody.innerHTML = renderFlatMenu(mapItemsForMode(content, mode));
-        return;
-      }
-
-      panelBody.classList.remove("menuPanelBody--shots");
-      panelBody.innerHTML = `
-        <div class="menuEmpty">
-          This section will be updated soon.
-        </div>
-      `;
-    }
-
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        activateButton(button);
-      });
-    });
-
+  function renderDashboard(panelBody) {
     panelBody.classList.remove("menuPanelBody--shots");
     panelBody.innerHTML = `
       <div class="menuEmpty menuEmpty--dashboard">
@@ -370,6 +303,59 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `;
+  }
+
+  function setupCenterWrap(wrap) {
+    const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
+    const panelBody = wrap.querySelector(".menuPanelBody");
+
+    if (!buttons.length || !panelBody) return;
+
+    function activateButton(button) {
+      const cat = button.dataset.cat;
+      const mode = button.dataset.mode || null;
+      const content = CATEGORY_CONTENT[cat];
+
+      buttons.forEach(btn => {
+        btn.classList.toggle("active", btn === button);
+      });
+
+      if (!content) {
+        panelBody.classList.remove("menuPanelBody--shots");
+        panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
+        return;
+      }
+
+      if (content.sections) {
+        panelBody.innerHTML = renderMenu(content);
+
+        if (cat === "shots5" || cat === "shots7" || cat === "premium") {
+          panelBody.classList.add("menuPanelBody--shots");
+        } else {
+          panelBody.classList.remove("menuPanelBody--shots");
+        }
+
+        bindSubTabs(panelBody, content, mode);
+        return;
+      }
+
+      if (Array.isArray(content)) {
+        panelBody.classList.remove("menuPanelBody--shots");
+        panelBody.innerHTML = renderFlatMenu(mapItemsForMode(content, mode));
+        return;
+      }
+
+      panelBody.classList.remove("menuPanelBody--shots");
+      panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        activateButton(button);
+      });
+    });
+
+    renderDashboard(panelBody);
   }
 
   function activateDay(day) {
