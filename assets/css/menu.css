@@ -15,14 +15,47 @@ html{
 
 .menu-page{
   background:
-    radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.10), transparent 60%),
-    radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.08), transparent 55%),
-    linear-gradient(180deg,var(--bg),var(--bg2));
+    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
+    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
+    radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
+    linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
   color:#fff;
 }
 
+html,
+body{
+  overflow-x:hidden;
+}
+
 .menuWrap{
-  padding:0 0 80px;
+  padding:0 0 90px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  backdrop-filter:blur(10px);
+  background:rgba(8,8,12,.72);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.header__inner{
+  min-height:76px;
+}
+
+.brand{
+  letter-spacing:-.01em;
+  font-weight:900;
+}
+
+.nav__list a{
+  transition:color .2s ease, opacity .2s ease;
+}
+
+.nav__list a:hover{
+  color:var(--gold2);
 }
 
 /* =========================
@@ -30,6 +63,8 @@ html{
 ========================= */
 
 .menuHero{
+  position:relative;
+  overflow:hidden;
   padding:10px 0 12px;
 }
 
@@ -61,6 +96,7 @@ html{
 
 .menuHero--premium{
   position:relative;
+  isolation:isolate;
   overflow:hidden;
   min-height:100vh;
   display:flex;
@@ -81,6 +117,33 @@ html{
   pointer-events:none;
 }
 
+.menuHero--premium::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 20%),
+    radial-gradient(circle at 18% 26%, rgba(255,220,140,.10), transparent 28%),
+    radial-gradient(circle at 80% 18%, rgba(120,90,255,.10), transparent 24%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.menuHero__grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1.2fr .9fr;
+  gap:22px;
+  align-items:center;
+}
+
+.menuHero__content,
+.menuHero__cards{
+  position:relative;
+  z-index:1;
+}
+
 .menuHero__eyebrow{
   position:relative;
   display:inline-block;
@@ -92,23 +155,16 @@ html{
   color:rgba(255,255,255,.70);
 }
 
-.menuHero__grid{
-  position:relative;
-  display:grid;
-  grid-template-columns:1.2fr .9fr;
-  gap:22px;
-  align-items:center;
-}
-
 .menuHero__content{
-  border:1px solid rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
   background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
   border-radius:28px;
   padding:32px;
   box-shadow:
-    0 24px 60px rgba(0,0,0,.28),
-    0 0 0 1px rgba(215,180,106,.05);
+    0 30px 90px rgba(0,0,0,.34),
+    0 0 0 1px rgba(215,180,106,.05),
+    inset 0 1px 0 rgba(255,255,255,.05);
   backdrop-filter:blur(12px);
 }
 
@@ -117,6 +173,9 @@ html{
   font-size:clamp(46px, 6vw, 76px);
   line-height:.95;
   letter-spacing:-.05em;
+  text-shadow:
+    0 0 22px rgba(255,255,255,.04),
+    0 0 36px rgba(215,180,106,.06);
 }
 
 .menuHero__content p{
@@ -132,17 +191,21 @@ html{
   align-items:center;
   justify-content:center;
   text-decoration:none;
+  min-width:140px;
   padding:12px 16px;
   border-radius:12px;
   border:1px solid rgba(255,255,255,.12);
   background:rgba(255,255,255,.04);
   color:#fff;
   font-weight:900;
+  letter-spacing:.01em;
+  box-shadow:0 14px 30px rgba(0,0,0,.18);
   transition:
     transform .18s ease,
     border-color .18s ease,
     background .18s ease,
-    color .18s ease;
+    color .18s ease,
+    box-shadow .18s ease;
 }
 
 .menuHeroViewBtn:hover{
@@ -158,12 +221,14 @@ html{
 }
 
 .menuHeroCard{
-  border:1px solid rgba(215,180,106,.16);
+  border:1px solid rgba(255,255,255,.10);
   background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
   border-radius:22px;
   padding:20px;
-  box-shadow:0 16px 40px rgba(0,0,0,.22);
+  box-shadow:
+    0 20px 56px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.04);
   transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
 }
 
@@ -188,6 +253,7 @@ html{
 .menuHeroCard__value{
   font-size:24px;
   font-weight:950;
+  letter-spacing:-.03em;
   color:#fff;
   margin-bottom:6px;
 }
@@ -204,11 +270,11 @@ html{
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  background:var(--gold);
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
   color:#111;
   font-weight:900;
   border-radius:12px;
-  transition:transform .18s ease, opacity .18s ease;
+  transition:transform .18s ease, opacity .18s ease, box-shadow .18s ease;
 }
 
 .reserveTop:hover,
@@ -218,7 +284,14 @@ html{
 }
 
 .reserveTop{
+  min-width:140px;
+  letter-spacing:.01em;
   padding:12px 16px;
+  box-shadow:0 14px 30px rgba(0,0,0,.18);
+}
+
+.reserveTop:hover{
+  box-shadow:0 18px 36px rgba(215,180,106,.22);
 }
 
 .reserveInline{
@@ -227,8 +300,162 @@ html{
 }
 
 /* =========================
-   TOP INFO / TABS
+   HOMEPAGE EXPERIENCE
 ========================= */
+
+.allureExperience{
+  position:relative;
+  padding:72px 0 90px;
+}
+
+.allureSectionHead{
+  max-width:900px;
+  margin:0 auto 28px;
+  text-align:center;
+}
+
+.allureSectionEyebrow{
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.allureSectionHead h2{
+  margin:0 0 12px;
+  font-size:clamp(32px,4vw,52px);
+  line-height:1.02;
+  letter-spacing:-.04em;
+}
+
+.allureSectionHead p{
+  margin:0 auto;
+  max-width:760px;
+  color:rgba(255,255,255,.76);
+  line-height:1.8;
+  font-size:15px;
+}
+
+.allureExperienceGrid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:16px;
+  margin-top:28px;
+}
+
+.allureExperienceCard{
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+  border-radius:24px;
+  padding:24px;
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  transition:
+    transform .28s ease,
+    border-color .28s ease,
+    box-shadow .28s ease;
+}
+
+.allureExperienceCard:hover{
+  transform:translateY(-4px);
+  border-color:rgba(215,180,106,.24);
+  box-shadow:
+    0 26px 56px rgba(0,0,0,.28),
+    0 0 0 1px rgba(215,180,106,.06);
+}
+
+.allureExperienceCard__icon{
+  font-size:26px;
+  margin-bottom:12px;
+}
+
+.allureExperienceCard h3{
+  margin:0 0 8px;
+  font-size:20px;
+  font-weight:900;
+}
+
+.allureExperienceCard p{
+  margin:0;
+  color:rgba(255,255,255,.72);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.allureMomentsStrip{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  margin-top:22px;
+}
+
+.allureMoment{
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  border-radius:18px;
+  padding:14px 16px;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+.allureMoment__label{
+  display:block;
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.allureMoment__text{
+  color:rgba(255,255,255,.80);
+  font-size:14px;
+  font-weight:700;
+}
+
+/* =========================
+   MENU PAGE INTRO STRIP
+========================= */
+
+.menuWelcomeStrip{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  margin:20px 0 24px;
+}
+
+.menuWelcomeStrip__item{
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  border-radius:18px;
+  padding:14px 16px;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.menuWelcomeStrip__label{
+  display:block;
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.menuWelcomeStrip__text{
+  color:rgba(255,255,255,.78);
+  font-size:14px;
+  line-height:1.5;
+}
 
 .menuInfoStrip{
   display:grid;
@@ -238,10 +465,14 @@ html{
 }
 
 .menuInfoStrip__item{
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.10);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
   border-radius:16px;
   padding:14px 16px;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.03);
 }
 
 .menuInfoStrip__title{
@@ -265,6 +496,10 @@ html{
   height:30px;
   margin-top:10px;
 }
+
+/* =========================
+   DAY TABS
+========================= */
 
 .dayTabs{
   display:flex;
@@ -299,6 +534,10 @@ html{
   font-weight:800;
   font-size:14px;
   cursor:pointer;
+  backdrop-filter:blur(10px);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
   transition:all .18s ease;
 }
 
@@ -311,7 +550,10 @@ html{
   background:rgba(215,180,106,.14);
   border-color:rgba(215,180,106,.40);
   color:var(--gold2);
-  box-shadow:0 10px 30px rgba(215,180,106,.10);
+  box-shadow:
+    0 12px 32px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
 }
 
 /* =========================
@@ -324,18 +566,7 @@ html{
 
 .dayPanel.active{
   display:block;
-  animation:menuSectionReveal .45s ease;
-}
-
-@keyframes menuSectionReveal{
-  from{
-    opacity:0;
-    transform:translateY(8px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  animation:allureSoftReveal .45s ease both;
 }
 
 .heroRow{
@@ -351,6 +582,16 @@ html{
   font-weight:950;
   line-height:1;
   letter-spacing:-.02em;
+}
+
+.dayName::after{
+  content:"";
+  display:block;
+  width:68px;
+  height:2px;
+  margin-top:10px;
+  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
+  border-radius:999px;
 }
 
 .daySub{
@@ -432,8 +673,9 @@ html{
 
 .menuCenterBtn{
   appearance:none;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
   color:#fff;
   min-height:42px;
   padding:8px 8px;
@@ -441,32 +683,58 @@ html{
   font-weight:800;
   font-size:13px;
   cursor:pointer;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
   transition:all .18s ease;
-  box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
 
 .menuCenterBtn:hover{
   border-color:rgba(215,180,106,.34);
   color:var(--gold2);
   background:rgba(215,180,106,.08);
+  box-shadow:
+    0 16px 32px rgba(0,0,0,.20),
+    0 0 0 1px rgba(215,180,106,.05);
 }
 
 .menuCenterBtn.active{
   border-color:rgba(215,180,106,.44);
   background:rgba(215,180,106,.15);
   color:var(--gold2);
-  box-shadow:0 12px 30px rgba(215,180,106,.08);
+  box-shadow:
+    0 16px 38px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
 }
 
 .menuBigPanel{
   position:relative;
   border-radius:24px;
-  background:var(--panel);
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow:var(--shadow);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.24),
+    0 0 0 1px rgba(255,255,255,.02),
+    inset 0 1px 0 rgba(255,255,255,.04);
   backdrop-filter:blur(10px);
   padding:16px;
   min-height:250px;
+}
+
+.menuBigPanel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,.035) 18%,
+    transparent 38%
+  );
+  pointer-events:none;
 }
 
 .menuPanelTitle{
@@ -647,6 +915,9 @@ html{
   border-radius:16px;
   padding:12px 14px;
   backdrop-filter:blur(8px);
+  box-shadow:
+    0 14px 32px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.03);
 }
 
 .menuEmptyDashboardStatNum{
@@ -677,6 +948,9 @@ html{
   border-radius:18px;
   padding:14px;
   min-height:120px;
+  box-shadow:
+    0 14px 32px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.03);
   transition:
     transform .22s ease,
     border-color .22s ease,
@@ -834,7 +1108,7 @@ html{
   align-items:flex-start;
   gap:16px;
   padding:12px 14px;
-  border-bottom:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,.07);
   border-radius:12px;
   transition:
     background .22s ease,
@@ -879,7 +1153,7 @@ html{
 }
 
 .menuItem:hover{
-  background:rgba(215,180,106,.08);
+  background:linear-gradient(90deg, rgba(215,180,106,.08), rgba(255,255,255,.02));
   border-color:rgba(215,180,106,.25);
   box-shadow:
     0 0 0 1px rgba(215,180,106,.08),
@@ -1077,7 +1351,6 @@ html{
   filter:drop-shadow(0 0 6px rgba(215,180,106,.25));
 }
 
-/* grouped color accents */
 .menuGrouped__box:nth-child(1){
   border-color:rgba(215,180,106,.52);
   background:
@@ -1127,7 +1400,6 @@ html{
   text-shadow:0 0 10px rgba(215,180,106,.35);
 }
 
-/* premium hookah smoke shimmer */
 .menuGrouped__box:first-child::after{
   content:"";
   position:absolute;
@@ -1514,6 +1786,96 @@ html{
 }
 
 /* =========================
+   SHOTS LAYOUT (FIXED)
+========================= */
+
+.menuPanelBody--shots{
+  overflow-y:auto;
+}
+
+.menuPanelBody--shots .menuSubTabs{
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.menuPanelBody--shots .menuSubTab{
+  padding:8px 12px;
+  font-size:13px;
+  font-weight:800;
+}
+
+.menuPanelBody--shots .menuSectionBlock{
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  height:auto;
+}
+
+.menuPanelBody--shots .menuSectionBlock:hover{
+  border:none;
+  background:transparent;
+  box-shadow:none;
+}
+
+.menuPanelBody--shots .menuList{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px 22px;
+}
+
+.menuPanelBody--shots .menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:transparent;
+  box-shadow:none;
+  transform:none;
+  min-height:auto;
+}
+
+.menuPanelBody--shots .menuItem:last-child{
+  border-bottom:none;
+}
+
+.menuPanelBody--shots .menuItem:hover{
+  background:transparent;
+  transform:none;
+  box-shadow:none;
+}
+
+.menuPanelBody--shots .menuItem__left{
+  flex:1 1 auto;
+  min-width:0;
+}
+
+.menuPanelBody--shots .menuItem__name{
+  font-size:14px;
+  font-weight:800;
+  line-height:1.3;
+}
+
+.menuPanelBody--shots .menuItem__desc{
+  font-size:11px;
+  margin-top:2px;
+  opacity:.75;
+  line-height:1.25;
+}
+
+.menuPanelBody--shots .menuItem__price{
+  display:block;
+  font-size:13px;
+  font-weight:900;
+  color:var(--gold2);
+  white-space:nowrap;
+  text-align:right;
+  min-width:56px;
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 
@@ -1541,9 +1903,15 @@ html{
     grid-template-columns:1fr;
   }
 
-  .menuInfoStrip{
+  .menuInfoStrip,
+  .allureExperienceGrid,
+  .allureMomentsStrip,
+  .menuWelcomeStrip{
     grid-template-columns:1fr;
-    margin:0 0 28px;
+  }
+
+  .allureSectionHead{
+    text-align:left;
   }
 
   .menuStartAnchor{
@@ -1590,8 +1958,8 @@ html{
   }
 
   .menuPanelBody--shots .menuList{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:6px 14px;
+    grid-template-columns:1fr;
+    gap:8px;
   }
 }
 
@@ -1656,224 +2024,11 @@ html{
   .menuEmpty--dashboard{
     padding:16px;
   }
-
-  .menuPanelBody--shots .menuList{
-    grid-template-columns:1fr;
-  }
 }
 
-
-/* =========================================
-   $50K HOSPITALITY UPGRADE — SAFE LAYER
-   Add at bottom of menu.css
-========================================= */
-
-/* Global luxury polish */
-.menu-page{
-  background:
-    radial-gradient(1200px 700px at 10% 8%, rgba(215,180,106,.12), transparent 58%),
-    radial-gradient(1000px 600px at 85% 12%, rgba(120,90,255,.10), transparent 52%),
-    radial-gradient(900px 500px at 50% 100%, rgba(255,255,255,.03), transparent 45%),
-    linear-gradient(180deg, #06060a 0%, #090910 48%, #06060a 100%);
-}
-
-/* Better container feel */
-.menuWrap{
-  padding:0 0 90px;
-}
-
-/* Premium hero atmosphere */
-.menuHero--premium{
-  position:relative;
-  isolation:isolate;
-}
-
-.menuHero--premium::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.02), transparent 18%),
-    radial-gradient(circle at 22% 28%, rgba(255,215,140,.10), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(120,90,255,.10), transparent 24%);
-  pointer-events:none;
-  z-index:0;
-}
-
-.menuHero__grid,
-.menuHero__content,
-.menuHero__cards{
-  position:relative;
-  z-index:1;
-}
-
-.menuHero__content{
-  border:1px solid rgba(255,255,255,.10);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.34),
-    0 0 0 1px rgba(215,180,106,.05),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuHero__content h1{
-  text-shadow:
-    0 0 18px rgba(255,255,255,.04),
-    0 0 32px rgba(215,180,106,.06);
-}
-
-.menuHeroCard{
-  border:1px solid rgba(255,255,255,.10);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.24),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-/* Stronger premium info strip */
-.menuInfoStrip__item{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-/* Day tabs feel more upscale */
-.dayTab{
-  backdrop-filter:blur(10px);
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.dayTab.active{
-  box-shadow:
-    0 12px 32px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-/* Live hospitality glass panels */
-.menuBigPanel{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.24),
-    0 0 0 1px rgba(255,255,255,.02),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuBigPanel::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:24px;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.035) 18%,
-    transparent 38%
-  );
-  pointer-events:none;
-}
-
-/* Buttons feel more expensive */
-.menuCenterBtn{
-  border:1px solid rgba(255,255,255,.12);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.menuCenterBtn:hover{
-  box-shadow:
-    0 16px 32px rgba(0,0,0,.20),
-    0 0 0 1px rgba(215,180,106,.05);
-}
-
-.menuCenterBtn.active{
-  box-shadow:
-    0 16px 38px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-/* Premium list treatment */
-.menuItem{
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-
-.menuItem:hover{
-  background:
-    linear-gradient(90deg, rgba(215,180,106,.08), rgba(255,255,255,.02));
-}
-
-/* Better dashboard cards */
-.menuEmptyDashboardCard,
-.menuEmptyDashboardStat{
-  box-shadow:
-    0 14px 32px rgba(0,0,0,.16),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-/* Elegant motion */
-.menuHeroCard,
-.menuInfoStrip__item,
-.menuCenterBtn,
-.menuBigPanel,
-.menuItem,
-.menuEmptyDashboardCard{
-  transition:
-    transform .28s ease,
-    box-shadow .28s ease,
-    border-color .28s ease,
-    background .28s ease,
-    color .28s ease;
-}
-
-/* Small luxury line under day section titles */
-.dayName::after{
-  content:"";
-  display:block;
-  width:68px;
-  height:2px;
-  margin-top:10px;
-  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
-  border-radius:999px;
-}
-
-/* Premium CTA buttons */
-.reserveTop,
-.menuHeroViewBtn{
-  min-width:140px;
-  letter-spacing:.01em;
-  box-shadow:
-    0 14px 30px rgba(0,0,0,.18);
-}
-
-.reserveTop{
-  background:linear-gradient(135deg, #d7b46a, #f2d38a);
-}
-
-.reserveTop:hover{
-  box-shadow:
-    0 18px 36px rgba(215,180,106,.22);
-}
-
-/* Sophisticated reveal animation */
-.dayPanel.active .menuBigPanel,
-.dayPanel.active .menuInfoStrip__item,
-.dayPanel.active .popularTonight,
-.dayPanel.active .vipNightBannerFloating{
-  animation:allureSoftReveal .45s ease both;
-}
+/* =========================
+   REVEAL
+========================= */
 
 @keyframes allureSoftReveal{
   from{
@@ -1883,605 +2038,5 @@ html{
   to{
     opacity:1;
     transform:translateY(0);
-  }
-}
-/* =========================================
-   $50K HOSPITALITY UPGRADE — PHASE 1
-========================================= */
-
-.menu-page{
-  background:
-    radial-gradient(1200px 700px at 10% 8%, rgba(215,180,106,.12), transparent 58%),
-    radial-gradient(1000px 600px at 85% 12%, rgba(120,90,255,.10), transparent 52%),
-    radial-gradient(900px 500px at 50% 100%, rgba(255,255,255,.03), transparent 45%),
-    linear-gradient(180deg, #06060a 0%, #090910 48%, #06060a 100%);
-}
-
-.menuWrap{
-  padding:0 0 90px;
-}
-
-.menuHero--premium{
-  position:relative;
-  isolation:isolate;
-}
-
-.menuHero--premium::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.02), transparent 18%),
-    radial-gradient(circle at 22% 28%, rgba(255,215,140,.10), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(120,90,255,.10), transparent 24%);
-  pointer-events:none;
-  z-index:0;
-}
-
-.menuHero__grid,
-.menuHero__content,
-.menuHero__cards{
-  position:relative;
-  z-index:1;
-}
-
-.menuHero__content{
-  border:1px solid rgba(255,255,255,.10);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.34),
-    0 0 0 1px rgba(215,180,106,.05),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuHero__content h1{
-  text-shadow:
-    0 0 18px rgba(255,255,255,.04),
-    0 0 32px rgba(215,180,106,.06);
-}
-
-.menuHeroCard{
-  border:1px solid rgba(255,255,255,.10);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.24),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuInfoStrip__item{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.dayTab{
-  backdrop-filter:blur(10px);
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.dayTab.active{
-  box-shadow:
-    0 12px 32px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuBigPanel{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.24),
-    0 0 0 1px rgba(255,255,255,.02),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuBigPanel::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:24px;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.035) 18%,
-    transparent 38%
-  );
-  pointer-events:none;
-}
-
-.menuCenterBtn{
-  border:1px solid rgba(255,255,255,.12);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.menuCenterBtn:hover{
-  box-shadow:
-    0 16px 32px rgba(0,0,0,.20),
-    0 0 0 1px rgba(215,180,106,.05);
-}
-
-.menuCenterBtn.active{
-  box-shadow:
-    0 16px 38px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuItem{
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-
-.menuItem:hover{
-  background:
-    linear-gradient(90deg, rgba(215,180,106,.08), rgba(255,255,255,.02));
-}
-
-.menuEmptyDashboardCard,
-.menuEmptyDashboardStat{
-  box-shadow:
-    0 14px 32px rgba(0,0,0,.16),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.menuHeroCard,
-.menuInfoStrip__item,
-.menuCenterBtn,
-.menuBigPanel,
-.menuItem,
-.menuEmptyDashboardCard{
-  transition:
-    transform .28s ease,
-    box-shadow .28s ease,
-    border-color .28s ease,
-    background .28s ease,
-    color .28s ease;
-}
-
-.dayName::after{
-  content:"";
-  display:block;
-  width:68px;
-  height:2px;
-  margin-top:10px;
-  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
-  border-radius:999px;
-}
-
-.reserveTop,
-.menuHeroViewBtn{
-  min-width:140px;
-  letter-spacing:.01em;
-  box-shadow:
-    0 14px 30px rgba(0,0,0,.18);
-}
-
-.reserveTop{
-  background:linear-gradient(135deg, #d7b46a, #f2d38a);
-}
-
-.reserveTop:hover{
-  box-shadow:
-    0 18px 36px rgba(215,180,106,.22);
-}
-
-.dayPanel.active .menuBigPanel,
-.dayPanel.active .menuInfoStrip__item,
-.dayPanel.active .popularTonight,
-.dayPanel.active .vipNightBannerFloating{
-  animation:allureSoftReveal .45s ease both;
-}
-
-@keyframes allureSoftReveal{
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-/* =========================================
-   ALLURE LUXURY MASTER UPGRADE
-========================================= */
-
-/* Better page atmosphere */
-.menu-page{
-  background:
-    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
-    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
-    radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
-    linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
-  color:#fff;
-}
-
-/* Header polish */
-.header{
-  backdrop-filter: blur(10px);
-  background: rgba(8,8,12,.72);
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-
-.header__inner{
-  min-height: 76px;
-}
-
-.brand{
-  letter-spacing: -.01em;
-  font-weight: 900;
-}
-
-.nav__list a{
-  transition: color .2s ease, opacity .2s ease;
-}
-
-.nav__list a:hover{
-  color: var(--gold2);
-}
-
-/* Homepage hero refinement */
-.menuHero--premium{
-  position: relative;
-  isolation: isolate;
-}
-
-.menuHero--premium::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.02), transparent 20%),
-    radial-gradient(circle at 18% 26%, rgba(255,220,140,.10), transparent 28%),
-    radial-gradient(circle at 80% 18%, rgba(120,90,255,.10), transparent 24%);
-  pointer-events:none;
-  z-index:0;
-}
-
-.menuHero__grid,
-.menuHero__content,
-.menuHero__cards{
-  position:relative;
-  z-index:1;
-}
-
-.menuHero__content{
-  border:1px solid rgba(255,255,255,.10);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
-  box-shadow:
-    0 30px 90px rgba(0,0,0,.34),
-    0 0 0 1px rgba(215,180,106,.05),
-    inset 0 1px 0 rgba(255,255,255,.05);
-}
-
-.menuHero__content h1{
-  text-shadow:
-    0 0 22px rgba(255,255,255,.04),
-    0 0 36px rgba(215,180,106,.06);
-}
-
-.menuHeroCard{
-  border:1px solid rgba(255,255,255,.10);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
-  box-shadow:
-    0 20px 56px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuHeroCard__value{
-  letter-spacing:-.03em;
-}
-
-/* Buttons feel more premium */
-.reserveTop,
-.menuHeroViewBtn,
-.btn--primary{
-  box-shadow:
-    0 14px 30px rgba(0,0,0,.18);
-}
-
-.reserveTop,
-.btn--primary{
-  background: linear-gradient(135deg, #d7b46a, #f2d38a);
-}
-
-.reserveTop:hover,
-.btn--primary:hover{
-  box-shadow:
-    0 18px 40px rgba(215,180,106,.24);
-}
-
-/* Homepage experience section */
-.allureExperience{
-  position:relative;
-  padding:72px 0 90px;
-}
-
-.allureSectionHead{
-  max-width:900px;
-  margin:0 auto 28px;
-  text-align:center;
-}
-
-.allureSectionEyebrow{
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  margin-bottom:10px;
-}
-
-.allureSectionHead h2{
-  margin:0 0 12px;
-  font-size:clamp(32px,4vw,52px);
-  line-height:1.02;
-  letter-spacing:-.04em;
-}
-
-.allureSectionHead p{
-  margin:0 auto;
-  max-width:760px;
-  color:rgba(255,255,255,.76);
-  line-height:1.8;
-  font-size:15px;
-}
-
-.allureExperienceGrid{
-  display:grid;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
-  gap:16px;
-  margin-top:28px;
-}
-
-.allureExperienceCard{
-  border:1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-  border-radius:24px;
-  padding:24px;
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.22),
-    inset 0 1px 0 rgba(255,255,255,.03);
-  transition:
-    transform .28s ease,
-    border-color .28s ease,
-    box-shadow .28s ease;
-}
-
-.allureExperienceCard:hover{
-  transform:translateY(-4px);
-  border-color:rgba(215,180,106,.24);
-  box-shadow:
-    0 26px 56px rgba(0,0,0,.28),
-    0 0 0 1px rgba(215,180,106,.06);
-}
-
-.allureExperienceCard__icon{
-  font-size:26px;
-  margin-bottom:12px;
-}
-
-.allureExperienceCard h3{
-  margin:0 0 8px;
-  font-size:20px;
-  font-weight:900;
-}
-
-.allureExperienceCard p{
-  margin:0;
-  color:rgba(255,255,255,.72);
-  line-height:1.7;
-  font-size:14px;
-}
-
-.allureMomentsStrip{
-  display:grid;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
-  gap:12px;
-  margin-top:22px;
-}
-
-.allureMoment{
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.03);
-  border-radius:18px;
-  padding:14px 16px;
-  box-shadow:
-    0 14px 30px rgba(0,0,0,.16),
-    inset 0 1px 0 rgba(255,255,255,.02);
-}
-
-.allureMoment__label{
-  display:block;
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-
-.allureMoment__text{
-  color:rgba(255,255,255,.80);
-  font-size:14px;
-  font-weight:700;
-}
-
-/* Menu page intro strip */
-.menuWelcomeStrip{
-  display:grid;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
-  gap:12px;
-  margin:20px 0 24px;
-}
-
-.menuWelcomeStrip__item{
-  border:1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-  border-radius:18px;
-  padding:14px 16px;
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.menuWelcomeStrip__label{
-  display:block;
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-
-.menuWelcomeStrip__text{
-  color:rgba(255,255,255,.78);
-  font-size:14px;
-  line-height:1.5;
-}
-
-/* Existing info strip feels richer */
-.menuInfoStrip__item{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-/* Tabs and menu panels */
-.dayTab{
-  backdrop-filter:blur(10px);
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.dayTab.active{
-  box-shadow:
-    0 12px 32px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuBigPanel{
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.24),
-    0 0 0 1px rgba(255,255,255,.02),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuBigPanel::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:24px;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.035) 18%,
-    transparent 38%
-  );
-  pointer-events:none;
-}
-
-.menuCenterBtn{
-  border:1px solid rgba(255,255,255,.12);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.menuCenterBtn:hover{
-  box-shadow:
-    0 16px 32px rgba(0,0,0,.20),
-    0 0 0 1px rgba(215,180,106,.05);
-}
-
-.menuCenterBtn.active{
-  box-shadow:
-    0 16px 38px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-/* Section name underline */
-.dayName::after{
-  content:"";
-  display:block;
-  width:68px;
-  height:2px;
-  margin-top:10px;
-  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
-  border-radius:999px;
-}
-
-/* Better reveal feel */
-.menuHeroCard,
-.allureExperienceCard,
-.allureMoment,
-.menuWelcomeStrip__item,
-.menuInfoStrip__item,
-.menuCenterBtn,
-.menuBigPanel,
-.menuItem,
-.menuEmptyDashboardCard{
-  transition:
-    transform .28s ease,
-    box-shadow .28s ease,
-    border-color .28s ease,
-    background .28s ease,
-    color .28s ease;
-}
-
-.dayPanel.active .menuBigPanel,
-.dayPanel.active .popularTonight,
-.dayPanel.active .vipNightBannerFloating{
-  animation:allureSoftReveal .45s ease both;
-}
-
-@keyframes allureSoftReveal{
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* Mobile */
-@media (max-width:920px){
-  .allureExperienceGrid,
-  .allureMomentsStrip,
-  .menuWelcomeStrip{
-    grid-template-columns:1fr;
-  }
-
-  .allureSectionHead{
-    text-align:left;
   }
 }
