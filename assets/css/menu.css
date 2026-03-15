@@ -2130,3 +2130,137 @@ MOBILE OPTIMIZATION
   }
 
 }
+/* =========================================
+   CLEAN LUXURY MENU LIST
+   Removes item boxes and divider lines
+========================================= */
+
+.menuPanelBody .menuList,
+.menuSectionBlock .menuList,
+.menuGrouped__box .menuList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 34px;
+}
+
+.menuPanelBody .menuItem,
+.menuSectionBlock .menuItem,
+.menuGrouped__box .menuItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 4px 0;
+  margin: 0;
+  border: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  transform: none !important;
+}
+
+.menuPanelBody .menuItem:hover,
+.menuSectionBlock .menuItem:hover,
+.menuGrouped__box .menuItem:hover {
+  border: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.menuPanelBody .menuItem__left,
+.menuSectionBlock .menuItem__left,
+.menuGrouped__box .menuItem__left {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.menuPanelBody .menuItem__name,
+.menuSectionBlock .menuItem__name,
+.menuGrouped__box .menuItem__name {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #fff;
+  margin: 0;
+}
+
+.menuPanelBody .menuItem__desc,
+.menuSectionBlock .menuItem__desc,
+.menuGrouped__box .menuItem__desc {
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: rgba(255,255,255,.62);
+}
+
+.menuPanelBody .menuItem__price,
+.menuSectionBlock .menuItem__price,
+.menuGrouped__box .menuItem__price {
+  flex: 0 0 auto;
+  min-width: 42px;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--gold2);
+  margin-left: 12px;
+}
+
+.menuPanelBody .menuItem:hover .menuItem__name,
+.menuSectionBlock .menuItem:hover .menuItem__name,
+.menuGrouped__box .menuItem:hover .menuItem__name {
+  color: #fff;
+}
+
+.menuPanelBody .menuItem:hover .menuItem__price,
+.menuSectionBlock .menuItem:hover .menuItem__price,
+.menuGrouped__box .menuItem:hover .menuItem__price {
+  text-shadow: none;
+}
+
+/* grouped boxes stay, but cleaner inside */
+.menuGrouped__box {
+  padding: 14px 16px;
+}
+
+.menuGrouped__box .menuList {
+  gap: 8px;
+}
+
+/* tighter inner sections */
+.menuSectionBlock {
+  padding: 10px 0 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.menuSectionBlock:hover {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* compact sub tabs */
+.menuSubTabs {
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.menuSubTab {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* mobile */
+@media (max-width: 920px) {
+  .menuPanelBody .menuList,
+  .menuSectionBlock .menuList,
+  .menuGrouped__box .menuList {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
