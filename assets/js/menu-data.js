@@ -16,7 +16,7 @@ window.MENU_CATEGORY_CONTENT = {
       },
       {
         title: "Wings",
-        layout: "wingsGrouped",
+        layout: "grouped",
         groups: [
           {
             title: "With Fries",
@@ -84,7 +84,7 @@ window.MENU_CATEGORY_CONTENT = {
       },
       {
         title: "Wing Flavors",
-        layout: "wingsGrouped",
+        layout: "grouped",
         groups: [
           {
             title: "Dry",
@@ -120,9 +120,9 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Belvedere", price: "$5 / $10" },
           { name: "Ciroc", price: "$5 / $10" },
           { name: "Grey Goose", price: "$5 / $10" },
-          { name: "Kettle One", price: "$5 / $10" },
+          { name: "Ketel One", price: "$5 / $10" },
           { name: "Stoli Orange", price: "$5 / $10" },
-          { name: "Titos", price: "$5 / $10" }
+          { name: "Tito's", price: "$5 / $10" }
         ]
       },
       {
@@ -141,10 +141,10 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Whiskey",
         items: [
+          { name: "Jameson", price: "$5 / $10" },
           { name: "Jack Daniel's", price: "$5 / $10" },
-          { name: "Jim Beam", price: "$5 / $10" },
-          { name: "Evan Williams", price: "$5 / $10" },
-          { name: "Canadian Club", price: "$5 / $10" }
+          { name: "Crown Royal", price: "$5 / $10" },
+          { name: "Jim Beam", price: "$5 / $10" }
         ]
       },
       {
@@ -160,15 +160,14 @@ window.MENU_CATEGORY_CONTENT = {
         items: [
           { name: "Bombay", price: "$5 / $10" },
           { name: "Tanqueray", price: "$5 / $10" },
-          { name: "Gordon's", price: "$5 / $10" }
+          { name: "Beefeater", price: "$5 / $10" }
         ]
       },
       {
         title: "Cognac",
         items: [
           { name: "Hennessy", price: "$5 / $10" },
-          { name: "E&J", price: "$5 / $10" },
-          { name: "Paul Masson", price: "$5 / $10" }
+          { name: "D’usse", price: "$5 / $10" }
         ]
       }
     ]
@@ -204,6 +203,28 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Crown Royal", price: "$7 / $14" },
           { name: "Maker's Mark", price: "$7 / $14" }
         ]
+      },
+      {
+        title: "Rum",
+        items: [
+          { name: "Bacardi Superior", price: "$7 / $14" },
+          { name: "Captain Morgan", price: "$7 / $14" },
+          { name: "Malibu", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Gin",
+        items: [
+          { name: "Bombay Sapphire", price: "$7 / $14" },
+          { name: "Tanqueray", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Cognac",
+        items: [
+          { name: "Hennessy", price: "$7 / $14" },
+          { name: "D’usse", price: "$7 / $14" }
+        ]
       }
     ]
   },
@@ -218,7 +239,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Casamigos Reposado", price: "$12 / $20" },
           { name: "Patron Reposado", price: "$12 / $20" },
           { name: "Hennessy VSOP", price: "$12 / $20" },
-          { name: "D'usse", price: "$12 / $20" }
+          { name: "D’usse", price: "$12 / $20" }
         ]
       },
       {
@@ -229,7 +250,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Casamigos Cocktail", price: "$20" },
           { name: "Patron Cocktail", price: "$20" },
           { name: "Hennessy VSOP Cocktail", price: "$20" },
-          { name: "D'usse Cocktail", price: "$20" }
+          { name: "D’usse Cocktail", price: "$20" }
         ]
       }
     ]
@@ -298,58 +319,22 @@ window.MENU_CATEGORY_CONTENT = {
   hookah23: {
     sections: [
       {
-        title: "$23 Hookah Lounge",
-        layout: "wingsGrouped",
-        groups: [
-          {
-            title: "Premium Gold (+$2)",
-            items: [
-              { name: "Bluemist", desc: "Premium", price: "$25" },
-              { name: "Lady Killer", desc: "Premium", price: "$25" },
-              { name: "Love 66", desc: "Premium", price: "$25" },
-              { name: "Magic Love", desc: "Premium", price: "$25" }
-            ]
-          },
-          {
-            title: "Classic Flavors",
-            items: [
-              { name: "Blueberry", price: "$23" },
-              { name: "BMW", price: "$23" },
-              { name: "Mint", price: "$23" },
-              { name: "Watermelon", price: "$23" },
-              { name: "Gum Mint", price: "$23" }
-            ]
-          }
+        title: "Classic Flavors",
+        items: [
+          { name: "Blueberry", price: "$23" },
+          { name: "BMW", price: "$23" },
+          { name: "Mint", price: "$23" },
+          { name: "Peach", price: "$23" },
+          { name: "Gum Mint", price: "$23" }
         ]
-      }
-    ]
-  },
-
-  hookahLate: {
-    sections: [
+      },
       {
-        title: "After 9 Hookah Lounge",
-        layout: "wingsGrouped",
-        groups: [
-          {
-            title: "Premium Gold",
-            items: [
-              { name: "Bluemist", desc: "Premium", price: "$35" },
-              { name: "Lady Killer", desc: "Premium", price: "$35" },
-              { name: "Love 66", desc: "Premium", price: "$35" },
-              { name: "Magic Love", desc: "Premium", price: "$35" }
-            ]
-          },
-          {
-            title: "Classic Flavors",
-            items: [
-              { name: "Blueberry", price: "$33" },
-              { name: "BMW", price: "$33" },
-              { name: "Mint", price: "$33" },
-              { name: "Watermelon", price: "$33" },
-              { name: "Gum Mint", price: "$33" }
-            ]
-          }
+        title: "Premium Gold (+$2)",
+        items: [
+          { name: "Bluemist", price: "$25" },
+          { name: "Lady Killer", price: "$25" },
+          { name: "Love 66", price: "$25" },
+          { name: "Magic Love", price: "$25" }
         ]
       }
     ]
@@ -387,13 +372,12 @@ window.MENU_CATEGORY_CONTENT = {
       }
     ]
   }
-
 };
 
 window.MENU_HIGHLIGHTS = {
   monday: [
     { name: "Salmon Sliders w/ Fries" },
-    { name: "Free Hookah Monday", special: "free-hookah" },
+    { name: "Free Hookah Monday" },
     { name: "Allure Lemon Drop" }
   ],
   tuesday: [
@@ -426,4 +410,35 @@ window.MENU_HIGHLIGHTS = {
     { name: "Fishbowl" },
     { name: "Allure Lemon Drop" }
   ]
+};
+
+window.ALLURE_LIVE_STATUS = {
+  monday: {
+    title: "Free Hookah Monday • Happy Hour All Night",
+    tags: ["Happy Hour All Night", "Free Hookah", "Cocktails", "Food"]
+  },
+  tuesday: {
+    title: "Happy Hour 5–9 • Late Night Lounge",
+    tags: ["Happy Hour 5–9", "Hookah Lounge", "Shots", "Late Night"]
+  },
+  wednesday: {
+    title: "Midweek Social • After 9 Vibes",
+    tags: ["Midweek Social", "Hookah", "High Noon", "Late Night"]
+  },
+  thursday: {
+    title: "Karaoke Thursday • Late Night Energy",
+    tags: ["Karaoke Night", "Happy Hour", "Hookah", "Late Night"]
+  },
+  friday: {
+    title: "VIP Friday • Tables • Bottle Service",
+    tags: ["VIP Night", "Bottle Service", "Hookah", "After 9"]
+  },
+  saturday: {
+    title: "VIP Saturday • Premium Nightlife",
+    tags: ["VIP Night", "Premium Drinks", "Hookah", "Tables"]
+  },
+  sunday: {
+    title: "Social Sunday • Happy Hour All Night",
+    tags: ["Happy Hour All Night", "Hookah", "Fishbowls", "Food"]
+  }
 };
