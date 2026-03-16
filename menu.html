@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/menu.css">
 </head>
-
 <body class="menu-page">
 
   <header class="header">
@@ -16,6 +15,7 @@
       <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
       <nav class="nav">
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
         <ul class="nav__list">
           <li><a href="menu.html" class="active">Menu</a></li>
           <li><a href="events.html">Events</a></li>
@@ -31,7 +31,7 @@
   <main class="menuWrap">
     <div class="container">
 
-      <section class="menuHero">
+      <section class="menuHeroSimple">
         <h1>Weekly Menu</h1>
         <p>Explore daily specials, cocktails, hookah, and food.</p>
       </section>
@@ -51,14 +51,19 @@
         </div>
       </section>
 
-      <section class="allureLiveBar">
-        <div class="allureLiveBar__left">
-          <span class="allureLiveBar__badge">Tonight at Allure</span>
-          <span class="allureLiveBar__status">Luxury Lounge Experience • Curated Cocktails • Premium Hookah • VIP Energy</span>
+      <section class="liveIndicator" id="liveIndicator">
+        <div class="liveIndicator__left">
+          <span class="liveDot"></span>
+          <div>
+            <div class="liveIndicator__eyebrow">Tonight at Allure</div>
+            <div class="liveIndicator__title" id="liveTitle">Live Tonight</div>
+          </div>
         </div>
 
-        <div class="allureLiveBar__right">
-          <a class="allureLiveBar__cta" href="tel:2022974949">Reserve Now</a>
+        <div class="liveIndicator__tags" id="liveTags">
+          <span class="liveTag">Happy Hour</span>
+          <span class="liveTag">Hookah Lounge</span>
+          <span class="liveTag">VIP Tables</span>
         </div>
       </section>
 
@@ -152,7 +157,7 @@
           <div class="menuCenterWrap">
             <div class="menuTopCategories">
               <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-              <button class="menuCenterBtn" type="button" data-cat="hookahLate">Hookah</button>
+              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
               <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
@@ -218,7 +223,7 @@
           <div class="menuCenterWrap">
             <div class="menuTopCategories">
               <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-              <button class="menuCenterBtn" type="button" data-cat="hookahLate">Hookah</button>
+              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
               <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
@@ -284,7 +289,7 @@
           <div class="menuCenterWrap">
             <div class="menuTopCategories">
               <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-              <button class="menuCenterBtn" type="button" data-cat="hookahLate">Hookah</button>
+              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
               <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
@@ -350,7 +355,7 @@
           <div class="menuCenterWrap">
             <div class="menuTopCategories">
               <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-              <button class="menuCenterBtn" type="button" data-cat="hookahLate">Hookah</button>
+              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
               <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
@@ -365,7 +370,7 @@
             </div>
 
             <div class="menuBottomCategories">
-              <button class="menuCenterBtn" type="button" data-cat="hookahLate">Hookah</button>
+              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
               <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
               <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
               <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
@@ -416,7 +421,7 @@
           <div class="menuCenterWrap">
             <div class="menuTopCategories">
               <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-              <button class="menuCenterBtn" type="button" data-cat="hookahLate">Hookah</button>
+              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
               <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
               <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
@@ -431,7 +436,7 @@
             </div>
 
             <div class="menuBottomCategories">
-              <button class="menuCenterBtn" type="button" data-cat="hookahLate">Hookah</button>
+              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
               <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
               <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
               <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
