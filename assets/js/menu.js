@@ -1,12 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
+  const ALLURE_LIVE_STATUS = window.ALLURE_LIVE_STATUS || {};
+
+  const navToggle = document.querySelector(".nav__toggle");
+  const navList = document.querySelector(".nav__list");
+
+  if (navToggle && navList) {
+    navToggle.addEventListener("click", () => {
+      const isOpen = navList.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navList.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navList.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
 
   function renderFlatMenu(items) {
     return `
-      <div class="menuList menuList--compact">
+      <div class="menuList">
         ${(items || []).map(item => `
-          <div class="menuItem menuItem--compact">
+          <div class="menuItem">
             <div class="menuItem__left">
               <div class="menuItem__name">${item.name || ""}</div>
               ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
@@ -20,44 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderGroupedMenu(section) {
     const groups = section.groups || [];
-    const hideMainTitle = ["Wings", "Wing Flavors", "Appetizers"].includes(section.title || "");
-
-    function getFlavorIcon(name) {
-      const label = String(name || "").toLowerCase();
-      if (label.includes("lemon pepper")) return "🌶️";
-      if (label.includes("jerk")) return "🔥";
-      if (label.includes("old bay")) return "🧂";
-      if (label.includes("honey")) return "🍯";
-      if (label.includes("buffalo")) return "🍗";
-      if (label.includes("sweet chili")) return "🌶️";
-      if (label.includes("teriyaki")) return "🥢";
-      if (label.includes("mumbo")) return "👑";
-      return "";
-    }
-
-    const isWingFlavors = (section.title || "").toLowerCase() === "wing flavors";
-
     return `
-      <div class="menuGrouped menuGrouped--compact">
-        ${hideMainTitle ? "" : `<div class="menuGrouped__title">${section.title || ""}</div>`}
+      <div class="menuGrouped">
+        ${section.title ? `<div class="menuGrouped__title">${section.title}</div>` : ""}
         <div class="menuGrouped__grid">
           ${groups.map(group => `
             <div class="menuGrouped__box">
               <div class="menuGrouped__boxTitle">${group.title || ""}</div>
-              <div class="menuList menuList--compact">
-                ${(group.items || []).map(item => `
-                  <div class="menuItem menuItem--compact">
-                    <div class="menuItem__left">
-                      <div class="menuItem__name">
-                        ${isWingFlavors ? `<span class="flavorIcon">${getFlavorIcon(item.name)}</span>` : ""}
-                        ${item.name || ""}
-                      </div>
-                      ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
-                    </div>
-                    <div class="menuItem__price">${item.price || ""}</div>
-                  </div>
-                `).join("")}
-              </div>
+              ${renderFlatMenu(group.items || [])}
             </div>
           `).join("")}
         </div>
@@ -74,8 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const parts = rawPrice.split("/").map(p => p.trim());
 
-      if (mode === "shots") return { ...item, price: parts[0] || rawPrice };
-      if (mode === "drinks") return { ...item, price: parts[1] || parts[0] || rawPrice };
+      if (mode === "shots") {
+        return { ...item, price: parts[0] || rawPrice };
+      }
+
+      if (mode === "drinks") {
+        return { ...item, price: parts[1] || parts[0] || rawPrice };
+      }
 
       return item;
     });
@@ -97,13 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function renderMenu(content) {
-    if (!content) return `<div class="menuEmpty">Click a category above or below to view menu items.</div>`;
-    if (Array.isArray(content)) return renderFlatMenu(content);
-    if (content.sections) return renderSectionedMenu(content);
-    return `<div class="menuEmpty">This section will be updated soon.</div>`;
-  }
-
   function renderHighlights(day, panel) {
     panel.querySelectorAll(".popularTonight").forEach(node => node.remove());
 
@@ -119,23 +105,18 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="popularTonight__title">🔥 Popular Tonight</div>
       <div class="popularTonight__grid">
         ${items.map(item => `
-          <div class="popularCard ${item.special === "free-hookah" ? "popularCard--freeHookah" : ""}">
-            <span class="${item.special === "free-hookah" ? "freeHookahText" : ""}">
-              ${item.name || ""}
-            </span>
-          </div>
+          <div class="popularCard">${item.name || ""}</div>
         `).join("")}
       </div>
     `;
+
     hero.after(section);
   }
 
   function renderVipNightBanner(day, panel) {
     panel.querySelectorAll(".vipNightBannerFloating").forEach(node => node.remove());
 
-    const titles = [...panel.querySelectorAll(".menuPanelTitle")].map(el => el.textContent.toLowerCase());
-    const hasAfter9 = titles.some(t => t.includes("after 9") || t.includes("vip night"));
-    if (!hasAfter9) return;
+    if (day !== "friday" && day !== "saturday") return;
 
     const hero = panel.querySelector(".heroRow");
     if (!hero) return;
@@ -147,7 +128,19 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="vipNightBannerFloating__title">Late Night Energy • Bottle Service • DJ Vibes</div>
       <div class="vipNightBannerFloating__meta">Premium cocktails • VIP tables • Hookah • Fishbowls</div>
     `;
+
     hero.after(section);
+  }
+
+  function updateLiveIndicator(day) {
+    const liveTitle = document.getElementById("liveTitle");
+    const liveTags = document.getElementById("liveTags");
+    const info = ALLURE_LIVE_STATUS[day];
+
+    if (!liveTitle || !liveTags || !info) return;
+
+    liveTitle.textContent = info.title || "Live Tonight";
+    liveTags.innerHTML = (info.tags || []).map(tag => `<span class="liveTag">${tag}</span>`).join("");
   }
 
   function bindSubTabs(panelBody, content, mode = null) {
@@ -165,9 +158,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const section = sections.find(s => s.title === title);
       if (!section) return;
 
-      if (section.layout === "wingsGrouped") {
+      if (section.layout === "grouped") {
         subBody.innerHTML = `
-          <div class="menuSectionBlock menuSectionBlock--compact">
+          <div class="menuSectionBlock ${["Wings","Wing Flavors"].includes(section.title) ? "menuSectionBlock--bare" : ""}">
             ${renderGroupedMenu(section)}
           </div>
         `;
@@ -176,14 +169,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const items = mapItemsForMode(section.items || [], mode);
       subBody.innerHTML = `
-        <div class="menuSectionBlock menuSectionBlock--compact">
+        <div class="menuSectionBlock">
           ${renderFlatMenu(items)}
         </div>
       `;
     }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => activateSubsection(tab.dataset.subsection));
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
     });
 
     activateSubsection(sections[0].title);
@@ -194,12 +189,15 @@ document.addEventListener("DOMContentLoaded", () => {
       wrap.classList.remove("vipNightMode");
     });
 
+    if (day !== "friday" && day !== "saturday") return;
+
     const activePanel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
     if (!activePanel) return;
 
     activePanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
       const titleEl = wrap.querySelector(".menuPanelTitle");
       if (!titleEl) return;
+
       const text = titleEl.textContent.toLowerCase();
       if (text.includes("after 9") || text.includes("vip night")) {
         wrap.classList.add("vipNightMode");
@@ -208,67 +206,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderDashboard(panelBody) {
+    panelBody.classList.remove("menuPanelBody--shots");
     panelBody.innerHTML = `
-      <div class="menuEmpty menuEmpty--dashboard">
-        <div class="menuEmptyDashboardGlow"></div>
-        <div class="menuEmptyDashboardTop">
-          <div>
-            <div class="menuEmptyDashboardEyebrow">Allure Experience</div>
-            <div class="menuEmptyDashboardTitle">Choose Your Vibe Tonight</div>
-            <div class="menuEmptyDashboardText">
-              Tap a category to explore signature food, premium hookah, cocktails, towers, and late-night favorites.
-            </div>
-          </div>
-          <div class="menuEmptyDashboardBadges">
-            <span class="menuEmptyDashboardBadge">Live Menu</span>
-            <span class="menuEmptyDashboardBadge">Lounge Picks</span>
-            <span class="menuEmptyDashboardBadge">Late Night</span>
-          </div>
-        </div>
-
-        <div class="menuEmptyDashboardStats">
-          <div class="menuEmptyDashboardStat">
-            <div class="menuEmptyDashboardStatNum">Food</div>
-            <div class="menuEmptyDashboardStatLabel">Sliders • Wings • Tacos • Pasta</div>
-          </div>
-          <div class="menuEmptyDashboardStat">
-            <div class="menuEmptyDashboardStatNum">Drinks</div>
-            <div class="menuEmptyDashboardStatLabel">Shots • Cocktails • Fishbowls • Towers</div>
-          </div>
-          <div class="menuEmptyDashboardStat">
-            <div class="menuEmptyDashboardStatNum">Hookah</div>
-            <div class="menuEmptyDashboardStatLabel">Classic Flavors • Premium Gold</div>
-          </div>
-        </div>
-
-        <div class="menuEmptyDashboardGrid">
-          <div class="menuEmptyDashboardCard">
-            <div class="menuEmptyDashboardCardIcon">🍽️</div>
-            <div class="menuEmptyDashboardCardTitle">Food Favorites</div>
-            <div class="menuEmptyDashboardCardText">Explore starters, wings, tacos, pasta, dinner, and house favorites.</div>
-          </div>
-          <div class="menuEmptyDashboardCard">
-            <div class="menuEmptyDashboardCardIcon">🥂</div>
-            <div class="menuEmptyDashboardCardTitle">Drink Menu</div>
-            <div class="menuEmptyDashboardCardText">Browse $5 shots, premium pours, wine, beer, towers, and fishbowls.</div>
-          </div>
-          <div class="menuEmptyDashboardCard">
-            <div class="menuEmptyDashboardCardIcon">💨</div>
-            <div class="menuEmptyDashboardCardTitle">Hookah Lounge</div>
-            <div class="menuEmptyDashboardCardText">View classic blends, premium flavors, and late-night hookah options.</div>
-          </div>
-        </div>
-
-        <div class="menuEmptyDashboardFooter">
-          Start by tapping a category above or below.
-        </div>
+      <div class="menuEmpty">
+        Tap a category above or below to explore food, hookah, shots, drinks, towers, and more.
       </div>
     `;
   }
 
   function setupCenterWrap(wrap) {
+    if (wrap.dataset.bound === "true") return;
+    wrap.dataset.bound = "true";
+
     const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
     const panelBody = wrap.querySelector(".menuPanelBody");
+
     if (!buttons.length || !panelBody) return;
 
     function activateButton(button) {
@@ -276,22 +228,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const mode = button.dataset.mode || null;
       const content = CATEGORY_CONTENT[cat];
 
-      buttons.forEach(btn => btn.classList.toggle("active", btn === button));
+      buttons.forEach(btn => {
+        btn.classList.toggle("active", btn === button);
+      });
 
       if (!content) {
+        panelBody.classList.remove("menuPanelBody--shots");
         panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
         return;
       }
 
-      panelBody.innerHTML = renderMenu(content);
+      panelBody.innerHTML = renderSectionedMenu(content);
 
-      if (content.sections) {
-        bindSubTabs(panelBody, content, mode);
+      if (["shots5", "shots7", "premium"].includes(cat)) {
+        panelBody.classList.add("menuPanelBody--shots");
+      } else {
+        panelBody.classList.remove("menuPanelBody--shots");
       }
+
+      bindSubTabs(panelBody, content, mode);
     }
 
     buttons.forEach(button => {
-      button.addEventListener("click", () => activateButton(button));
+      button.addEventListener("click", () => {
+        activateButton(button);
+      });
     });
 
     renderDashboard(panelBody);
@@ -313,17 +274,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    updateLiveIndicator(day);
     applyVipNightMode(day);
   }
 
   function getTodayDay() {
-    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
     return days[new Date().getDay()];
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
+    tab.addEventListener("click", () => {
+      activateDay(tab.dataset.daytab);
+    });
   });
 
-  activateDay(getTodayDay());
+  if (document.querySelector(".dayTab")) {
+    activateDay(getTodayDay());
+  }
 });
