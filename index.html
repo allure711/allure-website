@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/menu.css">
 </head>
-
 <body class="menu-page">
 
   <header class="header">
@@ -16,6 +15,7 @@
       <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
       <nav class="nav">
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
         <ul class="nav__list">
           <li><a href="menu.html">Menu</a></li>
           <li><a href="events.html">Events</a></li>
@@ -28,137 +28,124 @@
     </div>
   </header>
 
-  <main class="menuWrap">
+  <main>
 
-    <section class="menuHero menuHero--premium">
-      <div class="container">
-        <div class="menuHero__grid">
+    <section class="hero hero--allure">
+      <div class="hero__overlay"></div>
 
-          <div class="menuHero__content">
-            <div class="menuHero__eyebrow">Allure Bar &amp; Lounge</div>
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="hero__eyebrow">Washington, DC</p>
+          <h1>Allure Bar &amp; Lounge</h1>
+          <p class="hero__sub">Craft Cocktails • Premium Hookah • DC Nights</p>
 
-            <h1>Luxury Lounge Menu Experience</h1>
-
-            <p>
-              Explore daily happy hour specials, premium hookah, signature cocktails,
-              late-night favorites, and elevated lounge food — all in one live menu.
-            </p>
-
-            <div class="menuHeroActions">
-              <a class="reserveTop" href="tel:2022974949">Reserve Now</a>
-              <a class="menuHeroViewBtn" href="menu.html">View Menu</a>
-            </div>
+          <div class="hero__actions">
+            <a href="menu.html" class="hero__btn hero__btn--ghost">View Menu</a>
+            <a href="tel:2022974949" class="hero__btn hero__btn--gold">Reserve VIP Table</a>
           </div>
-
-          <div class="menuHero__cards">
-            <div class="menuHeroCard">
-              <div class="menuHeroCard__label">Happy Hour</div>
-              <div class="menuHeroCard__value">5–9 PM</div>
-              <div class="menuHeroCard__meta">Food • Drinks • Hookah</div>
-            </div>
-
-            <div class="menuHeroCard">
-              <div class="menuHeroCard__label">Late Night</div>
-              <div class="menuHeroCard__value">After 9</div>
-              <div class="menuHeroCard__meta">Premium Vibes • Lounge Energy</div>
-            </div>
-
-            <div class="menuHeroCard">
-              <div class="menuHeroCard__label">Reserve</div>
-              <div class="menuHeroCard__value">202-297-4949</div>
-              <div class="menuHeroCard__meta">Tables • Birthdays • VIP</div>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
 
-    <section class="allureExperience">
+    <section class="homeSection">
       <div class="container">
-
-        <div class="allureSectionHead">
-          <div class="allureSectionEyebrow">The Allure Experience</div>
-          <h2>Where nightlife, dining, and premium lounge culture meet.</h2>
+        <div class="sectionHead">
+          <div class="sectionEyebrow">The Allure Experience</div>
+          <h2>Where cocktails, hookah, and late-night energy meet.</h2>
           <p>
-            Discover signature cocktails, upscale hookah, late-night energy,
-            curated vibes, and a luxury atmosphere designed for unforgettable nights.
+            Allure Bar &amp; Lounge brings together premium cocktails, smooth hookah,
+            upscale lounge vibes, and a DC nightlife atmosphere built for unforgettable nights.
           </p>
         </div>
 
-        <div class="allureExperienceGrid">
-          <article class="allureExperienceCard">
-            <div class="allureExperienceCard__icon">🥂</div>
-            <h3>Signature Cocktails</h3>
-            <p>Craft drinks, fishbowls, towers, and premium pours designed for the Allure vibe.</p>
+        <div class="featureGrid">
+          <article class="featureCard">
+            <div class="featureCard__icon">🍸</div>
+            <h3>Craft Cocktails</h3>
+            <p>Signature drinks, premium pours, happy hour specials, and late-night favorites.</p>
           </article>
 
-          <article class="allureExperienceCard">
-            <div class="allureExperienceCard__icon">💨</div>
+          <article class="featureCard">
+            <div class="featureCard__icon">💨</div>
             <h3>Premium Hookah</h3>
-            <p>Classic favorites and elevated premium flavors served in a true lounge setting.</p>
+            <p>Classic and premium hookah flavors served in a stylish lounge setting.</p>
           </article>
 
-          <article class="allureExperienceCard">
-            <div class="allureExperienceCard__icon">🎧</div>
-            <h3>Late Night Energy</h3>
-            <p>After 9, the room transforms into a high-energy destination with VIP ambiance.</p>
+          <article class="featureCard">
+            <div class="featureCard__icon">🌙</div>
+            <h3>DC Nights</h3>
+            <p>Relaxed energy early, elevated vibes after 9, and a true neighborhood nightlife feel.</p>
           </article>
         </div>
-
-        <div class="allureMomentsStrip">
-          <div class="allureMoment">
-            <span class="allureMoment__label">Happy Hour</span>
-            <span class="allureMoment__text">5–9 PM specials</span>
-          </div>
-          <div class="allureMoment">
-            <span class="allureMoment__label">VIP Nights</span>
-            <span class="allureMoment__text">Friday &amp; Saturday</span>
-          </div>
-          <div class="allureMoment">
-            <span class="allureMoment__label">Reservations</span>
-            <span class="allureMoment__text">202-297-4949</span>
-          </div>
-        </div>
-
       </div>
     </section>
 
-    <section class="allureSignatureBand">
+    <section class="homeSection homeSection--soft">
       <div class="container">
-        <div class="allureSignatureBand__grid">
+        <div class="sectionHead">
+          <div class="sectionEyebrow">Community Appreciation</div>
+          <h2>Local appreciation with a premium touch.</h2>
+          <p>Exclusive perks for the DC community with valid ID.</p>
+        </div>
 
-          <div class="allureSignatureBand__card">
-            <div class="allureSignatureBand__label">Atmosphere</div>
-            <div class="allureSignatureBand__title">Refined. Energetic. Memorable.</div>
-            <p>
-              From intimate evenings to high-energy nights, Allure is designed to feel
-              elevated at every hour.
-            </p>
+        <div class="communityGrid">
+          <article class="communityCard">
+            <h3>DC Resident</h3>
+            <p>Neighborhood appreciation for our local crowd.</p>
+          </article>
+
+          <article class="communityCard">
+            <h3>Teacher Appreciation</h3>
+            <p>Special recognition for the people shaping the city.</p>
+          </article>
+
+          <article class="communityCard">
+            <h3>Military Appreciation</h3>
+            <p>Honoring service with Allure community perks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="homeSection">
+      <div class="container">
+        <div class="sectionHead">
+          <div class="sectionEyebrow">Reservations</div>
+          <h2>Reserve your table tonight.</h2>
+          <p>For tables, birthdays, and VIP reservations, call now.</p>
+        </div>
+
+        <div class="reserveCard">
+          <div>
+            <div class="reserveCard__label">Call Allure</div>
+            <div class="reserveCard__number">202-297-4949</div>
           </div>
-
-          <div class="allureSignatureBand__card">
-            <div class="allureSignatureBand__label">Signature Experience</div>
-            <div class="allureSignatureBand__title">Cocktails, Hookah, Food, VIP</div>
-            <p>
-              A complete hospitality experience curated around nightlife, flavor,
-              ambiance, and celebration.
-            </p>
-          </div>
-
-          <div class="allureSignatureBand__card">
-            <div class="allureSignatureBand__label">Reservation Priority</div>
-            <div class="allureSignatureBand__title">Book Your Table Early</div>
-            <p>
-              Reserve for birthdays, VIP seating, and premium lounge nights before peak hours.
-            </p>
-          </div>
-
+          <a href="tel:2022974949" class="hero__btn hero__btn--gold">Reserve Now</a>
         </div>
       </div>
     </section>
 
   </main>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const navToggle = document.querySelector(".nav__toggle");
+      const navList = document.querySelector(".nav__list");
+
+      if (navToggle && navList) {
+        navToggle.addEventListener("click", () => {
+          const isOpen = navList.classList.toggle("is-open");
+          navToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        navList.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", () => {
+            navList.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>
