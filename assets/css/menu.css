@@ -2393,3 +2393,242 @@ MOBILE OPTIMIZATION
     gap: 8px;
   }
 }
+/* =========================
+   EVENTS PAGE
+========================= */
+
+.eventsPage{
+  padding-bottom:90px;
+}
+
+.eventsHero{
+  padding:56px 0 24px;
+}
+
+.eventsHero__content{
+  max-width:860px;
+}
+
+.eventsHero__eyebrow{
+  margin:0 0 12px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.70);
+}
+
+.eventsHero h1{
+  margin:0 0 12px;
+  font-size:clamp(42px,6vw,72px);
+  line-height:.95;
+  letter-spacing:-.05em;
+}
+
+.eventsHero__sub{
+  margin:0;
+  max-width:760px;
+  color:rgba(255,255,255,.78);
+  font-size:17px;
+  line-height:1.8;
+}
+
+.eventsHero__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:26px;
+}
+
+.eventsIntro{
+  padding:0 0 16px;
+}
+
+.eventsGridWrap{
+  padding:10px 0 24px;
+}
+
+.eventsGrid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:18px;
+}
+
+.eventCard{
+  position:relative;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+  border-radius:24px;
+  padding:24px;
+  box-shadow:
+    0 18px 46px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  overflow:hidden;
+}
+
+.eventCard::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,.025) 18%,
+    transparent 40%
+  );
+  pointer-events:none;
+}
+
+.eventCard--featured{
+  border-color:rgba(215,180,106,.34);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.05),
+    0 22px 54px rgba(0,0,0,.24);
+}
+
+.eventCard--vip{
+  border-color:rgba(215,180,106,.26);
+  background:
+    radial-gradient(circle at top right, rgba(155,70,255,.14), transparent 38%),
+    radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+}
+
+.eventCard__day{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.26);
+  background:rgba(215,180,106,.08);
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+.eventCard h2{
+  margin:0 0 10px;
+  font-size:30px;
+  line-height:1.05;
+  letter-spacing:-.03em;
+}
+
+.eventCard p{
+  margin:0 0 14px;
+  color:rgba(255,255,255,.78);
+  line-height:1.75;
+  font-size:15px;
+}
+
+.eventMeta{
+  color:var(--gold2);
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.04em;
+  margin-bottom:18px;
+}
+
+.eventCard__btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:170px;
+  padding:12px 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-weight:900;
+  text-decoration:none;
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease;
+}
+
+.eventCard__btn:hover{
+  transform:translateY(-2px);
+  border-color:rgba(215,180,106,.34);
+  background:rgba(255,255,255,.08);
+}
+
+.eventCard__btn--gold{
+  border:1px solid rgba(215,180,106,.45);
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+  box-shadow:0 14px 30px rgba(215,180,106,.16);
+}
+
+.eventsReserveBand{
+  padding:18px 0 0;
+}
+
+.eventsReserveBand__card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.10), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+  border-radius:24px;
+  padding:26px;
+  box-shadow:0 18px 46px rgba(0,0,0,.22);
+}
+
+.eventsReserveBand__label{
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.eventsReserveBand__title{
+  font-size:30px;
+  font-weight:950;
+  line-height:1.05;
+  letter-spacing:-.03em;
+  margin-bottom:8px;
+}
+
+.eventsReserveBand__card p{
+  margin:0;
+  color:rgba(255,255,255,.76);
+  line-height:1.7;
+}
+
+@media (max-width:920px){
+  .eventsGrid{
+    grid-template-columns:1fr;
+  }
+
+  .eventsReserveBand__card{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
+@media (max-width:640px){
+  .eventsHero__actions{
+    flex-direction:column;
+  }
+
+  .eventCard h2{
+    font-size:24px;
+  }
+
+  .eventsReserveBand__title{
+    font-size:24px;
+  }
+}
