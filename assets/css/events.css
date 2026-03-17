@@ -1,364 +1,174 @@
-.eventsHero{
-  padding:84px 0 36px;
-}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Events | Allure Bar & Lounge</title>
 
-.eventsKicker{
-  display:inline-block;
-  color:var(--gold2);
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  font-size:12px;
-  font-weight:900;
-  margin-bottom:10px;
-}
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/menu.css">
+</head>
+<body class="menu-page">
 
-.eventsHero h1{
-  font-size:52px;
-  line-height:1.02;
-  margin:0 0 12px;
-}
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-.eventsHero p{
-  opacity:.86;
-  max-width:680px;
-  line-height:1.65;
-  font-size:16px;
-  margin:0;
-}
+      <nav class="nav">
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <ul class="nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="events.html" class="active">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="location.html">Location</a></li>
+          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-.eventsHeroActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:22px;
-}
+  <main class="eventsPage">
 
-.eventsStats{
-  margin-top:26px;
-}
+    <section class="eventsHero">
+      <div class="container">
+        <div class="eventsHero__content">
+          <p class="eventsHero__eyebrow">Washington, DC Nightlife</p>
+          <h1>This Week at Allure</h1>
+          <p class="eventsHero__sub">
+            Premium weekly programming with hookah, cocktails, karaoke,
+            happy hour, and elevated weekend energy.
+          </p>
 
-.flyerSection{
-  margin-top:30px;
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:20px;
-}
+          <div class="eventsHero__actions">
+            <a href="tel:2022974949" class="hero__btn hero__btn--gold">Reserve by Phone</a>
+            <a href="menu.html" class="hero__btn hero__btn--ghost">View Menu</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-.flyerMain{
-  min-height:460px;
-  border-radius:22px;
-  border:1px solid var(--line);
-  overflow:hidden;
-  position:relative;
-  background:
-  radial-gradient(circle at 20% 20%, rgba(215,180,106,.16), transparent 35%),
-  radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-  linear-gradient(135deg,#11111a,#171723 55%,#101018);
-  box-shadow:var(--shadow);
-}
+    <section class="eventsIntro">
+      <div class="container">
+        <div class="liveIndicator">
+          <div class="liveIndicator__left">
+            <span class="liveDot"></span>
+            <div>
+              <div class="liveIndicator__eyebrow">Tonight at Allure</div>
+              <div class="liveIndicator__title">Weekly Events • Hookah • Cocktails • Late Night Lounge</div>
+            </div>
+          </div>
 
-.flyerPoster{
-  width:100%;
-  height:100%;
-  position:relative;
-}
+          <div class="liveIndicator__tags">
+            <span class="liveTag">Happy Hour</span>
+            <span class="liveTag">Hookah</span>
+            <span class="liveTag">Late Night</span>
+            <span class="liveTag">VIP Tables</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-.flyerPoster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+    <section class="eventsGridWrap">
+      <div class="container">
+        <div class="eventsGrid">
 
-.flyerOverlay{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:28px;
-  background:
-  linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.80)),
-  radial-gradient(circle at 70% 20%, rgba(255,255,255,.05), transparent 26%);
-}
+          <article class="eventCard eventCard--featured">
+            <div class="eventCard__day">Monday</div>
+            <h2>Free Hookah Monday</h2>
+            <p>Free hookah with $50 bar tab. Start the week with lounge energy and drink specials.</p>
+            <div class="eventMeta">5PM–1AM • Featured Night</div>
+            <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Monday</a>
+          </article>
 
-.flyerBadge{
-  display:inline-flex;
-  width:max-content;
-  margin-bottom:12px;
-  padding:7px 11px;
-  border-radius:999px;
-  background:rgba(215,180,106,.14);
-  border:1px solid rgba(215,180,106,.35);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
+          <article class="eventCard">
+            <div class="eventCard__day">Tuesday</div>
+            <h2>🌮 Taco Tuesday</h2>
+            <p>Cocktails, tacos, and weekday social energy in the heart of DC.</p>
+            <div class="eventMeta">5PM–9PM Happy Hour</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Tuesday</a>
+          </article>
 
-.flyerDay{
-  font-size:44px;
-  font-weight:950;
-  line-height:1;
-  margin:0 0 8px;
-}
+          <article class="eventCard">
+            <div class="eventCard__day">Wednesday</div>
+            <h2>Midweek Social</h2>
+            <p>Happy hour all night with $5 shots and $7 top shelf shots.</p>
+            <div class="eventMeta">5PM–1AM • $5 Shots</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Wednesday</a>
+          </article>
 
-.flyerMeta{
-  font-size:17px;
-  font-weight:800;
-  color:#fff;
-  margin:0 0 10px;
-}
+          <article class="eventCard">
+            <div class="eventCard__day">Thursday</div>
+            <h2>Karaoke Thursday</h2>
+            <p>Bring your crew and enjoy karaoke, cocktails, and late-night lounge vibes.</p>
+            <div class="eventMeta">5PM–1AM • Karaoke Night</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Thursday</a>
+          </article>
 
-.flyerDesc{
-  color:rgba(255,255,255,.82);
-  line-height:1.55;
-  max-width:520px;
-  margin:0 0 18px;
-}
+          <article class="eventCard eventCard--vip">
+            <div class="eventCard__day">Friday</div>
+            <h2>Allure Friday</h2>
+            <p>Premium cocktails, VIP tables, bottle service, hookah, and nightlife energy after 9.</p>
+            <div class="eventMeta">Happy Hour 5PM–9PM • VIP Night After 9</div>
+            <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Friday</a>
+          </article>
 
-.flyerActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
+          <article class="eventCard eventCard--vip">
+            <div class="eventCard__day">Saturday</div>
+            <h2>Allure Saturday</h2>
+            <p>Weekend prime time with premium drinks, fishbowls, hookah, and upscale lounge vibes.</p>
+            <div class="eventMeta">Happy Hour 5PM–9PM • VIP Night After 9</div>
+            <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Saturday</a>
+          </article>
 
-.flyerSide{
-  display:grid;
-  gap:14px;
-}
+          <article class="eventCard">
+            <div class="eventCard__day">Sunday</div>
+            <h2>Social Sunday</h2>
+            <p>End the week with all-night happy hour, cocktails, hookah, and a relaxed social atmosphere.</p>
+            <div class="eventMeta">Happy Hour All Night</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Sunday</a>
+          </article>
 
-.flyerMini{
-  padding:18px;
-  min-height:140px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  background:
-  radial-gradient(circle at 20% 20%, rgba(215,180,106,.12), transparent 30%),
-  linear-gradient(135deg,#14141d,#101018);
-}
+        </div>
+      </div>
+    </section>
 
-.flyerMiniTag{
-  color:var(--gold2);
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  margin-bottom:8px;
-}
+    <section class="eventsReserveBand">
+      <div class="container">
+        <div class="eventsReserveBand__card">
+          <div>
+            <div class="eventsReserveBand__label">Reservations & VIP</div>
+            <div class="eventsReserveBand__title">Book your table before peak hours.</div>
+            <p>For birthdays, hookah nights, and premium lounge seating, call Allure now.</p>
+          </div>
 
-.flyerMiniTitle{
-  font-size:20px;
-  font-weight:900;
-  margin:0 0 6px;
-}
+          <a href="tel:2022974949" class="hero__btn hero__btn--gold">Call 202-297-4949</a>
+        </div>
+      </div>
+    </section>
 
-.flyerMiniText{
-  color:var(--textSoft);
-  line-height:1.55;
-  margin:0;
-}
+  </main>
 
-.filterSection{
-  margin-top:60px;
-}
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const navToggle = document.querySelector(".nav__toggle");
+      const navList = document.querySelector(".nav__list");
 
-.filterTabs{
-  margin-top:18px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
+      if (navToggle && navList) {
+        navToggle.addEventListener("click", () => {
+          const isOpen = navList.classList.toggle("is-open");
+          navToggle.setAttribute("aria-expanded", String(isOpen));
+        });
 
-.filterBtn{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:999px;
-  font-weight:800;
-  cursor:pointer;
-  transition:all .18s ease;
-}
-
-.filterBtn:hover{
-  border-color:rgba(215,180,106,.35);
-  color:var(--gold2);
-}
-
-.filterBtn.active{
-  background:rgba(215,180,106,.14);
-  border-color:rgba(215,180,106,.35);
-  color:var(--gold2);
-}
-
-.eventsBlock{
-  margin-top:28px;
-}
-
-.eventsList{
-  margin-top:20px;
-  display:grid;
-  gap:12px;
-}
-
-.eventCard{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;
-  padding:16px;
-}
-
-.eventTop{
-  display:flex;
-  justify-content:space-between;
-  gap:14px;
-  font-weight:900;
-}
-
-.eventDesc{
-  margin-top:6px;
-  color:rgba(255,255,255,.78);
-}
-
-.hiddenEvent{
-  display:none;
-}
-
-.socialWall{
-  margin-top:60px;
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:20px;
-}
-
-.socialHero{
-  position:relative;
-  border-radius:20px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  min-height:420px;
-  background:
-  radial-gradient(circle at 20% 20%, rgba(215,180,106,.18), transparent 35%),
-  radial-gradient(circle at 80% 20%, rgba(143,92,255,.18), transparent 35%),
-  linear-gradient(135deg, #11111a, #171723 55%, #101018);
-  box-shadow:var(--shadow);
-}
-
-.socialHero img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.socialHeroOverlay{
-  position:absolute;
-  inset:auto 0 0 0;
-  padding:24px;
-  background:linear-gradient(transparent,rgba(0,0,0,.82));
-}
-
-.socialHeroBadge{
-  display:inline-flex;
-  margin-bottom:10px;
-  padding:7px 12px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.30);
-  background:rgba(215,180,106,.12);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-}
-
-.socialHeroOverlay h2{
-  font-size:30px;
-  margin:0 0 8px;
-  font-weight:950;
-}
-
-.socialHeroOverlay p{
-  margin:0;
-  color:rgba(255,255,255,.82);
-  line-height:1.45;
-}
-
-.socialStack{
-  display:grid;
-  gap:16px;
-}
-
-.socialCard{
-  min-height:202px;
-}
-
-.socialCard img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.vipBanner{
-  margin-top:60px;
-  padding:28px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:24px;
-  align-items:center;
-}
-
-.vipBannerTitle{
-  font-size:36px;
-  font-weight:950;
-  line-height:1.05;
-  margin:0 0 10px;
-}
-
-.vipBannerText{
-  color:var(--textSoft);
-  line-height:1.7;
-  margin:0;
-}
-
-.vipBannerActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  justify-content:flex-end;
-}
-
-@media(max-width:900px){
-  .eventsHero h1{
-    font-size:40px;
-  }
-
-  .flyerSection,
-  .socialWall,
-  .vipBanner{
-    grid-template-columns:1fr;
-  }
-
-  .vipBannerActions{
-    justify-content:flex-start;
-  }
-}
-
-@media(max-width:560px){
-  .eventsHero h1{
-    font-size:34px;
-  }
-
-  .flyerDay{
-    font-size:34px;
-  }
-
-  .flyerMain{
-    min-height:380px;
-  }
-
-  .vipBannerTitle{
-    font-size:30px;
-  }
-}
+        navList.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", () => {
+            navList.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
