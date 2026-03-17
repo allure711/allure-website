@@ -4,151 +4,171 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Events | Allure Bar & Lounge</title>
-  <meta name="description" content="Weekly events at Allure Bar & Lounge in Washington, DC. Free Hookah Monday, Taco Tuesday, Midweek Social, Karaoke Thursday, Allure Friday, Allure Saturday, and Sunday Social.">
+
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/menu.css">
 </head>
-<body>
+<body class="menu-page">
 
-<header class="header">
-  <div class="container header__inner">
-    <a class="brand" href="index.html">Allure Bar & Lounge</a>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-    <nav class="nav">
-      <ul class="nav__list">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="events.html" class="active">Events</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="location.html">Location</a></li>
-        <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main class="section eventsSimplePage">
-  <div class="container">
-
-    <p class="eventsSimpleKicker">Washington, DC Nightlife</p>
-    <h1 class="eventsSimpleTitle">This Week at Allure</h1>
-    <p class="eventsSimpleLead">
-      Premium weekly programming with hookah, cocktails, karaoke, happy hour, and weekend energy.
-    </p>
-
-    <div class="eventsSimpleActions">
-      <a class="btn btn--primary" href="tel:2022974949">Reserve by Phone</a>
-      <a class="btn btn--outline" href="menu.html">View Menu</a>
+      <nav class="nav">
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <ul class="nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="events.html" class="active">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="location.html">Location</a></li>
+          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <div class="eventsSimpleGrid">
+  <main class="eventsPage">
 
-      <article class="eventsSimpleCard eventsSimpleCard--gold">
-        <div class="eventsSimpleDay">Monday</div>
-        <h3>Free Hookah Monday</h3>
-        <p>Free hookah with $50 bar tab. Start the week with lounge energy and drink specials.</p>
-        <div class="eventsSimpleTags">
-          <span>5PM–1AM</span>
-          <span>Featured</span>
-        </div>
-        <a class="btn btn--primary" href="tel:2022974949">Reserve Monday</a>
-      </article>
+    <section class="eventsHero">
+      <div class="container">
+        <div class="eventsHero__content">
+          <p class="eventsHero__eyebrow">Washington, DC Nightlife</p>
+          <h1>This Week at Allure</h1>
+          <p class="eventsHero__sub">
+            Premium weekly programming with hookah, cocktails, karaoke,
+            happy hour, and weekend energy.
+          </p>
 
-      <article class="eventsSimpleCard">
-        <div class="eventsSimpleDay">Tuesday</div>
-        <h3>🌮 Taco Tuesday</h3>
-        <p>Cocktails, tacos, and weekday social energy in the heart of DC.</p>
-        <div class="eventsSimpleTags">
-          <span>5PM–9PM</span>
-          <span>Happy Hour</span>
-        </div>
-        <a class="btn btn--outline" href="tel:2022974949">Reserve Tuesday</a>
-      </article>
-
-      <article class="eventsSimpleCard">
-        <div class="eventsSimpleDay">Wednesday</div>
-        <h3>Midweek Social</h3>
-        <p>Happy hour all night with $5 shots and $7 top shelf shots.</p>
-        <div class="eventsSimpleTags">
-          <span>5PM–1AM</span>
-          <span>$5 Shots</span>
-        </div>
-        <a class="btn btn--outline" href="tel:2022974949">Reserve Wednesday</a>
-      </article>
-
-      <article class="eventsSimpleCard eventsSimpleCard--glow">
-        <div class="eventsSimpleDay">Thursday</div>
-        <h3>🎤 Karaoke Thursday</h3>
-        <p>Bring the crew and own the mic. Happy hour all night and karaoke from 9PM–1AM.</p>
-        <div class="eventsSimpleTags">
-          <span>5PM–1AM</span>
-          <span>9PM–1AM</span>
-        </div>
-        <a class="btn btn--primary" href="tel:2022974949">Reserve Thursday</a>
-      </article>
-
-      <article class="eventsSimpleCard eventsSimpleCard--weekend">
-        <div class="eventsSimpleDay">Friday</div>
-        <h3>ALLURE FRIDAY</h3>
-        <p>R&amp;B, Hip Hop, Afrobeats, and Latino night with premium lounge energy.</p>
-        <div class="eventsSimpleTags">
-          <span>5PM–2AM</span>
-          <span>Weekend</span>
-        </div>
-        <a class="btn btn--primary" href="tel:2022974949">Reserve Friday</a>
-      </article>
-
-      <article class="eventsSimpleCard eventsSimpleCard--weekend">
-        <div class="eventsSimpleDay">Saturday</div>
-        <h3>ALLURE SATURDAY</h3>
-        <p>Late-night premium vibes, strong crowd energy, and full weekend atmosphere.</p>
-        <div class="eventsSimpleTags">
-          <span>5PM–2AM</span>
-          <span>Weekend</span>
-        </div>
-        <a class="btn btn--primary" href="tel:2022974949">Reserve Saturday</a>
-      </article>
-
-      <article class="eventsSimpleCard">
-        <div class="eventsSimpleDay">Sunday</div>
-        <h3>Sunday Social</h3>
-        <p>Wind down the weekend with cocktails, hookah, and smooth lounge energy.</p>
-        <div class="eventsSimpleTags">
-          <span>5PM–1AM</span>
-          <span>Late Night</span>
-        </div>
-        <a class="btn btn--outline" href="tel:2022974949">Reserve Sunday</a>
-      </article>
-
-    </div>
-
-  </div>
-</main>
-
-<footer class="footerPremium">
-  <div class="container">
-    <div class="footerPremium__grid">
-      <div>
-        <div class="footerBrand">Allure Bar & Lounge</div>
-        <div class="footerText">Cozy • Modern • Upscale nightlife destination in Washington, DC.</div>
-      </div>
-
-      <div>
-        <div class="footerHead">Hours</div>
-        <div class="footerText">Mon–Thu: 5PM–1AM<br>Fri–Sat: 5PM–2AM<br>Sun: 5PM–1AM</div>
-      </div>
-
-      <div>
-        <div class="footerHead">Contact</div>
-        <div class="footerLinks">
-          <a href="tel:2022974949">202-297-4949</a>
-          <a href="menu.html">View Menu</a>
-          <a href="location.html">Location</a>
+          <div class="eventsHero__actions">
+            <a href="tel:2022974949" class="hero__btn hero__btn--gold">Reserve by Phone</a>
+            <a href="menu.html" class="hero__btn hero__btn--ghost">View Menu</a>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</footer>
+    </section>
 
+    <section class="eventsIntro">
+      <div class="container">
+        <div class="liveIndicator">
+          <div class="liveIndicator__left">
+            <span class="liveDot"></span>
+            <div>
+              <div class="liveIndicator__eyebrow">Tonight at Allure</div>
+              <div class="liveIndicator__title">Weekly Events • Hookah • Cocktails • Late Night Lounge</div>
+            </div>
+          </div>
+
+          <div class="liveIndicator__tags">
+            <span class="liveTag">Happy Hour</span>
+            <span class="liveTag">Hookah</span>
+            <span class="liveTag">Late Night</span>
+            <span class="liveTag">VIP Tables</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="eventsGridWrap">
+      <div class="container">
+        <div class="eventsGrid">
+
+          <article class="eventCard eventCard--featured">
+            <div class="eventCard__day">Monday</div>
+            <h2>Free Hookah Monday</h2>
+            <p>Free hookah with $50 bar tab. Start the week with lounge energy and drink specials.</p>
+            <div class="eventMeta">5PM–1AM • Featured Night</div>
+            <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Monday</a>
+          </article>
+
+          <article class="eventCard">
+            <div class="eventCard__day">Tuesday</div>
+            <h2>🌮 Taco Tuesday</h2>
+            <p>Cocktails, tacos, and weekday social energy in the heart of DC.</p>
+            <div class="eventMeta">5PM–9PM Happy Hour</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Tuesday</a>
+          </article>
+
+          <article class="eventCard">
+            <div class="eventCard__day">Wednesday</div>
+            <h2>Midweek Social</h2>
+            <p>Happy hour all night with $5 shots and $7 top shelf shots.</p>
+            <div class="eventMeta">5PM–1AM • $5 Shots</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Wednesday</a>
+          </article>
+
+          <article class="eventCard">
+            <div class="eventCard__day">Thursday</div>
+            <h2>Karaoke Thursday</h2>
+            <p>Bring your crew and enjoy karaoke, cocktails, and late-night lounge vibes.</p>
+            <div class="eventMeta">5PM–1AM • Karaoke Night</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Thursday</a>
+          </article>
+
+          <article class="eventCard eventCard--vip">
+            <div class="eventCard__day">Friday</div>
+            <h2>Allure Friday</h2>
+            <p>Premium cocktails, VIP tables, bottle service, hookah, and nightlife energy after 9.</p>
+            <div class="eventMeta">Happy Hour 5PM–9PM • VIP Night After 9</div>
+            <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Friday</a>
+          </article>
+
+          <article class="eventCard eventCard--vip">
+            <div class="eventCard__day">Saturday</div>
+            <h2>Allure Saturday</h2>
+            <p>Weekend prime time with premium drinks, fishbowls, hookah, and upscale lounge vibes.</p>
+            <div class="eventMeta">Happy Hour 5PM–9PM • VIP Night After 9</div>
+            <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Saturday</a>
+          </article>
+
+          <article class="eventCard">
+            <div class="eventCard__day">Sunday</div>
+            <h2>Social Sunday</h2>
+            <p>End the week with all-night happy hour, cocktails, hookah, and a relaxed social atmosphere.</p>
+            <div class="eventMeta">Happy Hour All Night</div>
+            <a href="tel:2022974949" class="eventCard__btn">Reserve Sunday</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="eventsReserveBand">
+      <div class="container">
+        <div class="eventsReserveBand__card">
+          <div>
+            <div class="eventsReserveBand__label">Reservations & VIP</div>
+            <div class="eventsReserveBand__title">Book your table before peak hours.</div>
+            <p>For birthdays, hookah nights, and premium lounge seating, call Allure now.</p>
+          </div>
+
+          <a href="tel:2022974949" class="hero__btn hero__btn--gold">Call 202-297-4949</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const navToggle = document.querySelector(".nav__toggle");
+      const navList = document.querySelector(".nav__list");
+
+      if (navToggle && navList) {
+        navToggle.addEventListener("click", () => {
+          const isOpen = navList.classList.toggle("is-open");
+          navToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        navList.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", () => {
+            navList.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>
