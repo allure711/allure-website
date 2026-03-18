@@ -1,640 +1,238 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Allure Bar & Lounge</title>
-  <style>
-    :root{
-      --gold:#d7b46a;
-      --gold2:#f2d38a;
-      --bg:#07070a;
-      --bg2:#0b0b12;
-      --text:#ffffff;
-      --textSoft:rgba(255,255,255,.74);
-      --pink:#ff79cf;
-      --green:#41ff8e;
-    }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family:Inter, Arial, sans-serif;
-      background:
-        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
-        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
-        linear-gradient(180deg,var(--bg),var(--bg2));
-      color:var(--text);
-    }
-
-    a{ text-decoration:none; color:inherit; }
-    .container{
-      width:min(1200px, calc(100% - 32px));
-      margin:0 auto;
-    }
-
-    .header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      backdrop-filter:blur(12px);
-      background:rgba(8,8,12,.78);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-
-    .header__inner{
-      min-height:78px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-    }
-
-    .brand{
-      color:#fff;
-      font-size:24px;
-      font-weight:900;
-      letter-spacing:-.02em;
-    }
-
-    .nav{ position:relative; }
-
-    .nav__toggle{
-      display:none;
-      border:1px solid rgba(255,255,255,.12);
-      background:transparent;
-      color:#fff;
-      border-radius:12px;
-      padding:8px 12px;
-      font-size:18px;
-      cursor:pointer;
-    }
-
-    .nav__list{
-      list-style:none;
-      display:flex;
-      align-items:center;
-      gap:18px;
-      margin:0;
-      padding:0;
-    }
-
-    .nav__list a{
-      color:#fff;
-      font-weight:700;
-    }
-
-    .nav__list a.active,
-    .nav__list a:hover{
-      color:var(--gold2);
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:170px;
-      padding:14px 22px;
-      border-radius:14px;
-      font-weight:900;
-      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
-    }
-
-    .btn:hover{ transform:translateY(-2px); }
-
-    .btn--primary,
-    .btn--gold{
-      border:1px solid rgba(215,180,106,.45);
-      background:linear-gradient(135deg,var(--gold),var(--gold2));
-      color:#111 !important;
-      box-shadow:0 16px 40px rgba(215,180,106,.22);
-    }
-
-    .btn--ghost{
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      backdrop-filter:blur(8px);
-    }
-
-    .hero{
-      position:relative;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      overflow:hidden;
-      background:
-        linear-gradient(90deg, rgba(6,6,10,.88) 0%, rgba(8,8,14,.64) 42%, rgba(10,8,16,.42) 100%),
-        linear-gradient(180deg,#0b0b12,#08080d);
-    }
-
-    .hero__overlay{
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 18% 20%, rgba(215,180,106,.08), transparent 28%),
-        radial-gradient(circle at 78% 26%, rgba(180,70,255,.16), transparent 24%),
-        radial-gradient(circle at 68% 72%, rgba(255,160,60,.08), transparent 20%);
-      pointer-events:none;
-    }
-
-    .hero__inner{
-      position:relative;
-      z-index:2;
-      width:100%;
-    }
-
-    .hero__split{
-      display:grid;
-      grid-template-columns:minmax(0, 1.05fr) minmax(320px, .95fr);
-      align-items:center;
-      gap:40px;
-    }
-
-    .hero__left{
-      max-width:720px;
-      padding:120px 0 80px;
-    }
-
-    .hero__eyebrow{
-      margin:0 0 12px;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.72);
-    }
-
-    .hero h1{
-      margin:0 0 14px;
-      font-size:clamp(52px, 7vw, 92px);
-      line-height:.92;
-      letter-spacing:-.06em;
-      color:#fff;
-      text-shadow:
-        0 12px 30px rgba(0,0,0,.35),
-        0 0 18px rgba(215,180,106,.04);
-    }
-
-    .hero__sub{
-      margin:0 0 16px;
-      max-width:620px;
-      font-size:18px;
-      line-height:1.7;
-      color:rgba(255,255,255,.84);
-    }
-
-    .hero__tagline{
-      margin:0 0 28px;
-      max-width:620px;
-      font-size:20px;
-      line-height:1.6;
-      color:rgba(255,255,255,.92);
-      font-weight:500;
-    }
-
-    .hero__actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      margin-bottom:26px;
-    }
-
-    .hero__live{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      width:max-content;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(215,180,106,.28);
-      background:rgba(215,180,106,.08);
-      color:var(--gold2);
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      box-shadow:
-        0 0 0 1px rgba(215,180,106,.04),
-        0 10px 24px rgba(0,0,0,.20);
-    }
-
-    .dot{
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      background:var(--green);
-      box-shadow:
-        0 0 0 5px rgba(65,255,142,.12),
-        0 0 14px rgba(65,255,142,.45);
-      animation:pulse 1.8s ease-in-out infinite;
-    }
-
-    @keyframes pulse{
-      0%,100%{ transform:scale(1); opacity:1; }
-      50%{ transform:scale(1.15); opacity:.82; }
-    }
-
-    .hero__right{
-      display:flex;
-      justify-content:flex-end;
-    }
-
-    .neonBox{
-      width:min(100%, 520px);
-      padding:34px 30px 30px;
-      border-radius:28px;
-      border:1px solid rgba(255,255,255,.10);
-      background:linear-gradient(180deg, rgba(15,10,24,.34), rgba(9,8,16,.18));
-      backdrop-filter:blur(10px);
-      box-shadow:
-        0 30px 80px rgba(0,0,0,.30),
-        inset 0 1px 0 rgba(255,255,255,.04);
-      position:relative;
-      overflow:hidden;
-      text-align:right;
-    }
-
-    .neonBox::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 75% 20%, rgba(255,70,180,.16), transparent 26%),
-        radial-gradient(circle at 18% 78%, rgba(215,180,106,.10), transparent 28%);
-      pointer-events:none;
-    }
-
-    .neonBox > div,
-    .neonBox > small{
-      position:relative;
-      z-index:2;
-    }
-
-    .neonBox > div:first-child,
-    .neonBox > div:nth-child(3){
-      display:block;
-      font-size:clamp(18px, 2.2vw, 28px);
-      font-weight:300;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.96);
-      text-shadow:
-        0 0 10px rgba(255,255,255,.35),
-        0 0 22px rgba(255,255,255,.18);
-    }
-
-    .neonBox .big{
-      display:block;
-      margin:8px 0 4px;
-      font-size:clamp(68px, 9vw, 138px);
-      line-height:.9;
-      font-weight:400;
-      letter-spacing:-.06em;
-      color:var(--pink);
-      text-shadow:
-        0 0 8px rgba(255,121,207,.75),
-        0 0 18px rgba(255,121,207,.58),
-        0 0 34px rgba(255,121,207,.35),
-        0 0 58px rgba(255,121,207,.18);
-      animation:neonGlow 2.6s ease-in-out infinite alternate;
-    }
-
-    .neonBox small{
-      display:block;
-      margin-top:16px;
-      font-size:15px;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:var(--gold2);
-      text-shadow:
-        0 0 10px rgba(215,180,106,.22),
-        0 0 24px rgba(215,180,106,.12);
-    }
-
-    @keyframes neonGlow{
-      from{
-        text-shadow:
-          0 0 6px rgba(255,121,207,.68),
-          0 0 16px rgba(255,121,207,.44),
-          0 0 28px rgba(255,121,207,.24);
-      }
-      to{
-        text-shadow:
-          0 0 10px rgba(255,121,207,.92),
-          0 0 22px rgba(255,121,207,.72),
-          0 0 42px rgba(255,121,207,.45),
-          0 0 64px rgba(255,121,207,.22);
-      }
-    }
-
-    .section{
-      padding:80px 0;
-    }
-
-    .dark{
-      background:rgba(255,255,255,.02);
-      border-top:1px solid rgba(255,255,255,.05);
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-
-    .center{ text-align:center; }
-
-    .center h2{
-      margin:0 0 12px;
-      font-size:clamp(32px,4vw,54px);
-      line-height:1.02;
-      letter-spacing:-.04em;
-    }
-
-    .center p{
-      margin:0 auto 28px;
-      max-width:760px;
-      color:rgba(255,255,255,.74);
-      line-height:1.8;
-    }
-
-    .grid3{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:18px;
-    }
-
-    .card{
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-      border-radius:24px;
-      padding:24px;
-      box-shadow:0 24px 60px rgba(0,0,0,.24);
-    }
-
-    .card h3{
-      margin:0 0 8px;
-      font-size:22px;
-    }
-
-    .card p{
-      margin:0;
-      color:rgba(255,255,255,.74);
-      line-height:1.7;
-    }
-
-    .reserve{
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-      border-radius:24px;
-      padding:26px;
-      box-shadow:0 24px 60px rgba(0,0,0,.24);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-    }
-
-    .reserve h3{
-      margin:0;
-      font-size:clamp(28px,4vw,44px);
-      font-weight:900;
-    }
-
-    @media (max-width:1100px){
-      .hero__split{
-        grid-template-columns:1fr;
-        gap:22px;
-      }
-      .hero__right{
-        justify-content:flex-start;
-      }
-    }
-
-    @media (max-width:920px){
-      .nav__toggle{
-        display:block;
-      }
-
-      .nav__list{
-        position:absolute;
-        right:0;
-        top:calc(100% + 10px);
-        min-width:240px;
-        display:none;
-        flex-direction:column;
-        align-items:flex-start;
-        gap:12px;
-        padding:16px;
-        border-radius:18px;
-        background:rgba(10,10,14,.96);
-        border:1px solid rgba(255,255,255,.08);
-      }
-
-      .nav__list.is-open{
-        display:flex;
-      }
-
-      .grid3{
-        grid-template-columns:1fr;
-      }
-
-      .hero{
-        min-height:92vh;
-      }
-
-      .hero__left{
-        padding:110px 0 20px;
-      }
-
-      .reserve{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-    }
-
-    @media (max-width:640px){
-      .container{
-        width:min(100% - 20px, 1200px);
-      }
-
-      .brand{
-        font-size:20px;
-      }
-
-      .hero h1{
-        font-size:clamp(42px, 12vw, 62px);
-      }
-
-      .hero__sub{
-        font-size:16px;
-      }
-
-      .hero__tagline{
-        font-size:18px;
-      }
-
-      .hero__actions{
-        flex-direction:column;
-      }
-
-      .btn{
-        width:100%;
-      }
-
-      .neonBox{
-        padding:24px 20px 22px;
-      }
-
-      .neonBox > div:first-child,
-      .neonBox > div:nth-child(3){
-        font-size:16px;
-        letter-spacing:.14em;
-      }
-
-      .neonBox .big{
-        font-size:62px;
-      }
-
-      .neonBox small{
-        font-size:13px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allure Bar & Lounge</title>
+
+<style>
+:root{
+  --gold:#d7b46a;
+  --gold2:#f2d38a;
+  --bg:#07070a;
+  --bg2:#0b0b12;
+  --text:#ffffff;
+  --soft:rgba(255,255,255,.7);
+  --pink:#ff5edb;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(215,180,106,.15), transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, rgba(150,85,255,.12), transparent 55%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+}
+
+/* NAV */
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(12px);
+  background:rgba(10,10,14,.75);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.header__inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px;
+}
+
+.brand{
+  font-weight:900;
+  font-size:22px;
+}
+
+.nav{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+
+.nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.btn{
+  padding:12px 18px;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#111;
+  font-weight:900;
+}
+
+/* HERO */
+.hero{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:40px;
+  padding:80px 20px;
+  align-items:center;
+}
+
+/* LEFT */
+.hero__left h1{
+  font-size:64px;
+  line-height:.95;
+  margin:0 0 12px;
+}
+
+.hero__left p{
+  color:var(--soft);
+  line-height:1.6;
+  max-width:520px;
+}
+
+.hero__buttons{
+  margin-top:20px;
+  display:flex;
+  gap:12px;
+}
+
+.btn--outline{
+  border:1px solid rgba(255,255,255,.2);
+  padding:12px 18px;
+  border-radius:12px;
+}
+
+/* TONIGHT INDICATOR */
+.live{
+  margin-top:18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#41ff8e;
+  box-shadow:0 0 10px #41ff8e;
+}
+
+.live span{
+  font-size:13px;
+  color:var(--gold2);
+  font-weight:800;
+}
+
+/* RIGHT NEON BOX */
+.hero__right{
+  display:flex;
+  justify-content:center;
+}
+
+.neonBox{
+  padding:40px;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(12px);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.4),
+    0 0 40px rgba(255,94,219,.15);
+}
+
+.neonSmall{
+  font-size:12px;
+  letter-spacing:.2em;
+  color:#fff;
+}
+
+.neonBig{
+  font-size:48px;
+  font-weight:900;
+  color:var(--pink);
+  text-shadow:
+    0 0 10px var(--pink),
+    0 0 30px var(--pink);
+}
+
+.neonBottom{
+  margin-top:6px;
+  font-size:12px;
+  color:var(--gold2);
+  letter-spacing:.15em;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+  .hero{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .hero__buttons{
+    justify-content:center;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <header class="header">
-    <div class="container header__inner">
-      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+<header class="header">
+  <div class="header__inner">
+    <div class="brand">Allure Bar & Lounge</div>
 
-      <nav class="nav">
-        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-
-        <ul class="nav__list">
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="menu.html">Menu</a></li>
-          <li><a href="events.html">Events</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="location.html">Location</a></li>
-          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
-        </ul>
-      </nav>
+    <div class="nav">
+      <a href="#">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="#">Events</a>
+      <a href="#">Gallery</a>
+      <a href="#">About</a>
+      <a href="#">Location</a>
+      <a class="btn">Reserve Now</a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="hero__overlay"></div>
+<section class="hero">
 
-      <div class="container hero__inner hero__split">
-        <div class="hero__left">
-          <p class="hero__eyebrow">Washington, DC</p>
-          <h1>Allure Bar &amp; Lounge</h1>
-          <p class="hero__sub">Craft Cocktails • Premium Hookah • DC Nights</p>
-          <p class="hero__tagline">
-            Elevated cocktails, curated energy, and a lounge experience that hits different.
-          </p>
+  <!-- LEFT -->
+  <div class="hero__left">
+    <h1>Allure Bar & Lounge</h1>
 
-          <div class="hero__actions">
-            <a href="menu.html" class="btn btn--ghost">View Menu</a>
-            <a href="tel:2022974949" class="btn btn--gold">Reserve VIP Table</a>
-          </div>
+    <p>
+      Craft Cocktails • Premium Hookah • DC Nights  
+      Elevated cocktails, curated energy, and a lounge experience that hits different.
+    </p>
 
-          <div class="hero__live">
-            <span class="dot"></span>
-            Tonight at Allure
-          </div>
-        </div>
+    <div class="hero__buttons">
+      <a class="btn--outline" href="menu.html">View Menu</a>
+      <a class="btn">Reserve VIP Table</a>
+    </div>
 
-        <div class="hero__right">
-          <div class="neonBox">
-            <div>LET’S MAKE</div>
-            <div class="big">POUR</div>
-            <div>DECISIONS</div>
-            <small>The Allure Way.</small>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="live">
+      <div class="dot"></div>
+      <span>TONIGHT AT ALLURE</span>
+    </div>
+  </div>
 
-    <section class="section">
-      <div class="container center">
-        <h2>The Allure Experience</h2>
-        <p>Where cocktails, hookah, and nightlife meet.</p>
+  <!-- RIGHT -->
+  <div class="hero__right">
+    <div class="neonBox">
+      <div class="neonSmall">LET’S MAKE</div>
+      <div class="neonBig">POUR</div>
+      <div class="neonSmall">DECISIONS</div>
+      <div class="neonBottom">THE ALLURE WAY.</div>
+    </div>
+  </div>
 
-        <div class="grid3">
-          <div class="card">
-            <h3>🍸 Craft Cocktails</h3>
-            <p>Signature drinks, premium pours, happy hour specials, and late-night favorites.</p>
-          </div>
+</section>
 
-          <div class="card">
-            <h3>💨 Premium Hookah</h3>
-            <p>Classic and premium hookah flavors served in a stylish lounge setting.</p>
-          </div>
-
-          <div class="card">
-            <h3>🌙 DC Nights</h3>
-            <p>Relaxed energy early, elevated vibes after 9, and a true neighborhood nightlife feel.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section dark">
-      <div class="container center">
-        <h2>Community Appreciation</h2>
-        <p>Exclusive perks for the DC community with valid ID.</p>
-
-        <div class="grid3">
-          <div class="card">
-            <h3>DC Resident</h3>
-            <p>Neighborhood appreciation for our local crowd.</p>
-          </div>
-
-          <div class="card">
-            <h3>Teacher Appreciation</h3>
-            <p>Special recognition for the people shaping the city.</p>
-          </div>
-
-          <div class="card">
-            <h3>Military Appreciation</h3>
-            <p>Honoring service with Allure community perks.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container center">
-        <h2>Reserve Your Table</h2>
-        <p>For tables, birthdays, VIP reservations, and nightlife bookings, call Allure now.</p>
-
-        <div class="reserve">
-          <h3>202-297-4949</h3>
-          <a href="tel:2022974949" class="btn btn--gold">Reserve Now</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const navToggle = document.querySelector(".nav__toggle");
-    const navList = document.querySelector(".nav__list");
-
-    if (navToggle && navList) {
-      navToggle.addEventListener("click", () => {
-        const isOpen = navList.classList.toggle("is-open");
-        navToggle.setAttribute("aria-expanded", String(isOpen));
-      });
-
-      navList.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
-          navList.classList.remove("is-open");
-          navToggle.setAttribute("aria-expanded", "false");
-        });
-      });
-    }
-  </script>
 </body>
 </html>
