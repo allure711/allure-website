@@ -1,238 +1,133 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Allure Bar & Lounge</title>
-
-<style>
-:root{
-  --gold:#d7b46a;
-  --gold2:#f2d38a;
-  --bg:#07070a;
-  --bg2:#0b0b12;
-  --text:#ffffff;
-  --soft:rgba(255,255,255,.7);
-  --pink:#ff5edb;
-}
-
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  font-family:Inter, Arial, sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(900px 500px at 15% 10%, rgba(215,180,106,.15), transparent 60%),
-    radial-gradient(900px 500px at 80% 20%, rgba(150,85,255,.12), transparent 55%),
-    linear-gradient(180deg,var(--bg),var(--bg2));
-}
-
-/* NAV */
-.header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  backdrop-filter:blur(12px);
-  background:rgba(10,10,14,.75);
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.header__inner{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px 20px;
-}
-
-.brand{
-  font-weight:900;
-  font-size:22px;
-}
-
-.nav{
-  display:flex;
-  gap:20px;
-  align-items:center;
-}
-
-.nav a{
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-}
-
-.btn{
-  padding:12px 18px;
-  border-radius:12px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:#111;
-  font-weight:900;
-}
-
-/* HERO */
-.hero{
-  max-width:1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:40px;
-  padding:80px 20px;
-  align-items:center;
-}
-
-/* LEFT */
-.hero__left h1{
-  font-size:64px;
-  line-height:.95;
-  margin:0 0 12px;
-}
-
-.hero__left p{
-  color:var(--soft);
-  line-height:1.6;
-  max-width:520px;
-}
-
-.hero__buttons{
-  margin-top:20px;
-  display:flex;
-  gap:12px;
-}
-
-.btn--outline{
-  border:1px solid rgba(255,255,255,.2);
-  padding:12px 18px;
-  border-radius:12px;
-}
-
-/* TONIGHT INDICATOR */
-.live{
-  margin-top:18px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#41ff8e;
-  box-shadow:0 0 10px #41ff8e;
-}
-
-.live span{
-  font-size:13px;
-  color:var(--gold2);
-  font-weight:800;
-}
-
-/* RIGHT NEON BOX */
-.hero__right{
-  display:flex;
-  justify-content:center;
-}
-
-.neonBox{
-  padding:40px;
-  border-radius:24px;
-  border:1px solid rgba(255,255,255,.1);
-  background:rgba(255,255,255,.03);
-  backdrop-filter:blur(12px);
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.4),
-    0 0 40px rgba(255,94,219,.15);
-}
-
-.neonSmall{
-  font-size:12px;
-  letter-spacing:.2em;
-  color:#fff;
-}
-
-.neonBig{
-  font-size:48px;
-  font-weight:900;
-  color:var(--pink);
-  text-shadow:
-    0 0 10px var(--pink),
-    0 0 30px var(--pink);
-}
-
-.neonBottom{
-  margin-top:6px;
-  font-size:12px;
-  color:var(--gold2);
-  letter-spacing:.15em;
-}
-
-/* MOBILE */
-@media(max-width:900px){
-  .hero{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .hero__buttons{
-    justify-content:center;
-  }
-}
-</style>
+ <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/menu.css">
 </head>
+<body class="menu-page">
 
-<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-<header class="header">
-  <div class="header__inner">
-    <div class="brand">Allure Bar & Lounge</div>
+      <nav class="nav">
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
-    <div class="nav">
-      <a href="#">Home</a>
-      <a href="menu.html">Menu</a>
-      <a href="#">Events</a>
-      <a href="#">Gallery</a>
-      <a href="#">About</a>
-      <a href="#">Location</a>
-      <a class="btn">Reserve Now</a>
+        <ul class="nav__list">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="location.html">Location</a></li>
+          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
+        </ul>
+      </nav>
     </div>
-  </div>
-</header>
+  </header>
 
-<section class="hero">
+  <main>
 
-  <!-- LEFT -->
-  <div class="hero__left">
-    <h1>Allure Bar & Lounge</h1>
+ <section class="hero hero--allure">
+      <div class="hero__overlay"></div>
 
-    <p>
-      Craft Cocktails • Premium Hookah • DC Nights  
-      Elevated cocktails, curated energy, and a lounge experience that hits different.
-    </p>
+      <div class="container hero__inner hero__split">
 
-    <div class="hero__buttons">
-      <a class="btn--outline" href="menu.html">View Menu</a>
-      <a class="btn">Reserve VIP Table</a>
-    </div>
+ <div class="hero__left">
+          <p class="hero__eyebrow">Washington, DC</p>
 
-    <div class="live">
-      <div class="dot"></div>
-      <span>TONIGHT AT ALLURE</span>
-    </div>
-  </div>
+          <h1>Allure Bar &amp; Lounge</h1>
 
-  <!-- RIGHT -->
-  <div class="hero__right">
-    <div class="neonBox">
-      <div class="neonSmall">LET’S MAKE</div>
-      <div class="neonBig">POUR</div>
-      <div class="neonSmall">DECISIONS</div>
-      <div class="neonBottom">THE ALLURE WAY.</div>
-    </div>
-  </div>
+           <p class="hero__sub">
+            Craft Cocktails • Premium Hookah • DC Nights
+          </p>
 
-</section>
+          <p class="hero__tagline">
+            Elevated cocktails, curated energy, and a lounge experience that hits different.
+          </p>
 
+          <div class="hero__actions">
+            <a href="menu.html" class="btn btn--ghost">View Menu</a>
+            <a href="tel:2022974949" class="btn btn--gold">Reserve VIP Table</a>
+          </div>
+
+          <div class="hero__live">
+            <span class="dot"></span>
+            Tonight at Allure
+          </div>
+        </div>
+
+        <div class="hero__right">
+          <div class="neonBox">
+            <div>LET’S MAKE</div>
+            <div class="big">POUR</div>
+            <div>DECISIONS</div>
+            <small>The Allure Way.</small>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container center">
+        <h2>The Allure Experience</h2>
+        <p>Where cocktails, hookah, and nightlife meet.</p>
+
+        <div class="grid3">
+          <div class="card">
+            <h3>🍸 Craft Cocktails</h3>
+            <p>Signature drinks, premium pours, happy hour specials, and late-night favorites.</p>
+          </div>
+
+          <div class="card">
+            <h3>💨 Premium Hookah</h3>
+            <p>Classic and premium hookah flavors served in a stylish lounge setting.</p>
+          </div>
+
+          <div class="card">
+            <h3>🌙 DC Nights</h3>
+            <p>Relaxed energy early, elevated vibes after 9, and a true neighborhood nightlife feel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark">
+      <div class="container center">
+        <h2>Community Appreciation</h2>
+        <p>Exclusive perks for the DC community with valid ID.</p>
+
+        <div class="grid3">
+          <div class="card">
+            <h3>DC Resident</h3>
+            <p>Neighborhood appreciation for our local crowd.</p>
+          </div>
+
+          <div class="card">
+            <h3>Teacher Appreciation</h3>
+            <p>Special recognition for the people shaping the city.</p>
+          </div>
+
+          <div class="card">
+            <h3>Military Appreciation</h3>
+            <p>Honoring service with Allure community perks.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+ <section class="section">
+      <div class="container center">
+        <h2>Reserve Your Table</h2>
+        <p>For tables, birthdays, VIP reservations, and nightlife bookings, call Allure now.</p>
+
+  <div class="reserve">
+          <h3>202-297-4949</h3>
+          <a href="tel:2022974949" class="btn btn--gold">Reserve Now</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+<script src="assets/js/menu.js"></script>
 </body>
 </html>
