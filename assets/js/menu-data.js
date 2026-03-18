@@ -145,6 +145,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Jack Daniel's", price: "$5 / $10" },
           { name: "Crown Royal", price: "$5 / $10" },
           { name: "Jim Beam", price: "$5 / $10" }
+
         ]
       },
       {
@@ -168,6 +169,7 @@ window.MENU_CATEGORY_CONTENT = {
         items: [
           { name: "Hennessy", price: "$5 / $10" },
           { name: "D’usse", price: "$5 / $10" }
+
         ]
       }
     ]
@@ -326,8 +328,28 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Mint", price: "$23" },
           { name: "Peach", price: "$23" },
           { name: "Gum Mint", price: "$23" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ]
       },
+
+
+
+
+
       {
         title: "Premium Gold (+$2)",
         items: [
@@ -335,6 +357,22 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Lady Killer", price: "$25" },
           { name: "Love 66", price: "$25" },
           { name: "Magic Love", price: "$25" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ]
       }
     ]
@@ -372,6 +410,7 @@ window.MENU_CATEGORY_CONTENT = {
       }
     ]
   }
+
 };
 
 window.MENU_HIGHLIGHTS = {
