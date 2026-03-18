@@ -1,644 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Menu | Allure Bar & Lounge</title>
-  <style>
-    :root{
-      --gold:#d7b46a;
-      --gold2:#f2d38a;
-      --bg:#07070a;
-      --bg2:#0b0b12;
-      --text:#ffffff;
-      --textSoft:rgba(255,255,255,.74);
-      --pink:#ff79cf;
-      --green:#41ff8e;
-      --line:rgba(255,255,255,.10);
-    }
-
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family:Inter, Arial, sans-serif;
-      background:
-        radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
-        radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
-        linear-gradient(180deg,var(--bg),var(--bg2));
-      color:var(--text);
-    }
-
-    a{ text-decoration:none; color:inherit; }
-    button{ font:inherit; }
-    .container{
-      width:min(1200px, calc(100% - 32px));
-      margin:0 auto;
-    }
-
-    .header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      backdrop-filter:blur(12px);
-      background:rgba(8,8,12,.78);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-
-    .header__inner{
-      min-height:78px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-    }
-
-    .brand{
-      color:#fff;
-      font-size:24px;
-      font-weight:900;
-      letter-spacing:-.02em;
-    }
-
-    .nav{ position:relative; }
-
-    .nav__toggle{
-      display:none;
-      border:1px solid rgba(255,255,255,.12);
-      background:transparent;
-      color:#fff;
-      border-radius:12px;
-      padding:8px 12px;
-      font-size:18px;
-      cursor:pointer;
-    }
-
-    .nav__list{
-      list-style:none;
-      display:flex;
-      align-items:center;
-      gap:18px;
-      margin:0;
-      padding:0;
-    }
-
-    .nav__list a{
-      color:#fff;
-      font-weight:700;
-    }
-
-    .nav__list a.active,
-    .nav__list a:hover{
-      color:var(--gold2);
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:170px;
-      padding:14px 22px;
-      border-radius:14px;
-      font-weight:900;
-      transition:transform .2s ease;
-    }
-
-    .btn:hover{ transform:translateY(-2px); }
-
-    .btn--gold{
-      border:1px solid rgba(215,180,106,.45);
-      background:linear-gradient(135deg,var(--gold),var(--gold2));
-      color:#111 !important;
-      box-shadow:0 16px 40px rgba(215,180,106,.22);
-    }
-
-    .menuWrap{
-      padding:0 0 90px;
-    }
-
-    .menuHero{
-      padding:44px 0 12px;
-    }
-
-    .menuHero h1{
-      margin:0 0 8px;
-      font-size:clamp(42px,6vw,70px);
-      line-height:.95;
-      letter-spacing:-.05em;
-    }
-
-    .menuHero p{
-      margin:0;
-      color:var(--textSoft);
-      font-size:16px;
-    }
-
-    .menuWelcomeStrip{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:12px;
-      margin:22px 0 20px;
-    }
-
-    .menuWelcomeStrip__item{
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-      border-radius:18px;
-      padding:14px 16px;
-      box-shadow:0 14px 34px rgba(0,0,0,.18);
-    }
-
-    .menuWelcomeStrip__label{
-      display:block;
-      color:var(--gold2);
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      margin-bottom:6px;
-    }
-
-    .menuWelcomeStrip__text{
-      color:rgba(255,255,255,.78);
-      font-size:14px;
-      line-height:1.5;
-    }
-
-    .liveIndicator{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin:0 0 22px;
-      padding:14px 16px;
-      border-radius:18px;
-      border:1px solid rgba(215,180,106,.24);
-      background:
-        radial-gradient(circle at top right, rgba(215,180,106,.10), transparent 35%),
-        radial-gradient(circle at left center, rgba(155,70,255,.08), transparent 30%),
-        rgba(255,255,255,.03);
-      box-shadow:
-        0 0 0 1px rgba(215,180,106,.04),
-        0 18px 40px rgba(0,0,0,.20);
-    }
-
-    .liveIndicator__left{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .liveDot{
-      width:12px;
-      height:12px;
-      border-radius:50%;
-      background:var(--green);
-      box-shadow:
-        0 0 0 6px rgba(66,255,141,.12),
-        0 0 18px rgba(66,255,141,.45);
-      animation:livePulse 1.8s ease-in-out infinite;
-    }
-
-    @keyframes livePulse{
-      0%,100%{ transform:scale(1); opacity:1; }
-      50%{ transform:scale(1.18); opacity:.8; }
-    }
-
-    .liveIndicator__eyebrow{
-      color:var(--gold2);
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      margin-bottom:4px;
-    }
-
-    .liveIndicator__title{
-      font-size:18px;
-      font-weight:900;
-      line-height:1.2;
-    }
-
-    .liveIndicator__tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      justify-content:flex-end;
-    }
-
-    .liveTag{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-    }
-
-    .dayTabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin:0 0 28px;
-    }
-
-    .dayTab{
-      appearance:none;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:800;
-      font-size:14px;
-      cursor:pointer;
-    }
-
-    .dayTab.active{
-      background:rgba(215,180,106,.14);
-      border-color:rgba(215,180,106,.40);
-      color:var(--gold2);
-      box-shadow:0 10px 30px rgba(215,180,106,.10);
-    }
-
-    .dayPanel{
-      display:none;
-    }
-
-    .dayPanel.active{
-      display:block;
-      animation:fadeIn .25s ease;
-    }
-
-    @keyframes fadeIn{
-      from{ opacity:0; transform:translateY(8px); }
-      to{ opacity:1; transform:translateY(0); }
-    }
-
-    .heroRow{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      margin:4px 0 12px;
-    }
-
-    .dayName{
-      font-size:32px;
-      font-weight:950;
-      letter-spacing:-.03em;
-    }
-
-    .daySub{
-      margin-top:6px;
-      color:rgba(255,255,255,.80);
-      line-height:1.5;
-      font-size:14px;
-    }
-
-    .popularTonight{
-      margin:10px 0 14px;
-    }
-
-    .popularTonight__title{
-      font-size:14px;
-      font-weight:900;
-      margin-bottom:8px;
-    }
-
-    .popularTonight__grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:8px;
-    }
-
-    .popularCard{
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);
-      border-radius:12px;
-      padding:10px 12px;
-      font-size:13px;
-      font-weight:800;
-    }
-
-    .menuSplit{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-
-    .menuCenterWrap{
-      display:grid;
-      gap:12px;
-    }
-
-    .menuTopCategories,
-    .menuBottomCategories{
-      display:grid;
-      gap:8px;
-    }
-
-    .menuTopCategories{
-      grid-template-columns:repeat(8,1fr);
-    }
-
-    .menuBottomCategories{
-      grid-template-columns:repeat(5,1fr);
-    }
-
-    .menuCenterBtn{
-      appearance:none;
-      border:1px solid rgba(255,255,255,.12);
-      background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
-      color:#fff;
-      min-height:44px;
-      padding:8px 10px;
-      border-radius:14px;
-      font-weight:800;
-      font-size:13px;
-      cursor:pointer;
-      box-shadow:0 10px 24px rgba(0,0,0,.14);
-    }
-
-    .menuCenterBtn:hover{
-      border-color:rgba(215,180,106,.34);
-      color:var(--gold2);
-      background:rgba(215,180,106,.08);
-    }
-
-    .menuCenterBtn.active{
-      border-color:rgba(215,180,106,.44);
-      background:rgba(215,180,106,.15);
-      color:var(--gold2);
-      box-shadow:0 16px 38px rgba(215,180,106,.10);
-    }
-
-    .menuBigPanel{
-      position:relative;
-      border-radius:24px;
-      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow:0 24px 60px rgba(0,0,0,.24);
-      backdrop-filter:blur(10px);
-      padding:16px;
-      min-height:320px;
-    }
-
-    .menuCenterWrap.vip .menuBigPanel{
-      background:
-        radial-gradient(circle at top right, rgba(155,70,255,.25), transparent 40%),
-        radial-gradient(circle at top left, rgba(215,180,106,.25), transparent 45%),
-        linear-gradient(180deg, rgba(15,10,22,.95), rgba(8,8,14,.95));
-      border:1px solid rgba(215,180,106,.45);
-      box-shadow:
-        0 0 0 1px rgba(215,180,106,.10),
-        0 18px 70px rgba(0,0,0,.45),
-        0 0 40px rgba(155,70,255,.25),
-        0 0 50px rgba(215,180,106,.15);
-    }
-
-    .menuPanelTitle{
-      font-size:14px;
-      font-weight:950;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.88);
-      margin-bottom:12px;
-    }
-
-    .menuPanelBody{
-      min-height:180px;
-    }
-
-    .menuEmpty{
-      border-radius:18px;
-      border:1px dashed rgba(255,255,255,.12);
-      background:rgba(255,255,255,.02);
-      padding:24px;
-      color:var(--textSoft);
-      line-height:1.7;
-    }
-
-    .menuSubTabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:14px;
-    }
-
-    .menuSubTab{
-      appearance:none;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:800;
-      font-size:13px;
-      cursor:pointer;
-    }
-
-    .menuSubTab.active{
-      background:rgba(215,180,106,.14);
-      border-color:rgba(215,180,106,.40);
-      color:var(--gold2);
-    }
-
-    .menuSectionBlock{
-      border:1px solid rgba(215,180,106,.18);
-      background:rgba(255,255,255,.03);
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .menuList{
-      display:grid;
-      gap:8px;
-    }
-
-    .menuItem{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:16px;
-      padding:12px 0;
-      border-bottom:1px solid rgba(255,255,255,.08);
-    }
-
-    .menuItem:last-child{
-      border-bottom:none;
-    }
-
-    .menuItem__name{
-      font-weight:900;
-      font-size:15px;
-      line-height:1.25;
-      color:#fff;
-    }
-
-    .menuItem__desc{
-      margin-top:4px;
-      color:rgba(255,255,255,.68);
-      line-height:1.4;
-      font-size:12px;
-    }
-
-    .menuItem__price{
-      margin-left:auto;
-      color:var(--gold2);
-      font-weight:950;
-      font-size:15px;
-      white-space:nowrap;
-    }
-
-    .menuGrouped__grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:14px;
-    }
-
-    .menuGrouped__box{
-      border:1px solid rgba(215,180,106,.22);
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .menuGrouped__boxTitle{
-      font-size:14px;
-      font-weight:900;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:var(--gold2);
-      margin-bottom:10px;
-      padding-bottom:8px;
-      border-bottom:1px solid rgba(215,180,106,.18);
-    }
-
-    .vipBanner{
-      margin:14px 0;
-      padding:18px;
-      border-radius:22px;
-      border:1px solid rgba(215,180,106,.42);
-      background:
-        radial-gradient(circle at top right, rgba(155,70,255,.22), transparent 36%),
-        radial-gradient(circle at left center, rgba(215,180,106,.16), transparent 34%),
-        linear-gradient(180deg, rgba(16,12,24,.96), rgba(10,10,16,.96));
-      box-shadow:
-        0 18px 60px rgba(0,0,0,.28),
-        0 0 30px rgba(155,70,255,.18);
-    }
-
-    .vipBanner__badge{
-      display:inline-flex;
-      padding:7px 12px;
-      border-radius:999px;
-      border:1px solid rgba(215,180,106,.40);
-      color:var(--gold2);
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      margin-bottom:10px;
-      background:rgba(215,180,106,.08);
-    }
-
-    .vipBanner__title{
-      font-size:18px;
-      font-weight:950;
-      letter-spacing:-.02em;
-      margin-bottom:6px;
-    }
-
-    .vipBanner__meta{
-      color:rgba(255,255,255,.78);
-      font-size:14px;
-    }
-
-    @media (max-width:1100px){
-      .menuTopCategories{
-        grid-template-columns:repeat(4,1fr);
-      }
-      .menuBottomCategories{
-        grid-template-columns:repeat(3,1fr);
-      }
-    }
-
-    @media (max-width:920px){
-      .nav__toggle{
-        display:block;
-      }
-
-      .nav__list{
-        position:absolute;
-        right:0;
-        top:calc(100% + 10px);
-        min-width:240px;
-        display:none;
-        flex-direction:column;
-        align-items:flex-start;
-        gap:12px;
-        padding:16px;
-        border-radius:18px;
-        background:rgba(10,10,14,.96);
-        border:1px solid rgba(255,255,255,.08);
-      }
-
-      .nav__list.is-open{
-        display:flex;
-      }
-
-      .menuWelcomeStrip,
-      .menuSplit{
-        grid-template-columns:1fr;
-      }
-
-      .liveIndicator{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .liveIndicator__tags{
-        justify-content:flex-start;
-      }
-
-      .popularTonight__grid,
-      .menuGrouped__grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width:640px){
-      .container{
-        width:min(100% - 20px, 1200px);
-      }
-
-      .brand{
-        font-size:20px;
-      }
-
-      .menuTopCategories,
-      .menuBottomCategories{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .menuItem{
-        flex-direction:column;
-        gap:6px;
-      }
-
-      .menuItem__price{
-        margin-left:0;
-      }
-    }
-  </style>
-</head>
-<body class="menu-page">
 
 <header class="header">
   <div class="container header__inner">
@@ -654,7 +13,7 @@
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="location.html">Location</a></li>
-        <li><a class="btn btn--gold" href="tel:2022974949">Reserve Now</a></li>
+        <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
       </ul>
     </nav>
   </div>
@@ -663,7 +22,8 @@
 <main class="menuWrap">
   <div class="container">
 
-    <section class="menuHero">
+    <section class="menuHeroSimple">
+
       <h1>Weekly Menu</h1>
       <p>Explore daily specials, cocktails, hookah, and food.</p>
     </section>
@@ -685,626 +45,444 @@
       </div>
     </section>
 
-    <section class="liveIndicator">
+    <section class="liveIndicator" id="liveIndicator">
       <div class="liveIndicator__left">
         <span class="liveDot"></span>
+
         <div>
           <div class="liveIndicator__eyebrow">Tonight at Allure</div>
           <div class="liveIndicator__title" id="liveTitle">Live Tonight</div>
         </div>
       </div>
 
-      <div class="liveIndicator__tags" id="liveTags"></div>
+      <div class="liveIndicator__tags" id="liveTags">
+        <span class="liveTag">Happy Hour</span>
+        <span class="liveTag">Hookah Lounge</span>
+        <span class="liveTag">VIP Tables</span>
+      </div>
     </section>
 
-    <div class="dayTabs" id="dayTabs">
-      <button class="dayTab" data-day="monday">Monday</button>
-      <button class="dayTab" data-day="tuesday">Tuesday</button>
-      <button class="dayTab" data-day="wednesday">Wednesday</button>
-      <button class="dayTab" data-day="thursday">Thursday</button>
-      <button class="dayTab" data-day="friday">Friday</button>
-      <button class="dayTab" data-day="saturday">Saturday</button>
-      <button class="dayTab" data-day="sunday">Sunday</button>
+    <div class="dayTabs">
+      <button class="dayTab" type="button" data-daytab="monday">Monday</button>
+      <button class="dayTab" type="button" data-daytab="tuesday">Tuesday</button>
+      <button class="dayTab" type="button" data-daytab="wednesday">Wednesday</button>
+      <button class="dayTab" type="button" data-daytab="thursday">Thursday</button>
+      <button class="dayTab" type="button" data-daytab="friday">Friday</button>
+      <button class="dayTab" type="button" data-daytab="saturday">Saturday</button>
+      <button class="dayTab" type="button" data-daytab="sunday">Sunday</button>
     </div>
+
   </div>
 
-  <div class="container">
-    <section class="dayPanel" data-day="monday"></section>
-    <section class="dayPanel" data-day="tuesday"></section>
-    <section class="dayPanel" data-day="wednesday"></section>
-    <section class="dayPanel" data-day="thursday"></section>
-    <section class="dayPanel" data-day="friday"></section>
-    <section class="dayPanel" data-day="saturday"></section>
-    <section class="dayPanel" data-day="sunday"></section>
-  </div>
-</main>
-
-<script>
-  const MENU_DATA = {
-    food: {
-      sections: [
-        {
-          title: "Appetizers",
-          items: [
-            { name: "Salmon Sliders w/ Fries", price: "$12" },
-            { name: "Beef Sliders w/ Fries", price: "$10" },
-            { name: "Mozzarella Sticks", price: "$7" },
-            { name: "Fried Pickles", price: "$5" },
-            { name: "Chips & Salsa", price: "$5" },
-            { name: "Onion Rings", price: "$7" },
-            { name: "Fries", price: "$5" }
-          ]
-        },
-        {
-          title: "Wings",
-          groups: [
-            {
-              title: "With Fries",
-              items: [
-                { name: "12 pcs Wings", price: "$16" },
-                { name: "8 pcs Wings", price: "$14" },
-                { name: "6 pcs Wings", price: "$12" }
-              ]
-            },
-            {
-              title: "Wings Only",
-              items: [
-                { name: "12 pcs Wings", price: "$14" },
-                { name: "8 pcs Wings", price: "$10" },
-                { name: "6 pcs Wings", price: "$8" }
-              ]
-            }
-          ]
-        },
-        {
-          title: "Quesadillas",
-          items: [
-            { name: "Cheese Quesadilla", price: "$8" },
-            { name: "Chicken Quesadilla", price: "$10" },
-            { name: "Shrimp Quesadilla", price: "$12" },
-            { name: "Salmon Quesadilla", price: "$14" }
-          ]
-        },
-        {
-          title: "Rasta Pasta or Alfredo",
-          items: [
-            { name: "Chicken", price: "$16" },
-            { name: "Shrimp", price: "$18" },
-            { name: "Salmon", price: "$20" }
-          ]
-        },
-        {
-          title: "Salads",
-          items: [
-            { name: "Salad", price: "$8" },
-            { name: "Chicken Salad", price: "$10" },
-            { name: "Shrimp Salad", price: "$12" },
-            { name: "Salmon Salad", price: "$13" }
-          ]
-        },
-        {
-          title: "Dinner",
-          items: [
-            { name: "Salmon", desc: "Yellow rice & broccoli", price: "$20" },
-            { name: "General Tso", desc: "Yellow rice & broccoli", price: "$18" },
-            { name: "Beef Burger w/ Fries", desc: "Mayo, lettuce, tomato, cheese", price: "$13" },
-            { name: "Fried Shrimp Basket", price: "$18" },
-            { name: "Crab Fries Basket", price: "$18" },
-            { name: "Fried Whiting Basket", price: "$15" },
-            { name: "Salmon Nugget Basket", price: "$15" },
-            { name: "Catfish Nuggets Basket", price: "$13" }
-          ]
-        },
-        {
-          title: "Tacos",
-          items: [
-            { name: "Shrimp Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$16" },
-            { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
-          ]
-        }
-      ]
-    },
-
-    shots5: {
-      sections: [
-        {
-          title: "Vodka",
-          items: [
-            { name: "Absolut", price: "$5 / $10" },
-            { name: "Belvedere", price: "$5 / $10" },
-            { name: "Ciroc", price: "$5 / $10" },
-            { name: "Grey Goose", price: "$5 / $10" },
-            { name: "Ketel One", price: "$5 / $10" },
-            { name: "Tito's", price: "$5 / $10" }
-          ]
-        },
-        {
-          title: "Tequila",
-          items: [
-            { name: "1800", price: "$5 / $10" },
-            { name: "Altos", price: "$5 / $10" },
-            { name: "Espolon", price: "$5 / $10" },
-            { name: "Hornitos", price: "$5 / $10" },
-            { name: "Jose Cuervo", price: "$5 / $10" },
-            { name: "Teremana", price: "$5 / $10" }
-          ]
-        },
-        {
-          title: "Whiskey",
-          items: [
-            { name: "Jameson", price: "$5 / $10" },
-            { name: "Jack Daniel's", price: "$5 / $10" },
-            { name: "Crown Royal", price: "$5 / $10" }
-          ]
-        }
-      ]
-    },
-
-    shots7: {
-      sections: [
-        {
-          title: "Vodka",
-          items: [
-            { name: "Tito's Handmade", price: "$7 / $14" },
-            { name: "Grey Goose", price: "$7 / $14" },
-            { name: "Belvedere", price: "$7 / $14" },
-            { name: "Ciroc", price: "$7 / $14" }
-          ]
-        },
-        {
-          title: "Tequila",
-          items: [
-            { name: "Casamigos", price: "$7 / $14" },
-            { name: "Don Julio", price: "$7 / $14" },
-            { name: "Patron", price: "$7 / $14" },
-            { name: "Teremana", price: "$7 / $14" }
-          ]
-        },
-        {
-          title: "Whiskey",
-          items: [
-            { name: "Jameson", price: "$7 / $14" },
-            { name: "Jack Daniel's", price: "$7 / $14" },
-            { name: "Crown Royal", price: "$7 / $14" }
-          ]
-        }
-      ]
-    },
-
-    premium: {
-      sections: [
-        {
-          title: "Premium",
-          items: [
-            { name: "Don Julio 1942", price: "$20 / $35" },
-            { name: "Clase Azul", price: "$25 / $40" },
-            { name: "Casamigos Reposado", price: "$12 / $20" },
-            { name: "Patron Reposado", price: "$12 / $20" },
-            { name: "Hennessy VSOP", price: "$12 / $20" }
-          ]
-        }
-      ]
-    },
-
-    wine6: {
-      sections: [
-        {
-          title: "$6 Wine",
-          items: [
-            { name: "Cabernet Sauvignon", price: "$6" },
-            { name: "Chardonnay", price: "$6" },
-            { name: "Merlot", price: "$6" },
-            { name: "Moscato", price: "$6" },
-            { name: "Pinot Grigio", price: "$6" }
-          ]
-        }
-      ]
-    },
-
-    beer4: {
-      sections: [
-        {
-          title: "$4 Beer",
-          items: [
-            { name: "Corona", price: "$4" },
-            { name: "Guinness", price: "$4" },
-            { name: "Heineken", price: "$4" },
-            { name: "Modelo", price: "$4" },
-            { name: "Stella", price: "$4" }
-          ]
-        }
-      ]
-    },
-
-    highnoon8: {
-      sections: [
-        {
-          title: "High Noon",
-          items: [
-            { name: "Grapefruit", price: "$8" },
-            { name: "Mango", price: "$8" },
-            { name: "Lime", price: "$8" },
-            { name: "Strawberry", price: "$8" }
-          ]
-        }
-      ]
-    },
-
-    na: {
-      sections: [
-        {
-          title: "Non-Alcoholic",
-          items: [
-            { name: "Red Bull", price: "$5" },
-            { name: "Ginger Beer", price: "$5" },
-            { name: "Frozen Drinks", price: "$5" }
-          ]
-        }
-      ]
-    },
-
-    hookah23: {
-      sections: [
-        {
-          title: "Hookah",
-          items: [
-            { name: "Blueberry", price: "$23" },
-            { name: "BMW", price: "$23" },
-            { name: "Mint", price: "$23" },
-            { name: "Peach", price: "$23" },
-            { name: "Gum Mint", price: "$23" },
-            { name: "Bluemist", price: "$25" },
-            { name: "Lady Killer", price: "$25" },
-            { name: "Love 66", price: "$25" }
-          ]
-        }
-      ]
-    },
-
-    tower43: {
-      sections: [
-        {
-          title: "Tower",
-          items: [{ name: "Tower", price: "$43" }]
-        }
-      ]
-    },
-
-    fishbowl23: {
-      sections: [
-        {
-          title: "Fishbowl",
-          items: [{ name: "Fishbowl", price: "$23" }]
-        }
-      ]
-    },
-
-    bottles: {
-      sections: [
-        {
-          title: "Bottle Service",
-          items: [{ name: "Bottle menu coming soon" }]
-        }
-      ]
-    }
-  };
-
-  const LIVE = {
-    monday: { title: "Free Hookah Monday • Happy Hour All Night", tags: ["Happy Hour All Night", "Free Hookah", "Cocktails", "Food"] },
-    tuesday: { title: "Happy Hour 5–9 • Late Night Lounge", tags: ["Happy Hour 5–9", "Hookah Lounge", "Shots", "Late Night"] },
-    wednesday: { title: "Midweek Social • After 9 Vibes", tags: ["Midweek Social", "Hookah", "High Noon", "Late Night"] },
-    thursday: { title: "Karaoke Thursday • Late Night Energy", tags: ["Karaoke Night", "Happy Hour", "Hookah", "Late Night"] },
-    friday: { title: "VIP Friday • Tables • Bottle Service", tags: ["VIP Night", "Bottle Service", "Hookah", "After 9"] },
-    saturday: { title: "VIP Saturday • Premium Nightlife", tags: ["VIP Night", "Premium Drinks", "Hookah", "Tables"] },
-    sunday: { title: "Social Sunday • Happy Hour All Night", tags: ["Happy Hour All Night", "Hookah", "Fishbowls", "Food"] }
-  };
-
-  const HIGHLIGHTS = {
-    monday: ["Salmon Sliders w/ Fries", "Free Hookah Monday", "Allure Lemon Drop"],
-    tuesday: ["Classic Margarita", "Hookah", "Fishbowl"],
-    wednesday: ["Long Island", "Hookah", "High Noon"],
-    thursday: ["Mojito", "Hookah", "Fishbowl"],
-    friday: ["Premium", "Hookah", "Tower"],
-    saturday: ["Premium", "Hookah", "Fishbowl"],
-    sunday: ["Hookah", "Fishbowl", "Allure Lemon Drop"]
-  };
-
-  function renderFlatMenu(items){
-    return `
-      <div class="menuList">
-        ${items.map(item => `
-          <div class="menuItem">
-            <div>
-              <div class="menuItem__name">${item.name || ""}</div>
-              ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
-            </div>
-            <div class="menuItem__price">${item.price || ""}</div>
-          </div>
-        `).join("")}
+  <!-- MONDAY -->
+  <section class="dayPanel" data-daypanel="monday">
+    <div class="container">
+      <div class="heroRow">
+        <div>
+          <div class="dayName">MONDAY</div>
+          <div class="daySub">Free Hookah Monday • Happy Hour All Night</div>
+        </div>
       </div>
-    `;
-  }
 
-  function renderGrouped(groups){
-    return `
-      <div class="menuGrouped__grid">
-        ${groups.map(group => `
-          <div class="menuGrouped__box">
-            <div class="menuGrouped__boxTitle">${group.title}</div>
-            ${renderFlatMenu(group.items || [])}
-          </div>
-        `).join("")}
-      </div>
-    `;
-  }
-
-  function mapMode(items, mode){
-    return items.map(item => {
-      const raw = String(item.price || "");
-      if (!mode || !raw.includes("/")) return item;
-      const parts = raw.split("/").map(p => p.trim());
-      if (mode === "shots") return { ...item, price: parts[0] || raw };
-      if (mode === "drinks") return { ...item, price: parts[1] || parts[0] || raw };
-      return item;
-    });
-  }
-
-  function createPanel(title, topCats, bottomCats, vip = false){
-    return `
-      <div class="menuCenterWrap ${vip ? "vip" : ""}">
+      <div class="menuCenterWrap">
         <div class="menuTopCategories">
-          ${topCats.map(cat => `
-            <button class="menuCenterBtn" data-cat="${cat.cat}" data-mode="${cat.mode || ""}">
-              ${cat.label}
-            </button>
-          `).join("")}
+          <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+          <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+          <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+          <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
         </div>
 
         <div class="menuBigPanel">
-          <div class="menuPanelTitle">${title}</div>
-          <div class="menuPanelBody">
-            <div class="menuEmpty">Tap a category above or below to explore food, hookah, shots, drinks, towers, and more.</div>
-          </div>
+          <div class="menuPanelTitle">Happy Hour • All Night</div>
+          <div class="menuPanelBody"></div>
         </div>
 
         <div class="menuBottomCategories">
-          ${bottomCats.map(cat => `
-            <button class="menuCenterBtn" data-cat="${cat.cat}" data-mode="${cat.mode || ""}">
-              ${cat.label}
-            </button>
-          `).join("")}
+          <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
+          <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+          <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+          <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+          <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
         </div>
       </div>
-    `;
-  }
+    </div>
+  </section>
 
-  function buildDayPanel(day){
-    const panel = document.querySelector(`.dayPanel[data-day="${day}"]`);
-    if (!panel) return;
-
-    const topCommon = [
-      { label: "Food", cat: "food" },
-      { label: "Hookah", cat: "hookah23" },
-      { label: "$5 Shots", cat: "shots5", mode: "shots" },
-      { label: "$7 Shots", cat: "shots7", mode: "shots" },
-      { label: "$10 Drinks", cat: "shots5", mode: "drinks" },
-      { label: "$14 Drinks", cat: "shots7", mode: "drinks" },
-      { label: "$43 Tower", cat: "tower43" },
-      { label: "$23 Fishbowl", cat: "fishbowl23" }
-    ];
-
-    const bottomHappy = [
-      { label: "$8 High Noon", cat: "highnoon8" },
-      { label: "$6 Wine", cat: "wine6" },
-      { label: "$4 Beer", cat: "beer4" },
-      { label: "Non Alcoholic", cat: "na" },
-      { label: "Bottles", cat: "bottles" }
-    ];
-
-    const bottomLate = [
-      { label: "Premium", cat: "premium" },
-      { label: "$6 Wine", cat: "wine6" },
-      { label: "$4 Beer", cat: "beer4" },
-      { label: "Non Alcoholic", cat: "na" },
-      { label: "Bottles", cat: "bottles" }
-    ];
-
-    let title = "";
-    let sub = "";
-    let layout = "";
-    let vipBanner = "";
-
-    if (day === "monday") {
-      title = "MONDAY";
-      sub = "Free Hookah Monday • Happy Hour All Night";
-      layout = createPanel("Happy Hour • All Night", topCommon, bottomHappy);
-    } else if (day === "sunday") {
-      title = "SUNDAY";
-      sub = "Social Sunday • Happy Hour All Night";
-      layout = createPanel("Happy Hour • All Night", topCommon, bottomHappy);
-    } else if (day === "friday" || day === "saturday") {
-      title = day.toUpperCase();
-      sub = `${day === "friday" ? "Allure Friday" : "Allure Saturday"} • Happy Hour 5–9 • After 9 VIP Night`;
-      vipBanner = `
-        <section class="vipBanner">
-          <div class="vipBanner__badge">VIP NIGHT ACTIVE</div>
-          <div class="vipBanner__title">Late Night Energy • Bottle Service • DJ Vibes</div>
-          <div class="vipBanner__meta">Premium cocktails • VIP tables • Hookah • Fishbowls</div>
-        </section>
-      `;
-      layout = `
-        <div class="menuSplit">
-          ${createPanel("Happy Hour • 5–9", topCommon, bottomHappy)}
-          ${createPanel("After 9 • VIP Night", [
-            { label: "Food", cat: "food" },
-            { label: "Hookah", cat: "hookah23" },
-            { label: "$7 Shots", cat: "shots7", mode: "shots" },
-            { label: "$10+ Shots", cat: "premium" },
-            { label: "$14 Drinks", cat: "shots7", mode: "drinks" },
-            { label: "$20+ Drinks", cat: "premium" },
-            { label: "$43 Tower", cat: "tower43" },
-            { label: "$23 Fishbowl", cat: "fishbowl23" }
-          ], [
-            { label: "Hookah", cat: "hookah23" },
-            { label: "$6 Wine", cat: "wine6" },
-            { label: "$4 Beer", cat: "beer4" },
-            { label: "Non Alcoholic", cat: "na" },
-            { label: "Bottles", cat: "bottles" }
-          ], true)}
-        </div>
-      `;
-    } else {
-      const dayTitles = {
-        tuesday: "Happy Hour 5–9 • After 9 Late Night",
-        wednesday: "Midweek Social • Happy Hour 5–9 • After 9 Late Night",
-        thursday: "Karaoke Thursday • Happy Hour 5–9 • After 9 Late Night"
-      };
-      title = day.toUpperCase();
-      sub = dayTitles[day];
-      layout = `
-        <div class="menuSplit">
-          ${createPanel("Happy Hour • 5–9", topCommon, bottomHappy)}
-          ${createPanel("After 9 • Late Night", topCommon, bottomLate)}
-        </div>
-      `;
-    }
-
-    const highlights = HIGHLIGHTS[day] || [];
-
-    panel.innerHTML = `
+  <!-- TUESDAY -->
+  <section class="dayPanel" data-daypanel="tuesday">
+    <div class="container">
       <div class="heroRow">
         <div>
-          <div class="dayName">${title}</div>
-          <div class="daySub">${sub}</div>
+          <div class="dayName">TUESDAY</div>
+          <div class="daySub">Happy Hour 5–9 • After 9 Late Night</div>
         </div>
       </div>
 
-      ${vipBanner}
-
-      <section class="popularTonight">
-        <div class="popularTonight__title">🔥 Popular Tonight</div>
-        <div class="popularTonight__grid">
-          ${highlights.map(item => `<div class="popularCard">${item}</div>`).join("")}
-        </div>
-      </section>
-
-      ${layout}
-    `;
-
-    bindMenuButtons(panel);
-  }
-
-  function bindMenuButtons(scope){
-    scope.querySelectorAll(".menuCenterWrap").forEach(wrap => {
-      const buttons = [...wrap.querySelectorAll(".menuCenterBtn")];
-      const panelBody = wrap.querySelector(".menuPanelBody");
-
-      function activate(button){
-        buttons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-
-        const cat = button.dataset.cat;
-        const mode = button.dataset.mode || null;
-        const content = MENU_DATA[cat];
-
-        if (!content) {
-          panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
-          return;
-        }
-
-        const sections = content.sections || [];
-        panelBody.innerHTML = `
-          <div class="menuSubTabs">
-            ${sections.map((section, i) => `
-              <button class="menuSubTab ${i === 0 ? "active" : ""}" data-sub="${i}">
-                ${section.title}
-              </button>
-            `).join("")}
+      <div class="menuSplit">
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
           </div>
-          <div class="menuSubBody"></div>
-        `;
 
-        const subButtons = [...panelBody.querySelectorAll(".menuSubTab")];
-        const subBody = panelBody.querySelector(".menuSubBody");
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">Happy Hour • 5–9</div>
+            <div class="menuPanelBody"></div>
+          </div>
 
-        function renderSub(index){
-          subButtons.forEach(btn => btn.classList.toggle("active", Number(btn.dataset.sub) === index));
-          const section = sections[index];
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
 
-          if (!section) return;
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
 
-          if (section.groups) {
-            subBody.innerHTML = `
-              <div class="menuSectionBlock">
-                ${renderGrouped(section.groups)}
-              </div>
-            `;
-            return;
-          }
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">After 9 • Late Night</div>
+            <div class="menuPanelBody"></div>
+          </div>
 
-          subBody.innerHTML = `
-            <div class="menuSectionBlock">
-              ${renderFlatMenu(mapMode(section.items || [], mode))}
-            </div>
-          `;
-        }
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        subButtons.forEach(btn => {
-          btn.addEventListener("click", () => renderSub(Number(btn.dataset.sub)));
-        });
+  <!-- WEDNESDAY -->
+  <section class="dayPanel" data-daypanel="wednesday">
+    <div class="container">
+      <div class="heroRow">
+        <div>
+          <div class="dayName">WEDNESDAY</div>
+          <div class="daySub">Midweek Social • Happy Hour 5–9 • After 9 Late Night</div>
+        </div>
+      </div>
 
-        renderSub(0);
-      }
+      <div class="menuSplit">
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
 
-      buttons.forEach(button => {
-        button.addEventListener("click", () => activate(button));
-      });
-    });
-  }
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">Happy Hour • 5–9</div>
+            <div class="menuPanelBody"></div>
+          </div>
 
-  function updateLive(day){
-    const info = LIVE[day];
-    if (!info) return;
-    document.getElementById("liveTitle").textContent = info.title;
-    document.getElementById("liveTags").innerHTML = info.tags.map(tag => `<span class="liveTag">${tag}</span>`).join("");
-  }
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
 
-  function activateDay(day){
-    document.querySelectorAll(".dayTab").forEach(tab => {
-      tab.classList.toggle("active", tab.dataset.day === day);
-    });
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
 
-    document.querySelectorAll(".dayPanel").forEach(panel => {
-      panel.classList.toggle("active", panel.dataset.day === day);
-    });
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">After 9 • Late Night</div>
+            <div class="menuPanelBody"></div>
+          </div>
 
-    updateLive(day);
-  }
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  function setupDays(){
-    const days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
-    days.forEach(buildDayPanel);
+  <!-- THURSDAY -->
+  <section class="dayPanel" data-daypanel="thursday">
+    <div class="container">
+      <div class="heroRow">
+        <div>
+          <div class="dayName">THURSDAY</div>
+          <div class="daySub">Karaoke Thursday • Happy Hour 5–9 • After 9 Late Night</div>
+        </div>
+      </div>
 
-    document.querySelectorAll(".dayTab").forEach(tab => {
-      tab.addEventListener("click", () => activateDay(tab.dataset.day));
-    });
+      <div class="menuSplit">
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
 
-    const todayMap = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
-    const current = todayMap[new Date().getDay()];
-    activateDay(current === "sunday" ? "sunday" : current);
-  }
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">Happy Hour • 5–9</div>
+            <div class="menuPanelBody"></div>
+          </div>
 
-  const navToggle = document.querySelector(".nav__toggle");
-  const navList = document.querySelector(".nav__list");
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
 
-  if (navToggle && navList) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = navList.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", String(isOpen));
-    });
-  }
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
 
-  setupDays();
-</script>
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">After 9 • Late Night</div>
+            <div class="menuPanelBody"></div>
+          </div>
+
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRIDAY -->
+  <section class="dayPanel" data-daypanel="friday">
+    <div class="container">
+      <div class="heroRow">
+        <div>
+          <div class="dayName">FRIDAY</div>
+          <div class="daySub">Allure Friday • Happy Hour 5–9 • After 9 VIP Night</div>
+        </div>
+      </div>
+
+      <div class="menuSplit">
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
+
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">Happy Hour • 5–9</div>
+            <div class="menuPanelBody"></div>
+          </div>
+
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
+
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="premium">$20+ Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
+
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">After 9 • VIP Night</div>
+            <div class="menuPanelBody"></div>
+          </div>
+
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SATURDAY -->
+  <section class="dayPanel" data-daypanel="saturday">
+    <div class="container">
+      <div class="heroRow">
+        <div>
+          <div class="dayName">SATURDAY</div>
+          <div class="daySub">Allure Saturday • Happy Hour 5–9 • After 9 VIP Night</div>
+        </div>
+      </div>
+
+      <div class="menuSplit">
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
+
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">Happy Hour • 5–9</div>
+            <div class="menuPanelBody"></div>
+          </div>
+
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
+
+        <div class="menuCenterWrap">
+          <div class="menuTopCategories">
+            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
+            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="premium">$20+ Drinks</button>
+            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+          </div>
+
+          <div class="menuBigPanel">
+            <div class="menuPanelTitle">After 9 • VIP Night</div>
+            <div class="menuPanelBody"></div>
+          </div>
+
+          <div class="menuBottomCategories">
+            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+            <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+            <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+            <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+            <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUNDAY -->
+  <section class="dayPanel" data-daypanel="sunday">
+    <div class="container">
+      <div class="heroRow">
+        <div>
+          <div class="dayName">SUNDAY</div>
+          <div class="daySub">Social Sunday • Happy Hour All Night</div>
+        </div>
+      </div>
+
+      <div class="menuCenterWrap">
+        <div class="menuTopCategories">
+          <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
+          <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
+          <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
+          <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
+          <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
+        </div>
+
+        <div class="menuBigPanel">
+          <div class="menuPanelTitle">Happy Hour • All Night</div>
+          <div class="menuPanelBody"></div>
+        </div>
+
+        <div class="menuBottomCategories">
+          <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
+          <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
+          <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
+          <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
+          <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/menu-data.js"></script>
+<script src="assets/js/menu.js"></script>
 </body>
 </html>
