@@ -293,3 +293,25 @@ document.addEventListener("DOMContentLoaded", () => {
     activateDay(getTodayDay());
   }
 });
+function spinWheel(){
+  const wheel = document.getElementById("wheel");
+  const result = document.getElementById("spinResult");
+
+  const rewards = [
+    "🥃 Free Shot",
+    "💸 $2 Off Drink",
+    "🔥 10% Off Tab",
+    "🍾 VIP Upgrade",
+    "😏 Try Again",
+    "🥂 Free Mixer Upgrade"
+  ];
+
+  const randomIndex = Math.floor(Math.random() * rewards.length);
+  const rotation = 360 * 3 + (randomIndex * 60);
+
+  wheel.style.transform = `rotate(${rotation}deg)`;
+
+  setTimeout(()=>{
+    result.innerText = rewards[randomIndex];
+  },2000);
+}
