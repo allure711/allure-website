@@ -2976,3 +2976,17 @@ html, body {
   font-size:12px;
   margin-top:8px;
 }
+/* ===== OUTSIDE BOTTOM ROW ===== */
+.outsideBottom{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+/* Make them feel separated from box */
+.outsideBottom .menuCenterBtn{
+  opacity:.95;
+  border:1px solid rgba(255,255,255,0.15);
+}
