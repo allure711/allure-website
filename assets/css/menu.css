@@ -3038,3 +3038,14 @@ html, body {
 .menuCenterWrap{
   margin-bottom: 0 !important;
 }
+.outsideBottom{
+  margin-top: 14px !important;
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+}
+
+.menuCenterWrap{
+  margin-bottom: 0 !important;
+}
