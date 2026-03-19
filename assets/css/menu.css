@@ -2990,3 +2990,40 @@ html, body {
   opacity:.95;
   border:1px solid rgba(255,255,255,0.15);
 }
+/* keep every main panel the same visual height */
+.menuBigPanel{
+  min-height: 260px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 0 !important;
+}
+
+/* keep the inside body from stretching weirdly */
+.menuPanelBody{
+  min-height: 190px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* force the outside row to sit clearly below the box on every day */
+.outsideBottom{
+  margin-top: 14px !important;
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  position: relative;
+  z-index: 2;
+}
+
+/* give each day block the same bottom rhythm */
+.dayPanel .container{
+  padding-bottom: 18px;
+}
+
+/* keep single-panel days and split-panel days visually consistent */
+.menuCenterWrap{
+  margin-bottom: 0 !important;
+}
