@@ -1,189 +1,302 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
+  const ALLURE_LIVE_STATUS = window.ALLURE_LIVE_STATUS || {};
 
-  const STAFF_PIN = "2024";
+  const navToggle = document.querySelector(".nav__toggle");
+  const navList = document.querySelector(".nav__list");
 
-  injectStyles();
+  if (navToggle && navList) {
+    navToggle.addEventListener("click", () => {
+      const isOpen = navList.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
 
-  function injectStyles(){
-    if(document.getElementById("hybridStyles")) return;
-
-    const style = document.createElement("style");
-    style.id = "hybridStyles";
-    style.textContent = `
-    .hybridGame{display:grid;gap:16px;text-align:center}
-    .mysteryGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-    .mysteryBox{
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:10px;
-      padding:10px;
-      font-size:11px;
-      font-weight:900;
-      background:rgba(255,255,255,.05);
-      cursor:pointer;
-    }
-    .mysteryBox.is-open{background:#d7b46a;color:#000}
-    .mysteryBox.is-locked{opacity:.4}
-    .reveal{font-size:18px;font-weight:900;margin-top:10px}
-    .code{font-size:12px;color:#d7b46a;margin-top:5px}
-
-    .puzzleGrid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-      max-width:260px;
-      margin:10px auto;
-    }
-
-    .puzzlePiece{
-      padding:12px;
-      border-radius:10px;
-      background:#222;
-      color:#fff;
-      border:1px solid rgba(255,255,255,.2);
-      cursor:pointer;
-      font-weight:900;
-    }
-
-    .puzzlePiece.correct{
-      background:#d7b46a;
-      color:#000;
-    }
-
-    .btn{
-      padding:8px 14px;
-      border-radius:8px;
-      border:none;
-      font-weight:900;
-      cursor:pointer;
-    }
-
-    .gold{background:#d7b46a;color:#000}
-    .ghost{background:#111;color:#fff;border:1px solid rgba(255,255,255,.2)}
-    `;
-    document.head.appendChild(style);
+    navList.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navList.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
   }
 
-  function renderGame(container){
+  function renderFlatMenu(items) {
+    return `
+      <div class="menuList">
+        ${(items || []).map(item => `
+          <div class="menuItem">
+            <div class="menuItem__left">
+              <div class="menuItem__name">${item.name || ""}</div>
+              ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
+            </div>
+            <div class="menuItem__price">${item.price || ""}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
 
-    container.innerHTML = `
-      <div class="hybridGame">
-
-        <h3>ALLURE MYSTERY BOXES</h3>
-
-        <div class="mysteryGrid">
-          ${Array.from({length:24}).map((_,i)=>`
-            <button class="mysteryBox">Box ${i+1}</button>
+  function renderGroupedMenu(section) {
+    const groups = section.groups || [];
+    return `
+      <div class="menuGrouped">
+        ${section.title ? `<div class="menuGrouped__title">${section.title}</div>` : ""}
+        <div class="menuGrouped__grid">
+          ${groups.map(group => `
+            <div class="menuGrouped__box">
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+              ${renderFlatMenu(group.items || [])}
+            </div>
           `).join("")}
         </div>
+      </div>
+    `;
+  }
 
-        <div class="reveal">Pick a box</div>
-        <div class="code"></div>
+  function mapItemsForMode(items, mode) {
+    if (!mode) return items || [];
 
-        <button class="btn gold" id="reset">New Round</button>
+    return (items || []).map(item => {
+      const rawPrice = String(item.price || "");
+      if (!rawPrice.includes("/")) return item;
 
-        <h4>Bonus Puzzle</h4>
+      const parts = rawPrice.split("/").map(p => p.trim());
 
-        <div class="puzzleGrid">
-          <button class="puzzlePiece" data="A">A</button>
-          <button class="puzzlePiece" data="L">L</button>
-          <button class="puzzlePiece" data="L">L</button>
-          <button class="puzzlePiece" data="U">U</button>
-          <button class="puzzlePiece" data="R">R</button>
-          <button class="puzzlePiece" data="E">E</button>
+      if (mode === "shots") {
+        return { ...item, price: parts[0] || rawPrice };
+      }
+
+      if (mode === "drinks") {
+        return { ...item, price: parts[1] || parts[0] || rawPrice };
+      }
+
+      return item;
+    });
+  }
+
+  function renderSectionedMenu(content) {
+    const sections = content.sections || [];
+    return `
+      <div class="menuNested">
+        <div class="menuSubTabs">
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
+          `).join("")}
         </div>
+        <div class="menuSubBody"></div>
+      </div>
+    `;
+  }
 
-        <div id="puzzleText">Unlock reward first</div>
+  function renderHighlights(day, panel) {
+    panel.querySelectorAll(".popularTonight").forEach(node => node.remove());
 
-        <input type="password" placeholder="Staff PIN" id="pin">
-        <button class="btn ghost" id="unlock">Staff Mode</button>
+    const items = MENU_HIGHLIGHTS[day];
+    if (!items || !items.length) return;
 
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
+
+    const section = document.createElement("section");
+    section.className = "popularTonight";
+    section.innerHTML = `
+      <div class="popularTonight__title">🔥 Popular Tonight</div>
+      <div class="popularTonight__grid">
+        ${items.map(item => `
+          <div class="popularCard">${item.name || ""}</div>
+        `).join("")}
       </div>
     `;
 
-    const boxes = [...container.querySelectorAll(".mysteryBox")];
-    const reveal = container.querySelector(".reveal");
-    const codeEl = container.querySelector(".code");
+    hero.after(section);
+  }
 
-    let picks = 0;
-    let maxPicks = 1;
-    let win = null;
+  function renderVipNightBanner(day, panel) {
+    panel.querySelectorAll(".vipNightBannerFloating").forEach(node => node.remove());
 
-    const items = shuffle([
-      "Free Shot","$2 Off","10% Off","VIP Skip",
-      "Try Again","Try Again","Instagram","Address",
-      "Phone","Special","Try Again","Vibes",
-      "Free Shot","Try Again","$2 Off","Try Again",
-      "VIP","Try Again","Instagram","Try Again",
-      "Special","Try Again","$2 Off","Try Again"
-    ]);
+    if (day !== "friday" && day !== "saturday") return;
 
-    boxes.forEach((box,i)=>{
-      box.onclick=()=>{
-        if(box.classList.contains("is-open")||picks>=maxPicks)return;
+    const hero = panel.querySelector(".heroRow");
+    if (!hero) return;
 
-        box.classList.add("is-open");
-        box.innerText=items[i];
-        picks++;
+    const section = document.createElement("section");
+    section.className = "vipNightBannerFloating";
+    section.innerHTML = `
+      <div class="vipNightBannerFloating__badge">VIP NIGHT ACTIVE</div>
+      <div class="vipNightBannerFloating__title">Late Night Energy • Bottle Service • DJ Vibes</div>
+      <div class="vipNightBannerFloating__meta">Premium cocktails • VIP tables • Hookah • Fishbowls</div>
+    `;
 
-        if(items[i].includes("Free")||items[i].includes("Off")||items[i]=="VIP"){
-          win=items[i];
-          const code="ALR-"+Math.floor(Math.random()*999999);
-          reveal.innerText=win;
-          codeEl.innerText=code;
-        }else{
-          reveal.innerText=items[i];
-        }
+    hero.after(section);
+  }
 
-        if(picks>=maxPicks){
-          boxes.forEach(b=>!b.classList.contains("is-open")&&b.classList.add("is-locked"));
-        }
-      };
-    });
+  function updateLiveIndicator(day) {
+    const liveTitle = document.getElementById("liveTitle");
+    const liveTags = document.getElementById("liveTags");
+    const info = ALLURE_LIVE_STATUS[day];
 
-    document.getElementById("reset").onclick=()=>renderGame(container);
+    if (!liveTitle || !liveTags || !info) return;
 
-    document.getElementById("unlock").onclick=()=>{
-      const val=document.getElementById("pin").value;
-      if(val==="2024"){
-        maxPicks=2;
-        alert("Staff mode ON");
+    liveTitle.textContent = info.title || "Live Tonight";
+    liveTags.innerHTML = (info.tags || []).map(tag => `<span class="liveTag">${tag}</span>`).join("");
+  }
+
+  function bindSubTabs(panelBody, content, mode = null) {
+    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
+    const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content.sections || [];
+
+    if (!tabs.length || !subBody || !sections.length) return;
+
+    function activateSubsection(title) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
+
+      const section = sections.find(s => s.title === title);
+      if (!section) return;
+
+      if (section.layout === "grouped") {
+        subBody.innerHTML = `
+          <div class="menuSectionBlock ${["Wings","Wing Flavors"].includes(section.title) ? "menuSectionBlock--bare" : ""}">
+            ${renderGroupedMenu(section)}
+          </div>
+        `;
+        return;
       }
-    };
 
-    // puzzle
-    const answer=["A","L","L","U","R","E"];
-    let step=0;
+      const items = mapItemsForMode(section.items || [], mode);
+      subBody.innerHTML = `
+        <div class="menuSectionBlock">
+          ${renderFlatMenu(items)}
+        </div>
+      `;
+    }
 
-    container.querySelectorAll(".puzzlePiece").forEach(btn=>{
-      btn.onclick=()=>{
-        if(!win){
-          document.getElementById("puzzleText").innerText="Win first";
-          return;
-        }
-
-        if(btn.dataset===answer[step]){
-          btn.classList.add("correct");
-          step++;
-          if(step===answer.length){
-            document.getElementById("puzzleText").innerText="BONUS UNLOCKED";
-          }
-        }else{
-          step=0;
-          document.querySelectorAll(".puzzlePiece").forEach(b=>b.classList.remove("correct"));
-        }
-      };
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
     });
 
+    activateSubsection(sections[0].title);
   }
 
-  function shuffle(a){
-    return a.sort(()=>Math.random()-0.5);
+  function applyVipNightMode(day) {
+    document.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      wrap.classList.remove("vipNightMode");
+    });
+
+    if (day !== "friday" && day !== "saturday") return;
+
+    const activePanel = document.querySelector(`.dayPanel[data-daypanel="${day}"]`);
+    if (!activePanel) return;
+
+    activePanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      const titleEl = wrap.querySelector(".menuPanelTitle");
+      if (!titleEl) return;
+
+      const text = titleEl.textContent.toLowerCase();
+      if (text.includes("after 9") || text.includes("vip night")) {
+        wrap.classList.add("vipNightMode");
+      }
+    });
   }
 
-  // 🔥 attach to your menu panel
-  const panel = document.querySelector(".menuPanelBody");
-  if(panel){
-    renderGame(panel);
+  function renderDashboard(panelBody) {
+    panelBody.classList.remove("menuPanelBody--shots");
+    panelBody.innerHTML = `
+      <div class="menuEmpty">
+        Tap a category above or below to explore food, hookah, shots, drinks, towers, and more.
+      </div>
+    `;
   }
 
+  function getButtonsForWrap(wrap) {
+    const ownButtons = [...wrap.querySelectorAll(".menuCenterBtn")];
+    const outsideBottom = wrap.parentElement?.querySelector(".outsideBottom");
+    const outsideButtons = outsideBottom ? [...outsideBottom.querySelectorAll(".menuCenterBtn")] : [];
+    return [...ownButtons, ...outsideButtons];
+  }
+
+  function setupCenterWrap(wrap) {
+    if (wrap.dataset.bound === "true") return;
+    wrap.dataset.bound = "true";
+
+    const buttons = getButtonsForWrap(wrap);
+    const panelBody = wrap.querySelector(".menuPanelBody");
+
+    if (!buttons.length || !panelBody) return;
+
+    function activateButton(button) {
+      const cat = button.dataset.cat;
+      const mode = button.dataset.mode || null;
+      const content = CATEGORY_CONTENT[cat];
+
+      buttons.forEach(btn => {
+        btn.classList.toggle("active", btn === button);
+      });
+
+      if (!content) {
+        panelBody.classList.remove("menuPanelBody--shots");
+        panelBody.innerHTML = `<div class="menuEmpty">This section will be updated soon.</div>`;
+        return;
+      }
+
+      panelBody.innerHTML = renderSectionedMenu(content);
+
+      if (["shots5", "shots7", "premium"].includes(cat)) {
+        panelBody.classList.add("menuPanelBody--shots");
+      } else {
+        panelBody.classList.remove("menuPanelBody--shots");
+      }
+
+      bindSubTabs(panelBody, content, mode);
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        activateButton(button);
+      });
+    });
+
+    renderDashboard(panelBody);
+  }
+
+  function activateDay(day) {
+    document.querySelectorAll(".dayTab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.daytab === day);
+    });
+
+    document.querySelectorAll(".dayPanel").forEach(panel => {
+      const isActive = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", isActive);
+
+      if (isActive) {
+        renderVipNightBanner(day, panel);
+        renderHighlights(day, panel);
+        panel.querySelectorAll(".menuCenterWrap").forEach(setupCenterWrap);
+      }
+    });
+
+    updateLiveIndicator(day);
+    applyVipNightMode(day);
+  }
+
+  function getTodayDay() {
+    const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    return days[new Date().getDay()];
+  }
+
+  document.querySelectorAll(".dayTab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      activateDay(tab.dataset.daytab);
+    });
+  });
+
+  if (document.querySelector(".dayTab")) {
+    activateDay(getTodayDay());
+  }
 });
