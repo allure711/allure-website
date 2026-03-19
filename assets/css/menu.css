@@ -2933,3 +2933,46 @@ html, body {
   font-weight:700;
   color:#ff5edb;
 }
+/* ===== FIX PANEL HEIGHT ===== */
+.menuBigPanel{
+  max-height: 260px;
+  overflow: hidden;
+}
+
+/* Reduce inside spacing */
+.menuPanelBody{
+  padding: 10px !important;
+}
+
+/* Make spin game tighter */
+.spinGame{
+  padding: 10px;
+}
+
+/* Smaller wheel */
+.wheel{
+  width:120px;
+  height:120px;
+  margin:10px auto;
+}
+
+/* Smaller text */
+.spinTitle{
+  font-size:14px;
+}
+
+.spinSub{
+  font-size:11px;
+}
+
+/* Button tighter */
+.spinBtn{
+  padding:6px 12px;
+  font-size:12px;
+}
+
+/* Result spacing */
+.spinResult{
+  font-size:12px;
+  margin-top:8px;
+}
