@@ -2870,3 +2870,66 @@ html, body {
 .container {
   overflow: visible !important;
 }
+.spinGame{
+  text-align:center;
+  padding:20px;
+}
+
+.spinTitle{
+  font-size:18px;
+  font-weight:800;
+  color:#d4af37;
+}
+
+.spinSub{
+  font-size:13px;
+  opacity:.7;
+  margin-bottom:15px;
+}
+
+.wheel{
+  width:180px;
+  height:180px;
+  margin:20px auto;
+  border-radius:50%;
+  background:conic-gradient(
+    #d4af37 0deg 60deg,
+    #ff5edb 60deg 120deg,
+    #222 120deg 180deg,
+    #d4af37 180deg 240deg,
+    #ff5edb 240deg 300deg,
+    #222 300deg 360deg
+  );
+  position:relative;
+  transition:transform 2s ease-out;
+  box-shadow:0 0 25px rgba(212,175,55,.4);
+}
+
+.wheelCenter{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#000;
+  border-radius:50%;
+  padding:12px 16px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.spinBtn{
+  margin-top:10px;
+  padding:10px 18px;
+  border:none;
+  border-radius:8px;
+  background:#d4af37;
+  color:#000;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.spinResult{
+  margin-top:15px;
+  font-weight:700;
+  color:#ff5edb;
+}
