@@ -208,10 +208,54 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderDashboard(panelBody) {
     panelBody.classList.remove("menuPanelBody--shots");
     panelBody.innerHTML = `
-      <div class="menuEmpty">
-        Tap a category above or below to explore food, hookah, shots, drinks, towers, and more.
+      <div class="spinGame">
+        <div class="spinTitle">🎡 Spin to Win</div>
+        <p class="spinSub">Tap to unlock your reward</p>
+
+        <div class="wheel">
+          <div class="wheelCenter">SPIN</div>
+        </div>
+
+        <button class="spinBtn" type="button">Spin Now</button>
+
+        <div class="spinResult"></div>
       </div>
     `;
+
+    const wheel = panelBody.querySelector(".wheel");
+    const button = panelBody.querySelector(".spinBtn");
+    const result = panelBody.querySelector(".spinResult");
+
+    if (!wheel || !button || !result) return;
+
+    let spinning = false;
+
+    button.addEventListener("click", () => {
+      if (spinning) return;
+      spinning = true;
+
+      const rewards = [
+        "🥃 Free Shot",
+        "💸 $2 Off Drink",
+        "🔥 10% Off Tab",
+        "🍾 VIP Upgrade",
+        "😏 Try Again",
+        "🥂 Free Mixer Upgrade"
+      ];
+
+      const randomIndex = Math.floor(Math.random() * rewards.length);
+      const baseRotation = 360 * 4;
+      const sliceRotation = randomIndex * 60;
+      const totalRotation = baseRotation + sliceRotation;
+
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
+      result.textContent = "";
+
+      setTimeout(() => {
+        result.textContent = rewards[randomIndex];
+        spinning = false;
+      }, 2000);
+    });
   }
 
   function setupCenterWrap(wrap) {
@@ -293,25 +337,3 @@ document.addEventListener("DOMContentLoaded", () => {
     activateDay(getTodayDay());
   }
 });
-function spinWheel(){
-  const wheel = document.getElementById("wheel");
-  const result = document.getElementById("spinResult");
-
-  const rewards = [
-    "🥃 Free Shot",
-    "💸 $2 Off Drink",
-    "🔥 10% Off Tab",
-    "🍾 VIP Upgrade",
-    "😏 Try Again",
-    "🥂 Free Mixer Upgrade"
-  ];
-
-  const randomIndex = Math.floor(Math.random() * rewards.length);
-  const rotation = 360 * 3 + (randomIndex * 60);
-
-  wheel.style.transform = `rotate(${rotation}deg)`;
-
-  setTimeout(()=>{
-    result.innerText = rewards[randomIndex];
-  },2000);
-}
