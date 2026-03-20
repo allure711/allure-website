@@ -1,12 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
-  const MENU_HIGHLIGHTS = window.MENU_HIGHLIGHTS || {};
-  const ALLURE_LIVE_STATUS = window.ALLURE_LIVE_STATUS || {};
-  const STAFF_PIN = "2024";
-
-  /* =========================
-     NAV
-  ========================= */
 
   const navToggle = document.querySelector(".nav__toggle");
   const navList = document.querySelector(".nav__list");
@@ -24,10 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-
-  /* =========================
-     MENU RENDER
-  ========================= */
 
   function renderFlatMenu(items) {
     return `
@@ -52,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="menuGrouped__grid">
           ${(section.groups || []).map(group => `
             <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${group.title}</div>
-              ${renderFlatMenu(group.items)}
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+              ${renderFlatMenu(group.items || [])}
             </div>
           `).join("")}
         </div>
@@ -61,12 +50,63 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  function splitShotsAndDrinks(items) {
+    const shots = [];
+    const drinks = [];
+
+    (items || []).forEach(item => {
+      const price = item.price || "";
+      const parts = price.split("/").map(p => p.trim());
+
+      if (parts.length === 2) {
+        shots.push({
+          ...item,
+          price: parts[0]
+        });
+
+        drinks.push({
+          ...item,
+          price: parts[1]
+        });
+      } else {
+        shots.push({ ...item });
+        drinks.push({ ...item });
+      }
+    });
+
+    return { shots, drinks };
+  }
+
+  function getContentByMode(content, mode) {
+    if (!content || !content.sections) return content;
+    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
+
+    return {
+      ...content,
+      sections: content.sections.map(section => {
+        const split = splitShotsAndDrinks(section.items || []);
+        return {
+          ...section,
+          items: mode === "shots" ? split.shots : split.drinks
+        };
+      })
+    };
+  }
+
   function renderSectionedMenu(content) {
+    const sections = content?.sections || [];
+
+    if (!sections.length) {
+      return `<div class="menuEmpty">Menu coming soon.</div>`;
+    }
+
     return `
       <div class="menuNested">
         <div class="menuSubTabs">
-          ${(content.sections || []).map(s => `
-            <button class="menuSubTab" data-subsection="${s.title}">${s.title}</button>
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
           `).join("")}
         </div>
         <div class="menuSubBody"></div>
@@ -77,135 +117,100 @@ document.addEventListener("DOMContentLoaded", () => {
   function bindSubTabs(panelBody, content) {
     const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
     const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content?.sections || [];
 
-    function activate(title) {
-      tabs.forEach(t => t.classList.toggle("active", t.dataset.subsection === title));
+    if (!tabs.length || !subBody || !sections.length) return;
 
-      const section = content.sections.find(s => s.title === title);
+    function activateSubsection(title) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
+
+      const section = sections.find(s => s.title === title);
+
+      if (!section) {
+        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
+        return;
+      }
 
       if (section.layout === "grouped") {
         subBody.innerHTML = renderGroupedMenu(section);
       } else {
-        subBody.innerHTML = renderFlatMenu(section.items);
+        subBody.innerHTML = renderFlatMenu(section.items || []);
       }
     }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => activate(tab.dataset.subsection));
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
     });
 
-    activate(content.sections[0].title);
+    activateSubsection(sections[0].title);
   }
 
-  /* =========================
-     24 BOX GAME
-  ========================= */
-
-  function getItems(staff) {
-    const rewards = staff
-      ? ["Free Shot","$4 Off","15% Off","VIP Upgrade","Hookah Upgrade"]
-      : ["Free Shot","$2 Off","10% Off","VIP Skip"];
-
-    const neutral = ["Try Again","Ask Server","Come Back","Enjoy Vibe"];
-    const info = ["Instagram","Address","Owner","Reserve"];
-
-    return shuffle([...rewards, ...neutral, ...info, ...rewards]).slice(0,24);
-  }
-
-  function shuffle(arr){
-    return arr.sort(()=>Math.random()-0.5);
-  }
-
-  function renderGame(panelBody){
-    const table = new URLSearchParams(location.search).get("table") || "Walk-In";
-
-    panelBody.innerHTML = `
-      <div class="hybridGame">
-        <div class="hybridTitle">Allure Mystery Boxes</div>
-
-        <div class="mysteryGrid">
-          ${Array.from({length:24}).map((_,i)=>`
-            <button class="mysteryBox">Box ${i+1}</button>
-          `).join("")}
-        </div>
-
-        <div class="mysteryReveal">
-          <div id="reveal">Pick a box</div>
-        </div>
-      </div>
-    `;
-
-    const boxes = [...panelBody.querySelectorAll(".mysteryBox")];
-    const reveal = panelBody.querySelector("#reveal");
-
-    let items = getItems(false);
-    let used = 0;
-
-    boxes.forEach((box,i)=>{
-      box.onclick = ()=>{
-        if(used>=1) return;
-        box.textContent = items[i];
-        reveal.textContent = items[i];
-        used++;
-      };
-    });
-  }
-
-  /* =========================
-     CENTER WRAP
-  ========================= */
-
-  function getButtons(wrap){
+  function getButtons(wrap) {
     const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
     const outside = [...wrap.parentElement.querySelectorAll(".outsideBottom .menuCenterBtn")];
     return [...inside, ...outside];
   }
 
-  function setupWrap(wrap){
-    if(wrap.dataset.done) return;
-    wrap.dataset.done = true;
+  function setupWrap(wrap) {
+    if (wrap.dataset.done === "true") return;
+    wrap.dataset.done = "true";
 
     const buttons = getButtons(wrap);
     const panel = wrap.querySelector(".menuPanelBody");
 
-    buttons.forEach(btn=>{
-      btn.onclick = ()=>{
-        buttons.forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
+    if (!panel || !buttons.length) return;
 
-        const content = CATEGORY_CONTENT[btn.dataset.cat];
-        if(!content){
-          panel.innerHTML = "Coming soon";
-          return;
-        }
+    function activateCategory(button) {
+      buttons.forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
 
-        panel.innerHTML = renderSectionedMenu(content);
-        bindSubTabs(panel, content);
-      };
+      const catKey = button.dataset.cat;
+      const mode = button.dataset.mode || "";
+      const baseContent = CATEGORY_CONTENT[catKey];
+
+      if (!baseContent) {
+        panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
+        return;
+      }
+
+      const content = getContentByMode(baseContent, mode);
+      panel.innerHTML = renderSectionedMenu(content);
+      bindSubTabs(panel, content);
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => activateCategory(button));
     });
 
-    renderGame(panel);
+    activateCategory(buttons[0]);
   }
 
-  /* =========================
-     DAY SWITCH
-  ========================= */
+  function activateDay(day) {
+    document.querySelectorAll(".dayTab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.daytab === day);
+    });
 
-  function activateDay(day){
-    document.querySelectorAll(".dayPanel").forEach(p=>{
-      const active = p.dataset.daypanel===day;
-      p.classList.toggle("active", active);
+    document.querySelectorAll(".dayPanel").forEach(panel => {
+      const active = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", active);
 
-      if(active){
-        p.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
+      if (active) {
+        panel.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
       }
     });
   }
 
-  document.querySelectorAll(".dayTab").forEach(tab=>{
-    tab.onclick = ()=>activateDay(tab.dataset.daytab);
+  document.querySelectorAll(".dayTab").forEach(tab => {
+    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
   });
 
-  const today = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][new Date().getDay()];
-  activateDay(today);
+  const today = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
+  const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
+  const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
+
+  activateDay(hasTodayTab ? today : fallbackDay);
 });
