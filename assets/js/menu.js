@@ -926,3 +926,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activateDay(hasTodayTab ? today : fallbackDay);
 });
+/* =========================
+   DAILY HERO PROMO
+========================= */
+
+(function () {
+  const heroTitle = document.getElementById("heroTitle");
+  const heroText = document.getElementById("heroText");
+
+  if (!heroTitle || !heroText) return;
+
+  const promos = {
+    sunday: {
+      title: "SOCIAL SUNDAY",
+      text: "Chill vibes, hookah, drinks & music"
+    },
+    monday: {
+      title: "FREE HOOKAH MONDAY",
+      text: "Free hookah with $50 bar tab — your choice of flavor"
+    },
+    tuesday: {
+      title: "TACO TUESDAY",
+      text: "Tacos, drinks & late night vibes"
+    },
+    wednesday: {
+      title: "WEEKDAYS WEDNESDAY",
+      text: "Midweek energy, cocktails & hookah"
+    },
+    thursday: {
+      title: "KARAOKE THURSDAY",
+      text: "Sing, drink & vibe all night"
+    },
+    friday: {
+      title: "ALLURE FRIDAY",
+      text: "Premium nightlife experience"
+    },
+    saturday: {
+      title: "ALLURE SATURDAY",
+      text: "VIP energy, bottles & music"
+    }
+  };
+
+  const today = [
+    "sunday","monday","tuesday","wednesday",
+    "thursday","friday","saturday"
+  ][new Date().getDay()];
+
+  const data = promos[today];
+
+  if (data) {
+    heroTitle.textContent = data.title;
+    heroText.textContent = data.text;
+  }
+})();
