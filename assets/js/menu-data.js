@@ -1,1356 +1,374 @@
-:root{
-  --gold:#d7b46a;
-  --gold2:#f2d38a;
-  --bg:#07070a;
-  --bg2:#0a0a10;
-  --panel:rgba(255,255,255,.05);
-  --line:rgba(255,255,255,.10);
-  --textSoft:rgba(255,255,255,.72);
-  --shadow:0 18px 60px rgba(0,0,0,.28);
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-.menu-page{
-  background:
-    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
-    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
-    radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
-    linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
-  color:#fff;
-}
-
-html,
-body{
-  overflow-x:hidden;
-  height:auto !important;
-  overflow-y:auto !important;
-}
-
-.menuWrap{
-  padding:0 0 90px;
-  overflow:visible !important;
-}
-
-.container{
-  overflow:visible !important;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.header{
-  backdrop-filter:blur(10px);
-  background:rgba(8,8,12,.72);
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.header__inner{
-  min-height:76px;
-}
-
-.brand{
-  letter-spacing:-.01em;
-  font-weight:900;
-}
-
-.nav__list a{
-  transition:color .2s ease, opacity .2s ease;
-}
-
-.nav__list a:hover{
-  color:var(--gold2);
-}
-
-/* =========================
-   HERO / INTRO
-========================= */
-
-.menuHero{
-  position:relative;
-  overflow:hidden;
-  padding:10px 0 12px;
-}
-
-.menuKicker{
-  display:none;
-}
-
-.menuHero h1{
-  margin:0 0 6px;
-  font-size:clamp(38px,5vw,58px);
-  line-height:1.02;
-  letter-spacing:-.03em;
-}
-
-.menuHero p{
-  margin:0;
-  max-width:760px;
-  color:var(--textSoft);
-  line-height:1.6;
-  font-size:15px;
-}
-
-.menuHeroActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:22px;
-}
-
-/* =========================
-   MENU PAGE INTRO STRIP
-========================= */
-
-.menuWelcomeStrip{
-  display:grid;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
-  gap:12px;
-  margin:20px 0 24px;
-}
-
-.menuWelcomeStrip__item{
-  border:1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-  border-radius:18px;
-  padding:14px 16px;
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.03);
-}
-
-.menuWelcomeStrip__label{
-  display:block;
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-
-.menuWelcomeStrip__text{
-  color:rgba(255,255,255,.78);
-  font-size:14px;
-  line-height:1.5;
-}
-
-/* =========================
-   DAY TABS
-========================= */
-
-.dayTabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin:0 0 28px;
-  position:relative;
-  z-index:2;
-}
-
-.dayTabs::before{
-  content:"";
-  display:block;
-  width:100%;
-  height:1px;
-  margin:0 0 20px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(215,180,106,.22),
-    transparent
-  );
-}
-
-.dayTab{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  color:#fff;
-  padding:9px 12px;
-  border-radius:999px;
-  font-weight:800;
-  font-size:14px;
-  cursor:pointer;
-  backdrop-filter:blur(10px);
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-  transition:all .18s ease;
-}
-
-.dayTab:hover{
-  border-color:rgba(215,180,106,.35);
-  color:var(--gold2);
-}
-
-.dayTab.active{
-  background:rgba(215,180,106,.14);
-  border-color:rgba(215,180,106,.40);
-  color:var(--gold2);
-  box-shadow:
-    0 12px 32px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-/* =========================
-   DAY PANELS
-========================= */
-
-.dayPanel{
-  display:none;
-}
-
-.dayPanel.active{
-  display:block;
-  animation:allureSoftReveal .45s ease both;
-}
-
-.heroRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-  margin:4px 0 12px;
-}
-
-.dayName{
-  font-size:28px;
-  font-weight:950;
-  line-height:1;
-  letter-spacing:-.02em;
-}
-
-.dayName::after{
-  content:"";
-  display:block;
-  width:68px;
-  height:2px;
-  margin-top:10px;
-  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
-  border-radius:999px;
-}
-
-.daySub{
-  margin-top:6px;
-  color:rgba(255,255,255,.80);
-  line-height:1.5;
-  font-size:14px;
-  font-weight:500;
-}
-
-/* =========================
-   MENU LAYOUT
-========================= */
-
-.menuSplit{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.menuCenterWrap{
-  display:grid;
-  gap:12px;
-  margin-bottom:0 !important;
-}
-
-.menuTopCategories,
-.menuBottomCategories{
-  display:grid;
-  gap:8px;
-}
-
-.menuTopCategories{
-  grid-template-columns:repeat(8,1fr);
-}
-
-.menuBottomCategories{
-  grid-template-columns:repeat(5,1fr);
-}
-
-.menuCenterBtn{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.12);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
-  color:#fff;
-  min-height:42px;
-  padding:8px 8px;
-  border-radius:12px;
-  font-weight:800;
-  font-size:13px;
-  cursor:pointer;
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.03);
-  transition:all .18s ease;
-}
-
-.menuCenterBtn:hover{
-  border-color:rgba(215,180,106,.34);
-  color:var(--gold2);
-  background:rgba(215,180,106,.08);
-  box-shadow:
-    0 16px 32px rgba(0,0,0,.20),
-    0 0 0 1px rgba(215,180,106,.05);
-}
-
-.menuCenterBtn.active{
-  border-color:rgba(215,180,106,.44);
-  background:rgba(215,180,106,.15);
-  color:var(--gold2);
-  box-shadow:
-    0 16px 38px rgba(215,180,106,.10),
-    0 0 0 1px rgba(215,180,106,.08),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.menuBigPanel{
-  position:relative;
-  border-radius:24px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.24),
-    0 0 0 1px rgba(255,255,255,.02),
-    inset 0 1px 0 rgba(255,255,255,.04);
-  backdrop-filter:blur(10px);
-  padding:16px;
-  min-height:260px !important;
-  max-height:260px;
-  overflow:hidden !important;
-  display:flex;
-  flex-direction:column;
-  margin-bottom:0 !important;
-}
-
-.menuBigPanel::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:24px;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.035) 18%,
-    transparent 38%
-  );
-  pointer-events:none;
-}
-
-.menuPanelTitle{
-  font-size:14px;
-  font-weight:950;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.88);
-  margin-bottom:10px;
-}
-
-.menuPanelBody{
-  flex:1 1 auto;
-  min-height:190px !important;
-  overflow-y:auto !important;
-  padding:10px !important;
-  scroll-behavior:smooth;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.menuPanelBody::-webkit-scrollbar{
-  width:8px;
-}
-
-.menuPanelBody::-webkit-scrollbar-thumb{
-  background:rgba(215,180,106,.22);
-  border-radius:999px;
-}
-
-.menuPanelBody::-webkit-scrollbar-thumb:hover{
-  background:rgba(215,180,106,.36);
-}
-
-.menuPanelBody::-webkit-scrollbar-track{
-  background:transparent;
-}
-
-/* =========================
-   OUTSIDE BOTTOM ROW
-========================= */
-
-.outsideBottom{
-  margin-top:14px !important;
-  display:flex !important;
-  gap:10px !important;
-  flex-wrap:wrap !important;
-  justify-content:center !important;
-  position:relative;
-  z-index:2;
-}
-
-.outsideBottom .menuCenterBtn{
-  opacity:.95;
-  border:1px solid rgba(255,255,255,.15);
-}
-
-/* =========================
-   EMPTY / DASHBOARD
-========================= */
-
-.menuEmpty{
-  border-radius:18px;
-  border:1px dashed rgba(255,255,255,.12);
-  background:rgba(255,255,255,.02);
-  padding:24px;
-  color:var(--textSoft);
-  line-height:1.7;
-}
-
-/* =========================
-   NESTED / SECTIONED MENU
-========================= */
-
-.menuNested{
-  display:grid;
-  gap:14px;
-}
-
-.menuSubTabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:12px;
-}
-
-.menuSubTab{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  color:#fff;
-  padding:6px 12px;
-  border-radius:999px;
-  font-weight:800;
-  font-size:12px;
-  cursor:pointer;
-  transition:all .18s ease;
-}
-
-.menuSubTab:hover{
-  border-color:rgba(215,180,106,.35);
-  color:var(--gold2);
-}
-
-.menuSubTab.active{
-  background:rgba(215,180,106,.14);
-  border-color:rgba(215,180,106,.40);
-  color:var(--gold2);
-}
-
-.menuSubBody{
-  display:block;
-}
-
-.menuSectionBlock{
-  padding:10px 0 0;
-  border:none;
-  background:transparent;
-  box-shadow:none;
-  height:100%;
-}
-
-.menuSectionBlock:hover{
-  border:none;
-  background:transparent;
-  box-shadow:none;
-}
-
-.menuSectionBlock--bare{
-  padding:0 !important;
-  border:none !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  border-radius:0 !important;
-}
-
-/* =========================
-   MENU ITEMS
-========================= */
-
-.menuPanelBody .menuList,
-.menuSectionBlock .menuList,
-.menuGrouped__box .menuList{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:10px 34px;
-}
-
-.menuPanelBody .menuItem,
-.menuSectionBlock .menuItem,
-.menuGrouped__box .menuItem{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-  padding:4px 0;
-  margin:0;
-  border:none !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  border-radius:0 !important;
-  transform:none !important;
-}
-
-.menuPanelBody .menuItem:hover,
-.menuSectionBlock .menuItem:hover,
-.menuGrouped__box .menuItem:hover{
-  border:none !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  transform:none !important;
-}
-
-.menuPanelBody .menuItem__left,
-.menuSectionBlock .menuItem__left,
-.menuGrouped__box .menuItem__left{
-  min-width:0;
-  flex:1 1 auto;
-}
-
-.menuPanelBody .menuItem__name,
-.menuSectionBlock .menuItem__name,
-.menuGrouped__box .menuItem__name{
-  font-size:14px;
-  font-weight:800;
-  line-height:1.3;
-  color:#fff;
-  margin:0;
-}
-
-.menuPanelBody .menuItem__desc,
-.menuSectionBlock .menuItem__desc,
-.menuGrouped__box .menuItem__desc{
-  margin-top:2px;
-  font-size:11px;
-  line-height:1.35;
-  color:rgba(255,255,255,.62);
-}
-
-.menuPanelBody .menuItem__price,
-.menuSectionBlock .menuItem__price,
-.menuGrouped__box .menuItem__price{
-  flex:0 0 auto;
-  min-width:42px;
-  text-align:right;
-  white-space:nowrap;
-  font-size:13px;
-  font-weight:900;
-  color:var(--gold2);
-  margin-left:12px;
-}
-
-/* =========================
-   GROUPED MENU
-========================= */
-
-.menuGrouped{
-  max-width:980px;
-  margin:0 auto;
-  padding:4px 0;
-}
-
-.menuPanelBody .menuGrouped{
-  max-width:100%;
-  margin:0;
-}
-
-.menuGrouped__title{
-  position:relative;
-  font-size:22px;
-  font-weight:900;
-  color:var(--gold2);
-  margin-bottom:12px;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-}
-
-.menuGrouped__title::after{
-  content:"";
-  display:block;
-  width:84px;
-  height:2px;
-  margin-top:8px;
-  background:linear-gradient(90deg, rgba(215,180,106,.85), rgba(255,255,255,0));
-  border-radius:999px;
-}
-
-.menuGrouped__grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(260px, 1fr));
-  gap:16px;
-  align-items:start;
-}
-
-.menuPanelBody .menuGrouped__grid{
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:16px;
-  width:100%;
-}
-
-.menuGrouped__box{
-  position:relative;
-  overflow:hidden;
-  border:1px solid rgba(215,180,106,.22);
-  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-  border-radius:18px;
-  padding:14px 16px;
-  transition:
-    border-color .22s ease,
-    box-shadow .22s ease,
-    transform .22s ease;
-}
-
-.menuGrouped__box:hover{
-  border-color:rgba(215,180,106,.42);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 12px 32px rgba(0,0,0,.28),
-    0 0 20px rgba(215,180,106,.10);
-  transform:translateY(-1px);
-}
-
-.menuGrouped__boxTitle{
-  position:relative;
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--gold2);
-  margin-bottom:10px;
-  padding-bottom:8px;
-  border-bottom:1px solid rgba(215,180,106,.18);
-  text-align:left;
-}
-
-/* =========================
-   HIGHLIGHTS / VIP
-========================= */
-
-.popularTonight{
-  margin:10px 0 12px;
-}
-
-.popularTonight__title{
-  font-weight:900;
-  margin-bottom:8px;
-  font-size:14px;
-}
-
-.popularTonight__grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-}
-
-.popularCard{
-  background:rgba(255,255,255,.05);
-  padding:10px 12px;
-  border-radius:12px;
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  border:1px solid rgba(255,255,255,.08);
-  font-size:13px;
-  font-weight:700;
-}
-
-.vipNightMode .menuBigPanel{
-  background:
-    radial-gradient(circle at top right, rgba(155,70,255,.25), transparent 40%),
-    radial-gradient(circle at top left, rgba(215,180,106,.25), transparent 45%),
-    linear-gradient(180deg, rgba(15,10,22,.95), rgba(8,8,14,.95));
-  border:1px solid rgba(215,180,106,.45);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.10),
-    0 18px 70px rgba(0,0,0,.45),
-    0 0 40px rgba(155,70,255,.25),
-    0 0 50px rgba(215,180,106,.15);
-  animation:vipPanelGlow 4s ease-in-out infinite alternate;
-}
-
-@keyframes vipPanelGlow{
-  from{
-    box-shadow:
-      0 0 0 1px rgba(215,180,106,.12),
-      0 20px 70px rgba(0,0,0,.45),
-      0 0 35px rgba(155,70,255,.20),
-      0 0 40px rgba(215,180,106,.12);
+window.MENU_CATEGORY_CONTENT = {
+  food: {
+    sections: [
+      {
+        title: "Appetizers",
+        items: [
+          { name: "Salmon Sliders w/ Fries", price: "$12" },
+          { name: "Beef Sliders w/ Fries", price: "$10" },
+          { name: "Mozzarella Sticks", price: "$7" },
+          { name: "Fried Pickles", price: "$5" },
+          { name: "Chips & Salsa", price: "$5" },
+          { name: "Onion Rings", price: "$7" },
+          { name: "Fries", price: "$5" }
+        ]
+      },
+      {
+        title: "Wings",
+        layout: "grouped",
+        groups: [
+          {
+            title: "With Fries",
+            items: [
+              { name: "12 pcs Wings", price: "$16" },
+              { name: "8 pcs Wings", price: "$14" },
+              { name: "6 pcs Wings", price: "$12" }
+            ]
+          },
+          {
+            title: "Wings Only",
+            items: [
+              { name: "12 pcs Wings", price: "$14" },
+              { name: "8 pcs Wings", price: "$10" },
+              { name: "6 pcs Wings", price: "$8" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Quesadillas",
+        items: [
+          { name: "Cheese Quesadilla", price: "$8" },
+          { name: "Chicken Quesadilla", price: "$10" },
+          { name: "Shrimp Quesadilla", price: "$12" },
+          { name: "Salmon Quesadilla", price: "$14" }
+        ]
+      },
+      {
+        title: "Rasta Pasta or Alfredo",
+        items: [
+          { name: "Chicken", price: "$16" },
+          { name: "Shrimp", price: "$18" },
+          { name: "Salmon", price: "$20" }
+        ]
+      },
+      {
+        title: "Salads",
+        items: [
+          { name: "Salad", price: "$8" },
+          { name: "Chicken Salad", price: "$10" },
+          { name: "Shrimp Salad", price: "$12" },
+          { name: "Salmon Salad", price: "$13" }
+        ]
+      },
+      {
+        title: "Dinner",
+        items: [
+          { name: "Salmon", desc: "Yellow rice & broccoli", price: "$20" },
+          { name: "General Tso", desc: "Yellow rice & broccoli", price: "$18" },
+          { name: "Beef Burger w/ Fries", desc: "Mayo, lettuce, tomato, cheese", price: "$13" },
+          { name: "Fried Shrimp Basket", price: "$18" },
+          { name: "Crab Fries Basket", price: "$18" },
+          { name: "Fried Whiting Basket", price: "$15" },
+          { name: "Salmon Nugget Basket", price: "$15" },
+          { name: "Catfish Nuggets Basket", price: "$13" }
+        ]
+      },
+      {
+        title: "Tacos",
+        items: [
+          { name: "Shrimp Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$16" },
+          { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
+        ]
+      },
+      {
+        title: "Wing Flavors",
+        layout: "grouped",
+        groups: [
+          {
+            title: "Dry",
+            items: [
+              { name: "Lemon Pepper" },
+              { name: "Jerk Rub" },
+              { name: "Old Bay" }
+            ]
+          },
+          {
+            title: "Wet",
+            items: [
+              { name: "Honey Lemon Pepper" },
+              { name: "Honey Old Bay" },
+              { name: "Buffalo BBQ" },
+              { name: "Honey Sazon" },
+              { name: "Sweet Chili" },
+              { name: "Teriyaki" },
+              { name: "Mumbo" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  shots5: {
+    sections: [
+      {
+        title: "Vodka",
+        items: [
+          { name: "Absolut", price: "$5 / $10" },
+          { name: "Belvedere", price: "$5 / $10" },
+          { name: "Ciroc", price: "$5 / $10" },
+          { name: "Grey Goose", price: "$5 / $10" },
+          { name: "Ketel One", price: "$5 / $10" },
+          { name: "Stoli Orange", price: "$5 / $10" },
+          { name: "Tito's", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Tequila",
+        items: [
+          { name: "1800", desc: "Blanco / Repo", price: "$5 / $10" },
+          { name: "Altos", price: "$5 / $10" },
+          { name: "Espolon", price: "$5 / $10" },
+          { name: "Hornitos", price: "$5 / $10" },
+          { name: "Jose Cuervo", price: "$5 / $10" },
+          { name: "Lunazul", price: "$5 / $10" },
+          { name: "Milagro", price: "$5 / $10" },
+          { name: "Teremana", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Whiskey",
+        items: [
+          { name: "Jameson", price: "$5 / $10" },
+          { name: "Jack Daniel's", price: "$5 / $10" },
+          { name: "Crown Royal", price: "$5 / $10" },
+          { name: "Jim Beam", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Rum",
+        items: [
+          { name: "Bacardi", price: "$5 / $10" },
+          { name: "Captain Morgan", price: "$5 / $10" },
+          { name: "Malibu", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Gin",
+        items: [
+          { name: "Bombay", price: "$5 / $10" },
+          { name: "Tanqueray", price: "$5 / $10" },
+          { name: "Beefeater", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Cognac",
+        items: [
+          { name: "Hennessy", price: "$5 / $10" },
+          { name: "D’usse", price: "$5 / $10" }
+        ]
+      }
+    ]
+  },
+
+  shots7: {
+    sections: [
+      {
+        title: "Vodka",
+        items: [
+          { name: "Tito's Handmade", price: "$7 / $14" },
+          { name: "Grey Goose", price: "$7 / $14" },
+          { name: "Belvedere", price: "$7 / $14" },
+          { name: "Ciroc", price: "$7 / $14" },
+          { name: "Ketel One", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Tequila",
+        items: [
+          { name: "Casamigos", price: "$7 / $14" },
+          { name: "Don Julio", price: "$7 / $14" },
+          { name: "Patron", price: "$7 / $14" },
+          { name: "Teremana", price: "$7 / $14" },
+          { name: "Espolon", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Whiskey",
+        items: [
+          { name: "Jameson", price: "$7 / $14" },
+          { name: "Jack Daniel's", price: "$7 / $14" },
+          { name: "Crown Royal", price: "$7 / $14" },
+          { name: "Maker's Mark", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Rum",
+        items: [
+          { name: "Bacardi Superior", price: "$7 / $14" },
+          { name: "Captain Morgan", price: "$7 / $14" },
+          { name: "Malibu", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Gin",
+        items: [
+          { name: "Bombay Sapphire", price: "$7 / $14" },
+          { name: "Tanqueray", price: "$7 / $14" }
+        ]
+      },
+      {
+        title: "Cognac",
+        items: [
+          { name: "Hennessy", price: "$7 / $14" },
+          { name: "D’usse", price: "$7 / $14" }
+        ]
+      }
+    ]
+  },
+
+  premium: {
+    sections: [
+      {
+        title: "Premium Shots",
+        items: [
+          { name: "Don Julio 1942", price: "$20 / $35" },
+          { name: "Clase Azul", price: "$25 / $40" },
+          { name: "Casamigos Reposado", price: "$12 / $20" },
+          { name: "Patron Reposado", price: "$12 / $20" },
+          { name: "Hennessy VSOP", price: "$12 / $20" },
+          { name: "D’usse", price: "$12 / $20" }
+        ]
+      },
+      {
+        title: "Premium Drinks",
+        items: [
+          { name: "Don Julio 1942 Cocktail", price: "$35" },
+          { name: "Clase Azul Cocktail", price: "$40" },
+          { name: "Casamigos Cocktail", price: "$20" },
+          { name: "Patron Cocktail", price: "$20" },
+          { name: "Hennessy VSOP Cocktail", price: "$20" },
+          { name: "D’usse Cocktail", price: "$20" }
+        ]
+      }
+    ]
+  },
+
+  wine6: {
+    sections: [
+      {
+        title: "$6 Wine",
+        items: [
+          { name: "Cabernet Sauvignon", price: "$6" },
+          { name: "Chardonnay", price: "$6" },
+          { name: "Merlot", price: "$6" },
+          { name: "Moscato", desc: "Red / White", price: "$6" },
+          { name: "Pinot Grigio", price: "$6" },
+          { name: "Sauvignon Blanc", price: "$6" },
+          { name: "Sweet Red", price: "$6" }
+        ]
+      }
+    ]
+  },
+
+  beer4: {
+    sections: [
+      {
+        title: "$4 Beer",
+        items: [
+          { name: "Angry Orchard", price: "$4" },
+          { name: "Corona", price: "$4" },
+          { name: "Guinness", price: "$4" },
+          { name: "Heineken", price: "$4" },
+          { name: "Modelo", price: "$4" },
+          { name: "Stella", price: "$4" }
+        ]
+      }
+    ]
+  },
+
+  highnoon8: {
+    sections: [
+      {
+        title: "High Noon",
+        items: [
+          { name: "Grapefruit", price: "$8" },
+          { name: "Mango", price: "$8" },
+          { name: "Lime", price: "$8" },
+          { name: "Strawberry", price: "$8" }
+        ]
+      }
+    ]
+  },
+
+  na: {
+    sections: [
+      {
+        title: "Non-Alcoholic",
+        items: [
+          { name: "Red Bull", price: "$5" },
+          { name: "Ginger Beer", price: "$5" },
+          { name: "Frozen Drinks", price: "$5" }
+        ]
+      }
+    ]
+  },
+
+  hookah23: {
+    sections: [
+      {
+        title: "Classic Flavors",
+        items: [
+          { name: "Blueberry", price: "$23" },
+          { name: "BMW", price: "$23" },
+          { name: "Mint", price: "$23" },
+          { name: "Peach", price: "$23" },
+          { name: "Gum Mint", price: "$23" }
+        ]
+      },
+      {
+        title: "Premium Gold (+$2)",
+        items: [
+          { name: "Bluemist", price: "$25" },
+          { name: "Lady Killer", price: "$25" },
+          { name: "Love 66", price: "$25" },
+          { name: "Magic Love", price: "$25" }
+        ]
+      }
+    ]
+  },
+
+  tower43: {
+    sections: [
+      {
+        title: "$43 Tower",
+        items: [
+          { name: "Tower", price: "$43" }
+        ]
+      }
+    ]
+  },
+
+  fishbowl23: {
+    sections: [
+      {
+        title: "$23 Fishbowl",
+        items: [
+          { name: "Fishbowl", price: "$23" }
+        ]
+      }
+    ]
+  },
+
+  bottles: {
+    sections: [
+      {
+        title: "Bottle Service",
+        items: [
+          { name: "Bottle menu coming soon" }
+        ]
+      }
+    ]
   }
-  to{
-    box-shadow:
-      0 0 0 1px rgba(215,180,106,.20),
-      0 24px 90px rgba(0,0,0,.55),
-      0 0 50px rgba(155,70,255,.35),
-      0 0 65px rgba(215,180,106,.25);
-  }
-}
-
-.vipNightMode .menuPanelTitle{
-  color:var(--gold2);
-  text-shadow:
-    0 0 10px rgba(215,180,106,.4),
-    0 0 20px rgba(215,180,106,.25);
-}
-
-.vipNightBannerFloating{
-  position:relative;
-  margin:10px 0 16px;
-  padding:14px 16px;
-  border-radius:18px;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at top right, rgba(155,70,255,.24), transparent 40%),
-    radial-gradient(circle at top left, rgba(215,180,106,.22), transparent 44%),
-    linear-gradient(180deg, rgba(18,12,28,.96), rgba(10,10,16,.96));
-  border:1px solid rgba(215,180,106,.34);
-  box-shadow:
-    0 0 0 1px rgba(215,180,106,.08),
-    0 18px 44px rgba(0,0,0,.34),
-    0 0 30px rgba(155,70,255,.18),
-    0 0 24px rgba(215,180,106,.12);
-}
-
-.vipNightBannerFloating__badge{
-  position:relative;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.42);
-  background:rgba(215,180,106,.12);
-  color:var(--gold2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  margin-bottom:8px;
-}
-
-.vipNightBannerFloating__title{
-  position:relative;
-  font-size:20px;
-  font-weight:900;
-  color:#fff;
-  line-height:1.25;
-  margin-bottom:4px;
-}
-
-.vipNightBannerFloating__meta{
-  position:relative;
-  color:rgba(255,255,255,.78);
-  font-size:14px;
-  line-height:1.5;
-}
-
-/* =========================
-   SCRATCH / QR / STAFF PROMO
-========================= */
-
-.promoCard{
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:18px;
-  padding:16px;
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-}
-
-.promoHead{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-  margin-bottom:12px;
-}
-
-.promoTitle{
-  font-size:16px;
-  font-weight:900;
-  letter-spacing:.06em;
-  color:#d7b46a;
-  text-transform:uppercase;
-}
-
-.promoSub{
-  color:rgba(255,255,255,.72);
-  font-size:12px;
-  line-height:1.5;
-  margin-top:4px;
-}
-
-.promoMeta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  justify-content:flex-end;
-}
-
-.promoBadge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:7px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.10);
-  color:#fff;
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-}
-
-.promoBadge--gold{
-  color:#d7b46a;
-  border-color:rgba(215,180,106,.32);
-  background:rgba(215,180,106,.08);
-}
-
-.scratchWrap{
-  position:relative;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(215,180,106,.18);
-  background:
-    radial-gradient(circle at top right, rgba(255,94,219,.10), transparent 35%),
-    radial-gradient(circle at left center, rgba(215,180,106,.10), transparent 28%),
-    rgba(255,255,255,.03);
-  min-height:160px;
-  margin:12px 0;
-}
-
-.scratchReward{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:18px;
-}
-
-.scratchRewardLabel{
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.72);
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.scratchRewardText{
-  font-size:26px;
-  font-weight:950;
-  line-height:1.1;
-  color:#fff;
-  text-shadow:0 0 22px rgba(255,94,219,.15);
-}
-
-.scratchRewardCode{
-  margin-top:10px;
-  font-size:11px;
-  color:#d7b46a;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  font-weight:900;
-}
-
-.scratchGrid{
-  position:absolute;
-  inset:0;
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  grid-template-rows:repeat(3, 1fr);
-  gap:1px;
-  background:rgba(255,255,255,.04);
-}
-
-.scratchTile{
-  border:none;
-  background:
-    linear-gradient(135deg, rgba(215,180,106,.90), rgba(255,255,255,.28));
-  cursor:pointer;
-  min-height:48px;
-  transition:transform .12s ease, opacity .18s ease;
-}
-
-.scratchTile:hover{
-  transform:scale(.98);
-}
-
-.scratchTile.is-cleared{
-  opacity:0;
-  pointer-events:none;
-}
-
-.promoActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:12px;
-}
-
-.promoBtn{
-  appearance:none;
-  border:none;
-  border-radius:12px;
-  padding:10px 14px;
-  font-weight:900;
-  letter-spacing:.04em;
-  cursor:pointer;
-}
-
-.promoBtn--gold{
-  background:linear-gradient(135deg, #d7b46a, #f2d38a);
-  color:#111;
-}
-
-.promoBtn--ghost{
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-}
-
-.promoBtn[disabled]{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-.promoHint{
-  margin-top:10px;
-  font-size:12px;
-  color:rgba(255,255,255,.68);
-  line-height:1.5;
-}
-
-.promoDivider{
-  height:1px;
-  background:rgba(255,255,255,.08);
-  margin:14px 0;
-}
-
-.staffBox{
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.03);
-  border-radius:14px;
-  padding:12px;
-}
-
-.staffRow{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  align-items:center;
-}
-
-.staffInput{
-  flex:1 1 160px;
-  min-width:0;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.18);
-  color:#fff;
-  padding:10px 12px;
-}
-
-.staffState{
-  margin-top:8px;
-  font-size:12px;
-  color:rgba(255,255,255,.72);
-}
-
-.promoQueueNote{
-  margin-top:10px;
-  font-size:11px;
-  color:rgba(255,255,255,.55);
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width:1100px){
-  .menuTopCategories{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .menuBottomCategories{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .popularTonight__grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media (max-width:920px){
-  .menuSplit{
-    grid-template-columns:1fr;
-  }
-
-  .heroRow{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .menuWelcomeStrip{
-    grid-template-columns:1fr;
-  }
-
-  .menuGrouped__grid,
-  .menuPanelBody .menuGrouped__grid{
-    grid-template-columns:1fr;
-  }
-
-  .menuPanelBody .menuList,
-  .menuSectionBlock .menuList,
-  .menuGrouped__box .menuList{
-    grid-template-columns:1fr;
-    gap:8px;
-  }
-
-  .promoHead{
-    flex-direction:column;
-  }
-}
-
-@media (max-width:640px){
-  .menuWrap{
-    padding-bottom:80px;
-  }
-
-  .menuTopCategories,
-  .menuBottomCategories{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .popularTonight__grid{
-    grid-template-columns:1fr;
-  }
-
-  .menuItem__price{
-    margin-left:0;
-    min-width:auto;
-    text-align:left;
-    white-space:normal;
-  }
-
-  .vipNightBannerFloating__title{
-    font-size:17px;
-  }
-
-  .vipNightBannerFloating__meta{
-    font-size:13px;
-  }
-
-  .scratchRewardText{
-    font-size:22px;
-  }
-}
-
-/* =========================
-   REVEAL
-========================= */
-
-@keyframes allureSoftReveal{
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-/* ===== 24 BOX HYBRID GAME ===== */
-.hybridGame{
-  display:grid;
-  gap:14px;
-}
-
-.hybridTop{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.hybridTitle{
-  font-size:16px;
-  font-weight:950;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:#d7b46a;
-}
-
-.hybridSub{
-  color:rgba(255,255,255,.72);
-  font-size:12px;
-  line-height:1.5;
-  margin-top:4px;
-  max-width:680px;
-}
-
-.hybridMeta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.hybridBadge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:7px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  font-size:11px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-}
-
-.hybridBadge--gold{
-  color:#d7b46a;
-  border-color:rgba(215,180,106,.30);
-  background:rgba(215,180,106,.08);
-}
-
-.mysteryGrid{
-  display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:10px;
-}
-
-.mysteryBox{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.05));
-  min-height:58px;
-  border-radius:14px;
-  color:#fff;
-  font-weight:900;
-  font-size:12px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  cursor:pointer;
-  box-shadow:0 10px 24px rgba(0,0,0,.12);
-  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease;
-}
-
-.mysteryBox:hover{
-  transform:translateY(-2px);
-  border-color:rgba(215,180,106,.34);
-}
-
-.mysteryBox.is-open{
-  background:rgba(255,255,255,.03);
-  border-color:rgba(215,180,106,.30);
-  color:#111;
-}
-
-.mysteryBox.is-locked{
-  opacity:.42;
-  cursor:not-allowed;
-}
-
-.mysteryReveal{
-  border:1px solid rgba(215,180,106,.20);
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-  border-radius:18px;
-  padding:16px;
-  text-align:center;
-}
-
-.mysteryRevealLabel{
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.70);
-  margin-bottom:8px;
-}
-
-.mysteryRevealText{
-  font-size:22px;
-  font-weight:950;
-  line-height:1.15;
-  color:#fff;
-}
-
-.mysteryRevealCode{
-  margin-top:10px;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:#d7b46a;
-}
-
-.hybridActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.hybridBtn{
-  appearance:none;
-  border:none;
-  border-radius:12px;
-  padding:10px 14px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.hybridBtn--gold{
-  background:linear-gradient(135deg,#d7b46a,#f2d38a);
-  color:#111;
-}
-
-.hybridBtn--ghost{
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-}
-
-.hybridBtn[disabled]{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-.hybridHint{
-  font-size:12px;
-  color:rgba(255,255,255,.68);
-  line-height:1.5;
-}
-
-.hybridSection{
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.03);
-  border-radius:16px;
-  padding:14px;
-}
-
-.hybridSectionTitle{
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:#d7b46a;
-  margin-bottom:8px;
-}
-
-.puzzleWrap{
-  display:grid;
-  grid-template-columns:auto 1fr;
-  gap:16px;
-  align-items:start;
-}
-
-.puzzleGrid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  max-width:260px;
-}
-
-.puzzlePiece{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(135deg, rgba(255,94,219,.18), rgba(255,255,255,.05));
-  color:#fff;
-  border-radius:12px;
-  min-height:62px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.puzzlePiece.is-correct{
-  border-color:rgba(215,180,106,.42);
-  background:rgba(215,180,106,.14);
-  color:#f2d38a;
-}
-
-.puzzleText{
-  color:rgba(255,255,255,.74);
-  font-size:12px;
-  line-height:1.5;
-}
-
-.staffBox{
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.03);
-  border-radius:14px;
-  padding:12px;
-}
-
-.staffRow{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  align-items:center;
-}
-
-.staffInput{
-  flex:1 1 160px;
-  min-width:0;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.18);
-  color:#fff;
-  padding:10px 12px;
-}
-
-.staffState{
-  margin-top:8px;
-  font-size:12px;
-  color:rgba(255,255,255,.72);
-}
-
-.promoQueueNote{
-  margin-top:10px;
-  font-size:11px;
-  color:rgba(255,255,255,.55);
-}
-
-@media (max-width:920px){
-  .mysteryGrid{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-  }
-}
-
-@media (max-width:640px){
-  .mysteryGrid{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:8px;
-  }
-
-  .mysteryBox{
-    min-height:52px;
-    font-size:11px;
-  }
-
-  .puzzleWrap{
-    grid-template-columns:1fr;
-  }
-}
+};
