@@ -3,6 +3,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const STAFF_PIN = "2024";
   const LEADS_KEY = "allure_leads_v2";
 
+  const DAILY_PROMOS = {
+    sunday: {
+      label: "SOCIAL SUNDAY",
+      text: "Chill vibes, hookah, drinks & music"
+    },
+    monday: {
+      label: "FREE HOOKAH MONDAY",
+      text: "With $50 bar tab — your choice of flavor"
+    },
+    tuesday: {
+      label: "TACO TUESDAY",
+      text: "Tacos, drinks & late night vibes"
+    },
+    wednesday: {
+      label: "WEEKDAYS WEDNESDAY",
+      text: "Midweek energy, cocktails & hookah"
+    },
+    thursday: {
+      label: "KARAOKE THURSDAY",
+      text: "Sing, drink & vibe all night"
+    },
+    friday: {
+      label: "ALLURE FRIDAY",
+      text: "Premium nightlife experience"
+    },
+    saturday: {
+      label: "ALLURE SATURDAY",
+      text: "VIP energy, bottles & music"
+    }
+  };
+
   /* =========================
      NAV
   ========================= */
@@ -30,6 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getTodayKey() {
     return new Date().toISOString().slice(0, 10);
+  }
+
+  function getTodayName() {
+    return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
   }
 
   function getTableLabel() {
@@ -195,6 +230,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     return copy.slice(0, 24);
+  }
+
+  /* =========================
+     DAILY PROMO CARD
+  ========================= */
+
+  function updateDailyPromo(day) {
+    const promoLabel = document.getElementById("promoLabel");
+    const promoText = document.getElementById("promoText");
+    const promo = DAILY_PROMOS[day];
+
+    if (!promoLabel || !promoText || !promo) return;
+
+    promoLabel.textContent = promo.label;
+    promoText.textContent = promo.text;
   }
 
   /* =========================
@@ -914,68 +964,17 @@ document.addEventListener("DOMContentLoaded", () => {
         panel.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
       }
     });
+
+    updateDailyPromo(day);
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
     tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
   });
 
-  const today = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
+  const today = getTodayName();
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
 
   activateDay(hasTodayTab ? today : fallbackDay);
 });
-/* =========================
-   DAILY HERO PROMO
-========================= */
-
-(function () {
-  const heroTitle = document.getElementById("heroTitle");
-  const heroText = document.getElementById("heroText");
-
-  if (!heroTitle || !heroText) return;
-
-  const promos = {
-    sunday: {
-      title: "SOCIAL SUNDAY",
-      text: "Chill vibes, hookah, drinks & music"
-    },
-    monday: {
-      title: "FREE HOOKAH MONDAY",
-      text: "Free hookah with $50 bar tab — your choice of flavor"
-    },
-    tuesday: {
-      title: "TACO TUESDAY",
-      text: "Tacos, drinks & late night vibes"
-    },
-    wednesday: {
-      title: "WEEKDAYS WEDNESDAY",
-      text: "Midweek energy, cocktails & hookah"
-    },
-    thursday: {
-      title: "KARAOKE THURSDAY",
-      text: "Sing, drink & vibe all night"
-    },
-    friday: {
-      title: "ALLURE FRIDAY",
-      text: "Premium nightlife experience"
-    },
-    saturday: {
-      title: "ALLURE SATURDAY",
-      text: "VIP energy, bottles & music"
-    }
-  };
-
-  const today = [
-    "sunday","monday","tuesday","wednesday",
-    "thursday","friday","saturday"
-  ][new Date().getDay()];
-
-  const data = promos[today];
-
-  if (data) {
-    heroTitle.textContent = data.title;
-    heroText.textContent = data.text;
-  }
-})();
