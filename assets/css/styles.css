@@ -90,6 +90,7 @@ img{
 .nav{
   display:flex;
   align-items:center;
+  position:relative;
 }
 
 .nav__list{
