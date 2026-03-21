@@ -1,7 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
-  const STAFF_PIN = "2024";
+
+  const DAILY_PROMOS = {
+    sunday: {
+      label: "SOCIAL SUNDAY",
+      text: "Chill vibes, hookah, drinks & music"
+    },
+    monday: {
+      label: "FREE HOOKAH MONDAY",
+      text: "With $50 bar tab — your choice of flavor"
+    },
+    tuesday: {
+      label: "TACO TUESDAY",
+      text: "Tacos, drinks & late night vibes"
+    },
+    wednesday: {
+      label: "WEEKDAYS WEDNESDAY",
+      text: "Midweek energy, cocktails & hookah"
+    },
+    thursday: {
+      label: "KARAOKE THURSDAY",
+      text: "Sing, drink & vibe all night"
+    },
+    friday: {
+      label: "ALLURE FRIDAY",
+      text: "Premium nightlife experience"
+    },
+    saturday: {
+      label: "ALLURE SATURDAY",
+      text: "VIP energy, bottles & music"
+    }
+  };
 
   /* =========================
      NAV
@@ -22,6 +51,25 @@ document.addEventListener("DOMContentLoaded", () => {
         navToggle.setAttribute("aria-expanded", "false");
       });
     });
+  }
+
+  /* =========================
+     DAILY PROMO CARD
+  ========================= */
+
+  function getTodayName() {
+    return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
+  }
+
+  function updateDailyPromo(day) {
+    const promoLabel = document.getElementById("promoLabel");
+    const promoText = document.getElementById("promoText");
+    const promo = DAILY_PROMOS[day];
+
+    if (!promoLabel || !promoText || !promo) return;
+
+    promoLabel.textContent = promo.label;
+    promoText.textContent = promo.text;
   }
 
   /* =========================
@@ -51,8 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="menuGrouped__grid">
           ${(section.groups || []).map(group => `
             <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${group.title}</div>
-              ${renderFlatMenu(group.items)}
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+              ${renderFlatMenu(group.items || [])}
             </div>
           `).join("")}
         </div>
@@ -60,12 +108,57 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  function splitShotsAndDrinks(items) {
+    const shots = [];
+    const drinks = [];
+
+    (items || []).forEach(item => {
+      const price = item.price || "";
+      const parts = price.split("/").map(p => p.trim());
+
+      if (parts.length === 2) {
+        shots.push({ ...item, price: parts[0] });
+        drinks.push({ ...item, price: parts[1] });
+      } else {
+        shots.push({ ...item });
+        drinks.push({ ...item });
+      }
+    });
+
+    return { shots, drinks };
+  }
+
+  function getContentByMode(content, mode) {
+    if (!content || !content.sections) return content;
+    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
+
+    return {
+      ...content,
+      sections: content.sections.map(section => {
+        if (section.layout === "grouped") return section;
+        const split = splitShotsAndDrinks(section.items || []);
+        return {
+          ...section,
+          items: mode === "shots" ? split.shots : split.drinks
+        };
+      })
+    };
+  }
+
   function renderSectionedMenu(content) {
+    const sections = content?.sections || [];
+
+    if (!sections.length) {
+      return `<div class="menuEmpty">Menu coming soon.</div>`;
+    }
+
     return `
       <div class="menuNested">
         <div class="menuSubTabs">
-          ${(content.sections || []).map(s => `
-            <button class="menuSubTab" data-subsection="${s.title}">${s.title}</button>
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
           `).join("")}
         </div>
         <div class="menuSubBody"></div>
@@ -76,31 +169,43 @@ document.addEventListener("DOMContentLoaded", () => {
   function bindSubTabs(panelBody, content) {
     const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
     const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content?.sections || [];
 
-    function activate(title) {
-      tabs.forEach(t => t.classList.toggle("active", t.dataset.subsection === title));
-      const section = content.sections.find(s => s.title === title);
+    if (!tabs.length || !subBody || !sections.length) return;
+
+    function activateSubsection(title) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
+
+      const section = sections.find(s => s.title === title);
+
+      if (!section) {
+        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
+        return;
+      }
 
       if (section.layout === "grouped") {
         subBody.innerHTML = renderGroupedMenu(section);
       } else {
-        subBody.innerHTML = renderFlatMenu(section.items);
+        subBody.innerHTML = renderFlatMenu(section.items || []);
       }
     }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => activate(tab.dataset.subsection));
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
     });
 
-    activate(content.sections[0].title);
+    activateSubsection(sections[0].title);
   }
 
   /* =========================
-     REWARD SYSTEM
+     24 BOX GAME
   ========================= */
 
-  function getItems(mode) {
-
+  function getGameItems(type) {
     const igRewards = [
       "Free Mixer",
       "$2 Off Hookah",
@@ -140,161 +245,251 @@ document.addEventListener("DOMContentLoaded", () => {
       "Ask Server",
       "Come Back",
       "Next Time Lucky",
-      "Enjoy The Night"
+      "Enjoy The Night",
+      "Ask About VIP",
+      "House Favorite"
     ];
 
-    let pool;
+    let pool = [];
 
-    if (mode === "vip") {
-      pool = [...vipRewards, ...phoneRewards, ...fillers];
-    } else if (mode === "phone") {
+    if (type === "phone") {
       pool = [...phoneRewards, ...igRewards, ...fillers];
+    } else if (type === "vip") {
+      pool = [...vipRewards, ...phoneRewards, ...fillers];
     } else {
-      pool = [...igRewards, ...fillers];
+      pool = [...igRewards, ...fillers, ...fillers];
+    }
+
+    while (pool.length < 24) {
+      pool.push("Try Again");
     }
 
     return shuffle(pool).slice(0, 24);
   }
 
-  function shuffle(arr){
-    return arr.sort(()=>Math.random()-0.5);
+  function shuffle(arr) {
+    return [...arr].sort(() => Math.random() - 0.5);
   }
 
-  /* =========================
-     24 BOX GAME (FULL)
-  ========================= */
-
-  function renderGame(panelBody){
-
-    panelBody.innerHTML = `
+  function renderLeadGate(panel) {
+    panel.innerHTML = `
       <div class="hybridGame">
+        <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
+        <div class="hybridSub">
+          Enter your Instagram or phone number to play.<br>
+          Enter both for VIP reward odds.
+        </div>
 
+        <div class="hybridActions">
+          <button class="hybridBtn hybridBtn--ghost active" type="button" data-entry="ig">Instagram</button>
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
+          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP (Both)</button>
+        </div>
+
+        <div class="staffBox">
+          <div style="display:grid;gap:10px;">
+            <input class="staffInput" type="text" placeholder="@instagram" data-ig-input>
+            <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input style="display:none;">
+            <button class="hybridBtn hybridBtn--gold" type="button" data-unlock>Unlock Boxes</button>
+          </div>
+          <div class="staffState" data-state>Instagram entry unlocks Standard rewards.</div>
+        </div>
+      </div>
+    `;
+
+    const igInput = panel.querySelector("[data-ig-input]");
+    const phoneInput = panel.querySelector("[data-phone-input]");
+    const state = panel.querySelector("[data-state]");
+    const entryButtons = [...panel.querySelectorAll("[data-entry]")];
+
+    let entryType = "ig";
+
+    function setEntry(type) {
+      entryType = type;
+      entryButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.entry === type);
+      });
+
+      if (type === "ig") {
+        igInput.style.display = "";
+        phoneInput.style.display = "none";
+        phoneInput.value = "";
+        state.textContent = "Instagram entry unlocks Standard rewards.";
+      } else if (type === "phone") {
+        igInput.style.display = "none";
+        phoneInput.style.display = "";
+        igInput.value = "";
+        state.textContent = "Phone entry unlocks Premium rewards.";
+      } else {
+        igInput.style.display = "";
+        phoneInput.style.display = "";
+        state.textContent = "VIP entry with both fields unlocks best rewards.";
+      }
+    }
+
+    entryButtons.forEach(btn => {
+      btn.addEventListener("click", () => setEntry(btn.dataset.entry));
+    });
+
+    panel.querySelector("[data-unlock]").addEventListener("click", () => {
+      const ig = igInput.value.trim();
+      const phone = phoneInput.value.trim();
+
+      if (entryType === "ig" && !ig) {
+        state.textContent = "Enter your Instagram to continue.";
+        return;
+      }
+
+      if (entryType === "phone" && !phone) {
+        state.textContent = "Enter your phone number to continue.";
+        return;
+      }
+
+      if (entryType === "vip" && (!ig || !phone)) {
+        state.textContent = "Enter both Instagram and phone number for VIP.";
+        return;
+      }
+
+      renderGame(panel, entryType, ig, phone);
+    });
+  }
+
+  function renderGame(panel, type = "ig", ig = "", phone = "") {
+    const items = getGameItems(type);
+
+    panel.innerHTML = `
+      <div class="hybridGame">
         <div class="hybridTitle">🎁 Mystery Box Game</div>
 
-        <div class="promoCard">
-          <div class="promoTitle">Unlock Better Rewards</div>
-
-          <div class="staffRow">
-            <input id="igInput" class="staffInput" placeholder="Enter Instagram @" />
-            <input id="phoneInput" class="staffInput" placeholder="Enter Phone #" />
-            <input id="vipPin" class="staffInput" placeholder="VIP PIN" />
-          </div>
-
-          <button id="startGame" class="promoBtn promoBtn--gold">Start Game</button>
+        <div class="hybridSub">
+          ${type === "ig" ? `Instagram: ${ig}` : ""}
+          ${type === "phone" ? `Phone: ${phone}` : ""}
+          ${type === "vip" ? `Instagram: ${ig} • Phone: ${phone}` : ""}
         </div>
 
         <div class="mysteryGrid">
-          ${Array.from({length:24}).map((_,i)=>`
-            <button class="mysteryBox">Box ${i+1}</button>
+          ${Array.from({ length: 24 }).map((_, i) => `
+            <button class="mysteryBox" type="button" data-box="${i}">
+              Box ${i + 1}
+            </button>
           `).join("")}
         </div>
 
         <div class="mysteryReveal">
-          <div id="reveal">Enter info & start</div>
+          <div class="mysteryRevealText" id="revealText">Pick a box</div>
         </div>
 
+        <div class="hybridActions">
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-back>Back</button>
+        </div>
       </div>
     `;
 
-    const boxes = [...panelBody.querySelectorAll(".mysteryBox")];
-    const reveal = panelBody.querySelector("#reveal");
-
-    const startBtn = panelBody.querySelector("#startGame");
-    const igInput = panelBody.querySelector("#igInput");
-    const phoneInput = panelBody.querySelector("#phoneInput");
-    const vipPin = panelBody.querySelector("#vipPin");
-
-    let items = [];
+    const boxes = [...panel.querySelectorAll(".mysteryBox")];
+    const revealText = panel.querySelector("#revealText");
     let used = false;
 
-    startBtn.onclick = () => {
-
-      let mode = "ig";
-
-      if (phoneInput.value.trim()) mode = "phone";
-      if (vipPin.value === STAFF_PIN) mode = "vip";
-
-      items = getItems(mode);
-      reveal.textContent = "Pick a box";
-      used = false;
-
-      boxes.forEach(b => {
-        b.textContent = "Box";
-        b.classList.remove("is-open");
-      });
-    };
-
-    boxes.forEach((box,i)=>{
-      box.onclick = ()=>{
-        if(used || items.length === 0) return;
-
-        box.textContent = items[i];
-        box.classList.add("is-open");
-        reveal.textContent = items[i];
-
+    boxes.forEach((box, i) => {
+      box.addEventListener("click", () => {
+        if (used) return;
         used = true;
-      };
+
+        revealText.textContent = items[i];
+
+        boxes.forEach((b, idx) => {
+          if (idx === i) {
+            b.textContent = items[i];
+            b.classList.add("is-open");
+          } else {
+            b.classList.add("is-locked");
+          }
+        });
+      });
+    });
+
+    panel.querySelector("[data-back]").addEventListener("click", () => {
+      renderLeadGate(panel);
     });
   }
 
   /* =========================
-     CENTER WRAP
+     WRAP SETUP
   ========================= */
 
-  function getButtons(wrap){
+  function getButtons(wrap) {
     const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
-    const outside = [...wrap.parentElement.querySelectorAll(".outsideBottom .menuCenterBtn")];
+    const outsideWrap = wrap.parentElement.querySelector(".outsideBottom");
+    const outside = outsideWrap ? [...outsideWrap.querySelectorAll(".menuCenterBtn")] : [];
     return [...inside, ...outside];
   }
 
-  function setupWrap(wrap){
-    if(wrap.dataset.done) return;
-    wrap.dataset.done = true;
+  function setupWrap(wrap) {
+    const panel = wrap.querySelector(".menuPanelBody");
+    if (!panel) return;
 
     const buttons = getButtons(wrap);
-    const panel = wrap.querySelector(".menuPanelBody");
 
-    buttons.forEach(btn=>{
-      btn.onclick = ()=>{
-        buttons.forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
+    if (!wrap.dataset.bound) {
+      wrap.dataset.bound = "true";
 
-        const content = CATEGORY_CONTENT[btn.dataset.cat];
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          buttons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
 
-        if(!content){
-          panel.innerHTML = "Coming soon";
-          return;
-        }
+          if (button.dataset.action === "game") {
+            renderLeadGate(panel);
+            return;
+          }
 
-        panel.innerHTML = renderSectionedMenu(content);
-        bindSubTabs(panel, content);
-      };
-    });
+          const catKey = button.dataset.cat;
+          const mode = button.dataset.mode || "";
+          const baseContent = CATEGORY_CONTENT[catKey];
 
-    // 🔥 IMPORTANT: GAME loads first (NOTHING auto opens)
-    renderGame(panel);
+          if (!baseContent) {
+            panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
+            return;
+          }
+
+          const content = getContentByMode(baseContent, mode);
+          panel.innerHTML = renderSectionedMenu(content);
+          bindSubTabs(panel, content);
+        });
+      });
+    }
+
+    buttons.forEach(btn => btn.classList.remove("active"));
+    renderLeadGate(panel);
   }
 
   /* =========================
      DAY SWITCH
   ========================= */
 
-  function activateDay(day){
-    document.querySelectorAll(".dayPanel").forEach(p=>{
-      const active = p.dataset.daypanel===day;
-      p.classList.toggle("active", active);
+  function activateDay(day) {
+    document.querySelectorAll(".dayTab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.daytab === day);
+    });
 
-      if(active){
-        p.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
+    document.querySelectorAll(".dayPanel").forEach(panel => {
+      const active = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", active);
+
+      if (active) {
+        panel.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
       }
     });
+
+    updateDailyPromo(day);
   }
 
-  document.querySelectorAll(".dayTab").forEach(tab=>{
-    tab.onclick = ()=>activateDay(tab.dataset.daytab);
+  document.querySelectorAll(".dayTab").forEach(tab => {
+    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
   });
 
-  const today = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][new Date().getDay()];
-  activateDay(today);
+  const today = getTodayName();
+  const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
+  const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
 
+  activateDay(hasTodayTab ? today : fallbackDay);
 });
