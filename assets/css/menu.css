@@ -921,3 +921,36 @@ body{
     font-size:11px;
   }
 }
+.hybridSub{
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:4px;
+  max-width:680px;
+}
+
+.hybridActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.hybridBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.hybridBtn--gold{
+  background:linear-gradient(135deg,#d7b46a,#f2d38a);
+  color:#111;
+}
+
+.hybridBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
