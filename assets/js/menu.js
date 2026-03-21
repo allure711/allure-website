@@ -281,18 +281,18 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="hybridActions">
-          <button class="hybridBtn hybridBtn--ghost active" type="button" data-entry="ig">Instagram</button>
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">Instagram</button>
           <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
           <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP (Both)</button>
         </div>
 
         <div class="staffBox">
           <div style="display:grid;gap:10px;">
-            <input class="staffInput" type="text" placeholder="@instagram" data-ig-input>
+            <input class="staffInput" type="text" placeholder="@instagram" data-ig-input style="display:none;">
             <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input style="display:none;">
             <button class="hybridBtn hybridBtn--gold" type="button" data-unlock>Unlock Boxes</button>
           </div>
-          <div class="staffState" data-state>Instagram entry unlocks Standard rewards.</div>
+          <div class="staffState" data-state>Please select Instagram, Phone, or VIP to continue.</div>
         </div>
       </div>
     `;
@@ -302,10 +302,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const state = panel.querySelector("[data-state]");
     const entryButtons = [...panel.querySelectorAll("[data-entry]")];
 
-    let entryType = "ig";
+    let entryType = "";
 
     function setEntry(type) {
       entryType = type;
+
       entryButtons.forEach(btn => {
         btn.classList.toggle("active", btn.dataset.entry === type);
       });
@@ -314,16 +315,22 @@ document.addEventListener("DOMContentLoaded", () => {
         igInput.style.display = "";
         phoneInput.style.display = "none";
         phoneInput.value = "";
-        state.textContent = "Instagram entry unlocks Standard rewards.";
+        state.textContent = "Please enter your Instagram to continue.";
       } else if (type === "phone") {
         igInput.style.display = "none";
         phoneInput.style.display = "";
         igInput.value = "";
-        state.textContent = "Phone entry unlocks Premium rewards.";
-      } else {
+        state.textContent = "Please enter your phone number to continue.";
+      } else if (type === "vip") {
         igInput.style.display = "";
         phoneInput.style.display = "";
-        state.textContent = "VIP entry with both fields unlocks best rewards.";
+        state.textContent = "Please enter both Instagram and phone number for VIP.";
+      } else {
+        igInput.style.display = "none";
+        phoneInput.style.display = "none";
+        igInput.value = "";
+        phoneInput.value = "";
+        state.textContent = "Please select Instagram, Phone, or VIP to continue.";
       }
     }
 
@@ -335,18 +342,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const ig = igInput.value.trim();
       const phone = phoneInput.value.trim();
 
+      if (!entryType) {
+        state.textContent = "Please select Instagram, Phone, or VIP first.";
+        return;
+      }
+
       if (entryType === "ig" && !ig) {
-        state.textContent = "Enter your Instagram to continue.";
+        state.textContent = "Please enter your Instagram to play.";
         return;
       }
 
       if (entryType === "phone" && !phone) {
-        state.textContent = "Enter your phone number to continue.";
+        state.textContent = "Please enter your phone number to play.";
         return;
       }
 
       if (entryType === "vip" && (!ig || !phone)) {
-        state.textContent = "Enter both Instagram and phone number for VIP.";
+        state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
         return;
       }
 
