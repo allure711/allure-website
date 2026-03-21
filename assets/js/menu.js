@@ -32,10 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  /* =========================
-     NAV
-  ========================= */
-
   const navToggle = document.querySelector(".nav__toggle");
   const navList = document.querySelector(".nav__list");
 
@@ -53,10 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================
-     DAILY PROMO CARD
-  ========================= */
-
   function getTodayName() {
     return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
   }
@@ -71,10 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     promoLabel.textContent = promo.label;
     promoText.textContent = promo.text;
   }
-
-  /* =========================
-     MENU RENDER
-  ========================= */
 
   function renderFlatMenu(items) {
     return `
@@ -201,11 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
     activateSubsection(sections[0].title);
   }
 
-  /* =========================
-     24 BOX GAME
-  ========================= */
-
-  function getGameRewards() {
+  function getGameItems() {
     const rewards = [
       "Free Shot",
       "$5 Off",
@@ -214,15 +198,22 @@ document.addEventListener("DOMContentLoaded", () => {
       "Hookah Upgrade"
     ];
 
-    const filler = [
+    const neutral = [
       "Try Again",
-      "Come Back",
       "Ask Server",
+      "Come Back",
       "Next Time",
       "Good Vibes"
     ];
 
-    const pool = [...rewards, ...filler, ...rewards, ...filler, ...rewards];
+    const pool = [
+      ...rewards,
+      ...neutral,
+      ...rewards,
+      ...neutral,
+      ...rewards,
+      ...neutral
+    ];
 
     return pool.sort(() => Math.random() - 0.5).slice(0, 24);
   }
@@ -248,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const boxes = [...panel.querySelectorAll(".mysteryBox")];
     const revealText = panel.querySelector("#revealText");
-    const rewards = getGameRewards();
+    const items = getGameItems();
     let used = false;
 
     boxes.forEach((box, i) => {
@@ -256,11 +247,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (used) return;
         used = true;
 
-        revealText.textContent = rewards[i];
+        revealText.textContent = items[i];
 
         boxes.forEach((b, idx) => {
           if (idx === i) {
-            b.textContent = rewards[i];
+            b.textContent = items[i];
             b.classList.add("is-open");
           } else {
             b.classList.add("is-locked");
@@ -270,18 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================
-     IDLE PANEL
-  ========================= */
-
-  function renderIdleState(panel) {
-    renderGame(panel);
-  }
-
-  /* =========================
-     WRAP SETUP
-  ========================= */
-
   function getButtons(wrap) {
     const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
     const outsideWrap = wrap.parentElement.querySelector(".outsideBottom");
@@ -290,56 +269,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setupWrap(wrap) {
-    if (wrap.dataset.done === "true") return;
-    wrap.dataset.done = "true";
+    const panel = wrap.querySelector(".menuPanelBody");
+    if (!panel) return;
 
     const buttons = getButtons(wrap);
-    const panel = wrap.querySelector(".menuPanelBody");
 
-    if (!panel || !buttons.length) return;
+    if (!wrap.dataset.bound) {
+      wrap.dataset.bound = "true";
 
-    function clearActive() {
-      buttons.forEach(btn => btn.classList.remove("active"));
-    }
-
-    function activateCategory(button) {
-      clearActive();
-      button.classList.add("active");
-
-      const catKey = button.dataset.cat;
-      const mode = button.dataset.mode || "";
-      const baseContent = CATEGORY_CONTENT[catKey];
-
-      if (!baseContent) {
-        panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
-        return;
-      }
-
-      const content = getContentByMode(baseContent, mode);
-      panel.innerHTML = renderSectionedMenu(content);
-      bindSubTabs(panel, content);
-    }
-
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        if (button.dataset.action === "game") {
-          clearActive();
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          buttons.forEach(btn => btn.classList.remove("active"));
           button.classList.add("active");
-          renderGame(panel);
-          return;
-        }
 
-        activateCategory(button);
+          if (button.dataset.action === "game") {
+            renderGame(panel);
+            return;
+          }
+
+          const catKey = button.dataset.cat;
+          const mode = button.dataset.mode || "";
+          const baseContent = CATEGORY_CONTENT[catKey];
+
+          if (!baseContent) {
+            panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
+            return;
+          }
+
+          const content = getContentByMode(baseContent, mode);
+          panel.innerHTML = renderSectionedMenu(content);
+          bindSubTabs(panel, content);
+        });
       });
-    });
+    }
 
-    clearActive();
-    renderIdleState(panel);
+    buttons.forEach(btn => btn.classList.remove("active"));
+    renderGame(panel);
   }
-
-  /* =========================
-     DAY SWITCH
-  ========================= */
 
   function activateDay(day) {
     document.querySelectorAll(".dayTab").forEach(tab => {
