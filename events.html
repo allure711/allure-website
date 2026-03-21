@@ -6,7 +6,391 @@
   <title>Events | Allure Bar & Lounge</title>
 
   <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/menu.css">
+
+  <style>
+    :root{
+      --gold:#d7b46a;
+      --gold2:#f2d38a;
+      --bg:#07070a;
+      --bg2:#0a0a10;
+      --panel:rgba(255,255,255,.05);
+      --line:rgba(255,255,255,.10);
+      --textSoft:rgba(255,255,255,.78);
+    }
+
+    body{
+      background:
+        radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.12), transparent 58%),
+        radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.10), transparent 54%),
+        linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
+      color:#fff;
+    }
+
+    .eventsPage{
+      min-height:100vh;
+      padding-bottom:90px;
+    }
+
+    .eventsHero{
+      padding:70px 0 32px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .eventsHero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(215,180,106,.14), transparent 34%),
+        radial-gradient(circle at 82% 20%, rgba(255,94,219,.10), transparent 30%);
+      pointer-events:none;
+    }
+
+    .eventsHero__content{
+      position:relative;
+      z-index:2;
+      max-width:760px;
+    }
+
+    .eventsHero__eyebrow{
+      margin:0 0 14px;
+      color:rgba(255,255,255,.82);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    .eventsHero h1{
+      margin:0 0 14px;
+      font-size:clamp(42px,6vw,72px);
+      line-height:.95;
+      letter-spacing:-.05em;
+      font-weight:950;
+    }
+
+    .eventsHero__sub{
+      margin:0;
+      max-width:650px;
+      color:var(--textSoft);
+      line-height:1.7;
+      font-size:16px;
+    }
+
+    .eventsHero__actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:24px;
+    }
+
+    .hero__btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:900;
+      text-decoration:none;
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .hero__btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .hero__btn--gold{
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+      color:#111;
+      box-shadow:0 14px 34px rgba(215,180,106,.22);
+    }
+
+    .hero__btn--ghost{
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+    }
+
+    .eventsIntro{
+      padding:0 0 28px;
+    }
+
+    .liveIndicator{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius:22px;
+      padding:16px 18px;
+      box-shadow:
+        0 16px 36px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .liveIndicator__left{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .liveDot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:#41ff8e;
+      margin-top:5px;
+      box-shadow:
+        0 0 0 5px rgba(65,255,142,.12),
+        0 0 16px rgba(65,255,142,.42);
+    }
+
+    .liveIndicator__eyebrow{
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:5px;
+    }
+
+    .liveIndicator__title{
+      font-size:16px;
+      font-weight:800;
+      line-height:1.45;
+    }
+
+    .liveIndicator__tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .liveTag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 11px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.30);
+      background:rgba(215,180,106,.10);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      white-space:nowrap;
+    }
+
+    .eventsGridWrap{
+      padding:8px 0 28px;
+    }
+
+    .eventsGrid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:20px;
+    }
+
+    .eventCard{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      border-radius:24px;
+      padding:22px 20px 20px;
+      min-height:100%;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow:
+        0 22px 54px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.03);
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      overflow:hidden;
+    }
+
+    .eventCard:hover{
+      transform:translateY(-4px);
+      box-shadow:
+        0 28px 62px rgba(0,0,0,.30),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .eventCard::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.03) 18%, transparent 40%);
+      pointer-events:none;
+    }
+
+    .eventCard--featured{
+      border-color:rgba(215,180,106,.38);
+      background:
+        radial-gradient(circle at top left, rgba(215,180,106,.22), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow:
+        0 0 0 1px rgba(215,180,106,.08),
+        0 26px 62px rgba(0,0,0,.30),
+        0 0 28px rgba(215,180,106,.12);
+    }
+
+    .eventCard--vip{
+      border-color:rgba(215,180,106,.32);
+      background:
+        radial-gradient(circle at top right, rgba(155,70,255,.22), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.16), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow:
+        0 0 0 1px rgba(215,180,106,.06),
+        0 24px 58px rgba(0,0,0,.28),
+        0 0 24px rgba(155,70,255,.12);
+    }
+
+    .eventCard__day{
+      display:inline-flex;
+      width:max-content;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.28);
+      background:rgba(215,180,106,.10);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .eventCard h2{
+      margin:0;
+      font-size:28px;
+      line-height:1.02;
+      letter-spacing:-.03em;
+      font-weight:950;
+    }
+
+    .eventCard p{
+      margin:0;
+      color:var(--textSoft);
+      line-height:1.65;
+      font-size:14px;
+      flex:1 1 auto;
+    }
+
+    .eventMeta{
+      color:rgba(255,255,255,.82);
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    .eventCard__btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:max-content;
+      min-height:44px;
+      padding:11px 16px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:900;
+      color:#fff;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.16);
+      transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .eventCard__btn:hover{
+      transform:translateY(-2px);
+      border-color:rgba(215,180,106,.30);
+    }
+
+    .eventCard__btn--gold{
+      color:#111;
+      border:none;
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+      box-shadow:0 14px 30px rgba(215,180,106,.18);
+    }
+
+    .eventsReserveBand{
+      padding:16px 0 0;
+    }
+
+    .eventsReserveBand__card{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+      border-radius:24px;
+      padding:24px 22px;
+      border:1px solid rgba(215,180,106,.26);
+      background:
+        radial-gradient(circle at top right, rgba(155,70,255,.20), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.16), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow:
+        0 24px 58px rgba(0,0,0,.26),
+        inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .eventsReserveBand__label{
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:6px;
+    }
+
+    .eventsReserveBand__title{
+      font-size:30px;
+      font-weight:950;
+      line-height:1.02;
+      letter-spacing:-.03em;
+      margin-bottom:8px;
+    }
+
+    .eventsReserveBand__card p{
+      margin:0;
+      max-width:620px;
+      color:var(--textSoft);
+      line-height:1.6;
+      font-size:15px;
+    }
+
+    @media (max-width: 1100px){
+      .eventsGrid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px){
+      .eventsHero{
+        padding:52px 0 28px;
+      }
+
+      .eventsHero__actions{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .eventsGrid{
+        grid-template-columns:1fr;
+      }
+
+      .eventsReserveBand__title{
+        font-size:24px;
+      }
+    }
+  </style>
 </head>
 <body class="menu-page">
 
@@ -93,7 +477,7 @@
           <article class="eventCard">
             <div class="eventCard__day">Wednesday</div>
             <h2>Weekdays Wednesday</h2>
-            <p>Midweek social energy with hookah, drinks, and a smooth late-night lounge vibe.</p>
+            <p>Midweek social energy with hookah, drinks, and smooth late-night lounge vibes.</p>
             <div class="eventMeta">5PM–1AM • Midweek Vibes</div>
             <a href="tel:2022974949" class="eventCard__btn">Reserve Wednesday</a>
           </article>
