@@ -315,29 +315,8 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  hookah23: {
-    sections: [
-      {
-        title: "Classic Flavors",
-        items: [
-          { name: "Blueberry", price: "$23" },
-          { name: "BMW", price: "$23" },
-          { name: "Mint", price: "$23" },
-          { name: "Peach", price: "$23" },
-          { name: "Gum Mint", price: "$23" }
-        ]
-      },
-      {
-        title: "Premium Gold (+$2)",
-        items: [
-          { name: "Bluemist", price: "$25" },
-          { name: "Lady Killer", price: "$25" },
-          { name: "Love 66", price: "$25" },
-          { name: "Magic Love", price: "$25" }
-        ]
-      }
-    ]
-  },
+  ?
+      
 
   tower43: {
     sections: [
