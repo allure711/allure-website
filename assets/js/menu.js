@@ -189,39 +189,136 @@ document.addEventListener("DOMContentLoaded", () => {
     activateSubsection(sections[0].title);
   }
 
-  function getGameItems() {
-    const rewards = [
+  function getGameItems(type) {
+    const standard = [
       "Free Shot",
+      "$2 Off Hookah",
+      "Free Mixer",
+      "Try Again",
+      "Good Vibes",
+      "Ask Server"
+    ];
+
+    const premium = [
       "$5 Off",
       "10% Off",
       "VIP Skip",
-      "Hookah Upgrade"
+      "Hookah Upgrade",
+      "Premium Drink Discount",
+      "Try Again"
     ];
 
-    const neutral = [
-      "Try Again",
-      "Ask Server",
-      "Come Back",
-      "Next Time",
-      "Good Vibes"
+    const vip = [
+      "VIP Table Priority",
+      "$10 Off Bottle",
+      "Free Hookah Upgrade",
+      "Premium Shot Upgrade",
+      "Exclusive Reward",
+      "Try Again"
     ];
 
-    const pool = [
-      ...rewards,
-      ...neutral,
-      ...rewards,
-      ...neutral,
-      ...rewards,
-      ...neutral
-    ];
+    let pool = [];
+
+    if (type === "ig") pool = [...standard, ...standard, ...premium];
+    if (type === "phone") pool = [...standard, ...premium, ...premium];
+    if (type === "vip") pool = [...premium, ...premium, ...vip, ...vip];
+
+    while (pool.length < 24) pool.push("Try Again");
 
     return pool.sort(() => Math.random() - 0.5).slice(0, 24);
   }
 
-  function renderGame(panel) {
+  function renderLeadGate(panel) {
+    panel.innerHTML = `
+      <div class="hybridGame">
+        <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
+        <div class="hybridSub">
+          Enter your Instagram or phone number to play.<br>
+          Enter both for VIP reward odds.
+        </div>
+
+        <div class="hybridActions">
+          <button class="hybridBtn hybridBtn--ghost active" type="button" data-entry="ig">Instagram</button>
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
+          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP (Both)</button>
+        </div>
+
+        <div class="staffBox">
+          <div style="display:grid;gap:10px;">
+            <input class="staffInput" type="text" placeholder="@instagram" data-ig-input>
+            <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input style="display:none;">
+            <button class="hybridBtn hybridBtn--gold" type="button" data-unlock>Unlock Boxes</button>
+          </div>
+          <div class="staffState" data-state>Instagram entry unlocks Standard rewards.</div>
+        </div>
+      </div>
+    `;
+
+    const igInput = panel.querySelector("[data-ig-input]");
+    const phoneInput = panel.querySelector("[data-phone-input]");
+    const state = panel.querySelector("[data-state]");
+    const entryButtons = [...panel.querySelectorAll("[data-entry]")];
+    let entryType = "ig";
+
+    function setEntry(type) {
+      entryType = type;
+      entryButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.entry === type));
+
+      if (type === "ig") {
+        igInput.style.display = "";
+        phoneInput.style.display = "none";
+        phoneInput.value = "";
+        state.textContent = "Instagram entry unlocks Standard rewards.";
+      } else if (type === "phone") {
+        igInput.style.display = "none";
+        phoneInput.style.display = "";
+        igInput.value = "";
+        state.textContent = "Phone entry unlocks Premium rewards.";
+      } else {
+        igInput.style.display = "";
+        phoneInput.style.display = "";
+        state.textContent = "VIP entry with both fields unlocks best rewards.";
+      }
+    }
+
+    entryButtons.forEach(btn => {
+      btn.addEventListener("click", () => setEntry(btn.dataset.entry));
+    });
+
+    panel.querySelector("[data-unlock]").addEventListener("click", () => {
+      const ig = igInput.value.trim();
+      const phone = phoneInput.value.trim();
+
+      if (entryType === "ig" && !ig) {
+        state.textContent = "Enter your Instagram to continue.";
+        return;
+      }
+
+      if (entryType === "phone" && !phone) {
+        state.textContent = "Enter your phone number to continue.";
+        return;
+      }
+
+      if (entryType === "vip" && (!ig || !phone)) {
+        state.textContent = "Enter both Instagram and phone number for VIP.";
+        return;
+      }
+
+      renderGame(panel, entryType, ig, phone);
+    });
+  }
+
+  function renderGame(panel, type = "ig", ig = "", phone = "") {
+    const items = getGameItems(type);
+
     panel.innerHTML = `
       <div class="hybridGame">
         <div class="hybridTitle">🎁 Pick Your Box</div>
+        <div class="hybridSub">
+          ${type === "ig" ? `Instagram: ${ig}` : ""}
+          ${type === "phone" ? `Phone: ${phone}` : ""}
+          ${type === "vip" ? `Instagram: ${ig} • Phone: ${phone}` : ""}
+        </div>
 
         <div class="mysteryGrid">
           ${Array.from({ length: 24 }).map((_, i) => `
@@ -234,12 +331,15 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="mysteryReveal">
           <div class="mysteryRevealText" id="revealText">Pick a box</div>
         </div>
+
+        <div class="hybridActions">
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-back>Back</button>
+        </div>
       </div>
     `;
 
     const boxes = [...panel.querySelectorAll(".mysteryBox")];
     const revealText = panel.querySelector("#revealText");
-    const items = getGameItems();
     let used = false;
 
     boxes.forEach((box, i) => {
@@ -258,6 +358,10 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       });
+    });
+
+    panel.querySelector("[data-back]").addEventListener("click", () => {
+      renderLeadGate(panel);
     });
   }
 
@@ -283,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
           button.classList.add("active");
 
           if (button.dataset.action === "game") {
-            renderGame(panel);
+            renderLeadGate(panel);
             return;
           }
 
@@ -304,7 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     buttons.forEach(btn => btn.classList.remove("active"));
-    renderGame(panel);
+    renderLeadGate(panel);
   }
 
   function activateDay(day) {
