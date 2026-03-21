@@ -1,9 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
 
+  const DAILY_PROMOS = {
+    sunday: {
+      label: "SOCIAL SUNDAY",
+      text: "Chill vibes, hookah, drinks & music"
+    },
+    monday: {
+      label: "FREE HOOKAH MONDAY",
+      text: "With $50 bar tab — your choice of flavor"
+    },
+    tuesday: {
+      label: "TACO TUESDAY",
+      text: "Tacos, drinks & late night vibes"
+    },
+    wednesday: {
+      label: "WEEKDAYS WEDNESDAY",
+      text: "Midweek energy, cocktails & hookah"
+    },
+    thursday: {
+      label: "KARAOKE THURSDAY",
+      text: "Sing, drink & vibe all night"
+    },
+    friday: {
+      label: "ALLURE FRIDAY",
+      text: "Premium nightlife experience"
+    },
+    saturday: {
+      label: "ALLURE SATURDAY",
+      text: "VIP energy, bottles & music"
+    }
+  };
+
   /* =========================
      NAV
   ========================= */
+
   const navToggle = document.querySelector(".nav__toggle");
   const navList = document.querySelector(".nav__list");
 
@@ -19,6 +51,25 @@ document.addEventListener("DOMContentLoaded", () => {
         navToggle.setAttribute("aria-expanded", "false");
       });
     });
+  }
+
+  /* =========================
+     DAILY PROMO CARD
+  ========================= */
+
+  function getTodayName() {
+    return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
+  }
+
+  function updateDailyPromo(day) {
+    const promoLabel = document.getElementById("promoLabel");
+    const promoText = document.getElementById("promoText");
+    const promo = DAILY_PROMOS[day];
+
+    if (!promoLabel || !promoText || !promo) return;
+
+    promoLabel.textContent = promo.label;
+    promoText.textContent = promo.text;
   }
 
   /* =========================
@@ -48,8 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="menuGrouped__grid">
           ${(section.groups || []).map(group => `
             <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${group.title}</div>
-              ${renderFlatMenu(group.items)}
+              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
+              ${renderFlatMenu(group.items || [])}
             </div>
           `).join("")}
         </div>
@@ -57,12 +108,57 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  function splitShotsAndDrinks(items) {
+    const shots = [];
+    const drinks = [];
+
+    (items || []).forEach(item => {
+      const price = item.price || "";
+      const parts = price.split("/").map(p => p.trim());
+
+      if (parts.length === 2) {
+        shots.push({ ...item, price: parts[0] });
+        drinks.push({ ...item, price: parts[1] });
+      } else {
+        shots.push({ ...item });
+        drinks.push({ ...item });
+      }
+    });
+
+    return { shots, drinks };
+  }
+
+  function getContentByMode(content, mode) {
+    if (!content || !content.sections) return content;
+    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
+
+    return {
+      ...content,
+      sections: content.sections.map(section => {
+        if (section.layout === "grouped") return section;
+        const split = splitShotsAndDrinks(section.items || []);
+        return {
+          ...section,
+          items: mode === "shots" ? split.shots : split.drinks
+        };
+      })
+    };
+  }
+
   function renderSectionedMenu(content) {
+    const sections = content?.sections || [];
+
+    if (!sections.length) {
+      return `<div class="menuEmpty">Menu coming soon.</div>`;
+    }
+
     return `
       <div class="menuNested">
         <div class="menuSubTabs">
-          ${(content.sections || []).map(s => `
-            <button class="menuSubTab" data-subsection="${s.title}">${s.title}</button>
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
           `).join("")}
         </div>
         <div class="menuSubBody"></div>
@@ -73,34 +169,62 @@ document.addEventListener("DOMContentLoaded", () => {
   function bindSubTabs(panelBody, content) {
     const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
     const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content?.sections || [];
 
-    function activate(title) {
-      tabs.forEach(t => t.classList.toggle("active", t.dataset.subsection === title));
-      const section = content.sections.find(s => s.title === title);
+    if (!tabs.length || !subBody || !sections.length) return;
+
+    function activateSubsection(title) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
+
+      const section = sections.find(s => s.title === title);
+
+      if (!section) {
+        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
+        return;
+      }
 
       if (section.layout === "grouped") {
         subBody.innerHTML = renderGroupedMenu(section);
       } else {
-        subBody.innerHTML = renderFlatMenu(section.items);
+        subBody.innerHTML = renderFlatMenu(section.items || []);
       }
     }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => activate(tab.dataset.subsection));
+      tab.addEventListener("click", () => {
+        activateSubsection(tab.dataset.subsection);
+      });
     });
 
-    activate(content.sections[0].title);
+    activateSubsection(sections[0].title);
   }
 
   /* =========================
-     🔥 24 BOX GAME (RESTORED)
+     24 BOX GAME
   ========================= */
 
-  function getItems() {
-    const rewards = ["Free Shot","$5 Off","10% Off","VIP Skip","Hookah Upgrade"];
-    const filler = ["Try Again","Come Back","Ask Server","Next Time"];
+  function getGameRewards() {
+    const rewards = [
+      "Free Shot",
+      "$5 Off",
+      "10% Off",
+      "VIP Skip",
+      "Hookah Upgrade"
+    ];
 
-    return [...rewards, ...filler, ...rewards].sort(() => Math.random() - 0.5).slice(0, 24);
+    const filler = [
+      "Try Again",
+      "Come Back",
+      "Ask Server",
+      "Next Time",
+      "Good Vibes"
+    ];
+
+    const pool = [...rewards, ...filler, ...rewards, ...filler, ...rewards];
+
+    return pool.sort(() => Math.random() - 0.5).slice(0, 24);
   }
 
   function renderGame(panel) {
@@ -110,96 +234,137 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="mysteryGrid">
           ${Array.from({ length: 24 }).map((_, i) => `
-            <button class="mysteryBox">Box ${i + 1}</button>
+            <button class="mysteryBox" type="button" data-box="${i}">
+              Box ${i + 1}
+            </button>
           `).join("")}
         </div>
 
         <div class="mysteryReveal">
-          <div id="reveal">Pick a box</div>
+          <div class="mysteryRevealText" id="revealText">Pick a box</div>
         </div>
       </div>
     `;
 
-    const boxes = panel.querySelectorAll(".mysteryBox");
-    const reveal = panel.querySelector("#reveal");
-
-    const items = getItems();
+    const boxes = [...panel.querySelectorAll(".mysteryBox")];
+    const revealText = panel.querySelector("#revealText");
+    const rewards = getGameRewards();
     let used = false;
 
     boxes.forEach((box, i) => {
-      box.onclick = () => {
+      box.addEventListener("click", () => {
         if (used) return;
         used = true;
 
-        box.textContent = items[i];
-        reveal.textContent = items[i];
-      };
+        revealText.textContent = rewards[i];
+
+        boxes.forEach((b, idx) => {
+          if (idx === i) {
+            b.textContent = rewards[i];
+            b.classList.add("is-open");
+          } else {
+            b.classList.add("is-locked");
+          }
+        });
+      });
     });
   }
 
   /* =========================
-     CENTER WRAP
+     IDLE PANEL
+  ========================= */
+
+  function renderIdleState(panel) {
+    renderGame(panel);
+  }
+
+  /* =========================
+     WRAP SETUP
   ========================= */
 
   function getButtons(wrap) {
     const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
-    const outside = [...wrap.parentElement.querySelectorAll(".outsideBottom .menuCenterBtn")];
+    const outsideWrap = wrap.parentElement.querySelector(".outsideBottom");
+    const outside = outsideWrap ? [...outsideWrap.querySelectorAll(".menuCenterBtn")] : [];
     return [...inside, ...outside];
   }
 
   function setupWrap(wrap) {
-    if (wrap.dataset.done) return;
-    wrap.dataset.done = true;
+    if (wrap.dataset.done === "true") return;
+    wrap.dataset.done = "true";
 
     const buttons = getButtons(wrap);
     const panel = wrap.querySelector(".menuPanelBody");
 
-    // 👇 SHOW GAME FIRST (NOTHING AUTO MENU)
-    renderGame(panel);
+    if (!panel || !buttons.length) return;
 
-    buttons.forEach(btn => {
-      btn.onclick = () => {
-        buttons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+    function clearActive() {
+      buttons.forEach(btn => btn.classList.remove("active"));
+    }
 
-        const content = CATEGORY_CONTENT[btn.dataset.cat];
+    function activateCategory(button) {
+      clearActive();
+      button.classList.add("active");
 
-        if (!content) {
-          panel.innerHTML = "Coming soon";
+      const catKey = button.dataset.cat;
+      const mode = button.dataset.mode || "";
+      const baseContent = CATEGORY_CONTENT[catKey];
+
+      if (!baseContent) {
+        panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
+        return;
+      }
+
+      const content = getContentByMode(baseContent, mode);
+      panel.innerHTML = renderSectionedMenu(content);
+      bindSubTabs(panel, content);
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        if (button.dataset.action === "game") {
+          clearActive();
+          button.classList.add("active");
+          renderGame(panel);
           return;
         }
 
-        panel.innerHTML = renderSectionedMenu(content);
-        bindSubTabs(panel, content);
-      };
+        activateCategory(button);
+      });
     });
+
+    clearActive();
+    renderIdleState(panel);
   }
 
   /* =========================
-     DAY SWITCH (NO AUTO OPEN)
+     DAY SWITCH
   ========================= */
 
   function activateDay(day) {
-    document.querySelectorAll(".dayPanel").forEach(p => {
-      const active = p.dataset.daypanel === day;
-      p.classList.toggle("active", active);
+    document.querySelectorAll(".dayTab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.daytab === day);
+    });
+
+    document.querySelectorAll(".dayPanel").forEach(panel => {
+      const active = panel.dataset.daypanel === day;
+      panel.classList.toggle("active", active);
 
       if (active) {
-        p.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
+        panel.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
       }
     });
 
-    // highlight tab
-    document.querySelectorAll(".dayTab").forEach(t => {
-      t.classList.toggle("active", t.dataset.daytab === day);
-    });
+    updateDailyPromo(day);
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.onclick = () => activateDay(tab.dataset.daytab);
+    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
   });
 
-  // default = today BUT no menu auto open
-  const today = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][new Date().getDay()];
-  activateDay(today);
+  const today = getTodayName();
+  const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
+  const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
+
+  activateDay(hasTodayTab ? today : fallbackDay);
 });
