@@ -315,7 +315,71 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  ?
+  hookah23: {
+  sections: [
+    {
+      title: "Classic Flavors",
+      items: [
+        { name: "Blueberry", price: "$23" },
+        { name: "Mint", price: "$23" },
+        { name: "Peach", price: "$23" },
+        { name: "Grape", price: "$23" },
+        { name: "Watermelon", price: "$23" },
+        { name: "Strawberry", price: "$23" },
+        { name: "Pineapple", price: "$23" },
+        { name: "Mango", price: "$23" },
+        { name: "Orange", price: "$23" },
+        { name: "Cherry", price: "$23" },
+        { name: "Apple", price: "$23" },
+        { name: "Double Apple", price: "$23" }
+      ]
+    },
+
+    {
+      title: "Mint / Fresh Line",
+      items: [
+        { name: "Gum Mint", price: "$23" },
+        { name: "Ice Mint", price: "$23" },
+        { name: "Lemon Mint", price: "$23" },
+        { name: "Mint Cream", price: "$23" }
+      ]
+    },
+
+    {
+      title: "Popular Mixes",
+      items: [
+        { name: "BMW (Blueberry Mint Watermelon)", price: "$23" },
+        { name: "Peach Mint", price: "$23" },
+        { name: "Strawberry Banana", price: "$23" },
+        { name: "Mango Peach", price: "$23" },
+        { name: "Pineapple Mint", price: "$23" },
+        { name: "Watermelon Mint", price: "$23" },
+        { name: "Blueberry Mint", price: "$23" }
+      ]
+    },
+
+    {
+      title: "Premium Gold (+$2)",
+      items: [
+        { name: "Bluemist", price: "$25" },
+        { name: "Love 66", price: "$25" },
+        { name: "Lady Killer", price: "$25" },
+        { name: "Magic Love", price: "$25" },
+        { name: "White Gummy Bear", price: "$25" },
+        { name: "Pink Lemonade", price: "$25" }
+      ]
+    },
+
+    {
+      title: "Signature Allure Mixes",
+      items: [
+        { name: "Allure Special", desc: "Sweet tropical blend + mint", price: "$25" },
+        { name: "Midnight Vibe", desc: "Berry + ice mint mix", price: "$25" },
+        { name: "VIP Smoke", desc: "Premium fruit fusion", price: "$25" }
+      ]
+    }
+  ]
+}
       
 
   tower43: {
