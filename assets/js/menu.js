@@ -81,6 +81,22 @@ document.addEventListener("DOMContentLoaded", () => {
     return copy;
   }
 
+  function isGameButton(button) {
+    if (!button) return false;
+
+    const action = (button.dataset.action || "").toLowerCase();
+    const cat = (button.dataset.cat || "").toLowerCase();
+    const text = (button.textContent || "").toLowerCase().trim();
+
+    return (
+      action === "game" ||
+      cat === "game" ||
+      cat === "24box" ||
+      cat === "24boxgame" ||
+      text.includes("24 box game")
+    );
+  }
+
   /* =========================
      MENU RENDER
   ========================= */
@@ -437,17 +453,25 @@ document.addEventListener("DOMContentLoaded", () => {
   function openDefaultCategory(wrap) {
     const panel = wrap.querySelector(".menuPanelBody");
     const buttons = getButtons(wrap);
+
+    const gameBtn = buttons.find(isGameButton);
     const firstFoodBtn = buttons.find(btn => btn.dataset.cat === "food");
     const firstAnyCategoryBtn = buttons.find(btn => btn.dataset.cat);
 
-    const targetBtn = firstFoodBtn || firstAnyCategoryBtn;
+    const targetBtn = gameBtn || firstFoodBtn || firstAnyCategoryBtn;
+
     if (!panel || !targetBtn) {
-      renderLeadGate(panel);
+      if (panel) renderLeadGate(panel);
       return;
     }
 
     buttons.forEach(btn => btn.classList.remove("active"));
     targetBtn.classList.add("active");
+
+    if (isGameButton(targetBtn)) {
+      renderLeadGate(panel);
+      return;
+    }
 
     const catKey = targetBtn.dataset.cat;
     const mode = targetBtn.dataset.mode || "";
@@ -477,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
           buttons.forEach(btn => btn.classList.remove("active"));
           button.classList.add("active");
 
-          if (button.dataset.action === "game") {
+          if (isGameButton(button)) {
             renderLeadGate(panel);
             return;
           }
