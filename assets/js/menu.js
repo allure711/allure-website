@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const LEADS_STORAGE_KEY = "allure_vip_leads";
 
   const DAILY_PROMOS = {
     sunday: {
@@ -61,6 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
   }
 
+  function getTableFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return (
+      params.get("table") ||
+      params.get("tab") ||
+      params.get("seat") ||
+      params.get("station") ||
+      "walk-in"
+    );
+  }
+
   function updateDailyPromo(day) {
     const promoLabel = document.getElementById("promoLabel");
     const promoText = document.getElementById("promoText");
@@ -95,6 +107,45 @@ document.addEventListener("DOMContentLoaded", () => {
       cat === "24boxgame" ||
       text.includes("24 box game")
     );
+  }
+
+  function getStoredLeads() {
+    try {
+      const raw = localStorage.getItem(LEADS_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function saveLead(lead) {
+    try {
+      const current = getStoredLeads();
+      current.push(lead);
+      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(current));
+    } catch (error) {
+      console.error("Could not save lead:", error);
+    }
+  }
+
+  function normalizeInstagram(value) {
+    const clean = String(value || "").trim();
+    if (!clean) return "";
+    return clean.startsWith("@") ? clean : `@${clean}`;
+  }
+
+  function normalizePhone(value) {
+    return String(value || "").replace(/\D/g, "");
+  }
+
+  function isValidInstagram(value) {
+    const clean = String(value || "").trim().replace(/^@/, "");
+    return /^[a-zA-Z0-9._]{2,30}$/.test(clean);
+  }
+
+  function isValidPhone(value) {
+    const digits = normalizePhone(value);
+    return digits.length >= 10;
   }
 
   /* =========================
@@ -292,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return shuffle(pool).slice(0, 24);
   }
 
-  function renderLeadGate(panel) {
+  function renderLeadGate(panel, day = getTodayName()) {
     panel.innerHTML = `
       <div class="hybridGame">
         <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
@@ -354,44 +405,50 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     panel.querySelector("[data-unlock]").addEventListener("click", () => {
-      const ig = igInput.value.trim();
-      const phone = phoneInput.value.trim();
+      const ig = normalizeInstagram(igInput.value);
+      const phone = normalizePhone(phoneInput.value);
 
       if (!entryType) {
         state.textContent = "Please select Instagram, Phone, or VIP first.";
         return;
       }
 
-      if (entryType === "ig" && !ig) {
+      if (entryType === "ig" && !isValidInstagram(ig)) {
         state.textContent = "Please enter your Instagram to play.";
         return;
       }
 
-      if (entryType === "phone" && !phone) {
+      if (entryType === "phone" && !isValidPhone(phone)) {
         state.textContent = "Please enter your phone number to play.";
         return;
       }
 
-      if (entryType === "vip" && (!ig || !phone)) {
+      if (entryType === "vip" && (!isValidInstagram(ig) || !isValidPhone(phone))) {
         state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
         return;
       }
 
-      renderGame(panel, entryType, ig, phone);
+      renderGame(panel, {
+        entryType,
+        instagram: entryType === "phone" ? "" : ig,
+        phone: entryType === "ig" ? "" : phone,
+        day
+      });
     });
   }
 
-  function renderGame(panel, type = "ig", ig = "", phone = "") {
-    const items = getGameItems(type);
+  function renderGame(panel, leadInfo) {
+    const { entryType = "ig", instagram = "", phone = "", day = getTodayName() } = leadInfo || {};
+    const items = getGameItems(entryType);
 
     panel.innerHTML = `
       <div class="hybridGame">
         <div class="hybridTitle">🎁 Mystery Box Game</div>
 
         <div class="hybridSub">
-          ${type === "ig" ? `Instagram: ${ig}` : ""}
-          ${type === "phone" ? `Phone: ${phone}` : ""}
-          ${type === "vip" ? `Instagram: ${ig} • Phone: ${phone}` : ""}
+          ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
+          ${entryType === "phone" ? `Phone: ${phone}` : ""}
+          ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
         </div>
 
         <div class="mysteryGrid">
@@ -421,21 +478,33 @@ document.addEventListener("DOMContentLoaded", () => {
         if (used) return;
         used = true;
 
-        revealText.textContent = items[i];
+        const reward = items[i];
+        revealText.textContent = reward;
 
         boxes.forEach((b, idx) => {
           if (idx === i) {
-            b.textContent = items[i];
+            b.textContent = reward;
             b.classList.add("is-open");
           } else {
             b.classList.add("is-locked");
           }
         });
+
+        saveLead({
+          createdAt: new Date().toISOString(),
+          day,
+          table: getTableFromUrl(),
+          entryType,
+          instagram,
+          phone,
+          reward,
+          boxNumber: i + 1
+        });
       });
     });
 
     panel.querySelector("[data-back]").addEventListener("click", () => {
-      renderLeadGate(panel);
+      renderLeadGate(panel, day);
     });
   }
 
@@ -469,7 +538,9 @@ document.addEventListener("DOMContentLoaded", () => {
     targetBtn.classList.add("active");
 
     if (isGameButton(targetBtn)) {
-      renderLeadGate(panel);
+      const dayPanel = wrap.closest(".dayPanel");
+      const day = dayPanel?.dataset.daypanel || getTodayName();
+      renderLeadGate(panel, day);
       return;
     }
 
@@ -502,7 +573,9 @@ document.addEventListener("DOMContentLoaded", () => {
           button.classList.add("active");
 
           if (isGameButton(button)) {
-            renderLeadGate(panel);
+            const dayPanel = wrap.closest(".dayPanel");
+            const day = dayPanel?.dataset.daypanel || getTodayName();
+            renderLeadGate(panel, day);
             return;
           }
 
@@ -555,4 +628,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
 
   activateDay(hasTodayTab ? today : fallbackDay);
+
+  // optional helper for you in browser console:
+  window.getAllureLeads = () => getStoredLeads();
 });
