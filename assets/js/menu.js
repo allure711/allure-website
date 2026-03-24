@@ -179,6 +179,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return digits.length >= 10;
   }
 
+  /* =========================
+     DAY PROMO CARD
+  ========================= */
+
   function getPromoCard(day) {
     const promo = DAILY_PROMOS[day] || DAILY_PROMOS.monday;
 
@@ -196,18 +200,18 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function injectPromoCardStyles() {
-    if (document.getElementById("promoDayCardStyles")) return;
+  function injectMenuEnhancementStyles() {
+    if (document.getElementById("allureMenuEnhancementStyles")) return;
 
     const style = document.createElement("style");
-    style.id = "promoDayCardStyles";
+    style.id = "allureMenuEnhancementStyles";
     style.textContent = `
       .promoDayCard{
         position:relative;
         overflow:hidden;
         border-radius:18px;
-        padding:16px 18px;
-        margin-bottom:14px;
+        padding:14px 16px;
+        margin-bottom:12px;
         border:1px solid rgba(215,180,106,.22);
         background:
           linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
@@ -235,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:16px;
+        gap:14px;
       }
 
       .promoDayCard__copy{
@@ -243,9 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .promoDayCard__title{
-        font-size:13px;
+        font-size:12px;
         font-weight:950;
-        letter-spacing:.16em;
+        letter-spacing:.15em;
         text-transform:uppercase;
         color:#f2d38a;
         text-shadow:
@@ -254,15 +258,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .promoDayCard__text{
-        margin-top:6px;
+        margin-top:5px;
         color:rgba(255,255,255,.82);
-        font-size:13px;
-        line-height:1.5;
+        font-size:12px;
+        line-height:1.4;
       }
 
       .promoDayCard__icon{
         flex:0 0 auto;
-        font-size:28px;
+        font-size:24px;
         line-height:1;
         filter:drop-shadow(0 0 10px rgba(215,180,106,.20));
         opacity:.96;
@@ -319,70 +323,188 @@ document.addEventListener("DOMContentLoaded", () => {
           linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
       }
 
-      .leadGateLayout{
-        display:grid;
-        grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
-        gap:16px;
-        align-items:start;
-      }
-
-      .leadGateLeft{
-        min-width:0;
-      }
-
-      .leadGateRight{
-        min-width:0;
-      }
-
-      .leadSidePanel{
-        display:none;
-        border:1px solid rgba(215,180,106,.24);
-        border-radius:16px;
-        background:
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,.02),
-          0 16px 34px rgba(0,0,0,.18),
-          inset 0 1px 0 rgba(255,255,255,.04);
-        padding:14px;
-      }
-
-      .leadSidePanel.is-open{
-        display:block;
-      }
-
-      .leadSidePanel__title{
-        font-size:12px;
-        font-weight:900;
-        letter-spacing:.14em;
-        text-transform:uppercase;
-        color:#f2d38a;
-        margin-bottom:10px;
-      }
-
-      .leadSidePanel__grid{
-        display:grid;
-        gap:10px;
-      }
-
-      .leadHint{
-        font-size:12px;
-        color:rgba(255,255,255,.68);
-        line-height:1.45;
-      }
-
       @keyframes promoSmokeFloat{
         0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
         50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
       }
 
-      @media (max-width: 820px){
-        .leadGateLayout{
-          grid-template-columns:1fr;
+      .leadModalOverlay{
+        position:fixed;
+        inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:rgba(0,0,0,.72);
+        backdrop-filter: blur(4px);
+        z-index:9999;
+        padding:20px;
+      }
+
+      .leadModal{
+        width:100%;
+        max-width:420px;
+        border-radius:18px;
+        border:1px solid rgba(215,180,106,.26);
+        background:
+          radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 35%),
+          linear-gradient(180deg, rgba(23,23,25,.98), rgba(12,12,14,.98));
+        box-shadow:
+          0 24px 60px rgba(0,0,0,.55),
+          inset 0 1px 0 rgba(255,255,255,.04);
+        padding:18px;
+        position:relative;
+      }
+
+      .leadModal__close{
+        position:absolute;
+        top:10px;
+        right:12px;
+        border:none;
+        background:transparent;
+        color:rgba(255,255,255,.7);
+        font-size:22px;
+        cursor:pointer;
+      }
+
+      .leadModal__title{
+        font-size:12px;
+        font-weight:950;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        color:#f2d38a;
+        margin-bottom:8px;
+      }
+
+      .leadModal__sub{
+        color:rgba(255,255,255,.76);
+        font-size:13px;
+        line-height:1.45;
+        margin-bottom:12px;
+      }
+
+      .leadModal__grid{
+        display:grid;
+        gap:10px;
+      }
+
+      .leadModal__grid .staffInput{
+        min-height:46px;
+        padding:12px 14px;
+      }
+
+      .leadModal__grid .hybridBtn{
+        min-height:46px;
+      }
+
+      .mysteryGameShell{
+        position:relative;
+      }
+
+      .mysteryGameTopbar{
+        display:flex;
+        align-items:center;
+        justify-content:flex-start;
+        margin-bottom:6px;
+      }
+
+      .mysteryBackBtn{
+        border:1px solid rgba(215,180,106,.28);
+        background:rgba(255,255,255,.03);
+        color:#f2d38a;
+        border-radius:999px;
+        padding:6px 10px;
+        font-size:10px;
+        font-weight:900;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        cursor:pointer;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .mysteryGameShell .hybridTitle{
+        font-size:20px;
+        margin-bottom:6px;
+      }
+
+      .mysteryCompactSub{
+        color:rgba(255,255,255,.72);
+        font-size:11px;
+        line-height:1.25;
+        margin-bottom:8px;
+      }
+
+      .mysteryGrid{
+        display:grid;
+        grid-template-columns:repeat(8, minmax(0, 1fr));
+        gap:6px;
+      }
+
+      .mysteryBox{
+        min-height:36px;
+        border-radius:10px;
+        padding:5px 4px;
+        font-size:10px;
+        font-weight:900;
+        line-height:1.05;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        white-space:normal;
+        word-break:break-word;
+        overflow:hidden;
+      }
+
+      .mysteryBox.is-open{
+        font-size:8px;
+        line-height:1.05;
+      }
+
+      .mysteryReveal{
+        margin-top:6px;
+      }
+
+      .mysteryRevealText{
+        min-height:18px;
+        font-size:12px;
+        line-height:1.25;
+      }
+
+      .menuBigPanel,
+      .menuPanelBody,
+      .hybridGame{
+        overflow:hidden;
+      }
+
+      @media (max-width: 1100px){
+        .mysteryGrid{
+          grid-template-columns:repeat(6, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px){
+        .mysteryGrid{
+          grid-template-columns:repeat(4, minmax(0, 1fr));
+          gap:6px;
         }
 
-        .leadSidePanel{
-          display:block;
+        .mysteryBox{
+          min-height:38px;
+          font-size:10px;
+          padding:6px 4px;
+        }
+      }
+
+      @media (max-width: 520px){
+        .mysteryGrid{
+          grid-template-columns:repeat(3, minmax(0, 1fr));
+          gap:6px;
+        }
+
+        .mysteryBox{
+          min-height:40px;
+          font-size:10px;
+          padding:6px 4px;
         }
       }
     `;
@@ -519,6 +641,87 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
+     LEAD MODAL
+  ========================= */
+
+  function closeLeadModal() {
+    document.querySelector(".leadModalOverlay")?.remove();
+  }
+
+  function openLeadModal(type, panel, day) {
+    injectMenuEnhancementStyles();
+    closeLeadModal();
+
+    const overlay = document.createElement("div");
+    overlay.className = "leadModalOverlay";
+
+    const titleMap = {
+      ig: "Instagram Entry",
+      phone: "Phone Entry",
+      vip: "VIP Entry"
+    };
+
+    const subMap = {
+      ig: "Enter your Instagram to unlock the mystery boxes.",
+      phone: "Enter your phone number to unlock the mystery boxes.",
+      vip: "Enter both Instagram and phone number to unlock VIP."
+    };
+
+    overlay.innerHTML = `
+      <div class="leadModal">
+        <button class="leadModal__close" type="button" data-close-modal>×</button>
+        <div class="leadModal__title">${titleMap[type] || "Entry"}</div>
+        <div class="leadModal__sub">${subMap[type] || ""}</div>
+
+        <div class="leadModal__grid">
+          ${type !== "phone" ? `<input class="staffInput" type="text" placeholder="@instagram" data-modal-ig>` : ""}
+          ${type !== "ig" ? `<input class="staffInput" type="tel" placeholder="Phone number" data-modal-phone>` : ""}
+          <button class="hybridBtn hybridBtn--gold" type="button" data-modal-submit>Unlock Boxes</button>
+          <div class="staffState" data-modal-state>Please complete the required field${type === "vip" ? "s" : ""}.</div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeLeadModal();
+    });
+
+    overlay.querySelector("[data-close-modal]").addEventListener("click", closeLeadModal);
+
+    overlay.querySelector("[data-modal-submit]").addEventListener("click", () => {
+      const ig = normalizeInstagram(overlay.querySelector("[data-modal-ig]")?.value || "");
+      const phone = normalizePhone(overlay.querySelector("[data-modal-phone]")?.value || "");
+      const state = overlay.querySelector("[data-modal-state]");
+
+      if (type === "ig" && !isValidInstagram(ig)) {
+        state.textContent = "Please enter your Instagram to continue.";
+        return;
+      }
+
+      if (type === "phone" && !isValidPhone(phone)) {
+        state.textContent = "Please enter your phone number to continue.";
+        return;
+      }
+
+      if (type === "vip" && (!isValidInstagram(ig) || !isValidPhone(phone))) {
+        state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
+        return;
+      }
+
+      closeLeadModal();
+
+      renderGame(panel, {
+        entryType: type,
+        instagram: type === "phone" ? "" : ig,
+        phone: type === "ig" ? "" : phone,
+        day
+      });
+    });
+  }
+
+  /* =========================
      24 BOX GAME
   ========================= */
 
@@ -585,119 +788,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderLeadGate(panel, day = getTodayName()) {
-    injectPromoCardStyles();
+    injectMenuEnhancementStyles();
 
     panel.innerHTML = `
       <div class="hybridGame">
         ${getPromoCard(day)}
 
-        <div class="leadGateLayout">
-          <div class="leadGateLeft">
-            <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
-            <div class="hybridSub">
-              Enter your Instagram or phone number to play.<br>
-              Enter both for VIP reward odds.
-            </div>
+        <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
+        <div class="hybridSub">
+          Enter your Instagram or phone number to play.<br>
+          Enter both for VIP reward odds.
+        </div>
 
-            <div class="hybridActions">
-              <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">Instagram</button>
-              <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
-              <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP (Both)</button>
-            </div>
-          </div>
-
-          <div class="leadGateRight">
-            <div class="leadSidePanel" data-side-panel>
-              <div class="leadSidePanel__title" data-side-title>Select an option</div>
-              <div class="leadSidePanel__grid">
-                <input class="staffInput" type="text" placeholder="@instagram" data-ig-input style="display:none;">
-                <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input style="display:none;">
-                <button class="hybridBtn hybridBtn--gold" type="button" data-unlock>Unlock Boxes</button>
-                <div class="staffState" data-state>Please select Instagram, Phone, or VIP to continue.</div>
-              </div>
-            </div>
-
-            <div class="leadHint" data-side-hint>
-              Tap Instagram, Phone, or VIP and the input box will open here.
-            </div>
-          </div>
+        <div class="hybridActions">
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">Instagram</button>
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
+          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP</button>
         </div>
       </div>
     `;
 
-    const igInput = panel.querySelector("[data-ig-input]");
-    const phoneInput = panel.querySelector("[data-phone-input]");
-    const state = panel.querySelector("[data-state]");
-    const entryButtons = [...panel.querySelectorAll("[data-entry]")];
-    const sidePanel = panel.querySelector("[data-side-panel]");
-    const sideTitle = panel.querySelector("[data-side-title]");
-    const sideHint = panel.querySelector("[data-side-hint]");
-
-    let entryType = "";
-
-    function setEntry(type) {
-      entryType = type;
-
-      entryButtons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.entry === type);
-      });
-
-      sidePanel.classList.add("is-open");
-      sideHint.style.display = "none";
-
-      if (type === "ig") {
-        sideTitle.textContent = "Instagram entry";
-        igInput.style.display = "";
-        phoneInput.style.display = "none";
-        phoneInput.value = "";
-        state.textContent = "Please enter your Instagram to continue.";
-      } else if (type === "phone") {
-        sideTitle.textContent = "Phone entry";
-        igInput.style.display = "none";
-        phoneInput.style.display = "";
-        igInput.value = "";
-        state.textContent = "Please enter your phone number to continue.";
-      } else if (type === "vip") {
-        sideTitle.textContent = "VIP entry";
-        igInput.style.display = "";
-        phoneInput.style.display = "";
-        state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
-      }
-    }
-
-    entryButtons.forEach(btn => {
-      btn.addEventListener("click", () => setEntry(btn.dataset.entry));
-    });
-
-    panel.querySelector("[data-unlock]").addEventListener("click", () => {
-      const ig = normalizeInstagram(igInput.value);
-      const phone = normalizePhone(phoneInput.value);
-
-      if (!entryType) {
-        state.textContent = "Please select Instagram, Phone, or VIP first.";
-        return;
-      }
-
-      if (entryType === "ig" && !isValidInstagram(ig)) {
-        state.textContent = "Please enter your Instagram to play.";
-        return;
-      }
-
-      if (entryType === "phone" && !isValidPhone(phone)) {
-        state.textContent = "Please enter your phone number to play.";
-        return;
-      }
-
-      if (entryType === "vip" && (!isValidInstagram(ig) || !isValidPhone(phone))) {
-        state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
-        return;
-      }
-
-      renderGame(panel, {
-        entryType,
-        instagram: entryType === "phone" ? "" : ig,
-        phone: entryType === "ig" ? "" : phone,
-        day
+    panel.querySelectorAll("[data-entry]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        openLeadModal(btn.dataset.entry, panel, day);
       });
     });
   }
@@ -707,10 +820,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const items = getGameItems(entryType);
 
     panel.innerHTML = `
-      <div class="hybridGame">
+      <div class="hybridGame mysteryGameShell">
+        <div class="mysteryGameTopbar">
+          <button class="mysteryBackBtn" type="button" data-back>Back</button>
+        </div>
+
         <div class="hybridTitle">🎁 Mystery Box Game</div>
 
-        <div class="hybridSub">
+        <div class="mysteryCompactSub">
           ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
           ${entryType === "phone" ? `Phone: ${phone}` : ""}
           ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
@@ -719,17 +836,13 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="mysteryGrid">
           ${Array.from({ length: 24 }).map((_, i) => `
             <button class="mysteryBox" type="button" data-box="${i}">
-              Box ${i + 1}
+              ${i + 1}
             </button>
           `).join("")}
         </div>
 
         <div class="mysteryReveal">
           <div class="mysteryRevealText" id="revealText">Pick a box</div>
-        </div>
-
-        <div class="hybridActions">
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-back>Back</button>
         </div>
       </div>
     `;
