@@ -323,11 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
           linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
       }
 
-      @keyframes promoSmokeFloat{
-        0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
-        50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
-      }
-
       .leadModalOverlay{
         position:fixed;
         inset:0;
@@ -404,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
         display:flex;
         align-items:center;
         justify-content:flex-start;
-        margin-bottom:6px;
+        margin-bottom:4px;
       }
 
       .mysteryBackBtn{
@@ -421,16 +416,16 @@ document.addEventListener("DOMContentLoaded", () => {
         box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
       }
 
-      .mysteryGameShell .hybridTitle{
-        font-size:20px;
-        margin-bottom:6px;
-      }
-
-      .mysteryCompactSub{
+      .mysteryMetaTop{
         color:rgba(255,255,255,.72);
         font-size:11px;
-        line-height:1.25;
-        margin-bottom:8px;
+        line-height:1.2;
+        margin-bottom:2px;
+      }
+
+      .mysteryGameShell .hybridTitle{
+        font-size:18px;
+        margin-bottom:4px;
       }
 
       .mysteryGrid{
@@ -456,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .mysteryBox.is-open{
-        font-size:8px;
+        font-size:10px;
         line-height:1.05;
       }
 
@@ -474,6 +469,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .menuPanelBody,
       .hybridGame{
         overflow:hidden;
+      }
+
+      @keyframes promoSmokeFloat{
+        0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
+        50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
       }
 
       @media (max-width: 1100px){
@@ -825,13 +825,13 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="mysteryBackBtn" type="button" data-back>Back</button>
         </div>
 
-        <div class="hybridTitle">🎁 Mystery Box Game</div>
-
-        <div class="mysteryCompactSub">
+        <div class="mysteryMetaTop">
           ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
           ${entryType === "phone" ? `Phone: ${phone}` : ""}
           ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
         </div>
+
+        <div class="hybridTitle">🎁 Mystery Box Game</div>
 
         <div class="mysteryGrid">
           ${Array.from({ length: 24 }).map((_, i) => `
@@ -861,7 +861,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         boxes.forEach((b, idx) => {
           if (idx === i) {
-            b.textContent = reward;
+            b.textContent = "OPEN";
             b.classList.add("is-open");
           } else {
             b.classList.add("is-locked");
