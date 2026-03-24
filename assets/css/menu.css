@@ -264,9 +264,9 @@ body{
     inset 0 1px 0 rgba(255,255,255,.04);
   backdrop-filter:blur(10px);
   padding:16px;
-  min-height:320px !important;
-  max-height:320px;
-  overflow:hidden !important;
+  min-height:420px !important;
+  max-height:none !important;
+  overflow:visible !important;
   display:flex;
   flex-direction:column;
   margin-bottom:0 !important;
@@ -292,8 +292,8 @@ body{
 
 .menuPanelBody{
   flex:1 1 auto;
-  min-height:240px !important;
-  overflow-y:auto !important;
+  min-height:auto !important;
+  overflow:visible !important;
   padding:10px !important;
   scroll-behavior:smooth;
   display:flex;
@@ -844,7 +844,7 @@ body{
 
 .hybridGame{
   display:grid;
-  gap:12px;
+  gap:8px;
 }
 
 .hybridTitle{
@@ -889,25 +889,24 @@ body{
   border:1px solid rgba(255,255,255,.12);
 }
 
-/* 24 boxes tighter */
 .mysteryGrid{
   display:grid;
   grid-template-columns:repeat(8,minmax(0,1fr));
-  gap:6px;
+  gap:5px;
 }
 
 .mysteryBox{
   appearance:none;
   border:1px solid rgba(255,255,255,.12);
   background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.05));
-  min-height:36px;
-  border-radius:10px;
+  min-height:28px;
+  border-radius:9px;
   color:#fff;
   font-weight:900;
-  font-size:10px;
-  line-height:1.05;
+  font-size:9px;
+  line-height:1;
   cursor:pointer;
-  padding:5px 4px;
+  padding:3px 2px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -928,7 +927,7 @@ body{
   background:rgba(255,255,255,.03);
   border-color:rgba(215,180,106,.30);
   color:#f2d38a;
-  font-size:10px;
+  font-size:9px;
 }
 
 .mysteryBox.is-locked{
@@ -939,23 +938,23 @@ body{
 .mysteryReveal{
   border:1px solid rgba(215,180,106,.20);
   background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-  border-radius:14px;
-  padding:10px 12px;
+  border-radius:12px;
+  padding:8px 10px;
   text-align:center;
-  margin-top:6px;
+  margin-top:4px;
 }
 
 .mysteryRevealText{
-  min-height:18px;
-  font-size:13px;
+  min-height:16px;
+  font-size:12px;
   font-weight:900;
-  line-height:1.25;
+  line-height:1.2;
   color:#f2d38a;
 }
 
 .menuPanelBody{
   position:relative;
-  overflow:hidden;
+  overflow:visible !important;
   border-radius:14px;
   transition:.4s;
 }
@@ -1013,9 +1012,9 @@ body{
   }
 
   .mysteryBox{
-    min-height:38px;
+    min-height:34px;
     font-size:10px;
-    padding:6px 4px;
+    padding:5px 3px;
   }
 }
 
@@ -1026,8 +1025,8 @@ body{
   }
 
   .mysteryBox{
-    min-height:40px;
+    min-height:36px;
     font-size:10px;
-    padding:6px 4px;
+    padding:5px 3px;
   }
 }
