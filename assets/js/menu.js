@@ -6,31 +6,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const DAILY_PROMOS = {
     sunday: {
       label: "SOCIAL SUNDAY",
-      text: "Chill vibes, hookah, drinks & music"
+      text: "Chill vibes, drinks, hookah & music",
+      icon: "✨",
+      theme: "social"
     },
     monday: {
       label: "FREE HOOKAH MONDAY",
-      text: "With $50 bar tab — your choice of flavor"
+      text: "With $50 bar tab — your choice of flavor",
+      icon: "💨",
+      theme: "hookah"
     },
     tuesday: {
       label: "TACO TUESDAY",
-      text: "Tacos, drinks & late night vibes"
+      text: "Tacos, drinks & late-night vibes",
+      icon: "🌮",
+      theme: "taco"
     },
     wednesday: {
       label: "WEEKDAYS WEDNESDAY",
-      text: "Midweek energy, cocktails & hookah"
+      text: "Midweek energy, cocktails & hookah",
+      icon: "🍸",
+      theme: "midweek"
     },
     thursday: {
       label: "KARAOKE THURSDAY",
-      text: "Sing, drink & vibe all night"
+      text: "Sing, sip & vibe all night",
+      icon: "🎤",
+      theme: "karaoke"
     },
     friday: {
       label: "ALLURE FRIDAY",
-      text: "Premium nightlife experience"
+      text: "VIP energy, bottles & late-night music",
+      icon: "🥂",
+      theme: "vip"
     },
     saturday: {
       label: "ALLURE SATURDAY",
-      text: "VIP energy, bottles & music"
+      text: "Weekend prime time, hookah & VIP tables",
+      icon: "🔥",
+      theme: "weekend"
     }
   };
 
@@ -163,6 +177,154 @@ document.addEventListener("DOMContentLoaded", () => {
   function isValidPhone(value) {
     const digits = normalizePhone(value);
     return digits.length >= 10;
+  }
+
+  function getPromoCard(day) {
+    const promo = DAILY_PROMOS[day] || DAILY_PROMOS.monday;
+
+    return `
+      <div class="promoDayCard promoDayCard--${promo.theme}">
+        <div class="promoDayCard__smoke"></div>
+        <div class="promoDayCard__inner">
+          <div class="promoDayCard__copy">
+            <div class="promoDayCard__title">${promo.label}</div>
+            <div class="promoDayCard__text">${promo.text}</div>
+          </div>
+          <div class="promoDayCard__icon">${promo.icon}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function injectPromoCardStyles() {
+    if (document.getElementById("promoDayCardStyles")) return;
+
+    const style = document.createElement("style");
+    style.id = "promoDayCardStyles";
+    style.textContent = `
+      .promoDayCard{
+        position:relative;
+        overflow:hidden;
+        border-radius:18px;
+        padding:16px 18px;
+        margin-bottom:14px;
+        border:1px solid rgba(215,180,106,.22);
+        background:
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        box-shadow:
+          0 0 0 1px rgba(255,255,255,.02),
+          0 16px 34px rgba(0,0,0,.22),
+          inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .promoDayCard__smoke{
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        opacity:.95;
+        background:
+          radial-gradient(circle at 18% 30%, rgba(255,255,255,.10), transparent 28%),
+          radial-gradient(circle at 78% 72%, rgba(215,180,106,.12), transparent 34%);
+        filter:blur(16px);
+        animation:promoSmokeFloat 8s ease-in-out infinite;
+      }
+
+      .promoDayCard__inner{
+        position:relative;
+        z-index:2;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+      }
+
+      .promoDayCard__copy{
+        min-width:0;
+      }
+
+      .promoDayCard__title{
+        font-size:13px;
+        font-weight:950;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        color:#f2d38a;
+        text-shadow:
+          0 0 8px rgba(242,211,138,.22),
+          0 0 20px rgba(215,180,106,.12);
+      }
+
+      .promoDayCard__text{
+        margin-top:6px;
+        color:rgba(255,255,255,.82);
+        font-size:13px;
+        line-height:1.5;
+      }
+
+      .promoDayCard__icon{
+        flex:0 0 auto;
+        font-size:28px;
+        line-height:1;
+        filter:drop-shadow(0 0 10px rgba(215,180,106,.20));
+        opacity:.96;
+      }
+
+      .promoDayCard--hookah{
+        border-color:rgba(215,180,106,.28);
+        background:
+          radial-gradient(circle at top right, rgba(215,180,106,.10), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--taco{
+        border-color:rgba(255,180,80,.26);
+        background:
+          radial-gradient(circle at top right, rgba(255,180,80,.12), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--midweek{
+        border-color:rgba(155,120,255,.24);
+        background:
+          radial-gradient(circle at top right, rgba(155,120,255,.12), transparent 38%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--karaoke{
+        border-color:rgba(255,120,190,.24);
+        background:
+          radial-gradient(circle at top right, rgba(255,120,190,.10), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--vip{
+        border-color:rgba(215,180,106,.34);
+        background:
+          radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
+          radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--weekend{
+        border-color:rgba(255,120,120,.24);
+        background:
+          radial-gradient(circle at top right, rgba(255,120,120,.12), transparent 36%),
+          radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--social{
+        border-color:rgba(120,190,255,.22);
+        background:
+          radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      @keyframes promoSmokeFloat{
+        0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
+        50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   /* =========================
@@ -361,8 +523,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderLeadGate(panel, day = getTodayName()) {
+    injectPromoCardStyles();
+
     panel.innerHTML = `
       <div class="hybridGame">
+        ${getPromoCard(day)}
+
         <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
         <div class="hybridSub">
           Enter your Instagram or phone number to play.<br>
@@ -649,6 +815,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activateDay(hasTodayTab ? today : fallbackDay);
 
-  // optional helper for you in browser console:
   window.getAllureLeads = () => getStoredLeads();
 });
