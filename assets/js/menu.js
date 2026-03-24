@@ -1,1016 +1,1033 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
-  const LEADS_STORAGE_KEY = "allure_vip_leads";
-  const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz8rBH9bdREDbWWElN4lN6zKKKVch3f1FhEqFY-maTmU-BATcSmZXUF3AzNNIBxY3zt/exec";
-
-  const DAILY_PROMOS = {
-    sunday: {
-      label: "SOCIAL SUNDAY",
-      text: "Chill vibes, drinks, hookah & music",
-      icon: "✨",
-      theme: "social"
-    },
-    monday: {
-      label: "FREE HOOKAH MONDAY",
-      text: "With $50 bar tab — your choice of flavor",
-      icon: "💨",
-      theme: "hookah"
-    },
-    tuesday: {
-      label: "TACO TUESDAY",
-      text: "Tacos, drinks & late-night vibes",
-      icon: "🌮",
-      theme: "taco"
-    },
-    wednesday: {
-      label: "WEEKDAYS WEDNESDAY",
-      text: "Midweek energy, cocktails & hookah",
-      icon: "🍸",
-      theme: "midweek"
-    },
-    thursday: {
-      label: "KARAOKE THURSDAY",
-      text: "Sing, sip & vibe all night",
-      icon: "🎤",
-      theme: "karaoke"
-    },
-    friday: {
-      label: "ALLURE FRIDAY",
-      text: "VIP energy, bottles & late-night music",
-      icon: "🥂",
-      theme: "vip"
-    },
-    saturday: {
-      label: "ALLURE SATURDAY",
-      text: "Weekend prime time, hookah & VIP tables",
-      icon: "🔥",
-      theme: "weekend"
-    }
-  };
-
-  /* =========================
-     NAV
-  ========================= */
-
-  const navToggle = document.querySelector(".nav__toggle");
-  const navList = document.querySelector(".nav__list");
-
-  if (navToggle && navList) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = navList.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", String(isOpen));
-    });
-
-    navList.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
-        navList.classList.remove("is-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
-
-  /* =========================
-     HELPERS
-  ========================= */
-
-  function getTodayName() {
-    return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
-  }
-
-  function getTableFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return (
-      params.get("table") ||
-      params.get("tab") ||
-      params.get("seat") ||
-      params.get("station") ||
-      "walk-in"
-    );
-  }
-
-  function updateDailyPromo(day) {
-    const promoLabel = document.getElementById("promoLabel");
-    const promoText = document.getElementById("promoText");
-    const promo = DAILY_PROMOS[day];
-
-    if (!promoLabel || !promoText || !promo) return;
-
-    promoLabel.textContent = promo.label;
-    promoText.textContent = promo.text;
-  }
-
-  function shuffle(arr) {
-    const copy = [...arr];
-    for (let i = copy.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy;
-  }
-
-  function isGameButton(button) {
-    if (!button) return false;
-
-    const action = (button.dataset.action || "").toLowerCase();
-    const cat = (button.dataset.cat || "").toLowerCase();
-    const text = (button.textContent || "").toLowerCase().trim();
-
-    return (
-      action === "game" ||
-      cat === "game" ||
-      cat === "24box" ||
-      cat === "24boxgame" ||
-      text.includes("24 box game")
-    );
-  }
-
-  function getStoredLeads() {
-    try {
-      const raw = localStorage.getItem(LEADS_STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function saveLead(lead) {
-    try {
-      const current = getStoredLeads();
-      current.push(lead);
-      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(current));
-    } catch (error) {
-      console.error("Could not save lead:", error);
-    }
-  }
-
-  async function sendLeadToGoogleSheet(lead) {
-    if (!SHEETS_WEB_APP_URL) return;
-
-    try {
-      await fetch(SHEETS_WEB_APP_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify(lead)
-      });
-    } catch (error) {
-      console.error("Could not send lead to Google Sheet:", error);
-    }
-  }
-
-  function normalizeInstagram(value) {
-    const clean = String(value || "").trim();
-    if (!clean) return "";
-    return clean.startsWith("@") ? clean : `@${clean}`;
-  }
-
-  function normalizePhone(value) {
-    return String(value || "").replace(/\D/g, "");
-  }
-
-  function isValidInstagram(value) {
-    const clean = String(value || "").trim().replace(/^@/, "");
-    return /^[a-zA-Z0-9._]{2,30}$/.test(clean);
-  }
-
-  function isValidPhone(value) {
-    const digits = normalizePhone(value);
-    return digits.length >= 10;
-  }
-
-  /* =========================
-     DAY PROMO CARD
-  ========================= */
-
-  function getPromoCard(day) {
-    const promo = DAILY_PROMOS[day] || DAILY_PROMOS.monday;
-
-    return `
-      <div class="promoDayCard promoDayCard--${promo.theme}">
-        <div class="promoDayCard__smoke"></div>
-        <div class="promoDayCard__inner">
-          <div class="promoDayCard__copy">
-            <div class="promoDayCard__title">${promo.label}</div>
-            <div class="promoDayCard__text">${promo.text}</div>
-          </div>
-          <div class="promoDayCard__icon">${promo.icon}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  function injectMenuEnhancementStyles() {
-    if (document.getElementById("allureMenuEnhancementStyles")) return;
-
-    const style = document.createElement("style");
-    style.id = "allureMenuEnhancementStyles";
-    style.textContent = `
-      .promoDayCard{
-        position:relative;
-        overflow:hidden;
-        border-radius:18px;
-        padding:14px 16px;
-        margin-bottom:12px;
-        border:1px solid rgba(215,180,106,.22);
-        background:
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,.02),
-          0 16px 34px rgba(0,0,0,.22),
-          inset 0 1px 0 rgba(255,255,255,.04);
-      }
-
-      .promoDayCard__smoke{
-        position:absolute;
-        inset:0;
-        pointer-events:none;
-        opacity:.95;
-        background:
-          radial-gradient(circle at 18% 30%, rgba(255,255,255,.10), transparent 28%),
-          radial-gradient(circle at 78% 72%, rgba(215,180,106,.12), transparent 34%);
-        filter:blur(16px);
-        animation:promoSmokeFloat 8s ease-in-out infinite;
-      }
-
-      .promoDayCard__inner{
-        position:relative;
-        z-index:2;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:14px;
-      }
-
-      .promoDayCard__copy{
-        min-width:0;
-      }
-
-      .promoDayCard__title{
-        font-size:12px;
-        font-weight:950;
-        letter-spacing:.15em;
-        text-transform:uppercase;
-        color:#f2d38a;
-        text-shadow:
-          0 0 8px rgba(242,211,138,.22),
-          0 0 20px rgba(215,180,106,.12);
-      }
-
-      .promoDayCard__text{
-        margin-top:5px;
-        color:rgba(255,255,255,.82);
-        font-size:12px;
-        line-height:1.4;
-      }
-
-      .promoDayCard__icon{
-        flex:0 0 auto;
-        font-size:24px;
-        line-height:1;
-        filter:drop-shadow(0 0 10px rgba(215,180,106,.20));
-        opacity:.96;
-      }
-
-      .promoDayCard--hookah{
-        border-color:rgba(215,180,106,.28);
-        background:
-          radial-gradient(circle at top right, rgba(215,180,106,.10), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--taco{
-        border-color:rgba(255,180,80,.26);
-        background:
-          radial-gradient(circle at top right, rgba(255,180,80,.12), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--midweek{
-        border-color:rgba(155,120,255,.24);
-        background:
-          radial-gradient(circle at top right, rgba(155,120,255,.12), transparent 38%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--karaoke{
-        border-color:rgba(255,120,190,.24);
-        background:
-          radial-gradient(circle at top right, rgba(255,120,190,.10), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--vip{
-        border-color:rgba(215,180,106,.34);
-        background:
-          radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
-          radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--weekend{
-        border-color:rgba(255,120,120,.24);
-        background:
-          radial-gradient(circle at top right, rgba(255,120,120,.12), transparent 36%),
-          radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--social{
-        border-color:rgba(120,190,255,.22);
-        background:
-          radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      @keyframes promoSmokeFloat{
-        0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
-        50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
-      }
-
-      .leadModalOverlay{
-        position:fixed;
-        inset:0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:rgba(0,0,0,.72);
-        backdrop-filter: blur(4px);
-        z-index:9999;
-        padding:20px;
-      }
-
-      .leadModal{
-        width:100%;
-        max-width:420px;
-        border-radius:18px;
-        border:1px solid rgba(215,180,106,.26);
-        background:
-          radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 35%),
-          linear-gradient(180deg, rgba(23,23,25,.98), rgba(12,12,14,.98));
-        box-shadow:
-          0 24px 60px rgba(0,0,0,.55),
-          inset 0 1px 0 rgba(255,255,255,.04);
-        padding:18px;
-        position:relative;
-      }
-
-      .leadModal__close{
-        position:absolute;
-        top:10px;
-        right:12px;
-        border:none;
-        background:transparent;
-        color:rgba(255,255,255,.7);
-        font-size:22px;
-        cursor:pointer;
-      }
-
-      .leadModal__title{
-        font-size:12px;
-        font-weight:950;
-        letter-spacing:.16em;
-        text-transform:uppercase;
-        color:#f2d38a;
-        margin-bottom:8px;
-      }
-
-      .leadModal__sub{
-        color:rgba(255,255,255,.76);
-        font-size:13px;
-        line-height:1.45;
-        margin-bottom:12px;
-      }
-
-      .leadModal__grid{
-        display:grid;
-        gap:10px;
-      }
-
-      .leadModal__grid .staffInput{
-        min-height:46px;
-        padding:12px 14px;
-      }
-
-      .leadModal__grid .hybridBtn{
-        min-height:46px;
-      }
-
-      .mysteryGameShell{
-        position:relative;
-      }
-
-      .mysteryGameTopbar{
-        display:flex;
-        align-items:center;
-        justify-content:flex-start;
-        margin-bottom:6px;
-      }
-
-      .mysteryBackBtn{
-        border:1px solid rgba(215,180,106,.28);
-        background:rgba(255,255,255,.03);
-        color:#f2d38a;
-        border-radius:999px;
-        padding:6px 10px;
-        font-size:10px;
-        font-weight:900;
-        letter-spacing:.12em;
-        text-transform:uppercase;
-        cursor:pointer;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-      }
-
-      .mysteryGameShell .hybridTitle{
-        font-size:20px;
-        margin-bottom:6px;
-      }
-
-      .mysteryCompactSub{
-        color:rgba(255,255,255,.72);
-        font-size:11px;
-        line-height:1.25;
-        margin-bottom:8px;
-      }
-
-      .mysteryGrid{
-        display:grid;
-        grid-template-columns:repeat(8, minmax(0, 1fr));
-        gap:6px;
-      }
-
-      .mysteryBox{
-        min-height:36px;
-        border-radius:10px;
-        padding:5px 4px;
-        font-size:10px;
-        font-weight:900;
-        line-height:1.05;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        text-align:center;
-        white-space:normal;
-        word-break:break-word;
-        overflow:hidden;
-      }
-
-      .mysteryBox.is-open{
-        font-size:8px;
-        line-height:1.05;
-      }
-
-      .mysteryReveal{
-        margin-top:6px;
-      }
-
-      .mysteryRevealText{
-        min-height:18px;
-        font-size:12px;
-        line-height:1.25;
-      }
-
-      .menuBigPanel,
-      .menuPanelBody,
-      .hybridGame{
-        overflow:hidden;
-      }
-
-      @media (max-width: 1100px){
-        .mysteryGrid{
-          grid-template-columns:repeat(6, minmax(0, 1fr));
-        }
-      }
-
-      @media (max-width: 760px){
-        .mysteryGrid{
-          grid-template-columns:repeat(4, minmax(0, 1fr));
-          gap:6px;
-        }
-
-        .mysteryBox{
-          min-height:38px;
-          font-size:10px;
-          padding:6px 4px;
-        }
-      }
-
-      @media (max-width: 520px){
-        .mysteryGrid{
-          grid-template-columns:repeat(3, minmax(0, 1fr));
-          gap:6px;
-        }
-
-        .mysteryBox{
-          min-height:40px;
-          font-size:10px;
-          padding:6px 4px;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  /* =========================
-     MENU RENDER
-  ========================= */
-
-  function renderFlatMenu(items) {
-    return `
-      <div class="menuList">
-        ${(items || []).map(item => `
-          <div class="menuItem">
-            <div class="menuItem__left">
-              <div class="menuItem__name">${item.name || ""}</div>
-              ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
-            </div>
-            <div class="menuItem__price">${item.price || ""}</div>
-          </div>
-        `).join("")}
-      </div>
-    `;
-  }
-
-  function renderGroupedMenu(section) {
-    return `
-      <div class="menuGrouped">
-        ${section.title ? `<div class="menuGrouped__title">${section.title}</div>` : ""}
-        <div class="menuGrouped__grid">
-          ${(section.groups || []).map(group => `
-            <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
-              ${renderFlatMenu(group.items || [])}
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    `;
-  }
-
-  function splitShotsAndDrinks(items) {
-    const shots = [];
-    const drinks = [];
-
-    (items || []).forEach(item => {
-      const price = item.price || "";
-      const parts = price.split("/").map(p => p.trim());
-
-      if (parts.length === 2) {
-        shots.push({ ...item, price: parts[0] });
-        drinks.push({ ...item, price: parts[1] });
-      } else {
-        shots.push({ ...item });
-        drinks.push({ ...item });
-      }
-    });
-
-    return { shots, drinks };
-  }
-
-  function getContentByMode(content, mode) {
-    if (!content || !content.sections) return content;
-    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
-
-    return {
-      ...content,
-      sections: content.sections.map(section => {
-        if (section.layout === "grouped") return section;
-        const split = splitShotsAndDrinks(section.items || []);
-        return {
-          ...section,
-          items: mode === "shots" ? split.shots : split.drinks
-        };
-      })
-    };
-  }
-
-  function renderSectionedMenu(content) {
-    const sections = content?.sections || [];
-
-    if (!sections.length) {
-      return `<div class="menuEmpty">Menu coming soon.</div>`;
-    }
-
-    return `
-      <div class="menuNested">
-        <div class="menuSubTabs">
-          ${sections.map(section => `
-            <button class="menuSubTab" type="button" data-subsection="${section.title}">
-              ${section.title}
-            </button>
-          `).join("")}
-        </div>
-        <div class="menuSubBody"></div>
-      </div>
-    `;
-  }
-
-  function bindSubTabs(panelBody, content) {
-    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
-    const subBody = panelBody.querySelector(".menuSubBody");
-    const sections = content?.sections || [];
-
-    if (!tabs.length || !subBody || !sections.length) return;
-
-    function activateSubsection(title) {
-      tabs.forEach(tab => {
-        tab.classList.toggle("active", tab.dataset.subsection === title);
-      });
-
-      const section = sections.find(s => s.title === title);
-
-      if (!section) {
-        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
-        return;
-      }
-
-      if (section.layout === "grouped") {
-        subBody.innerHTML = renderGroupedMenu(section);
-      } else {
-        subBody.innerHTML = renderFlatMenu(section.items || []);
-      }
-    }
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        activateSubsection(tab.dataset.subsection);
-      });
-    });
-
-    activateSubsection(sections[0].title);
-  }
-
-  /* =========================
-     LEAD MODAL
-  ========================= */
-
-  function closeLeadModal() {
-    document.querySelector(".leadModalOverlay")?.remove();
-  }
-
-  function openLeadModal(type, panel, day) {
-    injectMenuEnhancementStyles();
-    closeLeadModal();
-
-    const overlay = document.createElement("div");
-    overlay.className = "leadModalOverlay";
-
-    const titleMap = {
-      ig: "Instagram Entry",
-      phone: "Phone Entry",
-      vip: "VIP Entry"
-    };
-
-    const subMap = {
-      ig: "Enter your Instagram to unlock the mystery boxes.",
-      phone: "Enter your phone number to unlock the mystery boxes.",
-      vip: "Enter both Instagram and phone number to unlock VIP."
-    };
-
-    overlay.innerHTML = `
-      <div class="leadModal">
-        <button class="leadModal__close" type="button" data-close-modal>×</button>
-        <div class="leadModal__title">${titleMap[type] || "Entry"}</div>
-        <div class="leadModal__sub">${subMap[type] || ""}</div>
-
-        <div class="leadModal__grid">
-          ${type !== "phone" ? `<input class="staffInput" type="text" placeholder="@instagram" data-modal-ig>` : ""}
-          ${type !== "ig" ? `<input class="staffInput" type="tel" placeholder="Phone number" data-modal-phone>` : ""}
-          <button class="hybridBtn hybridBtn--gold" type="button" data-modal-submit>Unlock Boxes</button>
-          <div class="staffState" data-modal-state>Please complete the required field${type === "vip" ? "s" : ""}.</div>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closeLeadModal();
-    });
-
-    overlay.querySelector("[data-close-modal]").addEventListener("click", closeLeadModal);
-
-    overlay.querySelector("[data-modal-submit]").addEventListener("click", () => {
-      const ig = normalizeInstagram(overlay.querySelector("[data-modal-ig]")?.value || "");
-      const phone = normalizePhone(overlay.querySelector("[data-modal-phone]")?.value || "");
-      const state = overlay.querySelector("[data-modal-state]");
-
-      if (type === "ig" && !isValidInstagram(ig)) {
-        state.textContent = "Please enter your Instagram to continue.";
-        return;
-      }
-
-      if (type === "phone" && !isValidPhone(phone)) {
-        state.textContent = "Please enter your phone number to continue.";
-        return;
-      }
-
-      if (type === "vip" && (!isValidInstagram(ig) || !isValidPhone(phone))) {
-        state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
-        return;
-      }
-
-      closeLeadModal();
-
-      renderGame(panel, {
-        entryType: type,
-        instagram: type === "phone" ? "" : ig,
-        phone: type === "ig" ? "" : phone,
-        day
-      });
-    });
-  }
-
-  /* =========================
-     24 BOX GAME
-  ========================= */
-
-  function getGameItems(type) {
-    const igRewards = [
-      "Free Mixer",
-      "$2 Off Hookah",
-      "$3 Off Fishbowl",
-      "$3 Off Tower",
-      "10% Off Food",
-      "Free Red Bull w/ Drink",
-      "Hookah Flavor Upgrade",
-      "High Noon Discount"
-    ];
-
-    const phoneRewards = [
-      "$5 Off Hookah",
-      "Free Shot w/ $30 Tab",
-      "$5 Off Premium Drink",
-      "$5 Off Bottle Service",
-      "VIP Line Skip",
-      "$3 Off Tower",
-      "Taco Discount",
-      "Wine Upgrade"
-    ];
-
-    const vipRewards = [
-      "Free Hookah (Min $50 Tab)",
-      "$10 Off Bottle",
-      "Premium Shot Upgrade",
-      "VIP Table Priority",
-      "Premium Hookah Flavor",
-      "Fishbowl Discount",
-      "Reserved Seating",
-      "Weekend VIP Perk"
-    ];
-
-    const fillers = [
-      "Try Again",
-      "Good Vibes",
-      "Ask Server",
-      "Come Back",
-      "Next Time Lucky",
-      "Enjoy The Night",
-      "Ask About VIP",
-      "House Favorite"
-    ];
-
-    let pool = [];
-
-    if (type === "phone") {
-      pool = [...phoneRewards, ...igRewards, ...fillers];
-    } else if (type === "vip") {
-      pool = [...vipRewards, ...phoneRewards, ...fillers];
-    } else {
-      pool = [...igRewards, ...fillers, ...fillers];
-    }
-
-    while (pool.length < 24) {
-      pool.push("Try Again");
-    }
-
-    return shuffle(pool).slice(0, 24);
-  }
-
-  function renderLeadGate(panel, day = getTodayName()) {
-    injectMenuEnhancementStyles();
-
-    panel.innerHTML = `
-      <div class="hybridGame">
-        ${getPromoCard(day)}
-
-        <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
-        <div class="hybridSub">
-          Enter your Instagram or phone number to play.<br>
-          Enter both for VIP reward odds.
-        </div>
-
-        <div class="hybridActions">
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">Instagram</button>
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
-          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP</button>
-        </div>
-      </div>
-    `;
-
-    panel.querySelectorAll("[data-entry]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        openLeadModal(btn.dataset.entry, panel, day);
-      });
-    });
-  }
-
-  function renderGame(panel, leadInfo) {
-  const { entryType = "ig", instagram = "", phone = "", day = getTodayName() } = leadInfo || {};
-  const items = getGameItems(entryType);
-
-  panel.innerHTML = `
-    <div class="hybridGame mysteryGameShell">
-      <div class="mysteryGameTopbar">
-        <button class="mysteryBackBtn" type="button" data-back>Back</button>
-      </div>
-
-      <div class="hybridTitle">🎁 Mystery Box Game</div>
-
-      <div class="mysteryCompactSub">
-        ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
-        ${entryType === "phone" ? `Phone: ${phone}` : ""}
-        ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
-      </div>
-
-      <div class="mysteryGrid">
-        ${Array.from({ length: 24 }).map((_, i) => `
-          <button class="mysteryBox" type="button" data-box="${i}">
-            ${i + 1}
-          </button>
-        `).join("")}
-      </div>
-
-      <div class="mysteryReveal">
-        <div class="mysteryRevealText" id="revealText">Pick a box to reveal your reward</div>
-      </div>
-    </div>
-  `;
-
-  const boxes = [...panel.querySelectorAll(".mysteryBox")];
-  const revealText = panel.querySelector("#revealText");
-  let used = false;
-
-  boxes.forEach((box, i) => {
-    box.addEventListener("click", async () => {
-      if (used) return;
-      used = true;
-
-      const reward = items[i];
-
-      revealText.textContent = `You won: ${reward}`;
-
-      boxes.forEach((b, idx) => {
-        if (idx === i) {
-          b.textContent = "OPEN";
-          b.classList.add("is-open");
-        } else {
-          b.classList.add("is-locked");
-          b.disabled = true;
-        }
-      });
-
-      const lead = {
-        createdAt: new Date().toISOString(),
-        day,
-        table: getTableFromUrl(),
-        entryType,
-        instagram,
-        phone,
-        reward,
-        boxNumber: i + 1
-      };
-
-      saveLead(lead);
-      await sendLeadToGoogleSheet(lead);
-    });
-  });
-
-  panel.querySelector("[data-back]").addEventListener("click", () => {
-    renderLeadGate(panel, day);
-  });
+:root{
+  --gold:#d7b46a;
+  --gold2:#f2d38a;
+  --bg:#07070a;
+  --bg2:#0a0a10;
+  --panel:rgba(255,255,255,.05);
+  --line:rgba(255,255,255,.10);
+  --textSoft:rgba(255,255,255,.72);
+  --shadow:0 18px 60px rgba(0,0,0,.28);
 }
 
-  /* =========================
-     WRAP SETUP
-  ========================= */
+html{
+  scroll-behavior:smooth;
+}
 
-  function getButtons(wrap) {
-    const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
-    const outsideWrap = wrap.parentElement.querySelector(".outsideBottom");
-    const outside = outsideWrap ? [...outsideWrap.querySelectorAll(".menuCenterBtn")] : [];
-    return [...inside, ...outside];
+.menu-page{
+  background:
+    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
+    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
+    radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
+    linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
+  color:#fff;
+}
+
+html,
+body{
+  overflow-x:hidden;
+  height:auto !important;
+  overflow-y:auto !important;
+}
+
+.menuWrap{
+  padding:0 0 90px;
+  overflow:visible !important;
+}
+
+.container{
+  overflow:visible !important;
+}
+
+.header{
+  backdrop-filter:blur(10px);
+  background:rgba(8,8,12,.72);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.header__inner{
+  min-height:76px;
+}
+
+.brand{
+  letter-spacing:-.01em;
+  font-weight:900;
+}
+
+.nav__list a{
+  transition:color .2s ease, opacity .2s ease;
+}
+
+.nav__list a:hover{
+  color:var(--gold2);
+}
+
+.menuWelcomeStrip{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  margin:20px 0 24px;
+}
+
+.menuWelcomeStrip__item{
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  border-radius:18px;
+  padding:14px 16px;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.menuWelcomeStrip__label{
+  display:block;
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.menuWelcomeStrip__text{
+  color:rgba(255,255,255,.78);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.dayTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 28px;
+  position:relative;
+  z-index:2;
+}
+
+.dayTabs::before{
+  content:"";
+  display:block;
+  width:100%;
+  height:1px;
+  margin:0 0 20px;
+  background:linear-gradient(90deg, transparent, rgba(215,180,106,.22), transparent);
+}
+
+.dayTab{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  padding:9px 12px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+  backdrop-filter:blur(10px);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  transition:all .18s ease;
+}
+
+.dayTab:hover{
+  border-color:rgba(215,180,106,.35);
+  color:var(--gold2);
+}
+
+.dayTab.active{
+  background:rgba(215,180,106,.14);
+  border-color:rgba(215,180,106,.40);
+  color:var(--gold2);
+  box-shadow:
+    0 12px 32px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.dayPanel{
+  display:none;
+}
+
+.dayPanel.active{
+  display:block;
+  animation:allureSoftReveal .45s ease both;
+}
+
+.heroRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin:4px 0 12px;
+}
+
+.dayName{
+  font-size:28px;
+  font-weight:950;
+  line-height:1;
+  letter-spacing:-.02em;
+}
+
+.dayName::after{
+  content:"";
+  display:block;
+  width:68px;
+  height:2px;
+  margin-top:10px;
+  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
+  border-radius:999px;
+}
+
+.daySub{
+  margin-top:6px;
+  color:rgba(255,255,255,.80);
+  line-height:1.5;
+  font-size:14px;
+  font-weight:500;
+}
+
+.menuSplit{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.menuCenterWrap{
+  display:grid;
+  gap:12px;
+  margin-bottom:0 !important;
+}
+
+.menuTopCategories,
+.menuBottomCategories{
+  display:grid;
+  gap:8px;
+}
+
+.menuTopCategories{
+  grid-template-columns:repeat(8,1fr);
+}
+
+.menuBottomCategories{
+  grid-template-columns:repeat(6,1fr);
+}
+
+.menuCenterBtn{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+  color:#fff;
+  min-height:42px;
+  padding:8px 8px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  transition:all .18s ease;
+}
+
+.menuCenterBtn:hover{
+  border-color:rgba(215,180,106,.34);
+  color:var(--gold2);
+  background:rgba(215,180,106,.08);
+  box-shadow:
+    0 16px 32px rgba(0,0,0,.20),
+    0 0 0 1px rgba(215,180,106,.05);
+}
+
+.menuCenterBtn.active{
+  border-color:rgba(215,180,106,.44);
+  background:rgba(215,180,106,.15);
+  color:var(--gold2);
+  box-shadow:
+    0 16px 38px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menuCenterBtn--accent{
+  border-color:rgba(255,94,219,.24);
+  background:linear-gradient(135deg, rgba(255,94,219,.16), rgba(215,180,106,.12));
+}
+
+.menuBigPanel{
+  position:relative;
+  border-radius:24px;
+  background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.24),
+    0 0 0 1px rgba(255,255,255,.02),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);
+  padding:16px;
+  min-height:320px !important;
+  max-height:320px;
+  overflow:hidden !important;
+  display:flex;
+  flex-direction:column;
+  margin-bottom:0 !important;
+}
+
+.menuBigPanel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.035) 18%, transparent 38%);
+  pointer-events:none;
+}
+
+.menuPanelTitle{
+  font-size:14px;
+  font-weight:950;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.88);
+  margin-bottom:10px;
+}
+
+.menuPanelBody{
+  flex:1 1 auto;
+  min-height:240px !important;
+  overflow-y:auto !important;
+  padding:10px !important;
+  scroll-behavior:smooth;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  position:relative;
+  border-radius:14px;
+  transition:.4s;
+}
+
+.menuPanelBody::-webkit-scrollbar{
+  width:8px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb{
+  background:rgba(215,180,106,.22);
+  border-radius:999px;
+}
+
+.menuPanelBody::-webkit-scrollbar-thumb:hover{
+  background:rgba(215,180,106,.36);
+}
+
+.menuPanelBody::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+.outsideBottom{
+  margin-top:14px !important;
+  display:flex !important;
+  gap:10px !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+  position:relative;
+  z-index:2;
+}
+
+.outsideBottom .menuCenterBtn{
+  opacity:.95;
+  border:1px solid rgba(255,255,255,.15);
+}
+
+.menuEmpty{
+  border-radius:18px;
+  border:1px dashed rgba(255,255,255,.12);
+  background:rgba(255,255,255,.02);
+  padding:24px;
+  color:var(--textSoft);
+  line-height:1.7;
+}
+
+.menuStart{
+  display:grid;
+  gap:14px;
+}
+
+.menuStart__title{
+  font-size:18px;
+  font-weight:900;
+  color:#fff;
+}
+
+.menuStart__text{
+  color:rgba(255,255,255,.72);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.menuStart__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.menuStartBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.menuStartBtn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.menuStartBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.menuStartMeta{
+  font-size:12px;
+  color:rgba(255,255,255,.56);
+}
+
+.menuNested{
+  display:grid;
+  gap:14px;
+}
+
+.menuSubTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.menuSubTab{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+
+.menuSubTab:hover{
+  border-color:rgba(215,180,106,.35);
+  color:var(--gold2);
+}
+
+.menuSubTab.active{
+  background:rgba(215,180,106,.14);
+  border-color:rgba(215,180,106,.40);
+  color:var(--gold2);
+}
+
+.menuSubBody{
+  display:block;
+}
+
+.menuPanelBody .menuList,
+.menuGrouped__box .menuList{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px 34px;
+}
+
+.menuPanelBody .menuItem,
+.menuGrouped__box .menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:4px 0;
+  margin:0;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  transform:none !important;
+}
+
+.menuPanelBody .menuItem__left,
+.menuGrouped__box .menuItem__left{
+  min-width:0;
+  flex:1 1 auto;
+}
+
+.menuPanelBody .menuItem__name,
+.menuGrouped__box .menuItem__name{
+  font-size:14px;
+  font-weight:800;
+  line-height:1.3;
+  color:#fff;
+  margin:0;
+}
+
+.menuPanelBody .menuItem__desc,
+.menuGrouped__box .menuItem__desc{
+  margin-top:2px;
+  font-size:11px;
+  line-height:1.35;
+  color:rgba(255,255,255,.62);
+}
+
+.menuPanelBody .menuItem__price,
+.menuGrouped__box .menuItem__price{
+  flex:0 0 auto;
+  min-width:42px;
+  text-align:right;
+  white-space:nowrap;
+  font-size:13px;
+  font-weight:900;
+  color:var(--gold2);
+  margin-left:12px;
+}
+
+.menuGrouped{
+  max-width:980px;
+  margin:0 auto;
+  padding:4px 0;
+}
+
+.menuPanelBody .menuGrouped{
+  max-width:100%;
+  margin:0;
+}
+
+.menuGrouped__title{
+  position:relative;
+  font-size:22px;
+  font-weight:900;
+  color:var(--gold2);
+  margin-bottom:12px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+
+.menuGrouped__title::after{
+  content:"";
+  display:block;
+  width:84px;
+  height:2px;
+  margin-top:8px;
+  background:linear-gradient(90deg, rgba(215,180,106,.85), rgba(255,255,255,0));
+  border-radius:999px;
+}
+
+.menuGrouped__grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(260px, 1fr));
+  gap:16px;
+  align-items:start;
+}
+
+.menuPanelBody .menuGrouped__grid{
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:16px;
+  width:100%;
+}
+
+.menuGrouped__box{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(215,180,106,.22);
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:14px 16px;
+  transition:border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+}
+
+.menuGrouped__box:hover{
+  border-color:rgba(215,180,106,.42);
+  box-shadow:
+    0 0 0 1px rgba(215,180,106,.08),
+    0 12px 32px rgba(0,0,0,.28),
+    0 0 20px rgba(215,180,106,.10);
+  transform:translateY(-1px);
+}
+
+.menuGrouped__boxTitle{
+  position:relative;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:10px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(215,180,106,.18);
+  text-align:left;
+}
+
+.gameShell{
+  display:grid;
+  gap:14px;
+}
+
+.gameTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.gameTitle{
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+.gameSub{
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:4px;
+  max-width:680px;
+}
+
+.gameBadgeRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.gameBadge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.gameBadge--gold{
+  color:var(--gold2);
+  border-color:rgba(215,180,106,.30);
+  background:rgba(215,180,106,.08);
+}
+
+.boxGrid{
+  display:grid;
+  grid-template-columns:repeat(6, minmax(0, 1fr));
+  gap:10px;
+}
+
+.boxCell{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(135deg, rgba(255,94,219,.14), rgba(215,180,106,.14));
+  min-height:54px;
+  border-radius:14px;
+  color:#fff;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease;
+}
+
+.boxCell:hover{
+  transform:translateY(-2px);
+  border-color:rgba(215,180,106,.34);
+}
+
+.boxCell.is-revealed{
+  background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.06));
+  border-color:rgba(215,180,106,.36);
+}
+
+.boxCell.is-locked{
+  opacity:.38;
+  cursor:not-allowed;
+}
+
+.gameReveal{
+  border:1px solid rgba(215,180,106,.20);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:16px;
+  text-align:center;
+}
+
+.gameRevealLabel{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.70);
+  margin-bottom:8px;
+}
+
+.gameRevealText{
+  font-size:22px;
+  font-weight:950;
+  line-height:1.15;
+  color:#fff;
+}
+
+.gameRevealCode{
+  margin-top:10px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+.gameActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.gameBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.gameBtn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.gameBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.gameBtn[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.gameHint{
+  font-size:12px;
+  color:rgba(255,255,255,.68);
+  line-height:1.5;
+}
+
+.staffBox{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  border-radius:14px;
+  padding:12px;
+}
+
+.staffRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+
+.staffInput{
+  flex:1 1 160px;
+  min-width:0;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.18);
+  color:#fff;
+  padding:10px 12px;
+}
+
+.staffState{
+  margin-top:8px;
+  font-size:12px;
+  color:rgba(255,255,255,.72);
+}
+
+@media (max-width:1100px){
+  .menuTopCategories{
+    grid-template-columns:repeat(4,1fr);
   }
 
-  function openDefaultCategory(wrap) {
-    const panel = wrap.querySelector(".menuPanelBody");
-    const buttons = getButtons(wrap);
+  .menuBottomCategories{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
 
-    const gameBtn = buttons.find(isGameButton);
-    const firstFoodBtn = buttons.find(btn => btn.dataset.cat === "food");
-    const firstAnyCategoryBtn = buttons.find(btn => btn.dataset.cat);
-
-    const targetBtn = gameBtn || firstFoodBtn || firstAnyCategoryBtn;
-
-    if (!panel || !targetBtn) {
-      if (panel) renderLeadGate(panel);
-      return;
-    }
-
-    buttons.forEach(btn => btn.classList.remove("active"));
-    targetBtn.classList.add("active");
-
-    if (isGameButton(targetBtn)) {
-      const dayPanel = wrap.closest(".dayPanel");
-      const day = dayPanel?.dataset.daypanel || getTodayName();
-      renderLeadGate(panel, day);
-      return;
-    }
-
-    const catKey = targetBtn.dataset.cat;
-    const mode = targetBtn.dataset.mode || "";
-    const baseContent = CATEGORY_CONTENT[catKey];
-
-    if (!baseContent) {
-      panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
-      return;
-    }
-
-    const content = getContentByMode(baseContent, mode);
-    panel.innerHTML = renderSectionedMenu(content);
-    bindSubTabs(panel, content);
+@media (max-width:920px){
+  .menuSplit{
+    grid-template-columns:1fr;
   }
 
-  function setupWrap(wrap) {
-    const panel = wrap.querySelector(".menuPanelBody");
-    if (!panel) return;
-
-    const buttons = getButtons(wrap);
-
-    if (!wrap.dataset.bound) {
-      wrap.dataset.bound = "true";
-
-      buttons.forEach(button => {
-        button.addEventListener("click", () => {
-          buttons.forEach(btn => btn.classList.remove("active"));
-          button.classList.add("active");
-
-          if (isGameButton(button)) {
-            const dayPanel = wrap.closest(".dayPanel");
-            const day = dayPanel?.dataset.daypanel || getTodayName();
-            renderLeadGate(panel, day);
-            return;
-          }
-
-          const catKey = button.dataset.cat;
-          const mode = button.dataset.mode || "";
-          const baseContent = CATEGORY_CONTENT[catKey];
-
-          if (!baseContent) {
-            panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
-            return;
-          }
-
-          const content = getContentByMode(baseContent, mode);
-          panel.innerHTML = renderSectionedMenu(content);
-          bindSubTabs(panel, content);
-        });
-      });
-    }
-
-    openDefaultCategory(wrap);
+  .heroRow{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
-  /* =========================
-     DAY SWITCH
-  ========================= */
-
-  function activateDay(day) {
-    document.querySelectorAll(".dayTab").forEach(tab => {
-      tab.classList.toggle("active", tab.dataset.daytab === day);
-    });
-
-    document.querySelectorAll(".dayPanel").forEach(panel => {
-      const active = panel.dataset.daypanel === day;
-      panel.classList.toggle("active", active);
-
-      if (active) {
-        panel.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
-      }
-    });
-
-    updateDailyPromo(day);
+  .menuWelcomeStrip{
+    grid-template-columns:1fr;
   }
 
-  document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
-  });
+  .menuGrouped__grid,
+  .menuPanelBody .menuGrouped__grid{
+    grid-template-columns:1fr;
+  }
 
-  const today = getTodayName();
-  const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
-  const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
+  .menuPanelBody .menuList,
+  .menuGrouped__box .menuList{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
 
-  activateDay(hasTodayTab ? today : fallbackDay);
+  .boxGrid{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+}
 
-  window.getAllureLeads = () => getStoredLeads();
-});
+@media (max-width:640px){
+  .menuWrap{
+    padding-bottom:80px;
+  }
+
+  .menuTopCategories,
+  .menuBottomCategories{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .menuItem__price{
+    margin-left:0;
+    min-width:auto;
+    text-align:left;
+    white-space:normal;
+  }
+
+  .boxGrid{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:8px;
+  }
+
+  .boxCell{
+    min-height:50px;
+    font-size:11px;
+  }
+}
+
+@keyframes allureSoftReveal{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* =========================
+   24 BOX GAME RESTORE
+========================= */
+
+.hybridGame{
+  display:grid;
+  gap:12px;
+}
+
+.hybridTitle{
+  font-size:16px;
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#d7b46a;
+}
+
+.hybridSub{
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:4px;
+  max-width:680px;
+}
+
+.hybridActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.hybridBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.hybridBtn--gold{
+  background:linear-gradient(135deg,#d7b46a,#f2d38a);
+  color:#111;
+}
+
+.hybridBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+/* 24 boxes tighter */
+.mysteryGrid{
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  gap:6px;
+}
+
+.mysteryBox{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.05));
+  min-height:36px;
+  border-radius:10px;
+  color:#fff;
+  font-weight:900;
+  font-size:10px;
+  line-height:1.05;
+  cursor:pointer;
+  padding:5px 4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  white-space:normal;
+  word-break:break-word;
+  overflow:hidden;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);
+  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease;
+}
+
+.mysteryBox:hover{
+  transform:translateY(-1px);
+  border-color:rgba(215,180,106,.34);
+}
+
+.mysteryBox.is-open{
+  background:rgba(255,255,255,.03);
+  border-color:rgba(215,180,106,.30);
+  color:#f2d38a;
+  font-size:10px;
+}
+
+.mysteryBox.is-locked{
+  opacity:.42;
+  cursor:not-allowed;
+}
+
+.mysteryReveal{
+  border:1px solid rgba(215,180,106,.20);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border-radius:14px;
+  padding:10px 12px;
+  text-align:center;
+  margin-top:6px;
+}
+
+.mysteryRevealText{
+  min-height:18px;
+  font-size:13px;
+  font-weight:900;
+  line-height:1.25;
+  color:#f2d38a;
+}
+
+.menuPanelBody{
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+  transition:.4s;
+}
+
+/* IMAGE */
+.menuPanelBody::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:.25;
+  z-index:0;
+  transition:.5s;
+}
+
+/* DARK OVERLAY */
+.menuPanelBody::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.6));
+  z-index:1;
+}
+
+/* CONTENT ABOVE */
+.menuPanelBody *{
+  position:relative;
+  z-index:2;
+}
+
+/* 🔥 BACKGROUNDS */
+.menuPanelBody[data-bg="food"]::before{
+  background-image:url("../images/food.jpg");
+}
+
+.menuPanelBody[data-bg="hookah23"]::before{
+  background-image:url("../images/hookah.jpg");
+}
+
+.menuPanelBody[data-bg="game"]::before{
+  background-image:url("../images/game.jpg");
+}
+
+@media (max-width:1100px){
+  .mysteryGrid{
+    grid-template-columns:repeat(6,minmax(0,1fr));
+  }
+}
+
+@media (max-width:760px){
+  .mysteryGrid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:6px;
+  }
+
+  .mysteryBox{
+    min-height:38px;
+    font-size:10px;
+    padding:6px 4px;
+  }
+}
+
+@media (max-width:520px){
+  .mysteryGrid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+  }
+
+  .mysteryBox{
+    min-height:40px;
+    font-size:10px;
+    padding:6px 4px;
+  }
+}
