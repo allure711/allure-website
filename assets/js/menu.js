@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const LEADS_STORAGE_KEY = "allure_vip_leads";
+  const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz8rBH9bdREDbWWElN4lN6zKKKVch3f1FhEqFY-maTmU-BATcSmZXUF3AzNNIBxY3zt/exec";
 
   const DAILY_PROMOS = {
     sunday: {
@@ -125,6 +126,22 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(current));
     } catch (error) {
       console.error("Could not save lead:", error);
+    }
+  }
+
+  async function sendLeadToGoogleSheet(lead) {
+    if (!SHEETS_WEB_APP_URL) return;
+
+    try {
+      await fetch(SHEETS_WEB_APP_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(lead)
+      });
+    } catch (error) {
+      console.error("Could not send lead to Google Sheet:", error);
     }
   }
 
@@ -474,7 +491,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let used = false;
 
     boxes.forEach((box, i) => {
-      box.addEventListener("click", () => {
+      box.addEventListener("click", async () => {
         if (used) return;
         used = true;
 
@@ -490,7 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
 
-        saveLead({
+        const lead = {
           createdAt: new Date().toISOString(),
           day,
           table: getTableFromUrl(),
@@ -499,7 +516,10 @@ document.addEventListener("DOMContentLoaded", () => {
           phone,
           reward,
           boxNumber: i + 1
-        });
+        };
+
+        saveLead(lead);
+        await sendLeadToGoogleSheet(lead);
       });
     });
 
