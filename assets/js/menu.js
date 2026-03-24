@@ -200,11 +200,11 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function injectPromoCardStyles() {
-    if (document.getElementById("promoDayCardStyles")) return;
+  function injectMenuEnhancementStyles() {
+    if (document.getElementById("allureMenuEnhancementStyles")) return;
 
     const style = document.createElement("style");
-    style.id = "promoDayCardStyles";
+    style.id = "allureMenuEnhancementStyles";
     style.textContent = `
       .promoDayCard{
         position:relative;
@@ -395,6 +395,94 @@ document.addEventListener("DOMContentLoaded", () => {
       .leadModal__grid .hybridBtn{
         min-height:46px;
       }
+
+      .mysteryGameShell{
+        position:relative;
+      }
+
+      .mysteryGameTopbar{
+        display:flex;
+        align-items:center;
+        justify-content:flex-start;
+        margin-bottom:8px;
+      }
+
+      .mysteryBackBtn{
+        border:1px solid rgba(215,180,106,.28);
+        background:rgba(255,255,255,.03);
+        color:#f2d38a;
+        border-radius:999px;
+        padding:7px 12px;
+        font-size:11px;
+        font-weight:900;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        cursor:pointer;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .mysteryCompactSub{
+        color:rgba(255,255,255,.72);
+        font-size:12px;
+        line-height:1.35;
+        margin-bottom:10px;
+      }
+
+      .mysteryGrid{
+        display:grid;
+        grid-template-columns:repeat(6, minmax(0, 1fr));
+        gap:8px;
+      }
+
+      .mysteryBox{
+        min-height:46px;
+        border-radius:12px;
+        padding:8px 6px;
+        font-size:12px;
+        font-weight:900;
+        line-height:1.15;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        white-space:normal;
+        word-break:break-word;
+      }
+
+      .mysteryReveal{
+        margin-top:10px;
+      }
+
+      .mysteryRevealText{
+        min-height:22px;
+        font-size:13px;
+        line-height:1.35;
+      }
+
+      .menuBigPanel,
+      .menuPanelBody,
+      .hybridGame{
+        overflow:hidden;
+      }
+
+      @media (max-width: 980px){
+        .mysteryGrid{
+          grid-template-columns:repeat(4, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px){
+        .mysteryGrid{
+          grid-template-columns:repeat(3, minmax(0, 1fr));
+          gap:7px;
+        }
+
+        .mysteryBox{
+          min-height:44px;
+          font-size:11px;
+          padding:8px 5px;
+        }
+      }
     `;
     document.head.appendChild(style);
   }
@@ -537,7 +625,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openLeadModal(type, panel, day) {
-    injectPromoCardStyles();
+    injectMenuEnhancementStyles();
     closeLeadModal();
 
     const overlay = document.createElement("div");
@@ -676,7 +764,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderLeadGate(panel, day = getTodayName()) {
-    injectPromoCardStyles();
+    injectMenuEnhancementStyles();
 
     panel.innerHTML = `
       <div class="hybridGame">
@@ -708,10 +796,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const items = getGameItems(entryType);
 
     panel.innerHTML = `
-      <div class="hybridGame">
+      <div class="hybridGame mysteryGameShell">
+        <div class="mysteryGameTopbar">
+          <button class="mysteryBackBtn" type="button" data-back>Back</button>
+        </div>
+
         <div class="hybridTitle">🎁 Mystery Box Game</div>
 
-        <div class="hybridSub">
+        <div class="mysteryCompactSub">
           ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
           ${entryType === "phone" ? `Phone: ${phone}` : ""}
           ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
@@ -727,10 +819,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="mysteryReveal">
           <div class="mysteryRevealText" id="revealText">Pick a box</div>
-        </div>
-
-        <div class="hybridActions">
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-back>Back</button>
         </div>
       </div>
     `;
