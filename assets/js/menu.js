@@ -404,7 +404,7 @@ document.addEventListener("DOMContentLoaded", () => {
         display:flex;
         align-items:center;
         justify-content:flex-start;
-        margin-bottom:8px;
+        margin-bottom:6px;
       }
 
       .mysteryBackBtn{
@@ -412,8 +412,8 @@ document.addEventListener("DOMContentLoaded", () => {
         background:rgba(255,255,255,.03);
         color:#f2d38a;
         border-radius:999px;
-        padding:7px 12px;
-        font-size:11px;
+        padding:6px 10px;
+        font-size:10px;
         font-weight:900;
         letter-spacing:.12em;
         text-transform:uppercase;
@@ -421,42 +421,53 @@ document.addEventListener("DOMContentLoaded", () => {
         box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
       }
 
+      .mysteryGameShell .hybridTitle{
+        font-size:20px;
+        margin-bottom:6px;
+      }
+
       .mysteryCompactSub{
         color:rgba(255,255,255,.72);
-        font-size:12px;
-        line-height:1.35;
-        margin-bottom:10px;
+        font-size:11px;
+        line-height:1.25;
+        margin-bottom:8px;
       }
 
       .mysteryGrid{
         display:grid;
-        grid-template-columns:repeat(6, minmax(0, 1fr));
-        gap:8px;
+        grid-template-columns:repeat(8, minmax(0, 1fr));
+        gap:6px;
       }
 
       .mysteryBox{
-        min-height:46px;
-        border-radius:12px;
-        padding:8px 6px;
-        font-size:12px;
+        min-height:36px;
+        border-radius:10px;
+        padding:5px 4px;
+        font-size:10px;
         font-weight:900;
-        line-height:1.15;
+        line-height:1.05;
         display:flex;
         align-items:center;
         justify-content:center;
         text-align:center;
         white-space:normal;
         word-break:break-word;
+        overflow:hidden;
+      }
+
+      .mysteryBox.is-open{
+        font-size:8px;
+        line-height:1.05;
       }
 
       .mysteryReveal{
-        margin-top:10px;
+        margin-top:6px;
       }
 
       .mysteryRevealText{
-        min-height:22px;
-        font-size:13px;
-        line-height:1.35;
+        min-height:18px;
+        font-size:12px;
+        line-height:1.25;
       }
 
       .menuBigPanel,
@@ -465,22 +476,35 @@ document.addEventListener("DOMContentLoaded", () => {
         overflow:hidden;
       }
 
-      @media (max-width: 980px){
+      @media (max-width: 1100px){
         .mysteryGrid{
-          grid-template-columns:repeat(4, minmax(0, 1fr));
+          grid-template-columns:repeat(6, minmax(0, 1fr));
         }
       }
 
-      @media (max-width: 640px){
+      @media (max-width: 760px){
         .mysteryGrid{
-          grid-template-columns:repeat(3, minmax(0, 1fr));
-          gap:7px;
+          grid-template-columns:repeat(4, minmax(0, 1fr));
+          gap:6px;
         }
 
         .mysteryBox{
-          min-height:44px;
-          font-size:11px;
-          padding:8px 5px;
+          min-height:38px;
+          font-size:10px;
+          padding:6px 4px;
+        }
+      }
+
+      @media (max-width: 520px){
+        .mysteryGrid{
+          grid-template-columns:repeat(3, minmax(0, 1fr));
+          gap:6px;
+        }
+
+        .mysteryBox{
+          min-height:40px;
+          font-size:10px;
+          padding:6px 4px;
         }
       }
     `;
@@ -812,7 +836,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="mysteryGrid">
           ${Array.from({ length: 24 }).map((_, i) => `
             <button class="mysteryBox" type="button" data-box="${i}">
-              Box ${i + 1}
+              ${i + 1}
             </button>
           `).join("")}
         </div>
