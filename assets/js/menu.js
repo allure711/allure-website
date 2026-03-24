@@ -815,7 +815,81 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  f
+  function renderGame(panel, leadInfo) {
+  const { entryType = "ig", instagram = "", phone = "", day = getTodayName() } = leadInfo || {};
+  const items = getGameItems(entryType);
+
+  panel.innerHTML = `
+    <div class="hybridGame mysteryGameShell">
+      <div class="mysteryGameTopbar">
+        <button class="mysteryBackBtn" type="button" data-back>Back</button>
+      </div>
+
+      <div class="hybridTitle">🎁 Mystery Box Game</div>
+
+      <div class="mysteryCompactSub">
+        ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
+        ${entryType === "phone" ? `Phone: ${phone}` : ""}
+        ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
+      </div>
+
+      <div class="mysteryGrid">
+        ${Array.from({ length: 24 }).map((_, i) => `
+          <button class="mysteryBox" type="button" data-box="${i}">
+            ${i + 1}
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="mysteryReveal">
+        <div class="mysteryRevealText" id="revealText">Pick a box to reveal your reward</div>
+      </div>
+    </div>
+  `;
+
+  const boxes = [...panel.querySelectorAll(".mysteryBox")];
+  const revealText = panel.querySelector("#revealText");
+  let used = false;
+
+  boxes.forEach((box, i) => {
+    box.addEventListener("click", async () => {
+      if (used) return;
+      used = true;
+
+      const reward = items[i];
+
+      revealText.textContent = `You won: ${reward}`;
+
+      boxes.forEach((b, idx) => {
+        if (idx === i) {
+          b.textContent = "OPEN";
+          b.classList.add("is-open");
+        } else {
+          b.classList.add("is-locked");
+          b.disabled = true;
+        }
+      });
+
+      const lead = {
+        createdAt: new Date().toISOString(),
+        day,
+        table: getTableFromUrl(),
+        entryType,
+        instagram,
+        phone,
+        reward,
+        boxNumber: i + 1
+      };
+
+      saveLead(lead);
+      await sendLeadToGoogleSheet(lead);
+    });
+  });
+
+  panel.querySelector("[data-back]").addEventListener("click", () => {
+    renderLeadGate(panel, day);
+  });
+}
 
   /* =========================
      WRAP SETUP
