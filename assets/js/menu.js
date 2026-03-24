@@ -319,9 +319,71 @@ document.addEventListener("DOMContentLoaded", () => {
           linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
       }
 
+      .leadGateLayout{
+        display:grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+        gap:16px;
+        align-items:start;
+      }
+
+      .leadGateLeft{
+        min-width:0;
+      }
+
+      .leadGateRight{
+        min-width:0;
+      }
+
+      .leadSidePanel{
+        display:none;
+        border:1px solid rgba(215,180,106,.24);
+        border-radius:16px;
+        background:
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        box-shadow:
+          0 0 0 1px rgba(255,255,255,.02),
+          0 16px 34px rgba(0,0,0,.18),
+          inset 0 1px 0 rgba(255,255,255,.04);
+        padding:14px;
+      }
+
+      .leadSidePanel.is-open{
+        display:block;
+      }
+
+      .leadSidePanel__title{
+        font-size:12px;
+        font-weight:900;
+        letter-spacing:.14em;
+        text-transform:uppercase;
+        color:#f2d38a;
+        margin-bottom:10px;
+      }
+
+      .leadSidePanel__grid{
+        display:grid;
+        gap:10px;
+      }
+
+      .leadHint{
+        font-size:12px;
+        color:rgba(255,255,255,.68);
+        line-height:1.45;
+      }
+
       @keyframes promoSmokeFloat{
         0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
         50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
+      }
+
+      @media (max-width: 820px){
+        .leadGateLayout{
+          grid-template-columns:1fr;
+        }
+
+        .leadSidePanel{
+          display:block;
+        }
       }
     `;
     document.head.appendChild(style);
@@ -529,25 +591,36 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="hybridGame">
         ${getPromoCard(day)}
 
-        <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
-        <div class="hybridSub">
-          Enter your Instagram or phone number to play.<br>
-          Enter both for VIP reward odds.
-        </div>
+        <div class="leadGateLayout">
+          <div class="leadGateLeft">
+            <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
+            <div class="hybridSub">
+              Enter your Instagram or phone number to play.<br>
+              Enter both for VIP reward odds.
+            </div>
 
-        <div class="hybridActions">
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">Instagram</button>
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
-          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP (Both)</button>
-        </div>
-
-        <div class="staffBox">
-          <div style="display:grid;gap:10px;">
-            <input class="staffInput" type="text" placeholder="@instagram" data-ig-input style="display:none;">
-            <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input style="display:none;">
-            <button class="hybridBtn hybridBtn--gold" type="button" data-unlock>Unlock Boxes</button>
+            <div class="hybridActions">
+              <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">Instagram</button>
+              <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
+              <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP (Both)</button>
+            </div>
           </div>
-          <div class="staffState" data-state>Please select Instagram, Phone, or VIP to continue.</div>
+
+          <div class="leadGateRight">
+            <div class="leadSidePanel" data-side-panel>
+              <div class="leadSidePanel__title" data-side-title>Select an option</div>
+              <div class="leadSidePanel__grid">
+                <input class="staffInput" type="text" placeholder="@instagram" data-ig-input style="display:none;">
+                <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input style="display:none;">
+                <button class="hybridBtn hybridBtn--gold" type="button" data-unlock>Unlock Boxes</button>
+                <div class="staffState" data-state>Please select Instagram, Phone, or VIP to continue.</div>
+              </div>
+            </div>
+
+            <div class="leadHint" data-side-hint>
+              Tap Instagram, Phone, or VIP and the input box will open here.
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -556,6 +629,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const phoneInput = panel.querySelector("[data-phone-input]");
     const state = panel.querySelector("[data-state]");
     const entryButtons = [...panel.querySelectorAll("[data-entry]")];
+    const sidePanel = panel.querySelector("[data-side-panel]");
+    const sideTitle = panel.querySelector("[data-side-title]");
+    const sideHint = panel.querySelector("[data-side-hint]");
 
     let entryType = "";
 
@@ -566,17 +642,23 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.toggle("active", btn.dataset.entry === type);
       });
 
+      sidePanel.classList.add("is-open");
+      sideHint.style.display = "none";
+
       if (type === "ig") {
+        sideTitle.textContent = "Instagram entry";
         igInput.style.display = "";
         phoneInput.style.display = "none";
         phoneInput.value = "";
         state.textContent = "Please enter your Instagram to continue.";
       } else if (type === "phone") {
+        sideTitle.textContent = "Phone entry";
         igInput.style.display = "none";
         phoneInput.style.display = "";
         igInput.value = "";
         state.textContent = "Please enter your phone number to continue.";
       } else if (type === "vip") {
+        sideTitle.textContent = "VIP entry";
         igInput.style.display = "";
         phoneInput.style.display = "";
         state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
