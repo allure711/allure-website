@@ -15,13 +15,24 @@ window.MENU_CATEGORY_CONTENT = {
       },
       {
         title: "Wings",
-        items: [
-          { name: "12 pcs Wings w/ Fries", price: "$16" },
-          { name: "8 pcs Wings w/ Fries", price: "$14" },
-          { name: "6 pcs Wings w/ Fries", price: "$12" },
-          { name: "12 pcs Wings Only", price: "$14" },
-          { name: "8 pcs Wings Only", price: "$10" },
-          { name: "6 pcs Wings Only", price: "$8" }
+        layout: "grouped",
+        groups: [
+          {
+            title: "With Fries",
+            items: [
+              { name: "12 pcs Wings", price: "$16" },
+              { name: "8 pcs Wings", price: "$14" },
+              { name: "6 pcs Wings", price: "$12" }
+            ]
+          },
+          {
+            title: "Wings Only",
+            items: [
+              { name: "12 pcs Wings", price: "$14" },
+              { name: "8 pcs Wings", price: "$10" },
+              { name: "6 pcs Wings", price: "$8" }
+            ]
+          }
         ]
       },
       {
@@ -72,17 +83,28 @@ window.MENU_CATEGORY_CONTENT = {
       },
       {
         title: "Wing Flavors",
-        items: [
-          { name: "Lemon Pepper" },
-          { name: "Jerk Rub" },
-          { name: "Old Bay" },
-          { name: "Honey Lemon Pepper" },
-          { name: "Honey Old Bay" },
-          { name: "Buffalo BBQ" },
-          { name: "Honey Sazon" },
-          { name: "Sweet Chili" },
-          { name: "Teriyaki" },
-          { name: "Mumbo" }
+        layout: "grouped",
+        groups: [
+          {
+            title: "Dry",
+            items: [
+              { name: "Lemon Pepper" },
+              { name: "Jerk Rub" },
+              { name: "Old Bay" }
+            ]
+          },
+          {
+            title: "Wet",
+            items: [
+              { name: "Honey Lemon Pepper" },
+              { name: "Honey Old Bay" },
+              { name: "Buffalo BBQ" },
+              { name: "Honey Sazon" },
+              { name: "Sweet Chili" },
+              { name: "Teriyaki" },
+              { name: "Mumbo" }
+            ]
+          }
         ]
       }
     ]
