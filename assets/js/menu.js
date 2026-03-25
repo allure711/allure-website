@@ -420,7 +420,39 @@ document.addEventListener("DOMContentLoaded", () => {
         color:rgba(255,255,255,.72);
         font-size:11px;
         line-height:1.2;
-        margin-bottom:2px;
+        margin-bottom:4px;
+      }
+
+      .mysteryRewardTop{
+        display:none;
+        margin-bottom:6px;
+        border:1px solid rgba(215,180,106,.24);
+        background:linear-gradient(180deg, rgba(215,180,106,.12), rgba(255,255,255,.03));
+        border-radius:12px;
+        padding:8px 10px;
+        box-shadow:
+          0 10px 24px rgba(0,0,0,.14),
+          inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .mysteryRewardTop.is-visible{
+        display:block;
+      }
+
+      .mysteryRewardTop__label{
+        font-size:9px;
+        font-weight:900;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        color:rgba(255,255,255,.66);
+        margin-bottom:4px;
+      }
+
+      .mysteryRewardTop__text{
+        font-size:13px;
+        font-weight:900;
+        line-height:1.2;
+        color:#f2d38a;
       }
 
       .mysteryGameShell .hybridTitle{
@@ -456,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .mysteryReveal{
-        margin-top:6px;
+        display:none;
       }
 
       .mysteryRevealText{
@@ -831,6 +863,11 @@ document.addEventListener("DOMContentLoaded", () => {
           ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
         </div>
 
+        <div class="mysteryRewardTop" id="rewardTop">
+          <div class="mysteryRewardTop__label">You Won</div>
+          <div class="mysteryRewardTop__text" id="rewardTopText">Pick a box to reveal your reward</div>
+        </div>
+
         <div class="hybridTitle">🎁 Mystery Box Game</div>
 
         <div class="mysteryGrid">
@@ -849,6 +886,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const boxes = [...panel.querySelectorAll(".mysteryBox")];
     const revealText = panel.querySelector("#revealText");
+    const rewardTop = panel.querySelector("#rewardTop");
+    const rewardTopText = panel.querySelector("#rewardTopText");
     let used = false;
 
     boxes.forEach((box, i) => {
@@ -858,6 +897,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const reward = items[i];
         revealText.textContent = reward;
+        rewardTop.classList.add("is-visible");
+        rewardTopText.textContent = reward;
 
         boxes.forEach((b, idx) => {
           if (idx === i) {
@@ -1001,7 +1042,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
+    tab.addEventListener("click", () => activateDay(tab.dataset.daytab === undefined ? tab.dataset.daytab : tab.dataset.daytab));
   });
 
   const today = getTodayName();
