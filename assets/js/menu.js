@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const LEADS_STORAGE_KEY = "allure_vip_leads";
-  const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz8rBH9bdREDbWWElN4lN6zKKKVch3f1FhEqFY-maTmU-BATcSmZXUF3AzNNIBxY3zt/exec";
+  const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwQLxbu0MUJgAeDVbEcoiNzgGUJJxw1or37j7O3kUMciqTZv1odLCP5SIgfLrk3Dfuq/exec";
 
   const DAILY_PROMOS = {
     sunday: {
