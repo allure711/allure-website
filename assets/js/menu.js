@@ -228,6 +228,124 @@ document.addEventListener("DOMContentLoaded", () => {
     return digits.length >= 10;
   }
 
+  function getHeroProofNumber(day, offerKey = "") {
+    const base = {
+      sunday: 31,
+      monday: 37,
+      tuesday: 34,
+      wednesday: 29,
+      thursday: 42,
+      friday: 64,
+      saturday: 71
+    };
+
+    const bonus = {
+      vip: 12,
+      teachers: 6,
+      dc: 8
+    };
+
+    return (base[day] || 37) + (bonus[offerKey] || 0);
+  }
+
+  function getGameHeroContent(day, offerConfig) {
+    if (offerConfig?.key === "vip") {
+      return {
+        title: "VIP Rewards Are Live",
+        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock stronger VIP-only rewards tonight.",
+        proof: `🔥 ${getHeroProofNumber(day, "vip")} VIP guests played tonight`
+      };
+    }
+
+    if (offerConfig?.key === "teachers") {
+      return {
+        title: "Teachers Appreciation Rewards",
+        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock exclusive teacher appreciation perks.",
+        proof: `🔥 ${getHeroProofNumber(day, "teachers")} teachers played tonight`
+      };
+    }
+
+    if (offerConfig?.key === "dc") {
+      return {
+        title: "DC Locals Rewards Are Live",
+        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock DC residents-only rewards tonight.",
+        proof: `🔥 ${getHeroProofNumber(day, "dc")} DC locals played tonight`
+      };
+    }
+
+    const map = {
+      sunday: {
+        title: "Social Sunday Rewards",
+        text: "Play the 24 Box Game for Sunday drink perks, hookah rewards, and surprise offers for tonight."
+      },
+      monday: {
+        title: "Unlock Monday Rewards",
+        text: "Play tonight’s 24 Box Game for Free Hookah Monday perks, food offers, and premium surprise rewards."
+      },
+      tuesday: {
+        title: "Taco Tuesday Rewards",
+        text: "Play the 24 Box Game to unlock late-night taco perks, drink rewards, and surprise upgrades."
+      },
+      wednesday: {
+        title: "Midweek Rewards Are Live",
+        text: "Enter your Instagram or phone, play to win, and unlock premium midweek rewards for tonight."
+      },
+      thursday: {
+        title: "Karaoke Thursday Rewards",
+        text: "Play the 24 Box Game for karaoke-night perks, drink rewards, and surprise upgrades."
+      },
+      friday: {
+        title: "Friday VIP Rewards Are Live",
+        text: "Tonight’s 24 Box Game is loaded with stronger VIP rewards, bottle perks, and premium wins."
+      },
+      saturday: {
+        title: "Saturday Prime-Time Rewards",
+        text: "Play tonight’s 24 Box Game for high-energy weekend rewards, VIP perks, and premium surprise offers."
+      }
+    };
+
+    const current = map[day] || map.monday;
+
+    return {
+      title: current.title,
+      text: current.text,
+      proof: `🔥 ${getHeroProofNumber(day)} people played tonight`
+    };
+  }
+
+  function updateGameHero(day) {
+    const hero = document.getElementById("gameHero");
+    const title = document.getElementById("gameHeroTitle");
+    const text = document.getElementById("gameHeroText");
+    const plays = document.getElementById("gameHeroPlays");
+    const offerConfig = getOfferConfig();
+
+    if (!hero || !title || !text || !plays) return;
+
+    const content = getGameHeroContent(day, offerConfig);
+
+    title.textContent = content.title;
+    text.textContent = content.text;
+    plays.textContent = content.proof;
+
+    hero.classList.remove(
+      "gameHero--sunday",
+      "gameHero--monday",
+      "gameHero--tuesday",
+      "gameHero--wednesday",
+      "gameHero--thursday",
+      "gameHero--friday",
+      "gameHero--saturday",
+      "gameHero--pulse"
+    );
+
+    hero.classList.add(`gameHero--${day}`);
+
+    if (day === "monday" || day === "friday" || day === "saturday" || offerConfig?.key === "vip") {
+      hero.classList.add("gameHero--pulse");
+    }
+  }
+
   /* =========================
      OFFER BANNER
   ========================= */
@@ -1340,6 +1458,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
+     TOP GAME HERO
+  ========================= */
+
+  function openGameFromHero() {
+    const activeDayPanel = document.querySelector(".dayPanel.active");
+    if (!activeDayPanel) return;
+
+    const wrap = activeDayPanel.querySelector(".menuCenterWrap");
+    if (!wrap) return;
+
+    const panel = wrap.querySelector(".menuPanelBody");
+    const buttons = getButtons(wrap);
+    const gameBtn = buttons.find(isGameButton);
+    const day = activeDayPanel.dataset.daypanel || getTodayName();
+
+    if (!panel) return;
+
+    buttons.forEach(btn => btn.classList.remove("active"));
+    if (gameBtn) gameBtn.classList.add("active");
+
+    renderLeadGate(panel, day);
+
+    panel.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+
+  function bindGameHeroButtons() {
+    document.querySelectorAll("[data-open-game]").forEach(btn => {
+      btn.addEventListener("click", openGameFromHero);
+    });
+  }
+
+  /* =========================
      DAY SWITCH
   ========================= */
 
@@ -1358,6 +1511,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateDailyPromo(day);
+    updateGameHero(day);
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
@@ -1366,6 +1520,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   injectMenuEnhancementStyles();
   injectOfferBanner();
+  bindGameHeroButtons();
 
   const today = getTodayName();
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
