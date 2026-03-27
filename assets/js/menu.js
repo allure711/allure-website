@@ -48,6 +48,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const OFFER_EXPERIENCES = {
+    vip: {
+      key: "vip",
+      badge: "VIP ACCESS",
+      title: "VIP ACCESS UNLOCKED",
+      text: "Exclusive rewards, premium offers, and stronger odds inside the 24 Box Game.",
+      icon: "🥂",
+      theme: "vip",
+      rewardBoost: "vip"
+    },
+    teachers: {
+      key: "teachers",
+      badge: "TEACHERS ONLY",
+      title: "TEACHERS APPRECIATION",
+      text: "Special appreciation rewards for teachers. Enter your phone or Instagram to unlock your teacher-only box.",
+      icon: "🍎",
+      theme: "teachers",
+      rewardBoost: "teachers"
+    },
+    dc: {
+      key: "dc",
+      badge: "DC LOCALS",
+      title: "DC RESIDENT SPECIAL",
+      text: "Exclusive local rewards for DC residents. Scan, unlock, and enjoy a locals-only Allure experience.",
+      icon: "📍",
+      theme: "dc",
+      rewardBoost: "dc"
+    }
+  };
+
   /* =========================
      NAV
   ========================= */
@@ -88,13 +118,32 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  function getOfferFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const offer = String(params.get("offer") || "").toLowerCase().trim();
+    return OFFER_EXPERIENCES[offer] ? offer : "";
+  }
+
+  function getOfferConfig() {
+    const offer = getOfferFromUrl();
+    return offer ? OFFER_EXPERIENCES[offer] : null;
+  }
+
   function updateDailyPromo(day) {
     const promoLabel = document.getElementById("promoLabel");
     const promoText = document.getElementById("promoText");
     const promo = DAILY_PROMOS[day];
+    const offerConfig = getOfferConfig();
 
-    if (!promoLabel || !promoText || !promo) return;
+    if (!promoLabel || !promoText) return;
 
+    if (offerConfig) {
+      promoLabel.textContent = offerConfig.badge;
+      promoText.textContent = offerConfig.text;
+      return;
+    }
+
+    if (!promo) return;
     promoLabel.textContent = promo.label;
     promoText.textContent = promo.text;
   }
@@ -180,12 +229,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     DAY PROMO CARD
+     OFFER BANNER
+  ========================= */
+
+  function injectOfferBanner() {
+    const offerConfig = getOfferConfig();
+    if (!offerConfig) return;
+    if (document.getElementById("offerExperienceBanner")) return;
+
+    const target = document.querySelector(".menuWelcomeStrip");
+    if (!target) return;
+
+    const banner = document.createElement("section");
+    banner.id = "offerExperienceBanner";
+    banner.className = `offerExperienceBanner offerExperienceBanner--${offerConfig.theme}`;
+    banner.innerHTML = `
+      <div class="offerExperienceBanner__glow"></div>
+      <div class="offerExperienceBanner__inner">
+        <div class="offerExperienceBanner__copy">
+          <div class="offerExperienceBanner__eyebrow">${offerConfig.badge}</div>
+          <div class="offerExperienceBanner__title">${offerConfig.title}</div>
+          <div class="offerExperienceBanner__text">${offerConfig.text}</div>
+        </div>
+        <div class="offerExperienceBanner__icon">${offerConfig.icon}</div>
+      </div>
+    `;
+
+    target.parentNode.insertBefore(banner, target);
+  }
+
+  /* =========================
+     DAY PROMO CARD + STYLES
   ========================= */
 
   function getPromoCard(day) {
     const promo = DAILY_PROMOS[day] || DAILY_PROMOS.monday;
-
     return `
       <div class="promoDayCard promoDayCard--${promo.theme}">
         <div class="promoDayCard__smoke"></div>
@@ -206,6 +284,96 @@ document.addEventListener("DOMContentLoaded", () => {
     const style = document.createElement("style");
     style.id = "allureMenuEnhancementStyles";
     style.textContent = `
+      .offerExperienceBanner{
+        position:relative;
+        overflow:hidden;
+        border-radius:22px;
+        margin:2px 0 16px;
+        padding:16px 18px;
+        border:1px solid rgba(215,180,106,.22);
+        background:
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        box-shadow:
+          0 0 0 1px rgba(255,255,255,.02),
+          0 20px 46px rgba(0,0,0,.26),
+          inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .offerExperienceBanner__glow{
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        background:
+          radial-gradient(circle at 18% 28%, rgba(255,255,255,.08), transparent 28%),
+          radial-gradient(circle at 86% 72%, rgba(215,180,106,.12), transparent 30%);
+        filter:blur(16px);
+      }
+
+      .offerExperienceBanner__inner{
+        position:relative;
+        z-index:2;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+      }
+
+      .offerExperienceBanner__eyebrow{
+        font-size:11px;
+        font-weight:950;
+        letter-spacing:.18em;
+        text-transform:uppercase;
+        color:#f2d38a;
+        margin-bottom:6px;
+      }
+
+      .offerExperienceBanner__title{
+        font-size:26px;
+        font-weight:950;
+        line-height:1.05;
+        color:#fff;
+        letter-spacing:-.02em;
+      }
+
+      .offerExperienceBanner__text{
+        margin-top:8px;
+        color:rgba(255,255,255,.82);
+        font-size:14px;
+        line-height:1.5;
+        max-width:760px;
+      }
+
+      .offerExperienceBanner__icon{
+        flex:0 0 auto;
+        font-size:34px;
+        line-height:1;
+        filter:drop-shadow(0 0 10px rgba(215,180,106,.22));
+      }
+
+      .offerExperienceBanner--vip{
+        border-color:rgba(215,180,106,.34);
+        background:
+          radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
+          radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .offerExperienceBanner--teachers{
+        border-color:rgba(255,210,90,.26);
+        background:
+          radial-gradient(circle at top right, rgba(255,210,90,.12), transparent 36%),
+          radial-gradient(circle at top left, rgba(120,180,255,.08), transparent 34%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .offerExperienceBanner--dc{
+        border-color:rgba(120,190,255,.24);
+        background:
+          radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
+          radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
       .promoDayCard{
         position:relative;
         overflow:hidden;
@@ -460,6 +628,22 @@ document.addEventListener("DOMContentLoaded", () => {
         margin-bottom:4px;
       }
 
+      .mysteryOfferBadge{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        margin-bottom:8px;
+        padding:6px 10px;
+        border-radius:999px;
+        border:1px solid rgba(215,180,106,.26);
+        background:rgba(215,180,106,.08);
+        color:#f2d38a;
+        font-size:10px;
+        font-weight:900;
+        letter-spacing:.14em;
+        text-transform:uppercase;
+      }
+
       .mysteryGrid{
         display:grid;
         grid-template-columns:repeat(8, minmax(0, 1fr));
@@ -515,6 +699,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       @media (max-width: 760px){
+        .offerExperienceBanner__title{
+          font-size:22px;
+        }
+
+        .offerExperienceBanner__inner{
+          align-items:flex-start;
+        }
+
         .mysteryGrid{
           grid-template-columns:repeat(4, minmax(0, 1fr));
           gap:6px;
@@ -528,6 +720,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       @media (max-width: 520px){
+        .offerExperienceBanner__inner{
+          flex-direction:column;
+          align-items:flex-start;
+        }
+
+        .offerExperienceBanner__icon{
+          font-size:28px;
+        }
+
         .mysteryGrid{
           grid-template-columns:repeat(3, minmax(0, 1fr));
           gap:6px;
@@ -680,30 +881,65 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".leadModalOverlay")?.remove();
   }
 
-  function openLeadModal(type, panel, day) {
-    injectMenuEnhancementStyles();
-    closeLeadModal();
-
-    const overlay = document.createElement("div");
-    overlay.className = "leadModalOverlay";
-
-    const titleMap = {
+  function getLeadModalContent(type, offerConfig) {
+    const defaultTitleMap = {
       ig: "Instagram Entry",
       phone: "Phone Entry",
       vip: "VIP Entry"
     };
 
-    const subMap = {
+    const defaultSubMap = {
       ig: "Enter your Instagram to unlock the mystery boxes.",
       phone: "Enter your phone number to unlock the mystery boxes.",
       vip: "Enter both Instagram and phone number to unlock VIP."
     };
 
+    if (!offerConfig) {
+      return {
+        title: defaultTitleMap[type] || "Entry",
+        sub: defaultSubMap[type] || ""
+      };
+    }
+
+    if (offerConfig.key === "vip") {
+      if (type === "ig") return { title: "VIP Instagram Entry", sub: "Enter your Instagram to unlock VIP-only rewards." };
+      if (type === "phone") return { title: "VIP Phone Entry", sub: "Enter your phone number to unlock VIP-only rewards." };
+      return { title: "VIP Full Access", sub: "Enter both Instagram and phone number for premium VIP reward odds." };
+    }
+
+    if (offerConfig.key === "teachers") {
+      if (type === "ig") return { title: "Teacher Instagram Entry", sub: "Enter your Instagram to unlock teacher appreciation rewards." };
+      if (type === "phone") return { title: "Teacher Phone Entry", sub: "Enter your phone number to unlock teacher appreciation rewards." };
+      return { title: "Teacher Full Access", sub: "Enter both Instagram and phone number for stronger teacher-only offers." };
+    }
+
+    if (offerConfig.key === "dc") {
+      if (type === "ig") return { title: "DC Instagram Entry", sub: "Enter your Instagram to unlock DC residents rewards." };
+      if (type === "phone") return { title: "DC Phone Entry", sub: "Enter your phone number to unlock DC residents rewards." };
+      return { title: "DC Local Access", sub: "Enter both Instagram and phone number for stronger DC locals-only offers." };
+    }
+
+    return {
+      title: defaultTitleMap[type] || "Entry",
+      sub: defaultSubMap[type] || ""
+    };
+  }
+
+  function openLeadModal(type, panel, day) {
+    injectMenuEnhancementStyles();
+    closeLeadModal();
+
+    const offerConfig = getOfferConfig();
+    const content = getLeadModalContent(type, offerConfig);
+
+    const overlay = document.createElement("div");
+    overlay.className = "leadModalOverlay";
+
     overlay.innerHTML = `
       <div class="leadModal">
         <button class="leadModal__close" type="button" data-close-modal>×</button>
-        <div class="leadModal__title">${titleMap[type] || "Entry"}</div>
-        <div class="leadModal__sub">${subMap[type] || ""}</div>
+        <div class="leadModal__title">${content.title}</div>
+        <div class="leadModal__sub">${content.sub}</div>
 
         <div class="leadModal__grid">
           ${type !== "phone" ? `<input class="staffInput" type="text" placeholder="@instagram" data-modal-ig>` : ""}
@@ -738,7 +974,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (type === "vip" && (!isValidInstagram(ig) || !isValidPhone(phone))) {
-        state.textContent = "Please enter both Instagram and phone number to unlock VIP.";
+        state.textContent = "Please enter both Instagram and phone number to continue.";
         return;
       }
 
@@ -757,7 +993,7 @@ document.addEventListener("DOMContentLoaded", () => {
      24 BOX GAME
   ========================= */
 
-  function getGameItems(type) {
+  function getGameItems(type, offerKey = "") {
     const igRewards = [
       "Free Mixer",
       "$2 Off Hookah",
@@ -791,6 +1027,28 @@ document.addEventListener("DOMContentLoaded", () => {
       "Weekend VIP Perk"
     ];
 
+    const teacherRewards = [
+      "Teacher Free Mixer",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "Free Shot w/ Purchase",
+      "Teacher VIP Line Skip",
+      "$5 Off Fishbowl",
+      "Priority Seating",
+      "Teacher Appreciation Reward"
+    ];
+
+    const dcRewards = [
+      "DC Local Discount",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "$5 Off Tower",
+      "Free Mixer",
+      "Locals VIP Line Skip",
+      "Reserved Seating",
+      "DC Resident Reward"
+    ];
+
     const fillers = [
       "Try Again",
       "Good Vibes",
@@ -804,7 +1062,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let pool = [];
 
-    if (type === "phone") {
+    if (offerKey === "vip") {
+      pool = [...vipRewards, ...vipRewards, ...phoneRewards, ...fillers];
+    } else if (offerKey === "teachers") {
+      pool = [...teacherRewards, ...teacherRewards, ...igRewards, ...fillers];
+    } else if (offerKey === "dc") {
+      pool = [...dcRewards, ...dcRewards, ...phoneRewards, ...fillers];
+    } else if (type === "phone") {
       pool = [...phoneRewards, ...igRewards, ...fillers];
     } else if (type === "vip") {
       pool = [...vipRewards, ...phoneRewards, ...fillers];
@@ -819,23 +1083,68 @@ document.addEventListener("DOMContentLoaded", () => {
     return shuffle(pool).slice(0, 24);
   }
 
+  function getLeadGateCopy(offerConfig) {
+    if (!offerConfig) {
+      return {
+        title: "Unlock Your VIP Mystery Box",
+        text: "Enter your Instagram or phone number to play.<br>Enter both for VIP reward odds.",
+        igLabel: "Instagram",
+        phoneLabel: "Phone",
+        vipLabel: "VIP"
+      };
+    }
+
+    if (offerConfig.key === "vip") {
+      return {
+        title: "Unlock Your VIP Mystery Box",
+        text: "VIP access is active. Enter your Instagram or phone number to unlock premium rewards.<br>Enter both for stronger VIP odds.",
+        igLabel: "VIP Instagram",
+        phoneLabel: "VIP Phone",
+        vipLabel: "Full VIP"
+      };
+    }
+
+    if (offerConfig.key === "teachers") {
+      return {
+        title: "Teachers Appreciation Box",
+        text: "Teachers-only rewards are active. Enter your Instagram or phone number to play.<br>Enter both for stronger appreciation rewards.",
+        igLabel: "Teacher Instagram",
+        phoneLabel: "Teacher Phone",
+        vipLabel: "Teacher VIP"
+      };
+    }
+
+    return {
+      title: "DC Locals Mystery Box",
+      text: "DC residents rewards are active. Enter your Instagram or phone number to play.<br>Enter both for stronger local rewards.",
+      igLabel: "DC Instagram",
+      phoneLabel: "DC Phone",
+      vipLabel: "DC VIP"
+    };
+  }
+
   function renderLeadGate(panel, day = getTodayName()) {
     injectMenuEnhancementStyles();
 
+    const offerConfig = getOfferConfig();
+    const copy = getLeadGateCopy(offerConfig);
+
     panel.innerHTML = `
       <div class="hybridGame">
+        ${offerConfig ? `
+          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
+        ` : ""}
         ${getPromoCard(day)}
 
-        <div class="hybridTitle">Unlock Your VIP Mystery Box</div>
+        <div class="hybridTitle">${copy.title}</div>
         <div class="hybridSub">
-          Enter your Instagram or phone number to play.<br>
-          Enter both for VIP reward odds.
+          ${copy.text}
         </div>
 
         <div class="hybridActions">
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">Instagram</button>
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">Phone</button>
-          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">VIP</button>
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">${copy.igLabel}</button>
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">${copy.phoneLabel}</button>
+          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">${copy.vipLabel}</button>
         </div>
       </div>
     `;
@@ -849,13 +1158,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderGame(panel, leadInfo) {
     const { entryType = "ig", instagram = "", phone = "", day = getTodayName() } = leadInfo || {};
-    const items = getGameItems(entryType);
+    const offerConfig = getOfferConfig();
+    const offerKey = offerConfig?.key || "";
+    const items = getGameItems(entryType, offerKey);
 
     panel.innerHTML = `
       <div class="hybridGame mysteryGameShell">
         <div class="mysteryGameTopbar">
           <button class="mysteryBackBtn" type="button" data-back>Back</button>
         </div>
+
+        ${offerConfig ? `
+          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
+        ` : ""}
 
         <div class="mysteryMetaTop">
           ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
@@ -917,7 +1232,8 @@ document.addEventListener("DOMContentLoaded", () => {
           instagram,
           phone,
           reward,
-          boxNumber: i + 1
+          boxNumber: i + 1,
+          offer: offerKey || ""
         };
 
         saveLead(lead);
@@ -944,12 +1260,15 @@ document.addEventListener("DOMContentLoaded", () => {
   function openDefaultCategory(wrap) {
     const panel = wrap.querySelector(".menuPanelBody");
     const buttons = getButtons(wrap);
+    const offerConfig = getOfferConfig();
 
     const gameBtn = buttons.find(isGameButton);
     const firstFoodBtn = buttons.find(btn => btn.dataset.cat === "food");
     const firstAnyCategoryBtn = buttons.find(btn => btn.dataset.cat);
 
-    const targetBtn = gameBtn || firstFoodBtn || firstAnyCategoryBtn;
+    const targetBtn = offerConfig
+      ? gameBtn
+      : (gameBtn || firstFoodBtn || firstAnyCategoryBtn);
 
     if (!panel || !targetBtn) {
       if (panel) renderLeadGate(panel);
@@ -1042,8 +1361,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.addEventListener("click", () => activateDay(tab.dataset.daytab === undefined ? tab.dataset.daytab : tab.dataset.daytab));
+    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
   });
+
+  injectMenuEnhancementStyles();
+  injectOfferBanner();
 
   const today = getTodayName();
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
