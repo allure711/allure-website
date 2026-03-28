@@ -622,7 +622,7 @@ document.addEventListener("DOMContentLoaded", () => {
         align-items:center;
         justify-content:center;
         background:rgba(0,0,0,.72);
-        backdrop-filter:blur(4px);
+        backdrop-filter: blur(4px);
         z-index:9999;
         padding:20px;
       }
@@ -705,7 +705,7 @@ document.addEventListener("DOMContentLoaded", () => {
         letter-spacing:.12em;
         text-transform:uppercase;
         cursor:pointer;
-        box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
       }
 
       .mysteryMetaTop{
@@ -855,7 +855,6 @@ document.addEventListener("DOMContentLoaded", () => {
           radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
           linear-gradient(180deg, rgba(7,7,10,.98), rgba(10,10,16,.98));
         display:none;
-        overflow:hidden;
       }
 
       .gameOverlay.is-open{
@@ -865,15 +864,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .gameOverlay__scroll{
         height:100vh;
         overflow-y:auto;
-        overflow-x:hidden;
         -webkit-overflow-scrolling:touch;
-        padding:10px 8px 24px;
-        box-sizing:border-box;
+        padding:10px 10px 24px;
       }
 
       .gameOverlay__panel{
-        width:calc(100vw - 16px);
-        max-width:calc(100vw - 16px);
+        width:100%;
+        max-width:100%;
         margin:0 auto;
         border-radius:24px;
         border:1px solid rgba(255,255,255,.10);
@@ -884,39 +881,24 @@ document.addEventListener("DOMContentLoaded", () => {
         backdrop-filter:blur(12px);
         padding:12px;
         overflow:hidden;
-        box-sizing:border-box;
       }
 
-      .gameOverlay .hybridGame,
-      .gameOverlay .mysteryGameShell,
-      .gameOverlay .mysteryGrid,
-      .gameOverlay .mysteryGameTopbar,
-      .gameOverlay .mysteryRewardTop,
-      .gameOverlay .hybridSub,
-      .gameOverlay .mysteryMetaTop{
-        width:100%;
-        max-width:100%;
-        min-width:0;
-        box-sizing:border-box;
+      .gameOverlay .hybridGame{
+        gap:14px;
       }
 
       .gameOverlay .hybridTitle{
         font-size:clamp(18px, 7vw, 28px);
         line-height:1.05;
         word-break:break-word;
-        overflow-wrap:anywhere;
-        max-width:100%;
       }
 
       .gameOverlay .mysteryGrid{
-        display:grid;
         grid-template-columns:repeat(2, minmax(0, 1fr));
         gap:10px;
       }
 
       .gameOverlay .mysteryBox{
-        width:100%;
-        min-width:0;
         min-height:72px;
         font-size:18px;
         border-radius:14px;
@@ -965,22 +947,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      @media (max-width: 1100px){
-        .mysteryGrid{
-          grid-template-columns:repeat(6, minmax(0, 1fr));
-        }
-      }
-
       @media (min-width: 521px) and (max-width: 760px){
-        .gameOverlay__scroll{
-          padding:12px 10px 26px;
-        }
-
-        .gameOverlay__panel{
-          width:calc(100vw - 20px);
-          max-width:calc(100vw - 20px);
-        }
-
         .gameOverlay .mysteryGrid{
           grid-template-columns:repeat(3, minmax(0, 1fr));
         }
@@ -988,6 +955,12 @@ document.addEventListener("DOMContentLoaded", () => {
         .gameOverlay .mysteryBox{
           min-height:66px;
           font-size:16px;
+        }
+      }
+
+      @media (max-width: 1100px){
+        .mysteryGrid{
+          grid-template-columns:repeat(6, minmax(0, 1fr));
         }
       }
 
@@ -1031,16 +1004,6 @@ document.addEventListener("DOMContentLoaded", () => {
           min-height:40px;
           font-size:10px;
           padding:6px 4px;
-        }
-
-        .gameOverlay .mysteryGrid{
-          grid-template-columns:repeat(2, minmax(0, 1fr));
-          gap:8px;
-        }
-
-        .gameOverlay .mysteryBox{
-          min-height:60px;
-          font-size:15px;
         }
       }
     `;
@@ -1448,12 +1411,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(overlay);
     document.body.style.overflow = "hidden";
     activeGameOverlay = overlay;
-
-    const scrollWrap = activeGameOverlay.querySelector(".gameOverlay__scroll");
-    if (scrollWrap) {
-      scrollWrap.scrollTop = 0;
-      scrollWrap.scrollLeft = 0;
-    }
   }
 
   function renderLeadGate(panel, day = getTodayName()) {
@@ -1534,21 +1491,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const mobileFullscreen = isMobileView();
     let root;
+    let gameNode = null;
 
     if (mobileFullscreen) {
       const holder = document.createElement("div");
       holder.innerHTML = gameMarkup;
-      const gameNode = holder.firstElementChild;
+      gameNode = holder.firstElementChild;
       openGameOverlay(gameNode);
       root = gameNode;
-
-      if (activeGameOverlay) {
-        const scrollWrap = activeGameOverlay.querySelector(".gameOverlay__scroll");
-        if (scrollWrap) {
-          scrollWrap.scrollTop = 0;
-          scrollWrap.scrollLeft = 0;
-        }
-      }
     } else {
       panel.innerHTML = gameMarkup;
       root = panel;
@@ -1561,16 +1511,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const backBtn = root.querySelector("[data-back]");
     let used = false;
 
-    if (backBtn) {
-      backBtn.addEventListener("click", () => {
-        if (mobileFullscreen) {
-          closeGameOverlay();
-          renderLeadGate(panel, day);
-        } else {
-          renderLeadGate(panel, day);
-        }
-      });
-    }
+    backBtn.addEventListener("click", () => {
+      if (mobileFullscreen) {
+        closeGameOverlay();
+        renderLeadGate(panel, day);
+      } else {
+        renderLeadGate(panel, day);
+      }
+    });
 
     boxes.forEach((box, i) => {
       box.addEventListener("click", async () => {
@@ -1578,10 +1526,9 @@ document.addEventListener("DOMContentLoaded", () => {
         used = true;
 
         const reward = items[i];
-
-        if (revealText) revealText.textContent = reward;
-        if (rewardTop) rewardTop.classList.add("is-visible");
-        if (rewardTopText) rewardTopText.textContent = reward;
+        revealText.textContent = reward;
+        rewardTop.classList.add("is-visible");
+        rewardTopText.textContent = reward;
 
         boxes.forEach((b, idx) => {
           if (idx === i) {
@@ -1611,7 +1558,7 @@ document.addEventListener("DOMContentLoaded", () => {
           setTimeout(() => {
             closeGameOverlay();
             renderLeadGate(panel, day);
-          }, 1800);
+          }, 2000);
         }
       });
     });
@@ -1784,10 +1731,4 @@ document.addEventListener("DOMContentLoaded", () => {
   activateDay(hasTodayTab ? today : fallbackDay);
 
   window.getAllureLeads = () => getStoredLeads();
-
-  window.addEventListener("resize", () => {
-    if (!isMobileView()) {
-      closeGameOverlay();
-    }
-  });
 });
