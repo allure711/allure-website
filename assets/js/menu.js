@@ -1483,33 +1483,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const mobileFullscreen = isMobileView();
     let root;
+    let gameNode = null;
 
     if (mobileFullscreen) {
       const holder = document.createElement("div");
       holder.innerHTML = gameMarkup;
-      const gameNode = holder.firstElementChild;
+      gameNode = holder.firstElementChild;
       openGameOverlay(gameNode);
       root = gameNode;
     } else {
-      document.body.insertAdjacentHTML("beforeend", `
-  <div class="gameFullscreen" id="gameFullscreen">
-    <div class="gameInner">
-
-      <button class="gameCloseBtn" id="closeGame">✕</button>
-
-      <div class="hybridTitle">🎁 Mystery Box Game</div>
-
-      <div class="mysteryGrid">
-        ${Array.from({ length: 24 }).map((_, i) => `
-          <button class="mysteryBox" type="button" data-box="${i}">
-            ${i + 1}
-          </button>
-        `).join("")}
-      </div>
-
-    </div>
-  </div>
-`);
+      panel.innerHTML = gameMarkup;
       root = panel;
     }
 
@@ -1523,6 +1506,7 @@ document.addEventListener("DOMContentLoaded", () => {
     backBtn.addEventListener("click", () => {
       if (mobileFullscreen) {
         closeGameOverlay();
+        renderLeadGate(panel, day);
       } else {
         renderLeadGate(panel, day);
       }
@@ -1565,6 +1549,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mobileFullscreen) {
           setTimeout(() => {
             closeGameOverlay();
+            renderLeadGate(panel, day);
           }, 2000);
         }
       });
