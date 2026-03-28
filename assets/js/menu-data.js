@@ -1,7 +1,4 @@
 window.MENU_CATEGORY_CONTENT = {
-  /* =========================
-     FOOD
-  ========================= */
   food: {
     sections: [
       {
@@ -113,9 +110,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     HAPPY HOUR / STANDARD
-  ========================= */
   shots5: {
     sections: [
       {
@@ -178,9 +172,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     MID-TIER
-  ========================= */
   shots7: {
     sections: [
       {
@@ -237,9 +228,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     PREMIUM
-  ========================= */
   premium: {
     sections: [
       {
@@ -267,9 +255,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     WINE / BEER / CANNED
-  ========================= */
   wine6: {
     sections: [
       {
@@ -317,9 +302,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     NON-ALCOHOLIC
-  ========================= */
   na: {
     sections: [
       {
@@ -333,9 +315,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     HOOKAH
-  ========================= */
   hookah23: {
     sections: [
       {
@@ -398,9 +377,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     FEATURED ITEMS
-  ========================= */
   tower43: {
     sections: [
       {
@@ -501,5 +477,87 @@ window.ALLURE_LIVE_STATUS = {
   sunday: {
     title: "Social Sunday • Happy Hour All Night",
     tags: ["Happy Hour All Night", "Hookah", "Fishbowls", "Food"]
+  }
+};
+
+/* =========================================
+   GAME CONFIG
+   This does NOT break your current menu.js.
+   It is here so your game content is also stored
+   in one easy place for future editing.
+========================================= */
+
+window.ALLURE_GAME_CONFIG = {
+  labels: {
+    defaultTitle: "Unlock Your VIP Mystery Box",
+    defaultText: "Enter your Instagram or phone number to play. Enter both for VIP reward odds."
+  },
+
+  rewards: {
+    instagram: [
+      "Free Mixer",
+      "$2 Off Hookah",
+      "$3 Off Fishbowl",
+      "$3 Off Tower",
+      "10% Off Food",
+      "Free Red Bull w/ Drink",
+      "Hookah Flavor Upgrade",
+      "High Noon Discount"
+    ],
+
+    phone: [
+      "$5 Off Hookah",
+      "Free Shot w/ $30 Tab",
+      "$5 Off Premium Drink",
+      "$5 Off Bottle Service",
+      "VIP Line Skip",
+      "$3 Off Tower",
+      "Taco Discount",
+      "Wine Upgrade"
+    ],
+
+    vip: [
+      "Free Hookah (Min $50 Tab)",
+      "$10 Off Bottle",
+      "Premium Shot Upgrade",
+      "VIP Table Priority",
+      "Premium Hookah Flavor",
+      "Fishbowl Discount",
+      "Reserved Seating",
+      "Weekend VIP Perk"
+    ],
+
+    teachers: [
+      "Teacher Free Mixer",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "Free Shot w/ Purchase",
+      "Teacher VIP Line Skip",
+      "$5 Off Fishbowl",
+      "Priority Seating",
+      "Teacher Appreciation Reward"
+    ],
+
+    dc: [
+      "DC Local Discount",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "$5 Off Tower",
+      "Free Mixer",
+      "Locals VIP Line Skip",
+      "Reserved Seating",
+      "DC Resident Reward"
+    ],
+
+    filler: [
+      "Try Again",
+      "Good Vibes",
+      "Ask Server",
+      "Come Back",
+      "Next Time Lucky",
+      "Enjoy The Night",
+      "Ask About VIP",
+      "House Favorite"
+    ]
   }
 };
