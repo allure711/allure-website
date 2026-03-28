@@ -865,12 +865,12 @@ document.addEventListener("DOMContentLoaded", () => {
         height:100vh;
         overflow-y:auto;
         -webkit-overflow-scrolling:touch;
-        padding:10px 10px 24px;
+        padding:18px 14px 28px;
       }
 
       .gameOverlay__panel{
         width:100%;
-        max-width:100%;
+        max-width:720px;
         margin:0 auto;
         border-radius:24px;
         border:1px solid rgba(255,255,255,.10);
@@ -879,28 +879,21 @@ document.addEventListener("DOMContentLoaded", () => {
           0 24px 60px rgba(0,0,0,.32),
           inset 0 1px 0 rgba(255,255,255,.04);
         backdrop-filter:blur(12px);
-        padding:12px;
-        overflow:hidden;
+        padding:16px;
       }
 
       .gameOverlay .hybridGame{
         gap:14px;
       }
 
-      .gameOverlay .hybridTitle{
-        font-size:clamp(18px, 7vw, 28px);
-        line-height:1.05;
-        word-break:break-word;
-      }
-
       .gameOverlay .mysteryGrid{
-        grid-template-columns:repeat(2, minmax(0, 1fr));
+        grid-template-columns:repeat(4, minmax(0, 1fr));
         gap:10px;
       }
 
       .gameOverlay .mysteryBox{
-        min-height:72px;
-        font-size:18px;
+        min-height:64px;
+        font-size:16px;
         border-radius:14px;
         animation:luxuryPulse 2.4s ease-in-out infinite;
       }
@@ -944,17 +937,6 @@ document.addEventListener("DOMContentLoaded", () => {
         100%{
           transform:scale(1);
           filter:brightness(1);
-        }
-      }
-
-      @media (min-width: 521px) and (max-width: 760px){
-        .gameOverlay .mysteryGrid{
-          grid-template-columns:repeat(3, minmax(0, 1fr));
-        }
-
-        .gameOverlay .mysteryBox{
-          min-height:66px;
-          font-size:16px;
         }
       }
 
@@ -1004,6 +986,16 @@ document.addEventListener("DOMContentLoaded", () => {
           min-height:40px;
           font-size:10px;
           padding:6px 4px;
+        }
+
+        .gameOverlay .mysteryGrid{
+          grid-template-columns:repeat(3, minmax(0, 1fr));
+          gap:8px;
+        }
+
+        .gameOverlay .mysteryBox{
+          min-height:60px;
+          font-size:15px;
         }
       }
     `;
