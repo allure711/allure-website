@@ -1491,7 +1491,7 @@ document.addEventListener("DOMContentLoaded", () => {
       openGameOverlay(gameNode);
       root = gameNode;
     } else {
-      panel.innerHTML = gameMarkup;
+      ????????
       root = panel;
     }
 
