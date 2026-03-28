@@ -1491,7 +1491,25 @@ document.addEventListener("DOMContentLoaded", () => {
       openGameOverlay(gameNode);
       root = gameNode;
     } else {
-      ????????
+      document.body.insertAdjacentHTML("beforeend", `
+  <div class="gameFullscreen" id="gameFullscreen">
+    <div class="gameInner">
+
+      <button class="gameCloseBtn" id="closeGame">✕</button>
+
+      <div class="hybridTitle">🎁 Mystery Box Game</div>
+
+      <div class="mysteryGrid">
+        ${Array.from({ length: 24 }).map((_, i) => `
+          <button class="mysteryBox" type="button" data-box="${i}">
+            ${i + 1}
+          </button>
+        `).join("")}
+      </div>
+
+    </div>
+  </div>
+`);
       root = panel;
     }
 
