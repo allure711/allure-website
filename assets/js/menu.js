@@ -55,8 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "VIP ACCESS UNLOCKED",
       text: "Exclusive rewards, premium offers, and stronger odds inside the 24 Box Game.",
       icon: "🥂",
-      theme: "vip",
-      rewardBoost: "vip"
+      theme: "vip"
     },
     teachers: {
       key: "teachers",
@@ -64,8 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "TEACHERS APPRECIATION",
       text: "Special appreciation rewards for teachers. Enter your phone or Instagram to unlock your teacher-only box.",
       icon: "🍎",
-      theme: "teachers",
-      rewardBoost: "teachers"
+      theme: "teachers"
     },
     dc: {
       key: "dc",
@@ -73,8 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "DC RESIDENT SPECIAL",
       text: "Exclusive local rewards for DC residents. Scan, unlock, and enjoy a locals-only Allure experience.",
       icon: "📍",
-      theme: "dc",
-      rewardBoost: "dc"
+      theme: "dc"
     }
   };
 
@@ -179,6 +176,26 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  function normalizeInstagram(value) {
+    const clean = String(value || "").trim();
+    if (!clean) return "";
+    return clean.startsWith("@") ? clean : `@${clean}`;
+  }
+
+  function normalizePhone(value) {
+    return String(value || "").replace(/\D/g, "");
+  }
+
+  function isValidInstagram(value) {
+    const clean = String(value || "").trim().replace(/^@/, "");
+    return /^[a-zA-Z0-9._]{2,30}$/.test(clean);
+  }
+
+  function isValidPhone(value) {
+    const digits = normalizePhone(value);
+    return digits.length >= 10;
+  }
+
   function getStoredLeads() {
     try {
       const raw = localStorage.getItem(LEADS_STORAGE_KEY);
@@ -214,26 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function normalizeInstagram(value) {
-    const clean = String(value || "").trim();
-    if (!clean) return "";
-    return clean.startsWith("@") ? clean : `@${clean}`;
-  }
-
-  function normalizePhone(value) {
-    return String(value || "").replace(/\D/g, "");
-  }
-
-  function isValidInstagram(value) {
-    const clean = String(value || "").trim().replace(/^@/, "");
-    return /^[a-zA-Z0-9._]{2,30}$/.test(clean);
-  }
-
-  function isValidPhone(value) {
-    const digits = normalizePhone(value);
-    return digits.length >= 10;
-  }
-
   function getSocialProofCount(day, offerKey = "") {
     const base = {
       sunday: 31,
@@ -253,6 +250,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return (base[day] || 37) + (offerBoost[offerKey] || 0);
   }
+
+  /* =========================
+     HERO CONTENT
+  ========================= */
 
   function getGameHeroContent(day, offerConfig) {
     if (offerConfig?.key === "vip") {
@@ -384,24 +385,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     DAY PROMO CARD + STYLES
+     MENU ENHANCEMENT STYLES
   ========================= */
-
-  function getPromoCard(day) {
-    const promo = DAILY_PROMOS[day] || DAILY_PROMOS.monday;
-    return `
-      <div class="promoDayCard promoDayCard--${promo.theme}">
-        <div class="promoDayCard__smoke"></div>
-        <div class="promoDayCard__inner">
-          <div class="promoDayCard__copy">
-            <div class="promoDayCard__title">${promo.label}</div>
-            <div class="promoDayCard__text">${promo.text}</div>
-          </div>
-          <div class="promoDayCard__icon">${promo.icon}</div>
-        </div>
-      </div>
-    `;
-  }
 
   function injectMenuEnhancementStyles() {
     if (document.getElementById("allureMenuEnhancementStyles")) return;
@@ -927,18 +912,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       @keyframes goldRewardFlash{
-        0%{
-          transform:scale(1);
-          filter:brightness(1);
-        }
-        30%{
-          transform:scale(1.08);
-          filter:brightness(1.15);
-        }
-        100%{
-          transform:scale(1);
-          filter:brightness(1);
-        }
+        0%{ transform:scale(1); filter:brightness(1); }
+        30%{ transform:scale(1.08); filter:brightness(1.15); }
+        100%{ transform:scale(1); filter:brightness(1); }
       }
 
       @media (max-width: 1100px){
@@ -1095,6 +1071,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ...content,
       sections: content.sections.map(section => {
         if (section.layout === "grouped") return section;
+
         const split = splitShotsAndDrinks(section.items || []);
         return {
           ...section,
@@ -1239,7 +1216,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.appendChild(overlay);
 
-    overlay.addEventListener("click", (e) => {
+    overlay.addEventListener("click", e => {
       if (e.target === overlay) closeLeadModal();
     });
 
@@ -1436,7 +1413,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function bindGameUI(root, context) {
-    const { panel, day, items, entryType, instagram, phone, offerKey, mobileOverlay } = context;
+    const {
+      panel,
+      day,
+      items,
+      entryType,
+      instagram,
+      phone,
+      offerKey,
+      mobileOverlay
+    } = context;
 
     const boxes = [...root.querySelectorAll(".mysteryBox")];
     const revealText = root.querySelector("#revealText");
@@ -1507,15 +1493,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panel.innerHTML = `
       <div class="hybridGame">
-        ${offerConfig ? `
-          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
-        ` : ""}
+        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
         ${getPromoCard(day)}
 
         <div class="hybridTitle">${copy.title}</div>
-        <div class="hybridSub">
-          ${copy.text}
-        </div>
+        <div class="hybridSub">${copy.text}</div>
 
         <div class="hybridActions">
           <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">${copy.igLabel}</button>
@@ -1533,7 +1515,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderGame(panel, leadInfo) {
-    const { entryType = "ig", instagram = "", phone = "", day = getTodayName() } = leadInfo || {};
+    const {
+      entryType = "ig",
+      instagram = "",
+      phone = "",
+      day = getTodayName()
+    } = leadInfo || {};
+
     const offerConfig = getOfferConfig();
     const offerKey = offerConfig?.key || "";
     const items = getGameItems(entryType, offerKey);
@@ -1544,9 +1532,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="mysteryBackBtn" type="button" data-back>Back</button>
         </div>
 
-        ${offerConfig ? `
-          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
-        ` : ""}
+        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
 
         <div class="mysteryMetaTop">
           ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
@@ -1701,7 +1687,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     TOP GAME HERO ACTION
+     HERO BUTTON ACTION
   ========================= */
 
   function openGameFromHero() {
