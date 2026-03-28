@@ -13,6 +13,13 @@ html{
   scroll-behavior:smooth;
 }
 
+html,
+body{
+  overflow-x:hidden;
+  height:auto !important;
+  overflow-y:auto !important;
+}
+
 .menu-page{
   background:
     radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
@@ -20,13 +27,6 @@ html{
     radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
     linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
   color:#fff;
-}
-
-html,
-body{
-  overflow-x:hidden;
-  height:auto !important;
-  overflow-y:auto !important;
 }
 
 .menuWrap{
@@ -37,6 +37,10 @@ body{
 .container{
   overflow:visible !important;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 .header{
   backdrop-filter:blur(10px);
@@ -60,6 +64,10 @@ body{
 .nav__list a:hover{
   color:var(--gold2);
 }
+
+/* =========================
+   OFFER BANNER
+========================= */
 
 .offerExperienceBanner{
   position:relative;
@@ -151,6 +159,10 @@ body{
     linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
 }
 
+/* =========================
+   WELCOME STRIP
+========================= */
+
 .menuWelcomeStrip{
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
@@ -184,7 +196,9 @@ body{
   line-height:1.5;
 }
 
-/* ===== TOP GAME HERO ===== */
+/* =========================
+   TOP GAME HERO
+========================= */
 
 .gameHero{
   margin:0 0 26px;
@@ -349,6 +363,18 @@ body{
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
+.gameHero--tuesday .gameHero__card{
+  border-color:rgba(255,180,80,.28);
+}
+
+.gameHero--thursday .gameHero__card{
+  border-color:rgba(255,120,190,.24);
+}
+
+.gameHero--sunday .gameHero__card{
+  border-color:rgba(120,190,255,.24);
+}
+
 .gameHero--friday .gameHero__card,
 .gameHero--saturday .gameHero__card{
   border-color:rgba(215,180,106,.34);
@@ -363,21 +389,13 @@ body{
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
-.gameHero--tuesday .gameHero__card{
-  border-color:rgba(255,180,80,.28);
-}
-
-.gameHero--thursday .gameHero__card{
-  border-color:rgba(255,120,190,.24);
-}
-
-.gameHero--sunday .gameHero__card{
-  border-color:rgba(120,190,255,.24);
-}
-
 .gameHero--pulse .gameHero__card{
   animation:gameHeroPulse 4.8s ease-in-out infinite;
 }
+
+/* =========================
+   DAY TABS
+========================= */
 
 .dayTabs{
   display:flex;
@@ -429,6 +447,10 @@ body{
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
+/* =========================
+   DAY PANELS
+========================= */
+
 .dayPanel{
   display:none;
 }
@@ -471,6 +493,10 @@ body{
   font-weight:500;
 }
 
+/* =========================
+   MENU LAYOUT
+========================= */
+
 .menuSplit{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -496,6 +522,25 @@ body{
 .menuBottomCategories{
   grid-template-columns:repeat(6,1fr);
 }
+
+.outsideBottom{
+  margin-top:14px !important;
+  display:flex !important;
+  gap:10px !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+  position:relative;
+  z-index:2;
+}
+
+.outsideBottom .menuCenterBtn{
+  opacity:.95;
+  border:1px solid rgba(255,255,255,.15);
+}
+
+/* =========================
+   CATEGORY BUTTONS
+========================= */
 
 .menuCenterBtn{
   appearance:none;
@@ -537,6 +582,10 @@ body{
   border-color:rgba(255,94,219,.24);
   background:linear-gradient(135deg, rgba(255,94,219,.16), rgba(215,180,106,.12));
 }
+
+/* =========================
+   MENU PANELS
+========================= */
 
 .menuBigPanel{
   position:relative;
@@ -606,20 +655,45 @@ body{
   background:transparent;
 }
 
-.outsideBottom{
-  margin-top:14px !important;
-  display:flex !important;
-  gap:10px !important;
-  flex-wrap:wrap !important;
-  justify-content:center !important;
+.menuPanelBody::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:.25;
+  z-index:0;
+  transition:.5s;
+}
+
+.menuPanelBody::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.6));
+  z-index:1;
+}
+
+.menuPanelBody *{
   position:relative;
   z-index:2;
 }
 
-.outsideBottom .menuCenterBtn{
-  opacity:.95;
-  border:1px solid rgba(255,255,255,.15);
+.menuPanelBody[data-bg="food"]::before{
+  background-image:url("../images/food.jpg");
 }
+
+.menuPanelBody[data-bg="hookah23"]::before{
+  background-image:url("../images/hookah.jpg");
+}
+
+.menuPanelBody[data-bg="game"]::before{
+  background-image:url("../images/game.jpg");
+}
+
+/* =========================
+   EMPTY / START STATES
+========================= */
 
 .menuEmpty{
   border-radius:18px;
@@ -678,6 +752,10 @@ body{
   color:rgba(255,255,255,.56);
 }
 
+/* =========================
+   SUB TABS
+========================= */
+
 .menuNested{
   display:grid;
   gap:14px;
@@ -717,6 +795,10 @@ body{
 .menuSubBody{
   display:block;
 }
+
+/* =========================
+   MENU ITEMS
+========================= */
 
 .menuPanelBody .menuList,
 .menuGrouped__box .menuList{
@@ -774,6 +856,10 @@ body{
   color:var(--gold2);
   margin-left:12px;
 }
+
+/* =========================
+   GROUPED MENU
+========================= */
 
 .menuGrouped{
   max-width:980px;
@@ -850,6 +936,10 @@ body{
   border-bottom:1px solid rgba(215,180,106,.18);
   text-align:left;
 }
+
+/* =========================
+   LEGACY GAME STYLES
+========================= */
 
 .gameShell{
   display:grid;
@@ -1014,6 +1104,10 @@ body{
   line-height:1.5;
 }
 
+/* =========================
+   FORM / STAFF INPUT
+========================= */
+
 .staffBox{
   border:1px solid rgba(255,255,255,.10);
   background:rgba(255,255,255,.03);
@@ -1043,6 +1137,10 @@ body{
   font-size:12px;
   color:rgba(255,255,255,.72);
 }
+
+/* =========================
+   HYBRID GAME
+========================= */
 
 .hybridGame{
   display:grid;
@@ -1090,6 +1188,10 @@ body{
   color:#fff;
   border:1px solid rgba(255,255,255,.12);
 }
+
+/* =========================
+   LEAD MODAL
+========================= */
 
 .leadModalOverlay{
   position:fixed;
@@ -1158,6 +1260,10 @@ body{
 .leadModal__grid .hybridBtn{
   min-height:46px;
 }
+
+/* =========================
+   MYSTERY GAME
+========================= */
 
 .mysteryGameShell{
   position:relative;
@@ -1297,48 +1403,9 @@ body{
   color:#f2d38a;
 }
 
-.menuPanelBody{
-  position:relative;
-  overflow:hidden;
-  border-radius:14px;
-  transition:.4s;
-}
-
-.menuPanelBody::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  opacity:.25;
-  z-index:0;
-  transition:.5s;
-}
-
-.menuPanelBody::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.6));
-  z-index:1;
-}
-
-.menuPanelBody *{
-  position:relative;
-  z-index:2;
-}
-
-.menuPanelBody[data-bg="food"]::before{
-  background-image:url("../images/food.jpg");
-}
-
-.menuPanelBody[data-bg="hookah23"]::before{
-  background-image:url("../images/hookah.jpg");
-}
-
-.menuPanelBody[data-bg="game"]::before{
-  background-image:url("../images/game.jpg");
-}
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width:1100px){
   .menuTopCategories{
@@ -1491,6 +1558,10 @@ body{
   }
 }
 
+/* =========================
+   ANIMATIONS
+========================= */
+
 @keyframes allureSoftReveal{
   from{
     opacity:0;
@@ -1503,8 +1574,14 @@ body{
 }
 
 @keyframes promoSmokeFloat{
-  0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
-  50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
+  0%,100%{
+    transform:translate(0,0) scale(1);
+    opacity:.82;
+  }
+  50%{
+    transform:translate(8px,-8px) scale(1.06);
+    opacity:1;
+  }
 }
 
 @keyframes gameHeroGlowFloat{
