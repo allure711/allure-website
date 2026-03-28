@@ -938,173 +938,6 @@ body{
 }
 
 /* =========================
-   LEGACY GAME STYLES
-========================= */
-
-.gameShell{
-  display:grid;
-  gap:14px;
-}
-
-.gameTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.gameTitle{
-  font-size:18px;
-  font-weight:950;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--gold2);
-}
-
-.gameSub{
-  color:rgba(255,255,255,.72);
-  font-size:12px;
-  line-height:1.5;
-  margin-top:4px;
-  max-width:680px;
-}
-
-.gameBadgeRow{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.gameBadge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:7px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  font-size:11px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-}
-
-.gameBadge--gold{
-  color:var(--gold2);
-  border-color:rgba(215,180,106,.30);
-  background:rgba(215,180,106,.08);
-}
-
-.boxGrid{
-  display:grid;
-  grid-template-columns:repeat(6, minmax(0, 1fr));
-  gap:10px;
-}
-
-.boxCell{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(135deg, rgba(255,94,219,.14), rgba(215,180,106,.14));
-  min-height:54px;
-  border-radius:14px;
-  color:#fff;
-  font-weight:900;
-  font-size:12px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  cursor:pointer;
-  box-shadow:0 10px 24px rgba(0,0,0,.12);
-  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease;
-}
-
-.boxCell:hover{
-  transform:translateY(-2px);
-  border-color:rgba(215,180,106,.34);
-}
-
-.boxCell.is-revealed{
-  background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.06));
-  border-color:rgba(215,180,106,.36);
-}
-
-.boxCell.is-locked{
-  opacity:.38;
-  cursor:not-allowed;
-}
-
-.gameReveal{
-  border:1px solid rgba(215,180,106,.20);
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-  border-radius:18px;
-  padding:16px;
-  text-align:center;
-}
-
-.gameRevealLabel{
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.70);
-  margin-bottom:8px;
-}
-
-.gameRevealText{
-  font-size:22px;
-  font-weight:950;
-  line-height:1.15;
-  color:#fff;
-}
-
-.gameRevealCode{
-  margin-top:10px;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--gold2);
-}
-
-.gameActions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.gameBtn{
-  appearance:none;
-  border:none;
-  border-radius:12px;
-  padding:10px 14px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.gameBtn--gold{
-  background:linear-gradient(135deg, #d7b46a, #f2d38a);
-  color:#111;
-}
-
-.gameBtn--ghost{
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-}
-
-.gameBtn[disabled]{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-.gameHint{
-  font-size:12px;
-  color:rgba(255,255,255,.68);
-  line-height:1.5;
-}
-
-/* =========================
    FORM / STAFF INPUT
 ========================= */
 
@@ -1267,6 +1100,7 @@ body{
 
 .mysteryGameShell{
   position:relative;
+  width:100%;
 }
 
 .mysteryGameTopbar{
@@ -1349,6 +1183,7 @@ body{
   display:grid;
   grid-template-columns:repeat(8,minmax(0,1fr));
   gap:6px;
+  width:100%;
 }
 
 .mysteryBox{
@@ -1371,7 +1206,7 @@ body{
   word-break:break-word;
   overflow:hidden;
   box-shadow:0 8px 18px rgba(0,0,0,.12);
-  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease;
+  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease, box-shadow .18s ease;
 }
 
 .mysteryBox:hover{
@@ -1391,6 +1226,19 @@ body{
   cursor:not-allowed;
 }
 
+.mysteryBox.is-winning{
+  border-color:rgba(242,211,138,.9);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 40%),
+    linear-gradient(135deg, rgba(242,211,138,.92), rgba(215,180,106,.78));
+  color:#111;
+  box-shadow:
+    0 0 0 1px rgba(242,211,138,.55),
+    0 0 26px rgba(242,211,138,.38),
+    0 14px 34px rgba(0,0,0,.24);
+  animation:goldRewardFlash .9s ease;
+}
+
 .mysteryReveal{
   display:none;
 }
@@ -1401,6 +1249,86 @@ body{
   font-weight:900;
   line-height:1.25;
   color:#f2d38a;
+}
+
+/* =========================
+   FULLSCREEN PHONE GAME OVERLAY
+========================= */
+
+.gameOverlay{
+  position:fixed;
+  inset:0;
+  z-index:10050;
+  background:
+    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
+    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
+    linear-gradient(180deg, rgba(5,5,9,.98), rgba(9,9,16,.98));
+}
+
+.gameOverlay__scroll{
+  width:100vw;
+  height:100dvh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding:14px 10px calc(24px + env(safe-area-inset-bottom));
+  box-sizing:border-box;
+}
+
+.gameOverlay__panel{
+  width:100%;
+  max-width:100%;
+  margin:0 auto;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(12px);
+  padding:12px;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+.gameOverlay .hybridGame,
+.gameOverlay .mysteryGameShell{
+  width:100%;
+  max-width:100%;
+}
+
+.gameOverlay .mysteryRewardTop{
+  display:block;
+}
+
+.gameOverlay .mysteryGrid{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  gap:10px !important;
+  width:100% !important;
+}
+
+.gameOverlay .mysteryBox{
+  min-height:92px !important;
+  font-size:20px !important;
+  border-radius:16px !important;
+  padding:10px 6px !important;
+  width:100% !important;
+}
+
+.gameOverlay .mysteryBox.is-open{
+  font-size:11px !important;
+  padding:8px !important;
+}
+
+.gameOverlay .mysteryGameShell .hybridTitle{
+  font-size:14px;
+  line-height:1.15;
+  word-break:break-word;
+}
+
+.gameOverlay .mysteryRewardTop__text{
+  font-size:12px;
 }
 
 /* =========================
@@ -1556,6 +1484,47 @@ body{
     font-size:10px;
     padding:6px 4px;
   }
+
+  .gameOverlay__scroll{
+    padding:12px 10px calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .gameOverlay__panel{
+    padding:12px;
+    border-radius:20px;
+  }
+
+  .gameOverlay .mysteryGrid{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    gap:10px !important;
+  }
+
+  .gameOverlay .mysteryBox{
+    min-height:92px !important;
+    font-size:20px !important;
+    border-radius:16px !important;
+  }
+}
+
+@media (min-width:521px) and (max-width:760px){
+  .gameOverlay__scroll{
+    padding:18px 14px calc(28px + env(safe-area-inset-bottom));
+  }
+
+  .gameOverlay__panel{
+    padding:16px;
+    border-radius:24px;
+  }
+
+  .gameOverlay .mysteryGrid{
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+    gap:10px !important;
+  }
+
+  .gameOverlay .mysteryBox{
+    min-height:82px !important;
+    font-size:18px !important;
+  }
 }
 
 /* =========================
@@ -1610,5 +1579,20 @@ body{
       0 0 34px rgba(215,180,106,.16),
       0 0 20px rgba(155,70,255,.08),
       inset 0 1px 0 rgba(255,255,255,.05);
+  }
+}
+
+@keyframes goldRewardFlash{
+  0%{
+    transform:scale(1);
+    filter:brightness(1);
+  }
+  30%{
+    transform:scale(1.08);
+    filter:brightness(1.15);
+  }
+  100%{
+    transform:scale(1);
+    filter:brightness(1);
   }
 }
