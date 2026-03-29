@@ -61,96 +61,6 @@ body{
   color:var(--gold2);
 }
 
-.offerExperienceBanner{
-  position:relative;
-  overflow:hidden;
-  border-radius:22px;
-  margin:2px 0 16px;
-  padding:16px 18px;
-  border:1px solid rgba(215,180,106,.22);
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.02),
-    0 20px 46px rgba(0,0,0,.26),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.offerExperienceBanner__glow{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 18% 28%, rgba(255,255,255,.08), transparent 28%),
-    radial-gradient(circle at 86% 72%, rgba(215,180,106,.12), transparent 30%);
-  filter:blur(16px);
-}
-
-.offerExperienceBanner__inner{
-  position:relative;
-  z-index:2;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-}
-
-.offerExperienceBanner__eyebrow{
-  font-size:11px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:#f2d38a;
-  margin-bottom:6px;
-}
-
-.offerExperienceBanner__title{
-  font-size:26px;
-  font-weight:950;
-  line-height:1.05;
-  color:#fff;
-  letter-spacing:-.02em;
-}
-
-.offerExperienceBanner__text{
-  margin-top:8px;
-  color:rgba(255,255,255,.82);
-  font-size:14px;
-  line-height:1.5;
-  max-width:760px;
-}
-
-.offerExperienceBanner__icon{
-  flex:0 0 auto;
-  font-size:34px;
-  line-height:1;
-  filter:drop-shadow(0 0 10px rgba(215,180,106,.22));
-}
-
-.offerExperienceBanner--vip{
-  border-color:rgba(215,180,106,.34);
-  background:
-    radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
-    radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-}
-
-.offerExperienceBanner--teachers{
-  border-color:rgba(255,210,90,.26);
-  background:
-    radial-gradient(circle at top right, rgba(255,210,90,.12), transparent 36%),
-    radial-gradient(circle at top left, rgba(120,180,255,.08), transparent 34%),
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-}
-
-.offerExperienceBanner--dc{
-  border-color:rgba(120,190,255,.24);
-  background:
-    radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
-    radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-}
-
 .menuWelcomeStrip{
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
@@ -182,201 +92,6 @@ body{
   color:rgba(255,255,255,.78);
   font-size:14px;
   line-height:1.5;
-}
-
-/* ===== TOP GAME HERO ===== */
-
-.gameHero{
-  margin:0 0 26px;
-  position:relative;
-  z-index:2;
-}
-
-.gameHero__card{
-  position:relative;
-  overflow:hidden;
-  border-radius:24px;
-  padding:20px 22px;
-  border:1px solid rgba(215,180,106,.24);
-  background:
-    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(155,70,255,.10), transparent 34%),
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-  box-shadow:
-    0 22px 46px rgba(0,0,0,.26),
-    0 0 24px rgba(215,180,106,.10),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.gameHero__card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:24px;
-  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.035) 18%, transparent 38%);
-  pointer-events:none;
-}
-
-.gameHero__glow{
-  position:absolute;
-  inset:-20% -10%;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 20% 35%, rgba(255,255,255,.08), transparent 24%),
-    radial-gradient(circle at 78% 22%, rgba(215,180,106,.12), transparent 28%),
-    radial-gradient(circle at 72% 78%, rgba(155,70,255,.08), transparent 24%);
-  filter:blur(30px);
-  animation:gameHeroGlowFloat 8s ease-in-out infinite;
-}
-
-.gameHero__content{
-  position:relative;
-  z-index:2;
-  display:grid;
-  gap:14px;
-}
-
-.gameHero__meta{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.gameHero__eyebrow{
-  font-size:11px;
-  font-weight:950;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:#f2d38a;
-  text-shadow:
-    0 0 10px rgba(242,211,138,.16),
-    0 0 18px rgba(215,180,106,.10);
-}
-
-.gameHero__socialProof{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.20);
-  background:rgba(255,255,255,.04);
-  color:rgba(255,255,255,.86);
-  font-size:12px;
-  font-weight:800;
-  line-height:1;
-  white-space:nowrap;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.04),
-    0 8px 24px rgba(0,0,0,.14);
-}
-
-.gameHero__title{
-  font-size:28px;
-  font-weight:950;
-  line-height:1.05;
-  letter-spacing:-.02em;
-  color:#fff;
-  max-width:760px;
-}
-
-.gameHero__text{
-  max-width:760px;
-  color:rgba(255,255,255,.82);
-  font-size:14px;
-  line-height:1.6;
-}
-
-.gameHero__actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.gameHero__btn{
-  appearance:none;
-  border:none;
-  border-radius:999px;
-  min-height:46px;
-  padding:12px 18px;
-  font-weight:900;
-  font-size:13px;
-  letter-spacing:.02em;
-  cursor:pointer;
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    border-color .18s ease,
-    background .18s ease,
-    color .18s ease;
-}
-
-.gameHero__btn:hover{
-  transform:translateY(-1px);
-}
-
-.gameHero__btn--gold{
-  background:linear-gradient(135deg, #d7b46a, #f2d38a);
-  color:#111;
-  box-shadow:
-    0 12px 28px rgba(215,180,106,.22),
-    0 0 16px rgba(215,180,106,.10),
-    inset 0 1px 0 rgba(255,255,255,.16);
-}
-
-.gameHero__btn--ghost{
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.gameHero__btn--ghost:hover{
-  border-color:rgba(215,180,106,.26);
-  color:var(--gold2);
-  background:rgba(215,180,106,.08);
-}
-
-.gameHero--monday .gameHero__card{
-  border-color:rgba(215,180,106,.30);
-  box-shadow:
-    0 22px 46px rgba(0,0,0,.26),
-    0 0 26px rgba(215,180,106,.14),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.gameHero--friday .gameHero__card,
-.gameHero--saturday .gameHero__card{
-  border-color:rgba(215,180,106,.34);
-  background:
-    radial-gradient(circle at top right, rgba(155,70,255,.14), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(215,180,106,.12), transparent 34%),
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-  box-shadow:
-    0 22px 46px rgba(0,0,0,.26),
-    0 0 30px rgba(215,180,106,.14),
-    0 0 18px rgba(155,70,255,.10),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.gameHero--tuesday .gameHero__card{
-  border-color:rgba(255,180,80,.28);
-}
-
-.gameHero--thursday .gameHero__card{
-  border-color:rgba(255,120,190,.24);
-}
-
-.gameHero--sunday .gameHero__card{
-  border-color:rgba(120,190,255,.24);
-}
-
-.gameHero--pulse .gameHero__card{
-  animation:gameHeroPulse 4.8s ease-in-out infinite;
 }
 
 .dayTabs{
@@ -1044,6 +759,89 @@ body{
   color:rgba(255,255,255,.72);
 }
 
+@media (max-width:1100px){
+  .menuTopCategories{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .menuBottomCategories{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media (max-width:920px){
+  .menuSplit{
+    grid-template-columns:1fr;
+  }
+
+  .heroRow{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .menuWelcomeStrip{
+    grid-template-columns:1fr;
+  }
+
+  .menuGrouped__grid,
+  .menuPanelBody .menuGrouped__grid{
+    grid-template-columns:1fr;
+  }
+
+  .menuPanelBody .menuList,
+  .menuGrouped__box .menuList{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .boxGrid{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width:640px){
+  .menuWrap{
+    padding-bottom:80px;
+  }
+
+  .menuTopCategories,
+  .menuBottomCategories{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .menuItem__price{
+    margin-left:0;
+    min-width:auto;
+    text-align:left;
+    white-space:normal;
+  }
+
+  .boxGrid{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:8px;
+  }
+
+  .boxCell{
+    min-height:50px;
+    font-size:11px;
+  }
+}
+
+@keyframes allureSoftReveal{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* =========================
+   24 BOX GAME RESTORE
+========================= */
+
 .hybridGame{
   display:grid;
   gap:12px;
@@ -1091,154 +889,7 @@ body{
   border:1px solid rgba(255,255,255,.12);
 }
 
-.leadModalOverlay{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(4px);
-  z-index:9999;
-  padding:20px;
-}
-
-.leadModal{
-  width:100%;
-  max-width:420px;
-  border-radius:18px;
-  border:1px solid rgba(215,180,106,.26);
-  background:
-    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 35%),
-    linear-gradient(180deg, rgba(23,23,25,.98), rgba(12,12,14,.98));
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.55),
-    inset 0 1px 0 rgba(255,255,255,.04);
-  padding:18px;
-  position:relative;
-}
-
-.leadModal__close{
-  position:absolute;
-  top:10px;
-  right:12px;
-  border:none;
-  background:transparent;
-  color:rgba(255,255,255,.7);
-  font-size:22px;
-  cursor:pointer;
-}
-
-.leadModal__title{
-  font-size:12px;
-  font-weight:950;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:#f2d38a;
-  margin-bottom:8px;
-}
-
-.leadModal__sub{
-  color:rgba(255,255,255,.76);
-  font-size:13px;
-  line-height:1.45;
-  margin-bottom:12px;
-}
-
-.leadModal__grid{
-  display:grid;
-  gap:10px;
-}
-
-.leadModal__grid .staffInput{
-  min-height:46px;
-  padding:12px 14px;
-}
-
-.leadModal__grid .hybridBtn{
-  min-height:46px;
-}
-
-.mysteryGameShell{
-  position:relative;
-}
-
-.mysteryGameTopbar{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  margin-bottom:4px;
-}
-
-.mysteryBackBtn{
-  border:1px solid rgba(215,180,106,.28);
-  background:rgba(255,255,255,.03);
-  color:#f2d38a;
-  border-radius:999px;
-  padding:6px 10px;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  cursor:pointer;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.mysteryMetaTop{
-  color:rgba(255,255,255,.72);
-  font-size:11px;
-  line-height:1.2;
-  margin-bottom:4px;
-}
-
-.mysteryRewardTop{
-  display:none;
-  margin-bottom:6px;
-  border:1px solid rgba(215,180,106,.24);
-  background:linear-gradient(180deg, rgba(215,180,106,.12), rgba(255,255,255,.03));
-  border-radius:12px;
-  padding:8px 10px;
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.mysteryRewardTop.is-visible{
-  display:block;
-}
-
-.mysteryRewardTop__label{
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.66);
-  margin-bottom:4px;
-}
-
-.mysteryRewardTop__text{
-  font-size:13px;
-  font-weight:900;
-  line-height:1.2;
-  color:#f2d38a;
-}
-
-.mysteryOfferBadge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:8px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid rgba(215,180,106,.26);
-  background:rgba(215,180,106,.08);
-  color:#f2d38a;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
-
+/* 24 boxes tighter */
 .mysteryGrid{
   display:grid;
   grid-template-columns:repeat(8,minmax(0,1fr));
@@ -1286,7 +937,12 @@ body{
 }
 
 .mysteryReveal{
-  display:none;
+  border:1px solid rgba(215,180,106,.20);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border-radius:14px;
+  padding:10px 12px;
+  text-align:center;
+  margin-top:6px;
 }
 
 .mysteryRevealText{
@@ -1304,6 +960,7 @@ body{
   transition:.4s;
 }
 
+/* IMAGE */
 .menuPanelBody::before{
   content:"";
   position:absolute;
@@ -1315,6 +972,7 @@ body{
   transition:.5s;
 }
 
+/* DARK OVERLAY */
 .menuPanelBody::after{
   content:"";
   position:absolute;
@@ -1323,11 +981,13 @@ body{
   z-index:1;
 }
 
+/* CONTENT ABOVE */
 .menuPanelBody *{
   position:relative;
   z-index:2;
 }
 
+/* 🔥 BACKGROUNDS */
 .menuPanelBody[data-bg="food"]::before{
   background-image:url("../images/food.jpg");
 }
@@ -1341,81 +1001,12 @@ body{
 }
 
 @media (max-width:1100px){
-  .menuTopCategories{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .menuBottomCategories{
-    grid-template-columns:repeat(3,1fr);
-  }
-
   .mysteryGrid{
     grid-template-columns:repeat(6,minmax(0,1fr));
   }
 }
 
-@media (max-width:920px){
-  .menuSplit{
-    grid-template-columns:1fr;
-  }
-
-  .heroRow{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .menuWelcomeStrip{
-    grid-template-columns:1fr;
-  }
-
-  .menuGrouped__grid,
-  .menuPanelBody .menuGrouped__grid{
-    grid-template-columns:1fr;
-  }
-
-  .menuPanelBody .menuList,
-  .menuGrouped__box .menuList{
-    grid-template-columns:1fr;
-    gap:8px;
-  }
-
-  .boxGrid{
-    grid-template-columns:repeat(4, minmax(0, 1fr));
-  }
-
-  .gameHero__meta{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-}
-
 @media (max-width:760px){
-  .offerExperienceBanner__title{
-    font-size:22px;
-  }
-
-  .offerExperienceBanner__inner{
-    align-items:flex-start;
-  }
-
-  .gameHero__card{
-    padding:18px 16px;
-    border-radius:20px;
-  }
-
-  .gameHero__title{
-    font-size:24px;
-  }
-
-  .gameHero__actions{
-    flex-direction:column;
-    align-items:stretch;
-  }
-
-  .gameHero__btn{
-    width:100%;
-  }
-
   .mysteryGrid{
     grid-template-columns:repeat(4,minmax(0,1fr));
     gap:6px;
@@ -1428,57 +1019,7 @@ body{
   }
 }
 
-@media (max-width:640px){
-  .menuWrap{
-    padding-bottom:80px;
-  }
-
-  .menuTopCategories,
-  .menuBottomCategories{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .menuItem__price{
-    margin-left:0;
-    min-width:auto;
-    text-align:left;
-    white-space:normal;
-  }
-
-  .boxGrid{
-    grid-template-columns:repeat(4, minmax(0, 1fr));
-    gap:8px;
-  }
-
-  .boxCell{
-    min-height:50px;
-    font-size:11px;
-  }
-
-  .gameHero__socialProof{
-    white-space:normal;
-    line-height:1.35;
-  }
-}
-
 @media (max-width:520px){
-  .offerExperienceBanner__inner{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .offerExperienceBanner__icon{
-    font-size:28px;
-  }
-
-  .gameHero__title{
-    font-size:21px;
-  }
-
-  .gameHero__text{
-    font-size:13px;
-  }
-
   .mysteryGrid{
     grid-template-columns:repeat(3,minmax(0,1fr));
     gap:6px;
@@ -1488,50 +1029,5 @@ body{
     min-height:40px;
     font-size:10px;
     padding:6px 4px;
-  }
-}
-
-@keyframes allureSoftReveal{
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-@keyframes promoSmokeFloat{
-  0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
-  50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
-}
-
-@keyframes gameHeroGlowFloat{
-  0%,100%{
-    transform:translate(0,0) scale(1);
-    opacity:.9;
-  }
-  50%{
-    transform:translate(10px,-10px) scale(1.05);
-    opacity:1;
-  }
-}
-
-@keyframes gameHeroPulse{
-  0%,100%{
-    transform:translateY(0);
-    box-shadow:
-      0 22px 46px rgba(0,0,0,.26),
-      0 0 24px rgba(215,180,106,.10),
-      inset 0 1px 0 rgba(255,255,255,.04);
-  }
-  50%{
-    transform:translateY(-1px);
-    box-shadow:
-      0 26px 52px rgba(0,0,0,.28),
-      0 0 34px rgba(215,180,106,.16),
-      0 0 20px rgba(155,70,255,.08),
-      inset 0 1px 0 rgba(255,255,255,.05);
   }
 }
