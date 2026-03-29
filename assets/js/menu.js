@@ -55,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "VIP ACCESS UNLOCKED",
       text: "Exclusive rewards, premium offers, and stronger odds inside the 24 Box Game.",
       icon: "🥂",
-      theme: "vip"
+      theme: "vip",
+      rewardBoost: "vip"
     },
     teachers: {
       key: "teachers",
@@ -63,7 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "TEACHERS APPRECIATION",
       text: "Special appreciation rewards for teachers. Enter your phone or Instagram to unlock your teacher-only box.",
       icon: "🍎",
-      theme: "teachers"
+      theme: "teachers",
+      rewardBoost: "teachers"
     },
     dc: {
       key: "dc",
@@ -71,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "DC RESIDENT SPECIAL",
       text: "Exclusive local rewards for DC residents. Scan, unlock, and enjoy a locals-only Allure experience.",
       icon: "📍",
-      theme: "dc"
+      theme: "dc",
+      rewardBoost: "dc"
     }
   };
 
@@ -106,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
   }
 
-  function isMobileGameView() {
+  function isMobileView() {
     return window.innerWidth <= 760;
   }
 
@@ -176,26 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  function normalizeInstagram(value) {
-    const clean = String(value || "").trim();
-    if (!clean) return "";
-    return clean.startsWith("@") ? clean : `@${clean}`;
-  }
-
-  function normalizePhone(value) {
-    return String(value || "").replace(/\D/g, "");
-  }
-
-  function isValidInstagram(value) {
-    const clean = String(value || "").trim().replace(/^@/, "");
-    return /^[a-zA-Z0-9._]{2,30}$/.test(clean);
-  }
-
-  function isValidPhone(value) {
-    const digits = normalizePhone(value);
-    return digits.length >= 10;
-  }
-
   function getStoredLeads() {
     try {
       const raw = localStorage.getItem(LEADS_STORAGE_KEY);
@@ -231,7 +214,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function getSocialProofCount(day, offerKey = "") {
+  function normalizeInstagram(value) {
+    const clean = String(value || "").trim();
+    if (!clean) return "";
+    return clean.startsWith("@") ? clean : `@${clean}`;
+  }
+
+  function normalizePhone(value) {
+    return String(value || "").replace(/\D/g, "");
+  }
+
+  function isValidInstagram(value) {
+    const clean = String(value || "").trim().replace(/^@/, "");
+    return /^[a-zA-Z0-9._]{2,30}$/.test(clean);
+  }
+
+  function isValidPhone(value) {
+    const digits = normalizePhone(value);
+    return digits.length >= 10;
+  }
+
+  function getHeroProofNumber(day, offerKey = "") {
     const base = {
       sunday: 31,
       monday: 37,
@@ -242,25 +245,21 @@ document.addEventListener("DOMContentLoaded", () => {
       saturday: 71
     };
 
-    const offerBoost = {
+    const bonus = {
       vip: 12,
       teachers: 6,
       dc: 8
     };
 
-    return (base[day] || 37) + (offerBoost[offerKey] || 0);
+    return (base[day] || 37) + (bonus[offerKey] || 0);
   }
-
-  /* =========================
-     HERO CONTENT
-  ========================= */
 
   function getGameHeroContent(day, offerConfig) {
     if (offerConfig?.key === "vip") {
       return {
         title: "VIP Rewards Are Live",
-        text: "Scan in, enter your Instagram or phone, then unlock stronger VIP-only rewards for tonight.",
-        proof: `🔥 ${getSocialProofCount(day, "vip")} VIP guests played tonight`
+        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock stronger VIP-only rewards tonight.",
+        proof: `🔥 ${getHeroProofNumber(day, "vip")} VIP guests played tonight`
       };
     }
 
@@ -268,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return {
         title: "Teachers Appreciation Rewards",
         text: "Enter your Instagram or phone, play the 24 Box Game, and unlock exclusive teacher appreciation perks.",
-        proof: `🔥 ${getSocialProofCount(day, "teachers")} teachers played tonight`
+        proof: `🔥 ${getHeroProofNumber(day, "teachers")} teachers played tonight`
       };
     }
 
@@ -276,11 +275,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return {
         title: "DC Locals Rewards Are Live",
         text: "Enter your Instagram or phone, play the 24 Box Game, and unlock DC residents-only rewards tonight.",
-        proof: `🔥 ${getSocialProofCount(day, "dc")} DC locals played tonight`
+        proof: `🔥 ${getHeroProofNumber(day, "dc")} DC locals played tonight`
       };
     }
 
     const map = {
+      sunday: {
+        title: "Social Sunday Rewards",
+        text: "Play the 24 Box Game for Sunday drink perks, hookah rewards, and surprise offers for tonight."
+      },
       monday: {
         title: "Unlock Monday Rewards",
         text: "Play tonight’s 24 Box Game for Free Hookah Monday perks, food offers, and premium surprise rewards."
@@ -304,46 +307,41 @@ document.addEventListener("DOMContentLoaded", () => {
       saturday: {
         title: "Saturday Prime-Time Rewards",
         text: "Play tonight’s 24 Box Game for high-energy weekend rewards, VIP perks, and premium surprise offers."
-      },
-      sunday: {
-        title: "Social Sunday Rewards",
-        text: "Play the 24 Box Game for Sunday drink perks, hookah rewards, and surprise offers for tonight."
       }
     };
 
-    const content = map[day] || map.monday;
+    const current = map[day] || map.monday;
 
     return {
-      title: content.title,
-      text: content.text,
-      proof: `🔥 ${getSocialProofCount(day)} people played tonight`
+      title: current.title,
+      text: current.text,
+      proof: `🔥 ${getHeroProofNumber(day)} people played tonight`
     };
   }
 
   function updateGameHero(day) {
     const hero = document.getElementById("gameHero");
-    const heroCard = document.getElementById("gameHeroCard");
-    const heroTitle = document.getElementById("gameHeroTitle");
-    const heroText = document.getElementById("gameHeroText");
-    const heroPlays = document.getElementById("gameHeroPlays");
+    const title = document.getElementById("gameHeroTitle");
+    const text = document.getElementById("gameHeroText");
+    const plays = document.getElementById("gameHeroPlays");
     const offerConfig = getOfferConfig();
 
-    if (!hero || !heroCard || !heroTitle || !heroText || !heroPlays) return;
+    if (!hero || !title || !text || !plays) return;
 
     const content = getGameHeroContent(day, offerConfig);
 
-    heroTitle.textContent = content.title;
-    heroText.textContent = content.text;
-    heroPlays.textContent = content.proof;
+    title.textContent = content.title;
+    text.textContent = content.text;
+    plays.textContent = content.proof;
 
     hero.classList.remove(
+      "gameHero--sunday",
       "gameHero--monday",
       "gameHero--tuesday",
       "gameHero--wednesday",
       "gameHero--thursday",
       "gameHero--friday",
       "gameHero--saturday",
-      "gameHero--sunday",
       "gameHero--pulse"
     );
 
@@ -385,8 +383,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     MENU ENHANCEMENT STYLES
+     DAY PROMO CARD + STYLES
   ========================= */
+
+  function getPromoCard(day) {
+    const promo = DAILY_PROMOS[day] || DAILY_PROMOS.monday;
+    return `
+      <div class="promoDayCard promoDayCard--${promo.theme}">
+        <div class="promoDayCard__smoke"></div>
+        <div class="promoDayCard__inner">
+          <div class="promoDayCard__copy">
+            <div class="promoDayCard__title">${promo.label}</div>
+            <div class="promoDayCard__text">${promo.text}</div>
+          </div>
+          <div class="promoDayCard__icon">${promo.icon}</div>
+        </div>
+      </div>
+    `;
+  }
 
   function injectMenuEnhancementStyles() {
     if (document.getElementById("allureMenuEnhancementStyles")) return;
@@ -671,7 +685,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       .mysteryGameShell{
         position:relative;
-        width:100%;
       }
 
       .mysteryGameTopbar{
@@ -692,7 +705,7 @@ document.addEventListener("DOMContentLoaded", () => {
         letter-spacing:.12em;
         text-transform:uppercase;
         cursor:pointer;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
       }
 
       .mysteryMetaTop{
@@ -759,7 +772,6 @@ document.addEventListener("DOMContentLoaded", () => {
         display:grid;
         grid-template-columns:repeat(8, minmax(0, 1fr));
         gap:6px;
-        width:100%;
       }
 
       .mysteryBox{
@@ -801,7 +813,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .mysteryBox.is-locked{
-        opacity:.42;
+        opacity:.36;
         cursor:not-allowed;
       }
 
@@ -837,26 +849,31 @@ document.addEventListener("DOMContentLoaded", () => {
       .gameOverlay{
         position:fixed;
         inset:0;
-        z-index:10050;
+        z-index:10020;
         background:
-          radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
-          radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
-          linear-gradient(180deg, rgba(5,5,9,.98), rgba(9,9,16,.98));
+          radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.14), transparent 60%),
+          radial-gradient(900px 520px at 82% 18%, rgba(150,85,255,.10), transparent 55%),
+          linear-gradient(180deg, rgba(7,7,10,.98), rgba(10,10,16,.98));
+        display:none;
+        overflow:hidden;
+      }
+
+      .gameOverlay.is-open{
+        display:block;
       }
 
       .gameOverlay__scroll{
-        width:100vw;
-        height:100dvh;
+        height:100vh;
         overflow-y:auto;
         overflow-x:hidden;
         -webkit-overflow-scrolling:touch;
-        padding:18px 14px calc(28px + env(safe-area-inset-bottom));
+        padding:10px 8px 24px;
         box-sizing:border-box;
       }
 
       .gameOverlay__panel{
-        width:100%;
-        max-width:100%;
+        width:calc(100vw - 16px);
+        max-width:calc(100vw - 16px);
         margin:0 auto;
         border-radius:24px;
         border:1px solid rgba(255,255,255,.10);
@@ -865,30 +882,45 @@ document.addEventListener("DOMContentLoaded", () => {
           0 24px 60px rgba(0,0,0,.32),
           inset 0 1px 0 rgba(255,255,255,.04);
         backdrop-filter:blur(12px);
-        padding:16px;
-        box-sizing:border-box;
+        padding:12px;
         overflow:hidden;
+        box-sizing:border-box;
       }
 
-      .gameOverlay .hybridGame{
-        gap:14px;
+      .gameOverlay .hybridGame,
+      .gameOverlay .mysteryGameShell,
+      .gameOverlay .mysteryGrid,
+      .gameOverlay .mysteryGameTopbar,
+      .gameOverlay .mysteryRewardTop,
+      .gameOverlay .hybridSub,
+      .gameOverlay .mysteryMetaTop{
         width:100%;
+        max-width:100%;
+        min-width:0;
+        box-sizing:border-box;
       }
 
-      .gameOverlay .mysteryGameShell{
-        width:100%;
+      .gameOverlay .hybridTitle{
+        font-size:clamp(18px, 7vw, 28px);
+        line-height:1.05;
+        word-break:break-word;
+        overflow-wrap:anywhere;
+        max-width:100%;
       }
 
       .gameOverlay .mysteryGrid{
-        grid-template-columns:repeat(3, minmax(0, 1fr));
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
         gap:10px;
       }
 
       .gameOverlay .mysteryBox{
-        min-height:82px;
+        width:100%;
+        min-width:0;
+        min-height:72px;
         font-size:18px;
-        border-radius:16px;
-        padding:10px 6px;
+        border-radius:14px;
+        animation:luxuryPulse 2.4s ease-in-out infinite;
       }
 
       .gameOverlay .mysteryBox.is-open{
@@ -900,26 +932,62 @@ document.addEventListener("DOMContentLoaded", () => {
         display:block;
       }
 
-      .gameOverlay .mysteryGameShell .hybridTitle{
-        font-size:16px;
-        line-height:1.1;
-        word-break:break-word;
-      }
-
       @keyframes promoSmokeFloat{
         0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
         50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
       }
 
+      @keyframes luxuryPulse{
+        0%,100%{
+          box-shadow:
+            0 8px 18px rgba(0,0,0,.12),
+            0 0 0 rgba(215,180,106,0);
+        }
+        50%{
+          box-shadow:
+            0 10px 24px rgba(0,0,0,.16),
+            0 0 18px rgba(215,180,106,.16);
+        }
+      }
+
       @keyframes goldRewardFlash{
-        0%{ transform:scale(1); filter:brightness(1); }
-        30%{ transform:scale(1.08); filter:brightness(1.15); }
-        100%{ transform:scale(1); filter:brightness(1); }
+        0%{
+          transform:scale(1);
+          filter:brightness(1);
+        }
+        30%{
+          transform:scale(1.08);
+          filter:brightness(1.15);
+        }
+        100%{
+          transform:scale(1);
+          filter:brightness(1);
+        }
       }
 
       @media (max-width: 1100px){
         .mysteryGrid{
           grid-template-columns:repeat(6, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 521px) and (max-width: 760px){
+        .gameOverlay__scroll{
+          padding:12px 10px 26px;
+        }
+
+        .gameOverlay__panel{
+          width:calc(100vw - 20px);
+          max-width:calc(100vw - 20px);
+        }
+
+        .gameOverlay .mysteryGrid{
+          grid-template-columns:repeat(3, minmax(0, 1fr));
+        }
+
+        .gameOverlay .mysteryBox{
+          min-height:66px;
+          font-size:16px;
         }
       }
 
@@ -941,16 +1009,6 @@ document.addEventListener("DOMContentLoaded", () => {
           min-height:38px;
           font-size:10px;
           padding:6px 4px;
-        }
-
-        .gameOverlay .mysteryGrid{
-          grid-template-columns:repeat(3, minmax(0, 1fr));
-          gap:10px;
-        }
-
-        .gameOverlay .mysteryBox{
-          min-height:82px;
-          font-size:18px;
         }
       }
 
@@ -975,32 +1033,14 @@ document.addEventListener("DOMContentLoaded", () => {
           padding:6px 4px;
         }
 
-        .gameOverlay__scroll{
-          padding:12px 10px calc(24px + env(safe-area-inset-bottom));
-        }
-
-        .gameOverlay__panel{
-          padding:12px;
-          border-radius:20px;
-        }
-
         .gameOverlay .mysteryGrid{
           grid-template-columns:repeat(2, minmax(0, 1fr));
-          gap:10px;
+          gap:8px;
         }
 
         .gameOverlay .mysteryBox{
-          min-height:92px;
-          font-size:20px;
-          border-radius:16px;
-        }
-
-        .gameOverlay .mysteryGameShell .hybridTitle{
-          font-size:14px;
-        }
-
-        .gameOverlay .mysteryRewardTop__text{
-          font-size:12px;
+          min-height:60px;
+          font-size:15px;
         }
       }
     `;
@@ -1071,7 +1111,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ...content,
       sections: content.sections.map(section => {
         if (section.layout === "grouped") return section;
-
         const split = splitShotsAndDrinks(section.items || []);
         return {
           ...section,
@@ -1216,7 +1255,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.appendChild(overlay);
 
-    overlay.addEventListener("click", e => {
+    overlay.addEventListener("click", (e) => {
       if (e.target === overlay) closeLeadModal();
     });
 
@@ -1394,35 +1433,126 @@ document.addEventListener("DOMContentLoaded", () => {
     activeGameOverlay = null;
   }
 
-  function openGameOverlay() {
+  function openGameOverlay(contentNode) {
     closeGameOverlay();
 
     const overlay = document.createElement("div");
-    overlay.className = "gameOverlay";
+    overlay.className = "gameOverlay is-open";
     overlay.innerHTML = `
       <div class="gameOverlay__scroll">
         <div class="gameOverlay__panel"></div>
       </div>
     `;
 
+    overlay.querySelector(".gameOverlay__panel").appendChild(contentNode);
     document.body.appendChild(overlay);
     document.body.style.overflow = "hidden";
     activeGameOverlay = overlay;
 
-    return overlay.querySelector(".gameOverlay__panel");
+    const scrollWrap = activeGameOverlay.querySelector(".gameOverlay__scroll");
+    if (scrollWrap) {
+      scrollWrap.scrollTop = 0;
+      scrollWrap.scrollLeft = 0;
+    }
   }
 
-  function bindGameUI(root, context) {
-    const {
-      panel,
-      day,
-      items,
-      entryType,
-      instagram,
-      phone,
-      offerKey,
-      mobileOverlay
-    } = context;
+  function renderLeadGate(panel, day = getTodayName()) {
+    injectMenuEnhancementStyles();
+
+    const offerConfig = getOfferConfig();
+    const copy = getLeadGateCopy(offerConfig);
+
+    panel.innerHTML = `
+      <div class="hybridGame">
+        ${offerConfig ? `
+          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
+        ` : ""}
+        ${getPromoCard(day)}
+
+        <div class="hybridTitle">${copy.title}</div>
+        <div class="hybridSub">
+          ${copy.text}
+        </div>
+
+        <div class="hybridActions">
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">${copy.igLabel}</button>
+          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">${copy.phoneLabel}</button>
+          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">${copy.vipLabel}</button>
+        </div>
+      </div>
+    `;
+
+    panel.querySelectorAll("[data-entry]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        openLeadModal(btn.dataset.entry, panel, day);
+      });
+    });
+  }
+
+  function renderGame(panel, leadInfo) {
+    const { entryType = "ig", instagram = "", phone = "", day = getTodayName() } = leadInfo || {};
+    const offerConfig = getOfferConfig();
+    const offerKey = offerConfig?.key || "";
+    const items = getGameItems(entryType, offerKey);
+
+    const gameMarkup = `
+      <div class="hybridGame mysteryGameShell">
+        <div class="mysteryGameTopbar">
+          <button class="mysteryBackBtn" type="button" data-back>Back</button>
+        </div>
+
+        ${offerConfig ? `
+          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
+        ` : ""}
+
+        <div class="mysteryMetaTop">
+          ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
+          ${entryType === "phone" ? `Phone: ${phone}` : ""}
+          ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
+        </div>
+
+        <div class="mysteryRewardTop" id="rewardTop">
+          <div class="mysteryRewardTop__label">You Won</div>
+          <div class="mysteryRewardTop__text" id="rewardTopText">Pick a box to reveal your reward</div>
+        </div>
+
+        <div class="hybridTitle">🎁 Mystery Box Game</div>
+
+        <div class="mysteryGrid">
+          ${Array.from({ length: 24 }).map((_, i) => `
+            <button class="mysteryBox" type="button" data-box="${i}">
+              ${i + 1}
+            </button>
+          `).join("")}
+        </div>
+
+        <div class="mysteryReveal">
+          <div class="mysteryRevealText" id="revealText">Pick a box</div>
+        </div>
+      </div>
+    `;
+
+    const mobileFullscreen = isMobileView();
+    let root;
+
+    if (mobileFullscreen) {
+      const holder = document.createElement("div");
+      holder.innerHTML = gameMarkup;
+      const gameNode = holder.firstElementChild;
+      openGameOverlay(gameNode);
+      root = gameNode;
+
+      if (activeGameOverlay) {
+        const scrollWrap = activeGameOverlay.querySelector(".gameOverlay__scroll");
+        if (scrollWrap) {
+          scrollWrap.scrollTop = 0;
+          scrollWrap.scrollLeft = 0;
+        }
+      }
+    } else {
+      panel.innerHTML = gameMarkup;
+      root = panel;
+    }
 
     const boxes = [...root.querySelectorAll(".mysteryBox")];
     const revealText = root.querySelector("#revealText");
@@ -1433,8 +1563,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (backBtn) {
       backBtn.addEventListener("click", () => {
-        if (mobileOverlay) {
+        if (mobileFullscreen) {
           closeGameOverlay();
+          renderLeadGate(panel, day);
         } else {
           renderLeadGate(panel, day);
         }
@@ -1476,120 +1607,13 @@ document.addEventListener("DOMContentLoaded", () => {
         saveLead(lead);
         await sendLeadToGoogleSheet(lead);
 
-        if (mobileOverlay) {
+        if (mobileFullscreen) {
           setTimeout(() => {
             closeGameOverlay();
+            renderLeadGate(panel, day);
           }, 1800);
         }
       });
-    });
-  }
-
-  function renderLeadGate(panel, day = getTodayName()) {
-    injectMenuEnhancementStyles();
-
-    const offerConfig = getOfferConfig();
-    const copy = getLeadGateCopy(offerConfig);
-
-    panel.innerHTML = `
-      <div class="hybridGame">
-        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
-        ${getPromoCard(day)}
-
-        <div class="hybridTitle">${copy.title}</div>
-        <div class="hybridSub">${copy.text}</div>
-
-        <div class="hybridActions">
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">${copy.igLabel}</button>
-          <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">${copy.phoneLabel}</button>
-          <button class="hybridBtn hybridBtn--gold" type="button" data-entry="vip">${copy.vipLabel}</button>
-        </div>
-      </div>
-    `;
-
-    panel.querySelectorAll("[data-entry]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        openLeadModal(btn.dataset.entry, panel, day);
-      });
-    });
-  }
-
-  function renderGame(panel, leadInfo) {
-    const {
-      entryType = "ig",
-      instagram = "",
-      phone = "",
-      day = getTodayName()
-    } = leadInfo || {};
-
-    const offerConfig = getOfferConfig();
-    const offerKey = offerConfig?.key || "";
-    const items = getGameItems(entryType, offerKey);
-
-    const markup = `
-      <div class="hybridGame mysteryGameShell">
-        <div class="mysteryGameTopbar">
-          <button class="mysteryBackBtn" type="button" data-back>Back</button>
-        </div>
-
-        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
-
-        <div class="mysteryMetaTop">
-          ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
-          ${entryType === "phone" ? `Phone: ${phone}` : ""}
-          ${entryType === "vip" ? `Instagram: ${instagram} • Phone: ${phone}` : ""}
-        </div>
-
-        <div class="mysteryRewardTop" id="rewardTop">
-          <div class="mysteryRewardTop__label">You Won</div>
-          <div class="mysteryRewardTop__text" id="rewardTopText">Pick a box to reveal your reward</div>
-        </div>
-
-        <div class="hybridTitle">🎁 Mystery Box Game</div>
-
-        <div class="mysteryGrid">
-          ${Array.from({ length: 24 }).map((_, i) => `
-            <button class="mysteryBox" type="button" data-box="${i}">
-              ${i + 1}
-            </button>
-          `).join("")}
-        </div>
-
-        <div class="mysteryReveal">
-          <div class="mysteryRevealText" id="revealText">Pick a box</div>
-        </div>
-      </div>
-    `;
-
-    if (isMobileGameView()) {
-      const overlayPanel = openGameOverlay();
-      overlayPanel.innerHTML = markup;
-
-      bindGameUI(overlayPanel, {
-        panel,
-        day,
-        items,
-        entryType,
-        instagram,
-        phone,
-        offerKey,
-        mobileOverlay: true
-      });
-
-      return;
-    }
-
-    panel.innerHTML = markup;
-
-    bindGameUI(panel, {
-      panel,
-      day,
-      items,
-      entryType,
-      instagram,
-      phone,
-      offerKey,
-      mobileOverlay: false
     });
   }
 
@@ -1687,7 +1711,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     HERO BUTTON ACTION
+     TOP GAME HERO
   ========================= */
 
   function openGameFromHero() {
@@ -1759,11 +1783,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activateDay(hasTodayTab ? today : fallbackDay);
 
+  window.getAllureLeads = () => getStoredLeads();
+
   window.addEventListener("resize", () => {
-    if (!isMobileGameView()) {
+    if (!isMobileView()) {
       closeGameOverlay();
     }
   });
-
-  window.getAllureLeads = () => getStoredLeads();
 });
