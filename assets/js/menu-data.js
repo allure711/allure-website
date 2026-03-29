@@ -329,13 +329,11 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Pineapple", price: "$23" },
           { name: "Mango", price: "$23" },
           { name: "Orange", price: "$23" },
-          { name: "Cherry", price: "$23" },
-          { name: "Apple", price: "$23" },
-          { name: "Double Apple", price: "$23" }
-          { name: "Grape fruit", price: "$23" }
-          { name: "Guava", price: "$23" }
-          { name: "kiwi", price: "$23" }
-          { name: "Vanilla", price: "$23" }
+          { name: "Double Apple", price: "$23" },
+          { name: "Grape Fruit", price: "$23" },
+          { name: "Guava", price: "$23" },
+          { name: "kiwi", price: "$23" },
+          { name: "Vanilla", price: "$23" },
         ]
       },
       {
@@ -344,19 +342,31 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Gum Mint", price: "$23" },
           { name: "Blueberry Mint", price: "$23" },
           { name: "Peach Mint", price: "$23" },
-          { name: "Grape Mint", price: "$23" }jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+          { name: "Grape Mint", price: "$23" },
+           { name: "Watermelon Mint", price: "$23" },
+           { name: "Strawberry Mint", price: "$23" },jjjjjjjjjjjj
+           { name: "Pineapple Mint", price: "$23" },
+           { name: "Mango Mint", price: "$23" },
+           { name: "Orange Mint", price: "$23" },
+           { name: "Grape Fruit Mint", price: "$23" },
+           { name: "Grape Fruit Mint", price: "$23" },
+           { name: "Guava Mint", price: "$23" },
+           { name: "Kiwi Mint", price: "$23" },
+           { name: "Vanilla Mint", price: "$23" },
         ]
       },
       {
         title: "Popular Mixes",
         items: [
-          { name: "BMW (Blueberry Mint Watermelon)", price: "$23" },
-          { name: "Peach Mint", price: "$23" },
-          { name: "Strawberry Banana", price: "$23" },
-          { name: "Mango Peach", price: "$23" },
-          { name: "Pineapple Mint", price: "$23" },
+          { name: "BMW ", price: "$23" },
+          { name: "Peach Mint Kiwi", price: "$23" },
+          { name: "Strawberry Mint Vanilla", price: "$23" },
+          { name: "Mango Peach kiwi", price: "$23" },
+          { name: "Pineapple Mint Vanila", price: "$23" },
           { name: "Watermelon Mint", price: "$23" },
-          { name: "Blueberry Mint", price: "$23" }
+          { name: "Blueberry Mint Vanilla", price: "$23" },
+           { name: "lemon Mint Vanilla", price: "$23" },
+           { name: "Blueberry Mint ", price: "$23" },
         ]
       },
       {
@@ -366,8 +376,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Love 66", price: "$25" },
           { name: "Lady Killer", price: "$25" },
           { name: "Magic Love", price: "$25" },
-          { name: "White Gummy Bear", price: "$25" },
-          { name: "Pink Lemonade", price: "$25" }
         ]
       },
       {
