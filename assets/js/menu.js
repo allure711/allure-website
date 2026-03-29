@@ -55,8 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "VIP ACCESS UNLOCKED",
       text: "Exclusive rewards, premium offers, and stronger odds inside the 24 Box Game.",
       icon: "🥂",
-      theme: "vip",
-      rewardBoost: "vip"
+      theme: "vip"
     },
     teachers: {
       key: "teachers",
@@ -64,8 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "TEACHERS APPRECIATION",
       text: "Special appreciation rewards for teachers. Enter your phone or Instagram to unlock your teacher-only box.",
       icon: "🍎",
-      theme: "teachers",
-      rewardBoost: "teachers"
+      theme: "teachers"
     },
     dc: {
       key: "dc",
@@ -73,8 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "DC RESIDENT SPECIAL",
       text: "Exclusive local rewards for DC residents. Scan, unlock, and enjoy a locals-only Allure experience.",
       icon: "📍",
-      theme: "dc",
-      rewardBoost: "dc"
+      theme: "dc"
     }
   };
 
@@ -102,8 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================
      HELPERS
   ========================= */
-
-
 
   function getTodayName() {
     return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
@@ -230,130 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return digits.length >= 10;
   }
 
-  function getSocialProofCount(day, offerKey = "") {
-    const base = {
-      sunday: 31,
-      monday: 37,
-      tuesday: 34,
-      wednesday: 29,
-      thursday: 42,
-      friday: 64,
-      saturday: 71
-    };
-
-    const offerBoost = {
-      vip: 12,
-      teachers: 6,
-      dc: 8
-    };
-
-    return (base[day] || 37) + (offerBoost[offerKey] || 0);
-  }
-
-  function getGameHeroContent(day, offerConfig) {
-    if (offerConfig?.key === "vip") {
-      return {
-        title: "VIP Rewards Are Live",
-        text: "Scan in, enter your Instagram or phone, then unlock stronger VIP-only rewards for tonight.",
-        proof: `🔥 ${getSocialProofCount(day, "vip")} VIP guests played tonight`
-      };
-    }
-
-    if (offerConfig?.key === "teachers") {
-      return {
-        title: "Teachers Appreciation Rewards",
-        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock exclusive teacher appreciation perks.",
-        proof: `🔥 ${getSocialProofCount(day, "teachers")} teachers played tonight`
-      };
-    }
-
-    if (offerConfig?.key === "dc") {
-      return {
-        title: "DC Locals Rewards Are Live",
-        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock DC residents-only rewards tonight.",
-        proof: `🔥 ${getSocialProofCount(day, "dc")} DC locals played tonight`
-      };
-    }
-
-    const map = {
-      monday: {
-        title: "Unlock Monday Rewards",
-        text: "Play tonight’s 24 Box Game for Free Hookah Monday perks, food offers, and premium surprise rewards."
-      },
-      tuesday: {
-        title: "Taco Tuesday Rewards",
-        text: "Play the 24 Box Game to unlock late-night taco perks, drink rewards, and surprise upgrades."
-      },
-      wednesday: {
-        title: "Midweek Rewards Are Live",
-        text: "Enter your Instagram or phone, play to win, and unlock premium midweek rewards for tonight."
-      },
-      thursday: {
-        title: "Karaoke Thursday Rewards",
-        text: "Play the 24 Box Game for karaoke-night perks, drink rewards, and surprise upgrades."
-      },
-      friday: {
-        title: "Friday VIP Rewards Are Live",
-        text: "Tonight’s 24 Box Game is loaded with stronger VIP rewards, bottle perks, and premium wins."
-      },
-      saturday: {
-        title: "Saturday Prime-Time Rewards",
-        text: "Play tonight’s 24 Box Game for high-energy weekend rewards, VIP perks, and premium surprise offers."
-      },
-      sunday: {
-        title: "Social Sunday Rewards",
-        text: "Play the 24 Box Game for Sunday drink perks, hookah rewards, and surprise offers for tonight."
-      }
-    };
-
-    const content = map[day] || map.monday;
-
-    return {
-      title: content.title,
-      text: content.text,
-      proof: `🔥 ${getSocialProofCount(day)} people played tonight`
-    };
-  }
-
-  function updateGameHero(day) {
-    const hero = document.getElementById("gameHero");
-    const heroCard = document.getElementById("gameHeroCard");
-    const heroTitle = document.getElementById("gameHeroTitle");
-    const heroText = document.getElementById("gameHeroText");
-    const heroPlays = document.getElementById("gameHeroPlays");
-    const offerConfig = getOfferConfig();
-
-    if (!hero || !heroCard || !heroTitle || !heroText || !heroPlays) return;
-
-    const content = getGameHeroContent(day, offerConfig);
-
-    heroTitle.textContent = content.title;
-    heroText.textContent = content.text;
-    heroPlays.textContent = content.proof;
-
-    hero.classList.remove(
-      "gameHero--monday",
-      "gameHero--tuesday",
-      "gameHero--wednesday",
-      "gameHero--thursday",
-      "gameHero--friday",
-      "gameHero--saturday",
-      "gameHero--sunday",
-      "gameHero--pulse"
-    );
-
-    hero.classList.add(`gameHero--${day}`);
-
-    if (day === "monday" || day === "friday" || day === "saturday" || offerConfig?.key === "vip") {
-      hero.classList.add("gameHero--pulse");
-    }
-  }
-
   /* =========================
      OFFER BANNER
   ========================= */
-
-
 
   function injectOfferBanner() {
     const offerConfig = getOfferConfig();
@@ -382,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     DAY PROMO CARD + STYLES
+     DAY PROMO CARD
   ========================= */
 
   function getPromoCard(day) {
@@ -399,614 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `;
-  }
-
-  function injectMenuEnhancementStyles() {
-    if (document.getElementById("allureMenuEnhancementStyles")) return;
-
-    const style = document.createElement("style");
-    style.id = "allureMenuEnhancementStyles";
-    style.textContent = `
-      .offerExperienceBanner{
-        position:relative;
-        overflow:hidden;
-        border-radius:22px;
-        margin:2px 0 16px;
-        padding:16px 18px;
-        border:1px solid rgba(215,180,106,.22);
-        background:
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,.02),
-          0 20px 46px rgba(0,0,0,.26),
-          inset 0 1px 0 rgba(255,255,255,.04);
-      }
-
-      .offerExperienceBanner__glow{
-        position:absolute;
-        inset:0;
-        pointer-events:none;
-        background:
-          radial-gradient(circle at 18% 28%, rgba(255,255,255,.08), transparent 28%),
-          radial-gradient(circle at 86% 72%, rgba(215,180,106,.12), transparent 30%);
-        filter:blur(16px);
-      }
-
-      .offerExperienceBanner__inner{
-        position:relative;
-        z-index:2;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:16px;
-      }
-
-      .offerExperienceBanner__eyebrow{
-        font-size:11px;
-        font-weight:950;
-        letter-spacing:.18em;
-        text-transform:uppercase;
-        color:#f2d38a;
-        margin-bottom:6px;
-      }
-
-      .offerExperienceBanner__title{
-        font-size:26px;
-        font-weight:950;
-        line-height:1.05;
-        color:#fff;
-        letter-spacing:-.02em;
-      }
-
-      .offerExperienceBanner__text{
-        margin-top:8px;
-        color:rgba(255,255,255,.82);
-        font-size:14px;
-        line-height:1.5;
-        max-width:760px;
-      }
-
-      .offerExperienceBanner__icon{
-        flex:0 0 auto;
-        font-size:34px;
-        line-height:1;
-        filter:drop-shadow(0 0 10px rgba(215,180,106,.22));
-      }
-
-      .offerExperienceBanner--vip{
-        border-color:rgba(215,180,106,.34);
-        background:
-          radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
-          radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .offerExperienceBanner--teachers{
-        border-color:rgba(255,210,90,.26);
-        background:
-          radial-gradient(circle at top right, rgba(255,210,90,.12), transparent 36%),
-          radial-gradient(circle at top left, rgba(120,180,255,.08), transparent 34%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .offerExperienceBanner--dc{
-        border-color:rgba(120,190,255,.24);
-        background:
-          radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
-          radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard{
-        position:relative;
-        overflow:hidden;
-        border-radius:18px;
-        padding:14px 16px;
-        margin-bottom:12px;
-        border:1px solid rgba(215,180,106,.22);
-        background:
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,.02),
-          0 16px 34px rgba(0,0,0,.22),
-          inset 0 1px 0 rgba(255,255,255,.04);
-      }
-
-      .promoDayCard__smoke{
-        position:absolute;
-        inset:0;
-        pointer-events:none;
-        opacity:.95;
-        background:
-          radial-gradient(circle at 18% 30%, rgba(255,255,255,.10), transparent 28%),
-          radial-gradient(circle at 78% 72%, rgba(215,180,106,.12), transparent 34%);
-        filter:blur(16px);
-        animation:promoSmokeFloat 8s ease-in-out infinite;
-      }
-
-      .promoDayCard__inner{
-        position:relative;
-        z-index:2;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:14px;
-      }
-
-      .promoDayCard__copy{
-        min-width:0;
-      }
-
-      .promoDayCard__title{
-        font-size:12px;
-        font-weight:950;
-        letter-spacing:.15em;
-        text-transform:uppercase;
-        color:#f2d38a;
-        text-shadow:
-          0 0 8px rgba(242,211,138,.22),
-          0 0 20px rgba(215,180,106,.12);
-      }
-
-      .promoDayCard__text{
-        margin-top:5px;
-        color:rgba(255,255,255,.82);
-        font-size:12px;
-        line-height:1.4;
-      }
-
-      .promoDayCard__icon{
-        flex:0 0 auto;
-        font-size:24px;
-        line-height:1;
-        filter:drop-shadow(0 0 10px rgba(215,180,106,.20));
-        opacity:.96;
-      }
-
-      .promoDayCard--hookah{
-        border-color:rgba(215,180,106,.28);
-        background:
-          radial-gradient(circle at top right, rgba(215,180,106,.10), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--taco{
-        border-color:rgba(255,180,80,.26);
-        background:
-          radial-gradient(circle at top right, rgba(255,180,80,.12), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--midweek{
-        border-color:rgba(155,120,255,.24);
-        background:
-          radial-gradient(circle at top right, rgba(155,120,255,.12), transparent 38%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--karaoke{
-        border-color:rgba(255,120,190,.24);
-        background:
-          radial-gradient(circle at top right, rgba(255,120,190,.10), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--vip{
-        border-color:rgba(215,180,106,.34);
-        background:
-          radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
-          radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--weekend{
-        border-color:rgba(255,120,120,.24);
-        background:
-          radial-gradient(circle at top right, rgba(255,120,120,.12), transparent 36%),
-          radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .promoDayCard--social{
-        border-color:rgba(120,190,255,.22);
-        background:
-          radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
-          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      }
-
-      .leadModalOverlay{
-        position:fixed;
-        inset:0;
-
-
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:rgba(0,0,0,.72);
-        backdrop-filter: blur(4px);
-        z-index:9999;
-        padding:20px;
-      }
-
-      .leadModal{
-        width:100%;
-        max-width:420px;
-        border-radius:18px;
-        border:1px solid rgba(215,180,106,.26);
-        background:
-          radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 35%),
-          linear-gradient(180deg, rgba(23,23,25,.98), rgba(12,12,14,.98));
-        box-shadow:
-          0 24px 60px rgba(0,0,0,.55),
-          inset 0 1px 0 rgba(255,255,255,.04);
-        padding:18px;
-        position:relative;
-      }
-
-      .leadModal__close{
-        position:absolute;
-        top:10px;
-        right:12px;
-        border:none;
-        background:transparent;
-        color:rgba(255,255,255,.7);
-        font-size:22px;
-        cursor:pointer;
-      }
-
-      .leadModal__title{
-        font-size:12px;
-        font-weight:950;
-        letter-spacing:.16em;
-        text-transform:uppercase;
-        color:#f2d38a;
-        margin-bottom:8px;
-      }
-
-      .leadModal__sub{
-        color:rgba(255,255,255,.76);
-        font-size:13px;
-        line-height:1.45;
-        margin-bottom:12px;
-      }
-
-      .leadModal__grid{
-        display:grid;
-
-        gap:10px;
-      }
-
-      .leadModal__grid .staffInput{
-        min-height:46px;
-        padding:12px 14px;
-      }
-
-      .leadModal__grid .hybridBtn{
-        min-height:46px;
-      }
-
-      .mysteryGameShell{
-        position:relative;
-      }
-
-      .mysteryGameTopbar{
-        display:flex;
-        align-items:center;
-        justify-content:flex-start;
-        margin-bottom:4px;
-      }
-
-      .mysteryBackBtn{
-        border:1px solid rgba(215,180,106,.28);
-        background:rgba(255,255,255,.03);
-        color:#f2d38a;
-        border-radius:999px;
-        padding:6px 10px;
-        font-size:10px;
-        font-weight:900;
-        letter-spacing:.12em;
-        text-transform:uppercase;
-        cursor:pointer;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-      }
-
-      .mysteryMetaTop{
-        color:rgba(255,255,255,.72);
-        font-size:11px;
-        line-height:1.2;
-        margin-bottom:4px;
-      }
-
-      .mysteryRewardTop{
-        display:none;
-        margin-bottom:6px;
-        border:1px solid rgba(215,180,106,.24);
-        background:linear-gradient(180deg, rgba(215,180,106,.12), rgba(255,255,255,.03));
-        border-radius:12px;
-        padding:8px 10px;
-        box-shadow:
-          0 10px 24px rgba(0,0,0,.14),
-          inset 0 1px 0 rgba(255,255,255,.04);
-      }
-
-      .mysteryRewardTop.is-visible{
-        display:block;
-      }
-
-      .mysteryRewardTop__label{
-        font-size:9px;
-        font-weight:900;
-        letter-spacing:.16em;
-        text-transform:uppercase;
-        color:rgba(255,255,255,.66);
-        margin-bottom:4px;
-      }
-
-      .mysteryRewardTop__text{
-        font-size:13px;
-        font-weight:900;
-        line-height:1.2;
-        color:#f2d38a;
-      }
-
-      .mysteryGameShell .hybridTitle{
-        font-size:18px;
-        margin-bottom:4px;
-      }
-
-      .mysteryOfferBadge{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        margin-bottom:8px;
-        padding:6px 10px;
-        border-radius:999px;
-        border:1px solid rgba(215,180,106,.26);
-        background:rgba(215,180,106,.08);
-        color:#f2d38a;
-        font-size:10px;
-        font-weight:900;
-        letter-spacing:.14em;
-        text-transform:uppercase;
-      }
-
-      .mysteryGrid{
-        display:grid;
-        grid-template-columns:repeat(8, minmax(0, 1fr));
-        gap:6px;
-      }
-
-      .mysteryBox{
-        min-height:36px;
-        border-radius:10px;
-        padding:5px 4px;
-        font-size:10px;
-        font-weight:900;
-        line-height:1.05;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        text-align:center;
-        white-space:normal;
-        word-break:break-word;
-        overflow:hidden;
-      }
-
-      .mysteryBox.is-open{
-        font-size:10px;
-        line-height:1.05;
-      }
-
-      .mysteryReveal{
-        display:none;
-      }
-
-      .mysteryRevealText{
-        min-height:18px;
-        font-size:12px;
-        line-height:1.25;
-      }
-
-      .menuBigPanel,
-      .menuPanelBody,
-      .hybridGame{
-        overflow:hidden;
-      }
-
-      @keyframes promoSmokeFloat{
-        0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
-        50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
-
-      }
-
-
-      @media (max-width: 1100px){
-        .mysteryGrid{
-          grid-template-columns:repeat(6, minmax(0, 1fr));
-        }
-      }
-
-      @media (max-width: 760px){
-        .offerExperienceBanner__title{
-          font-size:22px;
-        }
-
-        .offerExperienceBanner__inner{
-          align-items:flex-start;
-        }
-
-        .mysteryGrid{
-          grid-template-columns:repeat(4, minmax(0, 1fr));
-          gap:6px;
-        }
-
-        .mysteryBox{
-          min-height:38px;
-          font-size:10px;
-          padding:6px 4px;
-        }
-      }
-
-      @media (max-width: 520px){
-        .offerExperienceBanner__inner{
-          flex-direction:column;
-          align-items:flex-start;
-        }
-
-        .offerExperienceBanner__icon{
-          font-size:28px;
-        }
-
-        .mysteryGrid{
-          grid-template-columns:repeat(3, minmax(0, 1fr));
-          gap:6px;
-        }
-
-        .mysteryBox{
-          min-height:40px;
-          font-size:10px;
-          padding:6px 4px;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  /* =========================
-     MENU RENDER
-  ========================= */
-
-  function renderFlatMenu(items) {
-    return `
-      <div class="menuList">
-        ${(items || []).map(item => `
-          <div class="menuItem">
-            <div class="menuItem__left">
-              <div class="menuItem__name">${item.name || ""}</div>
-              ${item.desc ? `<div class="menuItem__desc">${item.desc}</div>` : ""}
-            </div>
-            <div class="menuItem__price">${item.price || ""}</div>
-          </div>
-        `).join("")}
-      </div>
-    `;
-  }
-
-  function renderGroupedMenu(section) {
-    return `
-      <div class="menuGrouped">
-        ${section.title ? `<div class="menuGrouped__title">${section.title}</div>` : ""}
-        <div class="menuGrouped__grid">
-          ${(section.groups || []).map(group => `
-            <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${group.title || ""}</div>
-              ${renderFlatMenu(group.items || [])}
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    `;
-  }
-
-  function splitShotsAndDrinks(items) {
-    const shots = [];
-    const drinks = [];
-
-    (items || []).forEach(item => {
-      const price = item.price || "";
-      const parts = price.split("/").map(p => p.trim());
-
-      if (parts.length === 2) {
-        shots.push({ ...item, price: parts[0] });
-        drinks.push({ ...item, price: parts[1] });
-      } else {
-        shots.push({ ...item });
-        drinks.push({ ...item });
-      }
-    });
-
-    return { shots, drinks };
-  }
-
-  function getContentByMode(content, mode) {
-    if (!content || !content.sections) return content;
-    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
-
-    return {
-      ...content,
-      sections: content.sections.map(section => {
-        if (section.layout === "grouped") return section;
-        const split = splitShotsAndDrinks(section.items || []);
-        return {
-          ...section,
-          items: mode === "shots" ? split.shots : split.drinks
-        };
-      })
-    };
-  }
-
-  function renderSectionedMenu(content) {
-    const sections = content?.sections || [];
-
-    if (!sections.length) {
-      return `<div class="menuEmpty">Menu coming soon.</div>`;
-    }
-
-    return `
-      <div class="menuNested">
-        <div class="menuSubTabs">
-          ${sections.map(section => `
-            <button class="menuSubTab" type="button" data-subsection="${section.title}">
-              ${section.title}
-            </button>
-          `).join("")}
-        </div>
-        <div class="menuSubBody"></div>
-      </div>
-    `;
-  }
-
-  function bindSubTabs(panelBody, content) {
-    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
-    const subBody = panelBody.querySelector(".menuSubBody");
-    const sections = content?.sections || [];
-
-    if (!tabs.length || !subBody || !sections.length) return;
-
-    function activateSubsection(title) {
-      tabs.forEach(tab => {
-        tab.classList.toggle("active", tab.dataset.subsection === title);
-      });
-
-      const section = sections.find(s => s.title === title);
-
-      if (!section) {
-        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
-        return;
-      }
-
-      if (section.layout === "grouped") {
-        subBody.innerHTML = renderGroupedMenu(section);
-      } else {
-        subBody.innerHTML = renderFlatMenu(section.items || []);
-      }
-    }
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        activateSubsection(tab.dataset.subsection);
-      });
-    });
-
-    activateSubsection(sections[0].title);
-  }
-
-  /* =========================
-     LEAD MODAL
-  ========================= */
-
-  function closeLeadModal() {
-    document.querySelector(".leadModalOverlay")?.remove();
   }
 
   function getLeadModalContent(type, offerConfig) {
@@ -1053,8 +319,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  /* =========================
+     LEAD MODAL
+  ========================= */
+
+  function closeLeadModal() {
+    document.querySelector(".leadModalOverlay")?.remove();
+  }
+
   function openLeadModal(type, panel, day) {
-    injectMenuEnhancementStyles();
     closeLeadModal();
 
     const offerConfig = getOfferConfig();
@@ -1252,8 +525,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderLeadGate(panel, day = getTodayName()) {
-    injectMenuEnhancementStyles();
-
     const offerConfig = getOfferConfig();
     const copy = getLeadGateCopy(offerConfig);
 
@@ -1326,15 +597,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `;
-
-
-
-
-
-
-
-
-
 
     const boxes = [...panel.querySelectorAll(".mysteryBox")];
     const revealText = panel.querySelector("#revealText");
@@ -1442,8 +704,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const buttons = getButtons(wrap);
 
-
-
     if (!wrap.dataset.bound) {
       wrap.dataset.bound = "true";
 
@@ -1479,41 +739,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     TOP GAME HERO ACTION
-  ========================= */
-
-  function openGameFromHero() {
-    const activeDayPanel = document.querySelector(".dayPanel.active");
-    if (!activeDayPanel) return;
-
-    const wrap = activeDayPanel.querySelector(".menuCenterWrap");
-    if (!wrap) return;
-
-    const panel = wrap.querySelector(".menuPanelBody");
-    const buttons = getButtons(wrap);
-    const gameBtn = buttons.find(isGameButton);
-    const day = activeDayPanel.dataset.daypanel || getTodayName();
-
-    if (!panel) return;
-
-    buttons.forEach(btn => btn.classList.remove("active"));
-    if (gameBtn) gameBtn.classList.add("active");
-
-    renderLeadGate(panel, day);
-
-    panel.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-  }
-
-  function bindGameHeroButtons() {
-    document.querySelectorAll("[data-open-game]").forEach(btn => {
-      btn.addEventListener("click", openGameFromHero);
-    });
-  }
-
-  /* =========================
      DAY SWITCH
   ========================= */
 
@@ -1532,16 +757,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateDailyPromo(day);
-    updateGameHero(day);
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
     tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
   });
 
-  injectMenuEnhancementStyles();
   injectOfferBanner();
-  bindGameHeroButtons();
 
   const today = getTodayName();
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
@@ -1550,3 +772,4 @@ document.addEventListener("DOMContentLoaded", () => {
   activateDay(hasTodayTab ? today : fallbackDay);
 
   window.getAllureLeads = () => getStoredLeads();
+});
