@@ -1,4 +1,7 @@
 window.MENU_CATEGORY_CONTENT = {
+  /* =========================
+     FOOD
+  ========================= */
   food: {
     sections: [
       {
@@ -38,10 +41,10 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Quesadillas",
         items: [
-          { name: "Cheese ", price: "$8" },
-          { name: "Chicken ", price: "$10" },
-          { name: "Shrimp ", price: "$12" },
-          { name: "Salmon ", price: "$14" }
+          { name: "Cheese Quesadilla", price: "$8" },
+          { name: "Chicken Quesadilla", price: "$10" },
+          { name: "Shrimp Quesadilla", price: "$12" },
+          { name: "Salmon Quesadilla", price: "$14" }
         ]
       },
       {
@@ -56,9 +59,9 @@ window.MENU_CATEGORY_CONTENT = {
         title: "Salads",
         items: [
           { name: "Salad", price: "$8" },
-          { name: "Chicken ", price: "$10" },
-          { name: "Shrimp ", price: "$12" },
-          { name: "Salmon ", price: "$13" }
+          { name: "Chicken Salad", price: "$10" },
+          { name: "Shrimp Salad", price: "$12" },
+          { name: "Salmon Salad", price: "$13" }
         ]
       },
       {
@@ -110,6 +113,9 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  /* =========================
+     HAPPY HOUR / STANDARD
+  ========================= */
   shots5: {
     sections: [
       {
@@ -172,6 +178,9 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  /* =========================
+     MID-TIER
+  ========================= */
   shots7: {
     sections: [
       {
@@ -228,6 +237,9 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  /* =========================
+     PREMIUM
+  ========================= */
   premium: {
     sections: [
       {
@@ -255,6 +267,9 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  /* =========================
+     WINE / BEER / CANNED
+  ========================= */
   wine6: {
     sections: [
       {
@@ -302,6 +317,9 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  /* =========================
+     NON-ALCOHOLIC
+  ========================= */
   na: {
     sections: [
       {
@@ -315,6 +333,9 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  /* =========================
+     HOOKAH
+  ========================= */
   hookah23: {
     sections: [
       {
@@ -329,44 +350,30 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Pineapple", price: "$23" },
           { name: "Mango", price: "$23" },
           { name: "Orange", price: "$23" },
-          { name: "Double Apple", price: "$23" },
-          { name: "Grape Fruit", price: "$23" },
-          { name: "Guava", price: "$23" },
-          { name: "kiwi", price: "$23" },
-          { name: "Vanilla", price: "$23" },
+          { name: "Cherry", price: "$23" },
+          { name: "Apple", price: "$23" },
+          { name: "Double Apple", price: "$23" }
         ]
       },
       {
         title: "Mint / Fresh Line",
         items: [
           { name: "Gum Mint", price: "$23" },
-          { name: "Blueberry Mint", price: "$23" },
-          { name: "Peach Mint", price: "$23" },
-          { name: "Grape Mint", price: "$23" },
-           { name: "Watermelon Mint", price: "$23" },
-           { name: "Strawberry Mint", price: "$23" },jjjjjjjjjjjj
-           { name: "Pineapple Mint", price: "$23" },
-           { name: "Mango Mint", price: "$23" },
-           { name: "Orange Mint", price: "$23" },
-           { name: "Grape Fruit Mint", price: "$23" },
-           { name: "Grape Fruit Mint", price: "$23" },
-           { name: "Guava Mint", price: "$23" },
-           { name: "Kiwi Mint", price: "$23" },
-           { name: "Vanilla Mint", price: "$23" },
+          { name: "Ice Mint", price: "$23" },
+          { name: "Lemon Mint", price: "$23" },
+          { name: "Mint Cream", price: "$23" }
         ]
       },
       {
         title: "Popular Mixes",
         items: [
-          { name: "BMW ", price: "$23" },
-          { name: "Peach Mint Kiwi", price: "$23" },
-          { name: "Strawberry Mint Vanilla", price: "$23" },
-          { name: "Mango Peach kiwi", price: "$23" },
-          { name: "Pineapple Mint Vanila", price: "$23" },
+          { name: "BMW (Blueberry Mint Watermelon)", price: "$23" },
+          { name: "Peach Mint", price: "$23" },
+          { name: "Strawberry Banana", price: "$23" },
+          { name: "Mango Peach", price: "$23" },
+          { name: "Pineapple Mint", price: "$23" },
           { name: "Watermelon Mint", price: "$23" },
-          { name: "Blueberry Mint Vanilla", price: "$23" },
-           { name: "lemon Mint Vanilla", price: "$23" },
-           { name: "Blueberry Mint ", price: "$23" },
+          { name: "Blueberry Mint", price: "$23" }
         ]
       },
       {
@@ -376,6 +383,8 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Love 66", price: "$25" },
           { name: "Lady Killer", price: "$25" },
           { name: "Magic Love", price: "$25" },
+          { name: "White Gummy Bear", price: "$25" },
+          { name: "Pink Lemonade", price: "$25" }
         ]
       },
       {
@@ -389,6 +398,9 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  /* =========================
+     FEATURED ITEMS
+  ========================= */
   tower43: {
     sections: [
       {
@@ -490,86 +502,3 @@ window.ALLURE_LIVE_STATUS = {
     title: "Social Sunday • Happy Hour All Night",
     tags: ["Happy Hour All Night", "Hookah", "Fishbowls", "Food"]
   }
-};
-
-/* =========================================
-   GAME CONFIG
-   This does NOT break your current menu.js.
-   It is here so your game content is also stored
-   in one easy place for future editing.
-========================================= */
-
-window.ALLURE_GAME_CONFIG = {
-  labels: {
-    defaultTitle: "Unlock Your VIP Mystery Box",
-    defaultText: "Enter your Instagram or phone number to play. Enter both for VIP reward odds."
-  },
-
-  rewards: {
-    instagram: [
-      "Free Mixer",
-      "$2 Off Hookah",
-      "$3 Off Fishbowl",
-      "$3 Off Tower",
-      "10% Off Food",
-      "Free Red Bull w/ Drink",
-      "Hookah Flavor Upgrade",
-      "High Noon Discount"
-    ],
-
-    phone: [
-      "$5 Off Hookah",
-      "Free Shot w/ $30 Tab",
-      "$5 Off Premium Drink",
-      "$5 Off Bottle Service",
-      "VIP Line Skip",
-      "$3 Off Tower",
-      "Taco Discount",
-      "Wine Upgrade"
-    ],
-
-    vip: [
-      "Free Hookah (Min $50 Tab)",
-      "$10 Off Bottle",
-      "Premium Shot Upgrade",
-      "VIP Table Priority",
-      "Premium Hookah Flavor",
-      "Fishbowl Discount",
-      "Reserved Seating",
-      "Weekend VIP Perk"
-    ],
-
-    teachers: [
-      "Teacher Free Mixer",
-      "15% Off Food",
-      "$5 Off Hookah",
-      "Free Shot w/ Purchase",
-      "Teacher VIP Line Skip",
-      "$5 Off Fishbowl",
-      "Priority Seating",
-      "Teacher Appreciation Reward"
-    ],
-
-    dc: [
-      "DC Local Discount",
-      "15% Off Food",
-      "$5 Off Hookah",
-      "$5 Off Tower",
-      "Free Mixer",
-      "Locals VIP Line Skip",
-      "Reserved Seating",
-      "DC Resident Reward"
-    ],
-
-    filler: [
-      "Try Again",
-      "Good Vibes",
-      "Ask Server",
-      "Come Back",
-      "Next Time Lucky",
-      "Enjoy The Night",
-      "Ask About VIP",
-      "House Favorite"
-    ]
-  }
-};
