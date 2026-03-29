@@ -13,13 +13,6 @@ html{
   scroll-behavior:smooth;
 }
 
-html,
-body{
-  overflow-x:hidden;
-  height:auto !important;
-  overflow-y:auto !important;
-}
-
 .menu-page{
   background:
     radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
@@ -27,6 +20,13 @@ body{
     radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
     linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
   color:#fff;
+}
+
+html,
+body{
+  overflow-x:hidden;
+  height:auto !important;
+  overflow-y:auto !important;
 }
 
 .menuWrap{
@@ -37,10 +37,6 @@ body{
 .container{
   overflow:visible !important;
 }
-
-/* =========================
-   HEADER
-========================= */
 
 .header{
   backdrop-filter:blur(10px);
@@ -64,10 +60,6 @@ body{
 .nav__list a:hover{
   color:var(--gold2);
 }
-
-/* =========================
-   OFFER BANNER
-========================= */
 
 .offerExperienceBanner{
   position:relative;
@@ -159,10 +151,6 @@ body{
     linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
 }
 
-/* =========================
-   WELCOME STRIP
-========================= */
-
 .menuWelcomeStrip{
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
@@ -196,9 +184,7 @@ body{
   line-height:1.5;
 }
 
-/* =========================
-   TOP GAME HERO
-========================= */
+/* ===== TOP GAME HERO ===== */
 
 .gameHero{
   margin:0 0 26px;
@@ -363,18 +349,6 @@ body{
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
-.gameHero--tuesday .gameHero__card{
-  border-color:rgba(255,180,80,.28);
-}
-
-.gameHero--thursday .gameHero__card{
-  border-color:rgba(255,120,190,.24);
-}
-
-.gameHero--sunday .gameHero__card{
-  border-color:rgba(120,190,255,.24);
-}
-
 .gameHero--friday .gameHero__card,
 .gameHero--saturday .gameHero__card{
   border-color:rgba(215,180,106,.34);
@@ -389,13 +363,21 @@ body{
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
+.gameHero--tuesday .gameHero__card{
+  border-color:rgba(255,180,80,.28);
+}
+
+.gameHero--thursday .gameHero__card{
+  border-color:rgba(255,120,190,.24);
+}
+
+.gameHero--sunday .gameHero__card{
+  border-color:rgba(120,190,255,.24);
+}
+
 .gameHero--pulse .gameHero__card{
   animation:gameHeroPulse 4.8s ease-in-out infinite;
 }
-
-/* =========================
-   DAY TABS
-========================= */
 
 .dayTabs{
   display:flex;
@@ -447,10 +429,6 @@ body{
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
-/* =========================
-   DAY PANELS
-========================= */
-
 .dayPanel{
   display:none;
 }
@@ -493,10 +471,6 @@ body{
   font-weight:500;
 }
 
-/* =========================
-   MENU LAYOUT
-========================= */
-
 .menuSplit{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -522,25 +496,6 @@ body{
 .menuBottomCategories{
   grid-template-columns:repeat(6,1fr);
 }
-
-.outsideBottom{
-  margin-top:14px !important;
-  display:flex !important;
-  gap:10px !important;
-  flex-wrap:wrap !important;
-  justify-content:center !important;
-  position:relative;
-  z-index:2;
-}
-
-.outsideBottom .menuCenterBtn{
-  opacity:.95;
-  border:1px solid rgba(255,255,255,.15);
-}
-
-/* =========================
-   CATEGORY BUTTONS
-========================= */
 
 .menuCenterBtn{
   appearance:none;
@@ -582,10 +537,6 @@ body{
   border-color:rgba(255,94,219,.24);
   background:linear-gradient(135deg, rgba(255,94,219,.16), rgba(215,180,106,.12));
 }
-
-/* =========================
-   MENU PANELS
-========================= */
 
 .menuBigPanel{
   position:relative;
@@ -655,45 +606,20 @@ body{
   background:transparent;
 }
 
-.menuPanelBody::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  opacity:.25;
-  z-index:0;
-  transition:.5s;
-}
-
-.menuPanelBody::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.6));
-  z-index:1;
-}
-
-.menuPanelBody *{
+.outsideBottom{
+  margin-top:14px !important;
+  display:flex !important;
+  gap:10px !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
   position:relative;
   z-index:2;
 }
 
-.menuPanelBody[data-bg="food"]::before{
-  background-image:url("../images/food.jpg");
+.outsideBottom .menuCenterBtn{
+  opacity:.95;
+  border:1px solid rgba(255,255,255,.15);
 }
-
-.menuPanelBody[data-bg="hookah23"]::before{
-  background-image:url("../images/hookah.jpg");
-}
-
-.menuPanelBody[data-bg="game"]::before{
-  background-image:url("../images/game.jpg");
-}
-
-/* =========================
-   EMPTY / START STATES
-========================= */
 
 .menuEmpty{
   border-radius:18px;
@@ -752,10 +678,6 @@ body{
   color:rgba(255,255,255,.56);
 }
 
-/* =========================
-   SUB TABS
-========================= */
-
 .menuNested{
   display:grid;
   gap:14px;
@@ -795,10 +717,6 @@ body{
 .menuSubBody{
   display:block;
 }
-
-/* =========================
-   MENU ITEMS
-========================= */
 
 .menuPanelBody .menuList,
 .menuGrouped__box .menuList{
@@ -856,10 +774,6 @@ body{
   color:var(--gold2);
   margin-left:12px;
 }
-
-/* =========================
-   GROUPED MENU
-========================= */
 
 .menuGrouped{
   max-width:980px;
@@ -937,9 +851,168 @@ body{
   text-align:left;
 }
 
-/* =========================
-   FORM / STAFF INPUT
-========================= */
+.gameShell{
+  display:grid;
+  gap:14px;
+}
+
+.gameTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.gameTitle{
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+.gameSub{
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:4px;
+  max-width:680px;
+}
+
+.gameBadgeRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.gameBadge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.gameBadge--gold{
+  color:var(--gold2);
+  border-color:rgba(215,180,106,.30);
+  background:rgba(215,180,106,.08);
+}
+
+.boxGrid{
+  display:grid;
+  grid-template-columns:repeat(6, minmax(0, 1fr));
+  gap:10px;
+}
+
+.boxCell{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(135deg, rgba(255,94,219,.14), rgba(215,180,106,.14));
+  min-height:54px;
+  border-radius:14px;
+  color:#fff;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease;
+}
+
+.boxCell:hover{
+  transform:translateY(-2px);
+  border-color:rgba(215,180,106,.34);
+}
+
+.boxCell.is-revealed{
+  background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.06));
+  border-color:rgba(215,180,106,.36);
+}
+
+.boxCell.is-locked{
+  opacity:.38;
+  cursor:not-allowed;
+}
+
+.gameReveal{
+  border:1px solid rgba(215,180,106,.20);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:16px;
+  text-align:center;
+}
+
+.gameRevealLabel{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.70);
+  margin-bottom:8px;
+}
+
+.gameRevealText{
+  font-size:22px;
+  font-weight:950;
+  line-height:1.15;
+  color:#fff;
+}
+
+.gameRevealCode{
+  margin-top:10px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+.gameActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.gameBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.gameBtn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.gameBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.gameBtn[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.gameHint{
+  font-size:12px;
+  color:rgba(255,255,255,.68);
+  line-height:1.5;
+}
 
 .staffBox{
   border:1px solid rgba(255,255,255,.10);
@@ -970,10 +1043,6 @@ body{
   font-size:12px;
   color:rgba(255,255,255,.72);
 }
-
-/* =========================
-   HYBRID GAME
-========================= */
 
 .hybridGame{
   display:grid;
@@ -1021,10 +1090,6 @@ body{
   color:#fff;
   border:1px solid rgba(255,255,255,.12);
 }
-
-/* =========================
-   LEAD MODAL
-========================= */
 
 .leadModalOverlay{
   position:fixed;
@@ -1094,13 +1159,8 @@ body{
   min-height:46px;
 }
 
-/* =========================
-   MYSTERY GAME
-========================= */
-
 .mysteryGameShell{
   position:relative;
-  width:100%;
 }
 
 .mysteryGameTopbar{
@@ -1183,7 +1243,6 @@ body{
   display:grid;
   grid-template-columns:repeat(8,minmax(0,1fr));
   gap:6px;
-  width:100%;
 }
 
 .mysteryBox{
@@ -1206,7 +1265,7 @@ body{
   word-break:break-word;
   overflow:hidden;
   box-shadow:0 8px 18px rgba(0,0,0,.12);
-  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease, box-shadow .18s ease;
+  transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease;
 }
 
 .mysteryBox:hover{
@@ -1226,19 +1285,6 @@ body{
   cursor:not-allowed;
 }
 
-.mysteryBox.is-winning{
-  border-color:rgba(242,211,138,.9);
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 40%),
-    linear-gradient(135deg, rgba(242,211,138,.92), rgba(215,180,106,.78));
-  color:#111;
-  box-shadow:
-    0 0 0 1px rgba(242,211,138,.55),
-    0 0 26px rgba(242,211,138,.38),
-    0 14px 34px rgba(0,0,0,.24);
-  animation:goldRewardFlash .9s ease;
-}
-
 .mysteryReveal{
   display:none;
 }
@@ -1251,89 +1297,48 @@ body{
   color:#f2d38a;
 }
 
-/* =========================
-   FULLSCREEN PHONE GAME OVERLAY
-========================= */
-
-.gameOverlay{
-  position:fixed;
-  inset:0;
-  z-index:10050;
-  background:
-    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
-    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
-    linear-gradient(180deg, rgba(5,5,9,.98), rgba(9,9,16,.98));
-}
-
-.gameOverlay__scroll{
-  width:100vw;
-  height:100dvh;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  padding:14px 10px calc(24px + env(safe-area-inset-bottom));
-  box-sizing:border-box;
-}
-
-.gameOverlay__panel{
-  width:100%;
-  max-width:100%;
-  margin:0 auto;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,.10);
-  background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.32),
-    inset 0 1px 0 rgba(255,255,255,.04);
-  backdrop-filter:blur(12px);
-  padding:12px;
-  box-sizing:border-box;
+.menuPanelBody{
+  position:relative;
   overflow:hidden;
+  border-radius:14px;
+  transition:.4s;
 }
 
-.gameOverlay .hybridGame,
-.gameOverlay .mysteryGameShell{
-  width:100%;
-  max-width:100%;
+.menuPanelBody::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:.25;
+  z-index:0;
+  transition:.5s;
 }
 
-.gameOverlay .mysteryRewardTop{
-  display:block;
+.menuPanelBody::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.6));
+  z-index:1;
 }
 
-.gameOverlay .mysteryGrid{
-  display:grid !important;
-  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-  gap:10px !important;
-  width:100% !important;
+.menuPanelBody *{
+  position:relative;
+  z-index:2;
 }
 
-.gameOverlay .mysteryBox{
-  min-height:92px !important;
-  font-size:20px !important;
-  border-radius:16px !important;
-  padding:10px 6px !important;
-  width:100% !important;
+.menuPanelBody[data-bg="food"]::before{
+  background-image:url("../images/food.jpg");
 }
 
-.gameOverlay .mysteryBox.is-open{
-  font-size:11px !important;
-  padding:8px !important;
+.menuPanelBody[data-bg="hookah23"]::before{
+  background-image:url("../images/hookah.jpg");
 }
 
-.gameOverlay .mysteryGameShell .hybridTitle{
-  font-size:14px;
-  line-height:1.15;
-  word-break:break-word;
+.menuPanelBody[data-bg="game"]::before{
+  background-image:url("../images/game.jpg");
 }
-
-.gameOverlay .mysteryRewardTop__text{
-  font-size:12px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media (max-width:1100px){
   .menuTopCategories{
@@ -1484,52 +1489,7 @@ body{
     font-size:10px;
     padding:6px 4px;
   }
-
-  .gameOverlay__scroll{
-    padding:12px 10px calc(24px + env(safe-area-inset-bottom));
-  }
-
-  .gameOverlay__panel{
-    padding:12px;
-    border-radius:20px;
-  }
-
-  .gameOverlay .mysteryGrid{
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    gap:10px !important;
-  }
-
-  .gameOverlay .mysteryBox{
-    min-height:92px !important;
-    font-size:20px !important;
-    border-radius:16px !important;
-  }
 }
-
-@media (min-width:521px) and (max-width:760px){
-  .gameOverlay__scroll{
-    padding:18px 14px calc(28px + env(safe-area-inset-bottom));
-  }
-
-  .gameOverlay__panel{
-    padding:16px;
-    border-radius:24px;
-  }
-
-  .gameOverlay .mysteryGrid{
-    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
-    gap:10px !important;
-  }
-
-  .gameOverlay .mysteryBox{
-    min-height:82px !important;
-    font-size:18px !important;
-  }
-}
-
-/* =========================
-   ANIMATIONS
-========================= */
 
 @keyframes allureSoftReveal{
   from{
@@ -1543,14 +1503,8 @@ body{
 }
 
 @keyframes promoSmokeFloat{
-  0%,100%{
-    transform:translate(0,0) scale(1);
-    opacity:.82;
-  }
-  50%{
-    transform:translate(8px,-8px) scale(1.06);
-    opacity:1;
-  }
+  0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
+  50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
 }
 
 @keyframes gameHeroGlowFloat{
@@ -1579,20 +1533,5 @@ body{
       0 0 34px rgba(215,180,106,.16),
       0 0 20px rgba(155,70,255,.08),
       inset 0 1px 0 rgba(255,255,255,.05);
-  }
-}
-
-@keyframes goldRewardFlash{
-  0%{
-    transform:scale(1);
-    filter:brightness(1);
-  }
-  30%{
-    transform:scale(1.08);
-    filter:brightness(1.15);
-  }
-  100%{
-    transform:scale(1);
-    filter:brightness(1);
   }
 }
