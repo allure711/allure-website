@@ -103,6 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
      HELPERS
   ========================= */
 
+
+
   function getTodayName() {
     return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
   }
@@ -228,9 +230,130 @@ document.addEventListener("DOMContentLoaded", () => {
     return digits.length >= 10;
   }
 
+  function getSocialProofCount(day, offerKey = "") {
+    const base = {
+      sunday: 31,
+      monday: 37,
+      tuesday: 34,
+      wednesday: 29,
+      thursday: 42,
+      friday: 64,
+      saturday: 71
+    };
+
+    const offerBoost = {
+      vip: 12,
+      teachers: 6,
+      dc: 8
+    };
+
+    return (base[day] || 37) + (offerBoost[offerKey] || 0);
+  }
+
+  function getGameHeroContent(day, offerConfig) {
+    if (offerConfig?.key === "vip") {
+      return {
+        title: "VIP Rewards Are Live",
+        text: "Scan in, enter your Instagram or phone, then unlock stronger VIP-only rewards for tonight.",
+        proof: `🔥 ${getSocialProofCount(day, "vip")} VIP guests played tonight`
+      };
+    }
+
+    if (offerConfig?.key === "teachers") {
+      return {
+        title: "Teachers Appreciation Rewards",
+        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock exclusive teacher appreciation perks.",
+        proof: `🔥 ${getSocialProofCount(day, "teachers")} teachers played tonight`
+      };
+    }
+
+    if (offerConfig?.key === "dc") {
+      return {
+        title: "DC Locals Rewards Are Live",
+        text: "Enter your Instagram or phone, play the 24 Box Game, and unlock DC residents-only rewards tonight.",
+        proof: `🔥 ${getSocialProofCount(day, "dc")} DC locals played tonight`
+      };
+    }
+
+    const map = {
+      monday: {
+        title: "Unlock Monday Rewards",
+        text: "Play tonight’s 24 Box Game for Free Hookah Monday perks, food offers, and premium surprise rewards."
+      },
+      tuesday: {
+        title: "Taco Tuesday Rewards",
+        text: "Play the 24 Box Game to unlock late-night taco perks, drink rewards, and surprise upgrades."
+      },
+      wednesday: {
+        title: "Midweek Rewards Are Live",
+        text: "Enter your Instagram or phone, play to win, and unlock premium midweek rewards for tonight."
+      },
+      thursday: {
+        title: "Karaoke Thursday Rewards",
+        text: "Play the 24 Box Game for karaoke-night perks, drink rewards, and surprise upgrades."
+      },
+      friday: {
+        title: "Friday VIP Rewards Are Live",
+        text: "Tonight’s 24 Box Game is loaded with stronger VIP rewards, bottle perks, and premium wins."
+      },
+      saturday: {
+        title: "Saturday Prime-Time Rewards",
+        text: "Play tonight’s 24 Box Game for high-energy weekend rewards, VIP perks, and premium surprise offers."
+      },
+      sunday: {
+        title: "Social Sunday Rewards",
+        text: "Play the 24 Box Game for Sunday drink perks, hookah rewards, and surprise offers for tonight."
+      }
+    };
+
+    const content = map[day] || map.monday;
+
+    return {
+      title: content.title,
+      text: content.text,
+      proof: `🔥 ${getSocialProofCount(day)} people played tonight`
+    };
+  }
+
+  function updateGameHero(day) {
+    const hero = document.getElementById("gameHero");
+    const heroCard = document.getElementById("gameHeroCard");
+    const heroTitle = document.getElementById("gameHeroTitle");
+    const heroText = document.getElementById("gameHeroText");
+    const heroPlays = document.getElementById("gameHeroPlays");
+    const offerConfig = getOfferConfig();
+
+    if (!hero || !heroCard || !heroTitle || !heroText || !heroPlays) return;
+
+    const content = getGameHeroContent(day, offerConfig);
+
+    heroTitle.textContent = content.title;
+    heroText.textContent = content.text;
+    heroPlays.textContent = content.proof;
+
+    hero.classList.remove(
+      "gameHero--monday",
+      "gameHero--tuesday",
+      "gameHero--wednesday",
+      "gameHero--thursday",
+      "gameHero--friday",
+      "gameHero--saturday",
+      "gameHero--sunday",
+      "gameHero--pulse"
+    );
+
+    hero.classList.add(`gameHero--${day}`);
+
+    if (day === "monday" || day === "friday" || day === "saturday" || offerConfig?.key === "vip") {
+      hero.classList.add("gameHero--pulse");
+    }
+  }
+
   /* =========================
      OFFER BANNER
   ========================= */
+
+
 
   function injectOfferBanner() {
     const offerConfig = getOfferConfig();
@@ -264,7 +387,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getPromoCard(day) {
     const promo = DAILY_PROMOS[day] || DAILY_PROMOS.monday;
-
     return `
       <div class="promoDayCard promoDayCard--${promo.theme}">
         <div class="promoDayCard__smoke"></div>
@@ -495,6 +617,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .leadModalOverlay{
         position:fixed;
         inset:0;
+
+
         display:flex;
         align-items:center;
         justify-content:center;
@@ -548,6 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       .leadModal__grid{
         display:grid;
+
         gap:10px;
       }
 
@@ -691,7 +816,9 @@ document.addEventListener("DOMContentLoaded", () => {
       @keyframes promoSmokeFloat{
         0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
         50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
+
       }
+
 
       @media (max-width: 1100px){
         .mysteryGrid{
@@ -884,12 +1011,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getLeadModalContent(type, offerConfig) {
     const defaultTitleMap = {
-
-
-
-
-
-
       ig: "Instagram Entry",
       phone: "Phone Entry",
       vip: "VIP Entry"
@@ -1146,7 +1267,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="hybridTitle">${copy.title}</div>
         <div class="hybridSub">
           ${copy.text}
-
         </div>
 
         <div class="hybridActions">
@@ -1206,6 +1326,15 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `;
+
+
+
+
+
+
+
+
+
 
     const boxes = [...panel.querySelectorAll(".mysteryBox")];
     const revealText = panel.querySelector("#revealText");
@@ -1313,6 +1442,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const buttons = getButtons(wrap);
 
+
+
     if (!wrap.dataset.bound) {
       wrap.dataset.bound = "true";
 
@@ -1348,6 +1479,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
+     TOP GAME HERO ACTION
+  ========================= */
+
+  function openGameFromHero() {
+    const activeDayPanel = document.querySelector(".dayPanel.active");
+    if (!activeDayPanel) return;
+
+    const wrap = activeDayPanel.querySelector(".menuCenterWrap");
+    if (!wrap) return;
+
+    const panel = wrap.querySelector(".menuPanelBody");
+    const buttons = getButtons(wrap);
+    const gameBtn = buttons.find(isGameButton);
+    const day = activeDayPanel.dataset.daypanel || getTodayName();
+
+    if (!panel) return;
+
+    buttons.forEach(btn => btn.classList.remove("active"));
+    if (gameBtn) gameBtn.classList.add("active");
+
+    renderLeadGate(panel, day);
+
+    panel.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+
+  function bindGameHeroButtons() {
+    document.querySelectorAll("[data-open-game]").forEach(btn => {
+      btn.addEventListener("click", openGameFromHero);
+    });
+  }
+
+  /* =========================
      DAY SWITCH
   ========================= */
 
@@ -1366,6 +1532,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateDailyPromo(day);
+    updateGameHero(day);
   }
 
   document.querySelectorAll(".dayTab").forEach(tab => {
@@ -1374,6 +1541,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   injectMenuEnhancementStyles();
   injectOfferBanner();
+  bindGameHeroButtons();
 
   const today = getTodayName();
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
@@ -1382,4 +1550,3 @@ document.addEventListener("DOMContentLoaded", () => {
   activateDay(hasTodayTab ? today : fallbackDay);
 
   window.getAllureLeads = () => getStoredLeads();
-});
