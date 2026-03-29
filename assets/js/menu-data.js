@@ -321,57 +321,19 @@ window.MENU_CATEGORY_CONTENT = {
         title: "Classic Flavors",
         items: [
           { name: "Blueberry", price: "$23" },
+          { name: "BMW", price: "$23" },
           { name: "Mint", price: "$23" },
           { name: "Peach", price: "$23" },
-          { name: "Grape", price: "$23" },
-          { name: "Watermelon", price: "$23" },
-          { name: "Strawberry", price: "$23" },
-          { name: "Pineapple", price: "$23" },
-          { name: "Mango", price: "$23" },
-          { name: "Orange", price: "$23" },
-          { name: "Cherry", price: "$23" },
-          { name: "Apple", price: "$23" },
-          { name: "Double Apple", price: "$23" }
-        ]
-      },
-      {
-        title: "Mint / Fresh Line",
-        items: [
-          { name: "Gum Mint", price: "$23" },
-          { name: "Ice Mint", price: "$23" },
-          { name: "Lemon Mint", price: "$23" },
-          { name: "Mint Cream", price: "$23" }
-        ]
-      },
-      {
-        title: "Popular Mixes",
-        items: [
-          { name: "BMW (Blueberry Mint Watermelon)", price: "$23" },
-          { name: "Peach Mint", price: "$23" },
-          { name: "Strawberry Banana", price: "$23" },
-          { name: "Mango Peach", price: "$23" },
-          { name: "Pineapple Mint", price: "$23" },
-          { name: "Watermelon Mint", price: "$23" },
-          { name: "Blueberry Mint", price: "$23" }
+          { name: "Gum Mint", price: "$23" }
         ]
       },
       {
         title: "Premium Gold (+$2)",
         items: [
           { name: "Bluemist", price: "$25" },
-          { name: "Love 66", price: "$25" },
           { name: "Lady Killer", price: "$25" },
-          { name: "Magic Love", price: "$25" },
-          { name: "White Gummy Bear", price: "$25" },
-          { name: "Pink Lemonade", price: "$25" }
-        ]
-      },
-      {
-        title: "Signature Allure Mixes",
-        items: [
-          { name: "Allure Special", desc: "Sweet tropical blend + mint", price: "$25" },
-          { name: "Midnight Vibe", desc: "Berry + ice mint mix", price: "$25" },
-          { name: "VIP Smoke", desc: "Premium fruit fusion", price: "$25" }
+          { name: "Love 66", price: "$25" },
+          { name: "Magic Love", price: "$25" }
         ]
       }
     ]
@@ -410,71 +372,3 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   }
 };
-
-window.MENU_HIGHLIGHTS = {
-  monday: [
-    { name: "Salmon Sliders w/ Fries" },
-    { name: "Free Hookah Monday" },
-    { name: "Allure Lemon Drop" }
-  ],
-  tuesday: [
-    { name: "Classic Margarita" },
-    { name: "Hookah" },
-    { name: "Fishbowl" }
-  ],
-  wednesday: [
-    { name: "Long Island" },
-    { name: "Hookah" },
-    { name: "High Noon" }
-  ],
-  thursday: [
-    { name: "Mojito" },
-    { name: "Hookah" },
-    { name: "Fishbowl" }
-  ],
-  friday: [
-    { name: "Premium" },
-    { name: "Hookah" },
-    { name: "Tower" }
-  ],
-  saturday: [
-    { name: "Premium" },
-    { name: "Hookah" },
-    { name: "Fishbowl" }
-  ],
-  sunday: [
-    { name: "Hookah" },
-    { name: "Fishbowl" },
-    { name: "Allure Lemon Drop" }
-  ]
-};
-
-window.ALLURE_LIVE_STATUS = {
-  monday: {
-    title: "Free Hookah Monday • Happy Hour All Night",
-    tags: ["Happy Hour All Night", "Free Hookah", "Cocktails", "Food"]
-  },
-  tuesday: {
-    title: "Happy Hour 5–9 • Late Night Lounge",
-    tags: ["Happy Hour 5–9", "Hookah Lounge", "Shots", "Late Night"]
-  },
-  wednesday: {
-    title: "Midweek Social • After 9 Vibes",
-    tags: ["Midweek Social", "Hookah", "High Noon", "Late Night"]
-  },
-  thursday: {
-    title: "Karaoke Thursday • Late Night Energy",
-    tags: ["Karaoke Night", "Happy Hour", "Hookah", "Late Night"]
-  },
-  friday: {
-    title: "VIP Friday • Tables • Bottle Service",
-    tags: ["VIP Night", "Bottle Service", "Hookah", "After 9"]
-  },
-  saturday: {
-    title: "VIP Saturday • Premium Nightlife",
-    tags: ["VIP Night", "Premium Drinks", "Hookah", "Tables"]
-  },
-  sunday: {
-    title: "Social Sunday • Happy Hour All Night",
-    tags: ["Happy Hour All Night", "Hookah", "Fishbowls", "Food"]
-  }
