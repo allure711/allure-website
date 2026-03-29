@@ -332,15 +332,19 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Cherry", price: "$23" },
           { name: "Apple", price: "$23" },
           { name: "Double Apple", price: "$23" }
+          { name: "Grape fruit", price: "$23" }
+          { name: "Guava", price: "$23" }
+          { name: "kiwi", price: "$23" }
+          { name: "Vanilla", price: "$23" }
         ]
       },
       {
         title: "Mint / Fresh Line",
         items: [
           { name: "Gum Mint", price: "$23" },
-          { name: "Ice Mint", price: "$23" },
-          { name: "Lemon Mint", price: "$23" },
-          { name: "Mint Cream", price: "$23" }
+          { name: "Blueberry Mint", price: "$23" },
+          { name: "Peach Mint", price: "$23" },
+          { name: "Grape Mint", price: "$23" }jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
         ]
       },
       {
