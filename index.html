@@ -2,530 +2,493 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Menu | Allure Bar & Lounge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allure Bar & Lounge</title>
 
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/menu.css">
+ <style>
+    :root{
+      --gold:#d7b46a;
+      --gold2:#f2d38a;
+      --bg:#07070a;
+      --bg2:#0b0b12;
+      --text:#ffffff;
+      --soft:rgba(255,255,255,.72);
+      --pink:#ff5edb;
+      --pink2:#ff8ae5;
+      --green:#41ff8e;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(215,180,106,.14), transparent 60%),
+        radial-gradient(900px 500px at 82% 18%, rgba(150,85,255,.12), transparent 55%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+      overflow-x:hidden;
+    }
+
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    .header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(12px);
+      background:rgba(10,10,14,.78);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .header__inner{
+      width:min(1200px, calc(100% - 40px));
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      min-height:78px;
+      gap:20px;
+    }
+
+    .brand{
+      font-weight:900;
+      font-size:20px;
+      letter-spacing:-.02em;
+      color:#fff;
+      white-space:nowrap;
+    }
+
+    .nav{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .nav a{
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+      text-decoration:none;
+      opacity:.95;
+    }
+
+    .nav a:hover,
+    .nav a.active{
+      color:var(--gold2);
+    }
+
+    .btnGold{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 18px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#111 !important;
+      font-weight:900;
+      box-shadow:0 14px 34px rgba(215,180,106,.20);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+
+    .btnGold:hover{
+      transform:translateY(-2px);
+      box-shadow:0 18px 40px rgba(215,180,106,.28);
+    }
+
+    .btnOutline{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 18px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.2);
+      background:rgba(255,255,255,.03);
+      color:#fff;
+      font-weight:800;
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .btnOutline:hover{
+      transform:translateY(-2px);
+      border-color:rgba(215,180,106,.38);
+      background:rgba(255,255,255,.06);
+    }
+
+    /* HERO */
+    .hero{
+      position:relative;
+      width:min(1200px, calc(100% - 40px));
+      margin:auto;
+      min-height:calc(100vh - 80px);
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      align-items:center;
+      gap:70px;
+      padding:50px 0 80px;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 75% 40%, rgba(255,94,219,.08), transparent 22%),
+        radial-gradient(circle at 25% 80%, rgba(215,180,106,.06), transparent 22%);
+      pointer-events:none;
+    }
+
+    .hero__left{
+      max-width:620px;
+      position:relative;
+      z-index:2;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:.2em;
+      margin:0 0 12px;
+      color:rgba(255,255,255,.82);
+      text-transform:uppercase;
+      font-weight:900;
+    }
+
+    .hero h1{
+      font-size:78px;
+      line-height:.92;
+      margin:0 0 12px;
+      letter-spacing:-.06em;
+      font-weight:900;
+      text-shadow:
+        0 0 18px rgba(255,255,255,.05),
+        0 8px 24px rgba(0,0,0,.28);
+    }
+
+    .hero__tagline{
+      font-size:20px;
+      font-weight:900;
+      color:var(--gold);
+      margin:10px 0 8px;
+      letter-spacing:.08em;
+      text-shadow:
+        0 0 6px rgba(215,180,106,.6),
+        0 0 14px rgba(215,180,106,.5);
+      animation:neonFlickerMain 3s infinite;
+    }
+
+    .hero__sub{
+      margin:0;
+      color:var(--soft);
+      line-height:1.7;
+      font-size:16px;
+      max-width:560px;
+    }
+
+    .hero__highlight{
+      font-size:14px;
+      font-weight:900;
+      color:var(--gold2);
+      margin-top:10px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      text-shadow:
+        0 0 10px rgba(242,211,138,1),
+        0 0 20px rgba(215,180,106,.9),
+        0 0 30px rgba(215,180,106,.8);
+      animation:neonFlicker 2.2s infinite;
+    }
+
+    .heroBtns{
+      margin-top:20px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .live{
+      margin-top:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.34);
+      background:rgba(215,180,106,.08);
+      box-shadow:
+        0 0 0 1px rgba(215,180,106,.04),
+        0 8px 24px rgba(0,0,0,.16);
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:
+        0 0 0 5px rgba(65,255,142,.12),
+        0 0 16px rgba(65,255,142,.48);
+      animation:pulseDot 1.8s ease-in-out infinite;
+    }
+
+    .live span{
+      font-size:11px;
+      letter-spacing:.10em;
+      font-weight:900;
+      text-transform:uppercase;
+      color:var(--gold2);
+    }
+
+    @keyframes pulseDot{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.15);opacity:.82}
+    }
+
+    /* RIGHT SIDE RESTORED */
+    .hero__right{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      min-height:100%;
+    }
+
+    .neonFloating{
+      text-align:right;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
+      animation:floatGlow 5s ease-in-out infinite;
+      position:relative;
+    }
+
+    .neonFloating::before{
+      content:"";
+      position:absolute;
+      width:320px;
+      height:320px;
+      right:-40px;
+      top:50%;
+      transform:translateY(-50%);
+      background:radial-gradient(circle, rgba(255,94,219,.10) 0%, rgba(255,94,219,.04) 35%, transparent 70%);
+      filter:blur(18px);
+      pointer-events:none;
+    }
+
+    @keyframes floatGlow{
+      0%,100%{ transform:translateY(0px); }
+      50%{ transform:translateY(-10px); }
+    }
+
+    .neonTop,
+    .neonBottom{
+      position:relative;
+      z-index:2;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.20em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.92);
+      text-shadow:
+        0 0 10px rgba(255,255,255,.10),
+        0 0 22px rgba(255,255,255,.08);
+    }
+
+    .neonMain{
+      position:relative;
+      z-index:2;
+      font-size:88px;
+      line-height:.92;
+      font-weight:900;
+      letter-spacing:-.05em;
+      color:var(--pink);
+      text-shadow:
+        0 0 8px var(--pink),
+        0 0 18px var(--pink),
+        0 0 36px rgba(255,94,219,.60),
+        0 0 72px rgba(255,94,219,.26);
+      animation:neonLogoFlicker 4.2s infinite alternate;
+    }
+
+    .neonSub{
+      position:relative;
+      z-index:2;
+      margin-top:8px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.15em;
+      color:var(--gold2);
+      text-transform:uppercase;
+      text-shadow:
+        0 0 10px rgba(215,180,106,.10),
+        0 0 24px rgba(215,180,106,.08);
+    }
+
+    @keyframes neonLogoFlicker{
+      0%,18%,22%,24%,53%,57%,100%{
+        color:var(--pink);
+        text-shadow:
+          0 0 8px var(--pink),
+          0 0 18px var(--pink),
+          0 0 36px rgba(255,94,219,.60),
+          0 0 72px rgba(255,94,219,.26);
+        opacity:1;
+      }
+      20%,55%{
+        color:var(--pink2);
+        text-shadow:
+          0 0 5px var(--pink2),
+          0 0 10px var(--pink2),
+          0 0 18px rgba(255,138,229,.30);
+        opacity:.92;
+      }
+    }
+
+    @keyframes neonFlicker{
+      0%,18%,22%,25%,53%,57%,100%{ opacity:1; }
+      20%,24%,55%{ opacity:.3; }
+    }
+
+    @keyframes neonFlickerMain{
+      0%,19%,21%,23%,80%,100%{ opacity:1; }
+      20%,22%,24%{ opacity:.5; }
+    }
+
+    /* responsive */
+    @media (max-width: 980px){
+      .hero{
+        grid-template-columns:1fr;
+        gap:34px;
+        min-height:auto;
+        padding:40px 0 60px;
+      }
+
+      .hero h1{
+        font-size:58px;
+      }
+
+      .hero__right{
+        justify-content:flex-start;
+      }
+
+      .neonMain{
+        font-size:64px;
+      }
+    }
+
+    @media (max-width: 680px){
+      .header__inner{
+        width:min(100% - 24px, 1200px);
+        min-height:70px;
+        flex-direction:column;
+        justify-content:center;
+        padding:10px 0;
+      }
+
+      .nav{
+        justify-content:center;
+        gap:12px;
+      }
+
+      .hero{
+        width:min(100% - 24px, 1200px);
+        padding:28px 0 48px;
+      }
+
+      .hero h1{
+        font-size:46px;
+      }
+
+      .hero__sub{
+        font-size:15px;
+      }
+
+      .heroBtns{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .btnOutline,
+      .btnGold{
+        min-width:170px;
+      }
+
+      .neonMain{
+        font-size:52px;
+      }
+
+      .neonTop,
+      .neonBottom{
+        font-size:12px;
+      }
+
+      .neonSub{
+        font-size:11px;
+      }
+    }
+  </style>
+
 </head>
 
-<body class="menu-page">
+<body>
 
   <header class="header">
-    <div class="container header__inner">
-      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+    <div class="header__inner">
+      <div class="brand">Allure Bar &amp; Lounge</div>
 
       <nav class="nav">
-        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-        <ul class="nav__list">
-          <li><a href="menu.html" class="active">Menu</a></li>
-          <li><a href="events.html">Events</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="location.html">Location</a></li>
-          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
-        </ul>
+        <a href="index.html" class="active">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="location.html">Location</a>
+        <a href="tel:2022974949" class="btnGold">Reserve</a>
       </nav>
     </div>
   </header>
 
-  <main class="menuWrap">
-    <div class="container">
+ <main>
+    <section class="hero">
+      <div class="hero__left">
+        <p class="eyebrow">Washington, DC</p>
 
-      <section class="menuWelcomeStrip">
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label" id="promoLabel">FREE HOOKAH MONDAY</span>
-          <span class="menuWelcomeStrip__text" id="promoText">With $50 bar tab — your choice of flavor</span>
+        <h1>Allure Bar &amp;<br>Lounge</h1>
+
+        <p class="hero__tagline">WE ARE NOT A CLUB. WE ARE A VIBE</p>
+      
+        <p class="hero__sub">
+          Hip Hop, R&amp;B, Latin, Afrobeats and Dancehall all night
+        </p>
+
+        <p class="hero__highlight">HAPPY HOUR EVERY DAY</p>
+
+  <div class="heroBtns">
+          <a href="menu.html" class="btnOutline">View Menu</a>
+          <a href="tel:2022974949" class="btnGold">Reserve VIP Table</a>
         </div>
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label">Experience</span>
-          <span class="menuWelcomeStrip__text">Premium lounge atmosphere with late-night energy</span>
+
+        <div class="live">
+          <div class="dot"></div>
+          <span>Tonight at Allure</span>
         </div>
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label">Reserve</span>
-          <span class="menuWelcomeStrip__text">202-297-4949</span>
-        </div>
-      </section>
 
-      <section class="gameHero" id="gameHero">
-        <div class="gameHero__card" id="gameHeroCard">
-          <div class="gameHero__glow"></div>
-
-          <div class="gameHero__content">
-            <div class="gameHero__meta">
-              <div class="gameHero__eyebrow">🎁 Exclusive Rewards</div>
-              <div class="gameHero__socialProof" id="gameHeroPlays">🔥 37 people played tonight</div>
-            </div>
-
-            <div class="gameHero__title" id="gameHeroTitle">Unlock Your 24 Box Game</div>
-            <div class="gameHero__text" id="gameHeroText">
-              Enter your Instagram or phone number, play to win, and unlock premium rewards for tonight.
-            </div>
-
-            <div class="gameHero__actions">
-              <button class="gameHero__btn gameHero__btn--gold" type="button" data-open-game>
-                Play Now
-              </button>
-              <button class="gameHero__btn gameHero__btn--ghost" type="button" data-open-game>
-                Unlock Rewards
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="dayTabs">
-        <button class="dayTab" type="button" data-daytab="monday">Monday</button>
-        <button class="dayTab" type="button" data-daytab="tuesday">Tuesday</button>
-        <button class="dayTab" type="button" data-daytab="wednesday">Wednesday</button>
-        <button class="dayTab" type="button" data-daytab="thursday">Thursday</button>
-        <button class="dayTab" type="button" data-daytab="friday">Friday</button>
-        <button class="dayTab" type="button" data-daytab="saturday">Saturday</button>
-        <button class="dayTab" type="button" data-daytab="sunday">Sunday</button>
       </div>
 
-    </div>
-
-    <!-- MONDAY -->
-    <section class="dayPanel" data-daypanel="monday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">MONDAY</div>
-            <div class="daySub">Free Hookah Monday • Happy Hour All Night</div>
-          </div>
-        </div>
-
-        <div class="menuCenterWrap">
-          <div class="menuTopCategories">
-            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-          </div>
-
-          <div class="menuBigPanel">
-            <div class="menuPanelTitle">Happy Hour • All Night</div>
-            <div class="menuPanelBody"></div>
-          </div>
-        </div>
-
-        <div class="menuBottomCategories outsideBottom">
-          <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-          <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-          <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-          <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-          <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-          <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
+      <div class="hero__right">
+        <div class="neonFloating">
+          <div class="neonTop">LET’S MAKE</div>
+          <div class="neonMain">ALLURE</div>
+          <div class="neonBottom">DECISIONS</div>
+          <div class="neonSub">THE ALLURE WAY.</div>
         </div>
       </div>
     </section>
-
-    <!-- TUESDAY -->
-    <section class="dayPanel" data-daypanel="tuesday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">TUESDAY</div>
-            <div class="daySub">Taco Tuesday • Happy Hour 5–9 • After 9 Late Night</div>
-          </div>
-        </div>
-
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • Late Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WEDNESDAY -->
-    <section class="dayPanel" data-daypanel="wednesday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">WEDNESDAY</div>
-            <div class="daySub">Weekdays Wednesday • Happy Hour 5–9 • After 9 Late Night</div>
-          </div>
-        </div>
-
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • Late Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- THURSDAY -->
-    <section class="dayPanel" data-daypanel="thursday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">THURSDAY</div>
-            <div class="daySub">Karaoke Thursday • Happy Hour 5–9 • After 9 Late Night</div>
-          </div>
-        </div>
-
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • Late Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FRIDAY -->
-    <section class="dayPanel" data-daypanel="friday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">FRIDAY</div>
-            <div class="daySub">Allure Friday • Happy Hour 5–9 • After 9 VIP Night</div>
-          </div>
-        </div>
-
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$20+ Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • VIP Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SATURDAY -->
-    <section class="dayPanel" data-daypanel="saturday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">SATURDAY</div>
-            <div class="daySub">Allure Saturday • Happy Hour 5–9 • After 9 VIP Night</div>
-          </div>
-        </div>
-
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$20+ Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
-
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • VIP Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
-
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SUNDAY -->
-    <section class="dayPanel" data-daypanel="sunday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">SUNDAY</div>
-            <div class="daySub">Social Sunday • Happy Hour All Night</div>
-          </div>
-        </div>
-
-        <div class="menuCenterWrap">
-          <div class="menuTopCategories">
-            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-          </div>
-
-          <div class="menuBigPanel">
-            <div class="menuPanelTitle">Happy Hour • All Night</div>
-            <div class="menuPanelBody"></div>
-          </div>
-        </div>
-
-        <div class="menuBottomCategories outsideBottom">
-          <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-          <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-          <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-          <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-          <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-          <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">24 Box Game</button>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <script src="assets/js/menu-data.js"></script>
-  <script src="assets/js/menu.js"></script>
 </body>
+</html>
