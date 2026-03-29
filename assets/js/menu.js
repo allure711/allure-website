@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
-  const GAME_CONFIG = window.ALLURE_GAME_CONFIG || {};
   const LEADS_STORAGE_KEY = "allure_vip_leads";
   const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwQLxbu0MUJgAeDVbEcoiNzgGUJJxw1or37j7O3kUMciqTZv1odLCP5SIgfLrk3Dfuq/exec";
 
@@ -56,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "VIP ACCESS UNLOCKED",
       text: "Exclusive rewards, premium offers, and stronger odds inside the 24 Box Game.",
       icon: "🥂",
-      theme: "vip"
+      theme: "vip",
+      rewardBoost: "vip"
     },
     teachers: {
       key: "teachers",
@@ -64,7 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "TEACHERS APPRECIATION",
       text: "Special appreciation rewards for teachers. Enter your phone or Instagram to unlock your teacher-only box.",
       icon: "🍎",
-      theme: "teachers"
+      theme: "teachers",
+      rewardBoost: "teachers"
     },
     dc: {
       key: "dc",
@@ -72,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "DC RESIDENT SPECIAL",
       text: "Exclusive local rewards for DC residents. Scan, unlock, and enjoy a locals-only Allure experience.",
       icon: "📍",
-      theme: "dc"
+      theme: "dc",
+      rewardBoost: "dc"
     }
   };
 
@@ -351,71 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function getGameRewards() {
-    return {
-      instagram: GAME_CONFIG?.rewards?.instagram || [
-        "Free Mixer",
-        "$2 Off Hookah",
-        "$3 Off Fishbowl",
-        "$3 Off Tower",
-        "10% Off Food",
-        "Free Red Bull w/ Drink",
-        "Hookah Flavor Upgrade",
-        "High Noon Discount"
-      ],
-      phone: GAME_CONFIG?.rewards?.phone || [
-        "$5 Off Hookah",
-        "Free Shot w/ $30 Tab",
-        "$5 Off Premium Drink",
-        "$5 Off Bottle Service",
-        "VIP Line Skip",
-        "$3 Off Tower",
-        "Taco Discount",
-        "Wine Upgrade"
-      ],
-      vip: GAME_CONFIG?.rewards?.vip || [
-        "Free Hookah (Min $50 Tab)",
-        "$10 Off Bottle",
-        "Premium Shot Upgrade",
-        "VIP Table Priority",
-        "Premium Hookah Flavor",
-        "Fishbowl Discount",
-        "Reserved Seating",
-        "Weekend VIP Perk"
-      ],
-      teachers: GAME_CONFIG?.rewards?.teachers || [
-        "Teacher Free Mixer",
-        "15% Off Food",
-        "$5 Off Hookah",
-        "Free Shot w/ Purchase",
-        "Teacher VIP Line Skip",
-        "$5 Off Fishbowl",
-        "Priority Seating",
-        "Teacher Appreciation Reward"
-      ],
-      dc: GAME_CONFIG?.rewards?.dc || [
-        "DC Local Discount",
-        "15% Off Food",
-        "$5 Off Hookah",
-        "$5 Off Tower",
-        "Free Mixer",
-        "Locals VIP Line Skip",
-        "Reserved Seating",
-        "DC Resident Reward"
-      ],
-      filler: GAME_CONFIG?.rewards?.filler || [
-        "Try Again",
-        "Good Vibes",
-        "Ask Server",
-        "Come Back",
-        "Next Time Lucky",
-        "Enjoy The Night",
-        "Ask About VIP",
-        "House Favorite"
-      ]
-    };
-  }
-
   /* =========================
      OFFER BANNER
   ========================= */
@@ -447,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     DAY PROMO CARD + EXTRA STYLES
+     DAY PROMO CARD + STYLES
   ========================= */
 
   function getPromoCard(day) {
@@ -472,6 +409,446 @@ document.addEventListener("DOMContentLoaded", () => {
     const style = document.createElement("style");
     style.id = "allureMenuEnhancementStyles";
     style.textContent = `
+      .offerExperienceBanner{
+        position:relative;
+        overflow:hidden;
+        border-radius:22px;
+        margin:2px 0 16px;
+        padding:16px 18px;
+        border:1px solid rgba(215,180,106,.22);
+        background:
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        box-shadow:
+          0 0 0 1px rgba(255,255,255,.02),
+          0 20px 46px rgba(0,0,0,.26),
+          inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .offerExperienceBanner__glow{
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        background:
+          radial-gradient(circle at 18% 28%, rgba(255,255,255,.08), transparent 28%),
+          radial-gradient(circle at 86% 72%, rgba(215,180,106,.12), transparent 30%);
+        filter:blur(16px);
+      }
+
+      .offerExperienceBanner__inner{
+        position:relative;
+        z-index:2;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+      }
+
+      .offerExperienceBanner__eyebrow{
+        font-size:11px;
+        font-weight:950;
+        letter-spacing:.18em;
+        text-transform:uppercase;
+        color:#f2d38a;
+        margin-bottom:6px;
+      }
+
+      .offerExperienceBanner__title{
+        font-size:26px;
+        font-weight:950;
+        line-height:1.05;
+        color:#fff;
+        letter-spacing:-.02em;
+      }
+
+      .offerExperienceBanner__text{
+        margin-top:8px;
+        color:rgba(255,255,255,.82);
+        font-size:14px;
+        line-height:1.5;
+        max-width:760px;
+      }
+
+      .offerExperienceBanner__icon{
+        flex:0 0 auto;
+        font-size:34px;
+        line-height:1;
+        filter:drop-shadow(0 0 10px rgba(215,180,106,.22));
+      }
+
+      .offerExperienceBanner--vip{
+        border-color:rgba(215,180,106,.34);
+        background:
+          radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
+          radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .offerExperienceBanner--teachers{
+        border-color:rgba(255,210,90,.26);
+        background:
+          radial-gradient(circle at top right, rgba(255,210,90,.12), transparent 36%),
+          radial-gradient(circle at top left, rgba(120,180,255,.08), transparent 34%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .offerExperienceBanner--dc{
+        border-color:rgba(120,190,255,.24);
+        background:
+          radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
+          radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard{
+        position:relative;
+        overflow:hidden;
+        border-radius:18px;
+        padding:14px 16px;
+        margin-bottom:12px;
+        border:1px solid rgba(215,180,106,.22);
+        background:
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        box-shadow:
+          0 0 0 1px rgba(255,255,255,.02),
+          0 16px 34px rgba(0,0,0,.22),
+          inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .promoDayCard__smoke{
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        opacity:.95;
+        background:
+          radial-gradient(circle at 18% 30%, rgba(255,255,255,.10), transparent 28%),
+          radial-gradient(circle at 78% 72%, rgba(215,180,106,.12), transparent 34%);
+        filter:blur(16px);
+        animation:promoSmokeFloat 8s ease-in-out infinite;
+      }
+
+      .promoDayCard__inner{
+        position:relative;
+        z-index:2;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:14px;
+      }
+
+      .promoDayCard__copy{
+        min-width:0;
+      }
+
+      .promoDayCard__title{
+        font-size:12px;
+        font-weight:950;
+        letter-spacing:.15em;
+        text-transform:uppercase;
+        color:#f2d38a;
+        text-shadow:
+          0 0 8px rgba(242,211,138,.22),
+          0 0 20px rgba(215,180,106,.12);
+      }
+
+      .promoDayCard__text{
+        margin-top:5px;
+        color:rgba(255,255,255,.82);
+        font-size:12px;
+        line-height:1.4;
+      }
+
+      .promoDayCard__icon{
+        flex:0 0 auto;
+        font-size:24px;
+        line-height:1;
+        filter:drop-shadow(0 0 10px rgba(215,180,106,.20));
+        opacity:.96;
+      }
+
+      .promoDayCard--hookah{
+        border-color:rgba(215,180,106,.28);
+        background:
+          radial-gradient(circle at top right, rgba(215,180,106,.10), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--taco{
+        border-color:rgba(255,180,80,.26);
+        background:
+          radial-gradient(circle at top right, rgba(255,180,80,.12), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--midweek{
+        border-color:rgba(155,120,255,.24);
+        background:
+          radial-gradient(circle at top right, rgba(155,120,255,.12), transparent 38%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--karaoke{
+        border-color:rgba(255,120,190,.24);
+        background:
+          radial-gradient(circle at top right, rgba(255,120,190,.10), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--vip{
+        border-color:rgba(215,180,106,.34);
+        background:
+          radial-gradient(circle at top right, rgba(155,70,255,.16), transparent 38%),
+          radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 34%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--weekend{
+        border-color:rgba(255,120,120,.24);
+        background:
+          radial-gradient(circle at top right, rgba(255,120,120,.12), transparent 36%),
+          radial-gradient(circle at top left, rgba(215,180,106,.08), transparent 32%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .promoDayCard--social{
+        border-color:rgba(120,190,255,.22);
+        background:
+          radial-gradient(circle at top right, rgba(120,190,255,.10), transparent 36%),
+          linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      }
+
+      .leadModalOverlay{
+        position:fixed;
+        inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:rgba(0,0,0,.72);
+        backdrop-filter:blur(4px);
+        z-index:9999;
+        padding:20px;
+      }
+
+      .leadModal{
+        width:100%;
+        max-width:420px;
+        border-radius:18px;
+        border:1px solid rgba(215,180,106,.26);
+        background:
+          radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 35%),
+          linear-gradient(180deg, rgba(23,23,25,.98), rgba(12,12,14,.98));
+        box-shadow:
+          0 24px 60px rgba(0,0,0,.55),
+          inset 0 1px 0 rgba(255,255,255,.04);
+        padding:18px;
+        position:relative;
+      }
+
+      .leadModal__close{
+        position:absolute;
+        top:10px;
+        right:12px;
+        border:none;
+        background:transparent;
+        color:rgba(255,255,255,.7);
+        font-size:22px;
+        cursor:pointer;
+      }
+
+      .leadModal__title{
+        font-size:12px;
+        font-weight:950;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        color:#f2d38a;
+        margin-bottom:8px;
+      }
+
+      .leadModal__sub{
+        color:rgba(255,255,255,.76);
+        font-size:13px;
+        line-height:1.45;
+        margin-bottom:12px;
+      }
+
+      .leadModal__grid{
+        display:grid;
+        gap:10px;
+      }
+
+      .leadModal__grid .staffInput{
+        min-height:46px;
+        padding:12px 14px;
+      }
+
+      .leadModal__grid .hybridBtn{
+        min-height:46px;
+      }
+
+      .mysteryGameShell{
+        position:relative;
+        width:100%;
+      }
+
+      .mysteryGameTopbar{
+        display:flex;
+        align-items:center;
+        justify-content:flex-start;
+        margin-bottom:4px;
+      }
+
+      .mysteryBackBtn{
+        border:1px solid rgba(215,180,106,.28);
+        background:rgba(255,255,255,.03);
+        color:#f2d38a;
+        border-radius:999px;
+        padding:6px 10px;
+        font-size:10px;
+        font-weight:900;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        cursor:pointer;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .mysteryMetaTop{
+        color:rgba(255,255,255,.72);
+        font-size:11px;
+        line-height:1.2;
+        margin-bottom:4px;
+      }
+
+      .mysteryRewardTop{
+        display:none;
+        margin-bottom:6px;
+        border:1px solid rgba(215,180,106,.24);
+        background:linear-gradient(180deg, rgba(215,180,106,.12), rgba(255,255,255,.03));
+        border-radius:12px;
+        padding:8px 10px;
+        box-shadow:
+          0 10px 24px rgba(0,0,0,.14),
+          inset 0 1px 0 rgba(255,255,255,.04);
+      }
+
+      .mysteryRewardTop.is-visible{
+        display:block;
+      }
+
+      .mysteryRewardTop__label{
+        font-size:9px;
+        font-weight:900;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        color:rgba(255,255,255,.66);
+        margin-bottom:4px;
+      }
+
+      .mysteryRewardTop__text{
+        font-size:13px;
+        font-weight:900;
+        line-height:1.2;
+        color:#f2d38a;
+      }
+
+      .mysteryGameShell .hybridTitle{
+        font-size:18px;
+        margin-bottom:4px;
+      }
+
+      .mysteryOfferBadge{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        margin-bottom:8px;
+        padding:6px 10px;
+        border-radius:999px;
+        border:1px solid rgba(215,180,106,.26);
+        background:rgba(215,180,106,.08);
+        color:#f2d38a;
+        font-size:10px;
+        font-weight:900;
+        letter-spacing:.14em;
+        text-transform:uppercase;
+      }
+
+      .mysteryGrid{
+        display:grid;
+        grid-template-columns:repeat(8, minmax(0, 1fr));
+        gap:6px;
+        width:100%;
+      }
+
+      .mysteryBox{
+        min-height:36px;
+        border-radius:10px;
+        padding:5px 4px;
+        font-size:10px;
+        font-weight:900;
+        line-height:1.05;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        white-space:normal;
+        word-break:break-word;
+        overflow:hidden;
+        border:1px solid rgba(255,255,255,.12);
+        background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.05));
+        box-shadow:0 8px 18px rgba(0,0,0,.12);
+        transition:
+          transform .16s ease,
+          border-color .18s ease,
+          box-shadow .18s ease,
+          opacity .18s ease,
+          background .18s ease;
+      }
+
+      .mysteryBox:hover{
+        transform:translateY(-1px);
+        border-color:rgba(215,180,106,.36);
+        box-shadow:
+          0 10px 22px rgba(0,0,0,.16),
+          0 0 18px rgba(215,180,106,.12);
+      }
+
+      .mysteryBox.is-open{
+        font-size:10px;
+        line-height:1.05;
+      }
+
+      .mysteryBox.is-locked{
+        opacity:.42;
+        cursor:not-allowed;
+      }
+
+      .mysteryBox.is-winning{
+        border-color:rgba(242,211,138,.9);
+        background:
+          radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 40%),
+          linear-gradient(135deg, rgba(242,211,138,.92), rgba(215,180,106,.78));
+        color:#111;
+        box-shadow:
+          0 0 0 1px rgba(242,211,138,.55),
+          0 0 26px rgba(242,211,138,.38),
+          0 14px 34px rgba(0,0,0,.24);
+        animation:goldRewardFlash .9s ease;
+      }
+
+      .mysteryReveal{
+        display:none;
+      }
+
+      .mysteryRevealText{
+        min-height:18px;
+        font-size:12px;
+        line-height:1.25;
+      }
+
+      .menuBigPanel,
+      .menuPanelBody,
+      .hybridGame{
+        overflow:hidden;
+      }
+
       .gameOverlay{
         position:fixed;
         inset:0;
@@ -508,16 +885,18 @@ document.addEventListener("DOMContentLoaded", () => {
         overflow:hidden;
       }
 
-      .gameOverlay .hybridGame,
+      .gameOverlay .hybridGame{
+        gap:14px;
+        width:100%;
+      }
+
       .gameOverlay .mysteryGameShell{
         width:100%;
       }
 
       .gameOverlay .mysteryGrid{
-        display:grid;
         grid-template-columns:repeat(3, minmax(0, 1fr));
         gap:10px;
-        width:100%;
       }
 
       .gameOverlay .mysteryBox{
@@ -532,17 +911,19 @@ document.addEventListener("DOMContentLoaded", () => {
         padding:8px;
       }
 
-      .mysteryBox.is-winning{
-        border-color:rgba(242,211,138,.9);
-        background:
-          radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 40%),
-          linear-gradient(135deg, rgba(242,211,138,.92), rgba(215,180,106,.78));
-        color:#111;
-        box-shadow:
-          0 0 0 1px rgba(242,211,138,.55),
-          0 0 26px rgba(242,211,138,.38),
-          0 14px 34px rgba(0,0,0,.24);
-        animation:goldRewardFlash .9s ease;
+      .gameOverlay .mysteryRewardTop{
+        display:block;
+      }
+
+      .gameOverlay .mysteryGameShell .hybridTitle{
+        font-size:16px;
+        line-height:1.1;
+        word-break:break-word;
+      }
+
+      @keyframes promoSmokeFloat{
+        0%,100%{ transform:translate(0,0) scale(1); opacity:.82; }
+        50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
       }
 
       @keyframes goldRewardFlash{
@@ -560,7 +941,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      @media (max-width:760px){
+      @media (max-width: 1100px){
+        .mysteryGrid{
+          grid-template-columns:repeat(6, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px){
+        .offerExperienceBanner__title{
+          font-size:22px;
+        }
+
+        .offerExperienceBanner__inner{
+          align-items:flex-start;
+        }
+
+        .mysteryGrid{
+          grid-template-columns:repeat(4, minmax(0, 1fr));
+          gap:6px;
+        }
+
+        .mysteryBox{
+          min-height:38px;
+          font-size:10px;
+          padding:6px 4px;
+        }
+
         .gameOverlay .mysteryGrid{
           grid-template-columns:repeat(3, minmax(0, 1fr));
           gap:10px;
@@ -572,7 +978,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      @media (max-width:520px){
+      @media (max-width: 520px){
+        .offerExperienceBanner__inner{
+          flex-direction:column;
+          align-items:flex-start;
+        }
+
+        .offerExperienceBanner__icon{
+          font-size:28px;
+        }
+
+        .mysteryGrid{
+          grid-template-columns:repeat(3, minmax(0, 1fr));
+          gap:6px;
+        }
+
+        .mysteryBox{
+          min-height:40px;
+          font-size:10px;
+          padding:6px 4px;
+        }
+
         .gameOverlay__scroll{
           padding:12px 10px calc(24px + env(safe-area-inset-bottom));
         }
@@ -855,21 +1281,86 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================= */
 
   function getGameItems(type, offerKey = "") {
-    const rewards = getGameRewards();
+    const igRewards = [
+      "Free Mixer",
+      "$2 Off Hookah",
+      "$3 Off Fishbowl",
+      "$3 Off Tower",
+      "10% Off Food",
+      "Free Red Bull w/ Drink",
+      "Hookah Flavor Upgrade",
+      "High Noon Discount"
+    ];
+
+    const phoneRewards = [
+      "$5 Off Hookah",
+      "Free Shot w/ $30 Tab",
+      "$5 Off Premium Drink",
+      "$5 Off Bottle Service",
+      "VIP Line Skip",
+      "$3 Off Tower",
+      "Taco Discount",
+      "Wine Upgrade"
+    ];
+
+    const vipRewards = [
+      "Free Hookah (Min $50 Tab)",
+      "$10 Off Bottle",
+      "Premium Shot Upgrade",
+      "VIP Table Priority",
+      "Premium Hookah Flavor",
+      "Fishbowl Discount",
+      "Reserved Seating",
+      "Weekend VIP Perk"
+    ];
+
+    const teacherRewards = [
+      "Teacher Free Mixer",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "Free Shot w/ Purchase",
+      "Teacher VIP Line Skip",
+      "$5 Off Fishbowl",
+      "Priority Seating",
+      "Teacher Appreciation Reward"
+    ];
+
+    const dcRewards = [
+      "DC Local Discount",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "$5 Off Tower",
+      "Free Mixer",
+      "Locals VIP Line Skip",
+      "Reserved Seating",
+      "DC Resident Reward"
+    ];
+
+    const fillers = [
+      "Try Again",
+      "Good Vibes",
+      "Ask Server",
+      "Come Back",
+      "Next Time Lucky",
+      "Enjoy The Night",
+      "Ask About VIP",
+      "House Favorite"
+    ];
+
     let pool = [];
 
     if (offerKey === "vip") {
-      pool = [...rewards.vip, ...rewards.vip, ...rewards.phone, ...rewards.filler];
+      pool = [...vipRewards, ...vipRewards, ...phoneRewards, ...fillers];
     } else if (offerKey === "teachers") {
-      pool = [...rewards.teachers, ...rewards.teachers, ...rewards.instagram, ...rewards.filler];
+      pool = [...teacherRewards, ...teacherRewards, ...igRewards, ...fillers];
     } else if (offerKey === "dc") {
-      pool = [...rewards.dc, ...rewards.dc, ...rewards.phone, ...rewards.filler];
+      pool = [...dcRewards, ...dcRewards, ...phoneRewards, ...fillers];
     } else if (type === "phone") {
-      pool = [...rewards.phone, ...rewards.instagram, ...rewards.filler];
+      pool = [...phoneRewards, ...igRewards, ...fillers];
     } else if (type === "vip") {
-      pool = [...rewards.vip, ...rewards.phone, ...rewards.filler];
+      pool = [...vipRewards, ...phoneRewards, ...fillers];
     } else {
-      pool = [...rewards.instagram, ...rewards.filler, ...rewards.filler];
+      pool = [...igRewards, ...fillers, ...fillers];
     }
 
     while (pool.length < 24) {
@@ -1016,10 +1507,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panel.innerHTML = `
       <div class="hybridGame">
-        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
+        ${offerConfig ? `
+          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
+        ` : ""}
         ${getPromoCard(day)}
+
         <div class="hybridTitle">${copy.title}</div>
-        <div class="hybridSub">${copy.text}</div>
+        <div class="hybridSub">
+          ${copy.text}
+        </div>
+
         <div class="hybridActions">
           <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">${copy.igLabel}</button>
           <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="phone">${copy.phoneLabel}</button>
@@ -1047,7 +1544,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="mysteryBackBtn" type="button" data-back>Back</button>
         </div>
 
-        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
+        ${offerConfig ? `
+          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
+        ` : ""}
 
         <div class="mysteryMetaTop">
           ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
