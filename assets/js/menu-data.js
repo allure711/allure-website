@@ -321,19 +321,57 @@ window.MENU_CATEGORY_CONTENT = {
         title: "Classic Flavors",
         items: [
           { name: "Blueberry", price: "$23" },
-          { name: "BMW", price: "$23" },
           { name: "Mint", price: "$23" },
           { name: "Peach", price: "$23" },
-          { name: "Gum Mint", price: "$23" }
+          { name: "Grape", price: "$23" },
+          { name: "Watermelon", price: "$23" },
+          { name: "Strawberry", price: "$23" },
+          { name: "Pineapple", price: "$23" },
+          { name: "Mango", price: "$23" },
+          { name: "Orange", price: "$23" },
+          { name: "Cherry", price: "$23" },
+          { name: "Apple", price: "$23" },
+          { name: "Double Apple", price: "$23" }
+        ]
+      },
+      {
+        title: "Mint / Fresh Line",
+        items: [
+          { name: "Gum Mint", price: "$23" },
+          { name: "Ice Mint", price: "$23" },
+          { name: "Lemon Mint", price: "$23" },
+          { name: "Mint Cream", price: "$23" }
+        ]
+      },
+      {
+        title: "Popular Mixes",
+        items: [
+          { name: "BMW (Blueberry Mint Watermelon)", price: "$23" },
+          { name: "Peach Mint", price: "$23" },
+          { name: "Strawberry Banana", price: "$23" },
+          { name: "Mango Peach", price: "$23" },
+          { name: "Pineapple Mint", price: "$23" },
+          { name: "Watermelon Mint", price: "$23" },
+          { name: "Blueberry Mint", price: "$23" }
         ]
       },
       {
         title: "Premium Gold (+$2)",
         items: [
           { name: "Bluemist", price: "$25" },
-          { name: "Lady Killer", price: "$25" },
           { name: "Love 66", price: "$25" },
-          { name: "Magic Love", price: "$25" }
+          { name: "Lady Killer", price: "$25" },
+          { name: "Magic Love", price: "$25" },
+          { name: "White Gummy Bear", price: "$25" },
+          { name: "Pink Lemonade", price: "$25" }
+        ]
+      },
+      {
+        title: "Signature Allure Mixes",
+        items: [
+          { name: "Allure Special", desc: "Sweet tropical blend + mint", price: "$25" },
+          { name: "Midnight Vibe", desc: "Berry + ice mint mix", price: "$25" },
+          { name: "VIP Smoke", desc: "Premium fruit fusion", price: "$25" }
         ]
       }
     ]
@@ -369,6 +407,157 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Bottle menu coming soon" }
         ]
       }
+    ]
+  }
+};
+
+window.MENU_HIGHLIGHTS = {
+  monday: [
+    { name: "Salmon Sliders w/ Fries" },
+    { name: "Free Hookah Monday" },
+    { name: "Allure Lemon Drop" }
+  ],
+  tuesday: [
+    { name: "Classic Margarita" },
+    { name: "Hookah" },
+    { name: "Fishbowl" }
+  ],
+  wednesday: [
+    { name: "Long Island" },
+    { name: "Hookah" },
+    { name: "High Noon" }
+  ],
+  thursday: [
+    { name: "Mojito" },
+    { name: "Hookah" },
+    { name: "Fishbowl" }
+  ],
+  friday: [
+    { name: "Premium" },
+    { name: "Hookah" },
+    { name: "Tower" }
+  ],
+  saturday: [
+    { name: "Premium" },
+    { name: "Hookah" },
+    { name: "Fishbowl" }
+  ],
+  sunday: [
+    { name: "Hookah" },
+    { name: "Fishbowl" },
+    { name: "Allure Lemon Drop" }
+  ]
+};
+
+window.ALLURE_LIVE_STATUS = {
+  monday: {
+    title: "Free Hookah Monday • Happy Hour All Night",
+    tags: ["Happy Hour All Night", "Free Hookah", "Cocktails", "Food"]
+  },
+  tuesday: {
+    title: "Happy Hour 5–9 • Late Night Lounge",
+    tags: ["Happy Hour 5–9", "Hookah Lounge", "Shots", "Late Night"]
+  },
+  wednesday: {
+    title: "Midweek Social • After 9 Vibes",
+    tags: ["Midweek Social", "Hookah", "High Noon", "Late Night"]
+  },
+  thursday: {
+    title: "Karaoke Thursday • Late Night Energy",
+    tags: ["Karaoke Night", "Happy Hour", "Hookah", "Late Night"]
+  },
+  friday: {
+    title: "VIP Friday • Tables • Bottle Service",
+    tags: ["VIP Night", "Bottle Service", "Hookah", "After 9"]
+  },
+  saturday: {
+    title: "VIP Saturday • Premium Nightlife",
+    tags: ["VIP Night", "Premium Drinks", "Hookah", "Tables"]
+  },
+  sunday: {
+    title: "Social Sunday • Happy Hour All Night",
+    tags: ["Happy Hour All Night", "Hookah", "Fishbowls", "Food"]
+  }
+};
+
+/* =========================================
+   GAME CONFIG
+   This does NOT break your current menu.js.
+   It is here so your game content is also stored
+   in one easy place for future editing.
+========================================= */
+
+window.ALLURE_GAME_CONFIG = {
+  labels: {
+    defaultTitle: "Unlock Your VIP Mystery Box",
+    defaultText: "Enter your Instagram or phone number to play. Enter both for VIP reward odds."
+  },
+
+  rewards: {
+    instagram: [
+      "Free Mixer",
+      "$2 Off Hookah",
+      "$3 Off Fishbowl",
+      "$3 Off Tower",
+      "10% Off Food",
+      "Free Red Bull w/ Drink",
+      "Hookah Flavor Upgrade",
+      "High Noon Discount"
+    ],
+
+    phone: [
+      "$5 Off Hookah",
+      "Free Shot w/ $30 Tab",
+      "$5 Off Premium Drink",
+      "$5 Off Bottle Service",
+      "VIP Line Skip",
+      "$3 Off Tower",
+      "Taco Discount",
+      "Wine Upgrade"
+    ],
+
+    vip: [
+      "Free Hookah (Min $50 Tab)",
+      "$10 Off Bottle",
+      "Premium Shot Upgrade",
+      "VIP Table Priority",
+      "Premium Hookah Flavor",
+      "Fishbowl Discount",
+      "Reserved Seating",
+      "Weekend VIP Perk"
+    ],
+
+    teachers: [
+      "Teacher Free Mixer",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "Free Shot w/ Purchase",
+      "Teacher VIP Line Skip",
+      "$5 Off Fishbowl",
+      "Priority Seating",
+      "Teacher Appreciation Reward"
+    ],
+
+    dc: [
+      "DC Local Discount",
+      "15% Off Food",
+      "$5 Off Hookah",
+      "$5 Off Tower",
+      "Free Mixer",
+      "Locals VIP Line Skip",
+      "Reserved Seating",
+      "DC Resident Reward"
+    ],
+
+    filler: [
+      "Try Again",
+      "Good Vibes",
+      "Ask Server",
+      "Come Back",
+      "Next Time Lucky",
+      "Enjoy The Night",
+      "Ask About VIP",
+      "House Favorite"
     ]
   }
 };
