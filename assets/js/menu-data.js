@@ -1,7 +1,4 @@
 window.MENU_CATEGORY_CONTENT = {
-  /* =========================
-     FOOD
-  ========================= */
   food: {
     sections: [
       {
@@ -113,9 +110,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     HAPPY HOUR / STANDARD
-  ========================= */
   shots5: {
     sections: [
       {
@@ -178,9 +172,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     MID-TIER
-  ========================= */
   shots7: {
     sections: [
       {
@@ -237,9 +228,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     PREMIUM
-  ========================= */
   premium: {
     sections: [
       {
@@ -267,9 +255,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     WINE / BEER / CANNED
-  ========================= */
   wine6: {
     sections: [
       {
@@ -317,9 +302,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     NON-ALCOHOLIC
-  ========================= */
   na: {
     sections: [
       {
@@ -333,9 +315,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     HOOKAH
-  ========================= */
   hookah23: {
     sections: [
       {
@@ -398,9 +377,6 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  /* =========================
-     FEATURED ITEMS
-  ========================= */
   tower43: {
     sections: [
       {
