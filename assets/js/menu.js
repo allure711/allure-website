@@ -997,7 +997,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
   998
 
-  1000
+  function bindSubTabs(panelBody, content, catKey = "") {
+  const allSections = content?.sections || [];
+  const sections =
+    catKey === "hookah23"
+      ? allSections.filter(section => section.title !== "Refill")
+      : allSections;
+
+  const refillSection =
+    catKey === "hookah23"
+      ? allSections.find(section => section.title === "Refill")
+      : null;
+
+  const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
+  const subBody = panelBody.querySelector(".menuSubBody");
+
+  if (!tabs.length || !subBody || !sections.length) return;
+
+  function activateSubsection(title) {
+    tabs.forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.subsection === title);
+    });
+
+    const section = sections.find(s => s.title === title);
+
+    if (!section) {
+      subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
+      return;
+    }
+
+    if (section.layout === "grouped") {
+      subBody.innerHTML = renderGroupedMenu(section);
+    } else {
+      subBody.innerHTML = renderFlatMenu(section.items || []);
+    }
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      activateSubsection(tab.dataset.subsection);
+    });
+  });
+
+  const refillBtn = panelBody.querySelector("[data-hookah-refill]");
+  if (refillBtn && refillSection) {
+    refillBtn.addEventListener("click", () => {
+      subBody.innerHTML = renderFlatMenu(refillSection.items || []);
+      tabs.forEach(tab => tab.classList.remove("active"));
+    });
+  }
+
+  activateSubsection(sections[0].title);
+}
 
   /* =========================
      LEAD MODAL
