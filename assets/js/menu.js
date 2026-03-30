@@ -993,7 +993,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     })
   };
-}
+} 
 
   function renderSectionedMenu(content) {
     const sections = content?.sections || [];
