@@ -230,7 +230,7 @@ window.MENU_CATEGORY_CONTENT = {
         items: [
           { name: "Hennessy Vsop", price: "$7 / $14" },
           { name: "Remy 1738", price: "$7 / $14" },
-          { name: "Remy Vsop", price: "$7 / $14" }
+          { name: "Remy Vsop", price: "$7 / $14" },
           { name: "Dusse", price: "$7 / $14" }
         ]
       }
@@ -342,7 +342,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Guava", price: "$23" },
           { name: "Kiwi", price: "$23" },
           { name: "Vanilla", price: "$23" },
-          { name: "Double Apple", price: "$23" },
+          { name: "Double Apple", price: "$23" }
         ]
       },
       {
@@ -362,7 +362,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Vanilla Mint", price: "$23" },
           { name: "Gum Mint", price: "$23" },
           { name: "Lemon Mint", price: "$23" },
-          { name: "Double Apple Mint", price: "$23" },
+          { name: "Double Apple Mint", price: "$23" }
         ]
       },
       {
@@ -375,7 +375,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Pineapple Mint", price: "$23" },
           { name: "Watermelon Mint Vanilla", price: "$23" },
           { name: "Blueberry Mint Vanila", price: "$23" },
-          { name: "Kiwi Peach Mint", price: "$23" },
+          { name: "Kiwi Peach Mint", price: "$23" }
         ]
       },
       {
@@ -384,7 +384,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Bluemist", price: "$25" },
           { name: "Love 66", price: "$25" },
           { name: "Lady Killer", price: "$25" },
-          { name: "Magic Love", price: "$25" },
+          { name: "Magic Love", price: "$25" }
         ]
       },
       {
@@ -393,7 +393,7 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Allure Special", desc: "Bluemist + peach", price: "$25" },
           { name: "Midnight Vibe", desc: "Love 66 + vanilla", price: "$25" },
           { name: "VIP Smoke", desc: "Lady Killer + Vanilla", price: "$25" },
-          { name: "VIP Smoke", desc: "Magic Love + pineapple", price: "$25" },
+          { name: "VIP Smoke", desc: "Magic Love + pineapple", price: "$25" }
         ]
       }
     ]
