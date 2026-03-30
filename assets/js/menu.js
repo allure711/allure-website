@@ -997,40 +997,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   998
 
-  function bindSubTabs(panelBody, content) {
-    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
-    const subBody = panelBody.querySelector(".menuSubBody");
-    const sections = content?.sections || [];
-
-    if (!tabs.length || !subBody || !sections.length) return;
-
-    function activateSubsection(title) {
-      tabs.forEach(tab => {
-        tab.classList.toggle("active", tab.dataset.subsection === title);
-      });
-
-      const section = sections.find(s => s.title === title);
-
-      if (!section) {
-        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
-        return;
-      }
-
-      if (section.layout === "grouped") {
-        subBody.innerHTML = renderGroupedMenu(section);
-      } else {
-        subBody.innerHTML = renderFlatMenu(section.items || []);
-      }
-    }
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        activateSubsection(tab.dataset.subsection);
-      });
-    });
-
-    activateSubsection(sections[0].title);
-  }
+  1000
 
   /* =========================
      LEAD MODAL
