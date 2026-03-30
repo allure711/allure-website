@@ -315,6 +315,86 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+  drinks12: {
+    sections: [
+      {
+        title: "Vodka",
+        items: [
+          { name: "Absolut", price: "$12" },
+          { name: "Belvedere", price: "$12" },
+          { name: "Ciroc", price: "$12" },
+          { name: "Grey Goose", price: "$12" },
+          { name: "Ketel One", price: "$12" },
+          { name: "Stoli Orange", price: "$12" },
+          { name: "Tito's", price: "$12" }
+        ]
+      },
+      {
+        title: "Tequila",
+        items: [
+          { name: "1800", price: "$12" },
+          { name: "Altos", price: "$12" },
+          { name: "Espolon", price: "$12" },
+          { name: "Hornitos", price: "$12" },
+          { name: "Jose Cuervo", price: "$12" },
+          { name: "Lunazul", price: "$12" },
+          { name: "Milagro", price: "$12" },
+          { name: "Teremana", price: "$12" }
+        ]
+      },
+      {
+        title: "Whiskey",
+        items: [
+          { name: "Basil Hayden", price: "$12" },
+          { name: "Bulliet", price: "$12" },
+          { name: "Chivas Regal", price: "$12" },
+          { name: "Crown", price: "$12" },
+          { name: "Dewar's", price: "$12" },
+          { name: "Fireball", price: "$12" },
+          { name: "Jack Daniel's", price: "$12" },
+          { name: "Jameson", price: "$12" },
+          { name: "Jim Beam", price: "$12" },
+          { name: "Makers Mark", price: "$12" },
+          { name: "Woodford", price: "$12" }
+        ]
+      },
+      {
+        title: "Rum",
+        items: [
+          { name: "Bacardi", price: "$12" },
+          { name: "Captain Morgan", price: "$12" },
+          { name: "Malibu", price: "$12" },
+          { name: "Myers", price: "$12" }
+        ]
+      },
+      {
+        title: "Gin",
+        items: [
+          { name: "Bombay", price: "$12" },
+          { name: "Tanqueray", price: "$12" },
+          { name: "Roku", price: "$12" }
+        ]
+      },
+      {
+        title: "Liqueur",
+        items: [
+          { name: "Disaronno", price: "$12" },
+          { name: "Grand Marnier", price: "$12" },
+          { name: "Hpnotiq", price: "$12" },
+          { name: "Jagemeister", price: "$12" },
+          { name: "Midori", price: "$12" }
+        ]
+      },
+      {
+        title: "Cognac",
+        items: [
+          { name: "Hennessy", price: "$12" },
+          { name: "D’usse", price: "$12" }
+        ]
+      }
+    ]
+  },
+  
   premium: {
     sections: [
       {
