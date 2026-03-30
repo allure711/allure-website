@@ -1529,8 +1529,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const content = getContentByMode(baseContent, mode);
-    panel.innerHTML = renderSectionedMenu(content);
-    bindSubTabs(panel, content);
+    panel.innerHTML = renderSectionedMenu(content, catkey);
+    bindSubTabs(panel, content, catkey);
   }
 
   function setupWrap(wrap) {
