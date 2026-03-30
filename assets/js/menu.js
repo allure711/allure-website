@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const GAME_CONFIG = window.ALLURE_GAME_CONFIG || {};
   const LEADS_STORAGE_KEY = "allure_vip_leads";
   const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwQLxbu0MUJgAeDVbEcoiNzgGUJJxw1or37j7O3kUMciqTZv1odLCP5SIgfLrk3Dfuq/exec";
 
@@ -616,15 +617,15 @@ document.addEventListener("DOMContentLoaded", () => {
         align-items:center;
         justify-content:center;
         background:rgba(0,0,0,.72);
-        backdrop-filter: blur(4px);
+        backdrop-filter:blur(4px);
         z-index:9999;
         padding:20px;
       }
 
       .leadModal{
         width:100%;
-        max-width:420px;
-        border-radius:18px;
+        max-width:430px;
+        border-radius:20px;
         border:1px solid rgba(215,180,106,.26);
         background:
           radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 35%),
@@ -632,7 +633,7 @@ document.addEventListener("DOMContentLoaded", () => {
         box-shadow:
           0 24px 60px rgba(0,0,0,.55),
           inset 0 1px 0 rgba(255,255,255,.04);
-        padding:18px;
+        padding:20px;
         position:relative;
       }
 
@@ -669,12 +670,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .leadModal__grid .staffInput{
-        min-height:46px;
+        min-height:48px;
         padding:12px 14px;
       }
 
       .leadModal__grid .hybridBtn{
-        min-height:46px;
+        min-height:48px;
       }
 
       .mysteryGameShell{
@@ -684,8 +685,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .mysteryGameTopbar{
         display:flex;
         align-items:center;
-        justify-content:flex-start;
-        margin-bottom:4px;
+        justify-content:space-between;
+        gap:10px;
+        margin-bottom:6px;
+      }
+
+      .mysteryTopHint{
+        color:rgba(255,255,255,.58);
+        font-size:10px;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        font-weight:800;
       }
 
       .mysteryBackBtn{
@@ -705,20 +715,21 @@ document.addEventListener("DOMContentLoaded", () => {
       .mysteryMetaTop{
         color:rgba(255,255,255,.72);
         font-size:11px;
-        line-height:1.2;
-        margin-bottom:4px;
+        line-height:1.3;
+        margin-bottom:6px;
       }
 
       .mysteryRewardTop{
         display:none;
-        margin-bottom:6px;
-        border:1px solid rgba(215,180,106,.24);
-        background:linear-gradient(180deg, rgba(215,180,106,.12), rgba(255,255,255,.03));
-        border-radius:12px;
-        padding:8px 10px;
+        margin-bottom:8px;
+        border:1px solid rgba(215,180,106,.26);
+        background:linear-gradient(180deg, rgba(215,180,106,.14), rgba(255,255,255,.03));
+        border-radius:14px;
+        padding:10px 12px;
         box-shadow:
           0 10px 24px rgba(0,0,0,.14),
           inset 0 1px 0 rgba(255,255,255,.04);
+        animation:mysteryPulseIn .22s ease;
       }
 
       .mysteryRewardTop.is-visible{
@@ -735,15 +746,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .mysteryRewardTop__text{
-        font-size:13px;
+        font-size:14px;
         font-weight:900;
-        line-height:1.2;
+        line-height:1.25;
         color:#f2d38a;
       }
 
       .mysteryGameShell .hybridTitle{
         font-size:18px;
-        margin-bottom:4px;
+        margin-bottom:2px;
+      }
+
+      .mysteryGameSub{
+        color:rgba(255,255,255,.68);
+        font-size:12px;
+        line-height:1.45;
+        margin-bottom:8px;
       }
 
       .mysteryOfferBadge{
@@ -765,13 +783,14 @@ document.addEventListener("DOMContentLoaded", () => {
       .mysteryGrid{
         display:grid;
         grid-template-columns:repeat(8, minmax(0, 1fr));
-        gap:6px;
+        gap:8px;
       }
 
       .mysteryBox{
-        min-height:36px;
-        border-radius:10px;
-        padding:5px 4px;
+        appearance:none;
+        min-height:42px;
+        border-radius:12px;
+        padding:6px 4px;
         font-size:10px;
         font-weight:900;
         line-height:1.05;
@@ -782,11 +801,41 @@ document.addEventListener("DOMContentLoaded", () => {
         white-space:normal;
         word-break:break-word;
         overflow:hidden;
+        border:1px solid rgba(255,255,255,.12);
+        background:linear-gradient(135deg, rgba(215,180,106,.20), rgba(255,255,255,.04));
+        color:#fff;
+        box-shadow:
+          0 8px 18px rgba(0,0,0,.12),
+          inset 0 1px 0 rgba(255,255,255,.03);
+        transition:transform .14s ease, border-color .14s ease, opacity .18s ease, background .18s ease, box-shadow .18s ease;
+      }
+
+      .mysteryBox:hover{
+        transform:translateY(-1px);
+        border-color:rgba(215,180,106,.34);
+        box-shadow:
+          0 10px 22px rgba(0,0,0,.16),
+          0 0 16px rgba(215,180,106,.10),
+          inset 0 1px 0 rgba(255,255,255,.04);
       }
 
       .mysteryBox.is-open{
-        font-size:10px;
-        line-height:1.05;
+        background:linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,255,255,.08));
+        border-color:rgba(215,180,106,.38);
+        color:#f2d38a;
+        box-shadow:
+          0 12px 24px rgba(0,0,0,.18),
+          0 0 18px rgba(215,180,106,.12),
+          inset 0 1px 0 rgba(255,255,255,.06);
+      }
+
+      .mysteryBox.is-locked{
+        opacity:.34;
+        cursor:not-allowed;
+      }
+
+      .mysteryBox.is-winning{
+        animation:mysteryWinFlash .55s ease;
       }
 
       .mysteryReveal{
@@ -810,6 +859,17 @@ document.addEventListener("DOMContentLoaded", () => {
         50%{ transform:translate(8px,-8px) scale(1.06); opacity:1; }
       }
 
+      @keyframes mysteryPulseIn{
+        from{ opacity:0; transform:translateY(6px); }
+        to{ opacity:1; transform:translateY(0); }
+      }
+
+      @keyframes mysteryWinFlash{
+        0%{ transform:scale(1); }
+        50%{ transform:scale(1.05); }
+        100%{ transform:scale(1); }
+      }
+
       @media (max-width: 1100px){
         .mysteryGrid{
           grid-template-columns:repeat(6, minmax(0, 1fr));
@@ -831,7 +891,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         .mysteryBox{
-          min-height:38px;
+          min-height:40px;
           font-size:10px;
           padding:6px 4px;
         }
@@ -853,7 +913,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         .mysteryBox{
-          min-height:40px;
+          min-height:42px;
           font-size:10px;
           padding:6px 4px;
         }
@@ -1111,87 +1171,88 @@ document.addEventListener("DOMContentLoaded", () => {
      24 BOX GAME
   ========================= */
 
+  function getRewardsFromConfig() {
+    const rewards = GAME_CONFIG?.rewards || {};
+    return {
+      instagram: Array.isArray(rewards.instagram) && rewards.instagram.length ? rewards.instagram : [
+        "Free Mixer",
+        "$2 Off Hookah",
+        "$3 Off Fishbowl",
+        "$3 Off Tower",
+        "10% Off Food",
+        "Free Red Bull w/ Drink",
+        "Hookah Flavor Upgrade",
+        "High Noon Discount"
+      ],
+      phone: Array.isArray(rewards.phone) && rewards.phone.length ? rewards.phone : [
+        "$5 Off Hookah",
+        "Free Shot w/ $30 Tab",
+        "$5 Off Premium Drink",
+        "$5 Off Bottle Service",
+        "VIP Line Skip",
+        "$3 Off Tower",
+        "Taco Discount",
+        "Wine Upgrade"
+      ],
+      vip: Array.isArray(rewards.vip) && rewards.vip.length ? rewards.vip : [
+        "Free Hookah (Min $50 Tab)",
+        "$10 Off Bottle",
+        "Premium Shot Upgrade",
+        "VIP Table Priority",
+        "Premium Hookah Flavor",
+        "Fishbowl Discount",
+        "Reserved Seating",
+        "Weekend VIP Perk"
+      ],
+      teachers: Array.isArray(rewards.teachers) && rewards.teachers.length ? rewards.teachers : [
+        "Teacher Free Mixer",
+        "15% Off Food",
+        "$5 Off Hookah",
+        "Free Shot w/ Purchase",
+        "Teacher VIP Line Skip",
+        "$5 Off Fishbowl",
+        "Priority Seating",
+        "Teacher Appreciation Reward"
+      ],
+      dc: Array.isArray(rewards.dc) && rewards.dc.length ? rewards.dc : [
+        "DC Local Discount",
+        "15% Off Food",
+        "$5 Off Hookah",
+        "$5 Off Tower",
+        "Free Mixer",
+        "Locals VIP Line Skip",
+        "Reserved Seating",
+        "DC Resident Reward"
+      ],
+      filler: Array.isArray(rewards.filler) && rewards.filler.length ? rewards.filler : [
+        "Try Again",
+        "Good Vibes",
+        "Ask Server",
+        "Come Back",
+        "Next Time Lucky",
+        "Enjoy The Night",
+        "Ask About VIP",
+        "House Favorite"
+      ]
+    };
+  }
+
   function getGameItems(type, offerKey = "") {
-    const igRewards = [
-      "Free Mixer",
-      "$2 Off Hookah",
-      "$3 Off Fishbowl",
-      "$3 Off Tower",
-      "10% Off Food",
-      "Free Red Bull w/ Drink",
-      "Hookah Flavor Upgrade",
-      "High Noon Discount"
-    ];
-
-    const phoneRewards = [
-      "$5 Off Hookah",
-      "Free Shot w/ $30 Tab",
-      "$5 Off Premium Drink",
-      "$5 Off Bottle Service",
-      "VIP Line Skip",
-      "$3 Off Tower",
-      "Taco Discount",
-      "Wine Upgrade"
-    ];
-
-    const vipRewards = [
-      "Free Hookah (Min $50 Tab)",
-      "$10 Off Bottle",
-      "Premium Shot Upgrade",
-      "VIP Table Priority",
-      "Premium Hookah Flavor",
-      "Fishbowl Discount",
-      "Reserved Seating",
-      "Weekend VIP Perk"
-    ];
-
-    const teacherRewards = [
-      "Teacher Free Mixer",
-      "15% Off Food",
-      "$5 Off Hookah",
-      "Free Shot w/ Purchase",
-      "Teacher VIP Line Skip",
-      "$5 Off Fishbowl",
-      "Priority Seating",
-      "Teacher Appreciation Reward"
-    ];
-
-    const dcRewards = [
-      "DC Local Discount",
-      "15% Off Food",
-      "$5 Off Hookah",
-      "$5 Off Tower",
-      "Free Mixer",
-      "Locals VIP Line Skip",
-      "Reserved Seating",
-      "DC Resident Reward"
-    ];
-
-    const fillers = [
-      "Try Again",
-      "Good Vibes",
-      "Ask Server",
-      "Come Back",
-      "Next Time Lucky",
-      "Enjoy The Night",
-      "Ask About VIP",
-      "House Favorite"
-    ];
-
+    const rewards = getRewardsFromConfig();
     let pool = [];
 
     if (offerKey === "vip") {
-      pool = [...vipRewards, ...vipRewards, ...phoneRewards, ...fillers];
+      pool = [...rewards.vip, ...rewards.vip, ...rewards.phone, ...rewards.filler];
     } else if (offerKey === "teachers") {
-      pool = [...teacherRewards, ...teacherRewards, ...igRewards, ...fillers];
+      pool = [...rewards.teachers, ...rewards.teachers, ...rewards.instagram, ...rewards.filler];
     } else if (offerKey === "dc") {
-      pool = [...dcRewards, ...dcRewards, ...phoneRewards, ...fillers];
+      pool = [...rewards.dc, ...rewards.dc, ...rewards.phone, ...rewards.filler];
     } else if (type === "phone") {
-      pool = [...phoneRewards, ...igRewards, ...fillers];
+      pool = [...rewards.phone, ...rewards.instagram, ...rewards.filler];
     } else if (type === "vip") {
-      pool = [...vipRewards, ...phoneRewards, ...fillers];
+      pool = [...rewards.vip, ...rewards.phone, ...rewards.filler];
     } else {
-      pool = [...igRewards, ...fillers, ...fillers];
+      pool = [...rewards.instagram, ...rewards.filler, ...rewards.filler];
     }
 
     while (pool.length < 24) {
@@ -1202,10 +1263,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getLeadGateCopy(offerConfig) {
+    const defaultTitle = GAME_CONFIG?.labels?.defaultTitle || "Unlock Your VIP Mystery Box";
+    const defaultText = GAME_CONFIG?.labels?.defaultText || "Enter your Instagram or phone number to play. Enter both for VIP reward odds.";
+
     if (!offerConfig) {
       return {
-        title: "Unlock Your VIP Mystery Box",
-        text: "Enter your Instagram or phone number to play.<br>Enter both for VIP reward odds.",
+        title: defaultTitle,
+        text: `${defaultText}<br>Pick one box and reveal tonight’s reward.`,
         igLabel: "Instagram",
         phoneLabel: "Phone",
         vipLabel: "VIP"
@@ -1214,7 +1278,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (offerConfig.key === "vip") {
       return {
-        title: "Unlock Your VIP Mystery Box",
+        title: defaultTitle,
         text: "VIP access is active. Enter your Instagram or phone number to unlock premium rewards.<br>Enter both for stronger VIP odds.",
         igLabel: "VIP Instagram",
         phoneLabel: "VIP Phone",
@@ -1249,15 +1313,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panel.innerHTML = `
       <div class="hybridGame">
-        ${offerConfig ? `
-          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
-        ` : ""}
+        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
         ${getPromoCard(day)}
 
         <div class="hybridTitle">${copy.title}</div>
-        <div class="hybridSub">
-          ${copy.text}
-        </div>
+        <div class="hybridSub">${copy.text}</div>
 
         <div class="hybridActions">
           <button class="hybridBtn hybridBtn--ghost" type="button" data-entry="ig">${copy.igLabel}</button>
@@ -1274,6 +1334,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function getGameSubcopy(entryType, offerKey) {
+    if (offerKey === "vip") return "Pick one box only. VIP rewards are weighted heavier tonight.";
+    if (offerKey === "teachers") return "Pick one box only. Teacher appreciation rewards are active tonight.";
+    if (offerKey === "dc") return "Pick one box only. Local rewards are active tonight.";
+    if (entryType === "vip") return "Pick one box only. Full-access entries have stronger premium odds.";
+    if (entryType === "phone") return "Pick one box only. Phone entries unlock stronger direct rewards.";
+    return "Pick one box only. Instagram entries unlock social reward odds.";
+  }
+
   function renderGame(panel, leadInfo) {
     const { entryType = "ig", instagram = "", phone = "", day = getTodayName() } = leadInfo || {};
     const offerConfig = getOfferConfig();
@@ -1284,11 +1353,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="hybridGame mysteryGameShell">
         <div class="mysteryGameTopbar">
           <button class="mysteryBackBtn" type="button" data-back>Back</button>
+          <div class="mysteryTopHint">One box only</div>
         </div>
 
-        ${offerConfig ? `
-          <div class="mysteryOfferBadge">${offerConfig.badge}</div>
-        ` : ""}
+        ${offerConfig ? `<div class="mysteryOfferBadge">${offerConfig.badge}</div>` : ""}
 
         <div class="mysteryMetaTop">
           ${entryType === "ig" ? `Instagram: ${instagram}` : ""}
@@ -1302,10 +1370,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="hybridTitle">🎁 Mystery Box Game</div>
+        <div class="mysteryGameSub">${getGameSubcopy(entryType, offerKey)}</div>
 
         <div class="mysteryGrid">
           ${Array.from({ length: 24 }).map((_, i) => `
-            <button class="mysteryBox" type="button" data-box="${i}">
+            <button class="mysteryBox" type="button" data-box="${i}" aria-label="Mystery box ${i + 1}">
               ${i + 1}
             </button>
           `).join("")}
@@ -1329,16 +1398,20 @@ document.addEventListener("DOMContentLoaded", () => {
         used = true;
 
         const reward = items[i];
+        const wonSomething = String(reward).toLowerCase() !== "try again";
+
         revealText.textContent = reward;
         rewardTop.classList.add("is-visible");
         rewardTopText.textContent = reward;
 
         boxes.forEach((b, idx) => {
           if (idx === i) {
-            b.textContent = "OPEN";
+            b.textContent = wonSomething ? "OPEN" : "TRY";
             b.classList.add("is-open");
+            if (wonSomething) b.classList.add("is-winning");
           } else {
             b.classList.add("is-locked");
+            b.disabled = true;
           }
         });
 
