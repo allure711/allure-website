@@ -1,4 +1,177 @@
+window.MENU_CATEGORY_CONTENT = {
+  food: {
+    sections: [
+      {
+        title: "Appetizers",
+        items: [
+          { name: "Salmon Sliders w/ Fries", price: "$12" },
+          { name: "Beef Sliders w/ Fries", price: "$10" },
+          { name: "Mozzarella Sticks", price: "$7" },
+          { name: "Fried Pickles", price: "$5" },
+          { name: "Chips & Salsa", price: "$5" },
+          { name: "Onion Rings", price: "$7" },
+          { name: "Fries", price: "$5" }
+        ]
+      },
 
+      {
+        title: "Wings",
+        layout: "grouped",
+        groups: [
+          {
+            title: "WITH FRIES",
+            items: [
+              { name: "12 PCS", price: "$16" },
+              { name: "8 PCS", price: "$14" },
+              { name: "6 PCS", price: "$12" }
+            ]
+          },
+          {
+            title: "NO FRIES",
+            items: [
+              { name: "12 PCS", price: "$14" },
+              { name: "8 PCS", price: "$10" },
+              { name: "6 PCS", price: "$8" }
+            ]
+          }
+        ]
+      },
+
+      {
+        title: "Quesadillas",
+        items: [
+          { name: "Cheese", price: "$8" },
+          { name: "Chicken", price: "$10" },
+          { name: "Shrimp", price: "$12" },
+          { name: "Salmon", price: "$14" }
+        ]
+      },
+
+      {
+        title: "Rasta Pasta or Alfredo",
+        items: [
+          { name: "Chicken", price: "$16" },
+          { name: "Shrimp", price: "$18" },
+          { name: "Salmon", price: "$20" }
+        ]
+      },
+
+      {
+        title: "Salads",
+        items: [
+          { name: "Salad", price: "$8" },
+          { name: "Chicken", price: "$10" },
+          { name: "Shrimp", price: "$12" },
+          { name: "Salmon", price: "$13" }
+        ]
+      },
+
+      {
+        title: "Dinner",
+        items: [
+          { name: "Salmon", desc: "Yellow rice & broccoli", price: "$20" },
+          { name: "General Tso", desc: "Yellow rice & broccoli", price: "$18" },
+          { name: "Beef Burger w/ Fries", desc: "Mayo, lettuce, tomato, cheese", price: "$13" },
+          { name: "Fried Shrimp Basket", price: "$18" },
+          { name: "Crab Fries Basket", price: "$18" },
+          { name: "Fried Whiting Basket", price: "$15" },
+          { name: "Salmon Nugget Basket", price: "$15" },
+          { name: "Catfish Nuggets Basket", price: "$13" }
+        ]
+      },
+
+      {
+        title: "Tacos",
+        items: [
+          { name: "Shrimp Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$16" },
+          { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
+        ]
+      },
+
+      {
+        title: "Wing Flavors",
+        layout: "grouped",
+        groups: [
+          {
+            title: "Dry",
+            items: [
+              { name: "Lemon Pepper" },
+              { name: "Jerk Rub" },
+              { name: "Old Bay" }
+            ]
+          },
+          {
+            title: "Wet",
+            items: [
+              { name: "Honey Lemon Pepper" },
+              { name: "Honey Old Bay" },
+              { name: "Buffalo BBQ" },
+              { name: "Honey Sazon" },
+              { name: "Sweet Chili" },
+              { name: "Teriyaki" },
+              { name: "Mumbo" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  shots5: {
+    sections: [
+      {
+        title: "Vodka",
+        items: [
+          { name: "Absolut", price: "$5 / $10" },
+          { name: "Belvedere", price: "$5 / $10" },
+          { name: "Ciroc", price: "$5 / $10" },
+          { name: "Grey Goose", price: "$5 / $10" },
+          { name: "Ketel One", price: "$5 / $10" },
+          { name: "Stoli Orange", price: "$5 / $10" },
+          { name: "Tito's", price: "$5 / $10" }
+        ]
+      },
+      {
+        title: "Tequila",
+        items: [
+          { name: "1800", desc: "Blanco / Repo", price: "$5 / $10" },
+          { name: "Altos", price: "$5 / $10" },
+          { name: "Espolon", price: "$5 / $10" },
+          { name: "Hornitos", price: "$5 / $10" },
+          { name: "Jose Cuervo", price: "$5 / $10" },
+          { name: "Lunazul", price: "$5 / $10" },
+          { name: "Milagro", price: "$5 / $10" },
+          { name: "Teremana", price: "$5 / $10" }
+        ]
+      }
+    ]
+  },
+
+  premium: {
+    sections: [
+      {
+        title: "Premium Shots",
+        items: [
+          { name: "Don Julio 1942", price: "$20 / $35" },
+          { name: "Clase Azul", price: "$25 / $40" }
+        ]
+      }
+    ]
+  },
+
+  hookah23: {
+    sections: [
+      {
+        title: "Classic Flavors",
+        items: [
+          { name: "Blueberry", price: "$23" },
+          { name: "Mint", price: "$23" },
+          { name: "Peach", price: "$23" }
+        ]
+      }
+    ]
+  }
+};
 
   shots5: {
     sections: [
