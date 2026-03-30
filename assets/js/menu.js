@@ -978,22 +978,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return { shots, drinks };
   }
 
-  function getContentByMode(content, mode) {
-    if (!content || !content.sections) return content;
-    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
-
-    return {
-      ...content,
-      sections: content.sections.map(section => {
-        if (section.layout === "grouped") return section;
-        const split = splitShotsAndDrinks(section.items || []);
-        return {
-          ...section,
-          items: mode === "shots" ? split.shots : split.drinks
-        };
-      })
-    };
-  }
+  981
 
   function renderSectionedMenu(content) {
     const sections = content?.sections || [];
