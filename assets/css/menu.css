@@ -786,7 +786,43 @@ body{
   margin:0;
 }
 
-h
+.menuGrouped__title{
+  display:none;
+}
+
+.menuGrouped__title::after{
+  display:none;
+}
+
+.menuGrouped__box{
+  position:relative;
+  overflow:hidden;
+  border:none;
+  background:transparent;
+  border-radius:0;
+  padding:0;
+  transition:none;
+  box-shadow:none;
+}
+
+.menuGrouped__box:hover{
+  border:none;
+  box-shadow:none;
+  transform:none;
+}
+
+.menuGrouped__boxTitle{
+  position:relative;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:10px;
+  padding-bottom:0;
+  border-bottom:none;
+  text-align:left;
+}
 
 .gameShell{
   display:grid;
