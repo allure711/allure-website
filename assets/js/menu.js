@@ -978,7 +978,36 @@ document.addEventListener("DOMContentLoaded", () => {
     return { shots, drinks };
   }
 
-  981
+  function getContentByMode(content, mode) {
+  if (!content || !content.sections) return content;
+  if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
+
+  const result = {
+    ...content,
+    sections: content.sections.map(section => {
+      if (section.layout === "grouped") return section;
+
+      const split = splitShotsAndDrinks(section.items || []);
+
+      let items = mode === "shots" ? split.shots : split.drinks;
+
+      // ✅ ONLY CHANGE: force ALL drinks to $12 when drinks mode is used
+      if (mode === "drinks") {
+        items = items.map(item => ({
+          ...item,
+          price: "$12"
+        }));
+      }
+
+      return {
+        ...section,
+        items
+      };
+    })
+  };
+
+  return result;
+}
 
   function renderSectionedMenu(content) {
     const sections = content?.sections || [];
