@@ -195,54 +195,43 @@ window.MENU_CATEGORY_CONTENT = {
   shots7: {
     sections: [
       {
-        title: "Vodka",
-        items: [
-          { name: "Tito's Handmade", price: "$7 / $14" },
-          { name: "Grey Goose", price: "$7 / $14" },
-          { name: "Belvedere", price: "$7 / $14" },
-          { name: "Ciroc", price: "$7 / $14" },
-          { name: "Ketel One", price: "$7 / $14" }
-        ]
-      },
-      {
         title: "Tequila",
         items: [
+          { name: "818", price: "$7 / $14" },
+          { name: "Casa Azul", price: "$7 / $14" },
           { name: "Casamigos", price: "$7 / $14" },
+          { name: "Ciroc Vs", price: "$7 / $14" },
           { name: "Don Julio", price: "$7 / $14" },
-          { name: "Patron", price: "$7 / $14" },
-          { name: "Teremana", price: "$7 / $14" },
-          { name: "Espolon", price: "$7 / $14" }
+          { name: "Herradura", price: "$7 / $14" },
+          { name: "Patron", price: "$7 / $14" }
         ]
       },
       {
         title: "Whiskey",
         items: [
-          { name: "Jameson", price: "$7 / $14" },
-          { name: "Jack Daniel's", price: "$7 / $14" },
-          { name: "Crown Royal", price: "$7 / $14" },
-          { name: "Maker's Mark", price: "$7 / $14" }
+          { name: "Sir Davis", price: "$7 / $14" },
+          { name: "Old Forester", price: "$7 / $14" }
         ]
       },
       {
         title: "Rum",
         items: [
-          { name: "Bacardi Superior", price: "$7 / $14" },
-          { name: "Captain Morgan", price: "$7 / $14" },
-          { name: "Malibu", price: "$7 / $14" }
+          { name: "Equiano", price: "$7 / $14" }
         ]
       },
       {
         title: "Gin",
         items: [
-          { name: "Bombay Sapphire", price: "$7 / $14" },
-          { name: "Tanqueray", price: "$7 / $14" }
+          { name: "Hendricks", price: "$7 / $14" }
         ]
       },
       {
         title: "Cognac",
         items: [
-          { name: "Hennessy", price: "$7 / $14" },
-          { name: "D’usse", price: "$7 / $14" }
+          { name: "Hennessy Vsop", price: "$7 / $14" },
+          { name: "Remy 1738", price: "$7 / $14" },
+          { name: "Remy Vsop", price: "$7 / $14" }
+          { name: "Dusse", price: "$7 / $14" }
         ]
       }
     ]
