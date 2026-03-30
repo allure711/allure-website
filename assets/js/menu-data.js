@@ -13,7 +13,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Fries", price: "$5" }
         ]
       },
-
       {
         title: "Wings",
         layout: "grouped",
@@ -36,17 +35,15 @@ window.MENU_CATEGORY_CONTENT = {
           }
         ]
       },
-
       {
         title: "Quesadillas",
         items: [
-          { name: "Cheese", price: "$8" },
-          { name: "Chicken", price: "$10" },
-          { name: "Shrimp", price: "$12" },
-          { name: "Salmon", price: "$14" }
+          { name: "Cheese Quesadilla", price: "$8" },
+          { name: "Chicken Quesadilla", price: "$10" },
+          { name: "Shrimp Quesadilla", price: "$12" },
+          { name: "Salmon Quesadilla", price: "$14" }
         ]
       },
-
       {
         title: "Rasta Pasta or Alfredo",
         items: [
@@ -55,17 +52,15 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Salmon", price: "$20" }
         ]
       },
-
       {
         title: "Salads",
         items: [
           { name: "Salad", price: "$8" },
-          { name: "Chicken", price: "$10" },
-          { name: "Shrimp", price: "$12" },
-          { name: "Salmon", price: "$13" }
+          { name: "Chicken Salad", price: "$10" },
+          { name: "Shrimp Salad", price: "$12" },
+          { name: "Salmon Salad", price: "$13" }
         ]
       },
-
       {
         title: "Dinner",
         items: [
@@ -79,7 +74,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Catfish Nuggets Basket", price: "$13" }
         ]
       },
-
       {
         title: "Tacos",
         items: [
@@ -87,7 +81,6 @@ window.MENU_CATEGORY_CONTENT = {
           { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
         ]
       },
-
       {
         title: "Wing Flavors",
         layout: "grouped",
@@ -116,62 +109,6 @@ window.MENU_CATEGORY_CONTENT = {
       }
     ]
   },
-
-  shots5: {
-    sections: [
-      {
-        title: "Vodka",
-        items: [
-          { name: "Absolut", price: "$5 / $10" },
-          { name: "Belvedere", price: "$5 / $10" },
-          { name: "Ciroc", price: "$5 / $10" },
-          { name: "Grey Goose", price: "$5 / $10" },
-          { name: "Ketel One", price: "$5 / $10" },
-          { name: "Stoli Orange", price: "$5 / $10" },
-          { name: "Tito's", price: "$5 / $10" }
-        ]
-      },
-      {
-        title: "Tequila",
-        items: [
-          { name: "1800", desc: "Blanco / Repo", price: "$5 / $10" },
-          { name: "Altos", price: "$5 / $10" },
-          { name: "Espolon", price: "$5 / $10" },
-          { name: "Hornitos", price: "$5 / $10" },
-          { name: "Jose Cuervo", price: "$5 / $10" },
-          { name: "Lunazul", price: "$5 / $10" },
-          { name: "Milagro", price: "$5 / $10" },
-          { name: "Teremana", price: "$5 / $10" }
-        ]
-      }
-    ]
-  },
-
-  premium: {
-    sections: [
-      {
-        title: "Premium Shots",
-        items: [
-          { name: "Don Julio 1942", price: "$20 / $35" },
-          { name: "Clase Azul", price: "$25 / $40" }
-        ]
-      }
-    ]
-  },
-
-  hookah23: {
-    sections: [
-      {
-        title: "Classic Flavors",
-        items: [
-          { name: "Blueberry", price: "$23" },
-          { name: "Mint", price: "$23" },
-          { name: "Peach", price: "$23" }
-        ]
-      }
-    ]
-  }
-};
 
   shots5: {
     sections: [
