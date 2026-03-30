@@ -140,10 +140,18 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Whiskey",
         items: [
-          { name: "Jameson", price: "$5 / $10" },
+         
+          { name: "Basil Hayden", price: "$5 / $10" },
+          { name: "Bulliet", price: "$5 / $10" },
+          { name: "Chivas Regal", price: "$5 / $10" },
+          { name: "Crown ", price: "$5 / $10" },
+          { name: "Dewar's", price: "$5 / $10" },
+          { name: "Fireball", price: "$5 / $10" },
           { name: "Jack Daniel's", price: "$5 / $10" },
-          { name: "Crown Royal", price: "$5 / $10" },
-          { name: "Jim Beam", price: "$5 / $10" }
+          { name: "Jameson", price: "$5 / $10" },
+          { name: "Jim Beam", price: "$5 / $10" },
+          { name: "Makers Mark", price: "$5 / $10" },
+          { name: "Woodford", price: "$5 / $10" }
         ]
       },
       {
@@ -151,7 +159,8 @@ window.MENU_CATEGORY_CONTENT = {
         items: [
           { name: "Bacardi", price: "$5 / $10" },
           { name: "Captain Morgan", price: "$5 / $10" },
-          { name: "Malibu", price: "$5 / $10" }
+          { name: "Malibu", price: "$5 / $10" },
+          { name: "Myers", price: "$5 / $10" }
         ]
       },
       {
@@ -159,9 +168,20 @@ window.MENU_CATEGORY_CONTENT = {
         items: [
           { name: "Bombay", price: "$5 / $10" },
           { name: "Tanqueray", price: "$5 / $10" },
-          { name: "Beefeater", price: "$5 / $10" }
+          { name: "Roku", price: "$5 / $10" }
         ]
       },
+      {
+        title: "Liqueur",
+        items: [
+          { name: "Disaronno", price: "$5 / $10" },
+          { name: "Grand Marnier", price: "$5 / $10" },
+          { name: "Hpnotiq", price: "$5 / $10" },
+          { name: "Jagemeister", price: "$5 / $10" },
+          { name: "Midori", price: "$5 / $10" }
+        ]
+      },
+      
       {
         title: "Cognac",
         items: [
