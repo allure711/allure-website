@@ -995,7 +995,51 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 } 
 
-  998
+  function renderSectionedMenu(content, catKey = "") {
+  const sections = content?.sections || [];
+
+  if (!sections.length) {
+    return `<div class="menuEmpty">Menu coming soon.</div>`;
+  }
+
+  const visibleSections =
+    catKey === "hookah23"
+      ? sections.filter(section => section.title !== "Refill")
+      : sections;
+
+  const refillSection =
+    catKey === "hookah23"
+      ? sections.find(section => section.title === "Refill")
+      : null;
+
+  return `
+    <div class="menuNested">
+      <div class="menuSubTabs">
+        ${visibleSections.map(section => `
+          <button class="menuSubTab" type="button" data-subsection="${section.title}">
+            ${section.title}
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="menuSubBody"></div>
+
+      ${
+        refillSection
+          ? `
+            <div class="hookahUpsell">
+              <div class="hookahUpsell__label">Add-On</div>
+              <button class="hookahUpsell__btn" type="button" data-hookah-refill>
+                <span class="hookahUpsell__name">${refillSection.items?.[0]?.name || "Hookah Refill"}</span>
+                <span class="hookahUpsell__price">${refillSection.items?.[0]?.price || ""}</span>
+              </button>
+            </div>
+          `
+          : ""
+      }
+    </div>
+  `;
+}
 
   function bindSubTabs(panelBody, content, catKey = "") {
   const allSections = content?.sections || [];
