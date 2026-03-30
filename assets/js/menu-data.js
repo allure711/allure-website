@@ -480,6 +480,13 @@ window.ALLURE_LIVE_STATUS = {
   }
 };
 
+/* =========================================
+   GAME CONFIG
+   This does NOT break your current menu.js.
+   It is here so your game content is also stored
+   in one easy place for future editing.
+========================================= */
+
 window.ALLURE_GAME_CONFIG = {
   labels: {
     defaultTitle: "Unlock Your VIP Mystery Box",
