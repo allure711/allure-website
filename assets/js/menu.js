@@ -995,26 +995,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 } 
 
-  function renderSectionedMenu(content) {
-    const sections = content?.sections || [];
-
-    if (!sections.length) {
-      return `<div class="menuEmpty">Menu coming soon.</div>`;
-    }
-
-    return `
-      <div class="menuNested">
-        <div class="menuSubTabs">
-          ${sections.map(section => `
-            <button class="menuSubTab" type="button" data-subsection="${section.title}">
-              ${section.title}
-            </button>
-          `).join("")}
-        </div>
-        <div class="menuSubBody"></div>
-      </div>
-    `;
-  }
+  998
 
   function bindSubTabs(panelBody, content) {
     const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
