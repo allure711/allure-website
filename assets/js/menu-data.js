@@ -38,10 +38,10 @@ window.MENU_CATEGORY_CONTENT = {
       {
         title: "Quesadillas",
         items: [
-          { name: "Cheese Quesadilla", price: "$8" },
-          { name: "Chicken Quesadilla", price: "$10" },
-          { name: "Shrimp Quesadilla", price: "$12" },
-          { name: "Salmon Quesadilla", price: "$14" }
+          { name: "Cheese ", price: "$8" },
+          { name: "Chicken ", price: "$10" },
+          { name: "Shrimp ", price: "$12" },
+          { name: "Salmon ", price: "$14" }
         ]
       },
       {
@@ -56,9 +56,9 @@ window.MENU_CATEGORY_CONTENT = {
         title: "Salads",
         items: [
           { name: "Salad", price: "$8" },
-          { name: "Chicken Salad", price: "$10" },
-          { name: "Shrimp Salad", price: "$12" },
-          { name: "Salmon Salad", price: "$13" }
+          { name: "Chicken ", price: "$10" },
+          { name: "Shrimp ", price: "$12" },
+          { name: "Salmon ", price: "$13" }
         ]
       },
       {
