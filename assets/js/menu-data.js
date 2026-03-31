@@ -402,7 +402,49 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  405
+hookahRefill15: {
+  sections: [
+    {
+      title: "Hookah Refill",
+      items: [
+        { name: "Refill", price: "$15" }
+      ]
+    }
+  ]
+},
+
+hookahRefill12: {
+  sections: [
+    {
+      title: "Hookah Refill",
+      items: [
+        { name: "Refill (Happy Hour 5–9pm)", price: "$12" }
+      ]
+    }
+  ]
+},
+
+hookahRefill14: {
+  sections: [
+    {
+      title: "Hookah Refill",
+      items: [
+        { name: "Refill (After 9pm)", price: "$14" }
+      ]
+    }
+  ]
+},
+
+hookahRefill23: {
+  sections: [
+    {
+      title: "Hookah Refill",
+      items: [
+        { name: "Refill (Weekend After 9pm)", price: "$23" }
+      ]
+    }
+  ]
+},
   hookah23: {
     sections: [
       {
