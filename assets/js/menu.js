@@ -995,6 +995,31 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  function getHookahRefillCategory() {
+    const activeDayPanel = document.querySelector(".dayPanel.active");
+    const day = activeDayPanel?.dataset.daypanel || "";
+    const panelTitle = activeDayPanel?.querySelector(".menuPanelTitle")?.textContent?.toLowerCase() || "";
+
+    if (day === "monday") return "hookahRefill15";
+    if (day === "sunday") return "hookahRefill15";
+
+    if (day === "tuesday" || day === "wednesday") {
+      if (panelTitle.includes("after 9")) return "hookahRefill14";
+      return "hookahRefill12";
+    }
+
+    if (day === "thursday") {
+      return "hookahRefill12";
+    }
+
+    if (day === "friday" || day === "saturday") {
+      if (panelTitle.includes("after 9") || panelTitle.includes("vip night")) return "hookahRefill23";
+      return "hookahRefill12";
+    }
+
+    return "hookahRefill12";
+  }
+
   function renderSectionedMenu(content, catKey = "") {
     const sections = content?.sections || [];
 
@@ -1011,7 +1036,12 @@ document.addEventListener("DOMContentLoaded", () => {
             </button>
           `).join("")}
           ${catKey === "hookah23" ? `
-            <button class="menuSubTab menuSubTab--upsell" type="button" data-hookah-refill="true">
+            <button
+              class="menuSubTab menuSubTab--upsell"
+              type="button"
+              data-hookah-refill="true"
+              data-hookah-refill-cat="${getHookahRefillCategory()}"
+            >
               + Hookah Refill
             </button>
           ` : ""}
@@ -1053,7 +1083,8 @@ document.addEventListener("DOMContentLoaded", () => {
           tabs.forEach(t => t.classList.remove("active"));
           tab.classList.add("active");
 
-          const refillContent = CATEGORY_CONTENT.hookahRefill;
+          const refillCatKey = tab.dataset.hookahRefillCat || "hookahRefill12";
+          const refillContent = CATEGORY_CONTENT[refillCatKey];
 
           if (
             refillContent &&
