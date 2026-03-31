@@ -402,17 +402,7 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-  hookahRefill: {
-    sections: [
-      {
-        title: "Hookah Refill",
-        items: [
-          { name: "Hookah Refill", price: "$10" }
-        ]
-      }
-    ]
-  },
-
+  405
   hookah23: {
     sections: [
       {
