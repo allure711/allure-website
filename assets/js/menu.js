@@ -1058,11 +1058,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (day === "tuesday" || day === "wednesday") {
-      if (isAfter9Panel || currentHour >= 21) {
+      if (currentHour >= 21 || isAfter9Panel) {
         return "hookahRefill14";
-      }
-      if (isHappyHourPanel || currentHour < 21) {
-        return "hookahRefill12";
       }
       return "hookahRefill12";
     }
@@ -1072,7 +1069,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (day === "friday" || day === "saturday") {
-      if (isAfter9Panel || currentHour >= 21) {
+      if (currentHour >= 21 || isAfter9Panel) {
         return "hookahRefill23";
       }
       if (isHappyHourPanel || currentHour < 21) {
