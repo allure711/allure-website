@@ -688,7 +688,27 @@ body{
   display:grid;
   gap:16px;
 }
-ggggggggggggggg
+
+.menuSubTab--upsell{
+  border-color: rgba(215,180,106,.38);
+  background: linear-gradient(135deg, rgba(215,180,106,.18), rgba(255,255,255,.05));
+  color: var(--gold2);
+  box-shadow:
+    0 8px 18px rgba(215,180,106,.10),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.menuSubTab--upsell:hover{
+  border-color: rgba(215,180,106,.55);
+  background: linear-gradient(135deg, rgba(215,180,106,.24), rgba(255,255,255,.07));
+}
+
+.menuSubTab--upsell.active{
+  border-color: rgba(215,180,106,.55);
+  background: linear-gradient(135deg, rgba(215,180,106,.26), rgba(255,255,255,.08));
+  color: var(--gold2);
+}
+
 .menuSubTabs{
   display:flex;
   flex-wrap:wrap;
