@@ -979,120 +979,102 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getContentByMode(content, mode) {
-  if (!content || !content.sections) return content;
-  if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
+    if (!content || !content.sections) return content;
+    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
 
-  return {
-    ...content,
-    sections: content.sections.map(section => {
-      if (section.layout === "grouped") return section;
-      const split = splitShotsAndDrinks(section.items || []);
-      return {
-        ...section,
-        items: mode === "shots" ? split.shots : split.drinks
-      };
-    })
-  };
-} 
+    return {
+      ...content,
+      sections: content.sections.map(section => {
+        if (section.layout === "grouped") return section;
+        const split = splitShotsAndDrinks(section.items || []);
+        return {
+          ...section,
+          items: mode === "shots" ? split.shots : split.drinks
+        };
+      })
+    };
+  }
 
   function renderSectionedMenu(content, catKey = "") {
-  const sections = content?.sections || [];
+    const sections = content?.sections || [];
 
-  if (!sections.length) {
-    return `<div class="menuEmpty">Menu coming soon.</div>`;
-  }
+    if (!sections.length) {
+      return `<div class="menuEmpty">Menu coming soon.</div>`;
+    }
 
-  const visibleSections =
-    catKey === "hookah23"
-      ? sections.filter(section => section.title !== "Refill")
-      : sections;
-
-  const refillSection =
-    catKey === "hookah23"
-      ? sections.find(section => section.title === "Refill")
-      : null;
-
-  return `
-    <div class="menuNested">
-      <div class="menuSubTabs">
-        ${visibleSections.map(section => `
-          <button class="menuSubTab" type="button" data-subsection="${section.title}">
-            ${section.title}
-          </button>
-        `).join("")}
+    return `
+      <div class="menuNested">
+        <div class="menuSubTabs">
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
+          `).join("")}
+          ${catKey === "hookah23" ? `
+            <button class="menuSubTab menuSubTab--upsell" type="button" data-hookah-refill="true">
+              + Hookah Refill
+            </button>
+          ` : ""}
+        </div>
+        <div class="menuSubBody"></div>
       </div>
-
-      <div class="menuSubBody"></div>
-
-      ${
-        refillSection
-          ? `
-            <div class="hookahUpsell">
-              <div class="hookahUpsell__label">Add-On</div>
-              <button class="hookahUpsell__btn" type="button" data-hookah-refill>
-                <span class="hookahUpsell__name">${refillSection.items?.[0]?.name || "Hookah Refill"}</span>
-                <span class="hookahUpsell__price">${refillSection.items?.[0]?.price || ""}</span>
-              </button>
-            </div>
-          `
-          : ""
-      }
-    </div>
-  `;
-}
+    `;
+  }
 
   function bindSubTabs(panelBody, content, catKey = "") {
-  const allSections = content?.sections || [];
-  const sections =
-    catKey === "hookah23"
-      ? allSections.filter(section => section.title !== "Refill")
-      : allSections;
+    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
+    const subBody = panelBody.querySelector(".menuSubBody");
+    const sections = content?.sections || [];
 
-  const refillSection =
-    catKey === "hookah23"
-      ? allSections.find(section => section.title === "Refill")
-      : null;
+    if (!tabs.length || !subBody || !sections.length) return;
 
-  const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
-  const subBody = panelBody.querySelector(".menuSubBody");
+    function activateSubsection(title) {
+      tabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.subsection === title);
+      });
 
-  if (!tabs.length || !subBody || !sections.length) return;
+      const section = sections.find(s => s.title === title);
 
-  function activateSubsection(title) {
+      if (!section) {
+        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
+        return;
+      }
+
+      if (section.layout === "grouped") {
+        subBody.innerHTML = renderGroupedMenu(section);
+      } else {
+        subBody.innerHTML = renderFlatMenu(section.items || []);
+      }
+    }
+
     tabs.forEach(tab => {
-      tab.classList.toggle("active", tab.dataset.subsection === title);
+      tab.addEventListener("click", () => {
+        if (tab.dataset.hookahRefill === "true" && catKey === "hookah23") {
+          tabs.forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+
+          const refillContent = CATEGORY_CONTENT.hookahRefill;
+
+          if (
+            refillContent &&
+            refillContent.sections &&
+            refillContent.sections[0] &&
+            refillContent.sections[0].items
+          ) {
+            subBody.innerHTML = renderFlatMenu(refillContent.sections[0].items || []);
+          } else {
+            subBody.innerHTML = `<div class="menuEmpty">Hookah refill coming soon.</div>`;
+          }
+
+          return;
+        }
+
+        activateSubsection(tab.dataset.subsection);
+      });
     });
 
-    const section = sections.find(s => s.title === title);
-
-    if (!section) {
-      subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
-      return;
-    }
-
-    if (section.layout === "grouped") {
-      subBody.innerHTML = renderGroupedMenu(section);
-    } else {
-      subBody.innerHTML = renderFlatMenu(section.items || []);
-    }
+    activateSubsection(sections[0].title);
   }
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      activateSubsection(tab.dataset.subsection);
-    });
-  });
-
-  const refillBtn = panelBody.querySelector("[data-hookah-refill]");
-  if (refillBtn && refillSection) {
-    refillBtn.addEventListener("click", () => {
-      subBody.innerHTML = renderFlatMenu(refillSection.items || []);
-      tabs.forEach(tab => tab.classList.remove("active"));
-    });
-  }
-
-  activateSubsection(sections[0].title);
-}
 
   /* =========================
      LEAD MODAL
@@ -1529,8 +1511,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const content = getContentByMode(baseContent, mode);
-    panel.innerHTML = renderSectionedMenu(content, catkey);
-    bindSubTabs(panel, content, catkey);
+    panel.innerHTML = renderSectionedMenu(content, catKey);
+    bindSubTabs(panel, content, catKey);
   }
 
   function setupWrap(wrap) {
@@ -1564,8 +1546,8 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           const content = getContentByMode(baseContent, mode);
-          panel.innerHTML = renderSectionedMenu(content);
-          bindSubTabs(panel, content);
+          panel.innerHTML = renderSectionedMenu(content, catKey);
+          bindSubTabs(panel, content, catKey);
         });
       });
     }
