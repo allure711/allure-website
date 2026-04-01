@@ -943,6 +943,44 @@ document.addEventListener("DOMContentLoaded", () => {
     document.head.appendChild(style);
   }
 
+  function getTopSellersForCategory(catKey) {
+    return Array.isArray(TOP_SELLERS[catKey]) ? TOP_SELLERS[catKey] : [];
+  }
+
+  function renderTopSellers(catKey) {
+    const items = getTopSellersForCategory(catKey);
+
+    if (!items.length) return "";
+
+    return `
+      <section class="menuTopSellers">
+        <div class="menuTopSellers__head">
+          <div class="menuTopSellers__eyebrow">Featured Picks</div>
+          <div class="menuTopSellers__title">Top Sellers This Week</div>
+        </div>
+
+        <div class="menuTopSellers__grid">
+          ${items.map(item => `
+            <article class="menuTopSellerCard">
+              <div class="menuTopSellerCard__top">
+                <div class="menuTopSellerCard__name">${item.name || ""}</div>
+                <div class="menuTopSellerCard__price">${item.price || ""}</div>
+              </div>
+
+              ${item.desc ? `
+                <div class="menuTopSellerCard__desc">${item.desc}</div>
+              ` : ""}
+
+              ${item.badge ? `
+                <div class="menuTopSellerCard__badge">${item.badge}</div>
+              ` : ""}
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+  
   /* =========================
      MENU RENDER
   ========================= */
