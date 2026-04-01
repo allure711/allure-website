@@ -163,6 +163,7 @@
       font-size:16px;
       font-weight:800;
       line-height:1.45;
+      transition:opacity .18s ease;
     }
 
     .liveIndicator__tags{
@@ -462,16 +463,16 @@
             <span class="liveDot"></span>
             <div>
               <div class="liveIndicator__eyebrow">Tonight at Allure</div>
-              <div class="liveIndicator__title">Weekly Events • Hookah • Cocktails • Late Night Lounge</div>
+              <div class="liveIndicator__title" id="filterTitle">Showing: All Events</div>
             </div>
           </div>
 
           <div class="liveIndicator__tags">
-            <button class="liveTag active" type="button" data-filter="all">All (7)</button>
-            <button class="liveTag" type="button" data-filter="happy-hour">Happy Hour (4)</button>
-            <button class="liveTag" type="button" data-filter="hookah">Hookah (5)</button>
-            <button class="liveTag" type="button" data-filter="late-night">Late Night (4)</button>
-            <button class="liveTag" type="button" data-filter="vip">VIP Tables (2)</button>
+            <button class="liveTag active" type="button" data-filter="all" data-title="Showing: All Events">All (7)</button>
+            <button class="liveTag" type="button" data-filter="happy-hour" data-title="Showing: Happy Hour Events">Happy Hour (4)</button>
+            <button class="liveTag" type="button" data-filter="hookah" data-title="Showing: Hookah Events">Hookah (5)</button>
+            <button class="liveTag" type="button" data-filter="late-night" data-title="Showing: Late Night Events">Late Night (4)</button>
+            <button class="liveTag" type="button" data-filter="vip" data-title="Showing: VIP Table Nights">VIP Tables (2)</button>
           </div>
         </div>
       </div>
@@ -578,13 +579,19 @@
 
       const filterButtons = document.querySelectorAll(".liveTag[data-filter]");
       const eventCards = document.querySelectorAll(".eventCard");
+      const filterTitle = document.getElementById("filterTitle");
 
       filterButtons.forEach(button => {
         button.addEventListener("click", () => {
           const filter = button.dataset.filter;
+          const title = button.dataset.title || "Showing: All Events";
 
           filterButtons.forEach(btn => btn.classList.remove("active"));
           button.classList.add("active");
+
+          if (filterTitle) {
+            filterTitle.textContent = title;
+          }
 
           eventCards.forEach(card => {
             const tags = (card.dataset.tags || "").split(" ").filter(Boolean);
