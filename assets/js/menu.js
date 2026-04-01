@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const GAME_CONFIG = window.ALLURE_GAME_CONFIG || {};
-  const TOP_SELLERS = window.ALLURE_TOP_SELLERS || {};
   const LEADS_STORAGE_KEY = "allure_vip_leads";
   const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwQLxbu0MUJgAeDVbEcoiNzgGUJJxw1or37j7O3kUMciqTZv1odLCP5SIgfLrk3Dfuq/exec";
 
@@ -943,52 +942,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.head.appendChild(style);
   }
 
-  function getTopSellersForCategory(catKey) {
-  if (Array.isArray(TOP_SELLERS[catKey])) {
-    return TOP_SELLERS[catKey];
-  }
-
-  if (catKey === "shots7" || catKey === "premium" || catKey === "drinks12") {
-    return Array.isArray(TOP_SELLERS.shots5) ? TOP_SELLERS.shots5 : [];
-  }
-
-  return [];
-}
-
-  function renderTopSellers(catKey) {
-    const items = getTopSellersForCategory(catKey);
-
-    if (!items.length) return "";
-
-    return `
-      <section class="menuTopSellers">
-        <div class="menuTopSellers__head">
-          <div class="menuTopSellers__eyebrow">Featured Picks</div>
-          <div class="menuTopSellers__title">Top Sellers This Week</div>
-        </div>
-
-        <div class="menuTopSellers__grid">
-          ${items.map(item => `
-            <article class="menuTopSellerCard">
-              <div class="menuTopSellerCard__top">
-                <div class="menuTopSellerCard__name">${item.name || ""}</div>
-                <div class="menuTopSellerCard__price">${item.price || ""}</div>
-              </div>
-
-              ${item.desc ? `
-                <div class="menuTopSellerCard__desc">${item.desc}</div>
-              ` : ""}
-
-              ${item.badge ? `
-                <div class="menuTopSellerCard__badge">${item.badge}</div>
-              ` : ""}
-            </article>
-          `).join("")}
-        </div>
-      </section>
-    `;
-  }
-  
   /* =========================
      MENU RENDER
   ========================= */
@@ -1062,41 +1015,31 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-    function renderSectionedMenu(content, catKey = "") {
-  const sections = content?.sections || [];
-  const showFeatured =
-    catKey === "food" ||
-    catKey === "hookah23" ||
-    catKey === "shots5" ||
-    catKey === "shots7" ||
-    catKey === "premium" ||
-    catKey === "drinks12";
+  function renderSectionedMenu(content, catKey = "") {
+    const sections = content?.sections || [];
 
-  if (!sections.length) {
-    return `<div class="menuEmpty">Menu coming soon.</div>`;
-  }
+    if (!sections.length) {
+      return `<div class="menuEmpty">Menu coming soon.</div>`;
+    }
 
-  return `
-    <div class="menuNested">
-      ${showFeatured ? renderTopSellers(catKey) : ""}
-
-      <div class="menuSubTabs">
-        ${sections.map(section => `
-          <button class="menuSubTab" type="button" data-subsection="${section.title}">
-            ${section.title}
-          </button>
-        `).join("")}
-        ${catKey === "hookah23" ? `
-          <button class="menuSubTab menuSubTab--upsell" type="button" data-hookah-refill="true">
-            + Hookah Refill
-          </button>
-        ` : ""}
+    return `
+      <div class="menuNested">
+        <div class="menuSubTabs">
+          ${sections.map(section => `
+            <button class="menuSubTab" type="button" data-subsection="${section.title}">
+              ${section.title}
+            </button>
+          `).join("")}
+          ${catKey === "hookah23" ? `
+            <button class="menuSubTab menuSubTab--upsell" type="button" data-hookah-refill="true">
+              + Hookah Refill
+            </button>
+          ` : ""}
+        </div>
+        <div class="menuSubBody"></div>
       </div>
-
-      <div class="menuSubBody"></div>
-    </div>
-  `;
-}
+    `;
+  }
 
   function getHookahRefillKey(day, panelTitleText = "") {
     const now = new Date();
