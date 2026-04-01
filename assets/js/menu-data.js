@@ -1,85 +1,114 @@
-window.ALLURE_TOP_SELLERS = {
-  food: [
-    {
-      name: "Salmon Sliders w/ Fries",
-      price: "$12",
-      badge: "Top Seller",
-      desc: "Guest favorite with late-night lounge appeal"
-    },
-    {
-      name: "Chicken",
-      price: "$10",
-      badge: "Popular",
-      desc: "Quesadilla favorite"
-    },
-    {
-      name: "Shrimp Tacos",
-      price: "$16",
-      badge: "Chef Pick",
-      desc: "Premium seafood bite with bold flavor"
-    },
-    {
-      name: "Salmon",
-      price: "$20",
-      badge: "Premium",
-      desc: "Yellow rice & broccoli"
-    }
-  ],
-
-  shots5: [
-    {
-      name: "Hennessy",
-      price: "$5 / $10",
-      badge: "Top Seller",
-      desc: "Fast-moving crowd favorite"
-    },
-    {
-      name: "Casamigos",
-      price: "$7 / $14",
-      badge: "Popular",
-      desc: "Premium tequila energy"
-    },
-    {
-      name: "Don Julio 1942",
-      price: "$20 / $35",
-      badge: "VIP",
-      desc: "Luxury pick for bottle-service nights"
-    },
-    {
-      name: "Patron",
-      price: "$7 / $14",
-      badge: "Chef Pick",
-      desc: "Premium pour with strong demand"
-    }
-  ],
-
-  hookah23: [
-    {
-      name: "Blueberry Mint",
-      price: "$23",
-      badge: "Top Seller",
-      desc: "Clean cool flavor guests reorder often"
-    },
-    {
-      name: "Love 66",
-      price: "$25",
-      badge: "Popular",
-      desc: "Premium sweet mint profile"
-    },
-    {
-      name: "Allure Special",
-      price: "$25",
-      badge: "Signature",
-      desc: "Bluemist + peach"
-    },
-    {
-      name: "Lady Killer",
-      price: "$25",
-      badge: "Premium",
-      desc: "Strong nightlife favorite"
-    }
-  ]
-};
+window.MENU_CATEGORY_CONTENT = {
+  food: {
+    sections: [
+      {
+        title: "Appetizers",
+        items: [
+          { name: "Salmon Sliders w/ Fries", price: "$12" },
+          { name: "Beef Sliders w/ Fries", price: "$10" },
+          { name: "Mozzarella Sticks", price: "$7" },
+          { name: "Fried Pickles", price: "$5" },
+          { name: "Chips & Salsa", price: "$5" },
+          { name: "Onion Rings", price: "$7" },
+          { name: "Fries", price: "$5" }
+        ]
+      },
+      {
+        title: "Wings",
+        layout: "grouped",
+        groups: [
+          {
+            title: "WITH FRIES",
+            items: [
+              { name: "12 PCS", price: "$16" },
+              { name: "8 PCS", price: "$14" },
+              { name: "6 PCS", price: "$12" }
+            ]
+          },
+          {
+            title: "NO FRIES",
+            items: [
+              { name: "12 PCS", price: "$14" },
+              { name: "8 PCS", price: "$10" },
+              { name: "6 PCS", price: "$8" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Quesadillas",
+        items: [
+          { name: "Cheese ", price: "$8" },
+          { name: "Chicken ", price: "$10" },
+          { name: "Shrimp ", price: "$12" },
+          { name: "Salmon ", price: "$14" }
+        ]
+      },
+      {
+        title: "Rasta Pasta or Alfredo",
+        items: [
+          { name: "Chicken", price: "$16" },
+          { name: "Shrimp", price: "$18" },
+          { name: "Salmon", price: "$20" }
+        ]
+      },
+      {
+        title: "Salads",
+        items: [
+          { name: "Salad", price: "$8" },
+          { name: "Chicken ", price: "$10" },
+          { name: "Shrimp ", price: "$12" },
+          { name: "Salmon ", price: "$13" }
+        ]
+      },
+      {
+        title: "Dinner",
+        items: [
+          { name: "Salmon", desc: "Yellow rice & broccoli", price: "$20" },
+          { name: "General Tso", desc: "Yellow rice & broccoli", price: "$18" },
+          { name: "Beef Burger w/ Fries", desc: "Mayo, lettuce, tomato, cheese", price: "$13" },
+          { name: "Fried Shrimp Basket", price: "$18" },
+          { name: "Crab Fries Basket", price: "$18" },
+          { name: "Fried Whiting Basket", price: "$15" },
+          { name: "Salmon Nugget Basket", price: "$15" },
+          { name: "Catfish Nuggets Basket", price: "$13" }
+        ]
+      },
+      {
+        title: "Tacos",
+        items: [
+          { name: "Shrimp Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$16" },
+          { name: "Chicken Tacos", desc: "Lettuce, cheese, sour cream, salsa", price: "$14" }
+        ]
+      },
+      {
+        title: "Wing Flavors",
+        layout: "grouped",
+        groups: [
+          {
+            title: "Dry",
+            items: [
+              { name: "Lemon Pepper" },
+              { name: "Jerk Rub" },
+              { name: "Old Bay" }
+            ]
+          },
+          {
+            title: "Wet",
+            items: [
+              { name: "Honey Lemon Pepper" },
+              { name: "Honey Old Bay" },
+              { name: "Buffalo BBQ" },
+              { name: "Honey Sazon" },
+              { name: "Sweet Chili" },
+              { name: "Teriyaki" },
+              { name: "Mumbo" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
 
   shots5: {
     sections: [
@@ -373,49 +402,50 @@ window.ALLURE_TOP_SELLERS = {
     ]
   },
 
-hookahRefill15: {
-  sections: [
-    {
-      title: "Hookah Refill",
-      items: [
-        { name: "Refill", price: "$15" }
-      ]
-    }
-  ]
-},
+  hookahRefill15: {
+    sections: [
+      {
+        title: "Hookah Refill",
+        items: [
+          { name: "Refill", price: "$15" }
+        ]
+      }
+    ]
+  },
 
-hookahRefill12: {
-  sections: [
-    {
-      title: "Hookah Refill",
-      items: [
-        { name: "Refill (Happy Hour 5–9pm)", price: "$12" }
-      ]
-    }
-  ]
-},
+  hookahRefill12: {
+    sections: [
+      {
+        title: "Hookah Refill",
+        items: [
+          { name: "Refill (Happy Hour 5–9pm)", price: "$12" }
+        ]
+      }
+    ]
+  },
 
-hookahRefill14: {
-  sections: [
-    {
-      title: "Hookah Refill",
-      items: [
-        { name: "Refill (After 9pm)", price: "$14" }
-      ]
-    }
-  ]
-},
+  hookahRefill14: {
+    sections: [
+      {
+        title: "Hookah Refill",
+        items: [
+          { name: "Refill (After 9pm)", price: "$14" }
+        ]
+      }
+    ]
+  },
 
-hookahRefill23: {
-  sections: [
-    {
-      title: "Hookah Refill",
-      items: [
-        { name: "Refill (Weekend After 9pm)", price: "$23" }
-      ]
-    }
-  ]
-},
+  hookahRefill23: {
+    sections: [
+      {
+        title: "Hookah Refill",
+        items: [
+          { name: "Refill (Weekend After 9pm)", price: "$23" }
+        ]
+      }
+    ]
+  },
+
   hookah23: {
     sections: [
       {
@@ -523,6 +553,89 @@ hookahRefill23: {
       }
     ]
   }
+};
+
+window.ALLURE_TOP_SELLERS = {
+  food: [
+    {
+      name: "Salmon Sliders w/ Fries",
+      price: "$12",
+      badge: "Top Seller",
+      desc: "Guest favorite with late-night lounge appeal"
+    },
+    {
+      name: "Chicken",
+      price: "$10",
+      badge: "Popular",
+      desc: "Quesadilla favorite"
+    },
+    {
+      name: "Shrimp Tacos",
+      price: "$16",
+      badge: "Chef Pick",
+      desc: "Premium seafood bite with bold flavor"
+    },
+    {
+      name: "Salmon",
+      price: "$20",
+      badge: "Premium",
+      desc: "Yellow rice & broccoli"
+    }
+  ],
+
+  shots5: [
+    {
+      name: "Hennessy",
+      price: "$5 / $10",
+      badge: "Top Seller",
+      desc: "Fast-moving crowd favorite"
+    },
+    {
+      name: "Casamigos",
+      price: "$7 / $14",
+      badge: "Popular",
+      desc: "Premium tequila energy"
+    },
+    {
+      name: "Don Julio 1942",
+      price: "$20 / $35",
+      badge: "VIP",
+      desc: "Luxury pick for bottle-service nights"
+    },
+    {
+      name: "Patron",
+      price: "$7 / $14",
+      badge: "Chef Pick",
+      desc: "Premium pour with strong demand"
+    }
+  ],
+
+  hookah23: [
+    {
+      name: "Blueberry Mint",
+      price: "$23",
+      badge: "Top Seller",
+      desc: "Clean cool flavor guests reorder often"
+    },
+    {
+      name: "Love 66",
+      price: "$25",
+      badge: "Popular",
+      desc: "Premium sweet mint profile"
+    },
+    {
+      name: "Allure Special",
+      price: "$25",
+      badge: "Signature",
+      desc: "Bluemist + peach"
+    },
+    {
+      name: "Lady Killer",
+      price: "$25",
+      badge: "Premium",
+      desc: "Strong nightlife favorite"
+    }
+  ]
 };
 
 window.MENU_HIGHLIGHTS = {
