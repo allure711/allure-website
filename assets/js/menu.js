@@ -943,9 +943,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.head.appendChild(style);
   }
 
-  function getTopSellersForCategory(catKey) {
-    return Array.isArray(TOP_SELLERS[catKey]) ? TOP_SELLERS[catKey] : [];
-  }
+  
 
   function renderTopSellers(catKey) {
     const items = getTopSellersForCategory(catKey);
