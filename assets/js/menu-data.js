@@ -110,7 +110,88 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
+window.ALLURE_TOP_SELLERS = {
+  food: [
+    {
+      name: "Salmon Sliders w/ Fries",
+      price: "$12",
+      badge: "Top Seller",
+      desc: "Guest favorite with late-night lounge appeal"
+    },
+    {
+      name: "Chicken",
+      price: "$10",
+      badge: "Popular",
+      desc: "Quesadilla favorite"
+    },
+    {
+      name: "Shrimp Tacos",
+      price: "$16",
+      badge: "Chef Pick",
+      desc: "Premium seafood bite with bold flavor"
+    },
+    {
+      name: "Salmon",
+      price: "$20",
+      badge: "Premium",
+      desc: "Yellow rice & broccoli"
+    }
+  ],
 
+  shots5: [
+    {
+      name: "Hennessy",
+      price: "$5 / $10",
+      badge: "Top Seller",
+      desc: "Fast-moving crowd favorite"
+    },
+    {
+      name: "Casamigos",
+      price: "$7 / $14",
+      badge: "Popular",
+      desc: "Premium tequila energy"
+    },
+    {
+      name: "Don Julio 1942",
+      price: "$20 / $35",
+      badge: "VIP",
+      desc: "Luxury pick for bottle-service nights"
+    },
+    {
+      name: "Patron",
+      price: "$7 / $14",
+      badge: "Chef Pick",
+      desc: "Premium pour with strong demand"
+    }
+  ],
+
+  hookah23: [
+    {
+      name: "Blueberry Mint",
+      price: "$23",
+      badge: "Top Seller",
+      desc: "Clean cool flavor guests reorder often"
+    },
+    {
+      name: "Love 66",
+      price: "$25",
+      badge: "Popular",
+      desc: "Premium sweet mint profile"
+    },
+    {
+      name: "Allure Special",
+      price: "$25",
+      badge: "Signature",
+      desc: "Bluemist + peach"
+    },
+    {
+      name: "Lady Killer",
+      price: "$25",
+      badge: "Premium",
+      desc: "Strong nightlife favorite"
+    }
+  ]
+};
 
   shots5: {
     sections: [
