@@ -1054,31 +1054,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  function renderSectionedMenu(content, catKey = "") {
-    const sections = content?.sections || [];
-
-    if (!sections.length) {
-      return `<div class="menuEmpty">Menu coming soon.</div>`;
-    }
-
-    return `
-      <div class="menuNested">
-        <div class="menuSubTabs">
-          ${sections.map(section => `
-            <button class="menuSubTab" type="button" data-subsection="${section.title}">
-              ${section.title}
-            </button>
-          `).join("")}
-          ${catKey === "hookah23" ? `
-            <button class="menuSubTab menuSubTab--upsell" type="button" data-hookah-refill="true">
-              + Hookah Refill
-            </button>
-          ` : ""}
-        </div>
-        <div class="menuSubBody"></div>
-      </div>
-    `;
-  }
+  
 
   function getHookahRefillKey(day, panelTitleText = "") {
     const now = new Date();
