@@ -185,6 +185,24 @@
       text-transform:uppercase;
       letter-spacing:.06em;
       white-space:nowrap;
+      cursor:pointer;
+      transition:all .18s ease;
+    }
+
+    .liveTag:hover{
+      transform:translateY(-1px);
+      border-color:rgba(215,180,106,.48);
+      background:rgba(215,180,106,.16);
+      box-shadow:0 10px 24px rgba(215,180,106,.10);
+    }
+
+    .liveTag.active{
+      border-color:rgba(215,180,106,.56);
+      background:linear-gradient(135deg, rgba(215,180,106,.24), rgba(242,211,138,.14));
+      color:#fff2c8;
+      box-shadow:
+        0 12px 28px rgba(215,180,106,.14),
+        0 0 0 1px rgba(215,180,106,.10);
     }
 
     .eventsGridWrap{
@@ -211,7 +229,7 @@
       box-shadow:
         0 22px 54px rgba(0,0,0,.24),
         inset 0 1px 0 rgba(255,255,255,.03);
-      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, opacity .22s ease;
       overflow:hidden;
     }
 
@@ -317,6 +335,10 @@
       border:none;
       background:linear-gradient(135deg, var(--gold), var(--gold2));
       box-shadow:0 14px 30px rgba(215,180,106,.18);
+    }
+
+    .eventCard.is-hidden{
+      display:none;
     }
 
     .eventsReserveBand{
@@ -445,10 +467,11 @@
           </div>
 
           <div class="liveIndicator__tags">
-            <span class="liveTag">Happy Hour</span>
-            <span class="liveTag">Hookah</span>
-            <span class="liveTag">Late Night</span>
-            <span class="liveTag">VIP Tables</span>
+            <button class="liveTag active" type="button" data-filter="all">All</button>
+            <button class="liveTag" type="button" data-filter="happy-hour">Happy Hour</button>
+            <button class="liveTag" type="button" data-filter="hookah">Hookah</button>
+            <button class="liveTag" type="button" data-filter="late-night">Late Night</button>
+            <button class="liveTag" type="button" data-filter="vip">VIP Tables</button>
           </div>
         </div>
       </div>
@@ -456,9 +479,9 @@
 
     <section class="eventsGridWrap">
       <div class="container">
-        <div class="eventsGrid">
+        <div class="eventsGrid" id="eventsGrid">
 
-          <article class="eventCard eventCard--featured">
+          <article class="eventCard eventCard--featured" data-tags="hookah">
             <div class="eventCard__day">Monday</div>
             <h2>Free Hookah Monday</h2>
             <p>Free hookah with $50 bar tab. Start the week with lounge energy and drink specials.</p>
@@ -466,7 +489,7 @@
             <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Monday</a>
           </article>
 
-          <article class="eventCard">
+          <article class="eventCard" data-tags="happy-hour">
             <div class="eventCard__day">Tuesday</div>
             <h2>Taco Tuesday</h2>
             <p>Cocktails, tacos, and weekday social energy in the heart of DC.</p>
@@ -474,7 +497,7 @@
             <a href="tel:2022974949" class="eventCard__btn">Reserve Tuesday</a>
           </article>
 
-          <article class="eventCard">
+          <article class="eventCard" data-tags="hookah late-night">
             <div class="eventCard__day">Wednesday</div>
             <h2>Weekdays Wednesday</h2>
             <p>Midweek social energy with hookah, drinks, and smooth late-night lounge vibes.</p>
@@ -482,7 +505,7 @@
             <a href="tel:2022974949" class="eventCard__btn">Reserve Wednesday</a>
           </article>
 
-          <article class="eventCard">
+          <article class="eventCard" data-tags="late-night">
             <div class="eventCard__day">Thursday</div>
             <h2>Karaoke Thursday</h2>
             <p>Bring your crew and enjoy karaoke, cocktails, and late-night lounge vibes.</p>
@@ -490,7 +513,7 @@
             <a href="tel:2022974949" class="eventCard__btn">Reserve Thursday</a>
           </article>
 
-          <article class="eventCard eventCard--vip">
+          <article class="eventCard eventCard--vip" data-tags="happy-hour hookah late-night vip">
             <div class="eventCard__day">Friday</div>
             <h2>Allure Friday</h2>
             <p>Premium cocktails, VIP tables, bottle service, hookah, and nightlife energy after 9.</p>
@@ -498,7 +521,7 @@
             <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Friday</a>
           </article>
 
-          <article class="eventCard eventCard--vip">
+          <article class="eventCard eventCard--vip" data-tags="happy-hour hookah late-night vip">
             <div class="eventCard__day">Saturday</div>
             <h2>Allure Saturday</h2>
             <p>Weekend prime time with premium drinks, fishbowls, hookah, and upscale lounge vibes.</p>
@@ -506,7 +529,7 @@
             <a href="tel:2022974949" class="eventCard__btn eventCard__btn--gold">Reserve Saturday</a>
           </article>
 
-          <article class="eventCard">
+          <article class="eventCard" data-tags="happy-hour hookah">
             <div class="eventCard__day">Sunday</div>
             <h2>Social Sunday</h2>
             <p>End the week with all-night happy hour, cocktails, hookah, and a relaxed social atmosphere.</p>
@@ -552,6 +575,28 @@
           });
         });
       }
+
+      const filterButtons = document.querySelectorAll(".liveTag[data-filter]");
+      const eventCards = document.querySelectorAll(".eventCard");
+
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          eventCards.forEach(card => {
+            const tags = (card.dataset.tags || "").split(" ").filter(Boolean);
+
+            if (filter === "all" || tags.includes(filter)) {
+              card.classList.remove("is-hidden");
+            } else {
+              card.classList.add("is-hidden");
+            }
+          });
+        });
+      });
     });
   </script>
 </body>
