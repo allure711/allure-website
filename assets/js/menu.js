@@ -1062,7 +1062,41 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-    
+    function renderSectionedMenu(content, catKey = "") {
+  const sections = content?.sections || [];
+  const showFeatured =
+    catKey === "food" ||
+    catKey === "hookah23" ||
+    catKey === "shots5" ||
+    catKey === "shots7" ||
+    catKey === "premium" ||
+    catKey === "drinks12";
+
+  if (!sections.length) {
+    return `<div class="menuEmpty">Menu coming soon.</div>`;
+  }
+
+  return `
+    <div class="menuNested">
+      ${showFeatured ? renderTopSellers(catKey) : ""}
+
+      <div class="menuSubTabs">
+        ${sections.map(section => `
+          <button class="menuSubTab" type="button" data-subsection="${section.title}">
+            ${section.title}
+          </button>
+        `).join("")}
+        ${catKey === "hookah23" ? `
+          <button class="menuSubTab menuSubTab--upsell" type="button" data-hookah-refill="true">
+            + Hookah Refill
+          </button>
+        ` : ""}
+      </div>
+
+      <div class="menuSubBody"></div>
+    </div>
+  `;
+}
 
   function getHookahRefillKey(day, panelTitleText = "") {
     const now = new Date();
