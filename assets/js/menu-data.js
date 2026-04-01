@@ -110,34 +110,7 @@ window.MENU_CATEGORY_CONTENT = {
     ]
   },
 
-window.ALLURE_TOP_SELLERS = {
-  food: [
-    {
-      name: "Salmon Sliders w/ Fries",
-      price: "$12",
-      badge: "Top Seller",
-      desc: "Guest favorite with late-night lounge appeal"
-    },
-    {
-      name: "Chicken",
-      price: "$10",
-      badge: "Popular",
-      desc: "Quesadilla favorite"
-    },
-    {
-      name: "Shrimp Tacos",
-      price: "$16",
-      badge: "Chef Pick",
-      desc: "Premium seafood bite with bold flavor"
-    },
-    {
-      name: "Salmon",
-      price: "$20",
-      badge: "Premium",
-      desc: "Yellow rice & broccoli"
-    }
-  ]
-};
+
 
   shots5: {
     sections: [
