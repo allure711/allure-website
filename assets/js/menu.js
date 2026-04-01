@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const TOP_SELLERS = window.ALLURE_TOP_SELLERS || {};
   const GAME_CONFIG = window.ALLURE_GAME_CONFIG || {};
   const LEADS_STORAGE_KEY = "allure_vip_leads";
   const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwQLxbu0MUJgAeDVbEcoiNzgGUJJxw1or37j7O3kUMciqTZv1odLCP5SIgfLrk3Dfuq/exec";
@@ -1015,8 +1016,55 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  function getTopSellersForCategory(catKey) {
+    if (Array.isArray(TOP_SELLERS[catKey])) {
+      return TOP_SELLERS[catKey];
+    }
+
+    if (catKey === "shots7" || catKey === "premium" || catKey === "drinks12") {
+      return Array.isArray(TOP_SELLERS.shots5) ? TOP_SELLERS.shots5 : [];
+    }
+
+    return [];
+  }
+
+  function renderTopSellers(catKey) {
+    const items = getTopSellersForCategory(catKey);
+
+    if (!items.length) return "";
+
+    return `
+      <section class="topSellersStrip">
+        <div class="topSellersHead">
+          <div class="topSellersEyebrow">Featured Picks</div>
+          <h2 class="topSellersTitle">Top Sellers This Week</h2>
+        </div>
+
+        <div class="topSellersGrid">
+          ${items.map(item => `
+            <article class="topSellerCard">
+              <div class="topSellerTop">
+                <div class="topSellerName">${item.name || ""}</div>
+                <div class="topSellerPrice">${item.price || ""}</div>
+              </div>
+              ${item.desc ? `<div class="topSellerDesc">${item.desc}</div>` : ""}
+              ${item.badge ? `<div class="topSellerBadge">${item.badge}</div>` : ""}
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
   function renderSectionedMenu(content, catKey = "") {
     const sections = content?.sections || [];
+    const showFeatured =
+      catKey === "food" ||
+      catKey === "hookah23" ||
+      catKey === "shots5" ||
+      catKey === "shots7" ||
+      catKey === "premium" ||
+      catKey === "drinks12";
 
     if (!sections.length) {
       return `<div class="menuEmpty">Menu coming soon.</div>`;
@@ -1024,6 +1072,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return `
       <div class="menuNested">
+        ${showFeatured ? renderTopSellers(catKey) : ""}
         <div class="menuSubTabs">
           ${sections.map(section => `
             <button class="menuSubTab" type="button" data-subsection="${section.title}">
