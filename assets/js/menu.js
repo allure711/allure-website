@@ -943,7 +943,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.head.appendChild(style);
   }
 
-  
+  function getTopSellersForCategory(catKey) {
+  if (Array.isArray(TOP_SELLERS[catKey])) {
+    return TOP_SELLERS[catKey];
+  }
+
+  if (catKey === "shots7" || catKey === "premium" || catKey === "drinks12") {
+    return Array.isArray(TOP_SELLERS.shots5) ? TOP_SELLERS.shots5 : [];
+  }
+
+  return [];
+}
 
   function renderTopSellers(catKey) {
     const items = getTopSellersForCategory(catKey);
