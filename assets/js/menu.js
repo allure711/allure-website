@@ -1,4 +1,9 @@
-
+document.addEventListener("DOMContentLoaded", () => {
+  const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
+  const GAME_CONFIG = window.ALLURE_GAME_CONFIG || {};
+  const TOP_SELLERS = window.ALLURE_TOP_SELLERS || {};
+  const LEADS_STORAGE_KEY = "allure_vip_leads";
+  const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwQLxbu0MUJgAeDVbEcoiNzgGUJJxw1or37j7O3kUMciqTZv1odLCP5SIgfLrk3Dfuq/exec";
 
   const DAILY_PROMOS = {
     sunday: {
