@@ -32,7 +32,7 @@
     }
 
     .galleryHero{
-      padding:70px 0 32px;
+      padding:40px 0 24px;
       position:relative;
       overflow:hidden;
     }
@@ -42,8 +42,23 @@
       position:absolute;
       inset:0;
       background:
+        linear-gradient(90deg, rgba(5,5,9,.88) 0%, rgba(5,5,9,.70) 42%, rgba(5,5,9,.46) 65%, rgba(5,5,9,.72) 100%),
         radial-gradient(circle at 12% 10%, rgba(215,180,106,.14), transparent 34%),
         radial-gradient(circle at 82% 20%, rgba(255,94,219,.10), transparent 30%);
+      pointer-events:none;
+      z-index:1;
+    }
+
+    .galleryHero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:url("assets/images/hero.jpg");
+      background-size:cover;
+      background-position:center;
+      opacity:.34;
+      transform:scale(1.03);
+      filter:saturate(1.02) contrast(1.02);
       pointer-events:none;
     }
 
@@ -68,6 +83,7 @@
       line-height:.95;
       letter-spacing:-.05em;
       font-weight:950;
+      text-shadow:0 14px 34px rgba(0,0,0,.28);
     }
 
     .galleryHero__sub{
@@ -111,6 +127,225 @@
       border:1px solid rgba(255,255,255,.18);
       background:rgba(255,255,255,.04);
       color:#fff;
+    }
+
+    .galleryFeaturedBanner{
+      position:relative;
+      z-index:2;
+      margin-top:24px;
+      border:1px solid rgba(215,180,106,.22);
+      border-radius:24px;
+      overflow:hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:
+        0 22px 54px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .galleryFeaturedBanner__media{
+      position:relative;
+      min-height:280px;
+      background-image:
+        linear-gradient(90deg, rgba(7,7,10,.92) 0%, rgba(7,7,10,.74) 44%, rgba(7,7,10,.38) 72%, rgba(7,7,10,.56) 100%),
+        url("assets/images/hero.jpg");
+      background-size:cover;
+      background-position:center;
+      display:flex;
+      align-items:flex-end;
+    }
+
+    .galleryFeaturedBanner__content{
+      width:100%;
+      padding:26px 24px;
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:flex-end;
+      flex-wrap:wrap;
+    }
+
+    .galleryFeaturedBanner__label{
+      display:inline-flex;
+      padding:7px 11px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.32);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .galleryFeaturedBanner__title{
+      margin:0 0 8px;
+      font-size:clamp(28px,4vw,46px);
+      line-height:.98;
+      letter-spacing:-.04em;
+      font-weight:950;
+      text-shadow:0 12px 28px rgba(0,0,0,.34);
+    }
+
+    .galleryFeaturedBanner__text{
+      margin:0;
+      max-width:650px;
+      color:rgba(255,255,255,.84);
+      line-height:1.65;
+      font-size:15px;
+    }
+
+    .galleryFeaturedBanner__cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:46px;
+      padding:12px 18px;
+      border-radius:999px;
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+      color:#111;
+      text-decoration:none;
+      font-weight:900;
+      box-shadow:0 14px 30px rgba(215,180,106,.20);
+      white-space:nowrap;
+    }
+
+    .galleryStories{
+      padding:8px 0 30px;
+    }
+
+    .galleryStories__head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+
+    .galleryStories__eyebrow{
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .galleryStories__title{
+      font-size:22px;
+      font-weight:950;
+      letter-spacing:-.03em;
+    }
+
+    .galleryStories__row{
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      padding-bottom:6px;
+      scrollbar-width:none;
+    }
+
+    .galleryStories__row::-webkit-scrollbar{
+      display:none;
+    }
+
+    .storyPill{
+      position:relative;
+      flex:0 0 164px;
+      min-height:210px;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid rgba(215,180,106,.20);
+      background:#0b0b10;
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.04);
+      text-decoration:none;
+      color:#fff;
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .storyPill:hover{
+      transform:translateY(-3px);
+      border-color:rgba(215,180,106,.34);
+      box-shadow:
+        0 22px 44px rgba(0,0,0,.26),
+        0 0 18px rgba(215,180,106,.10);
+    }
+
+    .storyPill::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      transform:scale(1.02);
+    }
+
+    .storyPill::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.72));
+    }
+
+    .storyPill--friday::before{
+      background-image:url("assets/images/flyer-friday.jpg");
+    }
+
+    .storyPill--saturday::before{
+      background-image:url("assets/images/flyer-saturday.jpg");
+    }
+
+    .storyPill--hookah::before{
+      background-image:url("assets/images/gallery-hookah-1.jpg");
+    }
+
+    .storyPill--vip::before{
+      background-image:url("assets/images/gallery-vip-1.jpg");
+    }
+
+    .storyPill__ring{
+      position:absolute;
+      inset:10px;
+      border-radius:20px;
+      border:2px solid rgba(215,180,106,.56);
+      z-index:2;
+      pointer-events:none;
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.06) inset,
+        0 0 24px rgba(215,180,106,.10);
+    }
+
+    .storyPill__content{
+      position:absolute;
+      inset:auto 0 0 0;
+      z-index:3;
+      padding:16px 14px 16px;
+    }
+
+    .storyPill__label{
+      display:inline-flex;
+      padding:5px 9px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.28);
+      background:rgba(215,180,106,.12);
+      color:var(--gold2);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .storyPill__title{
+      margin:0;
+      font-size:20px;
+      line-height:1.02;
+      letter-spacing:-.03em;
+      font-weight:950;
+      text-shadow:0 10px 22px rgba(0,0,0,.36);
     }
 
     .galleryIntro{
@@ -251,6 +486,33 @@
       min-height:420px;
     }
 
+    .galleryCard--flyer{
+      border-color:rgba(215,180,106,.26);
+      box-shadow:
+        0 24px 58px rgba(0,0,0,.28),
+        0 0 0 1px rgba(215,180,106,.06),
+        inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .galleryCard--flyer::before{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:18px;
+      border:1px solid rgba(215,180,106,.16);
+      z-index:2;
+      pointer-events:none;
+      box-shadow:0 0 22px rgba(215,180,106,.08);
+    }
+
+    .galleryCard--flyer:hover{
+      border-color:rgba(215,180,106,.40);
+      box-shadow:
+        0 30px 66px rgba(0,0,0,.32),
+        0 0 24px rgba(215,180,106,.12),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
     .galleryCard img{
       width:100%;
       height:100%;
@@ -266,6 +528,7 @@
       justify-content:flex-end;
       padding:20px;
       background:linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.65));
+      z-index:3;
     }
 
     .galleryCard__label{
@@ -531,12 +794,25 @@
 
     @media (max-width: 760px){
       .galleryHero{
-        padding:52px 0 28px;
+        padding:34px 0 18px;
       }
 
       .galleryHero__actions{
         flex-direction:column;
         align-items:flex-start;
+      }
+
+      .galleryFeaturedBanner__content{
+        padding:20px 16px;
+      }
+
+      .galleryStories__row{
+        gap:12px;
+      }
+
+      .storyPill{
+        flex:0 0 148px;
+        min-height:194px;
       }
 
       .galleryGrid{
@@ -614,6 +890,66 @@
             <a href="menu.html" class="hero__btn hero__btn--gold">View Menu</a>
           </div>
         </div>
+
+        <div class="galleryFeaturedBanner">
+          <div class="galleryFeaturedBanner__media">
+            <div class="galleryFeaturedBanner__content">
+              <div>
+                <div class="galleryFeaturedBanner__label">Featured Atmosphere</div>
+                <h2 class="galleryFeaturedBanner__title">Inside Allure After Dark</h2>
+                <p class="galleryFeaturedBanner__text">
+                  Premium nightlife, VIP energy, cocktails, hookah, and curated moments captured inside the lounge.
+                </p>
+              </div>
+              <a href="tel:2022974949" class="galleryFeaturedBanner__cta">Reserve Tonight</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="galleryStories">
+      <div class="container">
+        <div class="galleryStories__head">
+          <div>
+            <div class="galleryStories__eyebrow">Story Highlights</div>
+            <div class="galleryStories__title">Quick looks at Allure nights</div>
+          </div>
+        </div>
+
+        <div class="galleryStories__row">
+          <a href="#galleryGrid" class="storyPill storyPill--friday" data-story-filter="events">
+            <span class="storyPill__ring"></span>
+            <div class="storyPill__content">
+              <div class="storyPill__label">Friday</div>
+              <h3 class="storyPill__title">Allure Friday</h3>
+            </div>
+          </a>
+
+          <a href="#galleryGrid" class="storyPill storyPill--saturday" data-story-filter="events">
+            <span class="storyPill__ring"></span>
+            <div class="storyPill__content">
+              <div class="storyPill__label">Saturday</div>
+              <h3 class="storyPill__title">Weekend Energy</h3>
+            </div>
+          </a>
+
+          <a href="#galleryGrid" class="storyPill storyPill--hookah" data-story-filter="hookah">
+            <span class="storyPill__ring"></span>
+            <div class="storyPill__content">
+              <div class="storyPill__label">Hookah</div>
+              <h3 class="storyPill__title">Lounge Smoke</h3>
+            </div>
+          </a>
+
+          <a href="#galleryGrid" class="storyPill storyPill--vip" data-story-filter="vip">
+            <span class="storyPill__ring"></span>
+            <div class="storyPill__content">
+              <div class="storyPill__label">VIP</div>
+              <h3 class="storyPill__title">Premium Seating</h3>
+            </div>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -651,7 +987,7 @@
             data-gallery-tags="cocktails"
             data-lightbox-label="Cocktails"
             data-lightbox-title="Signature Cocktail Presentation">
-            <img src="assets/images/gallery-cocktail-1.jpg" alt="Signature cocktail presentation at Allure Bar & Lounge">
+            <img src="assets/images/gallery-cocktail-1.jpg" alt="Signature cocktail presentation at Allure Bar & Lounge" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Cocktails</div>
               <h2>Signature Cocktail Presentation</h2>
@@ -663,7 +999,7 @@
             data-gallery-tags="cocktails"
             data-lightbox-label="Cocktails"
             data-lightbox-title="Craft Cocktail Moment">
-            <img src="assets/images/gallery-cocktail-2.jpg" alt="Craft cocktail moment at Allure">
+            <img src="assets/images/gallery-cocktail-2.jpg" alt="Craft cocktail moment at Allure" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Cocktails</div>
               <h2>Craft Cocktail Moment</h2>
@@ -675,7 +1011,7 @@
             data-gallery-tags="food"
             data-lightbox-label="Food"
             data-lightbox-title="Kitchen & Lounge Favorites">
-            <img src="assets/images/gallery-food-1.jpg" alt="Food and lounge favorites at Allure">
+            <img src="assets/images/gallery-food-1.jpg" alt="Food and lounge favorites at Allure" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Food</div>
               <h2>Kitchen &amp; Lounge Favorites</h2>
@@ -687,7 +1023,7 @@
             data-gallery-tags="hookah"
             data-lightbox-label="Hookah"
             data-lightbox-title="Hookah Lounge Experience">
-            <img src="assets/images/gallery-hookah-1.jpg" alt="Hookah lounge experience at Allure">
+            <img src="assets/images/gallery-hookah-1.jpg" alt="Hookah lounge experience at Allure" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Hookah</div>
               <h2>Hookah Lounge Experience</h2>
@@ -697,9 +1033,9 @@
           <article
             class="galleryCard"
             data-gallery-tags="vip birthdays"
-            data-lightbox-label="VIP"
+            data-lightbox-label="Birthday Nights"
             data-lightbox-title="VIP Birthday Energy">
-            <img src="assets/images/gallery-birthday-1.jpg" alt="VIP birthday night at Allure">
+            <img src="assets/images/gallery-birthday-1.jpg" alt="VIP birthday night at Allure" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Birthday Nights</div>
               <h2>VIP Birthday Energy</h2>
@@ -711,7 +1047,7 @@
             data-gallery-tags="vip"
             data-lightbox-label="VIP"
             data-lightbox-title="Premium VIP Seating">
-            <img src="assets/images/gallery-vip-1.jpg" alt="Premium VIP seating at Allure">
+            <img src="assets/images/gallery-vip-1.jpg" alt="Premium VIP seating at Allure" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">VIP</div>
               <h2>Premium VIP Seating</h2>
@@ -723,7 +1059,7 @@
             data-gallery-tags="events"
             data-lightbox-label="Events"
             data-lightbox-title="Weekly Event Atmosphere">
-            <img src="assets/images/gallery-events-1.jpg" alt="Weekly event atmosphere at Allure">
+            <img src="assets/images/gallery-events-1.jpg" alt="Weekly event atmosphere at Allure" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Events</div>
               <h2>Weekly Event Atmosphere</h2>
@@ -731,37 +1067,37 @@
           </article>
 
           <article
-            class="galleryCard is-extra"
+            class="galleryCard galleryCard--flyer is-extra"
             data-gallery-tags="events vip"
-            data-lightbox-label="Friday"
+            data-lightbox-label="Friday Flyer"
             data-lightbox-title="Allure Friday Flyer">
-            <img src="assets/images/flyer-friday.jpg" alt="Allure Friday flyer">
+            <img src="assets/images/flyer-friday.jpg" alt="Allure Friday flyer" loading="lazy">
             <div class="galleryCard__overlay">
-              <div class="galleryCard__label">Friday</div>
+              <div class="galleryCard__label">Friday Flyer</div>
               <h2>Allure Friday Flyer</h2>
             </div>
           </article>
 
           <article
-            class="galleryCard is-extra"
+            class="galleryCard galleryCard--flyer is-extra"
             data-gallery-tags="events"
-            data-lightbox-label="Thursday"
+            data-lightbox-label="Thursday Flyer"
             data-lightbox-title="Karaoke Thursday Flyer">
-            <img src="assets/images/flyer-thursday.jpg" alt="Karaoke Thursday flyer">
+            <img src="assets/images/flyer-thursday.jpg" alt="Karaoke Thursday flyer" loading="lazy">
             <div class="galleryCard__overlay">
-              <div class="galleryCard__label">Thursday</div>
+              <div class="galleryCard__label">Thursday Flyer</div>
               <h2>Karaoke Thursday Flyer</h2>
             </div>
           </article>
 
           <article
-            class="galleryCard is-extra"
+            class="galleryCard galleryCard--flyer is-extra"
             data-gallery-tags="events vip"
-            data-lightbox-label="Saturday"
+            data-lightbox-label="Saturday Flyer"
             data-lightbox-title="Allure Saturday Flyer">
-            <img src="assets/images/flyer-saturday.jpg" alt="Allure Saturday flyer">
+            <img src="assets/images/flyer-saturday.jpg" alt="Allure Saturday flyer" loading="lazy">
             <div class="galleryCard__overlay">
-              <div class="galleryCard__label">Saturday</div>
+              <div class="galleryCard__label">Saturday Flyer</div>
               <h2>Allure Saturday Flyer</h2>
             </div>
           </article>
@@ -831,6 +1167,7 @@
       const galleryFilterTitle = document.getElementById("galleryFilterTitle");
       const galleryFilterCount = document.getElementById("galleryFilterCount");
       const loadMoreBtn = document.getElementById("galleryLoadMore");
+      const storyPills = document.querySelectorAll(".storyPill[data-story-filter]");
 
       function getAllMatchingCards(category) {
         return [...galleryCards].filter(card => {
@@ -865,7 +1202,6 @@
       function updateGalleryVisibleCount() {
         const activeFilter = getActiveFilter();
         const visibleCards = getVisibleMatchingCards(activeFilter).length;
-
         galleryFilterCount.textContent = `${visibleCards} photo${visibleCards === 1 ? "" : "s"} found`;
       }
 
@@ -875,7 +1211,6 @@
           return card.classList.contains("is-extra") && !card.classList.contains("is-revealed");
         });
 
-        if (!loadMoreBtn) return;
         loadMoreBtn.classList.toggle("is-hidden", matchingHiddenExtras.length === 0);
       }
 
@@ -884,28 +1219,7 @@
         const clickedBtn = [...filterButtons].find(btn => btn.dataset.galleryFilter === filter);
         if (clickedBtn) clickedBtn.classList.add("active");
 
-        if (galleryFilterTitle) {
-          galleryFilterTitle.textContent = title || "Showing: All Photos";
-        }
-
-        galleryCards.forEach(card => {
-          const tags = (card.dataset.galleryTags || "").split(" ").filter(Boolean);
-          const matchesFilter = filter === "all" || tags.includes(filter);
-          const isExtra = card.classList.contains("is-extra");
-          const isRevealed = card.classList.contains("is-revealed");
-
-          if (!matchesFilter) {
-            card.classList.add("is-hidden");
-            return;
-          }
-
-          if (isExtra && !isRevealed) {
-            card.classList.remove("is-hidden");
-            return;
-          }
-
-          card.classList.remove("is-hidden");
-        });
+        galleryFilterTitle.textContent = title || "Showing: All Photos";
 
         galleryCards.forEach(card => {
           const tags = (card.dataset.galleryTags || "").split(" ").filter(Boolean);
@@ -935,23 +1249,35 @@
         });
       });
 
-      if (loadMoreBtn) {
-        loadMoreBtn.addEventListener("click", () => {
-          const activeFilter = getActiveFilter();
+      storyPills.forEach(pill => {
+        pill.addEventListener("click", () => {
+          const filter = pill.dataset.storyFilter || "all";
+          const matchingBtn = [...filterButtons].find(btn => btn.dataset.galleryFilter === filter);
 
-          const nextHidden = getAllMatchingCards(activeFilter).filter(card => {
-            return card.classList.contains("is-extra") && !card.classList.contains("is-revealed");
-          }).slice(0, 3);
-
-          nextHidden.forEach(card => {
-            card.classList.add("is-revealed");
-            card.classList.remove("is-hidden");
-          });
-
-          updateGalleryVisibleCount();
-          updateLoadMoreVisibility();
+          if (matchingBtn) {
+            applyFilter(
+              matchingBtn.dataset.galleryFilter,
+              matchingBtn.dataset.galleryTitle || "Showing: All Photos"
+            );
+          }
         });
-      }
+      });
+
+      loadMoreBtn.addEventListener("click", () => {
+        const activeFilter = getActiveFilter();
+
+        const nextHidden = getAllMatchingCards(activeFilter).filter(card => {
+          return card.classList.contains("is-extra") && !card.classList.contains("is-revealed");
+        }).slice(0, 3);
+
+        nextHidden.forEach(card => {
+          card.classList.add("is-revealed");
+          card.classList.remove("is-hidden");
+        });
+
+        updateGalleryVisibleCount();
+        updateLoadMoreVisibility();
+      });
 
       updateFilterButtonCounts();
       applyFilter("all", "Showing: All Photos");
