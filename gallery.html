@@ -374,6 +374,7 @@
     }
 
     .galleryLightbox__imageWrap{
+      position:relative;
       background:#050509;
     }
 
@@ -438,6 +439,42 @@
       color:var(--gold2);
     }
 
+    .galleryArrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      appearance:none;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.42);
+      color:#fff;
+      width:52px;
+      height:52px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:24px;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      backdrop-filter:blur(6px);
+      transition:all .18s ease;
+      z-index:3;
+    }
+
+    .galleryArrow:hover{
+      border-color:rgba(215,180,106,.34);
+      color:var(--gold2);
+      background:rgba(0,0,0,.58);
+    }
+
+    .galleryArrow--prev{
+      left:18px;
+    }
+
+    .galleryArrow--next{
+      right:18px;
+    }
+
     @media (max-width: 1100px){
       .galleryGrid{
         grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -477,6 +514,20 @@
 
       .galleryLightbox__title{
         font-size:22px;
+      }
+
+      .galleryArrow{
+        width:46px;
+        height:46px;
+        font-size:22px;
+      }
+
+      .galleryArrow--prev{
+        left:10px;
+      }
+
+      .galleryArrow--next{
+        right:10px;
       }
     }
   </style>
@@ -530,16 +581,18 @@
             <div>
               <div class="liveIndicator__eyebrow">Inside Allure</div>
               <div class="liveIndicator__title" id="galleryFilterTitle">Showing: All Photos</div>
-              <div class="liveIndicator__count" id="galleryFilterCount">6 photos found</div>
+              <div class="liveIndicator__count" id="galleryFilterCount">0 photos found</div>
             </div>
           </div>
 
-          <div class="liveIndicator__tags">
-            <button class="liveTag active" type="button" data-gallery-filter="all" data-gallery-title="Showing: All Photos">All (6)</button>
-            <button class="liveTag" type="button" data-gallery-filter="cocktails" data-gallery-title="Showing: Cocktail Photos">Cocktails (3)</button>
-            <button class="liveTag" type="button" data-gallery-filter="vip" data-gallery-title="Showing: VIP Photos">VIP (1)</button>
-            <button class="liveTag" type="button" data-gallery-filter="hookah" data-gallery-title="Showing: Hookah Photos">Hookah (1)</button>
-            <button class="liveTag" type="button" data-gallery-filter="nightlife" data-gallery-title="Showing: Nightlife Photos">Nightlife (1)</button>
+          <div class="liveIndicator__tags" id="galleryFilterTags">
+            <button class="liveTag active" type="button" data-gallery-filter="all" data-gallery-title="Showing: All Photos">All</button>
+            <button class="liveTag" type="button" data-gallery-filter="cocktails" data-gallery-title="Showing: Cocktail Photos">Cocktails</button>
+            <button class="liveTag" type="button" data-gallery-filter="food" data-gallery-title="Showing: Food Photos">Food</button>
+            <button class="liveTag" type="button" data-gallery-filter="events" data-gallery-title="Showing: Event Photos">Events</button>
+            <button class="liveTag" type="button" data-gallery-filter="birthdays" data-gallery-title="Showing: Birthday Night Photos">Birthday Nights</button>
+            <button class="liveTag" type="button" data-gallery-filter="hookah" data-gallery-title="Showing: Hookah Photos">Hookah</button>
+            <button class="liveTag" type="button" data-gallery-filter="vip" data-gallery-title="Showing: VIP Photos">VIP</button>
           </div>
         </div>
       </div>
@@ -551,7 +604,7 @@
 
           <article
             class="galleryCard galleryCard--large"
-            data-gallery-tags="cocktails"
+            data-gallery-tags="cocktails events"
             data-lightbox-label="Cocktails"
             data-lightbox-title="Signature Cocktails">
             <img src="assets/images/gallery-cocktail-1.jpg" alt="Signature cocktails at Allure Bar & Lounge">
@@ -563,7 +616,7 @@
 
           <article
             class="galleryCard"
-            data-gallery-tags="vip"
+            data-gallery-tags="vip birthdays"
             data-lightbox-label="VIP Seating"
             data-lightbox-title="Upscale Lounge Seating">
             <img src="assets/images/gallery-lounge-1.jpg" alt="Upscale lounge seating at Allure">
@@ -587,19 +640,19 @@
 
           <article
             class="galleryCard"
-            data-gallery-tags="nightlife"
-            data-lightbox-label="Nightlife"
+            data-gallery-tags="events nightlife"
+            data-lightbox-label="Events"
             data-lightbox-title="Late Night Atmosphere">
             <img src="assets/images/gallery-nightlife-1.jpg" alt="Nightlife atmosphere at Allure">
             <div class="galleryCard__overlay">
-              <div class="galleryCard__label">Nightlife</div>
+              <div class="galleryCard__label">Events</div>
               <h2>Late Night Atmosphere</h2>
             </div>
           </article>
 
           <article
             class="galleryCard"
-            data-gallery-tags="hookah"
+            data-gallery-tags="hookah vip"
             data-lightbox-label="Hookah"
             data-lightbox-title="Hookah Lounge Experience">
             <img src="assets/images/gallery-hookah-1.jpg" alt="Premium hookah lounge setup at Allure">
@@ -611,7 +664,7 @@
 
           <article
             class="galleryCard"
-            data-gallery-tags="cocktails"
+            data-gallery-tags="cocktails food"
             data-lightbox-label="Featured Drink"
             data-lightbox-title="Premium Drink Close-Up">
             <img src="assets/images/gallery-cocktail-closeup.jpg" alt="Signature cocktail close-up at Allure">
@@ -644,7 +697,9 @@
   <div class="galleryLightbox" id="galleryLightbox" aria-hidden="true">
     <div class="galleryLightbox__inner">
       <div class="galleryLightbox__imageWrap">
+        <button class="galleryArrow galleryArrow--prev" type="button" id="galleryPrev" aria-label="Previous photo">‹</button>
         <img class="galleryLightbox__image" id="galleryLightboxImage" src="" alt="">
+        <button class="galleryArrow galleryArrow--next" type="button" id="galleryNext" aria-label="Next photo">›</button>
       </div>
       <div class="galleryLightbox__meta">
         <div>
@@ -680,6 +735,24 @@
       const galleryFilterTitle = document.getElementById("galleryFilterTitle");
       const galleryFilterCount = document.getElementById("galleryFilterCount");
 
+      function getCategoryCount(category) {
+        if (category === "all") return galleryCards.length;
+
+        return [...galleryCards].filter(card => {
+          const tags = (card.dataset.galleryTags || "").split(" ").filter(Boolean);
+          return tags.includes(category);
+        }).length;
+      }
+
+      function updateFilterButtonCounts() {
+        filterButtons.forEach(button => {
+          const filter = button.dataset.galleryFilter;
+          const label = button.textContent.replace(/\s*\(\d+\)$/, "").trim();
+          const count = getCategoryCount(filter);
+          button.textContent = `${label} (${count})`;
+        });
+      }
+
       function updateGalleryVisibleCount() {
         const visibleCards = [...galleryCards].filter(card => !card.classList.contains("is-hidden")).length;
 
@@ -714,6 +787,7 @@
         });
       });
 
+      updateFilterButtonCounts();
       updateGalleryVisibleCount();
 
       const lightbox = document.getElementById("galleryLightbox");
@@ -721,6 +795,37 @@
       const lightboxLabel = document.getElementById("galleryLightboxLabel");
       const lightboxTitle = document.getElementById("galleryLightboxTitle");
       const lightboxClose = document.getElementById("galleryLightboxClose");
+      const galleryPrev = document.getElementById("galleryPrev");
+      const galleryNext = document.getElementById("galleryNext");
+
+      let currentIndex = 0;
+
+      function getVisibleCards() {
+        return [...galleryCards].filter(card => !card.classList.contains("is-hidden"));
+      }
+
+      function openLightboxByIndex(index) {
+        const visibleCards = getVisibleCards();
+        if (!visibleCards.length) return;
+
+        if (index < 0) index = visibleCards.length - 1;
+        if (index >= visibleCards.length) index = 0;
+
+        currentIndex = index;
+
+        const card = visibleCards[currentIndex];
+        const img = card.querySelector("img");
+        const label = card.dataset.lightboxLabel || "";
+        const title = card.dataset.lightboxTitle || "";
+
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt || title;
+        lightboxLabel.textContent = label;
+        lightboxTitle.textContent = title;
+
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+      }
 
       function closeLightbox() {
         lightbox.classList.remove("is-open");
@@ -731,21 +836,27 @@
 
       galleryCards.forEach(card => {
         card.addEventListener("click", () => {
-          const img = card.querySelector("img");
-          const label = card.dataset.lightboxLabel || "";
-          const title = card.dataset.lightboxTitle || "";
-
-          if (!img || !lightbox) return;
-
-          lightboxImage.src = img.src;
-          lightboxImage.alt = img.alt || title;
-          lightboxLabel.textContent = label;
-          lightboxTitle.textContent = title;
-
-          lightbox.classList.add("is-open");
-          lightbox.setAttribute("aria-hidden", "false");
+          const visibleCards = getVisibleCards();
+          const index = visibleCards.indexOf(card);
+          if (index !== -1) {
+            openLightboxByIndex(index);
+          }
         });
       });
+
+      if (galleryPrev) {
+        galleryPrev.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openLightboxByIndex(currentIndex - 1);
+        });
+      }
+
+      if (galleryNext) {
+        galleryNext.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openLightboxByIndex(currentIndex + 1);
+        });
+      }
 
       if (lightboxClose) {
         lightboxClose.addEventListener("click", closeLightbox);
@@ -760,8 +871,18 @@
       }
 
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && lightbox.classList.contains("is-open")) {
+        if (!lightbox.classList.contains("is-open")) return;
+
+        if (e.key === "Escape") {
           closeLightbox();
+        }
+
+        if (e.key === "ArrowLeft") {
+          openLightboxByIndex(currentIndex - 1);
+        }
+
+        if (e.key === "ArrowRight") {
+          openLightboxByIndex(currentIndex + 1);
         }
       });
     });
