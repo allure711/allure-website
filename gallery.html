@@ -163,6 +163,15 @@
       font-size:16px;
       font-weight:800;
       line-height:1.45;
+      transition:opacity .18s ease;
+    }
+
+    .liveIndicator__count{
+      margin-top:6px;
+      font-size:12px;
+      font-weight:700;
+      color:rgba(255,255,255,.62);
+      line-height:1.3;
     }
 
     .liveIndicator__tags{
@@ -185,6 +194,24 @@
       text-transform:uppercase;
       letter-spacing:.06em;
       white-space:nowrap;
+      cursor:pointer;
+      transition:all .18s ease;
+    }
+
+    .liveTag:hover{
+      transform:translateY(-1px);
+      border-color:rgba(215,180,106,.48);
+      background:rgba(215,180,106,.16);
+      box-shadow:0 10px 24px rgba(215,180,106,.10);
+    }
+
+    .liveTag.active{
+      border-color:rgba(215,180,106,.56);
+      background:linear-gradient(135deg, rgba(215,180,106,.24), rgba(242,211,138,.14));
+      color:#fff2c8;
+      box-shadow:
+        0 12px 28px rgba(215,180,106,.14),
+        0 0 0 1px rgba(215,180,106,.10);
     }
 
     .galleryGridWrap{
@@ -208,7 +235,8 @@
       box-shadow:
         0 22px 54px rgba(0,0,0,.24),
         inset 0 1px 0 rgba(255,255,255,.03);
-      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, opacity .22s ease;
+      cursor:pointer;
     }
 
     .galleryCard:hover{
@@ -265,6 +293,10 @@
       text-shadow:0 8px 24px rgba(0,0,0,.35);
     }
 
+    .galleryCard.is-hidden{
+      display:none;
+    }
+
     .galleryReserveBand{
       padding:16px 0 0;
     }
@@ -312,6 +344,100 @@
       font-size:15px;
     }
 
+    .galleryLightbox{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:rgba(0,0,0,.84);
+      backdrop-filter:blur(6px);
+    }
+
+    .galleryLightbox.is-open{
+      display:flex;
+    }
+
+    .galleryLightbox__inner{
+      position:relative;
+      width:min(1100px, 100%);
+      max-height:90vh;
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(215,180,106,.22);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow:
+        0 28px 80px rgba(0,0,0,.48),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .galleryLightbox__imageWrap{
+      background:#050509;
+    }
+
+    .galleryLightbox__image{
+      display:block;
+      width:100%;
+      max-height:72vh;
+      object-fit:contain;
+      background:#050509;
+    }
+
+    .galleryLightbox__meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:18px;
+      padding:18px;
+      flex-wrap:wrap;
+    }
+
+    .galleryLightbox__label{
+      display:inline-flex;
+      width:max-content;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.28);
+      background:rgba(215,180,106,.10);
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .galleryLightbox__title{
+      margin:0;
+      font-size:26px;
+      line-height:1.05;
+      letter-spacing:-.03em;
+      font-weight:950;
+      color:#fff;
+    }
+
+    .galleryLightbox__close{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
+      color:#fff;
+      border-radius:999px;
+      min-height:44px;
+      padding:10px 14px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      cursor:pointer;
+    }
+
+    .galleryLightbox__close:hover{
+      border-color:rgba(215,180,106,.30);
+      color:var(--gold2);
+    }
+
     @media (max-width: 1100px){
       .galleryGrid{
         grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -344,6 +470,14 @@
       .galleryReserveBand__title{
         font-size:24px;
       }
+
+      .galleryLightbox{
+        padding:14px;
+      }
+
+      .galleryLightbox__title{
+        font-size:22px;
+      }
     }
   </style>
 </head>
@@ -369,7 +503,6 @@
   </header>
 
   <main class="galleryPage">
-    <div style="background:red;color:white;padding:20px;font-size:30px;font-weight:900;">GALLERY TEST</div>
 
     <section class="galleryHero">
       <div class="container">
@@ -396,15 +529,17 @@
             <span class="liveDot"></span>
             <div>
               <div class="liveIndicator__eyebrow">Inside Allure</div>
-              <div class="liveIndicator__title">Cocktails • VIP Lounge • Nightlife Moments • DC Energy</div>
+              <div class="liveIndicator__title" id="galleryFilterTitle">Showing: All Photos</div>
+              <div class="liveIndicator__count" id="galleryFilterCount">6 photos found</div>
             </div>
           </div>
 
           <div class="liveIndicator__tags">
-            <span class="liveTag">Cocktails</span>
-            <span class="liveTag">VIP</span>
-            <span class="liveTag">Hookah</span>
-            <span class="liveTag">Nightlife</span>
+            <button class="liveTag active" type="button" data-gallery-filter="all" data-gallery-title="Showing: All Photos">All (6)</button>
+            <button class="liveTag" type="button" data-gallery-filter="cocktails" data-gallery-title="Showing: Cocktail Photos">Cocktails (3)</button>
+            <button class="liveTag" type="button" data-gallery-filter="vip" data-gallery-title="Showing: VIP Photos">VIP (1)</button>
+            <button class="liveTag" type="button" data-gallery-filter="hookah" data-gallery-title="Showing: Hookah Photos">Hookah (1)</button>
+            <button class="liveTag" type="button" data-gallery-filter="nightlife" data-gallery-title="Showing: Nightlife Photos">Nightlife (1)</button>
           </div>
         </div>
       </div>
@@ -412,9 +547,13 @@
 
     <section class="galleryGridWrap">
       <div class="container">
-        <div class="galleryGrid">
+        <div class="galleryGrid" id="galleryGrid">
 
-          <article class="galleryCard galleryCard--large">
+          <article
+            class="galleryCard galleryCard--large"
+            data-gallery-tags="cocktails"
+            data-lightbox-label="Cocktails"
+            data-lightbox-title="Signature Cocktails">
             <img src="assets/images/gallery-cocktail-1.jpg" alt="Signature cocktails at Allure Bar & Lounge">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Cocktails</div>
@@ -422,7 +561,11 @@
             </div>
           </article>
 
-          <article class="galleryCard">
+          <article
+            class="galleryCard"
+            data-gallery-tags="vip"
+            data-lightbox-label="VIP Seating"
+            data-lightbox-title="Upscale Lounge Seating">
             <img src="assets/images/gallery-lounge-1.jpg" alt="Upscale lounge seating at Allure">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">VIP Seating</div>
@@ -430,7 +573,11 @@
             </div>
           </article>
 
-          <article class="galleryCard">
+          <article
+            class="galleryCard"
+            data-gallery-tags="cocktails"
+            data-lightbox-label="Cocktails"
+            data-lightbox-title="Craft Cocktail Moments">
             <img src="assets/images/gallery-cocktail-2.jpg" alt="Craft cocktails at Allure">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Cocktails</div>
@@ -438,7 +585,11 @@
             </div>
           </article>
 
-          <article class="galleryCard">
+          <article
+            class="galleryCard"
+            data-gallery-tags="nightlife"
+            data-lightbox-label="Nightlife"
+            data-lightbox-title="Late Night Atmosphere">
             <img src="assets/images/gallery-nightlife-1.jpg" alt="Nightlife atmosphere at Allure">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Nightlife</div>
@@ -446,7 +597,11 @@
             </div>
           </article>
 
-          <article class="galleryCard">
+          <article
+            class="galleryCard"
+            data-gallery-tags="hookah"
+            data-lightbox-label="Hookah"
+            data-lightbox-title="Hookah Lounge Experience">
             <img src="assets/images/gallery-hookah-1.jpg" alt="Premium hookah lounge setup at Allure">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Hookah</div>
@@ -454,7 +609,11 @@
             </div>
           </article>
 
-          <article class="galleryCard">
+          <article
+            class="galleryCard"
+            data-gallery-tags="cocktails"
+            data-lightbox-label="Featured Drink"
+            data-lightbox-title="Premium Drink Close-Up">
             <img src="assets/images/gallery-cocktail-closeup.jpg" alt="Signature cocktail close-up at Allure">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Featured Drink</div>
@@ -482,6 +641,21 @@
 
   </main>
 
+  <div class="galleryLightbox" id="galleryLightbox" aria-hidden="true">
+    <div class="galleryLightbox__inner">
+      <div class="galleryLightbox__imageWrap">
+        <img class="galleryLightbox__image" id="galleryLightboxImage" src="" alt="">
+      </div>
+      <div class="galleryLightbox__meta">
+        <div>
+          <div class="galleryLightbox__label" id="galleryLightboxLabel"></div>
+          <h3 class="galleryLightbox__title" id="galleryLightboxTitle"></h3>
+        </div>
+        <button class="galleryLightbox__close" type="button" id="galleryLightboxClose">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const navToggle = document.querySelector(".nav__toggle");
@@ -500,6 +674,96 @@
           });
         });
       }
+
+      const filterButtons = document.querySelectorAll(".liveTag[data-gallery-filter]");
+      const galleryCards = document.querySelectorAll(".galleryCard");
+      const galleryFilterTitle = document.getElementById("galleryFilterTitle");
+      const galleryFilterCount = document.getElementById("galleryFilterCount");
+
+      function updateGalleryVisibleCount() {
+        const visibleCards = [...galleryCards].filter(card => !card.classList.contains("is-hidden")).length;
+
+        if (galleryFilterCount) {
+          galleryFilterCount.textContent = `${visibleCards} photo${visibleCards === 1 ? "" : "s"} found`;
+        }
+      }
+
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.galleryFilter;
+          const title = button.dataset.galleryTitle || "Showing: All Photos";
+
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          if (galleryFilterTitle) {
+            galleryFilterTitle.textContent = title;
+          }
+
+          galleryCards.forEach(card => {
+            const tags = (card.dataset.galleryTags || "").split(" ").filter(Boolean);
+
+            if (filter === "all" || tags.includes(filter)) {
+              card.classList.remove("is-hidden");
+            } else {
+              card.classList.add("is-hidden");
+            }
+          });
+
+          updateGalleryVisibleCount();
+        });
+      });
+
+      updateGalleryVisibleCount();
+
+      const lightbox = document.getElementById("galleryLightbox");
+      const lightboxImage = document.getElementById("galleryLightboxImage");
+      const lightboxLabel = document.getElementById("galleryLightboxLabel");
+      const lightboxTitle = document.getElementById("galleryLightboxTitle");
+      const lightboxClose = document.getElementById("galleryLightboxClose");
+
+      function closeLightbox() {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.src = "";
+        lightboxImage.alt = "";
+      }
+
+      galleryCards.forEach(card => {
+        card.addEventListener("click", () => {
+          const img = card.querySelector("img");
+          const label = card.dataset.lightboxLabel || "";
+          const title = card.dataset.lightboxTitle || "";
+
+          if (!img || !lightbox) return;
+
+          lightboxImage.src = img.src;
+          lightboxImage.alt = img.alt || title;
+          lightboxLabel.textContent = label;
+          lightboxTitle.textContent = title;
+
+          lightbox.classList.add("is-open");
+          lightbox.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      if (lightboxClose) {
+        lightboxClose.addEventListener("click", closeLightbox);
+      }
+
+      if (lightbox) {
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) {
+            closeLightbox();
+          }
+        });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains("is-open")) {
+          closeLightbox();
+        }
+      });
     });
   </script>
 
