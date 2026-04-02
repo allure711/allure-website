@@ -268,10 +268,6 @@
 
     .storyPill:hover{
       transform:translateY(-3px);
-      border-color:rgba(215,180,106,.34);
-      box-shadow:
-        0 22px 44px rgba(0,0,0,.26),
-        0 0 18px rgba(215,180,106,.10);
     }
 
     .storyPill::before{
@@ -306,16 +302,116 @@
       background-image:url("assets/images/gallery-vip-1.jpg");
     }
 
+    .storyPill--friday{
+      border-color:rgba(215,180,106,.28);
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.22),
+        0 0 22px rgba(118,70,255,.14),
+        0 0 14px rgba(215,180,106,.10),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .storyPill--friday:hover{
+      border-color:rgba(215,180,106,.40);
+      box-shadow:
+        0 24px 46px rgba(0,0,0,.28),
+        0 0 28px rgba(118,70,255,.22),
+        0 0 18px rgba(215,180,106,.16),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .storyPill--saturday{
+      border-color:rgba(215,180,106,.28);
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.22),
+        0 0 22px rgba(255,70,70,.14),
+        0 0 14px rgba(215,180,106,.10),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .storyPill--saturday:hover{
+      border-color:rgba(215,180,106,.40);
+      box-shadow:
+        0 24px 46px rgba(0,0,0,.28),
+        0 0 28px rgba(255,70,70,.22),
+        0 0 18px rgba(215,180,106,.16),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .storyPill--hookah{
+      border-color:rgba(215,180,106,.28);
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.22),
+        0 0 22px rgba(40,200,125,.16),
+        0 0 14px rgba(215,180,106,.10),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .storyPill--hookah:hover{
+      border-color:rgba(215,180,106,.40);
+      box-shadow:
+        0 24px 46px rgba(0,0,0,.28),
+        0 0 28px rgba(40,200,125,.24),
+        0 0 18px rgba(215,180,106,.16),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .storyPill--vip{
+      border-color:rgba(215,180,106,.30);
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.22),
+        0 0 24px rgba(90,55,210,.18),
+        0 0 14px rgba(215,180,106,.10),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .storyPill--vip:hover{
+      border-color:rgba(215,180,106,.42);
+      box-shadow:
+        0 24px 46px rgba(0,0,0,.28),
+        0 0 30px rgba(90,55,210,.26),
+        0 0 18px rgba(215,180,106,.16),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
     .storyPill__ring{
       position:absolute;
       inset:10px;
       border-radius:20px;
-      border:2px solid rgba(215,180,106,.56);
       z-index:2;
       pointer-events:none;
+    }
+
+    .storyPill--friday .storyPill__ring{
+      border:2px solid rgba(215,180,106,.60);
       box-shadow:
         0 0 0 2px rgba(255,255,255,.06) inset,
-        0 0 24px rgba(215,180,106,.10);
+        0 0 22px rgba(118,70,255,.20),
+        0 0 16px rgba(215,180,106,.12);
+    }
+
+    .storyPill--saturday .storyPill__ring{
+      border:2px solid rgba(215,180,106,.60);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.06) inset,
+        0 0 22px rgba(255,70,70,.20),
+        0 0 16px rgba(215,180,106,.12);
+    }
+
+    .storyPill--hookah .storyPill__ring{
+      border:2px solid rgba(215,180,106,.60);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.06) inset,
+        0 0 22px rgba(40,200,125,.22),
+        0 0 16px rgba(215,180,106,.12);
+    }
+
+    .storyPill--vip .storyPill__ring{
+      border:2px solid rgba(215,180,106,.62);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.06) inset,
+        0 0 24px rgba(90,55,210,.24),
+        0 0 16px rgba(215,180,106,.12);
     }
 
     .storyPill__content{
@@ -678,6 +774,46 @@
       box-shadow:
         0 28px 80px rgba(0,0,0,.48),
         inset 0 1px 0 rgba(255,255,255,.04);
+      transition:box-shadow .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .galleryLightbox__inner.flyer-theme-friday{
+      border-color:rgba(215,180,106,.34);
+      background:
+        radial-gradient(circle at top right, rgba(125,70,255,.22), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.16), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:
+        0 30px 88px rgba(0,0,0,.50),
+        0 0 34px rgba(125,70,255,.18),
+        0 0 28px rgba(215,180,106,.12),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .galleryLightbox__inner.flyer-theme-saturday{
+      border-color:rgba(215,180,106,.34);
+      background:
+        radial-gradient(circle at top right, rgba(255,75,75,.20), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.16), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:
+        0 30px 88px rgba(0,0,0,.50),
+        0 0 34px rgba(255,75,75,.18),
+        0 0 28px rgba(215,180,106,.12),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .galleryLightbox__inner.flyer-theme-thursday{
+      border-color:rgba(215,180,106,.32);
+      background:
+        radial-gradient(circle at top right, rgba(255,90,180,.24), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.14), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:
+        0 30px 88px rgba(0,0,0,.50),
+        0 0 34px rgba(255,90,180,.20),
+        0 0 28px rgba(215,180,106,.12),
+        inset 0 1px 0 rgba(255,255,255,.05);
     }
 
     .galleryLightbox__imageWrap{
@@ -795,10 +931,47 @@
       box-shadow:
         0 16px 34px rgba(0,0,0,.20),
         inset 0 1px 0 rgba(255,255,255,.04);
+      transition:background .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
 
     .galleryLightbox__flyerMeta.is-visible{
       display:block;
+    }
+
+    .galleryLightbox__flyerMeta.flyer-theme-friday{
+      border-color:rgba(215,180,106,.24);
+      background:
+        radial-gradient(circle at top right, rgba(125,70,255,.22), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.12), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:
+        0 16px 34px rgba(0,0,0,.22),
+        0 0 22px rgba(125,70,255,.14),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .galleryLightbox__flyerMeta.flyer-theme-saturday{
+      border-color:rgba(215,180,106,.24);
+      background:
+        radial-gradient(circle at top right, rgba(255,75,75,.22), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.12), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:
+        0 16px 34px rgba(0,0,0,.22),
+        0 0 22px rgba(255,75,75,.14),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .galleryLightbox__flyerMeta.flyer-theme-thursday{
+      border-color:rgba(215,180,106,.22);
+      background:
+        radial-gradient(circle at top right, rgba(255,90,180,.24), transparent 34%),
+        radial-gradient(circle at top left, rgba(215,180,106,.10), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:
+        0 16px 34px rgba(0,0,0,.22),
+        0 0 22px rgba(255,90,180,.16),
+        inset 0 1px 0 rgba(255,255,255,.04);
     }
 
     .galleryLightbox__flyerEyebrow{
@@ -1164,7 +1337,8 @@
             data-lightbox-label="Friday Flyer"
             data-lightbox-title="Allure Friday Flyer"
             data-flyer-night="Friday"
-            data-flyer-theme="VIP Energy">
+            data-flyer-theme="VIP Energy"
+            data-flyer-glow="friday">
             <img src="assets/images/flyer-friday.jpg" alt="Allure Friday flyer" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Friday Flyer</div>
@@ -1178,7 +1352,8 @@
             data-lightbox-label="Thursday Flyer"
             data-lightbox-title="Karaoke Thursday Flyer"
             data-flyer-night="Thursday"
-            data-flyer-theme="Karaoke Night">
+            data-flyer-theme="Karaoke Night"
+            data-flyer-glow="thursday">
             <img src="assets/images/flyer-thursday.jpg" alt="Karaoke Thursday flyer" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Thursday Flyer</div>
@@ -1192,7 +1367,8 @@
             data-lightbox-label="Saturday Flyer"
             data-lightbox-title="Allure Saturday Flyer"
             data-flyer-night="Saturday"
-            data-flyer-theme="VIP Energy">
+            data-flyer-theme="VIP Energy"
+            data-flyer-glow="saturday">
             <img src="assets/images/flyer-saturday.jpg" alt="Allure Saturday flyer" loading="lazy">
             <div class="galleryCard__overlay">
               <div class="galleryCard__label">Saturday Flyer</div>
@@ -1225,7 +1401,7 @@
   </main>
 
   <div class="galleryLightbox" id="galleryLightbox" aria-hidden="true">
-    <div class="galleryLightbox__inner">
+    <div class="galleryLightbox__inner" id="galleryLightboxInner">
       <div class="galleryLightbox__imageWrap">
         <button class="galleryArrow galleryArrow--prev" type="button" id="galleryPrev" aria-label="Previous photo">‹</button>
         <img class="galleryLightbox__image" id="galleryLightboxImage" src="" alt="">
@@ -1367,6 +1543,7 @@
       });
 
       const lightbox = document.getElementById("galleryLightbox");
+      const lightboxInner = document.getElementById("galleryLightboxInner");
       const lightboxImage = document.getElementById("galleryLightboxImage");
       const lightboxLabel = document.getElementById("galleryLightboxLabel");
       const lightboxTitle = document.getElementById("galleryLightboxTitle");
@@ -1381,6 +1558,35 @@
 
       function getVisibleCards() {
         return [...galleryCards].filter(card => !card.classList.contains("is-hidden"));
+      }
+
+      function resetFlyerGlowThemes() {
+        lightboxInner.classList.remove(
+          "flyer-theme-friday",
+          "flyer-theme-saturday",
+          "flyer-theme-thursday"
+        );
+
+        galleryFlyerMeta.classList.remove(
+          "flyer-theme-friday",
+          "flyer-theme-saturday",
+          "flyer-theme-thursday"
+        );
+      }
+
+      function applyFlyerGlowTheme(glowKey) {
+        resetFlyerGlowThemes();
+
+        if (glowKey === "friday") {
+          lightboxInner.classList.add("flyer-theme-friday");
+          galleryFlyerMeta.classList.add("flyer-theme-friday");
+        } else if (glowKey === "saturday") {
+          lightboxInner.classList.add("flyer-theme-saturday");
+          galleryFlyerMeta.classList.add("flyer-theme-saturday");
+        } else if (glowKey === "thursday") {
+          lightboxInner.classList.add("flyer-theme-thursday");
+          galleryFlyerMeta.classList.add("flyer-theme-thursday");
+        }
       }
 
       function openLightboxByIndex(index) {
@@ -1407,8 +1613,10 @@
           galleryFlyerNight.textContent = card.dataset.flyerNight || "Event Night";
           galleryFlyerMood.textContent = card.dataset.flyerTheme || "VIP Energy";
           galleryFlyerMeta.classList.add("is-visible");
+          applyFlyerGlowTheme(card.dataset.flyerGlow || "");
         } else {
           galleryFlyerMeta.classList.remove("is-visible");
+          resetFlyerGlowThemes();
         }
 
         lightbox.classList.add("is-open");
@@ -1432,6 +1640,7 @@
         lightboxImage.src = "";
         lightboxImage.alt = "";
         galleryFlyerMeta.classList.remove("is-visible");
+        resetFlyerGlowThemes();
       }
 
       storyPills.forEach(pill => {
