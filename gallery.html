@@ -1306,6 +1306,7 @@
         scroll-padding-right:46px;
         padding-left:2px;
         padding-right:38px;
+        padding-top:2px;
       }
 
       .storyPill{
@@ -1426,7 +1427,9 @@
             <a
               href="#galleryGrid"
               class="storyPill storyPill--friday"
+              data-story-key="friday"
               data-story-filter="events"
+              data-story-title="Showing: Event Photos"
               data-story-target="Allure Friday Flyer">
               <span class="storyPill__trail"></span>
               <span class="storyPill__ring"></span>
@@ -1440,7 +1443,9 @@
             <a
               href="#galleryGrid"
               class="storyPill storyPill--saturday"
+              data-story-key="saturday"
               data-story-filter="events"
+              data-story-title="Showing: Event Photos"
               data-story-target="Allure Saturday Flyer">
               <span class="storyPill__trail"></span>
               <span class="storyPill__ring"></span>
@@ -1454,7 +1459,9 @@
             <a
               href="#galleryGrid"
               class="storyPill storyPill--hookah"
+              data-story-key="hookah"
               data-story-filter="hookah"
+              data-story-title="Showing: Hookah Photos"
               data-story-target="Hookah Lounge Experience">
               <span class="storyPill__trail"></span>
               <span class="storyPill__ring"></span>
@@ -1468,7 +1475,9 @@
             <a
               href="#galleryGrid"
               class="storyPill storyPill--vip"
+              data-story-key="vip"
               data-story-filter="vip"
+              data-story-title="Showing: VIP Photos"
               data-story-target="Premium VIP Seating">
               <span class="storyPill__trail"></span>
               <span class="storyPill__ring"></span>
@@ -1712,6 +1721,9 @@
         });
       }
 
+      const STORY_NUDGE_STORAGE_KEY = "allure_gallery_story_nudge_seen";
+      const STORY_ACTIVE_STORAGE_KEY = "allure_gallery_active_story";
+
       const filterButtons = document.querySelectorAll(".liveTag[data-gallery-filter]");
       const galleryCards = document.querySelectorAll(".galleryCard");
       const galleryFilterTitle = document.getElementById("galleryFilterTitle");
@@ -1721,6 +1733,80 @@
       const storiesRow = document.getElementById("galleryStoriesRow");
 
       let activeStoryPill = null;
+      let storyNudgeRan = false;
+
+      function hasSeenStoryNudge() {
+        try {
+          return localStorage.getItem(STORY_NUDGE_STORAGE_KEY) === "true";
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function markStoryNudgeSeen() {
+        try {
+          localStorage.setItem(STORY_NUDGE_STORAGE_KEY, "true");
+        } catch (error) {
+          // ignore storage errors
+        }
+      }
+
+      function getSavedActiveStoryKey() {
+        try {
+          return localStorage.getItem(STORY_ACTIVE_STORAGE_KEY) || "";
+        } catch (error) {
+          return "";
+        }
+      }
+
+      function saveActiveStoryKey(key) {
+        try {
+          localStorage.setItem(STORY_ACTIVE_STORAGE_KEY, key);
+        } catch (error) {
+          // ignore storage errors
+        }
+      }
+
+      function clearSavedActiveStoryKey() {
+        try {
+          localStorage.removeItem(STORY_ACTIVE_STORAGE_KEY);
+        } catch (error) {
+          // ignore storage errors
+        }
+      }
+
+      function setInitialStoryPeek() {
+        if (!storiesRow) return;
+        if (window.innerWidth > 760) return;
+
+        requestAnimationFrame(() => {
+          storiesRow.scrollLeft = 0;
+        });
+      }
+
+      function runStoryNudgeOnce() {
+        if (!storiesRow) return;
+        if (window.innerWidth > 760) return;
+        if (storyNudgeRan) return;
+        if (hasSeenStoryNudge()) return;
+
+        storyNudgeRan = true;
+        markStoryNudgeSeen();
+
+        setTimeout(() => {
+          storiesRow.scrollTo({
+            left: 34,
+            behavior: "smooth"
+          });
+
+          setTimeout(() => {
+            storiesRow.scrollTo({
+              left: 0,
+              behavior: "smooth"
+            });
+          }, 650);
+        }, 700);
+      }
 
       function centerStoryPill(pill) {
         if (!pill || !storiesRow) return;
@@ -1737,18 +1823,42 @@
         });
       }
 
-      function setActiveStoryPill(pill) {
+      function setActiveStoryPill(pill, shouldSave = true) {
         activeStoryPill = pill || null;
         storyPills.forEach(item => item.classList.remove("is-active"));
+
         if (activeStoryPill) {
           activeStoryPill.classList.add("is-active");
           centerStoryPill(activeStoryPill);
+
+          if (shouldSave) {
+            saveActiveStoryKey(activeStoryPill.dataset.storyKey || "");
+          }
         }
       }
 
-      function clearActiveStoryPill() {
+      function clearActiveStoryPill(shouldClearSaved = false) {
         activeStoryPill = null;
         storyPills.forEach(item => item.classList.remove("is-active"));
+
+        if (shouldClearSaved) {
+          clearSavedActiveStoryKey();
+        }
+      }
+
+      function findStoryPillByKey(key) {
+        return [...storyPills].find(pill => pill.dataset.storyKey === key) || null;
+      }
+
+      function restoreSavedActiveStoryPill() {
+        const savedKey = getSavedActiveStoryKey();
+        if (!savedKey) return false;
+
+        const savedPill = findStoryPillByKey(savedKey);
+        if (!savedPill) return false;
+
+        setActiveStoryPill(savedPill, false);
+        return true;
       }
 
       function getAllMatchingCards(category) {
@@ -1830,13 +1940,51 @@
         });
       }
 
+      function applyStorySelection(pill, options = {}) {
+        if (!pill) return;
+
+        const {
+          openLightbox = false,
+          saveState = true,
+          scrollToGrid = false
+        } = options;
+
+        const filter = pill.dataset.storyFilter || "all";
+        const title = pill.dataset.storyTitle || "Showing: All Photos";
+        const targetTitle = pill.dataset.storyTarget || "";
+        const matchingBtn = [...filterButtons].find(btn => btn.dataset.galleryFilter === filter);
+
+        setActiveStoryPill(pill, saveState);
+        revealMatchingExtraCards(filter);
+
+        if (matchingBtn) {
+          applyFilter(
+            matchingBtn.dataset.galleryFilter,
+            matchingBtn.dataset.galleryTitle || title
+          );
+        } else {
+          applyFilter(filter, title);
+        }
+
+        if (openLightbox && targetTitle) {
+          openLightboxByTitle(targetTitle);
+        }
+
+        if (scrollToGrid) {
+          const grid = document.getElementById("galleryGrid");
+          if (grid) {
+            grid.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+      }
+
       filterButtons.forEach(button => {
         button.addEventListener("click", () => {
           applyFilter(
             button.dataset.galleryFilter,
             button.dataset.galleryTitle || "Showing: All Photos"
           );
-          clearActiveStoryPill();
+          clearActiveStoryPill(false);
         });
       });
 
@@ -1950,29 +2098,11 @@
         pill.addEventListener("click", (e) => {
           e.preventDefault();
 
-          setActiveStoryPill(pill);
-
-          const filter = pill.dataset.storyFilter || "all";
-          const targetTitle = pill.dataset.storyTarget || "";
-          const matchingBtn = [...filterButtons].find(btn => btn.dataset.galleryFilter === filter);
-
-          revealMatchingExtraCards(filter);
-
-          if (matchingBtn) {
-            applyFilter(
-              matchingBtn.dataset.galleryFilter,
-              matchingBtn.dataset.galleryTitle || "Showing: All Photos"
-            );
-          } else {
-            applyFilter(filter, "Showing: All Photos");
-          }
-
-          openLightboxByTitle(targetTitle);
-
-          const grid = document.getElementById("galleryGrid");
-          if (grid) {
-            grid.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
+          applyStorySelection(pill, {
+            openLightbox: true,
+            saveState: true,
+            scrollToGrid: true
+          });
         });
       });
 
@@ -1993,7 +2123,28 @@
       });
 
       updateFilterButtonCounts();
-      applyFilter("all", "Showing: All Photos");
+
+      const restored = restoreSavedActiveStoryPill();
+      if (restored && activeStoryPill) {
+        applyStorySelection(activeStoryPill, {
+          openLightbox: false,
+          saveState: false,
+          scrollToGrid: false
+        });
+      } else {
+        applyFilter("all", "Showing: All Photos");
+      }
+
+      setInitialStoryPeek();
+      runStoryNudgeOnce();
+
+      window.addEventListener("resize", () => {
+        if (activeStoryPill) {
+          centerStoryPill(activeStoryPill);
+        } else {
+          setInitialStoryPeek();
+        }
+      });
 
       galleryCards.forEach(card => {
         card.addEventListener("click", () => {
