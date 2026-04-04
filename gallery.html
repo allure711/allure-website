@@ -238,12 +238,41 @@
       letter-spacing:-.03em;
     }
 
+    .galleryStories__viewport{
+      position:relative;
+    }
+
+    .galleryStories__viewport::before,
+    .galleryStories__viewport::after{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:34px;
+      z-index:5;
+      pointer-events:none;
+      opacity:.95;
+      transition:opacity .2s ease;
+    }
+
+    .galleryStories__viewport::before{
+      left:0;
+      background:linear-gradient(90deg, #07070a 0%, rgba(7,7,10,.82) 42%, rgba(7,7,10,0) 100%);
+    }
+
+    .galleryStories__viewport::after{
+      right:0;
+      background:linear-gradient(270deg, #07070a 0%, rgba(7,7,10,.82) 42%, rgba(7,7,10,0) 100%);
+    }
+
     .galleryStories__row{
       display:flex;
       gap:14px;
       overflow-x:auto;
-      padding-bottom:6px;
+      padding:0 2px 6px;
       scrollbar-width:none;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
     }
 
     .galleryStories__row::-webkit-scrollbar{
@@ -258,16 +287,22 @@
       overflow:hidden;
       border:1px solid rgba(215,180,106,.20);
       background:#0b0b10;
-      box-shadow:
-        0 18px 38px rgba(0,0,0,.22),
-        inset 0 1px 0 rgba(255,255,255,.04);
       text-decoration:none;
       color:#fff;
-      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, filter .22s ease, opacity .22s ease;
+      animation:storyPillFloat 7s ease-in-out infinite;
     }
 
     .storyPill:hover{
-      transform:translateY(-3px);
+      transform:translateY(-4px) scale(1.01);
+      animation-play-state:paused;
+    }
+
+    .storyPill.is-active{
+      transform:translateY(-4px) scale(1.035);
+      filter:brightness(1.08);
+      z-index:4;
+      animation-play-state:paused;
     }
 
     .storyPill::before{
@@ -309,15 +344,16 @@
         0 0 22px rgba(118,70,255,.14),
         0 0 14px rgba(215,180,106,.10),
         inset 0 1px 0 rgba(255,255,255,.04);
+      animation-delay:0s;
     }
 
-    .storyPill--friday:hover{
-      border-color:rgba(215,180,106,.40);
+    .storyPill--friday.is-active{
+      border-color:rgba(215,180,106,.50);
       box-shadow:
-        0 24px 46px rgba(0,0,0,.28),
-        0 0 28px rgba(118,70,255,.22),
-        0 0 18px rgba(215,180,106,.16),
-        inset 0 1px 0 rgba(255,255,255,.05);
+        0 24px 48px rgba(0,0,0,.28),
+        0 0 34px rgba(118,70,255,.30),
+        0 0 24px rgba(215,180,106,.20),
+        inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .storyPill--saturday{
@@ -327,15 +363,16 @@
         0 0 22px rgba(255,70,70,.14),
         0 0 14px rgba(215,180,106,.10),
         inset 0 1px 0 rgba(255,255,255,.04);
+      animation-delay:1.2s;
     }
 
-    .storyPill--saturday:hover{
-      border-color:rgba(215,180,106,.40);
+    .storyPill--saturday.is-active{
+      border-color:rgba(215,180,106,.50);
       box-shadow:
-        0 24px 46px rgba(0,0,0,.28),
-        0 0 28px rgba(255,70,70,.22),
-        0 0 18px rgba(215,180,106,.16),
-        inset 0 1px 0 rgba(255,255,255,.05);
+        0 24px 48px rgba(0,0,0,.28),
+        0 0 34px rgba(255,70,70,.30),
+        0 0 24px rgba(215,180,106,.20),
+        inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .storyPill--hookah{
@@ -345,15 +382,16 @@
         0 0 22px rgba(40,200,125,.16),
         0 0 14px rgba(215,180,106,.10),
         inset 0 1px 0 rgba(255,255,255,.04);
+      animation-delay:2.4s;
     }
 
-    .storyPill--hookah:hover{
-      border-color:rgba(215,180,106,.40);
+    .storyPill--hookah.is-active{
+      border-color:rgba(215,180,106,.50);
       box-shadow:
-        0 24px 46px rgba(0,0,0,.28),
-        0 0 28px rgba(40,200,125,.24),
-        0 0 18px rgba(215,180,106,.16),
-        inset 0 1px 0 rgba(255,255,255,.05);
+        0 24px 48px rgba(0,0,0,.28),
+        0 0 34px rgba(40,200,125,.32),
+        0 0 24px rgba(215,180,106,.20),
+        inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .storyPill--vip{
@@ -363,15 +401,16 @@
         0 0 24px rgba(90,55,210,.18),
         0 0 14px rgba(215,180,106,.10),
         inset 0 1px 0 rgba(255,255,255,.04);
+      animation-delay:3.6s;
     }
 
-    .storyPill--vip:hover{
-      border-color:rgba(215,180,106,.42);
+    .storyPill--vip.is-active{
+      border-color:rgba(215,180,106,.52);
       box-shadow:
-        0 24px 46px rgba(0,0,0,.28),
-        0 0 30px rgba(90,55,210,.26),
-        0 0 18px rgba(215,180,106,.16),
-        inset 0 1px 0 rgba(255,255,255,.05);
+        0 24px 48px rgba(0,0,0,.28),
+        0 0 36px rgba(90,55,210,.34),
+        0 0 24px rgba(215,180,106,.22),
+        inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .storyPill__ring{
@@ -380,6 +419,8 @@
       border-radius:20px;
       z-index:2;
       pointer-events:none;
+      animation:storyRingPulse 7s ease-in-out infinite;
+      transition:box-shadow .22s ease, opacity .22s ease, transform .22s ease;
     }
 
     .storyPill--friday .storyPill__ring{
@@ -388,6 +429,14 @@
         0 0 0 2px rgba(255,255,255,.06) inset,
         0 0 22px rgba(118,70,255,.20),
         0 0 16px rgba(215,180,106,.12);
+      animation-delay:0s;
+    }
+
+    .storyPill--friday.is-active .storyPill__ring{
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.08) inset,
+        0 0 30px rgba(118,70,255,.34),
+        0 0 22px rgba(215,180,106,.22);
     }
 
     .storyPill--saturday .storyPill__ring{
@@ -396,6 +445,14 @@
         0 0 0 2px rgba(255,255,255,.06) inset,
         0 0 22px rgba(255,70,70,.20),
         0 0 16px rgba(215,180,106,.12);
+      animation-delay:1.2s;
+    }
+
+    .storyPill--saturday.is-active .storyPill__ring{
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.08) inset,
+        0 0 30px rgba(255,70,70,.34),
+        0 0 22px rgba(215,180,106,.22);
     }
 
     .storyPill--hookah .storyPill__ring{
@@ -404,6 +461,14 @@
         0 0 0 2px rgba(255,255,255,.06) inset,
         0 0 22px rgba(40,200,125,.22),
         0 0 16px rgba(215,180,106,.12);
+      animation-delay:2.4s;
+    }
+
+    .storyPill--hookah.is-active .storyPill__ring{
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.08) inset,
+        0 0 30px rgba(40,200,125,.36),
+        0 0 22px rgba(215,180,106,.22);
     }
 
     .storyPill--vip .storyPill__ring{
@@ -412,6 +477,124 @@
         0 0 0 2px rgba(255,255,255,.06) inset,
         0 0 24px rgba(90,55,210,.24),
         0 0 16px rgba(215,180,106,.12);
+      animation-delay:3.6s;
+    }
+
+    .storyPill--vip.is-active .storyPill__ring{
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.08) inset,
+        0 0 32px rgba(90,55,210,.38),
+        0 0 22px rgba(215,180,106,.22);
+    }
+
+    .storyPill__trail{
+      position:absolute;
+      inset:6px;
+      border-radius:22px;
+      z-index:2;
+      pointer-events:none;
+      opacity:0;
+      transition:opacity .22s ease;
+    }
+
+    .storyPill.is-active .storyPill__trail{
+      opacity:1;
+      animation:storyTrailSpin 5.5s linear infinite;
+    }
+
+    .storyPill--friday .storyPill__trail{
+      background:conic-gradient(
+        from 0deg,
+        rgba(215,180,106,.00) 0deg,
+        rgba(215,180,106,.92) 48deg,
+        rgba(118,70,255,.75) 104deg,
+        rgba(215,180,106,.00) 170deg,
+        rgba(215,180,106,.00) 360deg
+      );
+    }
+
+    .storyPill--saturday .storyPill__trail{
+      background:conic-gradient(
+        from 0deg,
+        rgba(215,180,106,.00) 0deg,
+        rgba(215,180,106,.92) 48deg,
+        rgba(255,70,70,.78) 104deg,
+        rgba(215,180,106,.00) 170deg,
+        rgba(215,180,106,.00) 360deg
+      );
+    }
+
+    .storyPill--hookah .storyPill__trail{
+      background:conic-gradient(
+        from 0deg,
+        rgba(215,180,106,.00) 0deg,
+        rgba(215,180,106,.92) 48deg,
+        rgba(40,200,125,.82) 104deg,
+        rgba(215,180,106,.00) 170deg,
+        rgba(215,180,106,.00) 360deg
+      );
+    }
+
+    .storyPill--vip .storyPill__trail{
+      background:conic-gradient(
+        from 0deg,
+        rgba(215,180,106,.00) 0deg,
+        rgba(215,180,106,.92) 48deg,
+        rgba(90,55,210,.82) 104deg,
+        rgba(215,180,106,.00) 170deg,
+        rgba(215,180,106,.00) 360deg
+      );
+    }
+
+    .storyPill__trail::after{
+      content:"";
+      position:absolute;
+      inset:2px;
+      border-radius:20px;
+      background:rgba(0,0,0,.72);
+    }
+
+    .storyPill__liveDot{
+      position:absolute;
+      top:12px;
+      right:12px;
+      z-index:4;
+      display:none;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(215,180,106,.34);
+      background:rgba(7,7,10,.70);
+      backdrop-filter:blur(8px);
+      box-shadow:
+        0 12px 22px rgba(0,0,0,.18),
+        0 0 16px rgba(215,180,106,.12);
+    }
+
+    .storyPill.is-active .storyPill__liveDot{
+      display:inline-flex;
+    }
+
+    .storyPill__liveDot::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--gold2);
+      box-shadow:
+        0 0 0 4px rgba(242,211,138,.12),
+        0 0 14px rgba(242,211,138,.42);
+      animation:storyLivePulse 1.8s ease-in-out infinite;
+    }
+
+    .storyPill__liveText{
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#fff2c8;
+      line-height:1;
     }
 
     .storyPill__content{
@@ -433,6 +616,13 @@
       letter-spacing:.10em;
       text-transform:uppercase;
       margin-bottom:10px;
+      transition:background .22s ease, color .22s ease, border-color .22s ease;
+    }
+
+    .storyPill.is-active .storyPill__label{
+      background:rgba(215,180,106,.20);
+      border-color:rgba(215,180,106,.44);
+      color:#fff2c8;
     }
 
     .storyPill__title{
@@ -442,6 +632,13 @@
       letter-spacing:-.03em;
       font-weight:950;
       text-shadow:0 10px 22px rgba(0,0,0,.36);
+      transition:text-shadow .22s ease;
+    }
+
+    .storyPill.is-active .storyPill__title{
+      text-shadow:
+        0 12px 26px rgba(0,0,0,.42),
+        0 0 16px rgba(255,255,255,.08);
     }
 
     .galleryIntro{
@@ -1027,6 +1224,48 @@
       white-space:nowrap;
     }
 
+    @keyframes storyPillFloat{
+      0%,100%{
+        transform:translateY(0);
+        filter:brightness(1);
+      }
+      50%{
+        transform:translateY(-3px);
+        filter:brightness(1.04);
+      }
+    }
+
+    @keyframes storyRingPulse{
+      0%,100%{
+        opacity:.82;
+        transform:scale(1);
+      }
+      50%{
+        opacity:1;
+        transform:scale(1.015);
+      }
+    }
+
+    @keyframes storyTrailSpin{
+      from{
+        transform:rotate(0deg);
+      }
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    @keyframes storyLivePulse{
+      0%,100%{
+        transform:scale(1);
+        opacity:1;
+      }
+      50%{
+        transform:scale(1.18);
+        opacity:.88;
+      }
+    }
+
     @media (max-width: 1100px){
       .galleryGrid{
         grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -1051,13 +1290,29 @@
         padding:20px 16px;
       }
 
+      .galleryStories__viewport{
+        margin-right:-14px;
+      }
+
+      .galleryStories__viewport::before,
+      .galleryStories__viewport::after{
+        width:26px;
+      }
+
       .galleryStories__row{
         gap:12px;
+        scroll-snap-type:x mandatory;
+        scroll-padding-left:14px;
+        scroll-padding-right:46px;
+        padding-left:2px;
+        padding-right:38px;
       }
 
       .storyPill{
         flex:0 0 148px;
         min-height:194px;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
       }
 
       .galleryGrid{
@@ -1166,54 +1421,64 @@
           </div>
         </div>
 
-        <div class="galleryStories__row">
-          <a
-            href="#galleryGrid"
-            class="storyPill storyPill--friday"
-            data-story-filter="events"
-            data-story-target="Allure Friday Flyer">
-            <span class="storyPill__ring"></span>
-            <div class="storyPill__content">
-              <div class="storyPill__label">Friday</div>
-              <h3 class="storyPill__title">Allure Friday</h3>
-            </div>
-          </a>
+        <div class="galleryStories__viewport">
+          <div class="galleryStories__row" id="galleryStoriesRow">
+            <a
+              href="#galleryGrid"
+              class="storyPill storyPill--friday"
+              data-story-filter="events"
+              data-story-target="Allure Friday Flyer">
+              <span class="storyPill__trail"></span>
+              <span class="storyPill__ring"></span>
+              <span class="storyPill__liveDot"><span class="storyPill__liveText">Live</span></span>
+              <div class="storyPill__content">
+                <div class="storyPill__label">Friday</div>
+                <h3 class="storyPill__title">Allure Friday</h3>
+              </div>
+            </a>
 
-          <a
-            href="#galleryGrid"
-            class="storyPill storyPill--saturday"
-            data-story-filter="events"
-            data-story-target="Allure Saturday Flyer">
-            <span class="storyPill__ring"></span>
-            <div class="storyPill__content">
-              <div class="storyPill__label">Saturday</div>
-              <h3 class="storyPill__title">Weekend Energy</h3>
-            </div>
-          </a>
+            <a
+              href="#galleryGrid"
+              class="storyPill storyPill--saturday"
+              data-story-filter="events"
+              data-story-target="Allure Saturday Flyer">
+              <span class="storyPill__trail"></span>
+              <span class="storyPill__ring"></span>
+              <span class="storyPill__liveDot"><span class="storyPill__liveText">Live</span></span>
+              <div class="storyPill__content">
+                <div class="storyPill__label">Saturday</div>
+                <h3 class="storyPill__title">Weekend Energy</h3>
+              </div>
+            </a>
 
-          <a
-            href="#galleryGrid"
-            class="storyPill storyPill--hookah"
-            data-story-filter="hookah"
-            data-story-target="Hookah Lounge Experience">
-            <span class="storyPill__ring"></span>
-            <div class="storyPill__content">
-              <div class="storyPill__label">Hookah</div>
-              <h3 class="storyPill__title">Lounge Smoke</h3>
-            </div>
-          </a>
+            <a
+              href="#galleryGrid"
+              class="storyPill storyPill--hookah"
+              data-story-filter="hookah"
+              data-story-target="Hookah Lounge Experience">
+              <span class="storyPill__trail"></span>
+              <span class="storyPill__ring"></span>
+              <span class="storyPill__liveDot"><span class="storyPill__liveText">Live</span></span>
+              <div class="storyPill__content">
+                <div class="storyPill__label">Hookah</div>
+                <h3 class="storyPill__title">Lounge Smoke</h3>
+              </div>
+            </a>
 
-          <a
-            href="#galleryGrid"
-            class="storyPill storyPill--vip"
-            data-story-filter="vip"
-            data-story-target="Premium VIP Seating">
-            <span class="storyPill__ring"></span>
-            <div class="storyPill__content">
-              <div class="storyPill__label">VIP</div>
-              <h3 class="storyPill__title">Premium Seating</h3>
-            </div>
-          </a>
+            <a
+              href="#galleryGrid"
+              class="storyPill storyPill--vip"
+              data-story-filter="vip"
+              data-story-target="Premium VIP Seating">
+              <span class="storyPill__trail"></span>
+              <span class="storyPill__ring"></span>
+              <span class="storyPill__liveDot"><span class="storyPill__liveText">Live</span></span>
+              <div class="storyPill__content">
+                <div class="storyPill__label">VIP</div>
+                <h3 class="storyPill__title">Premium Seating</h3>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1453,6 +1718,38 @@
       const galleryFilterCount = document.getElementById("galleryFilterCount");
       const loadMoreBtn = document.getElementById("galleryLoadMore");
       const storyPills = document.querySelectorAll(".storyPill[data-story-filter]");
+      const storiesRow = document.getElementById("galleryStoriesRow");
+
+      let activeStoryPill = null;
+
+      function centerStoryPill(pill) {
+        if (!pill || !storiesRow) return;
+
+        const rowRect = storiesRow.getBoundingClientRect();
+        const pillRect = pill.getBoundingClientRect();
+        const currentScroll = storiesRow.scrollLeft;
+        const targetScroll =
+          currentScroll + (pillRect.left - rowRect.left) - (rowRect.width / 2) + (pillRect.width / 2);
+
+        storiesRow.scrollTo({
+          left: Math.max(0, targetScroll),
+          behavior: "smooth"
+        });
+      }
+
+      function setActiveStoryPill(pill) {
+        activeStoryPill = pill || null;
+        storyPills.forEach(item => item.classList.remove("is-active"));
+        if (activeStoryPill) {
+          activeStoryPill.classList.add("is-active");
+          centerStoryPill(activeStoryPill);
+        }
+      }
+
+      function clearActiveStoryPill() {
+        activeStoryPill = null;
+        storyPills.forEach(item => item.classList.remove("is-active"));
+      }
 
       function getAllMatchingCards(category) {
         return [...galleryCards].filter(card => {
@@ -1539,6 +1836,7 @@
             button.dataset.galleryFilter,
             button.dataset.galleryTitle || "Showing: All Photos"
           );
+          clearActiveStoryPill();
         });
       });
 
@@ -1641,11 +1939,18 @@
         lightboxImage.alt = "";
         galleryFlyerMeta.classList.remove("is-visible");
         resetFlyerGlowThemes();
+
+        if (activeStoryPill) {
+          activeStoryPill.classList.add("is-active");
+          centerStoryPill(activeStoryPill);
+        }
       }
 
       storyPills.forEach(pill => {
         pill.addEventListener("click", (e) => {
           e.preventDefault();
+
+          setActiveStoryPill(pill);
 
           const filter = pill.dataset.storyFilter || "all";
           const targetTitle = pill.dataset.storyTarget || "";
