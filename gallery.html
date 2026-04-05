@@ -312,6 +312,13 @@
       background-size:cover;
       background-position:center;
       transform:scale(1.02);
+      transition:transform .85s cubic-bezier(.22,1,.36,1), filter .45s ease;
+      will-change:transform;
+    }
+
+    .storyPill:hover::before{
+      transform:scale(1.075);
+      filter:brightness(1.05);
     }
 
     .storyPill::after{
@@ -621,7 +628,8 @@
         box-shadow .18s ease,
         color .18s ease,
         background .18s ease,
-        filter .22s ease;
+        filter .22s ease,
+        letter-spacing .22s ease;
       pointer-events:none;
       filter:blur(0px) brightness(1);
     }
@@ -1340,6 +1348,7 @@
         opacity:1;
         transform:translate(0, 0);
         filter:blur(.35px) brightness(1.08);
+        letter-spacing:.19em;
       }
 
       .storyPill--friday:hover .storyPill__preview{
