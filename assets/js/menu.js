@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const STAFF_PIN = "2024";
   const LEADS_KEY = "allure_leads_v3";
-  const GOOGLE_SHEET_WEB_APP_URL = "";
+  const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycby6s56FVmuLQAAmx2nfk3RGcuoUYwtml-k7Mfm5tpAVopUOX5jv-0nI906WQBKOjINB/exec";
 
   /* =========================
      NAV
