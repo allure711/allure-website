@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     VIP GAME
+     GAME
   ========================= */
 
   function renderLeadGate(panel, day) {
@@ -706,7 +706,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         saveLead(leadPayload);
-
         const sheetResult = await sendLeadToGoogleSheet(leadPayload);
 
         revealText.textContent = current.reward;
@@ -851,6 +850,37 @@ document.addEventListener("DOMContentLoaded", () => {
     clearActive();
     renderIdleState(panel, day);
   }
+
+  /* =========================
+     HERO BUTTONS
+  ========================= */
+
+  function openGameFromHero() {
+    const activeDayPanel = document.querySelector(".dayPanel.active");
+    if (!activeDayPanel) return;
+
+    const targetWrap = activeDayPanel.querySelector(".menuCenterWrap");
+    if (!targetWrap) return;
+
+    setupWrap(targetWrap);
+
+    const panelBody = targetWrap.querySelector(".menuPanelBody");
+    if (!panelBody) return;
+
+    renderLeadGate(panelBody, activeDayPanel.dataset.daypanel || "monday");
+
+    const gameButton = [...getButtons(targetWrap)].find(btn => btn.dataset.action === "game");
+    if (gameButton) {
+      [...getButtons(targetWrap)].forEach(btn => btn.classList.remove("active"));
+      gameButton.classList.add("active");
+    }
+
+    targetWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.querySelectorAll("[data-open-game]").forEach(button => {
+    button.addEventListener("click", openGameFromHero);
+  });
 
   /* =========================
      DAY SWITCH
