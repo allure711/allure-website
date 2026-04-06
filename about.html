@@ -11,17 +11,6 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 
   <style>
-    :root{
-      --gold:#d7b46a;
-      --gold2:#f2d38a;
-      --bg:#07070a;
-      --bg2:#0a0a10;
-      --panel:rgba(255,255,255,.05);
-      --line:rgba(255,255,255,.10);
-      --textSoft:rgba(255,255,255,.78);
-      --shadow:0 18px 60px rgba(0,0,0,.22);
-    }
-
     body{
       background:
         radial-gradient(900px 520px at 15% 10%, rgba(215,180,106,.12), transparent 60%),
@@ -64,14 +53,6 @@
       font-size:17px;
     }
 
-    .glassCard{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(10px);
-    }
-
     .aboutStats{
       margin-top:28px;
       padding:24px;
@@ -109,22 +90,6 @@
 
     .aboutSection{
       margin-top:70px;
-    }
-
-    .sectionTitle{
-      font-size:clamp(30px,4vw,48px);
-      font-weight:950;
-      line-height:1.02;
-      letter-spacing:-.04em;
-      margin:0 0 12px;
-    }
-
-    .sectionText{
-      max-width:860px;
-      color:var(--textSoft);
-      line-height:1.7;
-      margin:0 0 26px;
-      font-size:16px;
     }
 
     .aboutGrid{
@@ -225,112 +190,6 @@
       gap:12px;
     }
 
-    .btnGold,
-    .btnGhost{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:48px;
-      padding:12px 18px;
-      border-radius:12px;
-      text-decoration:none;
-      font-weight:900;
-      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-    .btnGold:hover,
-    .btnGhost:hover{
-      transform:translateY(-2px);
-    }
-
-    .btnGold{
-      background:linear-gradient(135deg,var(--gold),var(--gold2));
-      color:#111;
-      box-shadow:0 14px 34px rgba(215,180,106,.22);
-    }
-
-    .btnGhost{
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.04);
-      color:#fff;
-    }
-
-    .footerPremium{
-      margin-top:90px;
-      padding:36px 0 90px;
-      background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,.03));
-    }
-
-    .footerPremium__grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .8fr;
-      gap:24px;
-    }
-
-    .footerBrand{
-      font-size:24px;
-      font-weight:950;
-      margin-bottom:8px;
-    }
-
-    .footerText{
-      color:var(--textSoft);
-      line-height:1.6;
-    }
-
-    .footerHead{
-      font-size:14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:var(--gold2);
-      font-weight:900;
-      margin-bottom:12px;
-    }
-
-    .footerLinks{
-      display:grid;
-      gap:10px;
-    }
-
-    .footerLinks a{
-      color:rgba(255,255,255,.82);
-      text-decoration:none;
-    }
-
-    .footerLinks a:hover{
-      color:var(--gold2);
-    }
-
-    .footerBottom{
-      margin-top:24px;
-      padding-top:18px;
-      border-top:1px solid rgba(255,255,255,.08);
-      color:rgba(255,255,255,.58);
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      font-size:13px;
-    }
-
-    .mobileStickyReserve{
-      position:fixed;
-      left:12px;
-      right:12px;
-      bottom:12px;
-      z-index:120;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      min-height:52px;
-      border-radius:14px;
-      text-decoration:none;
-      font-weight:900;
-      background:linear-gradient(135deg,var(--gold),var(--gold2));
-      color:#111;
-      box-shadow:0 18px 40px rgba(215,180,106,.22);
-    }
-
     .fadeUp,
     .delay1,
     .delay2,
@@ -339,7 +198,7 @@
       transform:none;
     }
 
-    @media (max-width: 980px){
+    @media (max-width:980px){
       .statsGrid{
         grid-template-columns:repeat(2, minmax(0,1fr));
       }
@@ -351,13 +210,9 @@
       .aboutStory{
         grid-template-columns:1fr;
       }
-
-      .footerPremium__grid{
-        grid-template-columns:1fr;
-      }
     }
 
-    @media (max-width: 700px){
+    @media (max-width:700px){
       .aboutPage{
         padding-top:28px;
       }
@@ -377,46 +232,34 @@
       .aboutStory img{
         min-height:280px;
       }
-
-      .mobileStickyReserve{
-        display:flex;
-      }
-
-      .footerPremium{
-        padding-bottom:100px;
-      }
     }
   </style>
 </head>
 
-<body>
+<body class="menu-page">
 
   <header class="header">
     <div class="container header__inner">
-
       <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
-      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="siteNav">Menu</button>
-
       <nav class="nav">
-        <ul class="nav__list" id="siteNav">
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <ul class="nav__list">
           <li><a href="index.html">Home</a></li>
           <li><a href="menu.html">Menu</a></li>
           <li><a href="events.html">Events</a></li>
           <li><a href="gallery.html">Gallery</a></li>
           <li><a href="about.html" class="active">About</a></li>
           <li><a href="location.html">Location</a></li>
-          <li><a class="btnGold" href="tel:2022974949">Reserve Now</a></li>
+          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
         </ul>
       </nav>
-
     </div>
   </header>
 
   <main class="aboutPage">
 
     <section class="aboutHero container fadeUp">
-
       <div class="aboutKicker">Washington DC Lounge</div>
 
       <h1>About Allure</h1>
@@ -428,7 +271,6 @@
       </p>
 
       <div class="aboutStats statsGrid glassCard">
-
         <div class="statBox">
           <div class="statNum">VIP</div>
           <div class="statLabel">Table Experience</div>
@@ -448,13 +290,10 @@
           <div class="statNum">711</div>
           <div class="statLabel">H St NE</div>
         </div>
-
       </div>
-
     </section>
 
     <section class="container aboutSection fadeUp delay1">
-
       <h2 class="sectionTitle">What Makes Allure Different</h2>
 
       <p class="sectionText">
@@ -463,7 +302,6 @@
       </p>
 
       <div class="aboutGrid">
-
         <div class="aboutCard">
           <h3>Premium Cocktails</h3>
           <p>
@@ -487,15 +325,11 @@
             and a stylish environment built for conversation and nightlife.
           </p>
         </div>
-
       </div>
-
     </section>
 
     <section class="container aboutStory fadeUp delay2">
-
       <div class="aboutStoryText">
-
         <h2>The Allure Experience</h2>
 
         <p>
@@ -510,19 +344,14 @@
           or just meeting friends after work,
           Allure provides a welcoming environment with a refined nightlife vibe.
         </p>
-
       </div>
 
       <img src="assets/images/social-hero.jpg" alt="Allure lounge atmosphere">
-
     </section>
 
     <section class="container">
-
       <div class="aboutVisit glassCard fadeUp delay3">
-
         <div>
-
           <h2 class="aboutVisitTitle">Visit Allure Tonight</h2>
 
           <p class="aboutVisitText">
@@ -530,7 +359,6 @@
             signature cocktails, weekly events, and premium lounge energy
             in a modern nightlife environment.
           </p>
-
         </div>
 
         <div class="aboutVisitActions">
@@ -538,18 +366,14 @@
           <a class="btnGhost" href="events.html">See Events</a>
           <a class="btnGhost" href="tel:2022974949">Call 202-297-4949</a>
         </div>
-
       </div>
-
     </section>
 
   </main>
 
   <footer class="footerPremium">
     <div class="container">
-
       <div class="footerPremium__grid">
-
         <div>
           <div class="footerBrand">Allure Bar &amp; Lounge</div>
           <div class="footerText">
@@ -576,20 +400,17 @@
             <a href="events.html">Weekly Events</a>
           </div>
         </div>
-
       </div>
 
       <div class="footerBottom">
         <span>© Allure Bar &amp; Lounge</span>
         <span>Washington, DC</span>
       </div>
-
     </div>
   </footer>
 
   <a class="mobileStickyReserve" href="tel:2022974949">Reserve Now</a>
 
   <script src="assets/js/main.js"></script>
-
 </body>
 </html>
