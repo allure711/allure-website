@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const STAFF_PIN = "2024";
   const LEADS_KEY = "allure_leads_v3";
-  const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  const GOOGLE_SHEET_WEB_APP_URL = "";
 
   /* =========================
      NAV
