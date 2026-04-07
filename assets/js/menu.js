@@ -897,26 +897,37 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!activeDayPanel) return;
 
     const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
-
     if (!gameButton) return;
 
     gameButton.click();
 
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        const target =
-          activeDayPanel.querySelector(".boxGrid") ||
-          activeDayPanel.querySelector(".gameShell") ||
-          activeDayPanel.querySelector(".menuBigPanel");
+    setTimeout(() => {
+      const target =
+        activeDayPanel.querySelector(".boxGrid") ||
+        activeDayPanel.querySelector(".gameShell") ||
+        activeDayPanel.querySelector(".menuBigPanel");
 
-        if (target) {
-          target.scrollIntoView({
-            behavior: "auto",
-            block: "start"
-          });
-        }
-      }, 120);
-    });
+      if (!target) return;
+
+      const html = document.documentElement;
+      const body = document.body;
+      const oldHtmlScrollBehavior = html.style.scrollBehavior;
+      const oldBodyScrollBehavior = body.style.scrollBehavior;
+
+      html.style.scrollBehavior = "auto";
+      body.style.scrollBehavior = "auto";
+
+      const header = document.querySelector(".header");
+      const headerHeight = header ? header.offsetHeight : 0;
+      const targetTop = window.pageYOffset + target.getBoundingClientRect().top - headerHeight - 12;
+
+      window.scrollTo(0, targetTop);
+
+      setTimeout(() => {
+        html.style.scrollBehavior = oldHtmlScrollBehavior;
+        body.style.scrollBehavior = oldBodyScrollBehavior;
+      }, 50);
+    }, 80);
   }
 
   document.querySelectorAll("[data-open-game]").forEach(button => {
