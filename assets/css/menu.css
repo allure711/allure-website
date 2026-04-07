@@ -1750,10 +1750,9 @@ body{
 }
 
 /* ===== MOBILE GAME CUT-OFF FIX ===== */
-@media (max-width:760px){
+@media (max-width: 760px){
   .menuWrap{
     overflow-x:hidden !important;
-    padding-bottom:48px !important;
   }
 
   .container{
@@ -1800,8 +1799,6 @@ body{
     min-width:0;
     box-sizing:border-box;
     font-size:16px;
-    min-height:52px;
-    padding:14px 14px;
   }
 
   .boxGrid{
@@ -1829,7 +1826,6 @@ body{
   .gameActions .gameBtn{
     width:100%;
     min-width:0;
-    min-height:48px;
   }
 
   .gameActions .gameBtn--gold,
@@ -1870,9 +1866,21 @@ body{
     font-size:12px;
     line-height:1.55;
   }
+
+  .menuCenterWrap.is-game-focus + .outsideBottom{
+    display:none !important;
+  }
+
+  .menuCenterWrap.is-game-focus .menuTopCategories{
+    display:none !important;
+  }
+
+  .menuCenterWrap.is-game-focus .menuPanelTitle{
+    display:none !important;
+  }
 }
 
-@media (max-width:520px){
+@media (max-width: 520px){
   .container{
     width:min(100% - 16px, 1200px) !important;
   }
@@ -1906,14 +1914,5 @@ body{
   .gameBadge{
     font-size:10px !important;
     padding:6px 8px !important;
-  }
-
-  .gameActions{
-    grid-template-columns:1fr !important;
-  }
-
-  .gameActions .gameBtn--gold,
-  .gameActions .gameBtn--top{
-    grid-column:auto;
   }
 }
