@@ -1744,3 +1744,57 @@ body{
     font-size:22px;
   }
 }
+/* ===== MOBILE ENTRY FORM POLISH ===== */
+@media (max-width: 760px){
+  .gameShell .gameActions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .gameShell .gameActions .gameBtn{
+    width:100%;
+    min-height:48px;
+    justify-content:center;
+  }
+
+  .gameShell .staffBox{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .gameShell .staffInput{
+    min-height:48px;
+    font-size:16px;
+    padding:12px 14px;
+  }
+
+  .gameShell [data-entry]{
+    min-height:46px;
+    border-radius:14px;
+    font-size:13px;
+    letter-spacing:.03em;
+  }
+
+  .gameShell [data-entry].active{
+    box-shadow:
+      0 12px 26px rgba(215,180,106,.12),
+      0 0 0 1px rgba(215,180,106,.08),
+      inset 0 1px 0 rgba(255,255,255,.04);
+  }
+
+  .gameShell [data-unlock-boxes]{
+    min-height:50px;
+    font-size:15px;
+  }
+
+  .gameShell .staffState{
+    margin-top:10px;
+    line-height:1.45;
+  }
+
+  .gameShell .gameHint{
+    font-size:12px;
+    line-height:1.55;
+  }
+}
