@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const STAFF_PIN = "2024";
   const LEADS_KEY = "allure_leads_v3";
-  const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycby6s56FVmuLQAAmx2nfk3RGcuoUYwtml-k7Mfm5tpAVopUOX5jv-0nI906WQBKOjINB/exec";
+  const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
 
   /* =========================
      NAV
@@ -90,7 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function sendLeadToGoogleSheet(lead) {
-    if (!GOOGLE_SHEET_WEB_APP_URL || GOOGLE_SHEET_WEB_APP_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE")) {
+    if (
+      !GOOGLE_SHEET_WEB_APP_URL ||
+      GOOGLE_SHEET_WEB_APP_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE")
+    ) {
       return {
         ok: false,
         error: "Missing Google Apps Script web app URL"
@@ -512,7 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     GAME
+     VIP GAME
   ========================= */
 
   function renderLeadGate(panel, day) {
@@ -706,6 +709,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         saveLead(leadPayload);
+
         const sheetResult = await sendLeadToGoogleSheet(leadPayload);
 
         revealText.textContent = current.reward;
@@ -852,37 +856,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     HERO BUTTONS
-  ========================= */
-
-  function openGameFromHero() {
-    const activeDayPanel = document.querySelector(".dayPanel.active");
-    if (!activeDayPanel) return;
-
-    const targetWrap = activeDayPanel.querySelector(".menuCenterWrap");
-    if (!targetWrap) return;
-
-    setupWrap(targetWrap);
-
-    const panelBody = targetWrap.querySelector(".menuPanelBody");
-    if (!panelBody) return;
-
-    renderLeadGate(panelBody, activeDayPanel.dataset.daypanel || "monday");
-
-    const gameButton = [...getButtons(targetWrap)].find(btn => btn.dataset.action === "game");
-    if (gameButton) {
-      [...getButtons(targetWrap)].forEach(btn => btn.classList.remove("active"));
-      gameButton.classList.add("active");
-    }
-
-    targetWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  document.querySelectorAll("[data-open-game]").forEach(button => {
-    button.addEventListener("click", openGameFromHero);
-  });
-
-  /* =========================
      DAY SWITCH
   ========================= */
 
@@ -908,6 +881,47 @@ document.addEventListener("DOMContentLoaded", () => {
   const today = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
+
+  /* =========================
+     TOP HERO -> OPEN REAL GAME
+  ========================= */
+
+  function jumpToActiveGamePanel() {
+    let activeDayPanel = document.querySelector(".dayPanel.active");
+
+    if (!activeDayPanel) {
+      activateDay(hasTodayTab ? today : fallbackDay);
+      activeDayPanel = document.querySelector(".dayPanel.active");
+    }
+
+    if (!activeDayPanel) return;
+
+    const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
+
+    if (!gameButton) return;
+
+    gameButton.click();
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const target =
+          activeDayPanel.querySelector(".boxGrid") ||
+          activeDayPanel.querySelector(".gameShell") ||
+          activeDayPanel.querySelector(".menuBigPanel");
+
+        if (target) {
+          target.scrollIntoView({
+            behavior: "auto",
+            block: "start"
+          });
+        }
+      }, 120);
+    });
+  }
+
+  document.querySelectorAll("[data-open-game]").forEach(button => {
+    button.addEventListener("click", jumpToActiveGamePanel);
+  });
 
   activateDay(hasTodayTab ? today : fallbackDay);
 });
