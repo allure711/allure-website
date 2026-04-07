@@ -249,6 +249,38 @@ document.addEventListener("DOMContentLoaded", () => {
     wrap.classList.toggle("is-game-active", Boolean(isActive));
   }
 
+  function renderWheelLabels(segments) {
+    return segments
+      .map((label, index) => {
+        const angle = (360 / segments.length) * index;
+        return `
+          <div
+            class="pdmWheel__segment"
+            style="transform: rotate(${angle}deg);"
+          >
+            <span class="pdmWheel__segmentText">${escapeHtml(label)}</span>
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+  function renderBottleMarkup() {
+    return `
+      <div class="pdmBottle" data-bottle>
+        <div class="pdmBottle__cap"></div>
+        <div class="pdmBottle__neck"></div>
+        <div class="pdmBottle__body">
+          <div class="pdmBottle__shine"></div>
+          <div class="pdmBottle__label">
+            <div class="pdmBottle__labelTop">POUR</div>
+            <div class="pdmBottle__labelBottom">DECISION</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   /* =========================
      MENU RENDER
   ========================= */
@@ -670,14 +702,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
-              ${safeSession.segments.map((label, index) => `
-                <div class="pdmWheel__label pdmWheel__label--${index + 1}">${escapeHtml(label)}</div>
-              `).join("")}
+              ${renderWheelLabels(safeSession.segments)}
             </div>
 
-            <div class="pdmWheelCenter">
-              <div class="pdmWheelCenter__title">POUR</div>
-              <div class="pdmWheelCenter__sub">DECISION</div>
+            <div class="pdmWheelMiddle">
+              ${renderBottleMarkup()}
+            </div>
+
+            <div class="pdmResultOverlay" data-result-overlay>
+              <div class="pdmResultOverlay__label">Tonight's Result</div>
+              <div class="pdmResultOverlay__reward" data-result-reward></div>
+              <div class="pdmResultOverlay__code" data-result-code></div>
             </div>
           </div>
         </div>
@@ -696,6 +731,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     const wheel = panel.querySelector("[data-wheel]");
+    const bottle = panel.querySelector("[data-bottle]");
+    const resultOverlay = panel.querySelector("[data-result-overlay]");
+    const resultReward = panel.querySelector("[data-result-reward]");
+    const resultCode = panel.querySelector("[data-result-code]");
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
 
@@ -719,15 +758,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const selectedIndex = getRandomSegmentIndex();
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
-
       const targetCenterAngle = (selectedIndex * segmentAngle) + (segmentAngle / 2);
-      const finalRotation = (360 * 6) + (360 - targetCenterAngle);
+      const finalRotation = (360 * 5) + (360 - targetCenterAngle);
 
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
 
       if (wheel) {
         wheel.style.transform = `rotate(${finalRotation}deg)`;
+      }
+
+      if (bottle) {
+        bottle.classList.add("is-spinning");
+      }
+
+      if (resultOverlay) {
+        resultOverlay.classList.remove("is-visible");
       }
 
       setTimeout(async () => {
@@ -756,12 +802,34 @@ document.addEventListener("DOMContentLoaded", () => {
         saveLead(leadPayload);
         await sendLeadToGoogleSheet(leadPayload);
 
-        renderWinnerScreen(panel, day, current);
+        if (bottle) {
+          bottle.classList.remove("is-spinning");
+        }
 
-        setTimeout(() => {
-          const winnerTarget = panel.querySelector(".pdmWinner");
-          jumpToElementInstant(winnerTarget || panel, 8);
-        }, 20);
+        if (resultReward) {
+          resultReward.textContent = current.reward;
+        }
+
+        if (resultCode) {
+          resultCode.textContent = current.code;
+        }
+
+        if (resultOverlay) {
+          resultOverlay.classList.add("is-visible");
+        }
+
+        stateBox.textContent = "Winner revealed inside the wheel.";
+        spinButton.textContent = "View Winner Screen";
+        spinButton.disabled = false;
+
+        spinButton.onclick = () => {
+          renderWinnerScreen(panel, day, current);
+
+          setTimeout(() => {
+            const winnerTarget = panel.querySelector(".pdmWinner");
+            jumpToElementInstant(winnerTarget || panel, 8);
+          }, 20);
+        };
       }, 4700);
     });
   }
