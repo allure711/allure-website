@@ -249,38 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
     wrap.classList.toggle("is-game-active", Boolean(isActive));
   }
 
-  function renderWheelLabels(segments) {
-    return segments
-      .map((label, index) => {
-        const angle = (360 / segments.length) * index;
-        return `
-          <div
-            class="pdmWheel__segment"
-            style="transform: rotate(${angle}deg);"
-          >
-            <span class="pdmWheel__segmentText">${escapeHtml(label)}</span>
-          </div>
-        `;
-      })
-      .join("");
-  }
-
-  function renderBottleMarkup() {
-    return `
-      <div class="pdmBottle" data-bottle>
-        <div class="pdmBottle__cap"></div>
-        <div class="pdmBottle__neck"></div>
-        <div class="pdmBottle__body">
-          <div class="pdmBottle__shine"></div>
-          <div class="pdmBottle__label">
-            <div class="pdmBottle__labelTop">POUR</div>
-            <div class="pdmBottle__labelBottom">DECISION</div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
   /* =========================
      MENU RENDER
   ========================= */
@@ -592,12 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const existing = readSession(day);
 
     if (!forceFresh && existing) {
-      if (existing.stage === "winner" && typeof existing.selectedIndex === "number") {
-        renderWinnerScreen(panel, day, existing);
-        return;
-      }
-
-      if (existing.stage === "wheel" && existing.phone) {
+      if ((existing.stage === "wheel" || existing.stage === "winner") && existing.phone) {
         renderWheelScreen(panel, day, existing);
         return;
       }
@@ -653,6 +616,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reward: "",
         code: "",
         boxNumber: "",
+        finalRotation: 0,
         createdAt: new Date().toISOString(),
         timestamp: new Date().toISOString(),
         stage: "wheel"
@@ -682,6 +646,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setGameState(panel, true);
 
     const safeSession = readSession(day) || session;
+    const hasWinner = typeof safeSession.selectedIndex === "number" && !!safeSession.reward;
 
     panel.innerHTML = `
       <div class="pdmWheelShell">
@@ -702,30 +667,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
-              ${renderWheelLabels(safeSession.segments)}
+              ${safeSession.segments.map((label, index) => `
+                <div class="pdmWheel__segment" style="transform:rotate(${index * 30}deg);">
+                  <div class="pdmWheel__segmentText">${escapeHtml(label)}</div>
+                </div>
+              `).join("")}
             </div>
 
             <div class="pdmWheelMiddle">
-              ${renderBottleMarkup()}
+              <div class="pdmBottleReal${hasWinner ? "" : ""}" data-bottle></div>
             </div>
 
-            <div class="pdmResultOverlay" data-result-overlay>
+            <div class="pdmResultOverlay${hasWinner ? " is-visible" : ""}" data-result-overlay>
               <div class="pdmResultOverlay__label">Tonight's Result</div>
-              <div class="pdmResultOverlay__reward" data-result-reward></div>
-              <div class="pdmResultOverlay__code" data-result-code></div>
+              <div class="pdmResultOverlay__reward" data-result-reward>${escapeHtml(hasWinner ? safeSession.reward : "")}</div>
+              <div class="pdmResultOverlay__code" data-result-code>${escapeHtml(hasWinner ? safeSession.code : "")}</div>
             </div>
           </div>
         </div>
 
         <div class="gameActions">
-          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Spin Now</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-spin-now ${hasWinner ? "disabled" : ""}>Spin Now</button>
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>${hasWinner ? "New Guest" : "Start Over"}</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
         </div>
 
         <div class="staffBox">
-          <div class="staffState">One spin per guest entry.</div>
+          <div class="staffState">${hasWinner ? "Result saved." : "One spin per guest entry."}</div>
         </div>
       </div>
     `;
@@ -737,6 +706,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultCode = panel.querySelector("[data-result-code]");
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
+
+    if (hasWinner && wheel && typeof safeSession.finalRotation === "number") {
+      wheel.style.transition = "none";
+      wheel.style.transform = `rotate(${safeSession.finalRotation}deg)`;
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          wheel.style.transition = "transform 4.7s cubic-bezier(.12,.8,.18,1)";
+        });
+      });
+    }
 
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
 
@@ -755,25 +735,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     spinButton.addEventListener("click", async () => {
       const current = readSession(day) || safeSession;
+
+      if (typeof current.selectedIndex === "number") {
+        return;
+      }
+
       const selectedIndex = getRandomSegmentIndex();
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
       const targetCenterAngle = (selectedIndex * segmentAngle) + (segmentAngle / 2);
-      const finalRotation = (360 * 5) + (360 - targetCenterAngle);
+      const finalRotation = (360 * 6) + (360 - targetCenterAngle);
+
+      current.finalRotation = finalRotation;
 
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
 
-      if (wheel) {
-        wheel.style.transform = `rotate(${finalRotation}deg)`;
-      }
-
       if (bottle) {
+        bottle.classList.remove("is-spinning");
+        void bottle.offsetWidth;
         bottle.classList.add("is-spinning");
       }
 
-      if (resultOverlay) {
-        resultOverlay.classList.remove("is-visible");
+      if (wheel) {
+        wheel.style.transform = `rotate(${finalRotation}deg)`;
       }
 
       setTimeout(async () => {
@@ -800,11 +785,8 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         saveLead(leadPayload);
-        await sendLeadToGoogleSheet(leadPayload);
 
-        if (bottle) {
-          bottle.classList.remove("is-spinning");
-        }
+        const sheetResult = await sendLeadToGoogleSheet(leadPayload);
 
         if (resultReward) {
           resultReward.textContent = current.reward;
@@ -818,95 +800,10 @@ document.addEventListener("DOMContentLoaded", () => {
           resultOverlay.classList.add("is-visible");
         }
 
-        stateBox.textContent = "Winner revealed inside the wheel.";
-        spinButton.textContent = "View Winner Screen";
-        spinButton.disabled = false;
-
-        spinButton.onclick = () => {
-          renderWinnerScreen(panel, day, current);
-
-          setTimeout(() => {
-            const winnerTarget = panel.querySelector(".pdmWinner");
-            jumpToElementInstant(winnerTarget || panel, 8);
-          }, 20);
-        };
+        stateBox.textContent = sheetResult.ok
+          ? "Result saved to Google Sheet."
+          : "Result saved locally. Google Sheet sync failed.";
       }, 4700);
-    });
-  }
-
-  function renderWinnerScreen(panel, day, session) {
-    setGameState(panel, true);
-
-    const safeSession = readSession(day) || session;
-    const rewardText = safeSession.reward || "Try Again";
-
-    panel.innerHTML = `
-      <div class="pdmWinner">
-        <div class="pdmWinner__eyebrow">Tonight's Result</div>
-        <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
-        <p class="pdmWinner__text">
-          Show this result to staff tonight.
-        </p>
-
-        <div class="gameReveal">
-          <div class="gameRevealLabel">Redemption Code</div>
-          <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
-          <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
-        </div>
-
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--gold" type="button" data-new-guest>New Guest</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Dashboard</button>
-        </div>
-
-        <div class="staffBox">
-          <div class="staffRow">
-            <input class="staffInput" type="password" placeholder="Manager PIN">
-            <button class="gameBtn gameBtn--ghost" type="button" data-confirm-reset>Confirm Reset</button>
-          </div>
-          <div class="staffState">Reset clears this guest and opens a new entry screen.</div>
-        </div>
-      </div>
-    `;
-
-    const pinInput = panel.querySelector(".staffInput");
-    const staffState = panel.querySelector(".staffState");
-
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
-    panel.querySelector("[data-new-guest]").addEventListener("click", () => {
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-
-      setTimeout(() => {
-        jumpToElementInstant(panel, 8);
-      }, 20);
-    });
-
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
-
-    panel.querySelector("[data-manager-reset]").addEventListener("click", () => {
-      staffState.textContent = "Enter manager PIN, then confirm reset.";
-    });
-
-    panel.querySelector("[data-confirm-reset]").addEventListener("click", () => {
-      const pin = (pinInput.value || "").trim();
-
-      if (pin !== STAFF_PIN) {
-        staffState.textContent = "Incorrect PIN.";
-        return;
-      }
-
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-
-      setTimeout(() => {
-        jumpToElementInstant(panel, 8);
-      }, 20);
     });
   }
 
@@ -1087,4 +984,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   activateDay(hasTodayTab ? today : fallbackDay);
+
+  window.addEventListener("resize", () => {
+    const activePanel = document.querySelector(".dayPanel.active .menuPanelBody");
+    if (!activePanel) return;
+
+    const activeDay = document.querySelector(".dayPanel.active")?.dataset.daypanel || fallbackDay;
+    const activeWrap = activePanel.closest(".menuCenterWrap");
+
+    if (activeWrap?.classList.contains("is-game-active")) {
+      const session = readSession(activeDay);
+      if (session) {
+        renderWheelScreen(activePanel, activeDay, session);
+      }
+    }
+  });
 });
