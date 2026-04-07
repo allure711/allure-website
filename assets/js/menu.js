@@ -284,6 +284,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 50);
   }
 
+  function bindMobileInputVisibility(scope) {
+    if (!isMobileView() || !scope) return;
+
+    const inputs = [...scope.querySelectorAll("input, textarea, select")];
+
+    inputs.forEach(input => {
+      input.addEventListener("focus", () => {
+        setTimeout(() => {
+          const card = input.closest(".staffBox") || input;
+          jumpToElementInstant(card, 12);
+        }, 250);
+      });
+    });
+  }
+
   /* =========================
      MENU RENDER
   ========================= */
@@ -645,6 +660,8 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
+    bindMobileInputVisibility(panel);
+
     const phoneInput = panel.querySelector("[data-phone-input]");
     const staffState = panel.querySelector(".staffState");
 
@@ -655,6 +672,8 @@ document.addEventListener("DOMContentLoaded", () => {
         staffState.textContent = "Enter a valid phone number.";
         return;
       }
+
+      phoneInput.blur();
 
       const state = {
         date: getTodayKey(),
@@ -672,6 +691,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       saveSession(day, state);
       renderGame(panel, day, state);
+
+      setTimeout(() => {
+        const boxGrid = panel.querySelector(".boxGrid");
+        if (boxGrid) {
+          jumpToElementInstant(boxGrid, 8);
+        }
+      }, 120);
     });
 
     panel.querySelector("[data-back-idle]").addEventListener("click", () => {
@@ -733,6 +759,8 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `;
+
+    bindMobileInputVisibility(panel);
 
     const igInput = panel.querySelector("[data-ig-input]");
     const phoneInput = panel.querySelector("[data-phone-input]");
@@ -799,6 +827,9 @@ document.addEventListener("DOMContentLoaded", () => {
         phone = normalizePhone(phoneRaw);
       }
 
+      igInput.blur();
+      phoneInput.blur();
+
       const state = {
         date: getTodayKey(),
         day,
@@ -821,7 +852,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (boxGrid) {
           jumpToElementInstant(boxGrid, 8);
         }
-      }, 30);
+      }, 140);
     });
 
     panel.querySelector("[data-back-top]").addEventListener("click", () => {
@@ -966,6 +997,13 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           staffState.textContent = "Result saved locally. Google Sheet sync failed.";
         }
+
+        setTimeout(() => {
+          const revealCard = panel.querySelector(".gameReveal");
+          if (revealCard) {
+            jumpToElementInstant(revealCard, 8);
+          }
+        }, 50);
       });
     });
 
@@ -1162,15 +1200,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
     const panel = activeDayPanel.querySelector(".menuPanelBody");
+    const activeDay = activeDayPanel.dataset.daypanel || "monday";
 
     if (!gameButton || !panel) return;
 
+    document.querySelectorAll(".menuCenterBtn").forEach(btn => btn.classList.remove("active"));
     gameButton.classList.add("active");
 
     if (isMobileView()) {
-      renderLeadGate(panel, activeDayPanel.dataset.daypanel || "monday", true);
+      renderMobileLeadGate(panel, activeDay, true);
     } else {
-      renderLeadGate(panel, activeDayPanel.dataset.daypanel || "monday", false);
+      renderPhoneOnlyGate(panel, activeDay, true);
     }
 
     setTimeout(() => {
