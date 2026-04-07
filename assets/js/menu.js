@@ -639,6 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="gameActions">
+          <button class="gameBtn gameBtn--ghost" type="button" data-back-top>Back To Top</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
           <button class="gameBtn gameBtn--gold" type="button" data-open-dashboard>Dashboard</button>
@@ -722,6 +723,23 @@ document.addEventListener("DOMContentLoaded", () => {
           staffState.textContent = "Result saved locally. Google Sheet sync failed.";
         }
       });
+    });
+
+    panel.querySelector("[data-back-top]").addEventListener("click", () => {
+      const html = document.documentElement;
+      const body = document.body;
+      const oldHtmlScrollBehavior = html.style.scrollBehavior;
+      const oldBodyScrollBehavior = body.style.scrollBehavior;
+
+      html.style.scrollBehavior = "auto";
+      body.style.scrollBehavior = "auto";
+
+      window.scrollTo(0, 0);
+
+      setTimeout(() => {
+        html.style.scrollBehavior = oldHtmlScrollBehavior;
+        body.style.scrollBehavior = oldBodyScrollBehavior;
+      }, 50);
     });
 
     panel.querySelector("[data-back-idle]").addEventListener("click", () => {
