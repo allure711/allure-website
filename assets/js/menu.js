@@ -639,7 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="gameActions">
-          <button class="gameBtn gameBtn--ghost" type="button" data-back-top>Back To Top</button>
+          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
           <button class="gameBtn gameBtn--gold" type="button" data-open-dashboard>Dashboard</button>
@@ -921,8 +921,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       const target =
-        activeDayPanel.querySelector(".boxGrid") ||
         activeDayPanel.querySelector(".gameShell") ||
+        activeDayPanel.querySelector(".boxGrid") ||
         activeDayPanel.querySelector(".menuBigPanel");
 
       if (!target) return;
@@ -937,7 +937,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const header = document.querySelector(".header");
       const headerHeight = header ? header.offsetHeight : 0;
-      const targetTop = window.pageYOffset + target.getBoundingClientRect().top - headerHeight - 12;
+      const targetTop = window.pageYOffset + target.getBoundingClientRect().top - headerHeight - 8;
 
       window.scrollTo(0, targetTop);
 
@@ -945,7 +945,7 @@ document.addEventListener("DOMContentLoaded", () => {
         html.style.scrollBehavior = oldHtmlScrollBehavior;
         body.style.scrollBehavior = oldBodyScrollBehavior;
       }, 50);
-    }, 80);
+    }, 60);
   }
 
   document.querySelectorAll("[data-open-game]").forEach(button => {
