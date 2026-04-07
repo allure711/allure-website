@@ -1624,6 +1624,7 @@ body{
 .hookahUpsell__price{
   color:var(--gold2);
 }
+
 .topSellersStrip{
   margin:20px 0 22px;
   padding:18px;
@@ -1730,5 +1731,68 @@ body{
 
   .topSellersTitle{
     font-size:22px;
+  }
+}
+
+/* =========================================================
+   MOBILE-ONLY LAYOUT FLOW
+   1. FREE HOOKAH MONDAY
+   2. 24 BOX GAME
+   3. MENU
+   4. RESERVE
+   DELETE EXPERIENCE
+========================================================= */
+
+@media (max-width:640px){
+  .menuWrap > .container:first-child{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .menuWelcomeStrip{
+    display:contents;
+  }
+
+  .menuWelcomeStrip__item{
+    width:100%;
+  }
+
+  .menuWelcomeStrip__item:nth-child(1){
+    order:1;
+    margin:20px 0 16px;
+  }
+
+  .menuWelcomeStrip__item:nth-child(2){
+    display:none !important;
+  }
+
+  .gameHero{
+    order:2;
+    margin:0 0 22px;
+  }
+
+  .dayTabs{
+    order:3;
+    margin:0 0 22px;
+  }
+
+  .topSellersStrip{
+    order:4;
+    margin:0 0 22px;
+  }
+
+  .menuWelcomeStrip__item:nth-child(3){
+    order:99;
+    margin:24px 0 0;
+  }
+
+  .menuWelcomeStrip__item:nth-child(3) .menuWelcomeStrip__label{
+    margin-bottom:8px;
+  }
+
+  .menuWelcomeStrip__item:nth-child(3) .menuWelcomeStrip__text{
+    font-size:16px;
+    font-weight:800;
+    color:#fff;
   }
 }
