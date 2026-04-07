@@ -602,10 +602,10 @@ document.addEventListener("DOMContentLoaded", () => {
      GAME FLOW
   ========================= */
 
-  function renderDesktopPhoneOnlyGate(panel, day) {
+  function renderPhoneOnlyGate(panel, day, forceFreshGate = false) {
     const existing = readSession(day);
 
-    if (existing && typeof existing.revealedIndex === "number") {
+    if (!forceFreshGate && existing && typeof existing.revealedIndex === "number") {
       renderGame(panel, day, existing);
       return;
     }
@@ -683,10 +683,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function renderMobileLeadGate(panel, day) {
+  function renderMobileLeadGate(panel, day, forceFreshGate = false) {
     const existing = readSession(day);
 
-    if (existing && typeof existing.revealedIndex === "number") {
+    if (!forceFreshGate && existing && typeof existing.revealedIndex === "number") {
       renderGame(panel, day, existing);
       return;
     }
@@ -837,13 +837,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function renderLeadGate(panel, day) {
+  function renderLeadGate(panel, day, forceFreshGate = false) {
     if (isMobileView()) {
-      renderMobileLeadGate(panel, day);
+      renderMobileLeadGate(panel, day, forceFreshGate);
       return;
     }
 
-    renderDesktopPhoneOnlyGate(panel, day);
+    renderPhoneOnlyGate(panel, day, forceFreshGate);
   }
 
   function renderGame(panel, day, state) {
@@ -974,7 +974,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     panel.querySelector("[data-back-idle]").addEventListener("click", () => {
-      renderLeadGate(panel, day);
+      renderLeadGate(panel, day, true);
       setTimeout(() => {
         jumpToElementInstant(panel, 8);
       }, 20);
@@ -998,7 +998,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       clearSession(day);
       staffState.textContent = "Session cleared.";
-      renderLeadGate(panel, day);
+      renderLeadGate(panel, day, true);
 
       setTimeout(() => {
         jumpToElementInstant(panel, 8);
@@ -1031,7 +1031,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrap = panel.closest(".menuCenterWrap");
 
     panel.querySelector("[data-start-game]").addEventListener("click", () => {
-      renderLeadGate(panel, day);
+      renderLeadGate(panel, day, true);
       setTimeout(() => {
         jumpToElementInstant(panel, 8);
       }, 20);
@@ -1093,10 +1093,10 @@ document.addEventListener("DOMContentLoaded", () => {
       bindSubTabs(panel, content);
     }
 
-    function activateGame(button) {
+    function activateGame(button, forceFreshGate = false) {
       clearActive();
       button.classList.add("active");
-      renderLeadGate(panel, day);
+      renderLeadGate(panel, day, forceFreshGate);
 
       setTimeout(() => {
         const target = panel.querySelector(".gameShell") || panel;
@@ -1107,7 +1107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     buttons.forEach(button => {
       button.addEventListener("click", () => {
         if (button.dataset.action === "game") {
-          activateGame(button);
+          activateGame(button, false);
           return;
         }
 
@@ -1161,19 +1161,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!activeDayPanel) return;
 
     const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
-    if (!gameButton) return;
+    const panel = activeDayPanel.querySelector(".menuPanelBody");
 
-    gameButton.click();
+    if (!gameButton || !panel) return;
+
+    gameButton.classList.add("active");
+
+    if (isMobileView()) {
+      renderLeadGate(panel, activeDayPanel.dataset.daypanel || "monday", true);
+    } else {
+      renderLeadGate(panel, activeDayPanel.dataset.daypanel || "monday", false);
+    }
 
     setTimeout(() => {
-      const target =
-        activeDayPanel.querySelector(".gameShell") ||
-        activeDayPanel.querySelector(".menuBigPanel") ||
-        activeDayPanel.querySelector(".menuPanelBody");
-
-      if (!target) return;
+      const target = panel.querySelector(".gameShell") || panel;
       jumpToElementInstant(target, 8);
-    }, 80);
+    }, 40);
   }
 
   document.querySelectorAll("[data-open-game]").forEach(button => {
