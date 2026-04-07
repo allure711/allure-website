@@ -1,9 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const STAFF_PIN = "2024";
-  const LEADS_KEY = "allure_leads_v3";
+  const LEADS_KEY = "allure_leads_v4";
   const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
   const MOBILE_BREAKPOINT = 760;
+
+  const WHEEL_SEGMENTS = [
+    "Free Shot",
+    "$5 Off Hookah",
+    "Free Mixer",
+    "$3 Off Fishbowl",
+    "Spin Again",
+    "Hookah Upgrade",
+    "Lucky Discount",
+    "Ask About VIP",
+    "House Favorite",
+    "Try Again",
+    "$10 Off Bottle",
+    "Group Cheers"
+  ];
 
   /* =========================
      NAV
@@ -50,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getSessionKey(day) {
-    return `allure_vip_session:${getTodayKey()}:${day}:${getTableLabel().toLowerCase()}`;
+    return `allure_pdm_session:${getTodayKey()}:${day}:${getTableLabel().toLowerCase()}`;
   }
 
   function readSession(day) {
@@ -116,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
           createdAt: lead.createdAt || "",
           day: lead.day || "",
           table: lead.table || "",
-          entryType: lead.entryType || "",
+          entryType: lead.entryType || "phone",
           instagram: lead.instagram || "",
           phone: lead.phone || "",
           reward: lead.reward || "",
@@ -153,18 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(value || "").replace(/\D/g, "");
   }
 
-  function validateInstagram(value) {
-    if (!value) return false;
-    const cleaned = String(value).trim();
-    return /^@?[a-zA-Z0-9._]{2,30}$/.test(cleaned);
-  }
-
-  function normalizeInstagram(value) {
-    const cleaned = String(value || "").trim().replace(/\s+/g, "");
-    if (!cleaned) return "";
-    return cleaned.startsWith("@") ? cleaned : `@${cleaned}`;
-  }
-
   function csvEscape(value) {
     const str = String(value ?? "");
     return `"${str.replace(/"/g, '""')}"`;
@@ -187,61 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(value || "").charAt(0).toUpperCase() + String(value || "").slice(1);
   }
 
-  function weightedPool(entryType = "phone") {
-    const standard = [
-      "Free Shot",
-      "Free Mixer",
-      "$2 Off Hookah",
-      "Wing Flavor Upgrade",
-      "Good Vibes",
-      "Try Again",
-      "Try Again",
-      "Try Again"
-    ];
+  function createRewardCode(day, index) {
+    return `PDM-${String(day || "").slice(0, 3).toUpperCase()}-${index + 1}`;
+  }
 
-    const premium = [
-      "$5 Off Hookah",
-      "10% Off Food",
-      "$3 Off Fishbowl",
-      "Premium Drink Discount",
-      "Line Skip",
-      "Hookah Flavor Upgrade",
-      "Try Again",
-      "Try Again"
-    ];
-
-    const vip = [
-      "VIP Table Priority",
-      "Free Hookah Upgrade",
-      "$10 Off Bottle",
-      "Premium Shot Upgrade",
-      "Exclusive Weekend Reward",
-      "VIP Skip Line",
-      "Reserved Table Perk",
-      "Try Again"
-    ];
-
-    let source = [];
-
-    if (entryType === "ig") {
-      source = [...standard, ...standard, ...premium];
-    } else if (entryType === "phone") {
-      source = [...standard, ...premium, ...premium, ...vip];
-    } else {
-      source = [...premium, ...premium, ...vip, ...vip];
-    }
-
-    while (source.length < 24) {
-      source.push("Try Again");
-    }
-
-    const copy = [...source];
-    for (let i = copy.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-
-    return copy.slice(0, 24);
+  function getRandomSegmentIndex() {
+    return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   }
 
   function jumpToElementInstant(target, extraOffset = 8) {
@@ -257,7 +211,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const header = document.querySelector(".header");
     const headerHeight = header ? header.offsetHeight : 0;
-    const targetTop = window.pageYOffset + target.getBoundingClientRect().top - headerHeight - extraOffset;
+    const targetTop =
+      window.pageYOffset + target.getBoundingClientRect().top - headerHeight - extraOffset;
 
     window.scrollTo(0, Math.max(0, targetTop));
 
@@ -284,19 +239,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 50);
   }
 
-  function bindMobileInputVisibility(scope) {
-    if (!isMobileView() || !scope) return;
+  function getWrapFromPanel(panel) {
+    return panel.closest(".menuCenterWrap");
+  }
 
-    const inputs = [...scope.querySelectorAll("input, textarea, select")];
-
-    inputs.forEach(input => {
-      input.addEventListener("focus", () => {
-        setTimeout(() => {
-          const card = input.closest(".staffBox") || input;
-          jumpToElementInstant(card, 12);
-        }, 250);
-      });
-    });
+  function setGameState(panel, isActive) {
+    const wrap = getWrapFromPanel(panel);
+    if (!wrap) return;
+    wrap.classList.toggle("is-game-active", Boolean(isActive));
   }
 
   /* =========================
@@ -433,18 +383,13 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================= */
 
   function renderDashboard(panel, day) {
+    setGameState(panel, true);
+
     const leads = readLeads();
     const todayKey = getTodayKey();
 
     const todayLeads = leads.filter(lead => lead.date === todayKey);
     const todayDayLeads = leads.filter(lead => lead.date === todayKey && lead.day === day);
-
-    const counts = {
-      ig: leads.filter(l => l.entryType === "ig").length,
-      phone: leads.filter(l => l.entryType === "phone").length,
-      vip: leads.filter(l => l.entryType === "vip").length
-    };
-
     const recent = [...leads].reverse().slice(0, 12);
 
     panel.innerHTML = `
@@ -464,17 +409,12 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
 
-        <div class="menuList" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
-          <div class="menuEmpty"><strong>Instagram</strong><br>${counts.ig}</div>
-          <div class="menuEmpty"><strong>Phone</strong><br>${counts.phone}</div>
-          <div class="menuEmpty"><strong>VIP Both</strong><br>${counts.vip}</div>
-        </div>
-
         <div class="gameActions">
           <button class="gameBtn gameBtn--gold" type="button" data-export-all>Export All CSV</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-export-today>Export Today CSV</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-reset-day>Reset Today Sessions</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-clear-leads>Clear Local Backup</button>
+          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
         </div>
 
@@ -491,15 +431,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <div style="margin-top:10px;display:grid;gap:8px;">
             ${recent.length ? recent.map(lead => `
               <div style="padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02);">
-                <div><strong>${escapeHtml(lead.reward)}</strong> • ${escapeHtml((lead.entryType || "").toUpperCase())}</div>
+                <div><strong>${escapeHtml(lead.reward)}</strong></div>
                 <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
                   ${escapeHtml(lead.createdAt || lead.timestamp || "")} • ${escapeHtml(lead.day)} • Table ${escapeHtml(lead.table)}
                 </div>
                 <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
-                  IG: ${escapeHtml(lead.instagram || "-")} • Phone: ${escapeHtml(lead.phone || "-")}
-                </div>
-                <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
-                  Code: ${escapeHtml(lead.code || "-")}
+                  Phone: ${escapeHtml(lead.phone || "-")} • Code: ${escapeHtml(lead.code || "-")}
                 </div>
               </div>
             `).join("") : `<div style="color:rgba(255,255,255,.72);">No entries yet.</div>`}
@@ -519,7 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const rows = [
-        ["createdAt", "day", "table", "entryType", "instagram", "phone", "reward", "boxNumber", "code"]
+        ["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]
       ];
 
       leads.forEach(lead => {
@@ -528,15 +465,14 @@ document.addEventListener("DOMContentLoaded", () => {
           lead.day || "",
           lead.table || "",
           lead.entryType || "",
-          lead.instagram || "",
           lead.phone || "",
           lead.reward || "",
-          String(lead.boxNumber || lead.revealedBox || ""),
+          String(lead.boxNumber || ""),
           lead.code || ""
         ]);
       });
 
-      downloadCsv(`allure-leads-all-${todayKey}.csv`, rows);
+      downloadCsv(`pour-decision-maker-all-${todayKey}.csv`, rows);
       staffState.textContent = "Exported all local entries.";
     });
 
@@ -547,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const rows = [
-        ["createdAt", "day", "table", "entryType", "instagram", "phone", "reward", "boxNumber", "code"]
+        ["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]
       ];
 
       todayLeads.forEach(lead => {
@@ -556,15 +492,14 @@ document.addEventListener("DOMContentLoaded", () => {
           lead.day || "",
           lead.table || "",
           lead.entryType || "",
-          lead.instagram || "",
           lead.phone || "",
           lead.reward || "",
-          String(lead.boxNumber || lead.revealedBox || ""),
+          String(lead.boxNumber || ""),
           lead.code || ""
         ]);
       });
 
-      downloadCsv(`allure-leads-today-${todayKey}.csv`, rows);
+      downloadCsv(`pour-decision-maker-today-${todayKey}.csv`, rows);
       staffState.textContent = "Exported today's local entries.";
     });
 
@@ -588,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (pendingAction === "reset-day") {
         Object.keys(localStorage).forEach(key => {
-          if (key.startsWith(`allure_vip_session:${todayKey}:`)) {
+          if (key.startsWith(`allure_pdm_session:${todayKey}:`)) {
             localStorage.removeItem(key);
           }
         });
@@ -608,64 +543,66 @@ document.addEventListener("DOMContentLoaded", () => {
       staffState.textContent = "No protected action selected.";
     });
 
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
+
     panel.querySelector("[data-back-idle]").addEventListener("click", () => {
       renderIdleState(panel, day);
     });
   }
 
   /* =========================
-     GAME FLOW
+     POUR DECISION MAKER FLOW
   ========================= */
 
-  function renderPhoneOnlyGate(panel, day, forceFreshGate = false) {
+  function renderEntryScreen(panel, day, forceFresh = false) {
+    setGameState(panel, true);
+
     const existing = readSession(day);
 
-    if (!forceFreshGate && existing && typeof existing.revealedIndex === "number") {
-      renderGame(panel, day, existing);
-      return;
+    if (!forceFresh && existing) {
+      if (existing.stage === "winner" && typeof existing.selectedIndex === "number") {
+        renderWinnerScreen(panel, day, existing);
+        return;
+      }
+
+      if (existing.stage === "wheel" && existing.phone) {
+        renderWheelScreen(panel, day, existing);
+        return;
+      }
     }
 
     panel.innerHTML = `
-      <div class="gameShell">
-        <div class="gameTop">
-          <div>
-            <div class="gameTitle">Unlock Your 24 Box Game</div>
-            <div class="gameSub">
-              Enter your phone number to play and unlock tonight's reward.
-            </div>
-          </div>
-
-          <div class="gameBadgeRow">
-            <span class="gameBadge">Table: ${escapeHtml(getTableLabel())}</span>
-            <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
-          </div>
-        </div>
+      <div class="pdmEntry">
+        <div class="pdmEntry__eyebrow">Pour Decision Maker</div>
+        <h3 class="pdmEntry__title">One spin. One decision. One unforgettable night.</h3>
+        <p class="pdmEntry__text">
+          Enter your phone number to unlock tonight's spin.
+        </p>
 
         <div class="staffBox">
-          <div style="display:grid;gap:10px;">
-            <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input>
-            <button class="gameBtn gameBtn--gold" type="button" data-unlock-boxes>Unlock Boxes</button>
+          <div class="pdmEntry__form">
+            <input class="staffInput pdmEntry__input" type="tel" placeholder="Phone number" data-phone-input>
+            <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Continue</button>
           </div>
           <div class="staffState">Enter a valid phone number to continue.</div>
         </div>
 
         <div class="gameHint">
-          Your phone number is saved to Allure's guest entry sheet when you reveal your box.
+          Your number is saved when your result is revealed.
         </div>
 
         <div class="gameActions">
+          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
         </div>
       </div>
     `;
 
-    bindMobileInputVisibility(panel);
-
     const phoneInput = panel.querySelector("[data-phone-input]");
     const staffState = panel.querySelector(".staffState");
 
-    panel.querySelector("[data-unlock-boxes]").addEventListener("click", () => {
+    panel.querySelector("[data-entry-continue]").addEventListener("click", () => {
       const phoneRaw = (phoneInput.value || "").trim();
 
       if (!validatePhone(phoneRaw)) {
@@ -673,32 +610,32 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      phoneInput.blur();
-
       const state = {
         date: getTodayKey(),
         day,
         table: getTableLabel(),
         entryType: "phone",
-        instagram: "",
         phone: normalizePhone(phoneRaw),
-        rewards: weightedPool("phone"),
-        revealedIndex: null,
-        timestamp: new Date().toISOString(),
+        segments: [...WHEEL_SEGMENTS],
+        selectedIndex: null,
+        reward: "",
+        code: "",
+        boxNumber: "",
         createdAt: new Date().toISOString(),
-        code: ""
+        timestamp: new Date().toISOString(),
+        stage: "wheel"
       };
 
       saveSession(day, state);
-      renderGame(panel, day, state);
+      renderWheelScreen(panel, day, state);
 
       setTimeout(() => {
-        const boxGrid = panel.querySelector(".boxGrid");
-        if (boxGrid) {
-          jumpToElementInstant(boxGrid, 8);
-        }
-      }, 120);
+        const wheelTarget = panel.querySelector(".pdmWheelShell");
+        jumpToElementInstant(wheelTarget || panel, 8);
+      }, 30);
     });
+
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
 
     panel.querySelector("[data-back-idle]").addEventListener("click", () => {
       renderIdleState(panel, day);
@@ -709,215 +646,151 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function renderMobileLeadGate(panel, day, forceFreshGate = false) {
-    const existing = readSession(day);
+  function renderWheelScreen(panel, day, session) {
+    setGameState(panel, true);
 
-    if (!forceFreshGate && existing && typeof existing.revealedIndex === "number") {
-      renderGame(panel, day, existing);
-      return;
-    }
+    const safeSession = readSession(day) || session;
 
     panel.innerHTML = `
-      <div class="gameShell">
+      <div class="pdmWheelShell">
         <div class="gameTop">
           <div>
-            <div class="gameTitle">Unlock Your 24 Box Game</div>
-            <div class="gameSub">
-              Enter Instagram, phone number, or both. Then unlock the 24 boxes.
-            </div>
+            <div class="gameTitle">Pour Decision Maker</div>
+            <div class="gameSub">Spin once to decide the night.</div>
           </div>
 
           <div class="gameBadgeRow">
-            <span class="gameBadge">Table: ${escapeHtml(getTableLabel())}</span>
+            <span class="gameBadge">Table: ${escapeHtml(safeSession.table || getTableLabel())}</span>
             <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
           </div>
         </div>
 
+        <div class="pdmWheelArea">
+          <div class="pdmPointer"></div>
+
+          <div class="pdmWheelWrap">
+            <div class="pdmWheel" data-wheel>
+              ${safeSession.segments.map((label, index) => `
+                <div class="pdmWheel__label pdmWheel__label--${index + 1}">${escapeHtml(label)}</div>
+              `).join("")}
+            </div>
+
+            <div class="pdmWheelCenter">
+              <div class="pdmWheelCenter__title">POUR</div>
+              <div class="pdmWheelCenter__sub">DECISION</div>
+            </div>
+          </div>
+        </div>
+
         <div class="gameActions">
-          <button class="gameBtn gameBtn--ghost active" type="button" data-entry="ig">Instagram</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-entry="phone">Phone</button>
-          <button class="gameBtn gameBtn--gold" type="button" data-entry="vip">VIP (Both)</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Spin Now</button>
+          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
         </div>
 
         <div class="staffBox">
-          <div style="display:grid;gap:10px;">
-            <input class="staffInput" type="text" placeholder="@instagram" data-ig-input>
-            <input class="staffInput" type="tel" placeholder="Phone number" data-phone-input>
-            <button class="gameBtn gameBtn--gold" type="button" data-unlock-boxes>Continue To 24 Boxes</button>
-          </div>
-          <div class="staffState">Choose one entry type, then fill the matching field(s).</div>
-        </div>
-
-        <div class="gameHint">
-          Guest entry details are saved to Allure's Google Sheet when a box is revealed.
-        </div>
-
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
+          <div class="staffState">One spin per guest entry.</div>
         </div>
       </div>
     `;
 
-    bindMobileInputVisibility(panel);
+    const wheel = panel.querySelector("[data-wheel]");
+    const spinButton = panel.querySelector("[data-spin-now]");
+    const stateBox = panel.querySelector(".staffState");
 
-    const igInput = panel.querySelector("[data-ig-input]");
-    const phoneInput = panel.querySelector("[data-phone-input]");
-    const staffState = panel.querySelector(".staffState");
-    const entryButtons = [...panel.querySelectorAll("[data-entry]")];
-    let entryType = "ig";
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
 
-    function setEntryType(type) {
-      entryType = type;
-
-      entryButtons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.entry === type);
-      });
-
-      igInput.disabled = type === "phone";
-      phoneInput.disabled = type === "ig";
-
-      if (type === "ig") {
-        phoneInput.value = "";
-        staffState.textContent = "Instagram entry unlocks Standard odds.";
-      } else if (type === "phone") {
-        igInput.value = "";
-        staffState.textContent = "Phone entry unlocks Premium odds.";
-      } else {
-        staffState.textContent = "VIP entry with both fields unlocks best odds.";
-      }
-    }
-
-    entryButtons.forEach(button => {
-      button.addEventListener("click", () => setEntryType(button.dataset.entry));
-    });
-
-    setEntryType("ig");
-
-    panel.querySelector("[data-unlock-boxes]").addEventListener("click", () => {
-      const igRaw = (igInput.value || "").trim();
-      const phoneRaw = (phoneInput.value || "").trim();
-
-      let instagram = "";
-      let phone = "";
-
-      if (entryType === "ig") {
-        if (!validateInstagram(igRaw)) {
-          staffState.textContent = "Enter a valid Instagram handle.";
-          return;
-        }
-        instagram = normalizeInstagram(igRaw);
-      }
-
-      if (entryType === "phone") {
-        if (!validatePhone(phoneRaw)) {
-          staffState.textContent = "Enter a valid phone number.";
-          return;
-        }
-        phone = normalizePhone(phoneRaw);
-      }
-
-      if (entryType === "vip") {
-        if (!validateInstagram(igRaw) || !validatePhone(phoneRaw)) {
-          staffState.textContent = "Enter both a valid Instagram handle and phone number.";
-          return;
-        }
-        instagram = normalizeInstagram(igRaw);
-        phone = normalizePhone(phoneRaw);
-      }
-
-      igInput.blur();
-      phoneInput.blur();
-
-      const state = {
-        date: getTodayKey(),
-        day,
-        table: getTableLabel(),
-        entryType,
-        instagram,
-        phone,
-        rewards: weightedPool(entryType),
-        revealedIndex: null,
-        timestamp: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-        code: ""
-      };
-
-      saveSession(day, state);
-      renderGame(panel, day, state);
+    panel.querySelector("[data-start-over]").addEventListener("click", () => {
+      clearSession(day);
+      renderEntryScreen(panel, day, true);
 
       setTimeout(() => {
-        const boxGrid = panel.querySelector(".boxGrid");
-        if (boxGrid) {
-          jumpToElementInstant(boxGrid, 8);
-        }
-      }, 140);
-    });
-
-    panel.querySelector("[data-back-top]").addEventListener("click", () => {
-      jumpToTopInstant();
-    });
-
-    panel.querySelector("[data-back-idle]").addEventListener("click", () => {
-      renderIdleState(panel, day);
+        jumpToElementInstant(panel, 8);
+      }, 20);
     });
 
     panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
       renderDashboard(panel, day);
     });
+
+    spinButton.addEventListener("click", async () => {
+      const current = readSession(day) || safeSession;
+      const selectedIndex = getRandomSegmentIndex();
+      const segmentCount = current.segments.length;
+      const segmentAngle = 360 / segmentCount;
+
+      const targetCenterAngle = (selectedIndex * segmentAngle) + (segmentAngle / 2);
+      const finalRotation = (360 * 6) + (360 - targetCenterAngle);
+
+      spinButton.disabled = true;
+      stateBox.textContent = "Spinning...";
+
+      if (wheel) {
+        wheel.style.transform = `rotate(${finalRotation}deg)`;
+      }
+
+      setTimeout(async () => {
+        current.selectedIndex = selectedIndex;
+        current.reward = current.segments[selectedIndex];
+        current.boxNumber = selectedIndex + 1;
+        current.code = createRewardCode(day, selectedIndex);
+        current.timestamp = new Date().toISOString();
+        current.createdAt = current.timestamp;
+        current.stage = "winner";
+
+        saveSession(day, current);
+
+        const leadPayload = {
+          date: current.date || getTodayKey(),
+          createdAt: current.createdAt,
+          day: current.day || day,
+          table: current.table || getTableLabel(),
+          entryType: current.entryType || "phone",
+          phone: current.phone || "",
+          reward: current.reward || "",
+          boxNumber: current.boxNumber || "",
+          code: current.code || ""
+        };
+
+        saveLead(leadPayload);
+        await sendLeadToGoogleSheet(leadPayload);
+
+        renderWinnerScreen(panel, day, current);
+
+        setTimeout(() => {
+          const winnerTarget = panel.querySelector(".pdmWinner");
+          jumpToElementInstant(winnerTarget || panel, 8);
+        }, 20);
+      }, 4700);
+    });
   }
 
-  function renderLeadGate(panel, day, forceFreshGate = false) {
-    if (isMobileView()) {
-      renderMobileLeadGate(panel, day, forceFreshGate);
-      return;
-    }
+  function renderWinnerScreen(panel, day, session) {
+    setGameState(panel, true);
 
-    renderPhoneOnlyGate(panel, day, forceFreshGate);
-  }
-
-  function renderGame(panel, day, state) {
-    const session = readSession(day) || state;
-    const rewards = session.rewards || weightedPool(session.entryType || "phone");
-    const revealedIndex = typeof session.revealedIndex === "number" ? session.revealedIndex : null;
+    const safeSession = readSession(day) || session;
+    const rewardText = safeSession.reward || "Try Again";
 
     panel.innerHTML = `
-      <div class="gameShell">
-        <div class="gameTop">
-          <div>
-            <div class="gameTitle">Allure 24 Box Game</div>
-            <div class="gameSub">
-              One reveal per table/device per day.
-            </div>
-          </div>
-
-          <div class="gameBadgeRow">
-            <span class="gameBadge">${escapeHtml((session.entryType || "").toUpperCase())}</span>
-            <span class="gameBadge">Table: ${escapeHtml(session.table || getTableLabel())}</span>
-            <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
-          </div>
-        </div>
-
-        <div class="boxGrid">
-          ${Array.from({ length: 24 }).map((_, i) => `
-            <button class="boxCell" type="button" data-box-index="${i}">
-              Box ${i + 1}
-            </button>
-          `).join("")}
-        </div>
+      <div class="pdmWinner">
+        <div class="pdmWinner__eyebrow">Tonight's Result</div>
+        <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
+        <p class="pdmWinner__text">
+          Show this result to staff tonight.
+        </p>
 
         <div class="gameReveal">
-          <div class="gameRevealLabel">Your Reveal</div>
-          <div class="gameRevealText">${revealedIndex !== null ? escapeHtml(rewards[revealedIndex]) : "Choose one box"}</div>
-          <div class="gameRevealCode">${revealedIndex !== null ? escapeHtml(session.code || `CODE-${day.toUpperCase()}-${revealedIndex + 1}`) : "One reveal per day"}</div>
+          <div class="gameRevealLabel">Redemption Code</div>
+          <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
+          <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
         </div>
 
         <div class="gameActions">
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-new-guest>New Guest</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
-          <button class="gameBtn gameBtn--gold" type="button" data-open-dashboard>Dashboard</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Dashboard</button>
         </div>
 
         <div class="staffBox">
@@ -925,94 +798,20 @@ document.addEventListener("DOMContentLoaded", () => {
             <input class="staffInput" type="password" placeholder="Manager PIN">
             <button class="gameBtn gameBtn--ghost" type="button" data-confirm-reset>Confirm Reset</button>
           </div>
-          <div class="staffState">Reset clears this table/device play for today.</div>
+          <div class="staffState">Reset clears this guest and opens a new entry screen.</div>
         </div>
       </div>
     `;
 
-    const boxButtons = [...panel.querySelectorAll("[data-box-index]")];
-    const revealText = panel.querySelector(".gameRevealText");
-    const revealCode = panel.querySelector(".gameRevealCode");
     const pinInput = panel.querySelector(".staffInput");
     const staffState = panel.querySelector(".staffState");
 
-    function lockBoard(activeIndex) {
-      boxButtons.forEach((button, index) => {
-        if (index === activeIndex) {
-          button.classList.add("is-revealed");
-          button.textContent = "Winner";
-        } else {
-          button.classList.add("is-locked");
-        }
-      });
-    }
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
 
-    if (revealedIndex !== null) {
-      lockBoard(revealedIndex);
-    }
+    panel.querySelector("[data-new-guest]").addEventListener("click", () => {
+      clearSession(day);
+      renderEntryScreen(panel, day, true);
 
-    boxButtons.forEach((button, index) => {
-      button.addEventListener("click", async () => {
-        const current = readSession(day);
-
-        if (!current || typeof current.revealedIndex === "number") {
-          return;
-        }
-
-        current.revealedIndex = index;
-        current.reward = rewards[index];
-        current.revealedBox = index + 1;
-        current.boxNumber = index + 1;
-        current.timestamp = new Date().toISOString();
-        current.createdAt = current.timestamp;
-        current.code = `CODE-${day.toUpperCase()}-${index + 1}`;
-
-        saveSession(day, current);
-
-        const leadPayload = {
-          date: current.date || getTodayKey(),
-          createdAt: current.createdAt || current.timestamp || new Date().toISOString(),
-          day: current.day || day,
-          table: current.table || getTableLabel(),
-          entryType: current.entryType || "",
-          instagram: current.instagram || "",
-          phone: current.phone || "",
-          reward: current.reward || "",
-          revealedBox: current.revealedBox || (index + 1),
-          boxNumber: current.boxNumber || (index + 1),
-          timestamp: current.timestamp || new Date().toISOString(),
-          code: current.code || `CODE-${day.toUpperCase()}-${index + 1}`
-        };
-
-        saveLead(leadPayload);
-
-        const sheetResult = await sendLeadToGoogleSheet(leadPayload);
-
-        revealText.textContent = current.reward;
-        revealCode.textContent = current.code;
-        lockBoard(index);
-
-        if (sheetResult.ok) {
-          staffState.textContent = "Result saved to Google Sheet.";
-        } else {
-          staffState.textContent = "Result saved locally. Google Sheet sync failed.";
-        }
-
-        setTimeout(() => {
-          const revealCard = panel.querySelector(".gameReveal");
-          if (revealCard) {
-            jumpToElementInstant(revealCard, 8);
-          }
-        }, 50);
-      });
-    });
-
-    panel.querySelector("[data-back-top]").addEventListener("click", () => {
-      jumpToTopInstant();
-    });
-
-    panel.querySelector("[data-back-idle]").addEventListener("click", () => {
-      renderLeadGate(panel, day, true);
       setTimeout(() => {
         jumpToElementInstant(panel, 8);
       }, 20);
@@ -1035,8 +834,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       clearSession(day);
-      staffState.textContent = "Session cleared.";
-      renderLeadGate(panel, day, true);
+      renderEntryScreen(panel, day, true);
 
       setTimeout(() => {
         jumpToElementInstant(panel, 8);
@@ -1049,19 +847,21 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================= */
 
   function renderIdleState(panel, day) {
+    setGameState(panel, false);
+
     panel.innerHTML = `
       <div class="menuStart">
         <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
         <div class="menuStart__text">
-          Select a category to view menu items, play the 24 Box Game, or open the manager dashboard.
+          Select a category to view menu items, play Pour Decision Maker, or open the manager dashboard.
         </div>
         <div class="menuStart__actions">
-          <button class="menuStartBtn menuStartBtn--gold" type="button" data-start-game>Play 24 Box Game</button>
+          <button class="menuStartBtn menuStartBtn--gold" type="button" data-start-game>Play Pour Decision Maker</button>
           <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-food>Open Food Menu</button>
           <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-dashboard>Dashboard</button>
         </div>
         <div class="menuStartMeta">
-          Entries save to Google Sheet and local browser backup.
+          Entry saves to Google Sheet and local browser backup.
         </div>
       </div>
     `;
@@ -1069,7 +869,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrap = panel.closest(".menuCenterWrap");
 
     panel.querySelector("[data-start-game]").addEventListener("click", () => {
-      renderLeadGate(panel, day, true);
+      renderEntryScreen(panel, day, true);
+
       setTimeout(() => {
         jumpToElementInstant(panel, 8);
       }, 20);
@@ -1116,6 +917,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function activateCategory(button) {
       clearActive();
       button.classList.add("active");
+      setGameState(panel, false);
 
       const catKey = button.dataset.cat;
       const mode = button.dataset.mode || "";
@@ -1131,13 +933,13 @@ document.addEventListener("DOMContentLoaded", () => {
       bindSubTabs(panel, content);
     }
 
-    function activateGame(button, forceFreshGate = false) {
+    function activateGame(button, forceFresh = false) {
       clearActive();
       button.classList.add("active");
-      renderLeadGate(panel, day, forceFreshGate);
+      renderEntryScreen(panel, day, forceFresh);
 
       setTimeout(() => {
-        const target = panel.querySelector(".gameShell") || panel;
+        const target = panel.querySelector(".pdmEntry") || panel;
         jumpToElementInstant(target, 8);
       }, 20);
     }
@@ -1185,7 +987,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
 
   /* =========================
-     TOP HERO -> OPEN REAL GAME
+     HERO -> OPEN REAL GAME
   ========================= */
 
   function jumpToActiveGamePanel() {
@@ -1200,21 +1002,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
     const panel = activeDayPanel.querySelector(".menuPanelBody");
-    const activeDay = activeDayPanel.dataset.daypanel || "monday";
 
     if (!gameButton || !panel) return;
 
-    document.querySelectorAll(".menuCenterBtn").forEach(btn => btn.classList.remove("active"));
     gameButton.classList.add("active");
-
-    if (isMobileView()) {
-      renderMobileLeadGate(panel, activeDay, true);
-    } else {
-      renderPhoneOnlyGate(panel, activeDay, true);
-    }
+    renderEntryScreen(panel, activeDayPanel.dataset.daypanel || "monday", true);
 
     setTimeout(() => {
-      const target = panel.querySelector(".gameShell") || panel;
+      const target = panel.querySelector(".pdmEntry") || panel;
       jumpToElementInstant(target, 8);
     }, 40);
   }
