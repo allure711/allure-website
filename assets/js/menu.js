@@ -194,64 +194,66 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   }
 
-  function getWheelLabelLayout(index, wheel) {
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function getWheelPixelPerfectLayout(index, wheel) {
     const size = wheel?.getBoundingClientRect().width || 370;
     const mobile = isMobileView();
 
-    const desktopRadiusRatios = [
-      0.31, // 1 Free Shot
-      0.32, // 2 Hookah
-      0.34, // 3 Free Mixer
-      0.34, // 4 Fishbowl
-      0.33, // 5 Spin Again
-      0.29, // 6 Upgrade
-      0.25, // 7 Lucky Discount
-      0.29, // 8 Ask About VIP
-      0.33, // 9 House Favorite
-      0.34, // 10 Try Again
-      0.34, // 11 Bottle
-      0.32  // 12 Group Cheers
+    const radiusRatiosDesktop = [
+      0.41, // 1 Free Shot
+      0.39, // 2 $5 Off Hookah
+      0.41, // 3 Free Mixer
+      0.42, // 4 Fishbowl
+      0.41, // 5 Spin Again
+      0.31, // 6 Hookah Upgrade
+      0.29, // 7 Lucky Discount
+      0.38, // 8 Ask About VIP
+      0.42, // 9 House Favorite
+      0.42, // 10 Try Again
+      0.42, // 11 $10 Off Bottle
+      0.40  // 12 Group Cheers
     ];
 
-    const mobileRadiusRatios = [
-      0.30,
-      0.31,
-      0.33,
-      0.33,
-      0.32,
+    const radiusRatiosMobile = [
+      0.40,
+      0.385,
+      0.405,
+      0.415,
+      0.405,
+      0.305,
       0.285,
-      0.245,
-      0.285,
-      0.32,
-      0.33,
-      0.33,
-      0.31
+      0.37,
+      0.405,
+      0.41,
+      0.41,
+      0.39
     ];
 
-    const desktopWidths = [
-      78, 76, 76, 78, 74, 72, 76, 84, 82, 74, 80, 86
-    ];
+    const widthsDesktop = [82, 86, 84, 90, 82, 84, 82, 96, 92, 82, 90, 94];
+    const widthsMobile = [66, 68, 66, 72, 66, 66, 66, 76, 72, 66, 70, 74];
 
-    const mobileWidths = [
-      60, 58, 58, 60, 56, 54, 60, 66, 64, 56, 62, 68
-    ];
+    const fontDesktop = [10, 10, 10, 10, 10, 9, 9, 9, 9, 10, 9, 9];
+    const fontMobile = [8, 8, 8, 8, 8, 7, 7, 7, 7, 8, 7, 7];
 
-    const radiusRatio = (mobile ? mobileRadiusRatios : desktopRadiusRatios)[index] ?? 0.32;
-    const width = (mobile ? mobileWidths : desktopWidths)[index] ?? (mobile ? 60 : 76);
+    const angleStep = 360 / WHEEL_SEGMENTS.length;
+    const angleDeg = index * angleStep;
+    const angleRad = (angleDeg - 90) * (Math.PI / 180);
+
+    const radiusRatio = (mobile ? radiusRatiosMobile : radiusRatiosDesktop)[index] ?? 0.40;
+    const radius = size * radiusRatio;
+    const center = size / 2;
+
+    const x = center + Math.cos(angleRad) * radius;
+    const y = center + Math.sin(angleRad) * radius;
 
     return {
-      radius: Math.round(size * radiusRatio),
-      width
-    };
-  }
-
-  function buildWheelLabelTransform(index, total, counterRotation, wheel) {
-    const baseAngle = index * (360 / total);
-    const layout = getWheelLabelLayout(index, wheel);
-
-    return {
-      transform: `translate(-50%, -50%) rotate(${baseAngle}deg) translateY(${-layout.radius}px) rotate(${-baseAngle - counterRotation}deg)`,
-      width: layout.width
+      x,
+      y,
+      width: (mobile ? widthsMobile : widthsDesktop)[index] ?? (mobile ? 66 : 82),
+      fontSize: (mobile ? fontMobile : fontDesktop)[index] ?? (mobile ? 8 : 10)
     };
   }
 
@@ -259,13 +261,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!wheel) return;
 
     const labels = [...wheel.querySelectorAll(".pdmWheel__label")];
-    const total = labels.length || WHEEL_SEGMENTS.length;
 
     labels.forEach((label, index) => {
-      const layout = buildWheelLabelTransform(index, total, counterRotation, wheel);
-      label.style.transform = layout.transform;
+      const layout = getWheelPixelPerfectLayout(index, wheel);
+      label.style.left = `${layout.x}px`;
+      label.style.top = `${layout.y}px`;
       label.style.width = `${layout.width}px`;
-      label.style.marginLeft = `${layout.width / -2}px`;
+      label.style.fontSize = `${layout.fontSize}px`;
+      label.style.transform = `translate(-50%, -50%) rotate(${-counterRotation}deg)`;
     });
 
     wheel.dataset.currentRotation = String(counterRotation);
@@ -781,7 +784,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
               ${safeSession.segments.map((label, index) => `
-                <div class="pdmWheel__label pdmWheel__label--${index + 1}">${escapeHtml(label)}</div>
+                <div class="pdmWheel__label" data-wheel-label="${index}">${escapeHtml(label)}</div>
               `).join("")}
             </div>
 
