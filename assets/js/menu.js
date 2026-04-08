@@ -5,18 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
   const MOBILE_BREAKPOINT = 760;
 
-  /*
-    Because the wheel conic gradient starts at -15deg, segment #1 is already centered
-    at the top pointer when wheel rotation is 0deg.
-    That means the center of each segment is:
-      index * segmentAngle
-    not:
-      index * segmentAngle + (segmentAngle / 2)
-
-    Use this tiny calibration only if you ever want to visually nudge the final stop.
-    Positive values rotate the winning segment slightly clockwise at the final stop.
-  */
   const POINTER_ALIGNMENT_OFFSET_DEG = 0;
+  const FINAL_SETTLE_OVERSHOOT_DEG = 6;
+  const FINAL_SETTLE_DURATION_MS = 260;
 
   const WHEEL_SEGMENTS = [
     "Free Shot",
@@ -203,17 +194,65 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   }
 
-  function getWheelLabelRadius(wheel) {
-    if (!wheel) return 150;
-    const size = wheel.getBoundingClientRect().width || 370;
-    return Math.round(size * 0.405);
+  function getWheelLabelLayout(index, wheel) {
+    const size = wheel?.getBoundingClientRect().width || 370;
+    const mobile = isMobileView();
+
+    const desktopRadiusRatios = [
+      0.31, // 1 Free Shot
+      0.32, // 2 Hookah
+      0.34, // 3 Free Mixer
+      0.34, // 4 Fishbowl
+      0.33, // 5 Spin Again
+      0.29, // 6 Upgrade
+      0.25, // 7 Lucky Discount
+      0.29, // 8 Ask About VIP
+      0.33, // 9 House Favorite
+      0.34, // 10 Try Again
+      0.34, // 11 Bottle
+      0.32  // 12 Group Cheers
+    ];
+
+    const mobileRadiusRatios = [
+      0.30,
+      0.31,
+      0.33,
+      0.33,
+      0.32,
+      0.285,
+      0.245,
+      0.285,
+      0.32,
+      0.33,
+      0.33,
+      0.31
+    ];
+
+    const desktopWidths = [
+      78, 76, 76, 78, 74, 72, 76, 84, 82, 74, 80, 86
+    ];
+
+    const mobileWidths = [
+      60, 58, 58, 60, 56, 54, 60, 66, 64, 56, 62, 68
+    ];
+
+    const radiusRatio = (mobile ? mobileRadiusRatios : desktopRadiusRatios)[index] ?? 0.32;
+    const width = (mobile ? mobileWidths : desktopWidths)[index] ?? (mobile ? 60 : 76);
+
+    return {
+      radius: Math.round(size * radiusRatio),
+      width
+    };
   }
 
   function buildWheelLabelTransform(index, total, counterRotation, wheel) {
     const baseAngle = index * (360 / total);
-    const radius = getWheelLabelRadius(wheel);
+    const layout = getWheelLabelLayout(index, wheel);
 
-    return `translate(-50%, -50%) rotate(${baseAngle}deg) translateY(${-radius}px) rotate(${-baseAngle - counterRotation}deg)`;
+    return {
+      transform: `translate(-50%, -50%) rotate(${baseAngle}deg) translateY(${-layout.radius}px) rotate(${-baseAngle - counterRotation}deg)`,
+      width: layout.width
+    };
   }
 
   function syncWheelLabels(wheel, counterRotation = 0) {
@@ -223,7 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const total = labels.length || WHEEL_SEGMENTS.length;
 
     labels.forEach((label, index) => {
-      label.style.transform = buildWheelLabelTransform(index, total, counterRotation, wheel);
+      const layout = buildWheelLabelTransform(index, total, counterRotation, wheel);
+      label.style.transform = layout.transform;
+      label.style.width = `${layout.width}px`;
+      label.style.marginLeft = `${layout.width / -2}px`;
     });
 
     wheel.dataset.currentRotation = String(counterRotation);
@@ -233,18 +275,46 @@ document.addEventListener("DOMContentLoaded", () => {
     return 1 - Math.pow(1 - t, 4);
   }
 
+  function easeOutBack(t) {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
   function animateWheelSpin({ wheel, finalRotation, duration = 4700, onUpdate, onComplete }) {
     if (!wheel) {
       if (typeof onComplete === "function") onComplete(finalRotation);
       return;
     }
 
+    const overshootRotation = finalRotation + FINAL_SETTLE_OVERSHOOT_DEG;
+    const mainDuration = Math.max(300, duration - FINAL_SETTLE_DURATION_MS);
+    const settleDuration = FINAL_SETTLE_DURATION_MS;
     const startTime = performance.now();
 
     function frame(now) {
-      const progress = Math.min(1, (now - startTime) / duration);
-      const eased = easeOutQuart(progress);
-      const currentRotation = finalRotation * eased;
+      const elapsed = now - startTime;
+
+      if (elapsed < mainDuration) {
+        const progress = Math.min(1, elapsed / mainDuration);
+        const eased = easeOutQuart(progress);
+        const currentRotation = overshootRotation * eased;
+
+        wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+        if (typeof onUpdate === "function") {
+          onUpdate(currentRotation);
+        }
+
+        requestAnimationFrame(frame);
+        return;
+      }
+
+      const settleElapsed = elapsed - mainDuration;
+      const settleProgress = Math.min(1, settleElapsed / settleDuration);
+      const settleEased = easeOutBack(settleProgress);
+      const currentRotation =
+        overshootRotation - (overshootRotation - finalRotation) * settleEased;
 
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
@@ -252,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
         onUpdate(currentRotation);
       }
 
-      if (progress < 1) {
+      if (settleProgress < 1) {
         requestAnimationFrame(frame);
       } else if (typeof onComplete === "function") {
         onComplete(finalRotation);
@@ -777,17 +847,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
 
-      /*
-        Since segment #1 is centered at 0deg already, the selected segment center is:
-          index * segmentAngle
-
-        Final wheel rotation should bring that center to the top pointer.
-      */
       const selectedCenterAngle = selectedIndex * segmentAngle;
       const normalizedStopRotation =
         (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
       const finalRotation = (360 * 6) + normalizedStopRotation;
-
       const duration = 4700;
 
       spinButton.disabled = true;
