@@ -999,6 +999,7 @@ body{
     );
   z-index:1;
   will-change:transform;
+  transform-origin:center center;
 }
 
 .pdmWheel::before{
@@ -1019,25 +1020,52 @@ body{
   pointer-events:none;
 }
 
+/* LABEL HOLDERS ARE LOCKED TO WEDGES */
 .pdmWheel__label{
   position:absolute;
+  left:50%;
+  top:50%;
+  width:86px;
+  height:0;
+  pointer-events:none;
+  transform-origin:50% 0;
+  z-index:3;
+}
+
+/* INNER TEXT STAYS READABLE */
+.pdmWheel__labelText{
+  position:absolute;
+  left:50%;
+  top:0;
+  transform:translate(-50%, -50%);
   text-align:center;
+  font-size:10px;
   font-weight:950;
-  line-height:1.05;
+  line-height:1.06;
   color:#fff;
   text-transform:uppercase;
   letter-spacing:.02em;
   text-shadow:
     0 2px 8px rgba(0,0,0,.6),
     0 0 1px rgba(0,0,0,.8);
-  z-index:3;
-  pointer-events:none;
-  transform:translate(-50%, -50%);
-  transform-origin:center center;
   white-space:normal;
   word-break:normal;
-  will-change:transform,left,top;
+  will-change:transform;
 }
+
+/* PIXEL-PERFECT WEDGE LOCK */
+.pdmWheel__label--1  { transform:rotate(0deg) translateY(-118px); width:76px; }
+.pdmWheel__label--2  { transform:rotate(30deg) translateY(-122px); width:82px; }
+.pdmWheel__label--3  { transform:rotate(60deg) translateY(-126px); width:82px; }
+.pdmWheel__label--4  { transform:rotate(90deg) translateY(-126px); width:88px; }
+.pdmWheel__label--5  { transform:rotate(120deg) translateY(-122px); width:78px; }
+.pdmWheel__label--6  { transform:rotate(150deg) translateY(-96px); width:84px; }
+.pdmWheel__label--7  { transform:rotate(180deg) translateY(-90px); width:82px; }
+.pdmWheel__label--8  { transform:rotate(210deg) translateY(-112px); width:94px; }
+.pdmWheel__label--9  { transform:rotate(240deg) translateY(-126px); width:88px; }
+.pdmWheel__label--10 { transform:rotate(270deg) translateY(-126px); width:78px; }
+.pdmWheel__label--11 { transform:rotate(300deg) translateY(-124px); width:88px; }
+.pdmWheel__label--12 { transform:rotate(330deg) translateY(-122px); width:92px; }
 
 .pdmBottleLayer{
   position:absolute;
@@ -1477,6 +1505,28 @@ body{
     margin:0 auto 16px;
   }
 
+  .pdmWheel__label{
+    width:68px;
+  }
+
+  .pdmWheel__labelText{
+    font-size:8px;
+    line-height:1.05;
+  }
+
+  .pdmWheel__label--1  { transform:rotate(0deg) translateY(-100px); width:60px; }
+  .pdmWheel__label--2  { transform:rotate(30deg) translateY(-104px); width:66px; }
+  .pdmWheel__label--3  { transform:rotate(60deg) translateY(-108px); width:66px; }
+  .pdmWheel__label--4  { transform:rotate(90deg) translateY(-108px); width:70px; }
+  .pdmWheel__label--5  { transform:rotate(120deg) translateY(-104px); width:62px; }
+  .pdmWheel__label--6  { transform:rotate(150deg) translateY(-84px); width:66px; }
+  .pdmWheel__label--7  { transform:rotate(180deg) translateY(-78px); width:64px; }
+  .pdmWheel__label--8  { transform:rotate(210deg) translateY(-94px); width:74px; }
+  .pdmWheel__label--9  { transform:rotate(240deg) translateY(-108px); width:70px; }
+  .pdmWheel__label--10 { transform:rotate(270deg) translateY(-108px); width:62px; }
+  .pdmWheel__label--11 { transform:rotate(300deg) translateY(-106px); width:70px; }
+  .pdmWheel__label--12 { transform:rotate(330deg) translateY(-104px); width:72px; }
+
   .pdmBottle{
     width:min(34%, 110px);
   }
@@ -1558,6 +1608,23 @@ body{
     width:min(100%, 280px);
     margin:0 auto 18px;
   }
+
+  .pdmWheel__labelText{
+    font-size:7px;
+  }
+
+  .pdmWheel__label--1  { transform:rotate(0deg) translateY(-92px); width:56px; }
+  .pdmWheel__label--2  { transform:rotate(30deg) translateY(-96px); width:60px; }
+  .pdmWheel__label--3  { transform:rotate(60deg) translateY(-98px); width:60px; }
+  .pdmWheel__label--4  { transform:rotate(90deg) translateY(-98px); width:64px; }
+  .pdmWheel__label--5  { transform:rotate(120deg) translateY(-96px); width:58px; }
+  .pdmWheel__label--6  { transform:rotate(150deg) translateY(-76px); width:60px; }
+  .pdmWheel__label--7  { transform:rotate(180deg) translateY(-72px); width:58px; }
+  .pdmWheel__label--8  { transform:rotate(210deg) translateY(-86px); width:68px; }
+  .pdmWheel__label--9  { transform:rotate(240deg) translateY(-98px); width:64px; }
+  .pdmWheel__label--10 { transform:rotate(270deg) translateY(-98px); width:58px; }
+  .pdmWheel__label--11 { transform:rotate(300deg) translateY(-96px); width:64px; }
+  .pdmWheel__label--12 { transform:rotate(330deg) translateY(-96px); width:66px; }
 
   .pdmBottle{
     width:min(36%, 96px);
