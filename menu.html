@@ -1,577 +1,1514 @@
-<!doctype html>
-<html lang="en"> 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Menu | Allure Bar & Lounge</title>
+:root{
+  --gold:#d7b46a;
+  --gold2:#f2d38a;
+  --bg:#07070a;
+  --bg2:#0a0a10;
+  --panel:rgba(255,255,255,.05);
+  --line:rgba(255,255,255,.10);
+  --textSoft:rgba(255,255,255,.72);
+  --shadow:0 18px 60px rgba(0,0,0,.28);
+}
 
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/menu.css">
-</head>
+html{
+  scroll-behavior:smooth;
+}
 
-<body class="menu-page">
+.menu-page{
+  background:
+    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
+    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
+    radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
+    linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
+  color:#fff;
+}
 
-  <header class="header">
-    <div class="container header__inner">
-      <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
+html,
+body{
+  overflow-x:hidden;
+  height:auto !important;
+  overflow-y:auto !important;
+}
 
-      <nav class="nav">
-        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-        <ul class="nav__list">
-          <li><a href="menu.html" class="active">Menu</a></li>
-          <li><a href="events.html">Events</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="location.html">Location</a></li>
-          <li><a class="btn btn--primary" href="tel:2022974949">Reserve Now</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+.menuWrap{
+  padding:0 0 100px;
+  overflow:visible !important;
+}
 
-  <main class="menuWrap">
-    <div class="container">
+.container{
+  overflow:visible !important;
+}
 
-      <section class="menuWelcomeStrip">
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label" id="promoLabel">FREE HOOKAH MONDAY</span>
-          <span class="menuWelcomeStrip__text" id="promoText">With $50 bar tab — your choice of flavor</span>
-        </div>
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label">Experience</span>
-          <span class="menuWelcomeStrip__text">Premium lounge atmosphere with late-night energy</span>
-        </div>
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label">Reserve</span>
-          <span class="menuWelcomeStrip__text">202-297-4949</span>
-        </div>
-      </section>
+.header{
+  backdrop-filter:blur(10px);
+  background:rgba(8,8,12,.72);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
 
-      <section class="gameHero" id="gameHero">
-        <div class="gameHero__card" id="gameHeroCard">
-          <div class="gameHero__glow"></div>
+.header__inner{
+  min-height:76px;
+}
 
-          <div class="gameHero__content">
-            <div class="gameHero__meta">
-              <div class="gameHero__eyebrow">Pour Decision Maker</div>
-              <div class="gameHero__socialProof" id="gameHeroPlays">🔥 One spin. One decision. One unforgettable night.</div>
-            </div>
+.brand{
+  letter-spacing:-.01em;
+  font-weight:900;
+}
 
-            <div class="gameHero__title" id="gameHeroTitle">Pour Decision Maker</div>
-            <div class="gameHero__text" id="gameHeroText">
-              Enter your phone number, unlock the wheel, spin once, and reveal your night’s result.
-            </div>
+.nav__list a{
+  transition:color .2s ease, opacity .2s ease;
+}
 
-            <div class="gameHero__actions">
-              <button class="gameHero__btn gameHero__btn--gold" type="button" data-open-game>
-                Play Now
-              </button>
-              <button class="gameHero__btn gameHero__btn--ghost" type="button" data-open-game>
-                Spin The Wheel
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+.nav__list a:hover{
+  color:var(--gold2);
+}
 
-      <div class="dayTabs">
-        <button class="dayTab" type="button" data-daytab="monday">Monday</button>
-        <button class="dayTab" type="button" data-daytab="tuesday">Tuesday</button>
-        <button class="dayTab" type="button" data-daytab="wednesday">Wednesday</button>
-        <button class="dayTab" type="button" data-daytab="thursday">Thursday</button>
-        <button class="dayTab" type="button" data-daytab="friday">Friday</button>
-        <button class="dayTab" type="button" data-daytab="saturday">Saturday</button>
-        <button class="dayTab" type="button" data-daytab="sunday">Sunday</button>
-      </div>
+.menuWelcomeStrip{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  margin:20px 0 24px;
+}
 
-      <section class="topSellersStrip">
-        <div class="topSellersHead">
-          <div class="topSellersEyebrow">Featured Picks</div>
-          <h2 class="topSellersTitle">Top Sellers This Week</h2>
-        </div>
+.menuWelcomeStrip__item{
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  border-radius:18px;
+  padding:14px 16px;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
 
-        <div class="topSellersGrid">
-          <article class="topSellerCard">
-            <div class="topSellerTop">
-              <div class="topSellerName">Salmon Sliders w/ Fries</div>
-              <div class="topSellerPrice">$12</div>
-            </div>
-            <div class="topSellerDesc">Guest favorite with late-night lounge appeal</div>
-            <div class="topSellerBadge">Top Seller</div>
-          </article>
+.menuWelcomeStrip__label{
+  display:block;
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
 
-          <article class="topSellerCard">
-            <div class="topSellerTop">
-              <div class="topSellerName">Chicken Quesadilla</div>
-              <div class="topSellerPrice">$10</div>
-            </div>
-            <div class="topSellerDesc">One of the most ordered food items</div>
-            <div class="topSellerBadge">Popular</div>
-          </article>
+.menuWelcomeStrip__text{
+  color:rgba(255,255,255,.78);
+  font-size:14px;
+  line-height:1.5;
+}
 
-          <article class="topSellerCard">
-            <div class="topSellerTop">
-              <div class="topSellerName">Blueberry Mint Hookah</div>
-              <div class="topSellerPrice">$23</div>
-            </div>
-            <div class="topSellerDesc">Clean cool flavor guests reorder often</div>
-            <div class="topSellerBadge">Hookah Favorite</div>
-          </article>
+/* ===== TOP GAME HERO ===== */
 
-          <article class="topSellerCard">
-            <div class="topSellerTop">
-              <div class="topSellerName">Hennessy</div>
-              <div class="topSellerPrice">$5 / $10</div>
-            </div>
-            <div class="topSellerDesc">Fast-moving crowd favorite</div>
-            <div class="topSellerBadge">Bar Favorite</div>
-          </article>
-        </div>
-      </section>
+.gameHero{
+  margin:0 0 28px;
+  position:relative;
+  z-index:2;
+}
 
-    </div>
+.gameHero__card{
+  position:relative;
+  overflow:hidden;
+  border-radius:26px;
+  padding:22px 24px;
+  border:1px solid rgba(215,180,106,.24);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(155,70,255,.10), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  box-shadow:
+    0 22px 46px rgba(0,0,0,.26),
+    0 0 24px rgba(215,180,106,.10),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
 
-    <!-- MONDAY -->
-    <section class="dayPanel" data-daypanel="monday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">MONDAY</div>
-            <div class="daySub">Free Hookah Monday • Happy Hour All Night</div>
-          </div>
-        </div>
+.gameHero__card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:26px;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.035) 18%, transparent 38%);
+  pointer-events:none;
+}
 
-        <div class="menuCenterWrap">
-          <div class="menuTopCategories">
-            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="drinks12">$12 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-          </div>
+.gameHero__glow{
+  position:absolute;
+  inset:-20% -10%;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 35%, rgba(255,255,255,.08), transparent 24%),
+    radial-gradient(circle at 78% 22%, rgba(215,180,106,.12), transparent 28%),
+    radial-gradient(circle at 72% 78%, rgba(155,70,255,.08), transparent 24%);
+  filter:blur(30px);
+  animation:gameHeroGlowFloat 8s ease-in-out infinite;
+}
 
-          <div class="menuBigPanel">
-            <div class="menuPanelTitle">Happy Hour • All Night</div>
-            <div class="menuPanelBody"></div>
-          </div>
-        </div>
+.gameHero__content{
+  position:relative;
+  z-index:2;
+  display:grid;
+  gap:14px;
+}
 
-        <div class="menuBottomCategories outsideBottom">
-          <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-          <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-          <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-          <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-          <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-          <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-        </div>
-      </div>
-    </section>
+.gameHero__meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
 
-    <!-- TUESDAY -->
-    <section class="dayPanel" data-daypanel="tuesday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">TUESDAY</div>
-            <div class="daySub">Taco Tuesday • Happy Hour 5–9 • After 9 Late Night</div>
-          </div>
-        </div>
+.gameHero__eyebrow{
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#f2d38a;
+  text-shadow:
+    0 0 10px rgba(242,211,138,.16),
+    0 0 18px rgba(215,180,106,.10);
+}
 
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.gameHero__socialProof{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.20);
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.86);
+  font-size:12px;
+  font-weight:800;
+  line-height:1;
+  white-space:nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 8px 24px rgba(0,0,0,.14);
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.gameHero__title{
+  font-size:30px;
+  font-weight:950;
+  line-height:1.03;
+  letter-spacing:-.02em;
+  color:#fff;
+  max-width:760px;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
+.gameHero__text{
+  max-width:760px;
+  color:rgba(255,255,255,.82);
+  font-size:14px;
+  line-height:1.6;
+}
 
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.gameHero__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • Late Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.gameHero__btn{
+  appearance:none;
+  border:none;
+  border-radius:999px;
+  min-height:46px;
+  padding:12px 18px;
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:.02em;
+  cursor:pointer;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease,
+    background .18s ease,
+    color .18s ease;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+.gameHero__btn:hover{
+  transform:translateY(-1px);
+}
 
-    <!-- WEDNESDAY -->
-    <section class="dayPanel" data-daypanel="wednesday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">WEDNESDAY</div>
-            <div class="daySub">Weekdays Wednesday • Happy Hour 5–9 • After 9 Late Night</div>
-          </div>
-        </div>
+.gameHero__btn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+  box-shadow:
+    0 12px 28px rgba(215,180,106,.22),
+    0 0 16px rgba(215,180,106,.10),
+    inset 0 1px 0 rgba(255,255,255,.16);
+}
 
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.gameHero__btn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.gameHero__btn--ghost:hover{
+  border-color:rgba(215,180,106,.26);
+  color:var(--gold2);
+  background:rgba(215,180,106,.08);
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
+.dayTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 30px;
+  position:relative;
+  z-index:2;
+}
 
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.dayTabs::before{
+  content:"";
+  display:block;
+  width:100%;
+  height:1px;
+  margin:0 0 20px;
+  background:linear-gradient(90deg, transparent, rgba(215,180,106,.22), transparent);
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • Late Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.dayTab{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  padding:10px 13px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+  backdrop-filter:blur(10px);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  transition:all .18s ease;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+.dayTab:hover{
+  border-color:rgba(215,180,106,.35);
+  color:var(--gold2);
+}
 
-    <!-- THURSDAY -->
-    <section class="dayPanel" data-daypanel="thursday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">THURSDAY</div>
-            <div class="daySub">Karaoke Thursday • Happy Hour 5–9 • After 9 Late Night</div>
-          </div>
-        </div>
+.dayTab.active{
+  background:rgba(215,180,106,.14);
+  border-color:rgba(215,180,106,.40);
+  color:var(--gold2);
+  box-shadow:
+    0 12px 32px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
 
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.dayPanel{
+  display:none;
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.dayPanel.active{
+  display:block;
+  animation:allureSoftReveal .45s ease both;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
+.heroRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin:4px 0 14px;
+}
 
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.dayName{
+  font-size:30px;
+  font-weight:950;
+  line-height:1;
+  letter-spacing:-.02em;
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • Late Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.dayName::after{
+  content:"";
+  display:block;
+  width:78px;
+  height:2px;
+  margin-top:10px;
+  background:linear-gradient(90deg, rgba(215,180,106,.90), rgba(255,255,255,0));
+  border-radius:999px;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="premium">Premium</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+.daySub{
+  margin-top:7px;
+  color:rgba(255,255,255,.80);
+  line-height:1.5;
+  font-size:14px;
+  font-weight:500;
+}
 
-    <!-- FRIDAY -->
-    <section class="dayPanel" data-daypanel="friday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">FRIDAY</div>
-            <div class="daySub">Allure Friday • Happy Hour 5–9 • After 9 VIP Night</div>
-          </div>
-        </div>
+.menuSplit{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
 
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.menuCenterWrap{
+  display:grid;
+  gap:12px;
+  margin-bottom:0 !important;
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.menuTopCategories,
+.menuBottomCategories{
+  display:grid;
+  gap:8px;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
+.menuTopCategories{
+  grid-template-columns:repeat(8,1fr);
+}
 
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$20+ Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.menuBottomCategories{
+  grid-template-columns:repeat(6,1fr);
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • VIP Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.menuCenterBtn{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+  color:#fff;
+  min-height:44px;
+  padding:8px 10px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  transition:all .18s ease;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+.menuCenterBtn:hover{
+  border-color:rgba(215,180,106,.34);
+  color:var(--gold2);
+  background:rgba(215,180,106,.08);
+  box-shadow:
+    0 16px 32px rgba(0,0,0,.20),
+    0 0 0 1px rgba(215,180,106,.05);
+}
 
-    <!-- SATURDAY -->
-    <section class="dayPanel" data-daypanel="saturday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">SATURDAY</div>
-            <div class="daySub">Allure Saturday • Happy Hour 5–9 • After 9 VIP Night</div>
-          </div>
-        </div>
+.menuCenterBtn.active{
+  border-color:rgba(215,180,106,.44);
+  background:rgba(215,180,106,.15);
+  color:var(--gold2);
+  box-shadow:
+    0 16px 38px rgba(215,180,106,.10),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
 
-        <div class="menuSplit">
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="drinks">$10 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.menuCenterBtn--accent{
+  border-color:rgba(255,94,219,.24);
+  background:linear-gradient(135deg, rgba(255,94,219,.16), rgba(215,180,106,.12));
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">Happy Hour • 5–9</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.menuBigPanel{
+  position:relative;
+  border-radius:24px;
+  background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.24),
+    0 0 0 1px rgba(255,255,255,.02),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);
+  padding:16px;
+  min-height:420px !important;
+  max-height:420px;
+  overflow:hidden !important;
+  display:flex;
+  flex-direction:column;
+  margin-bottom:0 !important;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
+.menuBigPanel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.035) 18%, transparent 38%);
+  pointer-events:none;
+}
 
-          <div>
-            <div class="menuCenterWrap">
-              <div class="menuTopCategories">
-                <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-                <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$10+ Shots</button>
-                <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="premium">$20+ Drinks</button>
-                <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-                <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-              </div>
+.menuPanelTitle{
+  font-size:14px;
+  font-weight:950;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.88);
+  margin-bottom:12px;
+}
 
-              <div class="menuBigPanel">
-                <div class="menuPanelTitle">After 9 • VIP Night</div>
-                <div class="menuPanelBody"></div>
-              </div>
-            </div>
+.menuPanelBody{
+  flex:1 1 auto;
+  min-height:330px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:14px 14px 18px !important;
+  scroll-behavior:smooth;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  position:relative;
+  border-radius:16px;
+  transition:.4s;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
 
-            <div class="menuBottomCategories outsideBottom">
-              <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-              <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-              <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-              <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-              <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-              <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+.menuPanelBody::-webkit-scrollbar{
+  width:9px;
+}
 
-    <!-- SUNDAY -->
-    <section class="dayPanel" data-daypanel="sunday">
-      <div class="container">
-        <div class="heroRow">
-          <div>
-            <div class="dayName">SUNDAY</div>
-            <div class="daySub">Social Sunday • Happy Hour All Night</div>
-          </div>
-        </div>
+.menuPanelBody::-webkit-scrollbar-thumb{
+  background:rgba(215,180,106,.24);
+  border-radius:999px;
+  border:2px solid transparent;
+  background-clip:padding-box;
+}
 
-        <div class="menuCenterWrap">
-          <div class="menuTopCategories">
-            <button class="menuCenterBtn" type="button" data-cat="food">Food</button>
-            <button class="menuCenterBtn" type="button" data-cat="hookah23">Hookah</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots5" data-mode="shots">$5 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="shots">$7 Shots</button>
-            <button class="menuCenterBtn" type="button" data-cat="drinks12">$12 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="shots7" data-mode="drinks">$14 Drinks</button>
-            <button class="menuCenterBtn" type="button" data-cat="tower43">$43 Tower</button>
-            <button class="menuCenterBtn" type="button" data-cat="fishbowl23">$23 Fishbowl</button>
-          </div>
+.menuPanelBody::-webkit-scrollbar-thumb:hover{
+  background:rgba(215,180,106,.40);
+  background-clip:padding-box;
+}
 
-          <div class="menuBigPanel">
-            <div class="menuPanelTitle">Happy Hour • All Night</div>
-            <div class="menuPanelBody"></div>
-          </div>
-        </div>
+.menuPanelBody::-webkit-scrollbar-track{
+  background:transparent;
+}
 
-        <div class="menuBottomCategories outsideBottom">
-          <button class="menuCenterBtn" type="button" data-cat="highnoon8">$8 High Noon</button>
-          <button class="menuCenterBtn" type="button" data-cat="wine6">$6 Wine</button>
-          <button class="menuCenterBtn" type="button" data-cat="beer4">$4 Beer</button>
-          <button class="menuCenterBtn" type="button" data-cat="na">Non Alcoholic</button>
-          <button class="menuCenterBtn" type="button" data-cat="bottles">Bottles</button>
-          <button class="menuCenterBtn menuCenterBtn--accent" type="button" data-action="game">Pour Decision Maker</button>
-        </div>
-      </div>
-    </section>
+.outsideBottom{
+  margin-top:14px !important;
+  display:flex !important;
+  gap:10px !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+  position:relative;
+  z-index:2;
+}
 
-  </main>
+.outsideBottom .menuCenterBtn{
+  opacity:.95;
+  border:1px solid rgba(255,255,255,.15);
+}
 
-  <script src="assets/js/menu-data.js"></script>
-  <script src="assets/js/menu.js"></script>
-</body>
-</html>
+.menuEmpty{
+  border-radius:18px;
+  border:1px dashed rgba(255,255,255,.12);
+  background:rgba(255,255,255,.02);
+  padding:24px;
+  color:var(--textSoft);
+  line-height:1.7;
+}
+
+.menuStart{
+  display:grid;
+  gap:14px;
+}
+
+.menuStart__title{
+  font-size:18px;
+  font-weight:900;
+  color:#fff;
+}
+
+.menuStart__text{
+  color:rgba(255,255,255,.72);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.menuStart__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.menuStartBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.menuStartBtn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.menuStartBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.menuStartMeta{
+  font-size:12px;
+  color:rgba(255,255,255,.56);
+}
+
+.menuNested{
+  display:grid;
+  gap:16px;
+}
+
+.menuSubTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:8px;
+}
+
+.menuSubTab{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  padding:7px 13px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+
+.menuSubTab:hover{
+  border-color:rgba(215,180,106,.35);
+  color:var(--gold2);
+}
+
+.menuSubTab.active{
+  background:rgba(215,180,106,.14);
+  border-color:rgba(215,180,106,.40);
+  color:var(--gold2);
+  box-shadow:0 8px 20px rgba(215,180,106,.08);
+}
+
+.menuSubBody{
+  display:block;
+}
+
+.menuPanelBody .menuList,
+.menuGrouped__box .menuList{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px 36px;
+}
+
+.menuPanelBody .menuItem,
+.menuGrouped__box .menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+  padding:6px 0;
+  margin:0;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  transform:none !important;
+}
+
+.menuPanelBody .menuItem__left,
+.menuGrouped__box .menuItem__left{
+  min-width:0;
+  flex:1 1 auto;
+}
+
+.menuPanelBody .menuItem__name,
+.menuGrouped__box .menuItem__name{
+  font-size:14px;
+  font-weight:850;
+  line-height:1.35;
+  color:#fff;
+  margin:0;
+}
+
+.menuPanelBody .menuItem__desc,
+.menuGrouped__box .menuItem__desc{
+  margin-top:2px;
+  font-size:11px;
+  line-height:1.4;
+  color:rgba(255,255,255,.62);
+}
+
+.menuPanelBody .menuItem__price,
+.menuGrouped__box .menuItem__price{
+  flex:0 0 auto;
+  min-width:46px;
+  text-align:right;
+  white-space:nowrap;
+  font-size:13px;
+  font-weight:900;
+  color:var(--gold2);
+  margin-left:12px;
+}
+
+.menuGrouped{
+  max-width:980px;
+  margin:0 auto;
+  padding:2px 0 0;
+}
+
+.menuPanelBody .menuGrouped{
+  max-width:100%;
+  margin:0;
+}
+
+.menuGrouped__title{
+  display:none;
+}
+
+.menuGrouped__grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:22px;
+  align-items:start;
+  width:100%;
+}
+
+.menuGrouped__box{
+  position:relative;
+  overflow:hidden;
+  border:none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+  border-radius:18px;
+  padding:14px 16px 12px;
+  transition:background .2s ease, box-shadow .2s ease, transform .2s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.03),
+    0 10px 24px rgba(0,0,0,.14);
+}
+
+.menuGrouped__box:hover{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 14px 30px rgba(0,0,0,.18);
+  transform:translateY(-1px);
+}
+
+.menuGrouped__boxTitle{
+  position:relative;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  text-align:left;
+}
+
+/* ===== GAME CORE ===== */
+
+.gameShell{
+  display:grid;
+  gap:14px;
+}
+
+.gameTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.gameTitle{
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+.gameSub{
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:4px;
+  max-width:680px;
+}
+
+.gameBadgeRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.gameBadge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.gameBadge--gold{
+  color:var(--gold2);
+  border-color:rgba(215,180,106,.30);
+  background:rgba(215,180,106,.08);
+}
+
+.gameActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  position:relative;
+  z-index:10;
+  margin-top:6px;
+}
+
+.gameBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.gameBtn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.gameBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.gameBtn--top{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.gameBtn[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.gameHint{
+  font-size:12px;
+  color:rgba(255,255,255,.68);
+  line-height:1.5;
+}
+
+.staffBox{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  border-radius:14px;
+  padding:12px;
+}
+
+.staffRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+
+.staffInput{
+  flex:1 1 160px;
+  min-width:0;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.18);
+  color:#fff;
+  padding:10px 12px;
+}
+
+.staffState{
+  margin-top:8px;
+  font-size:12px;
+  color:rgba(255,255,255,.72);
+}
+
+.gameReveal{
+  border:1px solid rgba(215,180,106,.20);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:16px;
+  text-align:center;
+}
+
+.gameRevealLabel{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.70);
+  margin-bottom:8px;
+}
+
+.gameRevealText{
+  font-size:22px;
+  font-weight:950;
+  line-height:1.15;
+  color:#fff;
+}
+
+.gameRevealCode{
+  margin-top:10px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+/* ===== POUR DECISION MAKER ===== */
+
+.pdmEntry,
+.pdmWinner{
+  display:grid;
+  gap:14px;
+}
+
+.pdmEntry__eyebrow,
+.pdmWinner__eyebrow{
+  display:inline-flex;
+  width:max-content;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.30);
+  background:rgba(215,180,106,.10);
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.pdmEntry__title,
+.pdmWinner__title{
+  margin:0;
+  font-size:30px;
+  line-height:1.05;
+  font-weight:950;
+  color:#fff;
+}
+
+.pdmEntry__text,
+.pdmWinner__text{
+  margin:0;
+  color:rgba(255,255,255,.78);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.pdmEntry__form{
+  display:grid;
+  gap:10px;
+}
+
+.pdmEntry__input{
+  min-height:48px;
+  font-size:16px;
+}
+
+.pdmEntry__submit{
+  min-height:48px;
+}
+
+.pdmWheelShell{
+  display:grid;
+  gap:20px;
+}
+
+.pdmWheelArea{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:18px 0 10px;
+  margin-bottom:18px;
+}
+
+.pdmPointer{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:16px solid transparent;
+  border-right:16px solid transparent;
+  border-top:28px solid var(--gold2);
+  z-index:8;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.28));
+}
+
+.pdmWheelWrap{
+  position:relative;
+  width:min(100%, 370px);
+  aspect-ratio:1 / 1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 10px;
+}
+
+.pdmWheel{
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:10px solid rgba(215,180,106,.55);
+  box-shadow:
+    0 28px 58px rgba(0,0,0,.28),
+    0 0 30px rgba(215,180,106,.12),
+    inset 0 0 0 6px rgba(255,255,255,.04);
+  background:
+    conic-gradient(
+      from -15deg,
+      #d7b46a 0deg 30deg,
+      #15151c 30deg 60deg,
+      #a25af5 60deg 90deg,
+      #0f0f15 90deg 120deg,
+      #f2d38a 120deg 150deg,
+      #171720 150deg 180deg,
+      #ff5edb 180deg 210deg,
+      #15151c 210deg 240deg,
+      #d7b46a 240deg 270deg,
+      #101017 270deg 300deg,
+      #f2d38a 300deg 330deg,
+      #171720 330deg 360deg
+    );
+  transition:transform 4.6s cubic-bezier(.12,.8,.18,1);
+  z-index:1;
+}
+
+.pdmWheel::after{
+  content:"";
+  position:absolute;
+  inset:26%;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.06);
+  pointer-events:none;
+}
+
+.pdmWheel__label{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:96px;
+  margin-left:-48px;
+  text-align:center;
+  font-size:10px;
+  font-weight:900;
+  line-height:1.12;
+  color:#fff;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  text-shadow:0 2px 8px rgba(0,0,0,.45);
+  z-index:3;
+  pointer-events:none;
+}
+
+.pdmWheel__label--1  { transform:translate(-50%, -50%) rotate(0deg) translateY(-150px) rotate(0deg); }
+.pdmWheel__label--2  { transform:translate(-50%, -50%) rotate(30deg) translateY(-150px) rotate(-30deg); }
+.pdmWheel__label--3  { transform:translate(-50%, -50%) rotate(60deg) translateY(-150px) rotate(-60deg); }
+.pdmWheel__label--4  { transform:translate(-50%, -50%) rotate(90deg) translateY(-150px) rotate(-90deg); }
+.pdmWheel__label--5  { transform:translate(-50%, -50%) rotate(120deg) translateY(-150px) rotate(-120deg); }
+.pdmWheel__label--6  { transform:translate(-50%, -50%) rotate(150deg) translateY(-150px) rotate(-150deg); }
+.pdmWheel__label--7  { transform:translate(-50%, -50%) rotate(180deg) translateY(-150px) rotate(-180deg); }
+.pdmWheel__label--8  { transform:translate(-50%, -50%) rotate(210deg) translateY(-150px) rotate(-210deg); }
+.pdmWheel__label--9  { transform:translate(-50%, -50%) rotate(240deg) translateY(-150px) rotate(-240deg); }
+.pdmWheel__label--10 { transform:translate(-50%, -50%) rotate(270deg) translateY(-150px) rotate(-270deg); }
+.pdmWheel__label--11 { transform:translate(-50%, -50%) rotate(300deg) translateY(-150px) rotate(-300deg); }
+.pdmWheel__label--12 { transform:translate(-50%, -50%) rotate(330deg) translateY(-150px) rotate(-330deg); }
+
+.pdmWheelCenter{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:5;
+  pointer-events:none;
+}
+
+.pdmWheelBottle{
+  width:min(34%, 130px);
+  height:auto;
+  display:block;
+  object-fit:contain;
+  filter:
+    drop-shadow(0 14px 28px rgba(0,0,0,.34))
+    drop-shadow(0 0 12px rgba(215,180,106,.18));
+  transform-origin:50% 78%;
+  animation:pdmBottleIdle 2.8s ease-in-out infinite;
+}
+
+.pdmWheelShell.is-spinning .pdmWheelBottle{
+  animation:pdmBottleSpin 4.6s cubic-bezier(.12,.8,.18,1) forwards;
+}
+
+.pdmWheelWinnerInside{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, 118px);
+  width:min(70%, 220px);
+  text-align:center;
+  font-size:14px;
+  font-weight:950;
+  line-height:1.15;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:#fff;
+  text-shadow:0 3px 14px rgba(0,0,0,.4);
+  pointer-events:none;
+  z-index:6;
+}
+
+/* ===== TOP SELLERS ===== */
+
+.topSellersStrip{
+  margin:20px 0 22px;
+  padding:18px;
+  border:1px solid rgba(215,180,106,.18);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.08), transparent 36%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.topSellersHead{
+  margin-bottom:14px;
+}
+
+.topSellersEyebrow{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:6px;
+}
+
+.topSellersTitle{
+  margin:0;
+  font-size:26px;
+  line-height:1.05;
+  font-weight:950;
+  color:#fff;
+}
+
+.topSellersGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+
+.topSellerCard{
+  position:relative;
+  padding:16px 14px 14px;
+  border-radius:18px;
+  border:1px solid rgba(215,180,106,.18);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  box-shadow:
+    0 12px 26px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.topSellerTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.topSellerName{
+  font-size:15px;
+  font-weight:900;
+  color:#fff;
+  line-height:1.25;
+}
+
+.topSellerPrice{
+  flex:0 0 auto;
+  font-size:15px;
+  font-weight:900;
+  color:var(--gold2);
+}
+
+.topSellerDesc{
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.45;
+  color:rgba(255,255,255,.72);
+}
+
+.topSellerBadge{
+  display:inline-flex;
+  margin-top:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.22);
+  background:rgba(215,180,106,.08);
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+/* ===== GAME ACTIVE HIDES MENU TAGS ===== */
+
+.menuCenterWrap.is-game-active .menuTopCategories{
+  display:none !important;
+}
+
+.menuCenterWrap.is-game-active .menuBigPanel{
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.menuCenterWrap.is-game-active .menuPanelBody{
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.menuCenterWrap.is-game-active + .outsideBottom{
+  display:none !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width:1100px){
+  .menuTopCategories{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .menuBottomCategories{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media (max-width:980px){
+  .topSellersGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:920px){
+  .menuSplit{
+    grid-template-columns:1fr;
+  }
+
+  .heroRow{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .menuWelcomeStrip{
+    grid-template-columns:1fr;
+  }
+
+  .menuGrouped__grid,
+  .menuPanelBody .menuGrouped__grid{
+    grid-template-columns:1fr;
+  }
+
+  .menuPanelBody .menuList,
+  .menuGrouped__box .menuList{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .gameHero__meta{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .menuBigPanel{
+    min-height:460px !important;
+    max-height:460px;
+  }
+
+  .menuPanelBody{
+    min-height:364px !important;
+  }
+}
+
+@media (max-width:760px){
+  .menuWrap{
+    overflow-x:hidden !important;
+  }
+
+  .container{
+    width:min(100% - 20px, 1200px) !important;
+    max-width:100% !important;
+  }
+
+  .gameHero__card{
+    padding:18px 16px;
+    border-radius:20px;
+  }
+
+  .gameHero__title{
+    font-size:24px;
+  }
+
+  .gameHero__actions{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .gameHero__btn{
+    width:100%;
+  }
+
+  .menuBigPanel{
+    min-height:auto !important;
+    max-height:none !important;
+    height:auto !important;
+    overflow:visible !important;
+    padding:12px !important;
+  }
+
+  .menuPanelBody{
+    min-height:auto !important;
+    max-height:none !important;
+    height:auto !important;
+    overflow:visible !important;
+    padding:10px !important;
+  }
+
+  .gameActions{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+    width:100%;
+    margin-top:10px;
+  }
+
+  .gameActions .gameBtn{
+    width:100%;
+    min-width:0;
+  }
+
+  .gameActions .gameBtn--gold,
+  .gameActions .gameBtn--top{
+    grid-column:span 2;
+  }
+
+  .staffInput{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+    font-size:16px;
+  }
+
+  .pdmEntry__title,
+  .pdmWinner__title{
+    font-size:24px;
+  }
+
+  .pdmWheelShell{
+    gap:18px;
+  }
+
+  .pdmWheelArea{
+    margin-bottom:22px;
+    padding-bottom:8px;
+  }
+
+  .pdmWheelWrap{
+    width:min(100%, 310px);
+    margin:0 auto 16px;
+  }
+
+  .pdmWheel__label{
+    width:72px;
+    margin-left:-36px;
+    font-size:8px;
+    line-height:1.08;
+  }
+
+  .pdmWheel__label--1  { transform:translate(-50%, -50%) rotate(0deg) translateY(-124px) rotate(0deg); }
+  .pdmWheel__label--2  { transform:translate(-50%, -50%) rotate(30deg) translateY(-124px) rotate(-30deg); }
+  .pdmWheel__label--3  { transform:translate(-50%, -50%) rotate(60deg) translateY(-124px) rotate(-60deg); }
+  .pdmWheel__label--4  { transform:translate(-50%, -50%) rotate(90deg) translateY(-124px) rotate(-90deg); }
+  .pdmWheel__label--5  { transform:translate(-50%, -50%) rotate(120deg) translateY(-124px) rotate(-120deg); }
+  .pdmWheel__label--6  { transform:translate(-50%, -50%) rotate(150deg) translateY(-124px) rotate(-150deg); }
+  .pdmWheel__label--7  { transform:translate(-50%, -50%) rotate(180deg) translateY(-124px) rotate(-180deg); }
+  .pdmWheel__label--8  { transform:translate(-50%, -50%) rotate(210deg) translateY(-124px) rotate(-210deg); }
+  .pdmWheel__label--9  { transform:translate(-50%, -50%) rotate(240deg) translateY(-124px) rotate(-240deg); }
+  .pdmWheel__label--10 { transform:translate(-50%, -50%) rotate(270deg) translateY(-124px) rotate(-270deg); }
+  .pdmWheel__label--11 { transform:translate(-50%, -50%) rotate(300deg) translateY(-124px) rotate(-300deg); }
+  .pdmWheel__label--12 { transform:translate(-50%, -50%) rotate(330deg) translateY(-124px) rotate(-330deg); }
+
+  .pdmWheelBottle{
+    width:min(36%, 116px);
+  }
+
+  .pdmWheelWinnerInside{
+    transform:translate(-50%, 98px);
+    font-size:12px;
+    width:min(72%, 180px);
+  }
+}
+
+@media (max-width:640px){
+  .menuWrap{
+    padding-bottom:84px;
+  }
+
+  .menuTopCategories,
+  .menuBottomCategories{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .menuItem__price{
+    margin-left:0;
+    min-width:auto;
+    text-align:left;
+    white-space:normal;
+  }
+}
+
+@media (max-width:560px){
+  .topSellersGrid{
+    grid-template-columns:1fr;
+  }
+
+  .topSellersTitle{
+    font-size:22px;
+  }
+}
+
+@media (max-width:520px){
+  .container{
+    width:min(100% - 16px, 1200px) !important;
+  }
+
+  .gameHero__title{
+    font-size:21px;
+  }
+
+  .gameHero__text{
+    font-size:13px;
+  }
+
+  .gameTitle{
+    font-size:16px !important;
+  }
+
+  .gameSub{
+    font-size:11px !important;
+  }
+
+  .gameBadge{
+    font-size:10px !important;
+    padding:6px 8px !important;
+  }
+
+  .pdmWheelArea{
+    margin-bottom:26px;
+  }
+
+  .pdmWheelWrap{
+    width:min(100%, 280px);
+    margin:0 auto 18px;
+  }
+
+  .pdmWheel__label{
+    width:62px;
+    margin-left:-31px;
+    font-size:7px;
+    line-height:1.05;
+  }
+
+  .pdmWheel__label--1  { transform:translate(-50%, -50%) rotate(0deg) translateY(-112px) rotate(0deg); }
+  .pdmWheel__label--2  { transform:translate(-50%, -50%) rotate(30deg) translateY(-112px) rotate(-30deg); }
+  .pdmWheel__label--3  { transform:translate(-50%, -50%) rotate(60deg) translateY(-112px) rotate(-60deg); }
+  .pdmWheel__label--4  { transform:translate(-50%, -50%) rotate(90deg) translateY(-112px) rotate(-90deg); }
+  .pdmWheel__label--5  { transform:translate(-50%, -50%) rotate(120deg) translateY(-112px) rotate(-120deg); }
+  .pdmWheel__label--6  { transform:translate(-50%, -50%) rotate(150deg) translateY(-112px) rotate(-150deg); }
+  .pdmWheel__label--7  { transform:translate(-50%, -50%) rotate(180deg) translateY(-112px) rotate(-180deg); }
+  .pdmWheel__label--8  { transform:translate(-50%, -50%) rotate(210deg) translateY(-112px) rotate(-210deg); }
+  .pdmWheel__label--9  { transform:translate(-50%, -50%) rotate(240deg) translateY(-112px) rotate(-240deg); }
+  .pdmWheel__label--10 { transform:translate(-50%, -50%) rotate(270deg) translateY(-112px) rotate(-270deg); }
+  .pdmWheel__label--11 { transform:translate(-50%, -50%) rotate(300deg) translateY(-112px) rotate(-300deg); }
+  .pdmWheel__label--12 { transform:translate(-50%, -50%) rotate(330deg) translateY(-112px) rotate(-330deg); }
+
+  .pdmWheelBottle{
+    width:min(38%, 102px);
+  }
+
+  .pdmWheelWinnerInside{
+    transform:translate(-50%, 86px);
+    font-size:11px;
+    width:min(76%, 150px);
+  }
+
+  .pdmWheelCenter{
+    width:88px;
+    height:88px;
+  }
+}
+
+@keyframes allureSoftReveal{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes gameHeroGlowFloat{
+  0%,100%{
+    transform:translate(0,0) scale(1);
+    opacity:.9;
+  }
+  50%{
+    transform:translate(10px,-10px) scale(1.05);
+    opacity:1;
+  }
+}
+
+@keyframes pdmBottleIdle{
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%{ transform:translateY(-3px) rotate(-1.2deg); }
+}
+
+@keyframes pdmBottleSpin{
+  0%{ transform:translateY(0) rotate(0deg); }
+  100%{ transform:translateY(0) rotate(2160deg); }
+}
