@@ -190,6 +190,72 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   }
 
+  function getWheelLabelRadius(wheel) {
+    if (!wheel) return 150;
+    const size = wheel.getBoundingClientRect().width || 370;
+    return Math.round(size * 0.405);
+  }
+
+  function buildWheelLabelTransform(index, total, counterRotation, wheel) {
+    const baseAngle = index * (360 / total);
+    const radius = getWheelLabelRadius(wheel);
+
+    return `translate(-50%, -50%) rotate(${baseAngle}deg) translateY(${-radius}px) rotate(${-baseAngle - counterRotation}deg)`;
+  }
+
+  function syncWheelLabels(wheel, counterRotation = 0) {
+    if (!wheel) return;
+
+    const labels = [...wheel.querySelectorAll(".pdmWheel__label")];
+    const total = labels.length || WHEEL_SEGMENTS.length;
+
+    labels.forEach((label, index) => {
+      label.style.transform = buildWheelLabelTransform(index, total, counterRotation, wheel);
+    });
+
+    wheel.dataset.currentRotation = String(counterRotation);
+  }
+
+  function easeOutQuart(t) {
+    return 1 - Math.pow(1 - t, 4);
+  }
+
+  function animateWheelSpin({ wheel, finalRotation, duration = 4700, onUpdate, onComplete }) {
+    if (!wheel) {
+      if (typeof onComplete === "function") onComplete(finalRotation);
+      return;
+    }
+
+    const startTime = performance.now();
+
+    function frame(now) {
+      const progress = Math.min(1, (now - startTime) / duration);
+      const eased = easeOutQuart(progress);
+      const currentRotation = finalRotation * eased;
+
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+      if (typeof onUpdate === "function") {
+        onUpdate(currentRotation);
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else if (typeof onComplete === "function") {
+        onComplete(finalRotation);
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  function refreshVisibleWheelLabels() {
+    document.querySelectorAll(".pdmWheel[data-wheel]").forEach(wheel => {
+      const currentRotation = Number(wheel.dataset.currentRotation || 0);
+      syncWheelLabels(wheel, currentRotation);
+    });
+  }
+
   function jumpToElementInstant(target, extraOffset = 8) {
     if (!target) return;
 
@@ -675,6 +741,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
 
+    if (wheel) {
+      wheel.style.transform = "rotate(0deg)";
+      syncWheelLabels(wheel, 0);
+    }
+
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
 
     panel.querySelector("[data-start-over]").addEventListener("click", () => {
@@ -687,13 +758,14 @@ document.addEventListener("DOMContentLoaded", () => {
       renderDashboard(panel, day);
     });
 
-    spinButton.addEventListener("click", async () => {
+    spinButton.addEventListener("click", () => {
       const current = readSession(day) || safeSession;
       const selectedIndex = getRandomSegmentIndex();
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
       const targetCenterAngle = (selectedIndex * segmentAngle) + (segmentAngle / 2);
       const finalRotation = (360 * 6) + (360 - targetCenterAngle);
+      const duration = 4700;
 
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
@@ -703,65 +775,64 @@ document.addEventListener("DOMContentLoaded", () => {
         shell.classList.add("is-spinning");
       }
 
-      if (wheel) {
-        wheel.classList.add("is-spinning");
-        wheel.style.transform = `rotate(${finalRotation}deg)`;
-      }
-
       if (bottleLayer) {
         bottleLayer.classList.add("is-spinning");
       }
 
-      setTimeout(async () => {
-        current.selectedIndex = selectedIndex;
-        current.reward = current.segments[selectedIndex];
-        current.boxNumber = selectedIndex + 1;
-        current.code = createRewardCode(day, selectedIndex);
-        current.timestamp = new Date().toISOString();
-        current.createdAt = current.timestamp;
-        current.stage = "winner";
+      animateWheelSpin({
+        wheel,
+        finalRotation,
+        duration,
+        onUpdate(currentRotation) {
+          syncWheelLabels(wheel, currentRotation);
+        },
+        onComplete: async () => {
+          current.selectedIndex = selectedIndex;
+          current.reward = current.segments[selectedIndex];
+          current.boxNumber = selectedIndex + 1;
+          current.code = createRewardCode(day, selectedIndex);
+          current.timestamp = new Date().toISOString();
+          current.createdAt = current.timestamp;
+          current.stage = "winner";
 
-        saveSession(day, current);
+          saveSession(day, current);
 
-        const leadPayload = {
-          date: current.date || getTodayKey(),
-          createdAt: current.createdAt,
-          day: current.day || day,
-          table: current.table || getTableLabel(),
-          entryType: current.entryType || "phone",
-          phone: current.phone || "",
-          reward: current.reward || "",
-          boxNumber: current.boxNumber || "",
-          code: current.code || ""
-        };
+          const leadPayload = {
+            date: current.date || getTodayKey(),
+            createdAt: current.createdAt,
+            day: current.day || day,
+            table: current.table || getTableLabel(),
+            entryType: current.entryType || "phone",
+            phone: current.phone || "",
+            reward: current.reward || "",
+            boxNumber: current.boxNumber || "",
+            code: current.code || ""
+          };
 
-        saveLead(leadPayload);
-        await sendLeadToGoogleSheet(leadPayload);
+          saveLead(leadPayload);
+          await sendLeadToGoogleSheet(leadPayload);
 
-        if (shell) {
-          shell.classList.remove("is-spinning");
+          if (shell) {
+            shell.classList.remove("is-spinning");
+          }
+
+          if (bottleLayer) {
+            bottleLayer.classList.remove("is-spinning");
+          }
+
+          if (winnerText) {
+            winnerText.textContent = current.reward;
+          }
+
+          stateBox.textContent = "Winner selected.";
+          renderWinnerScreen(panel, day, current);
+
+          setTimeout(() => {
+            const winnerTarget = panel.querySelector(".pdmWinner");
+            jumpToElementInstant(winnerTarget || panel, 8);
+          }, 20);
         }
-
-        if (wheel) {
-          wheel.classList.remove("is-spinning");
-        }
-
-        if (bottleLayer) {
-          bottleLayer.classList.remove("is-spinning");
-        }
-
-        if (winnerText) {
-          winnerText.textContent = current.reward;
-        }
-
-        stateBox.textContent = "Winner selected.";
-        renderWinnerScreen(panel, day, current);
-
-        setTimeout(() => {
-          const winnerTarget = panel.querySelector(".pdmWinner");
-          jumpToElementInstant(winnerTarget || panel, 8);
-        }, 20);
-      }, 4700);
+      });
     });
   }
 
@@ -987,6 +1058,6 @@ document.addEventListener("DOMContentLoaded", () => {
   activateDay(hasTodayTab ? today : fallbackDay);
 
   window.addEventListener("resize", () => {
-    if (!isMobileView()) return;
+    requestAnimationFrame(refreshVisibleWheelLabels);
   });
 });
