@@ -5,6 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
   const MOBILE_BREAKPOINT = 760;
 
+  /*
+    Because the wheel conic gradient starts at -15deg, segment #1 is already centered
+    at the top pointer when wheel rotation is 0deg.
+    That means the center of each segment is:
+      index * segmentAngle
+    not:
+      index * segmentAngle + (segmentAngle / 2)
+
+    Use this tiny calibration only if you ever want to visually nudge the final stop.
+    Positive values rotate the winning segment slightly clockwise at the final stop.
+  */
+  const POINTER_ALIGNMENT_OFFSET_DEG = 0;
+
   const WHEEL_SEGMENTS = [
     "Free Shot",
     "$5 Off Hookah",
@@ -763,8 +776,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const selectedIndex = getRandomSegmentIndex();
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
-      const targetCenterAngle = (selectedIndex * segmentAngle) + (segmentAngle / 2);
-      const finalRotation = (360 * 6) + (360 - targetCenterAngle);
+
+      /*
+        Since segment #1 is centered at 0deg already, the selected segment center is:
+          index * segmentAngle
+
+        Final wheel rotation should bring that center to the top pointer.
+      */
+      const selectedCenterAngle = selectedIndex * segmentAngle;
+      const normalizedStopRotation =
+        (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
+      const finalRotation = (360 * 6) + normalizedStopRotation;
+
       const duration = 4700;
 
       spinButton.disabled = true;
