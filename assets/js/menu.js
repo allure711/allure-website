@@ -575,6 +575,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      const nowIso = new Date().toISOString();
+
       const state = {
         date: getTodayKey(),
         day,
@@ -586,8 +588,8 @@ document.addEventListener("DOMContentLoaded", () => {
         reward: "",
         code: "",
         boxNumber: "",
-        createdAt: new Date().toISOString(),
-        timestamp: new Date().toISOString(),
+        createdAt: nowIso,
+        timestamp: nowIso,
         stage: "wheel"
       };
 
@@ -666,6 +668,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
+    const shell = panel.querySelector(".pdmWheelShell");
     const wheel = panel.querySelector("[data-wheel]");
     const bottleLayer = panel.querySelector("[data-bottle-layer]");
     const winnerText = panel.querySelector("[data-wheel-winner]");
@@ -695,6 +698,10 @@ document.addEventListener("DOMContentLoaded", () => {
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
       if (winnerText) winnerText.textContent = "SPINNING...";
+
+      if (shell) {
+        shell.classList.add("is-spinning");
+      }
 
       if (wheel) {
         wheel.classList.add("is-spinning");
@@ -730,6 +737,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         saveLead(leadPayload);
         await sendLeadToGoogleSheet(leadPayload);
+
+        if (shell) {
+          shell.classList.remove("is-spinning");
+        }
 
         if (wheel) {
           wheel.classList.remove("is-spinning");
@@ -974,4 +985,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   activateDay(hasTodayTab ? today : fallbackDay);
+
+  window.addEventListener("resize", () => {
+    if (!isMobileView()) return;
+  });
 });
