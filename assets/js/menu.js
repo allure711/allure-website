@@ -41,10 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function isMobileView() {
-    return window.innerWidth <= MOBILE_BREAKPOINT;
-  }
-
   function getTodayKey() {
     return new Date().toISOString().slice(0, 10);
   }
@@ -194,81 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   }
 
-  function clamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-  }
-
-  function getWheelPixelPerfectLayout(index, wheel) {
-    const size = wheel?.getBoundingClientRect().width || 370;
-    const mobile = isMobileView();
-
-    const radiusRatiosDesktop = [
-      0.41, // 1 Free Shot
-      0.39, // 2 $5 Off Hookah
-      0.41, // 3 Free Mixer
-      0.42, // 4 Fishbowl
-      0.41, // 5 Spin Again
-      0.31, // 6 Hookah Upgrade
-      0.29, // 7 Lucky Discount
-      0.38, // 8 Ask About VIP
-      0.42, // 9 House Favorite
-      0.42, // 10 Try Again
-      0.42, // 11 $10 Off Bottle
-      0.40  // 12 Group Cheers
-    ];
-
-    const radiusRatiosMobile = [
-      0.40,
-      0.385,
-      0.405,
-      0.415,
-      0.405,
-      0.305,
-      0.285,
-      0.37,
-      0.405,
-      0.41,
-      0.41,
-      0.39
-    ];
-
-    const widthsDesktop = [82, 86, 84, 90, 82, 84, 82, 96, 92, 82, 90, 94];
-    const widthsMobile = [66, 68, 66, 72, 66, 66, 66, 76, 72, 66, 70, 74];
-
-    const fontDesktop = [10, 10, 10, 10, 10, 9, 9, 9, 9, 10, 9, 9];
-    const fontMobile = [8, 8, 8, 8, 8, 7, 7, 7, 7, 8, 7, 7];
-
-    const angleStep = 360 / WHEEL_SEGMENTS.length;
-    const angleDeg = index * angleStep;
-    const angleRad = (angleDeg - 90) * (Math.PI / 180);
-
-    const radiusRatio = (mobile ? radiusRatiosMobile : radiusRatiosDesktop)[index] ?? 0.40;
-    const radius = size * radiusRatio;
-    const center = size / 2;
-
-    const x = center + Math.cos(angleRad) * radius;
-    const y = center + Math.sin(angleRad) * radius;
-
-    return {
-      x,
-      y,
-      width: (mobile ? widthsMobile : widthsDesktop)[index] ?? (mobile ? 66 : 82),
-      fontSize: (mobile ? fontMobile : fontDesktop)[index] ?? (mobile ? 8 : 10)
-    };
-  }
-
   function syncWheelLabels(wheel, counterRotation = 0) {
     if (!wheel) return;
 
-    const labels = [...wheel.querySelectorAll(".pdmWheel__label")];
-
-    labels.forEach((label, index) => {
-      const layout = getWheelPixelPerfectLayout(index, wheel);
-      label.style.left = `${layout.x}px`;
-      label.style.top = `${layout.y}px`;
-      label.style.width = `${layout.width}px`;
-      label.style.fontSize = `${layout.fontSize}px`;
-      label.style.transform = `translate(-50%, -50%) rotate(${-counterRotation}deg)`;
+    const textNodes = wheel.querySelectorAll(".pdmWheel__labelText");
+    textNodes.forEach(node => {
+      node.style.transform = `translate(-50%, -50%) rotate(${-counterRotation}deg)`;
     });
 
     wheel.dataset.currentRotation = String(counterRotation);
@@ -784,7 +711,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
               ${safeSession.segments.map((label, index) => `
-                <div class="pdmWheel__label" data-wheel-label="${index}">${escapeHtml(label)}</div>
+                <div class="pdmWheel__label pdmWheel__label--${index + 1}">
+                  <span class="pdmWheel__labelText">${escapeHtml(label)}</span>
+                </div>
               `).join("")}
             </div>
 
