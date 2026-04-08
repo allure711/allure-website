@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const STAFF_PIN = "2024";
-  const LEADS_KEY = "allure_leads_v4";
+  const LEADS_KEY = "allure_leads_v5";
   const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
   const MOBILE_BREAKPOINT = 760;
 
@@ -20,10 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "Group Cheers"
   ];
 
-  /* =========================
-     NAV
-  ========================= */
-
   const navToggle = document.querySelector(".nav__toggle");
   const navList = document.querySelector(".nav__list");
 
@@ -40,10 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-
-  /* =========================
-     HELPERS
-  ========================= */
 
   function isMobileView() {
     return window.innerWidth <= MOBILE_BREAKPOINT;
@@ -230,7 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     html.style.scrollBehavior = "auto";
     body.style.scrollBehavior = "auto";
-
     window.scrollTo(0, 0);
 
     setTimeout(() => {
@@ -248,10 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!wrap) return;
     wrap.classList.toggle("is-game-active", Boolean(isActive));
   }
-
-  /* =========================
-     MENU RENDER
-  ========================= */
 
   function renderFlatMenu(items) {
     return `
@@ -378,16 +365,11 @@ document.addEventListener("DOMContentLoaded", () => {
     activateSubsection(sections[0].title);
   }
 
-  /* =========================
-     DASHBOARD
-  ========================= */
-
   function renderDashboard(panel, day) {
     setGameState(panel, true);
 
     const leads = readLeads();
     const todayKey = getTodayKey();
-
     const todayLeads = leads.filter(lead => lead.date === todayKey);
     const todayDayLeads = leads.filter(lead => lead.date === todayKey && lead.day === day);
     const recent = [...leads].reverse().slice(0, 12);
@@ -397,9 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="gameTop">
           <div>
             <div class="gameTitle">Manager Dashboard</div>
-            <div class="gameSub">
-              Local browser backup, CSV export, and reset tools.
-            </div>
+            <div class="gameSub">Local browser backup, CSV export, and reset tools.</div>
           </div>
 
           <div class="gameBadgeRow">
@@ -455,9 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const rows = [
-        ["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]
-      ];
+      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
 
       leads.forEach(lead => {
         rows.push([
@@ -482,9 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const rows = [
-        ["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]
-      ];
+      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
 
       todayLeads.forEach(lead => {
         rows.push([
@@ -544,15 +520,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
-    panel.querySelector("[data-back-idle]").addEventListener("click", () => {
-      renderIdleState(panel, day);
-    });
+    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
   }
-
-  /* =========================
-     POUR DECISION MAKER FLOW
-  ========================= */
 
   function renderEntryScreen(panel, day, forceFresh = false) {
     setGameState(panel, true);
@@ -560,7 +529,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const existing = readSession(day);
 
     if (!forceFresh && existing) {
-      if ((existing.stage === "wheel" || existing.stage === "winner") && existing.phone) {
+      if (existing.stage === "winner" && typeof existing.selectedIndex === "number") {
+        renderWinnerScreen(panel, day, existing);
+        return;
+      }
+
+      if (existing.stage === "wheel" && existing.phone) {
         renderWheelScreen(panel, day, existing);
         return;
       }
@@ -570,9 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="pdmEntry">
         <div class="pdmEntry__eyebrow">Pour Decision Maker</div>
         <h3 class="pdmEntry__title">One spin. One decision. One unforgettable night.</h3>
-        <p class="pdmEntry__text">
-          Enter your phone number to unlock tonight's spin.
-        </p>
+        <p class="pdmEntry__text">Enter your phone number to unlock tonight's spin.</p>
 
         <div class="staffBox">
           <div class="pdmEntry__form">
@@ -582,9 +554,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="staffState">Enter a valid phone number to continue.</div>
         </div>
 
-        <div class="gameHint">
-          Your number is saved when your result is revealed.
-        </div>
+        <div class="gameHint">Your number is saved when your result is revealed.</div>
 
         <div class="gameActions">
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
@@ -616,7 +586,6 @@ document.addEventListener("DOMContentLoaded", () => {
         reward: "",
         code: "",
         boxNumber: "",
-        finalRotation: 0,
         createdAt: new Date().toISOString(),
         timestamp: new Date().toISOString(),
         stage: "wheel"
@@ -632,21 +601,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
-    panel.querySelector("[data-back-idle]").addEventListener("click", () => {
-      renderIdleState(panel, day);
-    });
-
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
+    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
+    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => renderDashboard(panel, day));
   }
 
   function renderWheelScreen(panel, day, session) {
     setGameState(panel, true);
 
     const safeSession = readSession(day) || session;
-    const hasWinner = typeof safeSession.selectedIndex === "number" && !!safeSession.reward;
 
     panel.innerHTML = `
       <div class="pdmWheelShell">
@@ -668,65 +630,54 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
               ${safeSession.segments.map((label, index) => `
-                <div class="pdmWheel__segment" style="transform:rotate(${index * 30}deg);">
-                  <div class="pdmWheel__segmentText">${escapeHtml(label)}</div>
-                </div>
+                <div class="pdmWheel__label pdmWheel__label--${index + 1}">${escapeHtml(label)}</div>
               `).join("")}
             </div>
 
-            <div class="pdmWheelMiddle">
-              <div class="pdmBottleReal${hasWinner ? "" : ""}" data-bottle></div>
-            </div>
+            <div class="pdmBottleLayer" data-bottle-layer>
+              <div class="pdmBottle" aria-hidden="true">
+                <div class="pdmBottle__cap"></div>
+                <div class="pdmBottle__neck"></div>
+                <div class="pdmBottle__glass">
+                  <div class="pdmBottle__shine"></div>
+                  <div class="pdmBottle__beer"></div>
+                  <div class="pdmBottle__label">
+                    <span class="pdmBottle__labelTop">POUR</span>
+                    <span class="pdmBottle__labelBottom">DECISION</span>
+                  </div>
+                </div>
+              </div>
 
-            <div class="pdmResultOverlay${hasWinner ? " is-visible" : ""}" data-result-overlay>
-              <div class="pdmResultOverlay__label">Tonight's Result</div>
-              <div class="pdmResultOverlay__reward" data-result-reward>${escapeHtml(hasWinner ? safeSession.reward : "")}</div>
-              <div class="pdmResultOverlay__code" data-result-code>${escapeHtml(hasWinner ? safeSession.code : "")}</div>
+              <div class="pdmWheelWinner" data-wheel-winner>SPIN NOW</div>
             </div>
           </div>
         </div>
 
         <div class="gameActions">
-          <button class="gameBtn gameBtn--gold" type="button" data-spin-now ${hasWinner ? "disabled" : ""}>Spin Now</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Spin Now</button>
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>${hasWinner ? "New Guest" : "Start Over"}</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
         </div>
 
         <div class="staffBox">
-          <div class="staffState">${hasWinner ? "Result saved." : "One spin per guest entry."}</div>
+          <div class="staffState">One spin per guest entry.</div>
         </div>
       </div>
     `;
 
     const wheel = panel.querySelector("[data-wheel]");
-    const bottle = panel.querySelector("[data-bottle]");
-    const resultOverlay = panel.querySelector("[data-result-overlay]");
-    const resultReward = panel.querySelector("[data-result-reward]");
-    const resultCode = panel.querySelector("[data-result-code]");
+    const bottleLayer = panel.querySelector("[data-bottle-layer]");
+    const winnerText = panel.querySelector("[data-wheel-winner]");
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
-
-    if (hasWinner && wheel && typeof safeSession.finalRotation === "number") {
-      wheel.style.transition = "none";
-      wheel.style.transform = `rotate(${safeSession.finalRotation}deg)`;
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          wheel.style.transition = "transform 4.7s cubic-bezier(.12,.8,.18,1)";
-        });
-      });
-    }
 
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
 
     panel.querySelector("[data-start-over]").addEventListener("click", () => {
       clearSession(day);
       renderEntryScreen(panel, day, true);
-
-      setTimeout(() => {
-        jumpToElementInstant(panel, 8);
-      }, 20);
+      setTimeout(() => jumpToElementInstant(panel, 8), 20);
     });
 
     panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
@@ -735,30 +686,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     spinButton.addEventListener("click", async () => {
       const current = readSession(day) || safeSession;
-
-      if (typeof current.selectedIndex === "number") {
-        return;
-      }
-
       const selectedIndex = getRandomSegmentIndex();
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
       const targetCenterAngle = (selectedIndex * segmentAngle) + (segmentAngle / 2);
       const finalRotation = (360 * 6) + (360 - targetCenterAngle);
 
-      current.finalRotation = finalRotation;
-
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
-
-      if (bottle) {
-        bottle.classList.remove("is-spinning");
-        void bottle.offsetWidth;
-        bottle.classList.add("is-spinning");
-      }
+      if (winnerText) winnerText.textContent = "SPINNING...";
 
       if (wheel) {
+        wheel.classList.add("is-spinning");
         wheel.style.transform = `rotate(${finalRotation}deg)`;
+      }
+
+      if (bottleLayer) {
+        bottleLayer.classList.add("is-spinning");
       }
 
       setTimeout(async () => {
@@ -785,31 +729,98 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         saveLead(leadPayload);
+        await sendLeadToGoogleSheet(leadPayload);
 
-        const sheetResult = await sendLeadToGoogleSheet(leadPayload);
-
-        if (resultReward) {
-          resultReward.textContent = current.reward;
+        if (wheel) {
+          wheel.classList.remove("is-spinning");
         }
 
-        if (resultCode) {
-          resultCode.textContent = current.code;
+        if (bottleLayer) {
+          bottleLayer.classList.remove("is-spinning");
         }
 
-        if (resultOverlay) {
-          resultOverlay.classList.add("is-visible");
+        if (winnerText) {
+          winnerText.textContent = current.reward;
         }
 
-        stateBox.textContent = sheetResult.ok
-          ? "Result saved to Google Sheet."
-          : "Result saved locally. Google Sheet sync failed.";
+        stateBox.textContent = "Winner selected.";
+        renderWinnerScreen(panel, day, current);
+
+        setTimeout(() => {
+          const winnerTarget = panel.querySelector(".pdmWinner");
+          jumpToElementInstant(winnerTarget || panel, 8);
+        }, 20);
       }, 4700);
     });
   }
 
-  /* =========================
-     IDLE PANEL
-  ========================= */
+  function renderWinnerScreen(panel, day, session) {
+    setGameState(panel, true);
+
+    const safeSession = readSession(day) || session;
+    const rewardText = safeSession.reward || "Try Again";
+
+    panel.innerHTML = `
+      <div class="pdmWinner">
+        <div class="pdmWinner__eyebrow">Tonight's Result</div>
+        <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
+        <p class="pdmWinner__text">Show this result to staff tonight.</p>
+
+        <div class="gameReveal">
+          <div class="gameRevealLabel">Redemption Code</div>
+          <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
+          <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
+        </div>
+
+        <div class="gameActions">
+          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-new-guest>New Guest</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Dashboard</button>
+        </div>
+
+        <div class="staffBox">
+          <div class="staffRow">
+            <input class="staffInput" type="password" placeholder="Manager PIN">
+            <button class="gameBtn gameBtn--ghost" type="button" data-confirm-reset>Confirm Reset</button>
+          </div>
+          <div class="staffState">Reset clears this guest and opens a new entry screen.</div>
+        </div>
+      </div>
+    `;
+
+    const pinInput = panel.querySelector(".staffInput");
+    const staffState = panel.querySelector(".staffState");
+
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
+
+    panel.querySelector("[data-new-guest]").addEventListener("click", () => {
+      clearSession(day);
+      renderEntryScreen(panel, day, true);
+      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+    });
+
+    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
+      renderDashboard(panel, day);
+    });
+
+    panel.querySelector("[data-manager-reset]").addEventListener("click", () => {
+      staffState.textContent = "Enter manager PIN, then confirm reset.";
+    });
+
+    panel.querySelector("[data-confirm-reset]").addEventListener("click", () => {
+      const pin = (pinInput.value || "").trim();
+
+      if (pin !== STAFF_PIN) {
+        staffState.textContent = "Incorrect PIN.";
+        return;
+      }
+
+      clearSession(day);
+      renderEntryScreen(panel, day, true);
+      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+    });
+  }
 
   function renderIdleState(panel, day) {
     setGameState(panel, false);
@@ -817,17 +828,13 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.innerHTML = `
       <div class="menuStart">
         <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
-        <div class="menuStart__text">
-          Select a category to view menu items, play Pour Decision Maker, or open the manager dashboard.
-        </div>
+        <div class="menuStart__text">Select a category to view menu items, play Pour Decision Maker, or open the manager dashboard.</div>
         <div class="menuStart__actions">
           <button class="menuStartBtn menuStartBtn--gold" type="button" data-start-game>Play Pour Decision Maker</button>
           <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-food>Open Food Menu</button>
           <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-dashboard>Dashboard</button>
         </div>
-        <div class="menuStartMeta">
-          Entry saves to Google Sheet and local browser backup.
-        </div>
+        <div class="menuStartMeta">Entry saves to Google Sheet and local browser backup.</div>
       </div>
     `;
 
@@ -835,10 +842,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panel.querySelector("[data-start-game]").addEventListener("click", () => {
       renderEntryScreen(panel, day, true);
-
-      setTimeout(() => {
-        jumpToElementInstant(panel, 8);
-      }, 20);
+      setTimeout(() => jumpToElementInstant(panel, 8), 20);
     });
 
     panel.querySelector("[data-start-dashboard]").addEventListener("click", () => {
@@ -847,15 +851,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panel.querySelector("[data-start-food]").addEventListener("click", () => {
       const foodButton = wrap?.querySelector('.menuCenterBtn[data-cat="food"]');
-      if (foodButton) {
-        foodButton.click();
-      }
+      if (foodButton) foodButton.click();
     });
   }
-
-  /* =========================
-     WRAP SETUP
-  ========================= */
 
   function getButtons(wrap) {
     const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
@@ -924,10 +922,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderIdleState(panel, day);
   }
 
-  /* =========================
-     DAY SWITCH
-  ========================= */
-
   function activateDay(day) {
     document.querySelectorAll(".dayTab").forEach(tab => {
       tab.classList.toggle("active", tab.dataset.daytab === day);
@@ -950,10 +944,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const today = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
-
-  /* =========================
-     HERO -> OPEN REAL GAME
-  ========================= */
 
   function jumpToActiveGamePanel() {
     let activeDayPanel = document.querySelector(".dayPanel.active");
@@ -984,19 +974,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   activateDay(hasTodayTab ? today : fallbackDay);
-
-  window.addEventListener("resize", () => {
-    const activePanel = document.querySelector(".dayPanel.active .menuPanelBody");
-    if (!activePanel) return;
-
-    const activeDay = document.querySelector(".dayPanel.active")?.dataset.daypanel || fallbackDay;
-    const activeWrap = activePanel.closest(".menuCenterWrap");
-
-    if (activeWrap?.classList.contains("is-game-active")) {
-      const session = readSession(activeDay);
-      if (session) {
-        renderWheelScreen(activePanel, activeDay, session);
-      }
-    }
-  });
 });
