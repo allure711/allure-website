@@ -997,8 +997,8 @@ body{
       #f2d38a 300deg 330deg,
       #171720 330deg 360deg
     );
-  transition:transform 4.6s cubic-bezier(.12,.8,.18,1);
   z-index:1;
+  will-change:transform;
 }
 
 .pdmWheel::before{
@@ -1035,6 +1035,9 @@ body{
   text-shadow:0 2px 8px rgba(0,0,0,.45);
   z-index:3;
   pointer-events:none;
+  will-change:transform;
+  transform-origin:center center;
+  backface-visibility:hidden;
 }
 
 .pdmWheel__label--1  { transform:translate(-50%, -50%) rotate(0deg) translateY(-150px) rotate(0deg); }
