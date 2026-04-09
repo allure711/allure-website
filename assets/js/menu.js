@@ -40,6 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "#171720"
   ];
 
+  let audioContext = null;
+  let lastTickStep = -1;
+
   const navToggle = document.querySelector(".nav__toggle");
   const navList = document.querySelector(".nav__list");
 
@@ -385,162 +388,72 @@ document.addEventListener("DOMContentLoaded", () => {
     activateSubsection(sections[0].title);
   }
 
-  function renderDashboard(panel, day) {
-    setGameState(panel, true);
+  function ensureAudioContext() {
+    if (!audioContext) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      audioContext = new Ctx();
+    }
 
-    const leads = readLeads();
-    const todayKey = getTodayKey();
-    const todayLeads = leads.filter(lead => lead.date === todayKey);
-    const todayDayLeads = leads.filter(lead => lead.date === todayKey && lead.day === day);
-    const recent = [...leads].reverse().slice(0, 12);
+    if (audioContext.state === "suspended") {
+      audioContext.resume().catch(() => {});
+    }
 
-    panel.innerHTML = `
-      <div class="gameShell">
-        <div class="gameTop">
-          <div>
-            <div class="gameTitle">Manager Dashboard</div>
-            <div class="gameSub">Local browser backup, CSV export, and reset tools.</div>
-          </div>
+    return audioContext;
+  }
 
-          <div class="gameBadgeRow">
-            <span class="gameBadge gameBadge--gold">Today: ${todayLeads.length}</span>
-            <span class="gameBadge">${prettyLabel(day)}: ${todayDayLeads.length}</span>
-            <span class="gameBadge">Total: ${leads.length}</span>
-          </div>
-        </div>
+  function playWheelTick(strength = 1) {
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
 
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--gold" type="button" data-export-all>Export All CSV</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-export-today>Export Today CSV</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-reset-day>Reset Today Sessions</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-clear-leads>Clear Local Backup</button>
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
-        </div>
+    const now = ctx.currentTime;
+    const volume = Math.max(0.018, Math.min(0.05, 0.022 + (strength * 0.018)));
 
-        <div class="staffBox">
-          <div class="staffRow">
-            <input class="staffInput" type="password" placeholder="Manager PIN">
-            <button class="gameBtn gameBtn--ghost" type="button" data-pin-action>Confirm Action</button>
-          </div>
-          <div class="staffState">Protected actions require manager PIN.</div>
-        </div>
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
 
-        <div class="menuEmpty" style="padding:16px;">
-          <strong>Recent Entries</strong>
-          <div style="margin-top:10px;display:grid;gap:8px;">
-            ${recent.length ? recent.map(lead => `
-              <div style="padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02);">
-                <div><strong>${escapeHtml(lead.reward)}</strong></div>
-                <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
-                  ${escapeHtml(lead.createdAt || lead.timestamp || "")} • ${escapeHtml(lead.day)} • Table ${escapeHtml(lead.table)}
-                </div>
-                <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
-                  Phone: ${escapeHtml(lead.phone || "-")} • Code: ${escapeHtml(lead.code || "-")}
-                </div>
-              </div>
-            `).join("") : `<div style="color:rgba(255,255,255,.72);">No entries yet.</div>`}
-          </div>
-        </div>
-      </div>
-    `;
+    osc.type = "square";
+    osc.frequency.setValueAtTime(1800 + (strength * 500), now);
 
-    const pinInput = panel.querySelector(".staffInput");
-    const staffState = panel.querySelector(".staffState");
-    let pendingAction = null;
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(2200 + (strength * 400), now);
+    filter.Q.setValueAtTime(1.2, now);
 
-    panel.querySelector("[data-export-all]").addEventListener("click", () => {
-      if (!leads.length) {
-        staffState.textContent = "No entries to export.";
-        return;
-      }
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(volume, now + 0.002);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
 
-      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
 
-      leads.forEach(lead => {
-        rows.push([
-          lead.createdAt || lead.timestamp || "",
-          lead.day || "",
-          lead.table || "",
-          lead.entryType || "",
-          lead.phone || "",
-          lead.reward || "",
-          String(lead.boxNumber || ""),
-          lead.code || ""
-        ]);
-      });
+    osc.start(now);
+    osc.stop(now + 0.04);
+  }
 
-      downloadCsv(`pour-decision-maker-all-${todayKey}.csv`, rows);
-      staffState.textContent = "Exported all local entries.";
-    });
+  function resetWheelTickState() {
+    lastTickStep = -1;
+  }
 
-    panel.querySelector("[data-export-today]").addEventListener("click", () => {
-      if (!todayLeads.length) {
-        staffState.textContent = "No entries for today.";
-        return;
-      }
+  function handleWheelTicks(currentRotation, totalSegments) {
+    const segmentAngle = 360 / totalSegments;
+    const currentStep = Math.floor(currentRotation / segmentAngle);
 
-      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
+    if (lastTickStep === -1) {
+      lastTickStep = currentStep;
+      return;
+    }
 
-      todayLeads.forEach(lead => {
-        rows.push([
-          lead.createdAt || lead.timestamp || "",
-          lead.day || "",
-          lead.table || "",
-          lead.entryType || "",
-          lead.phone || "",
-          lead.reward || "",
-          String(lead.boxNumber || ""),
-          lead.code || ""
-        ]);
-      });
+    if (currentStep <= lastTickStep) return;
 
-      downloadCsv(`pour-decision-maker-today-${todayKey}.csv`, rows);
-      staffState.textContent = "Exported today's local entries.";
-    });
+    for (let step = lastTickStep + 1; step <= currentStep; step++) {
+      const progressFactor = Math.min(1, step / (totalSegments * 6));
+      const endStrength = Math.max(0, (progressFactor - 0.72) / 0.28);
+      playWheelTick(endStrength);
+    }
 
-    panel.querySelector("[data-reset-day]").addEventListener("click", () => {
-      pendingAction = "reset-day";
-      staffState.textContent = "Enter manager PIN and confirm to reset all today's sessions.";
-    });
-
-    panel.querySelector("[data-clear-leads]").addEventListener("click", () => {
-      pendingAction = "clear-leads";
-      staffState.textContent = "Enter manager PIN and confirm to clear local backup entries.";
-    });
-
-    panel.querySelector("[data-pin-action]").addEventListener("click", () => {
-      const pin = (pinInput.value || "").trim();
-
-      if (pin !== STAFF_PIN) {
-        staffState.textContent = "Incorrect PIN.";
-        return;
-      }
-
-      if (pendingAction === "reset-day") {
-        Object.keys(localStorage).forEach(key => {
-          if (key.startsWith(`allure_pdm_session:${todayKey}:`)) {
-            localStorage.removeItem(key);
-          }
-        });
-        staffState.textContent = "Today's sessions reset.";
-        pendingAction = null;
-        return;
-      }
-
-      if (pendingAction === "clear-leads") {
-        overwriteLeads([]);
-        staffState.textContent = "Local backup entries cleared.";
-        pendingAction = null;
-        renderDashboard(panel, day);
-        return;
-      }
-
-      staffState.textContent = "No protected action selected.";
-    });
-
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
+    lastTickStep = currentStep;
   }
 
   function polarToCartesian(cx, cy, radius, angleDeg) {
@@ -659,20 +572,11 @@ document.addEventListener("DOMContentLoaded", () => {
         viewBox="0 0 ${size} ${size}"
         aria-hidden="true"
       >
-        <defs>
-          <radialGradient id="pdmWheelGlow" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stop-color="rgba(255,255,255,.08)" />
-            <stop offset="100%" stop-color="rgba(255,255,255,0)" />
-          </radialGradient>
-        </defs>
-
         <circle class="pdmWheelSvg__outerRing" cx="${cx}" cy="${cy}" r="${outerRadius + 9}"></circle>
         <circle class="pdmWheelSvg__rimInner" cx="${cx}" cy="${cy}" r="${outerRadius - 6}"></circle>
-
         ${wedges.join("")}
         ${dividers.join("")}
         ${texts.join("")}
-
         <circle class="pdmWheelSvg__hubRing" cx="${cx}" cy="${cy}" r="${innerRadius + 8}"></circle>
         <circle class="pdmWheelSvg__hubCore" cx="${cx}" cy="${cy}" r="${innerRadius - 6}"></circle>
       </svg>
@@ -823,6 +727,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     spinButton.addEventListener("click", () => {
+      ensureAudioContext();
+      resetWheelTickState();
+
       const current = readSession(day) || safeSession;
       const selectedIndex = getRandomSegmentIndex();
       const segmentCount = current.segments.length;
@@ -849,7 +756,12 @@ document.addEventListener("DOMContentLoaded", () => {
         wheel,
         finalRotation,
         duration: WHEEL_SPIN_DURATION_MS,
+        onUpdate(currentRotation) {
+          handleWheelTicks(currentRotation, segmentCount);
+        },
         onComplete: async () => {
+          playWheelTick(1);
+
           current.selectedIndex = selectedIndex;
           current.reward = current.segments[selectedIndex];
           current.boxNumber = selectedIndex + 1;
