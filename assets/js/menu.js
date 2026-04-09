@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const LEADS_KEY = "allure_leads_v5";
   const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
   const MOBILE_BREAKPOINT = 760;
-
   const POINTER_ALIGNMENT_OFFSET_DEG = 0;
   const FINAL_SETTLE_OVERSHOOT_DEG = 6;
   const FINAL_SETTLE_DURATION_MS = 260;
+  const WHEEL_SPIN_DURATION_MS = 4700;
 
   const WHEEL_SEGMENTS = [
     "Free Shot",
@@ -194,86 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   }
 
-  function clamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-  }
-
-  function getWheelLabelMetrics(angleDeg, wheel) {
-    const size = wheel?.getBoundingClientRect().width || 370;
-    const mobile = isMobileView();
-    const angleRad = (angleDeg * Math.PI) / 180;
-
-    /*
-      angleDeg meaning in this wheel:
-      0 = top
-      90 = right
-      180 = bottom
-      270 = left
-    */
-
-    const bottomness = (1 - Math.cos(angleRad)) / 2; // 0 top, 1 bottom
-    const sideness = Math.abs(Math.sin(angleRad));   // 0 top/bottom, 1 left/right
-
-    /*
-      Pull lower labels inward so they stay inside wedges and avoid the bottle/winner area.
-      Keep side/top labels farther out.
-    */
-    const radiusRatioBase = mobile ? 0.35 : 0.37;
-    const radiusRatioBottomPull = mobile ? 0.10 : 0.11;
-    const radiusRatioSideBoost = mobile ? 0.015 : 0.02;
-
-    const radiusRatio =
-      radiusRatioBase -
-      (bottomness * radiusRatioBottomPull) +
-      (sideness * radiusRatioSideBoost);
-
-    const radius = size * radiusRatio;
-
-    /*
-      Width tracks available wedge width at that radius.
-      30deg wedge => chord width ≈ 2r sin(15deg)
-    */
-    const chordWidth = 2 * radius * Math.sin(Math.PI / 12);
-    const width = clamp(
-      chordWidth * 1.04,
-      mobile ? 52 : 58,
-      mobile ? 72 : 82
-    );
-
-    const fontSize = mobile ? 8 : 10;
-
-    return {
-      radius,
-      width,
-      fontSize
-    };
-  }
-
-  function syncWheelLabels(wheel, counterRotation = 0) {
-    if (!wheel) return;
-
-    const holders = [...wheel.querySelectorAll(".pdmWheel__label")];
-    const total = holders.length || WHEEL_SEGMENTS.length;
-    const segmentAngle = 360 / total;
-
-    holders.forEach((holder, index) => {
-      const angleDeg = index * segmentAngle;
-      const text = holder.querySelector(".pdmWheel__labelText");
-      const metrics = getWheelLabelMetrics(angleDeg, wheel);
-
-      holder.style.transform = `translate(-50%, -50%) rotate(${angleDeg}deg)`;
-
-      if (text) {
-        text.style.width = `${metrics.width}px`;
-        text.style.fontSize = `${metrics.fontSize}px`;
-        text.style.transform =
-          `translate(-50%, -50%) translateY(${-metrics.radius}px) rotate(${-angleDeg - counterRotation}deg)`;
-      }
-    });
-
-    wheel.dataset.currentRotation = String(counterRotation);
-  }
-
   function easeOutQuart(t) {
     return 1 - Math.pow(1 - t, 4);
   }
@@ -284,9 +204,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
   }
 
-  function animateWheelSpin({ wheel, finalRotation, duration = 4700, onUpdate, onComplete }) {
+  function animateWheelSpin({ wheel, finalRotation, duration = WHEEL_SPIN_DURATION_MS, onComplete }) {
     if (!wheel) {
-      if (typeof onComplete === "function") onComplete(finalRotation);
+      if (typeof onComplete === "function") onComplete();
       return;
     }
 
@@ -304,11 +224,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const currentRotation = overshootRotation * eased;
 
         wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-        if (typeof onUpdate === "function") {
-          onUpdate(currentRotation);
-        }
-
         requestAnimationFrame(frame);
         return;
       }
@@ -321,25 +236,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-      if (typeof onUpdate === "function") {
-        onUpdate(currentRotation);
-      }
-
       if (settleProgress < 1) {
         requestAnimationFrame(frame);
       } else if (typeof onComplete === "function") {
-        onComplete(finalRotation);
+        onComplete();
       }
     }
 
     requestAnimationFrame(frame);
-  }
-
-  function refreshVisibleWheelLabels() {
-    document.querySelectorAll(".pdmWheel[data-wheel]").forEach(wheel => {
-      const currentRotation = Number(wheel.dataset.currentRotation || 0);
-      syncWheelLabels(wheel, currentRotation);
-    });
   }
 
   function jumpToElementInstant(target, extraOffset = 8) {
@@ -727,8 +631,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const nowIso = new Date().toISOString();
-
       const state = {
         date: getTodayKey(),
         day,
@@ -740,8 +642,8 @@ document.addEventListener("DOMContentLoaded", () => {
         reward: "",
         code: "",
         boxNumber: "",
-        createdAt: nowIso,
-        timestamp: nowIso,
+        createdAt: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
         stage: "wheel"
       };
 
@@ -763,6 +665,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setGameState(panel, true);
 
     const safeSession = readSession(day) || session;
+    const segmentCount = safeSession.segments.length;
+    const segmentAngle = 360 / segmentCount;
 
     panel.innerHTML = `
       <div class="pdmWheelShell">
@@ -783,11 +687,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
-              ${safeSession.segments.map((label, index) => `
-                <div class="pdmWheel__label" data-angle="${index * (360 / safeSession.segments.length)}">
-                  <span class="pdmWheel__labelText">${escapeHtml(label)}</span>
-                </div>
-              `).join("")}
+              ${safeSession.segments.map((label, index) => {
+                const angle = index * segmentAngle;
+                return `
+                  <div class="pdmWheel__label" style="--angle:${angle}deg;">
+                    <span class="pdmWheel__labelText">${escapeHtml(label)}</span>
+                  </div>
+                `;
+              }).join("")}
             </div>
 
             <div class="pdmBottleLayer" data-bottle-layer>
@@ -822,7 +729,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    const shell = panel.querySelector(".pdmWheelShell");
     const wheel = panel.querySelector("[data-wheel]");
     const bottleLayer = panel.querySelector("[data-bottle-layer]");
     const winnerText = panel.querySelector("[data-wheel-winner]");
@@ -831,7 +737,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (wheel) {
       wheel.style.transform = "rotate(0deg)";
-      syncWheelLabels(wheel, 0);
     }
 
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
@@ -846,25 +751,17 @@ document.addEventListener("DOMContentLoaded", () => {
       renderDashboard(panel, day);
     });
 
-    spinButton.addEventListener("click", () => {
+    spinButton.addEventListener("click", async () => {
       const current = readSession(day) || safeSession;
       const selectedIndex = getRandomSegmentIndex();
-      const segmentCount = current.segments.length;
-      const segmentAngle = 360 / segmentCount;
-
-      const selectedCenterAngle = selectedIndex * segmentAngle;
+      const segmentCenterAngle = (selectedIndex * segmentAngle) + (segmentAngle / 2);
       const normalizedStopRotation =
-        (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
+        (360 - segmentCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
       const finalRotation = (360 * 6) + normalizedStopRotation;
-      const duration = 4700;
 
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
       if (winnerText) winnerText.textContent = "SPINNING...";
-
-      if (shell) {
-        shell.classList.add("is-spinning");
-      }
 
       if (bottleLayer) {
         bottleLayer.classList.add("is-spinning");
@@ -873,10 +770,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animateWheelSpin({
         wheel,
         finalRotation,
-        duration,
-        onUpdate(currentRotation) {
-          syncWheelLabels(wheel, currentRotation);
-        },
+        duration: WHEEL_SPIN_DURATION_MS,
         onComplete: async () => {
           current.selectedIndex = selectedIndex;
           current.reward = current.segments[selectedIndex];
@@ -902,10 +796,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
           saveLead(leadPayload);
           await sendLeadToGoogleSheet(leadPayload);
-
-          if (shell) {
-            shell.classList.remove("is-spinning");
-          }
 
           if (bottleLayer) {
             bottleLayer.classList.remove("is-spinning");
@@ -1147,8 +1037,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   activateDay(hasTodayTab ? today : fallbackDay);
-
-  window.addEventListener("resize", () => {
-    requestAnimationFrame(refreshVisibleWheelLabels);
-  });
 });
