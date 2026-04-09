@@ -41,6 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function isMobileView() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+  }
+
   function getTodayKey() {
     return new Date().toISOString().slice(0, 10);
   }
@@ -190,12 +194,81 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   }
 
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function getWheelLabelMetrics(angleDeg, wheel) {
+    const size = wheel?.getBoundingClientRect().width || 370;
+    const mobile = isMobileView();
+    const angleRad = (angleDeg * Math.PI) / 180;
+
+    /*
+      angleDeg meaning in this wheel:
+      0 = top
+      90 = right
+      180 = bottom
+      270 = left
+    */
+
+    const bottomness = (1 - Math.cos(angleRad)) / 2; // 0 top, 1 bottom
+    const sideness = Math.abs(Math.sin(angleRad));   // 0 top/bottom, 1 left/right
+
+    /*
+      Pull lower labels inward so they stay inside wedges and avoid the bottle/winner area.
+      Keep side/top labels farther out.
+    */
+    const radiusRatioBase = mobile ? 0.35 : 0.37;
+    const radiusRatioBottomPull = mobile ? 0.10 : 0.11;
+    const radiusRatioSideBoost = mobile ? 0.015 : 0.02;
+
+    const radiusRatio =
+      radiusRatioBase -
+      (bottomness * radiusRatioBottomPull) +
+      (sideness * radiusRatioSideBoost);
+
+    const radius = size * radiusRatio;
+
+    /*
+      Width tracks available wedge width at that radius.
+      30deg wedge => chord width ≈ 2r sin(15deg)
+    */
+    const chordWidth = 2 * radius * Math.sin(Math.PI / 12);
+    const width = clamp(
+      chordWidth * 1.04,
+      mobile ? 52 : 58,
+      mobile ? 72 : 82
+    );
+
+    const fontSize = mobile ? 8 : 10;
+
+    return {
+      radius,
+      width,
+      fontSize
+    };
+  }
+
   function syncWheelLabels(wheel, counterRotation = 0) {
     if (!wheel) return;
 
-    const textNodes = wheel.querySelectorAll(".pdmWheel__labelText");
-    textNodes.forEach(node => {
-      node.style.transform = `translate(-50%, -50%) rotate(${-counterRotation}deg)`;
+    const holders = [...wheel.querySelectorAll(".pdmWheel__label")];
+    const total = holders.length || WHEEL_SEGMENTS.length;
+    const segmentAngle = 360 / total;
+
+    holders.forEach((holder, index) => {
+      const angleDeg = index * segmentAngle;
+      const text = holder.querySelector(".pdmWheel__labelText");
+      const metrics = getWheelLabelMetrics(angleDeg, wheel);
+
+      holder.style.transform = `translate(-50%, -50%) rotate(${angleDeg}deg)`;
+
+      if (text) {
+        text.style.width = `${metrics.width}px`;
+        text.style.fontSize = `${metrics.fontSize}px`;
+        text.style.transform =
+          `translate(-50%, -50%) translateY(${-metrics.radius}px) rotate(${-angleDeg - counterRotation}deg)`;
+      }
     });
 
     wheel.dataset.currentRotation = String(counterRotation);
@@ -711,7 +784,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
               ${safeSession.segments.map((label, index) => `
-                <div class="pdmWheel__label pdmWheel__label--${index + 1}">
+                <div class="pdmWheel__label" data-angle="${index * (360 / safeSession.segments.length)}">
                   <span class="pdmWheel__labelText">${escapeHtml(label)}</span>
                 </div>
               `).join("")}
