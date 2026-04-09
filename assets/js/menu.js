@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let audioContext = null;
   let lastTickStep = -1;
+  let pointerBounceLock = false;
 
   const navToggle = document.querySelector(".nav__toggle");
   const navList = document.querySelector(".nav__list");
@@ -432,11 +433,38 @@ document.addEventListener("DOMContentLoaded", () => {
     osc.stop(now + 0.04);
   }
 
-  function resetWheelTickState() {
-    lastTickStep = -1;
+  function bouncePointer(pointer, strength = 0.5) {
+    if (!pointer || pointerBounceLock) return;
+
+    pointerBounceLock = true;
+
+    const angleA = -(4 + (strength * 4));
+    const angleB = 2 + (strength * 2);
+
+    pointer.animate(
+      [
+        { transform: "translateX(-50%) rotate(0deg)" },
+        { transform: `translateX(-50%) rotate(${angleA}deg)`, offset: 0.35 },
+        { transform: `translateX(-50%) rotate(${angleB}deg)`, offset: 0.72 },
+        { transform: "translateX(-50%) rotate(0deg)" }
+      ],
+      {
+        duration: 120 + (strength * 40),
+        easing: "cubic-bezier(.2,.9,.2,1)"
+      }
+    );
+
+    setTimeout(() => {
+      pointerBounceLock = false;
+    }, 170);
   }
 
-  function handleWheelTicks(currentRotation, totalSegments) {
+  function resetWheelTickState() {
+    lastTickStep = -1;
+    pointerBounceLock = false;
+  }
+
+  function handleWheelTicks(currentRotation, totalSegments, pointer) {
     const segmentAngle = 360 / totalSegments;
     const currentStep = Math.floor(currentRotation / segmentAngle);
 
@@ -451,6 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const progressFactor = Math.min(1, step / (totalSegments * 6));
       const endStrength = Math.max(0, (progressFactor - 0.72) / 0.28);
       playWheelTick(endStrength);
+      bouncePointer(pointer, endStrength);
     }
 
     lastTickStep = currentStep;
@@ -709,6 +738,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const winnerText = panel.querySelector("[data-wheel-winner]");
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
+    const pointer = panel.querySelector(".pdmPointer");
 
     if (wheel) {
       wheel.style.transform = "rotate(0deg)";
@@ -757,10 +787,11 @@ document.addEventListener("DOMContentLoaded", () => {
         finalRotation,
         duration: WHEEL_SPIN_DURATION_MS,
         onUpdate(currentRotation) {
-          handleWheelTicks(currentRotation, segmentCount);
+          handleWheelTicks(currentRotation, segmentCount, pointer);
         },
         onComplete: async () => {
           playWheelTick(1);
+          bouncePointer(pointer, 1);
 
           current.selectedIndex = selectedIndex;
           current.reward = current.segments[selectedIndex];
