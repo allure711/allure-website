@@ -949,7 +949,7 @@ body{
 
 .pdmPointer{
   position:absolute;
-  top:0;
+  top:-2px;
   left:50%;
   transform:translateX(-50%) rotate(0deg);
   transform-origin:50% 10%;
@@ -959,7 +959,9 @@ body{
   border-right:16px solid transparent;
   border-top:28px solid var(--gold2);
   z-index:8;
-  filter:drop-shadow(0 6px 12px rgba(0,0,0,.28));
+  filter:
+    drop-shadow(0 6px 12px rgba(0,0,0,.28))
+    drop-shadow(0 0 10px rgba(215,180,106,.16));
   will-change:transform;
 }
 
@@ -973,6 +975,8 @@ body{
   z-index:1;
   will-change:transform;
   transform-origin:center center;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
   filter:
     drop-shadow(0 28px 58px rgba(0,0,0,.28))
     drop-shadow(0 0 30px rgba(215,180,106,.12));
@@ -986,25 +990,71 @@ body{
 }
 
 .pdmWheelSvg__outerRing{
-  fill:none;
-  stroke:rgba(215,180,106,.72);
-  stroke-width:18;
+  fill:url(#pdmOuterRingGradient);
 }
 
-.pdmWheelSvg__rimInner{
-  fill:none;
-  stroke:rgba(255,255,255,.06);
-  stroke-width:6;
+.pdmWheelSvg__innerRing{
+  fill:url(#pdmInnerRingGradient);
 }
 
-.pdmWheelSvg__slice{
-  stroke:none;
+.pdmWheelSvg__rimLine{
+  fill:none;
+  stroke:rgba(255,245,225,.18);
+  stroke-width:2.5;
 }
 
 .pdmWheelSvg__divider{
   stroke:rgba(255,255,255,.08);
   stroke-width:4;
   stroke-linecap:round;
+  vector-effect:non-scaling-stroke;
+}
+
+.pdmWheelSvg__slice{
+  stroke:none;
+  transition:filter .24s ease, opacity .24s ease, transform .24s ease;
+  transform-box:fill-box;
+  transform-origin:center;
+}
+
+.pdmWheelSvg__slice.is-active{
+  filter:brightness(1.14) saturate(1.08);
+}
+
+.pdmWheelSvg__labelWrap{
+  pointer-events:none;
+}
+
+.pdmWheelSvg__labelBox{
+  fill:rgba(10,10,10,.42);
+  stroke:rgba(255,233,184,.18);
+  stroke-width:1.2;
+}
+
+.pdmWheelSvg__labelText{
+  fill:#fff8ea;
+  font-weight:950;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  text-anchor:middle;
+  dominant-baseline:middle;
+  paint-order:stroke fill;
+  stroke:rgba(0,0,0,.34);
+  stroke-width:.8px;
+  font-size:17px;
+}
+
+.pdmWheelSvg__labelText.is-small{
+  font-size:15px;
+}
+
+.pdmWheelSvg__labelText.is-xsmall{
+  font-size:13px;
+}
+
+.pdmWheelSvg__spark{
+  fill:rgba(255,236,188,.58);
+  opacity:.75;
 }
 
 .pdmWheelSvg__hubRing{
@@ -1014,26 +1064,13 @@ body{
 }
 
 .pdmWheelSvg__hubCore{
-  fill:#0d0b11;
   stroke:rgba(255,255,255,.04);
   stroke-width:3;
 }
 
-.pdmWheelSvg__label{
-  fill:#fff;
-  font-weight:950;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  paint-order:stroke fill;
-  stroke:rgba(0,0,0,.72);
-  stroke-width:4px;
-  stroke-linejoin:round;
-  text-rendering:geometricPrecision;
-}
-
 .pdmWheelWrap{
   position:relative;
-  width:min(100%, 370px);
+  width:min(100%, 420px);
   aspect-ratio:1 / 1;
   display:flex;
   align-items:center;
@@ -1067,7 +1104,7 @@ body{
 }
 
 .pdmBottleLayer.is-spinning .pdmBottle{
-  animation:pdmBottleSpin 4.6s cubic-bezier(.12,.8,.18,1) forwards;
+  animation:pdmBottleSpin 5.1s cubic-bezier(.12,.8,.18,1) forwards;
 }
 
 .pdmBottle__cap{
@@ -1211,6 +1248,111 @@ body{
 
 .pdmWheelShell.is-spinning .pdmWheelWinner{
   animation:pdmWinnerPulse 1s ease-in-out infinite;
+}
+
+/* ===== DASHBOARD ===== */
+
+.pdmDashboard{
+  display:grid;
+  gap:16px;
+}
+
+.dashboardGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.dashboardCard{
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:16px;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.dashboardCard__title{
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:12px;
+}
+
+.dashboardStats{
+  display:grid;
+  gap:10px;
+}
+
+.dashboardStat{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.dashboardStat strong{
+  color:#fff;
+  font-size:16px;
+}
+
+.dashboardStat--line span{
+  color:rgba(255,255,255,.8);
+}
+
+.dashboardActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.dashboardEmpty{
+  border-radius:14px;
+  border:1px dashed rgba(255,255,255,.12);
+  background:rgba(255,255,255,.02);
+  padding:18px;
+  color:rgba(255,255,255,.70);
+}
+
+.dashboardTableWrap{
+  overflow:auto;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.dashboardTable{
+  width:100%;
+  border-collapse:collapse;
+  min-width:640px;
+  background:rgba(255,255,255,.02);
+}
+
+.dashboardTable th,
+.dashboardTable td{
+  padding:12px 12px;
+  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  font-size:13px;
+}
+
+.dashboardTable th{
+  color:var(--gold2);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:11px;
+  background:rgba(255,255,255,.03);
+}
+
+.dashboardTable td{
+  color:rgba(255,255,255,.84);
 }
 
 /* ===== TOP SELLERS ===== */
@@ -1388,6 +1530,10 @@ body{
   .menuPanelBody{
     min-height:364px !important;
   }
+
+  .dashboardGrid{
+    grid-template-columns:1fr;
+  }
 }
 
 @media (max-width:760px){
@@ -1490,6 +1636,10 @@ body{
     width:104px;
     font-size:11px;
   }
+
+  .pdmWheelWrap{
+    width:min(100%, 360px);
+  }
 }
 
 @media (max-width:640px){
@@ -1573,6 +1723,10 @@ body{
   .pdmWheelWinner{
     width:96px;
     font-size:10px;
+  }
+
+  .pdmWheelWrap{
+    width:min(100%, 320px);
   }
 }
 
