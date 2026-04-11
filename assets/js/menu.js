@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const MOBILE_BREAKPOINT = 760;
 
   const POINTER_ALIGNMENT_OFFSET_DEG = 0;
-  const FINAL_SETTLE_OVERSHOOT_DEG = 6;
-  const FINAL_SETTLE_DURATION_MS = 260;
-  const WHEEL_SPIN_DURATION_MS = 4700;
+  const FINAL_SETTLE_OVERSHOOT_DEG = 4.5;
+  const FINAL_SETTLE_DURATION_MS = 280;
+  const WHEEL_SPIN_DURATION_MS = 5200;
 
   const WHEEL_SEGMENTS = [
     "Free Shot",
@@ -184,6 +184,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(value || "").replace(/\D/g, "");
   }
 
+  function maskPhone(value) {
+    const digits = normalizePhone(value);
+    if (!digits) return "-";
+    if (digits.length <= 4) return digits;
+    return `${"*".repeat(Math.max(0, digits.length - 4))}${digits.slice(-4)}`;
+  }
+
   function csvEscape(value) {
     const str = String(value ?? "");
     return `"${str.replace(/"/g, '""')}"`;
@@ -212,6 +219,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getRandomSegmentIndex() {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
+  }
+
+  function formatDateTime(value) {
+    if (!value) return "-";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleString([], {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    });
   }
 
   function jumpToElementInstant(target, extraOffset = 8) {
@@ -517,30 +537,48 @@ document.addEventListener("DOMContentLoaded", () => {
     return [words.slice(0, midpoint).join(" "), words.slice(midpoint).join(" ")];
   }
 
+  function getLabelClass(lines) {
+    const longest = Math.max(...lines.map(line => String(line).length), 0);
+    if (longest >= 13) return "is-xsmall";
+    if (longest >= 10) return "is-small";
+    return "";
+  }
+
+  function buildSpark(cx, cy, radius, angleDeg, size = 3.2) {
+    const point = polarToCartesian(cx, cy, radius, angleDeg);
+    return `<circle class="pdmWheelSvg__spark" cx="${point.x}" cy="${point.y}" r="${size}"></circle>`;
+  }
+
   function buildWheelSvg(segments) {
     const mobile = isMobileView();
     const size = 600;
     const cx = 300;
     const cy = 300;
     const outerRadius = 275;
-    const innerRadius = mobile ? 116 : 122;
-    const textRadius = mobile ? 182 : 192;
-    const fontSize = mobile ? 18 : 20;
+    const innerRadius = mobile ? 112 : 118;
+    const labelRadius = mobile ? 192 : 198;
     const segmentAngle = 360 / segments.length;
 
     const wedges = [];
     const dividers = [];
-    const texts = [];
+    const labels = [];
+    const sparks = [];
 
     segments.forEach((label, index) => {
       const startAngle = index * segmentAngle;
       const endAngle = startAngle + segmentAngle;
-      const centerAngle = startAngle + segmentAngle / 2;
-
+      const centerAngle = startAngle + (segmentAngle / 2);
       const wedgePath = buildWedgePath(cx, cy, outerRadius, innerRadius, startAngle, endAngle);
+      const textPoint = polarToCartesian(cx, cy, labelRadius, centerAngle);
+      const lines = splitLabelIntoLines(label);
+      const labelClass = getLabelClass(lines);
+      const boxWidth = mobile ? 102 : 110;
+      const boxHeight = lines.length === 1 ? 30 : 44;
+
       wedges.push(`
         <path
           class="pdmWheelSvg__slice"
+          data-slice-index="${index}"
           d="${wedgePath}"
           fill="${WHEEL_COLORS[index % WHEEL_COLORS.length]}"
         ></path>
@@ -548,6 +586,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const dividerOuter = polarToCartesian(cx, cy, outerRadius, startAngle);
       const dividerInner = polarToCartesian(cx, cy, innerRadius, startAngle);
+
       dividers.push(`
         <line
           class="pdmWheelSvg__divider"
@@ -558,31 +597,34 @@ document.addEventListener("DOMContentLoaded", () => {
         ></line>
       `);
 
-      const textPoint = polarToCartesian(cx, cy, textRadius, centerAngle);
-      const lines = splitLabelIntoLines(label);
-      const lineOffset = lines.length === 1 ? [0] : [-11, 11];
-
-      texts.push(`
+      labels.push(`
         <g
-          class="pdmWheelSvg__labelGroup"
-          transform="translate(${textPoint.x} ${textPoint.y}) rotate(${centerAngle})"
+          class="pdmWheelSvg__labelWrap"
+          transform="translate(${textPoint.x} ${textPoint.y})"
         >
-          <g transform="rotate(${-centerAngle})">
-            <text
-              class="pdmWheelSvg__label"
-              text-anchor="middle"
-              dominant-baseline="middle"
-              font-size="${fontSize}"
-            >
-              ${lines.map((line, lineIndex) => `
-                <tspan x="0" dy="${lineIndex === 0 ? lineOffset[lineIndex] : 22}">
-                  ${escapeHtml(line)}
-                </tspan>
-              `).join("")}
-            </text>
-          </g>
+          <rect
+            class="pdmWheelSvg__labelBox"
+            x="${-(boxWidth / 2)}"
+            y="${-(boxHeight / 2)}"
+            width="${boxWidth}"
+            height="${boxHeight}"
+            rx="10"
+            ry="10"
+          ></rect>
+          <text class="pdmWheelSvg__labelText ${labelClass}" x="0" y="0">
+            ${
+              lines.length === 1
+                ? `<tspan x="0" dy="0">${escapeHtml(lines[0])}</tspan>`
+                : `
+                  <tspan x="0" dy="-8">${escapeHtml(lines[0])}</tspan>
+                  <tspan x="0" dy="16">${escapeHtml(lines[1])}</tspan>
+                `
+            }
+          </text>
         </g>
       `);
+
+      sparks.push(buildSpark(cx, cy, outerRadius - 18, centerAngle, mobile ? 2.5 : 3.2));
     });
 
     dividers.push(`
@@ -601,19 +643,48 @@ document.addEventListener("DOMContentLoaded", () => {
         viewBox="0 0 ${size} ${size}"
         aria-hidden="true"
       >
-        <circle class="pdmWheelSvg__outerRing" cx="${cx}" cy="${cy}" r="${outerRadius + 9}"></circle>
-        <circle class="pdmWheelSvg__rimInner" cx="${cx}" cy="${cy}" r="${outerRadius - 6}"></circle>
+        <defs>
+          <linearGradient id="pdmOuterRingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f5e5b4"></stop>
+            <stop offset="32%" stop-color="#d7b46a"></stop>
+            <stop offset="65%" stop-color="#9a6b27"></stop>
+            <stop offset="100%" stop-color="#f1dba0"></stop>
+          </linearGradient>
+          <linearGradient id="pdmInnerRingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1f1a25"></stop>
+            <stop offset="100%" stop-color="#09090d"></stop>
+          </linearGradient>
+          <radialGradient id="pdmHubGradient" cx="35%" cy="30%" r="72%">
+            <stop offset="0%" stop-color="#1d1a22"></stop>
+            <stop offset="100%" stop-color="#09090c"></stop>
+          </radialGradient>
+        </defs>
+
+        <circle class="pdmWheelSvg__outerRing" cx="${cx}" cy="${cy}" r="${outerRadius + 10}"></circle>
+        <circle class="pdmWheelSvg__innerRing" cx="${cx}" cy="${cy}" r="${outerRadius - 7}"></circle>
+
         ${wedges.join("")}
         ${dividers.join("")}
-        ${texts.join("")}
-        <circle class="pdmWheelSvg__hubRing" cx="${cx}" cy="${cy}" r="${innerRadius + 8}"></circle>
-        <circle class="pdmWheelSvg__hubCore" cx="${cx}" cy="${cy}" r="${innerRadius - 6}"></circle>
+        ${sparks.join("")}
+        ${labels.join("")}
+
+        <circle class="pdmWheelSvg__rimLine" cx="${cx}" cy="${cy}" r="${outerRadius - 10}"></circle>
+        <circle class="pdmWheelSvg__rimLine" cx="${cx}" cy="${cy}" r="${innerRadius + 11}"></circle>
+        <circle class="pdmWheelSvg__hubRing" cx="${cx}" cy="${cy}" r="${innerRadius + 9}"></circle>
+        <circle class="pdmWheelSvg__hubCore" cx="${cx}" cy="${cy}" r="${innerRadius - 7}" fill="url(#pdmHubGradient)"></circle>
       </svg>
     `;
   }
 
-  function easeOutQuart(t) {
-    return 1 - Math.pow(1 - t, 4);
+  function setActiveWheelSlice(wheel, selectedIndex) {
+    if (!wheel) return;
+    wheel.querySelectorAll("[data-slice-index]").forEach(slice => {
+      slice.classList.toggle("is-active", Number(slice.dataset.sliceIndex) === Number(selectedIndex));
+    });
+  }
+
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
   }
 
   function easeOutBack(t) {
@@ -638,7 +709,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (elapsed < mainDuration) {
         const progress = Math.min(1, elapsed / mainDuration);
-        const eased = easeOutQuart(progress);
+        const eased = easeOutExpo(progress);
         const currentRotation = overshootRotation * eased;
 
         wheel.style.transform = `rotate(${currentRotation}deg)`;
@@ -671,6 +742,167 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     requestAnimationFrame(frame);
+  }
+
+  function renderDashboard(panel, day) {
+    setGameState(panel, true);
+
+    const allLeads = readLeads();
+    const dayLeads = allLeads
+      .filter(item => String(item.day || "").toLowerCase() === String(day || "").toLowerCase())
+      .sort((a, b) => new Date(b.createdAt || b.timestamp || 0) - new Date(a.createdAt || a.timestamp || 0));
+
+    const totalEntries = dayLeads.length;
+    const rewardCounts = {};
+
+    dayLeads.forEach(item => {
+      const reward = item.reward || "Unknown";
+      rewardCounts[reward] = (rewardCounts[reward] || 0) + 1;
+    });
+
+    const rewardRows = Object.entries(rewardCounts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([reward, count]) => `
+        <div class="dashboardStat dashboardStat--line">
+          <span>${escapeHtml(reward)}</span>
+          <strong>${count}</strong>
+        </div>
+      `)
+      .join("");
+
+    panel.innerHTML = `
+      <div class="pdmDashboard">
+        <div class="gameTop">
+          <div>
+            <div class="gameTitle">Manager Dashboard</div>
+            <div class="gameSub">Local browser backup for ${escapeHtml(prettyLabel(day))}. Google Sheet sync continues separately.</div>
+          </div>
+
+          <div class="gameBadgeRow">
+            <span class="gameBadge">Entries: ${totalEntries}</span>
+            <span class="gameBadge gameBadge--gold">Day: ${escapeHtml(prettyLabel(day))}</span>
+          </div>
+        </div>
+
+        <div class="dashboardGrid">
+          <div class="dashboardCard">
+            <div class="dashboardCard__title">Summary</div>
+            <div class="dashboardStats">
+              <div class="dashboardStat">
+                <span>Total Entries</span>
+                <strong>${totalEntries}</strong>
+              </div>
+              ${rewardRows || `<div class="dashboardEmpty">No reward data yet.</div>`}
+            </div>
+          </div>
+
+          <div class="dashboardCard">
+            <div class="dashboardCard__title">Tools</div>
+            <div class="dashboardActions">
+              <button class="gameBtn gameBtn--gold" type="button" data-dashboard-export>Export CSV</button>
+              <button class="gameBtn gameBtn--ghost" type="button" data-dashboard-refresh>Refresh</button>
+              <button class="gameBtn gameBtn--ghost" type="button" data-dashboard-back>Back To Game</button>
+            </div>
+
+            <div class="staffBox">
+              <div class="staffRow">
+                <input class="staffInput" type="password" placeholder="Manager PIN" data-dashboard-pin>
+                <button class="gameBtn gameBtn--ghost" type="button" data-dashboard-clear>Clear This Day</button>
+              </div>
+              <div class="staffState" data-dashboard-state>Export to review results or clear this day with manager PIN.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboardCard">
+          <div class="dashboardCard__title">Entries</div>
+          ${
+            dayLeads.length
+              ? `
+                <div class="dashboardTableWrap">
+                  <table class="dashboardTable">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>Table</th>
+                        <th>Phone</th>
+                        <th>Reward</th>
+                        <th>Box</th>
+                        <th>Code</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${dayLeads.map(item => `
+                        <tr>
+                          <td>${escapeHtml(formatDateTime(item.createdAt || item.timestamp))}</td>
+                          <td>${escapeHtml(item.table || "-")}</td>
+                          <td>${escapeHtml(maskPhone(item.phone || ""))}</td>
+                          <td>${escapeHtml(item.reward || "-")}</td>
+                          <td>${escapeHtml(item.boxNumber || "-")}</td>
+                          <td>${escapeHtml(item.code || "-")}</td>
+                        </tr>
+                      `).join("")}
+                    </tbody>
+                  </table>
+                </div>
+              `
+              : `<div class="dashboardEmpty">No entries yet for ${escapeHtml(prettyLabel(day))}.</div>`
+          }
+        </div>
+      </div>
+    `;
+
+    const stateNode = panel.querySelector("[data-dashboard-state]");
+
+    panel.querySelector("[data-dashboard-back]").addEventListener("click", () => {
+      renderEntryScreen(panel, day, false);
+      setTimeout(() => {
+        const target = panel.querySelector(".pdmEntry, .pdmWinner, .pdmWheelShell");
+        jumpToElementInstant(target || panel, 8);
+      }, 20);
+    });
+
+    panel.querySelector("[data-dashboard-refresh]").addEventListener("click", () => {
+      renderDashboard(panel, day);
+    });
+
+    panel.querySelector("[data-dashboard-export]").addEventListener("click", () => {
+      const rows = [
+        ["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]
+      ];
+
+      dayLeads.forEach(item => {
+        rows.push([
+          item.createdAt || item.timestamp || "",
+          item.day || "",
+          item.table || "",
+          item.entryType || "",
+          item.phone || "",
+          item.reward || "",
+          item.boxNumber || "",
+          item.code || ""
+        ]);
+      });
+
+      downloadCsv(`allure-pdm-${day}-${getTodayKey()}.csv`, rows);
+      if (stateNode) stateNode.textContent = "CSV exported.";
+    });
+
+    panel.querySelector("[data-dashboard-clear]").addEventListener("click", () => {
+      const pin = (panel.querySelector("[data-dashboard-pin]")?.value || "").trim();
+
+      if (pin !== STAFF_PIN) {
+        if (stateNode) stateNode.textContent = "Incorrect PIN.";
+        return;
+      }
+
+      const remaining = allLeads.filter(item => String(item.day || "").toLowerCase() !== String(day || "").toLowerCase());
+      overwriteLeads(remaining);
+      clearSession(day);
+
+      if (stateNode) stateNode.textContent = `${prettyLabel(day)} local entries cleared.`;
+      setTimeout(() => renderDashboard(panel, day), 250);
+    });
   }
 
   function renderWheelScreen(panel, day, session) {
@@ -742,6 +974,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (wheel) {
       wheel.style.transform = "rotate(0deg)";
+      setActiveWheelSlice(wheel, null);
     }
 
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
@@ -765,9 +998,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
 
-      const selectedCenterAngle = selectedIndex * segmentAngle;
+      const centerAngle = selectedIndex * segmentAngle + (segmentAngle / 2);
       const normalizedStopRotation =
-        (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
+        (360 - centerAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
       const finalRotation = (360 * 6) + normalizedStopRotation;
 
       spinButton.disabled = true;
@@ -825,6 +1058,8 @@ document.addEventListener("DOMContentLoaded", () => {
           if (bottleLayer) {
             bottleLayer.classList.remove("is-spinning");
           }
+
+          setActiveWheelSlice(wheel, selectedIndex);
 
           if (winnerText) {
             winnerText.textContent = current.reward;
