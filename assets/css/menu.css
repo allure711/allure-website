@@ -1780,3 +1780,20 @@ body{
     transform:translate(-50%, -50%) scale(1.04);
   }
 }
+/* ===== FINAL WHEEL LOCK FIX ADD-ON ===== */
+
+/* future-proof label wrapper (your current code uses labelWrap) */
+.pdmWheelSvg__labelWrap {
+  pointer-events: none;
+}
+
+/* smooth rendering */
+.pdmWheel {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* optional: slightly stronger active glow (tweak if needed) */
+.pdmWheelSvg__slice.is-active {
+  filter: brightness(1.12) saturate(1.12);
+}
