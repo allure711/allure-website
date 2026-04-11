@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const MOBILE_BREAKPOINT = 760;
 
   const POINTER_ALIGNMENT_OFFSET_DEG = 0;
-  const FINAL_SETTLE_OVERSHOOT_DEG = 4.5;
-  const FINAL_SETTLE_DURATION_MS = 280;
-  const WHEEL_SPIN_DURATION_MS = 5200;
+  const FINAL_SETTLE_OVERSHOOT_DEG = 5.5;
+  const FINAL_SETTLE_DURATION_MS = 320;
+  const WHEEL_SPIN_DURATION_MS = 5400;
 
   const WHEEL_SEGMENTS = [
     "Free Shot",
@@ -428,29 +428,56 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    const volume = Math.max(0.018, Math.min(0.05, 0.022 + (strength * 0.018)));
+    const volume = Math.max(0.018, Math.min(0.06, 0.024 + (strength * 0.02)));
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
 
     osc.type = "square";
-    osc.frequency.setValueAtTime(1800 + (strength * 500), now);
+    osc.frequency.setValueAtTime(1900 + (strength * 600), now);
 
     filter.type = "bandpass";
-    filter.frequency.setValueAtTime(2200 + (strength * 400), now);
-    filter.Q.setValueAtTime(1.2, now);
+    filter.frequency.setValueAtTime(2400 + (strength * 500), now);
+    filter.Q.setValueAtTime(1.35, now);
 
     gain.gain.setValueAtTime(0.0001, now);
     gain.gain.exponentialRampToValueAtTime(volume, now + 0.002);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
 
     osc.connect(filter);
     filter.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.04);
+    osc.stop(now + 0.045);
+  }
+
+  function playWinChime() {
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+
+    const start = ctx.currentTime;
+    const notes = [880, 1174, 1567];
+    const duration = 0.16;
+
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, start + (i * 0.06));
+
+      gain.gain.setValueAtTime(0.0001, start + (i * 0.06));
+      gain.gain.exponentialRampToValueAtTime(0.028, start + (i * 0.06) + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + (i * 0.06) + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(start + (i * 0.06));
+      osc.stop(start + (i * 0.06) + duration + 0.03);
+    });
   }
 
   function bouncePointer(pointer, strength = 0.5) {
@@ -458,25 +485,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     pointerBounceLock = true;
 
-    const angleA = -(4 + (strength * 4));
-    const angleB = 2 + (strength * 2);
+    const angleA = -(5 + (strength * 6));
+    const angleB = 3 + (strength * 3);
+    const dropY = 2 + (strength * 4);
 
     pointer.animate(
       [
-        { transform: "translateX(-50%) rotate(0deg)" },
-        { transform: `translateX(-50%) rotate(${angleA}deg)`, offset: 0.35 },
-        { transform: `translateX(-50%) rotate(${angleB}deg)`, offset: 0.72 },
-        { transform: "translateX(-50%) rotate(0deg)" }
+        { transform: "translateX(-50%) translateY(0px) rotate(0deg)" },
+        { transform: `translateX(-50%) translateY(${dropY}px) rotate(${angleA}deg)`, offset: 0.28 },
+        { transform: `translateX(-50%) translateY(1px) rotate(${angleB}deg)`, offset: 0.72 },
+        { transform: "translateX(-50%) translateY(0px) rotate(0deg)" }
       ],
       {
-        duration: 120 + (strength * 40),
+        duration: 135 + (strength * 55),
         easing: "cubic-bezier(.2,.9,.2,1)"
       }
     );
 
     setTimeout(() => {
       pointerBounceLock = false;
-    }, 170);
+    }, 210);
   }
 
   function resetWheelTickState() {
@@ -497,9 +525,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let step = lastTickStep + 1; step <= currentStep; step++) {
       const progressFactor = Math.min(1, step / (totalSegments * 6));
-      const endStrength = Math.max(0, (progressFactor - 0.72) / 0.28);
-      playWheelTick(endStrength);
-      bouncePointer(pointer, endStrength);
+      const endStrength = Math.max(0, (progressFactor - 0.68) / 0.32);
+      playWheelTick(0.2 + endStrength);
+      bouncePointer(pointer, 0.15 + endStrength);
     }
 
     lastTickStep = currentStep;
@@ -676,11 +704,28 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function setActiveWheelSlice(wheel, selectedIndex) {
+  function clearActiveWheelSlice(wheel) {
     if (!wheel) return;
     wheel.querySelectorAll("[data-slice-index]").forEach(slice => {
-      slice.classList.toggle("is-active", Number(slice.dataset.sliceIndex) === Number(selectedIndex));
+      slice.classList.remove("is-active", "is-winning");
     });
+  }
+
+  function setActiveWheelSlice(wheel, selectedIndex) {
+    if (!wheel) return;
+    clearActiveWheelSlice(wheel);
+    if (selectedIndex === null || selectedIndex === undefined) return;
+    const target = wheel.querySelector(`[data-slice-index="${selectedIndex}"]`);
+    if (target) {
+      target.classList.add("is-active");
+    }
+  }
+
+  function triggerWinningSlice(wheel, selectedIndex) {
+    if (!wheel) return;
+    const target = wheel.querySelector(`[data-slice-index="${selectedIndex}"]`);
+    if (!target) return;
+    target.classList.add("is-active", "is-winning");
   }
 
   function easeOutExpo(t) {
@@ -926,6 +971,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="pdmWheelArea">
           <div class="pdmPointer"></div>
+          <div class="pdmWinBurst" data-win-burst aria-hidden="true"></div>
 
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
@@ -971,10 +1017,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
     const pointer = panel.querySelector(".pdmPointer");
+    const winBurst = panel.querySelector("[data-win-burst]");
 
     if (wheel) {
       wheel.style.transform = "rotate(0deg)";
-      setActiveWheelSlice(wheel, null);
+      clearActiveWheelSlice(wheel);
     }
 
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
@@ -1009,11 +1056,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (shell) {
         shell.classList.add("is-spinning");
+        shell.classList.remove("is-win-reveal");
       }
 
       if (bottleLayer) {
         bottleLayer.classList.add("is-spinning");
       }
+
+      if (winBurst) {
+        winBurst.classList.remove("is-show");
+      }
+
+      clearActiveWheelSlice(wheel);
 
       animateWheelSpin({
         wheel,
@@ -1025,6 +1079,7 @@ document.addEventListener("DOMContentLoaded", () => {
         onComplete: async () => {
           playWheelTick(1);
           bouncePointer(pointer, 1);
+          playWinChime();
 
           current.selectedIndex = selectedIndex;
           current.reward = current.segments[selectedIndex];
@@ -1053,25 +1108,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (shell) {
             shell.classList.remove("is-spinning");
+            shell.classList.add("is-win-reveal");
           }
 
           if (bottleLayer) {
             bottleLayer.classList.remove("is-spinning");
           }
 
-          setActiveWheelSlice(wheel, selectedIndex);
+          triggerWinningSlice(wheel, selectedIndex);
 
           if (winnerText) {
             winnerText.textContent = current.reward;
           }
 
+          if (winBurst) {
+            winBurst.classList.add("is-show");
+          }
+
           stateBox.textContent = "Winner selected.";
-          renderWinnerScreen(panel, day, current);
 
           setTimeout(() => {
-            const winnerTarget = panel.querySelector(".pdmWinner");
-            jumpToElementInstant(winnerTarget || panel, 8);
-          }, 20);
+            renderWinnerScreen(panel, day, current);
+
+            setTimeout(() => {
+              const winnerTarget = panel.querySelector(".pdmWinner");
+              jumpToElementInstant(winnerTarget || panel, 8);
+            }, 20);
+          }, 750);
         }
       });
     });
@@ -1084,12 +1147,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const rewardText = safeSession.reward || "Try Again";
 
     panel.innerHTML = `
-      <div class="pdmWinner">
+      <div class="pdmWinner pdmWinner--reveal">
         <div class="pdmWinner__eyebrow">Tonight's Result</div>
         <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
         <p class="pdmWinner__text">Show this result to staff tonight.</p>
 
-        <div class="gameReveal">
+        <div class="gameReveal gameReveal--winner">
           <div class="gameRevealLabel">Redemption Code</div>
           <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
           <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
