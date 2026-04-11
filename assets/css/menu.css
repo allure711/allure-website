@@ -854,6 +854,21 @@ body{
   text-align:center;
 }
 
+.gameReveal--winner{
+  position:relative;
+  overflow:hidden;
+}
+
+.gameReveal--winner::before{
+  content:"";
+  position:absolute;
+  inset:-10% -20%;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.12) 45%, transparent 70%);
+  transform:translateX(-120%);
+  animation:revealShine 2.4s ease-out 1;
+  pointer-events:none;
+}
+
 .gameRevealLabel{
   font-size:11px;
   font-weight:900;
@@ -885,6 +900,10 @@ body{
 .pdmWinner{
   display:grid;
   gap:14px;
+}
+
+.pdmWinner--reveal{
+  animation:winnerReveal .55s cubic-bezier(.18,.9,.2,1) both;
 }
 
 .pdmEntry__eyebrow,
@@ -938,6 +957,10 @@ body{
   gap:20px;
 }
 
+.pdmWheelShell.is-win-reveal .pdmWheelArea{
+  animation:wheelRevealFlash .55s ease-out;
+}
+
 .pdmWheelArea{
   position:relative;
   display:flex;
@@ -963,6 +986,23 @@ body{
     drop-shadow(0 6px 12px rgba(0,0,0,.28))
     drop-shadow(0 0 10px rgba(215,180,106,.16));
   will-change:transform;
+}
+
+.pdmWinBurst{
+  position:absolute;
+  width:min(100%, 470px);
+  aspect-ratio:1 / 1;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:5;
+  opacity:0;
+  transform:scale(.78);
+  background:
+    radial-gradient(circle, rgba(255,244,208,.38) 0%, rgba(242,211,138,.18) 18%, rgba(242,211,138,.08) 30%, transparent 56%);
+}
+
+.pdmWinBurst.is-show{
+  animation:pdmWinBurst .7s ease-out 1;
 }
 
 /* ===== CASINO SVG WHEEL ===== */
@@ -1018,7 +1058,12 @@ body{
 }
 
 .pdmWheelSvg__slice.is-active{
-  filter:brightness(1.14) saturate(1.08);
+  filter:brightness(1.12) saturate(1.08);
+}
+
+.pdmWheelSvg__slice.is-winning{
+  filter:brightness(1.18) saturate(1.14);
+  animation:winningSlicePulse 1.25s ease-in-out infinite;
 }
 
 .pdmWheelSvg__labelWrap{
@@ -1104,7 +1149,7 @@ body{
 }
 
 .pdmBottleLayer.is-spinning .pdmBottle{
-  animation:pdmBottleSpin 5.1s cubic-bezier(.12,.8,.18,1) forwards;
+  animation:pdmBottleSpin 5.2s cubic-bezier(.12,.8,.18,1) forwards;
 }
 
 .pdmBottle__cap{
@@ -1780,20 +1825,59 @@ body{
     transform:translate(-50%, -50%) scale(1.04);
   }
 }
-/* ===== FINAL WHEEL LOCK FIX ADD-ON ===== */
 
-/* future-proof label wrapper (your current code uses labelWrap) */
-.pdmWheelSvg__labelWrap {
-  pointer-events: none;
+@keyframes winningSlicePulse{
+  0%,100%{
+    filter:brightness(1.12) saturate(1.08);
+  }
+  50%{
+    filter:brightness(1.28) saturate(1.18) drop-shadow(0 0 10px rgba(242,211,138,.24));
+  }
 }
 
-/* smooth rendering */
-.pdmWheel {
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
+@keyframes pdmWinBurst{
+  0%{
+    opacity:0;
+    transform:scale(.72);
+  }
+  25%{
+    opacity:1;
+    transform:scale(1.02);
+  }
+  100%{
+    opacity:0;
+    transform:scale(1.22);
+  }
 }
 
-/* optional: slightly stronger active glow (tweak if needed) */
-.pdmWheelSvg__slice.is-active {
-  filter: brightness(1.12) saturate(1.12);
+@keyframes wheelRevealFlash{
+  0%{
+    filter:brightness(1);
+  }
+  30%{
+    filter:brightness(1.22);
+  }
+  100%{
+    filter:brightness(1);
+  }
+}
+
+@keyframes winnerReveal{
+  0%{
+    opacity:0;
+    transform:translateY(16px) scale(.98);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@keyframes revealShine{
+  0%{
+    transform:translateX(-130%);
+  }
+  100%{
+    transform:translateX(130%);
+  }
 }
