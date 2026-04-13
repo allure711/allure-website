@@ -978,16 +978,17 @@ document.addEventListener("DOMContentLoaded", () => {
               ${buildWheelSvg(safeSession.segments)}
             </div>
 
-            <div class="pdmBottleLayer" data-bottle-layer>
-              <div class="pdmBottle" aria-hidden="true">
-                <div class="pdmBottle__cap"></div>
-                <div class="pdmBottle__neck"></div>
-                <div class="pdmBottle__glass">
-                  <div class="pdmBottle__shine"></div>
-                  <div class="pdmBottle__beer"></div>
-                  <div class="pdmBottle__label">
-                    <span class="pdmBottle__labelTop">POUR</span>
-                    <span class="pdmBottle__labelBottom">DECISION</span>
+            <div class="pdmMedallionLayer" data-medallion-layer>
+              <div class="pdmMedallion" aria-hidden="true">
+                <div class="pdmMedallion__outer">
+                  <div class="pdmMedallion__innerRing">
+                    <div class="pdmMedallion__face">
+                      <div class="pdmMedallion__crown">✦</div>
+                      <div class="pdmMedallion__brand">ALLURE</div>
+                      <div class="pdmMedallion__divider"></div>
+                      <div class="pdmMedallion__title">POUR</div>
+                      <div class="pdmMedallion__title">DECISION</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1012,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const shell = panel.querySelector(".pdmWheelShell");
     const wheel = panel.querySelector("[data-wheel]");
-    const bottleLayer = panel.querySelector("[data-bottle-layer]");
+    const medallionLayer = panel.querySelector("[data-medallion-layer]");
     const winnerText = panel.querySelector("[data-wheel-winner]");
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
@@ -1059,8 +1060,8 @@ document.addEventListener("DOMContentLoaded", () => {
         shell.classList.remove("is-win-reveal");
       }
 
-      if (bottleLayer) {
-        bottleLayer.classList.add("is-spinning");
+      if (medallionLayer) {
+        medallionLayer.classList.add("is-spinning");
       }
 
       if (winBurst) {
@@ -1111,8 +1112,8 @@ document.addEventListener("DOMContentLoaded", () => {
             shell.classList.add("is-win-reveal");
           }
 
-          if (bottleLayer) {
-            bottleLayer.classList.remove("is-spinning");
+          if (medallionLayer) {
+            medallionLayer.classList.remove("is-spinning");
           }
 
           triggerWinningSlice(wheel, selectedIndex);
