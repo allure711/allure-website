@@ -6,9 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const MOBILE_BREAKPOINT = 760;
 
   const POINTER_ALIGNMENT_OFFSET_DEG = 0;
-  const FINAL_SETTLE_OVERSHOOT_DEG = 5.5;
-  const FINAL_SETTLE_DURATION_MS = 320;
-  const WHEEL_SPIN_DURATION_MS = 5400;
+  const FINAL_SETTLE_OVERSHOOT_DEG = 6;
+  const FINAL_SETTLE_DURATION_MS = 260;
+  const WHEEL_SPIN_DURATION_MS = 4700;
+  const WINNER_GLOW_DURATION_MS = 1600;
 
   const WHEEL_SEGMENTS = [
     "Free Shot",
@@ -184,13 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(value || "").replace(/\D/g, "");
   }
 
-  function maskPhone(value) {
-    const digits = normalizePhone(value);
-    if (!digits) return "-";
-    if (digits.length <= 4) return digits;
-    return `${"*".repeat(Math.max(0, digits.length - 4))}${digits.slice(-4)}`;
-  }
-
   function csvEscape(value) {
     const str = String(value ?? "");
     return `"${str.replace(/"/g, '""')}"`;
@@ -219,19 +213,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getRandomSegmentIndex() {
     return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
-  }
-
-  function formatDateTime(value) {
-    if (!value) return "-";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return value;
-    return date.toLocaleString([], {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit"
-    });
   }
 
   function jumpToElementInstant(target, extraOffset = 8) {
@@ -428,56 +409,29 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    const volume = Math.max(0.018, Math.min(0.06, 0.024 + (strength * 0.02)));
+    const volume = Math.max(0.018, Math.min(0.055, 0.022 + (strength * 0.02)));
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
 
     osc.type = "square";
-    osc.frequency.setValueAtTime(1900 + (strength * 600), now);
+    osc.frequency.setValueAtTime(1800 + (strength * 550), now);
 
     filter.type = "bandpass";
-    filter.frequency.setValueAtTime(2400 + (strength * 500), now);
-    filter.Q.setValueAtTime(1.35, now);
+    filter.frequency.setValueAtTime(2200 + (strength * 500), now);
+    filter.Q.setValueAtTime(1.3, now);
 
     gain.gain.setValueAtTime(0.0001, now);
     gain.gain.exponentialRampToValueAtTime(volume, now + 0.002);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.032);
 
     osc.connect(filter);
     filter.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.045);
-  }
-
-  function playWinChime() {
-    const ctx = ensureAudioContext();
-    if (!ctx) return;
-
-    const start = ctx.currentTime;
-    const notes = [880, 1174, 1567];
-    const duration = 0.16;
-
-    notes.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(freq, start + (i * 0.06));
-
-      gain.gain.setValueAtTime(0.0001, start + (i * 0.06));
-      gain.gain.exponentialRampToValueAtTime(0.028, start + (i * 0.06) + 0.012);
-      gain.gain.exponentialRampToValueAtTime(0.0001, start + (i * 0.06) + duration);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(start + (i * 0.06));
-      osc.stop(start + (i * 0.06) + duration + 0.03);
-    });
+    osc.stop(now + 0.042);
   }
 
   function bouncePointer(pointer, strength = 0.5) {
@@ -485,26 +439,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     pointerBounceLock = true;
 
-    const angleA = -(5 + (strength * 6));
-    const angleB = 3 + (strength * 3);
-    const dropY = 2 + (strength * 4);
+    const angleA = -(4 + (strength * 4));
+    const angleB = 2 + (strength * 2.5);
 
     pointer.animate(
       [
-        { transform: "translateX(-50%) translateY(0px) rotate(0deg)" },
-        { transform: `translateX(-50%) translateY(${dropY}px) rotate(${angleA}deg)`, offset: 0.28 },
-        { transform: `translateX(-50%) translateY(1px) rotate(${angleB}deg)`, offset: 0.72 },
-        { transform: "translateX(-50%) translateY(0px) rotate(0deg)" }
+        { transform: "translateX(-50%) rotate(0deg)" },
+        { transform: `translateX(-50%) rotate(${angleA}deg)`, offset: 0.35 },
+        { transform: `translateX(-50%) rotate(${angleB}deg)`, offset: 0.72 },
+        { transform: "translateX(-50%) rotate(0deg)" }
       ],
       {
-        duration: 135 + (strength * 55),
+        duration: 120 + (strength * 45),
         easing: "cubic-bezier(.2,.9,.2,1)"
       }
     );
 
     setTimeout(() => {
       pointerBounceLock = false;
-    }, 210);
+    }, 180);
   }
 
   function resetWheelTickState() {
@@ -525,9 +478,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let step = lastTickStep + 1; step <= currentStep; step++) {
       const progressFactor = Math.min(1, step / (totalSegments * 6));
-      const endStrength = Math.max(0, (progressFactor - 0.68) / 0.32);
-      playWheelTick(0.2 + endStrength);
-      bouncePointer(pointer, 0.15 + endStrength);
+      const endStrength = Math.max(0, (progressFactor - 0.7) / 0.3);
+      playWheelTick(endStrength);
+      bouncePointer(pointer, endStrength);
     }
 
     lastTickStep = currentStep;
@@ -565,44 +518,27 @@ document.addEventListener("DOMContentLoaded", () => {
     return [words.slice(0, midpoint).join(" "), words.slice(midpoint).join(" ")];
   }
 
-  function getLabelClass(lines) {
-    const longest = Math.max(...lines.map(line => String(line).length), 0);
-    if (longest >= 13) return "is-xsmall";
-    if (longest >= 10) return "is-small";
-    return "";
-  }
-
-  function buildSpark(cx, cy, radius, angleDeg, size = 3.2) {
-    const point = polarToCartesian(cx, cy, radius, angleDeg);
-    return `<circle class="pdmWheelSvg__spark" cx="${point.x}" cy="${point.y}" r="${size}"></circle>`;
-  }
-
   function buildWheelSvg(segments) {
     const mobile = isMobileView();
     const size = 600;
     const cx = 300;
     const cy = 300;
     const outerRadius = 275;
-    const innerRadius = mobile ? 112 : 118;
-    const labelRadius = mobile ? 192 : 198;
+    const innerRadius = mobile ? 116 : 122;
+    const textRadius = mobile ? 182 : 192;
+    const fontSize = mobile ? 18 : 20;
     const segmentAngle = 360 / segments.length;
 
     const wedges = [];
     const dividers = [];
-    const labels = [];
-    const sparks = [];
+    const texts = [];
 
     segments.forEach((label, index) => {
       const startAngle = index * segmentAngle;
       const endAngle = startAngle + segmentAngle;
-      const centerAngle = startAngle + (segmentAngle / 2);
-      const wedgePath = buildWedgePath(cx, cy, outerRadius, innerRadius, startAngle, endAngle);
-      const textPoint = polarToCartesian(cx, cy, labelRadius, centerAngle);
-      const lines = splitLabelIntoLines(label);
-      const labelClass = getLabelClass(lines);
-      const boxWidth = mobile ? 102 : 110;
-      const boxHeight = lines.length === 1 ? 30 : 44;
+      const centerAngle = startAngle + segmentAngle / 2;
 
+      const wedgePath = buildWedgePath(cx, cy, outerRadius, innerRadius, startAngle, endAngle);
       wedges.push(`
         <path
           class="pdmWheelSvg__slice"
@@ -614,7 +550,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const dividerOuter = polarToCartesian(cx, cy, outerRadius, startAngle);
       const dividerInner = polarToCartesian(cx, cy, innerRadius, startAngle);
-
       dividers.push(`
         <line
           class="pdmWheelSvg__divider"
@@ -625,34 +560,31 @@ document.addEventListener("DOMContentLoaded", () => {
         ></line>
       `);
 
-      labels.push(`
+      const textPoint = polarToCartesian(cx, cy, textRadius, centerAngle);
+      const lines = splitLabelIntoLines(label);
+      const lineOffset = lines.length === 1 ? [0] : [-11, 11];
+
+      texts.push(`
         <g
-          class="pdmWheelSvg__labelWrap"
-          transform="translate(${textPoint.x} ${textPoint.y})"
+          class="pdmWheelSvg__labelGroup"
+          transform="translate(${textPoint.x} ${textPoint.y}) rotate(${centerAngle})"
         >
-          <rect
-            class="pdmWheelSvg__labelBox"
-            x="${-(boxWidth / 2)}"
-            y="${-(boxHeight / 2)}"
-            width="${boxWidth}"
-            height="${boxHeight}"
-            rx="10"
-            ry="10"
-          ></rect>
-          <text class="pdmWheelSvg__labelText ${labelClass}" x="0" y="0">
-            ${
-              lines.length === 1
-                ? `<tspan x="0" dy="0">${escapeHtml(lines[0])}</tspan>`
-                : `
-                  <tspan x="0" dy="-8">${escapeHtml(lines[0])}</tspan>
-                  <tspan x="0" dy="16">${escapeHtml(lines[1])}</tspan>
-                `
-            }
-          </text>
+          <g transform="rotate(${-centerAngle})">
+            <text
+              class="pdmWheelSvg__label"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              font-size="${fontSize}"
+            >
+              ${lines.map((line, lineIndex) => `
+                <tspan x="0" dy="${lineIndex === 0 ? lineOffset[lineIndex] : 22}">
+                  ${escapeHtml(line)}
+                </tspan>
+              `).join("")}
+            </text>
+          </g>
         </g>
       `);
-
-      sparks.push(buildSpark(cx, cy, outerRadius - 18, centerAngle, mobile ? 2.5 : 3.2));
     });
 
     dividers.push(`
@@ -672,64 +604,49 @@ document.addEventListener("DOMContentLoaded", () => {
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="pdmOuterRingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f5e5b4"></stop>
-            <stop offset="32%" stop-color="#d7b46a"></stop>
-            <stop offset="65%" stop-color="#9a6b27"></stop>
-            <stop offset="100%" stop-color="#f1dba0"></stop>
-          </linearGradient>
-          <linearGradient id="pdmInnerRingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#1f1a25"></stop>
-            <stop offset="100%" stop-color="#09090d"></stop>
-          </linearGradient>
-          <radialGradient id="pdmHubGradient" cx="35%" cy="30%" r="72%">
-            <stop offset="0%" stop-color="#1d1a22"></stop>
-            <stop offset="100%" stop-color="#09090c"></stop>
-          </radialGradient>
+          <filter id="pdmWinnerGlowFilter" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="10" result="blur"></feGaussianBlur>
+            <feColorMatrix
+              in="blur"
+              type="matrix"
+              values="
+                1 0 0 0 0
+                0 0.84 0 0 0
+                0 0 0.45 0 0
+                0 0 0 1 0
+              "
+              result="goldGlow"
+            ></feColorMatrix>
+            <feMerge>
+              <feMergeNode in="goldGlow"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+          </filter>
         </defs>
 
-        <circle class="pdmWheelSvg__outerRing" cx="${cx}" cy="${cy}" r="${outerRadius + 10}"></circle>
-        <circle class="pdmWheelSvg__innerRing" cx="${cx}" cy="${cy}" r="${outerRadius - 7}"></circle>
-
+        <circle class="pdmWheelSvg__outerRing" cx="${cx}" cy="${cy}" r="${outerRadius + 9}"></circle>
+        <circle class="pdmWheelSvg__rimInner" cx="${cx}" cy="${cy}" r="${outerRadius - 6}"></circle>
         ${wedges.join("")}
         ${dividers.join("")}
-        ${sparks.join("")}
-        ${labels.join("")}
-
-        <circle class="pdmWheelSvg__rimLine" cx="${cx}" cy="${cy}" r="${outerRadius - 10}"></circle>
-        <circle class="pdmWheelSvg__rimLine" cx="${cx}" cy="${cy}" r="${innerRadius + 11}"></circle>
-        <circle class="pdmWheelSvg__hubRing" cx="${cx}" cy="${cy}" r="${innerRadius + 9}"></circle>
-        <circle class="pdmWheelSvg__hubCore" cx="${cx}" cy="${cy}" r="${innerRadius - 7}" fill="url(#pdmHubGradient)"></circle>
+        ${texts.join("")}
+        <circle class="pdmWheelSvg__hubRing" cx="${cx}" cy="${cy}" r="${innerRadius + 8}"></circle>
+        <circle class="pdmWheelSvg__hubCore" cx="${cx}" cy="${cy}" r="${innerRadius - 6}"></circle>
       </svg>
     `;
   }
 
-  function clearActiveWheelSlice(wheel) {
-    if (!wheel) return;
-    wheel.querySelectorAll("[data-slice-index]").forEach(slice => {
-      slice.classList.remove("is-active", "is-winning");
-    });
+  function triggerWinnerGlow(wheel, selectedIndex) {
+    const slice = wheel?.querySelector(`.pdmWheelSvg__slice[data-slice-index="${selectedIndex}"]`);
+    if (!slice) return;
+
+    slice.classList.add("is-winner");
+    setTimeout(() => {
+      slice.classList.remove("is-winner");
+    }, WINNER_GLOW_DURATION_MS);
   }
 
-  function setActiveWheelSlice(wheel, selectedIndex) {
-    if (!wheel) return;
-    clearActiveWheelSlice(wheel);
-    if (selectedIndex === null || selectedIndex === undefined) return;
-    const target = wheel.querySelector(`[data-slice-index="${selectedIndex}"]`);
-    if (target) {
-      target.classList.add("is-active");
-    }
-  }
-
-  function triggerWinningSlice(wheel, selectedIndex) {
-    if (!wheel) return;
-    const target = wheel.querySelector(`[data-slice-index="${selectedIndex}"]`);
-    if (!target) return;
-    target.classList.add("is-active", "is-winning");
-  }
-
-  function easeOutExpo(t) {
-    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  function easeOutQuart(t) {
+    return 1 - Math.pow(1 - t, 4);
   }
 
   function easeOutBack(t) {
@@ -754,7 +671,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (elapsed < mainDuration) {
         const progress = Math.min(1, elapsed / mainDuration);
-        const eased = easeOutExpo(progress);
+        const eased = easeOutQuart(progress);
         const currentRotation = overshootRotation * eased;
 
         wheel.style.transform = `rotate(${currentRotation}deg)`;
@@ -792,410 +709,128 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderDashboard(panel, day) {
     setGameState(panel, true);
 
-    const allLeads = readLeads();
-    const dayLeads = allLeads
-      .filter(item => String(item.day || "").toLowerCase() === String(day || "").toLowerCase())
-      .sort((a, b) => new Date(b.createdAt || b.timestamp || 0) - new Date(a.createdAt || a.timestamp || 0));
-
-    const totalEntries = dayLeads.length;
-    const rewardCounts = {};
-
-    dayLeads.forEach(item => {
-      const reward = item.reward || "Unknown";
-      rewardCounts[reward] = (rewardCounts[reward] || 0) + 1;
-    });
-
-    const rewardRows = Object.entries(rewardCounts)
-      .sort((a, b) => b[1] - a[1])
-      .map(([reward, count]) => `
-        <div class="dashboardStat dashboardStat--line">
-          <span>${escapeHtml(reward)}</span>
-          <strong>${count}</strong>
-        </div>
-      `)
-      .join("");
+    const leads = readLeads();
+    const todayKey = getTodayKey();
+    const todayLeads = leads.filter(lead => lead.date === todayKey);
+    const todayDayLeads = leads.filter(lead => lead.date === todayKey && lead.day === day);
+    const recent = [...leads].reverse().slice(0, 12);
 
     panel.innerHTML = `
-      <div class="pdmDashboard">
+      <div class="gameShell">
         <div class="gameTop">
           <div>
             <div class="gameTitle">Manager Dashboard</div>
-            <div class="gameSub">Local browser backup for ${escapeHtml(prettyLabel(day))}. Google Sheet sync continues separately.</div>
+            <div class="gameSub">Local browser backup, CSV export, and reset tools.</div>
           </div>
 
           <div class="gameBadgeRow">
-            <span class="gameBadge">Entries: ${totalEntries}</span>
-            <span class="gameBadge gameBadge--gold">Day: ${escapeHtml(prettyLabel(day))}</span>
-          </div>
-        </div>
-
-        <div class="dashboardGrid">
-          <div class="dashboardCard">
-            <div class="dashboardCard__title">Summary</div>
-            <div class="dashboardStats">
-              <div class="dashboardStat">
-                <span>Total Entries</span>
-                <strong>${totalEntries}</strong>
-              </div>
-              ${rewardRows || `<div class="dashboardEmpty">No reward data yet.</div>`}
-            </div>
-          </div>
-
-          <div class="dashboardCard">
-            <div class="dashboardCard__title">Tools</div>
-            <div class="dashboardActions">
-              <button class="gameBtn gameBtn--gold" type="button" data-dashboard-export>Export CSV</button>
-              <button class="gameBtn gameBtn--ghost" type="button" data-dashboard-refresh>Refresh</button>
-              <button class="gameBtn gameBtn--ghost" type="button" data-dashboard-back>Back To Game</button>
-            </div>
-
-            <div class="staffBox">
-              <div class="staffRow">
-                <input class="staffInput" type="password" placeholder="Manager PIN" data-dashboard-pin>
-                <button class="gameBtn gameBtn--ghost" type="button" data-dashboard-clear>Clear This Day</button>
-              </div>
-              <div class="staffState" data-dashboard-state>Export to review results or clear this day with manager PIN.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="dashboardCard">
-          <div class="dashboardCard__title">Entries</div>
-          ${
-            dayLeads.length
-              ? `
-                <div class="dashboardTableWrap">
-                  <table class="dashboardTable">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Table</th>
-                        <th>Phone</th>
-                        <th>Reward</th>
-                        <th>Box</th>
-                        <th>Code</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${dayLeads.map(item => `
-                        <tr>
-                          <td>${escapeHtml(formatDateTime(item.createdAt || item.timestamp))}</td>
-                          <td>${escapeHtml(item.table || "-")}</td>
-                          <td>${escapeHtml(maskPhone(item.phone || ""))}</td>
-                          <td>${escapeHtml(item.reward || "-")}</td>
-                          <td>${escapeHtml(item.boxNumber || "-")}</td>
-                          <td>${escapeHtml(item.code || "-")}</td>
-                        </tr>
-                      `).join("")}
-                    </tbody>
-                  </table>
-                </div>
-              `
-              : `<div class="dashboardEmpty">No entries yet for ${escapeHtml(prettyLabel(day))}.</div>`
-          }
-        </div>
-      </div>
-    `;
-
-    const stateNode = panel.querySelector("[data-dashboard-state]");
-
-    panel.querySelector("[data-dashboard-back]").addEventListener("click", () => {
-      renderEntryScreen(panel, day, false);
-      setTimeout(() => {
-        const target = panel.querySelector(".pdmEntry, .pdmWinner, .pdmWheelShell");
-        jumpToElementInstant(target || panel, 8);
-      }, 20);
-    });
-
-    panel.querySelector("[data-dashboard-refresh]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
-
-    panel.querySelector("[data-dashboard-export]").addEventListener("click", () => {
-      const rows = [
-        ["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]
-      ];
-
-      dayLeads.forEach(item => {
-        rows.push([
-          item.createdAt || item.timestamp || "",
-          item.day || "",
-          item.table || "",
-          item.entryType || "",
-          item.phone || "",
-          item.reward || "",
-          item.boxNumber || "",
-          item.code || ""
-        ]);
-      });
-
-      downloadCsv(`allure-pdm-${day}-${getTodayKey()}.csv`, rows);
-      if (stateNode) stateNode.textContent = "CSV exported.";
-    });
-
-    panel.querySelector("[data-dashboard-clear]").addEventListener("click", () => {
-      const pin = (panel.querySelector("[data-dashboard-pin]")?.value || "").trim();
-
-      if (pin !== STAFF_PIN) {
-        if (stateNode) stateNode.textContent = "Incorrect PIN.";
-        return;
-      }
-
-      const remaining = allLeads.filter(item => String(item.day || "").toLowerCase() !== String(day || "").toLowerCase());
-      overwriteLeads(remaining);
-      clearSession(day);
-
-      if (stateNode) stateNode.textContent = `${prettyLabel(day)} local entries cleared.`;
-      setTimeout(() => renderDashboard(panel, day), 250);
-    });
-  }
-
-  function renderWheelScreen(panel, day, session) {
-    setGameState(panel, true);
-
-    const safeSession = readSession(day) || session;
-
-    panel.innerHTML = `
-      <div class="pdmWheelShell">
-        <div class="gameTop">
-          <div>
-            <div class="gameTitle">Pour Decision Maker</div>
-            <div class="gameSub">Spin once to decide the night.</div>
-          </div>
-
-          <div class="gameBadgeRow">
-            <span class="gameBadge">Table: ${escapeHtml(safeSession.table || getTableLabel())}</span>
-            <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
-          </div>
-        </div>
-
-        <div class="pdmWheelArea">
-          <div class="pdmPointer"></div>
-          <div class="pdmWinBurst" data-win-burst aria-hidden="true"></div>
-
-          <div class="pdmWheelWrap">
-            <div class="pdmWheel" data-wheel>
-              ${buildWheelSvg(safeSession.segments)}
-            </div>
-
-            <div class="pdmMedallionLayer" data-medallion-layer>
-              <div class="pdmMedallion" aria-hidden="true">
-                <div class="pdmMedallion__outer">
-                  <div class="pdmMedallion__innerRing">
-                    <div class="pdmMedallion__face">
-                      <div class="pdmMedallion__crown">✦</div>
-                      <div class="pdmMedallion__brand">ALLURE</div>
-                      <div class="pdmMedallion__divider"></div>
-                      <div class="pdmMedallion__title">POUR</div>
-                      <div class="pdmMedallion__title">DECISION</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pdmWheelWinner" data-wheel-winner>SPIN NOW</div>
-            </div>
+            <span class="gameBadge gameBadge--gold">Today: ${todayLeads.length}</span>
+            <span class="gameBadge">${prettyLabel(day)}: ${todayDayLeads.length}</span>
+            <span class="gameBadge">Total: ${leads.length}</span>
           </div>
         </div>
 
         <div class="gameActions">
-          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Spin Now</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-export-all>Export All CSV</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-export-today>Export Today CSV</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-reset-day>Reset Today Sessions</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-clear-leads>Clear Local Backup</button>
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
-        </div>
-
-        <div class="staffBox">
-          <div class="staffState">One spin per guest entry.</div>
-        </div>
-      </div>
-    `;
-
-    const shell = panel.querySelector(".pdmWheelShell");
-    const wheel = panel.querySelector("[data-wheel]");
-    const medallionLayer = panel.querySelector("[data-medallion-layer]");
-    const winnerText = panel.querySelector("[data-wheel-winner]");
-    const spinButton = panel.querySelector("[data-spin-now]");
-    const stateBox = panel.querySelector(".staffState");
-    const pointer = panel.querySelector(".pdmPointer");
-    const winBurst = panel.querySelector("[data-win-burst]");
-
-    if (wheel) {
-      wheel.style.transform = "rotate(0deg)";
-      clearActiveWheelSlice(wheel);
-    }
-
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
-    panel.querySelector("[data-start-over]").addEventListener("click", () => {
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 8), 20);
-    });
-
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
-
-    spinButton.addEventListener("click", () => {
-      ensureAudioContext();
-      resetWheelTickState();
-
-      const current = readSession(day) || safeSession;
-      const selectedIndex = getRandomSegmentIndex();
-      const segmentCount = current.segments.length;
-      const segmentAngle = 360 / segmentCount;
-
-      const centerAngle = selectedIndex * segmentAngle + (segmentAngle / 2);
-      const normalizedStopRotation =
-        (360 - centerAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
-      const finalRotation = (360 * 6) + normalizedStopRotation;
-
-      spinButton.disabled = true;
-      stateBox.textContent = "Spinning...";
-      if (winnerText) winnerText.textContent = "SPINNING...";
-
-      if (shell) {
-        shell.classList.add("is-spinning");
-        shell.classList.remove("is-win-reveal");
-      }
-
-      if (medallionLayer) {
-        medallionLayer.classList.add("is-spinning");
-      }
-
-      if (winBurst) {
-        winBurst.classList.remove("is-show");
-      }
-
-      clearActiveWheelSlice(wheel);
-
-      animateWheelSpin({
-        wheel,
-        finalRotation,
-        duration: WHEEL_SPIN_DURATION_MS,
-        onUpdate(currentRotation) {
-          handleWheelTicks(currentRotation, segmentCount, pointer);
-        },
-        onComplete: async () => {
-          playWheelTick(1);
-          bouncePointer(pointer, 1);
-          playWinChime();
-
-          current.selectedIndex = selectedIndex;
-          current.reward = current.segments[selectedIndex];
-          current.boxNumber = selectedIndex + 1;
-          current.code = createRewardCode(day, selectedIndex);
-          current.timestamp = new Date().toISOString();
-          current.createdAt = current.timestamp;
-          current.stage = "winner";
-
-          saveSession(day, current);
-
-          const leadPayload = {
-            date: current.date || getTodayKey(),
-            createdAt: current.createdAt,
-            day: current.day || day,
-            table: current.table || getTableLabel(),
-            entryType: current.entryType || "phone",
-            phone: current.phone || "",
-            reward: current.reward || "",
-            boxNumber: current.boxNumber || "",
-            code: current.code || ""
-          };
-
-          saveLead(leadPayload);
-          await sendLeadToGoogleSheet(leadPayload);
-
-          if (shell) {
-            shell.classList.remove("is-spinning");
-            shell.classList.add("is-win-reveal");
-          }
-
-          if (medallionLayer) {
-            medallionLayer.classList.remove("is-spinning");
-          }
-
-          triggerWinningSlice(wheel, selectedIndex);
-
-          if (winnerText) {
-            winnerText.textContent = current.reward;
-          }
-
-          if (winBurst) {
-            winBurst.classList.add("is-show");
-          }
-
-          stateBox.textContent = "Winner selected.";
-
-          setTimeout(() => {
-            renderWinnerScreen(panel, day, current);
-
-            setTimeout(() => {
-              const winnerTarget = panel.querySelector(".pdmWinner");
-              jumpToElementInstant(winnerTarget || panel, 8);
-            }, 20);
-          }, 750);
-        }
-      });
-    });
-  }
-
-  function renderWinnerScreen(panel, day, session) {
-    setGameState(panel, true);
-
-    const safeSession = readSession(day) || session;
-    const rewardText = safeSession.reward || "Try Again";
-
-    panel.innerHTML = `
-      <div class="pdmWinner pdmWinner--reveal">
-        <div class="pdmWinner__eyebrow">Tonight's Result</div>
-        <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
-        <p class="pdmWinner__text">Show this result to staff tonight.</p>
-
-        <div class="gameReveal gameReveal--winner">
-          <div class="gameRevealLabel">Redemption Code</div>
-          <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
-          <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
-        </div>
-
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--gold" type="button" data-new-guest>New Guest</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Dashboard</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
         </div>
 
         <div class="staffBox">
           <div class="staffRow">
             <input class="staffInput" type="password" placeholder="Manager PIN">
-            <button class="gameBtn gameBtn--ghost" type="button" data-confirm-reset>Confirm Reset</button>
+            <button class="gameBtn gameBtn--ghost" type="button" data-pin-action>Confirm Action</button>
           </div>
-          <div class="staffState">Reset clears this guest and opens a new entry screen.</div>
+          <div class="staffState">Protected actions require manager PIN.</div>
+        </div>
+
+        <div class="menuEmpty" style="padding:16px;">
+          <strong>Recent Entries</strong>
+          <div style="margin-top:10px;display:grid;gap:8px;">
+            ${recent.length ? recent.map(lead => `
+              <div style="padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02);">
+                <div><strong>${escapeHtml(lead.reward)}</strong></div>
+                <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
+                  ${escapeHtml(lead.createdAt || lead.timestamp || "")} • ${escapeHtml(lead.day)} • Table ${escapeHtml(lead.table)}
+                </div>
+                <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
+                  Phone: ${escapeHtml(lead.phone || "-")} • Code: ${escapeHtml(lead.code || "-")}
+                </div>
+              </div>
+            `).join("") : `<div style="color:rgba(255,255,255,.72);">No entries yet.</div>`}
+          </div>
         </div>
       </div>
     `;
 
     const pinInput = panel.querySelector(".staffInput");
     const staffState = panel.querySelector(".staffState");
+    let pendingAction = null;
 
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
+    panel.querySelector("[data-export-all]").addEventListener("click", () => {
+      if (!leads.length) {
+        staffState.textContent = "No entries to export.";
+        return;
+      }
 
-    panel.querySelector("[data-new-guest]").addEventListener("click", () => {
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
+
+      leads.forEach(lead => {
+        rows.push([
+          lead.createdAt || lead.timestamp || "",
+          lead.day || "",
+          lead.table || "",
+          lead.entryType || "",
+          lead.phone || "",
+          lead.reward || "",
+          String(lead.boxNumber || ""),
+          lead.code || ""
+        ]);
+      });
+
+      downloadCsv(`pour-decision-maker-all-${todayKey}.csv`, rows);
+      staffState.textContent = "Exported all local entries.";
     });
 
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
+    panel.querySelector("[data-export-today]").addEventListener("click", () => {
+      if (!todayLeads.length) {
+        staffState.textContent = "No entries for today.";
+        return;
+      }
+
+      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
+
+      todayLeads.forEach(lead => {
+        rows.push([
+          lead.createdAt || lead.timestamp || "",
+          lead.day || "",
+          lead.table || "",
+          lead.entryType || "",
+          lead.phone || "",
+          lead.reward || "",
+          String(lead.boxNumber || ""),
+          lead.code || ""
+        ]);
+      });
+
+      downloadCsv(`pour-decision-maker-today-${todayKey}.csv`, rows);
+      staffState.textContent = "Exported today's local entries.";
     });
 
-    panel.querySelector("[data-manager-reset]").addEventListener("click", () => {
-      staffState.textContent = "Enter manager PIN, then confirm reset.";
+    panel.querySelector("[data-reset-day]").addEventListener("click", () => {
+      pendingAction = "reset-day";
+      staffState.textContent = "Enter manager PIN and confirm to reset all today's sessions.";
     });
 
-    panel.querySelector("[data-confirm-reset]").addEventListener("click", () => {
+    panel.querySelector("[data-clear-leads]").addEventListener("click", () => {
+      pendingAction = "clear-leads";
+      staffState.textContent = "Enter manager PIN and confirm to clear local backup entries.";
+    });
+
+    panel.querySelector("[data-pin-action]").addEventListener("click", () => {
       const pin = (pinInput.value || "").trim();
 
       if (pin !== STAFF_PIN) {
@@ -1203,10 +838,30 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+      if (pendingAction === "reset-day") {
+        Object.keys(localStorage).forEach(key => {
+          if (key.startsWith(`allure_pdm_session:${todayKey}:`)) {
+            localStorage.removeItem(key);
+          }
+        });
+        staffState.textContent = "Today's sessions reset.";
+        pendingAction = null;
+        return;
+      }
+
+      if (pendingAction === "clear-leads") {
+        overwriteLeads([]);
+        staffState.textContent = "Local backup entries cleared.";
+        pendingAction = null;
+        renderDashboard(panel, day);
+        return;
+      }
+
+      staffState.textContent = "No protected action selected.";
     });
+
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
+    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
   }
 
   function renderEntryScreen(panel, day, forceFresh = false) {
@@ -1289,6 +944,244 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
     panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
     panel.querySelector("[data-open-dashboard]").addEventListener("click", () => renderDashboard(panel, day));
+  }
+
+  function renderWheelScreen(panel, day, session) {
+    setGameState(panel, true);
+
+    const safeSession = readSession(day) || session;
+
+    panel.innerHTML = `
+      <div class="pdmWheelShell">
+        <div class="gameTop">
+          <div>
+            <div class="gameTitle">Pour Decision Maker</div>
+            <div class="gameSub">Spin once to decide the night.</div>
+          </div>
+
+          <div class="gameBadgeRow">
+            <span class="gameBadge">Table: ${escapeHtml(safeSession.table || getTableLabel())}</span>
+            <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
+          </div>
+        </div>
+
+        <div class="pdmWheelArea">
+          <div class="pdmPointer"></div>
+
+          <div class="pdmWheelWrap">
+            <div class="pdmWheel" data-wheel>
+              ${buildWheelSvg(safeSession.segments)}
+            </div>
+
+            <div class="pdmBottleLayer" data-bottle-layer>
+              <div class="pdmBottle" aria-hidden="true">
+                <div class="pdmBottle__cap"></div>
+                <div class="pdmBottle__neck"></div>
+                <div class="pdmBottle__glass">
+                  <div class="pdmBottle__shine"></div>
+                  <div class="pdmBottle__beer"></div>
+                  <div class="pdmBottle__label">
+                    <span class="pdmBottle__labelTop">POUR</span>
+                    <span class="pdmBottle__labelBottom">DECISION</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pdmWheelWinner" data-wheel-winner>SPIN NOW</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gameActions">
+          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Spin Now</button>
+          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
+        </div>
+
+        <div class="staffBox">
+          <div class="staffState">One spin per guest entry.</div>
+        </div>
+      </div>
+    `;
+
+    const shell = panel.querySelector(".pdmWheelShell");
+    const wheel = panel.querySelector("[data-wheel]");
+    const bottleLayer = panel.querySelector("[data-bottle-layer]");
+    const winnerText = panel.querySelector("[data-wheel-winner]");
+    const spinButton = panel.querySelector("[data-spin-now]");
+    const stateBox = panel.querySelector(".staffState");
+    const pointer = panel.querySelector(".pdmPointer");
+
+    if (wheel) {
+      wheel.style.transform = "rotate(0deg)";
+    }
+
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
+
+    panel.querySelector("[data-start-over]").addEventListener("click", () => {
+      clearSession(day);
+      renderEntryScreen(panel, day, true);
+      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+    });
+
+    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
+      renderDashboard(panel, day);
+    });
+
+    spinButton.addEventListener("click", () => {
+      ensureAudioContext();
+      resetWheelTickState();
+
+      const current = readSession(day) || safeSession;
+      const selectedIndex = getRandomSegmentIndex();
+      const segmentCount = current.segments.length;
+      const segmentAngle = 360 / segmentCount;
+
+      const selectedCenterAngle = selectedIndex * segmentAngle;
+      const normalizedStopRotation =
+        (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
+      const finalRotation = (360 * 6) + normalizedStopRotation;
+
+      spinButton.disabled = true;
+      stateBox.textContent = "Spinning...";
+      if (winnerText) winnerText.textContent = "SPINNING...";
+
+      if (shell) {
+        shell.classList.add("is-spinning");
+      }
+
+      if (bottleLayer) {
+        bottleLayer.classList.add("is-spinning");
+      }
+
+      animateWheelSpin({
+        wheel,
+        finalRotation,
+        duration: WHEEL_SPIN_DURATION_MS,
+        onUpdate(currentRotation) {
+          handleWheelTicks(currentRotation, segmentCount, pointer);
+        },
+        onComplete: async () => {
+          playWheelTick(1);
+          bouncePointer(pointer, 1);
+          triggerWinnerGlow(wheel, selectedIndex);
+
+          current.selectedIndex = selectedIndex;
+          current.reward = current.segments[selectedIndex];
+          current.boxNumber = selectedIndex + 1;
+          current.code = createRewardCode(day, selectedIndex);
+          current.timestamp = new Date().toISOString();
+          current.createdAt = current.timestamp;
+          current.stage = "winner";
+
+          saveSession(day, current);
+
+          const leadPayload = {
+            date: current.date || getTodayKey(),
+            createdAt: current.createdAt,
+            day: current.day || day,
+            table: current.table || getTableLabel(),
+            entryType: current.entryType || "phone",
+            phone: current.phone || "",
+            reward: current.reward || "",
+            boxNumber: current.boxNumber || "",
+            code: current.code || ""
+          };
+
+          saveLead(leadPayload);
+          await sendLeadToGoogleSheet(leadPayload);
+
+          if (shell) {
+            shell.classList.remove("is-spinning");
+          }
+
+          if (bottleLayer) {
+            bottleLayer.classList.remove("is-spinning");
+          }
+
+          if (winnerText) {
+            winnerText.textContent = current.reward;
+          }
+
+          stateBox.textContent = "Winner selected.";
+          renderWinnerScreen(panel, day, current);
+
+          setTimeout(() => {
+            const winnerTarget = panel.querySelector(".pdmWinner");
+            jumpToElementInstant(winnerTarget || panel, 8);
+          }, 20);
+        }
+      });
+    });
+  }
+
+  function renderWinnerScreen(panel, day, session) {
+    setGameState(panel, true);
+
+    const safeSession = readSession(day) || session;
+    const rewardText = safeSession.reward || "Try Again";
+
+    panel.innerHTML = `
+      <div class="pdmWinner">
+        <div class="pdmWinner__eyebrow">Tonight's Result</div>
+        <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
+        <p class="pdmWinner__text">Show this result to staff tonight.</p>
+
+        <div class="gameReveal">
+          <div class="gameRevealLabel">Redemption Code</div>
+          <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
+          <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
+        </div>
+
+        <div class="gameActions">
+          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-new-guest>New Guest</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Dashboard</button>
+        </div>
+
+        <div class="staffBox">
+          <div class="staffRow">
+            <input class="staffInput" type="password" placeholder="Manager PIN">
+            <button class="gameBtn gameBtn--ghost" type="button" data-confirm-reset>Confirm Reset</button>
+          </div>
+          <div class="staffState">Reset clears this guest and opens a new entry screen.</div>
+        </div>
+      </div>
+    `;
+
+    const pinInput = panel.querySelector(".staffInput");
+    const staffState = panel.querySelector(".staffState");
+
+    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
+
+    panel.querySelector("[data-new-guest]").addEventListener("click", () => {
+      clearSession(day);
+      renderEntryScreen(panel, day, true);
+      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+    });
+
+    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
+      renderDashboard(panel, day);
+    });
+
+    panel.querySelector("[data-manager-reset]").addEventListener("click", () => {
+      staffState.textContent = "Enter manager PIN, then confirm reset.";
+    });
+
+    panel.querySelector("[data-confirm-reset]").addEventListener("click", () => {
+      const pin = (pinInput.value || "").trim();
+
+      if (pin !== STAFF_PIN) {
+        staffState.textContent = "Incorrect PIN.";
+        return;
+      }
+
+      clearSession(day);
+      renderEntryScreen(panel, day, true);
+      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+    });
   }
 
   function renderIdleState(panel, day) {
