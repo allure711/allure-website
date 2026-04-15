@@ -524,7 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cx = 300;
     const cy = 300;
     const outerRadius = 275;
-    const innerRadius = mobile ? 116 : 122;
+    const innerRadius = mobile ? 94 : 102;
     const textRadius = mobile ? 182 : 192;
     const fontSize = mobile ? 18 : 20;
     const segmentAngle = 360 / segments.length;
@@ -883,19 +883,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panel.innerHTML = `
       <div class="pdmEntry">
-        <div class="pdmEntry__eyebrow">Pour Decision Maker</div>
-        <h3 class="pdmEntry__title">One spin. One decision. One unforgettable night.</h3>
-        <p class="pdmEntry__text">Enter your phone number to unlock tonight's spin.</p>
+        <div class="pdmEntry__eyebrow">Exclusive Tonight</div>
+        <h3 class="pdmEntry__title">Unlock your spin and reveal tonight’s reward.</h3>
+        <p class="pdmEntry__text">Enter your phone number, spin once, and see what your table gets tonight.</p>
 
         <div class="staffBox">
           <div class="pdmEntry__form">
             <input class="staffInput pdmEntry__input" type="tel" placeholder="Phone number" data-phone-input>
-            <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Continue</button>
+            <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Unlock My Spin</button>
           </div>
           <div class="staffState">Enter a valid phone number to continue.</div>
         </div>
 
-        <div class="gameHint">Your number is saved when your result is revealed.</div>
+        <div class="gameHint">Fast entry. One spin. One result. Redeem tonight.</div>
 
         <div class="gameActions">
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
@@ -955,14 +955,19 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="pdmWheelShell">
         <div class="gameTop">
           <div>
-            <div class="gameTitle">Pour Decision Maker</div>
-            <div class="gameSub">Spin once to decide the night.</div>
+            <div class="gameTitle">Tonight’s Reward Wheel</div>
+            <div class="gameSub">Spin now and lock in your table’s result.</div>
           </div>
 
           <div class="gameBadgeRow">
             <span class="gameBadge">Table: ${escapeHtml(safeSession.table || getTableLabel())}</span>
             <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
           </div>
+        </div>
+
+        <div class="pdmWheelPromo">
+          <div class="pdmWheelPromo__title">Every spin reveals a real reward.</div>
+          <div class="pdmWheelPromo__text">Discounts, upgrades, favorites, and VIP prompts — one spin only.</div>
         </div>
 
         <div class="pdmWheelArea">
@@ -973,27 +978,16 @@ document.addEventListener("DOMContentLoaded", () => {
               ${buildWheelSvg(safeSession.segments)}
             </div>
 
-            <div class="pdmBottleLayer" data-bottle-layer>
-              <div class="pdmBottle" aria-hidden="true">
-                <div class="pdmBottle__cap"></div>
-                <div class="pdmBottle__neck"></div>
-                <div class="pdmBottle__glass">
-                  <div class="pdmBottle__shine"></div>
-                  <div class="pdmBottle__beer"></div>
-                  <div class="pdmBottle__label">
-                    <span class="pdmBottle__labelTop">POUR</span>
-                    <span class="pdmBottle__labelBottom">DECISION</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pdmWheelWinner" data-wheel-winner>SPIN NOW</div>
+            <div class="pdmWheelCenterBadge">
+              <div class="pdmWheelCenterBadge__top">ALLURE</div>
+              <div class="pdmWheelCenterBadge__main" data-wheel-winner>SPIN NOW</div>
+              <div class="pdmWheelCenterBadge__bottom">Tonight only</div>
             </div>
           </div>
         </div>
 
         <div class="gameActions">
-          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Spin Now</button>
+          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Reveal My Reward</button>
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
@@ -1007,7 +1001,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const shell = panel.querySelector(".pdmWheelShell");
     const wheel = panel.querySelector("[data-wheel]");
-    const bottleLayer = panel.querySelector("[data-bottle-layer]");
     const winnerText = panel.querySelector("[data-wheel-winner]");
     const spinButton = panel.querySelector("[data-spin-now]");
     const stateBox = panel.querySelector(".staffState");
@@ -1051,10 +1044,6 @@ document.addEventListener("DOMContentLoaded", () => {
         shell.classList.add("is-spinning");
       }
 
-      if (bottleLayer) {
-        bottleLayer.classList.add("is-spinning");
-      }
-
       animateWheelSpin({
         wheel,
         finalRotation,
@@ -1096,10 +1085,6 @@ document.addEventListener("DOMContentLoaded", () => {
             shell.classList.remove("is-spinning");
           }
 
-          if (bottleLayer) {
-            bottleLayer.classList.remove("is-spinning");
-          }
-
           if (winnerText) {
             winnerText.textContent = current.reward;
           }
@@ -1124,15 +1109,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     panel.innerHTML = `
       <div class="pdmWinner">
-        <div class="pdmWinner__eyebrow">Tonight's Result</div>
+        <div class="pdmWinner__eyebrow">Reward Unlocked</div>
         <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
-        <p class="pdmWinner__text">Show this result to staff tonight.</p>
+        <p class="pdmWinner__text">Show this screen to staff and redeem tonight.</p>
 
         <div class="gameReveal">
-          <div class="gameRevealLabel">Redemption Code</div>
+          <div class="gameRevealLabel">Your Redemption Code</div>
           <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
           <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
         </div>
+
+        <div class="pdmWinnerNote">Valid for tonight’s visit only.</div>
 
         <div class="gameActions">
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
