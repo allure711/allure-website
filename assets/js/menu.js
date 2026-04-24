@@ -885,7 +885,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="pdmEntry">
         <div class="pdmEntry__eyebrow">Exclusive Tonight</div>
         <h3 class="pdmEntry__title">Unlock your spin and reveal tonight’s reward.</h3>
-        <p class="pdmEntry__text">Enter your phone number, spin once, and see what your table gets tonight.</p>
+        <p class="pdmEntry__text">Enter your phone number, unlock the wheel, and reveal what your table gets tonight.</p>
 
         <div class="staffBox">
           <div class="pdmEntry__form">
@@ -895,7 +895,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="staffState">Enter a valid phone number to continue.</div>
         </div>
 
-        <div class="gameHint">Fast entry. One spin. One result. Redeem tonight.</div>
+        <div class="gameHint">Fast entry. One spin. One reward. Redeem tonight.</div>
 
         <div class="gameActions">
           <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
@@ -956,7 +956,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="gameTop">
           <div>
             <div class="gameTitle">Tonight’s Reward Wheel</div>
-            <div class="gameSub">Spin now and lock in your table’s result.</div>
+            <div class="gameSub">Spin now and lock in your table’s reward.</div>
           </div>
 
           <div class="gameBadgeRow">
@@ -980,7 +980,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <div class="pdmWheelCenterBadge">
               <div class="pdmWheelCenterBadge__top">ALLURE</div>
-              <div class="pdmWheelCenterBadge__main" data-wheel-winner>SPIN NOW</div>
+              <div class="pdmWheelCenterBadge__main" data-wheel-winner>REVEAL</div>
               <div class="pdmWheelCenterBadge__bottom">Tonight only</div>
             </div>
           </div>
@@ -1038,7 +1038,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
-      if (winnerText) winnerText.textContent = "SPINNING...";
+      if (winnerText) winnerText.textContent = "SPINNING";
 
       if (shell) {
         shell.classList.add("is-spinning");
@@ -1089,7 +1089,7 @@ document.addEventListener("DOMContentLoaded", () => {
             winnerText.textContent = current.reward;
           }
 
-          stateBox.textContent = "Winner selected.";
+          stateBox.textContent = "Reward revealed.";
           renderWinnerScreen(panel, day, current);
 
           setTimeout(() => {
