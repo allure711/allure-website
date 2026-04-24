@@ -107,15 +107,15 @@ body{
   overflow:hidden;
   border-radius:26px;
   padding:22px 24px;
-  border:1px solid rgba(215,180,106,.24);
+  border:1px solid rgba(215,180,106,.28);
   background:
-    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(155,70,255,.10), transparent 34%),
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+    radial-gradient(circle at top right, rgba(215,180,106,.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(155,70,255,.12), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
   box-shadow:
-    0 22px 46px rgba(0,0,0,.26),
-    0 0 24px rgba(215,180,106,.10),
-    inset 0 1px 0 rgba(255,255,255,.04);
+    0 24px 50px rgba(0,0,0,.28),
+    0 0 24px rgba(215,180,106,.12),
+    inset 0 1px 0 rgba(255,255,255,.05);
 }
 
 .gameHero__card::after{
@@ -123,7 +123,7 @@ body{
   position:absolute;
   inset:0;
   border-radius:26px;
-  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.035) 18%, transparent 38%);
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.04) 18%, transparent 38%);
   pointer-events:none;
 }
 
@@ -133,7 +133,7 @@ body{
   pointer-events:none;
   background:
     radial-gradient(circle at 20% 35%, rgba(255,255,255,.08), transparent 24%),
-    radial-gradient(circle at 78% 22%, rgba(215,180,106,.12), transparent 28%),
+    radial-gradient(circle at 78% 22%, rgba(215,180,106,.14), transparent 28%),
     radial-gradient(circle at 72% 78%, rgba(155,70,255,.08), transparent 24%);
   filter:blur(30px);
   animation:gameHeroGlowFloat 8s ease-in-out infinite;
@@ -169,13 +169,13 @@ body{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:8px 12px;
+  padding:9px 13px;
   border-radius:999px;
-  border:1px solid rgba(215,180,106,.20);
-  background:rgba(255,255,255,.04);
-  color:rgba(255,255,255,.86);
+  border:1px solid rgba(215,180,106,.22);
+  background:rgba(255,255,255,.05);
+  color:#fff;
   font-size:12px;
-  font-weight:800;
+  font-weight:900;
   line-height:1;
   white-space:nowrap;
   box-shadow:
@@ -184,17 +184,17 @@ body{
 }
 
 .gameHero__title{
-  font-size:30px;
+  font-size:34px;
   font-weight:950;
-  line-height:1.03;
-  letter-spacing:-.02em;
+  line-height:1.02;
+  letter-spacing:-.025em;
   color:#fff;
   max-width:760px;
 }
 
 .gameHero__text{
   max-width:760px;
-  color:rgba(255,255,255,.82);
+  color:rgba(255,255,255,.84);
   font-size:14px;
   line-height:1.6;
 }
@@ -209,7 +209,7 @@ body{
   appearance:none;
   border:none;
   border-radius:999px;
-  min-height:46px;
+  min-height:48px;
   padding:12px 18px;
   font-weight:900;
   font-size:13px;
@@ -231,9 +231,10 @@ body{
   background:linear-gradient(135deg, #d7b46a, #f2d38a);
   color:#111;
   box-shadow:
-    0 12px 28px rgba(215,180,106,.22),
-    0 0 16px rgba(215,180,106,.10),
-    inset 0 1px 0 rgba(255,255,255,.16);
+    0 14px 30px rgba(215,180,106,.24),
+    0 0 18px rgba(215,180,106,.12),
+    inset 0 1px 0 rgba(255,255,255,.18);
+  animation:gameHeroCtaPulse 2.2s ease-in-out infinite;
 }
 
 .gameHero__btn--ghost{
@@ -847,11 +848,16 @@ body{
 }
 
 .gameReveal{
-  border:1px solid rgba(215,180,106,.20);
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid rgba(215,180,106,.22);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.08), transparent 36%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
   border-radius:18px;
   padding:16px;
   text-align:center;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.05);
 }
 
 .gameRevealLabel{
@@ -1336,7 +1342,7 @@ body{
   }
 
   .gameHero__title{
-    font-size:24px;
+    font-size:26px;
   }
 
   .gameHero__actions{
@@ -1457,7 +1463,7 @@ body{
   }
 
   .gameHero__title{
-    font-size:21px;
+    font-size:22px;
   }
 
   .gameHero__text{
@@ -1520,6 +1526,21 @@ body{
   50%{
     transform:translate(10px,-10px) scale(1.05);
     opacity:1;
+  }
+}
+
+@keyframes gameHeroCtaPulse{
+  0%,100%{
+    box-shadow:
+      0 14px 30px rgba(215,180,106,.24),
+      0 0 18px rgba(215,180,106,.12),
+      inset 0 1px 0 rgba(255,255,255,.18);
+  }
+  50%{
+    box-shadow:
+      0 18px 34px rgba(215,180,106,.30),
+      0 0 24px rgba(215,180,106,.18),
+      inset 0 1px 0 rgba(255,255,255,.18);
   }
 }
 
