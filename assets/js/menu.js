@@ -12,19 +12,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const WINNER_GLOW_DURATION_MS = 1600;
 
   const WHEEL_SEGMENTS = [
-  "Unlock Free Shot",
-  "Hookah $5 Off",
-  "Free Mixer Bonus",
-  "Fishbowl $3 Off",
-  "Bonus Spin",
-  "Hookah Upgrade",
-  "Lucky Discount",
-  "VIP Table Ask",
-  "House Favorite",
-  "Try Again",
-  "Bottle $10 Off",
-  "Group Cheers"
-];
+    "Free Shot",
+    "$5 Hookah",
+    "Free Mixer",
+    "$3 Fishbowl",
+    "Bonus Spin",
+    "Hookah Upgrade",
+    "Lucky Deal",
+    "VIP Access",
+    "House Pick",
+    "Try Again",
+    "$10 Bottle",
+    "Group Shot"
+  ];
 
   const WHEEL_COLORS = [
     "#d7b46a",
@@ -539,6 +539,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const centerAngle = startAngle + segmentAngle / 2;
 
       const wedgePath = buildWedgePath(cx, cy, outerRadius, innerRadius, startAngle, endAngle);
+
       wedges.push(`
         <path
           class="pdmWheelSvg__slice"
@@ -550,6 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const dividerOuter = polarToCartesian(cx, cy, outerRadius, startAngle);
       const dividerInner = polarToCartesian(cx, cy, innerRadius, startAngle);
+
       dividers.push(`
         <line
           class="pdmWheelSvg__divider"
@@ -562,27 +564,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const textPoint = polarToCartesian(cx, cy, textRadius, centerAngle);
       const lines = splitLabelIntoLines(label);
-      const lineOffset = lines.length === 1 ? [0] : [-11, 11];
+      const firstDy = lines.length === 1 ? 0 : -10;
 
       texts.push(`
         <g
           class="pdmWheelSvg__labelGroup"
-          transform="translate(${textPoint.x} ${textPoint.y}) rotate(${centerAngle})"
+          transform="translate(${textPoint.x} ${textPoint.y})"
         >
-          <g transform="rotate(${-centerAngle})">
-            <text
-              class="pdmWheelSvg__label"
-              text-anchor="middle"
-              dominant-baseline="middle"
-              font-size="${fontSize}"
-            >
-              ${lines.map((line, lineIndex) => `
-                <tspan x="0" dy="${lineIndex === 0 ? lineOffset[lineIndex] : 22}">
-                  ${escapeHtml(line)}
-                </tspan>
-              `).join("")}
-            </text>
-          </g>
+          <text
+            class="pdmWheelSvg__label"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            font-size="${fontSize}"
+          >
+            ${lines.map((line, lineIndex) => `
+              <tspan x="0" dy="${lineIndex === 0 ? firstDy : 22}">
+                ${escapeHtml(line)}
+              </tspan>
+            `).join("")}
+          </text>
         </g>
       `);
     });
@@ -643,67 +643,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       slice.classList.remove("is-winner");
     }, WINNER_GLOW_DURATION_MS);
-  }
-
-  function easeOutQuart(t) {
-    return 1 - Math.pow(1 - t, 4);
-  }
-
-  function easeOutBack(t) {
-    const c1 = 1.70158;
-    const c3 = c1 + 1;
-    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-  }
-
-  function animateWheelSpin({ wheel, finalRotation, duration = WHEEL_SPIN_DURATION_MS, onUpdate, onComplete }) {
-    if (!wheel) {
-      if (typeof onComplete === "function") onComplete(finalRotation);
-      return;
-    }
-
-    const overshootRotation = finalRotation + FINAL_SETTLE_OVERSHOOT_DEG;
-    const mainDuration = Math.max(300, duration - FINAL_SETTLE_DURATION_MS);
-    const settleDuration = FINAL_SETTLE_DURATION_MS;
-    const startTime = performance.now();
-
-    function frame(now) {
-      const elapsed = now - startTime;
-
-      if (elapsed < mainDuration) {
-        const progress = Math.min(1, elapsed / mainDuration);
-        const eased = easeOutQuart(progress);
-        const currentRotation = overshootRotation * eased;
-
-        wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-        if (typeof onUpdate === "function") {
-          onUpdate(currentRotation);
-        }
-
-        requestAnimationFrame(frame);
-        return;
-      }
-
-      const settleElapsed = elapsed - mainDuration;
-      const settleProgress = Math.min(1, settleElapsed / settleDuration);
-      const settleEased = easeOutBack(settleProgress);
-      const currentRotation =
-        overshootRotation - (overshootRotation - finalRotation) * settleEased;
-
-      wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-      if (typeof onUpdate === "function") {
-        onUpdate(currentRotation);
-      }
-
-      if (settleProgress < 1) {
-        requestAnimationFrame(frame);
-      } else if (typeof onComplete === "function") {
-        onComplete(finalRotation);
-      }
-    }
-
-    requestAnimationFrame(frame);
   }
 
   function renderDashboard(panel, day) {
@@ -1007,6 +946,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pointer = panel.querySelector(".pdmPointer");
 
     if (wheel) {
+      wheel.style.transition = "none";
       wheel.style.transform = "rotate(0deg)";
     }
 
@@ -1022,7 +962,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderDashboard(panel, day);
     });
 
-    spinButton.addEventListener("click", () => {
+    spinButton.addEventListener("click", async () => {
       ensureAudioContext();
       resetWheelTickState();
 
@@ -1031,10 +971,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const segmentCount = current.segments.length;
       const segmentAngle = 360 / segmentCount;
 
-      const selectedCenterAngle = selectedIndex * segmentAngle;
+      const selectedCenterAngle = selectedIndex * segmentAngle + segmentAngle / 2;
       const normalizedStopRotation =
         (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
-      const finalRotation = (360 * 6) + normalizedStopRotation;
+      const finalRotation = 360 * 6 + normalizedStopRotation;
 
       spinButton.disabled = true;
       stateBox.textContent = "Spinning...";
@@ -1044,43 +984,63 @@ document.addEventListener("DOMContentLoaded", () => {
         shell.classList.add("is-spinning");
       }
 
-      animateWheelSpin({
-        wheel,
-        finalRotation,
-        duration: WHEEL_SPIN_DURATION_MS,
-        onUpdate(currentRotation) {
-          handleWheelTicks(currentRotation, segmentCount, pointer);
-        },
-        onComplete: async () => {
-          playWheelTick(1);
-          bouncePointer(pointer, 1);
-          triggerWinnerGlow(wheel, selectedIndex);
+      if (wheel) {
+        wheel.style.transition = "none";
+        wheel.style.transform = "rotate(0deg)";
+        wheel.offsetHeight;
+        wheel.style.transition = `transform ${WHEEL_SPIN_DURATION_MS}ms cubic-bezier(.12,.8,.18,1)`;
+        wheel.style.transform = `rotate(${finalRotation}deg)`;
+      }
 
-          current.selectedIndex = selectedIndex;
-          current.reward = current.segments[selectedIndex];
-          current.boxNumber = selectedIndex + 1;
-          current.code = createRewardCode(day, selectedIndex);
-          current.timestamp = new Date().toISOString();
-          current.createdAt = current.timestamp;
-          current.stage = "winner";
+      let tickRotation = 0;
+      const tickTimer = setInterval(() => {
+        tickRotation += 18;
+        handleWheelTicks(tickRotation, segmentCount, pointer);
+      }, 70);
 
-          saveSession(day, current);
+      setTimeout(async () => {
+        clearInterval(tickTimer);
 
-          const leadPayload = {
-            date: current.date || getTodayKey(),
-            createdAt: current.createdAt,
-            day: current.day || day,
-            table: current.table || getTableLabel(),
-            entryType: current.entryType || "phone",
-            phone: current.phone || "",
-            reward: current.reward || "",
-            boxNumber: current.boxNumber || "",
-            code: current.code || ""
-          };
+        if (wheel) {
+          wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
+          wheel.style.transform = `rotate(${finalRotation + FINAL_SETTLE_OVERSHOOT_DEG}deg)`;
 
-          saveLead(leadPayload);
-          await sendLeadToGoogleSheet(leadPayload);
+          setTimeout(() => {
+            wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
+            wheel.style.transform = `rotate(${finalRotation}deg)`;
+          }, FINAL_SETTLE_DURATION_MS);
+        }
 
+        playWheelTick(1);
+        bouncePointer(pointer, 1);
+        triggerWinnerGlow(wheel, selectedIndex);
+
+        current.selectedIndex = selectedIndex;
+        current.reward = current.segments[selectedIndex];
+        current.boxNumber = selectedIndex + 1;
+        current.code = createRewardCode(day, selectedIndex);
+        current.timestamp = new Date().toISOString();
+        current.createdAt = current.timestamp;
+        current.stage = "winner";
+
+        saveSession(day, current);
+
+        const leadPayload = {
+          date: current.date || getTodayKey(),
+          createdAt: current.createdAt,
+          day: current.day || day,
+          table: current.table || getTableLabel(),
+          entryType: current.entryType || "phone",
+          phone: current.phone || "",
+          reward: current.reward || "",
+          boxNumber: current.boxNumber || "",
+          code: current.code || ""
+        };
+
+        saveLead(leadPayload);
+        await sendLeadToGoogleSheet(leadPayload);
+
+        setTimeout(() => {
           if (shell) {
             shell.classList.remove("is-spinning");
           }
@@ -1096,8 +1056,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const winnerTarget = panel.querySelector(".pdmWinner");
             jumpToElementInstant(winnerTarget || panel, 8);
           }, 20);
-        }
-      });
+        }, FINAL_SETTLE_DURATION_MS + 80);
+      }, WHEEL_SPIN_DURATION_MS);
     });
   }
 
