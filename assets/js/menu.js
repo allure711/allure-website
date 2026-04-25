@@ -1133,7 +1133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderIdleState(panel, day) {
     setGameState(panel, false);
-
+    getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
     panel.innerHTML = `
       <div class="menuStart">
         <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
@@ -1313,7 +1313,7 @@ function openTodayMenu() {
 
     activeDayPanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
       wrap.classList.remove("is-game-active");
-
+      wrap.classlist.add("is-menu-launch-active");
       const panel = wrap.querySelector(".menuPanelBody");
       if (!panel) return;
 
