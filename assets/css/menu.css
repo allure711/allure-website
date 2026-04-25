@@ -1576,3 +1576,17 @@ body{
   background:rgba(215,180,106,.08);
   transform:translateY(-1px);
 }
+
+.menuWelcomeStrip__item--clickable{
+  width:100%;
+  text-align:left;
+  font-family:inherit;
+  color:inherit;
+  cursor:pointer;
+  border-color:rgba(215,180,106,.36);
+}
+
+.menuWelcomeStrip__item--clickable:hover{
+  background:rgba(215,180,106,.08);
+  transform:translateY(-1px);
+}
