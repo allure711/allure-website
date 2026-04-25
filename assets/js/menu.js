@@ -1282,21 +1282,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", jumpToActiveGamePanel);
   });
 
-function openTodayMenu() {
-  const dayToOpen = hasTodayTab ? today : fallbackDay;
-
-  activateDay(dayToOpen);
-
-  setTimeout(() => {
-    const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
-    if (!activeDayPanel) return;
-
-    const foodButton = activeDayPanel.querySelector('.menuCenterBtn[data-cat="food"]');
-    if (foodButton) foodButton.click();
-
-    jumpToElementInstant(activeDayPanel, 8);
-  }, 60);
-}
+function openTodayMenu() {yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 
 document.querySelectorAll("[data-open-menu]").forEach(btn => {
   btn.addEventListener("click", openTodayMenu);
