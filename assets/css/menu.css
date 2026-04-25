@@ -1590,3 +1590,236 @@ body{
   background:rgba(215,180,106,.08);
   transform:translateY(-1px);
 }
+
+/* ===== TEMU-STYLE MENU LAUNCH GRID ===== */
+
+.menuWelcomeStrip__item--clickable{
+  width:100%;
+  text-align:left;
+  font-family:inherit;
+  color:inherit;
+  cursor:pointer;
+  border-color:rgba(215,180,106,.36);
+}
+
+.menuWelcomeStrip__item--clickable:hover{
+  background:rgba(215,180,106,.08);
+  transform:translateY(-1px);
+}
+
+.menuLaunchApp{
+  display:grid;
+  gap:16px;
+  animation:allureSoftReveal .35s ease both;
+}
+
+.menuLaunchHero{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+  padding:16px;
+  border-radius:18px;
+  border:1px solid rgba(215,180,106,.22);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 38%),
+    radial-gradient(circle at bottom left, rgba(255,94,219,.08), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+  box-shadow:
+    0 16px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menuLaunchEyebrow{
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:6px;
+}
+
+.menuLaunchTitle{
+  font-size:22px;
+  font-weight:950;
+  line-height:1.05;
+  color:#fff;
+}
+
+.menuLaunchText{
+  margin-top:7px;
+  font-size:13px;
+  line-height:1.5;
+  color:rgba(255,255,255,.72);
+}
+
+.menuLaunchBadge{
+  flex:0 0 auto;
+  padding:8px 11px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.24);
+  background:rgba(215,180,106,.10);
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:950;
+  white-space:nowrap;
+  box-shadow:0 8px 18px rgba(0,0,0,.14);
+}
+
+.menuLaunchGrid{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:12px;
+}
+
+.menuLaunchBtn{
+  appearance:none;
+  position:relative;
+  overflow:hidden;
+  min-height:112px;
+  padding:14px 10px 12px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,.08), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-align:center;
+  box-shadow:
+    0 14px 28px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
+}
+
+.menuLaunchBtn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.055) 20%, transparent 42%);
+  opacity:.75;
+  pointer-events:none;
+}
+
+.menuLaunchBtn:hover{
+  transform:translateY(-2px) scale(1.015);
+  border-color:rgba(215,180,106,.40);
+  background:
+    radial-gradient(circle at 70% 20%, rgba(215,180,106,.14), transparent 32%),
+    linear-gradient(180deg, rgba(215,180,106,.10), rgba(255,255,255,.03));
+  box-shadow:
+    0 18px 34px rgba(0,0,0,.22),
+    0 0 0 1px rgba(215,180,106,.08),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.menuLaunchBtn:active{
+  transform:translateY(0) scale(.98);
+}
+
+.menuLaunchBtn__icon{
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:16px;
+  font-size:24px;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.18), transparent 36%),
+    linear-gradient(135deg, rgba(215,180,106,.22), rgba(255,94,219,.10));
+  border:1px solid rgba(215,180,106,.20);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.menuLaunchBtn__label{
+  display:block;
+  font-size:12px;
+  line-height:1.15;
+  font-weight:950;
+  color:#fff;
+}
+
+.menuLaunchBtn__tap{
+  display:inline-flex;
+  margin-top:2px;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  color:var(--gold2);
+  background:rgba(215,180,106,.10);
+  border:1px solid rgba(215,180,106,.18);
+}
+
+.menuLaunchBtn--accent{
+  border-color:rgba(255,94,219,.28);
+  background:
+    radial-gradient(circle at 70% 20%, rgba(255,94,219,.16), transparent 34%),
+    linear-gradient(135deg, rgba(255,94,219,.16), rgba(215,180,106,.10));
+}
+
+.menuLaunchBtn--accent .menuLaunchBtn__icon{
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.20), transparent 36%),
+    linear-gradient(135deg, rgba(255,94,219,.26), rgba(215,180,106,.16));
+}
+
+@media (max-width:920px){
+  .menuLaunchGrid{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width:640px){
+  .menuLaunchHero{
+    flex-direction:column;
+  }
+
+  .menuLaunchGrid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:10px;
+  }
+
+  .menuLaunchBtn{
+    min-height:104px;
+    border-radius:18px;
+  }
+
+  .menuLaunchTitle{
+    font-size:20px;
+  }
+}
+
+@media (max-width:420px){
+  .menuLaunchGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .menuLaunchBtn{
+    min-height:98px;
+    padding:12px 8px 10px;
+  }
+
+  .menuLaunchBtn__icon{
+    width:40px;
+    height:40px;
+    font-size:22px;
+  }
+
+  .menuLaunchBtn__label{
+    font-size:11px;
+  }
+}
