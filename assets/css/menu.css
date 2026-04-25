@@ -1831,3 +1831,11 @@ body{
 .menuCenterWrap.is-menu-launch-active + .outsideBottom{
   display:none !important;
 }
+
+.menuCenterWrap.is-menu-launch-active .menuTopCategories{
+  display:none !important;
+}
+
+.menuCenterWrap.is-menu-launch-active + .outsideBottom{
+  display:none !important;
+}
