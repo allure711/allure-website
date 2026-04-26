@@ -1306,6 +1306,7 @@ jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
   }
 
   function openTodayMenu() {
+    document.body.classList.add("menu-launch-fullscreen");
     const dayToOpen = hasTodayTab ? today : fallbackDay;
 
     activateDay(dayToOpen);
@@ -1349,7 +1350,7 @@ jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
           launchBtn.addEventListener("click", () => {
             wrap.classList.remove("is-menu-launch-active");
 
-            const originalButton = buttons[Number(launchBtn.dataset.launchIndex)];
+            document.body.classList.remove("menu-launch-fullscreen");
             if (originalButton) originalButton.click();
           });
         });
