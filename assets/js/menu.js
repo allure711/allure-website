@@ -1276,7 +1276,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       const target = panel.querySelector(".pdmEntry") || panel;
-      jumpToElementInstant(target, 8);
+      d
     }, 40);
   }
 
