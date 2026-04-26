@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const STAFF_PIN = "2024";
-  const LEAD<S_KEY = "allure_leads_v5";
+  const LEADS_KEY = "allure_leads_v5";
   const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
   const MOBILE_BREAKPOINT = 760;
 
@@ -1133,7 +1133,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderIdleState(panel, day) {
     setGameState(panel, false);
-    
+    getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
+
     panel.innerHTML = `
       <div class="menuStart">
         <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
@@ -1190,7 +1191,8 @@ document.addEventListener("DOMContentLoaded", () => {
       clearActive();
       button.classList.add("active");
       setGameState(panel, false);
-getWrapFromPanel(panel)?,classList.remove("is-menu-launch-active");
+      getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
+
       const catKey = button.dataset.cat;
       const mode = button.dataset.mode || "";
       const baseContent = CATEGORY_CONTENT[catKey];
@@ -1282,84 +1284,83 @@ getWrapFromPanel(panel)?,classList.remove("is-menu-launch-active");
     button.addEventListener("click", jumpToActiveGamePanel);
   });
 
-function getMenuCategoryIcon(label) {
-  const text = String(label || "").toLowerCase();
+  function getMenuCategoryIcon(label) {
+    const text = String(label || "").toLowerCase();
 
-  if (text.includes("food")) return "🍽️";
-  if (text.includes("hookah")) return "💨";
-  if (text.includes("shot")) return "🥃";
-  if (text.includes("drink")) return "🍹";
-  if (text.includes("tower")) return "🏆";
-  if (text.includes("fishbowl")) return "🐠";
-  if (text.includes("high noon")) return "☀️";
-  if (text.includes("wine")) return "🍷";
-  if (text.includes("beer")) return "🍺";
-  if (text.includes("non")) return "🧊";
-  if (text.includes("bottle")) return "🍾";
-  if (text.includes("premium")) return "💎";
-  if (text.includes("decision") || text.includes("pour")) return "🎰";
+    if (text.includes("food")) return "🍽️";
+    if (text.includes("hookah")) return "💨";
+    if (text.includes("shot")) return "🥃";
+    if (text.includes("drink")) return "🍹";
+    if (text.includes("tower")) return "🏆";
+    if (text.includes("fishbowl")) return "🐠";
+    if (text.includes("high noon")) return "☀️";
+    if (text.includes("wine")) return "🍷";
+    if (text.includes("beer")) return "🍺";
+    if (text.includes("non")) return "🧊";
+    if (text.includes("bottle")) return "🍾";
+    if (text.includes("premium")) return "💎";
+    if (text.includes("decision") || text.includes("pour")) return "🎰";
 
-  return "✨";
-}
+    return "✨";
+  }
 
-function openTodayMenu() {
-  const dayToOpen = hasTodayTab ? today : fallbackDay;
+  function openTodayMenu() {
+    const dayToOpen = hasTodayTab ? today : fallbackDay;
 
-  activateDay(dayToOpen);
+    activateDay(dayToOpen);
 
-  setTimeout(() => {
-    const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
-    if (!activeDayPanel) return;
+    setTimeout(() => {
+      const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
+      if (!activeDayPanel) return;
 
-    activeDayPanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
-      wrap.classList.remove("is-game-active");
-      wrap.classList.add("is-menu-launch-active");
+      activeDayPanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+        wrap.classList.remove("is-game-active");
+        wrap.classList.add("is-menu-launch-active");
 
-      const panel = wrap.querySelector(".menuPanelBody");
-      if (!panel) return;
+        const panel = wrap.querySelector(".menuPanelBody");
+        if (!panel) return;
 
-      const buttons = getButtons(wrap);
+        const buttons = getButtons(wrap);
 
-      buttons.forEach(btn => btn.classList.remove("active"));
+        buttons.forEach(btn => btn.classList.remove("active"));
 
-      panel.innerHTML = `
-        <div class="menuLaunchApp">
+        panel.innerHTML = `
+          <div class="menuLaunchApp">
+            <div class="menuLaunchGrid">
+              ${buttons.map((button, index) => {
+                const label = button.textContent.trim();
+                const isAccent = button.classList.contains("menuCenterBtn--accent");
+                const icon = getMenuCategoryIcon(label);
 
-          <div class="menuLaunchGrid">
-            ${buttons.map((button, index) => {
-              const label = button.textContent.trim();
-              const isAccent = button.classList.contains("menuCenterBtn--accent");
-              const icon = getMenuCategoryIcon(label);
-
-              return `
-                <button class="menuLaunchBtn ${isAccent ? "menuLaunchBtn--accent" : ""}" type="button" data-launch-index="${index}">
-                  <span class="menuLaunchBtn__icon">${escapeHtml(icon)}</span>
-                  <span class="menuLaunchBtn__label">${escapeHtml(label)}</span>
-                  <span class="menuLaunchBtn__tap">Open</span>
-                </button>
-              `;
-            }).join("")}
+                return `
+                  <button class="menuLaunchBtn ${isAccent ? "menuLaunchBtn--accent" : ""}" type="button" data-launch-index="${index}">
+                    <span class="menuLaunchBtn__icon">${escapeHtml(icon)}</span>
+                    <span class="menuLaunchBtn__label">${escapeHtml(label)}</span>
+                    <span class="menuLaunchBtn__tap">Open</span>
+                  </button>
+                `;
+              }).join("")}
+            </div>
           </div>
-        </div>
-      `;
+        `;
 
-      panel.querySelectorAll("[data-launch-index]").forEach(launchBtn => {
-        launchBtn.addEventListener("click", () => {
-          wrap.classList.remove("is-menu-launch-active");
+        panel.querySelectorAll("[data-launch-index]").forEach(launchBtn => {
+          launchBtn.addEventListener("click", () => {
+            wrap.classList.remove("is-menu-launch-active");
 
-          const originalButton = buttons[Number(launchBtn.dataset.launchIndex)];
-          if (originalButton) originalButton.click();
+            const originalButton = buttons[Number(launchBtn.dataset.launchIndex)];
+            if (originalButton) originalButton.click();
+          });
         });
       });
-    });
 
-    jumpToElementInstant(activeDayPanel, 8);
-  }, 100);
-}
+      jumpToElementInstant(activeDayPanel, 8);
+    }, 100);
+  }
 
-document.querySelectorAll("[data-open-menu]").forEach(btn => {
-  btn.addEventListener("click", openTodayMenu);
-});
+  document.querySelectorAll("[data-open-menu]").forEach(btn => {
+    btn.addEventListener("click", openTodayMenu);
+  });
 
   activateDay(hasTodayTab ? today : fallbackDay);
 });
