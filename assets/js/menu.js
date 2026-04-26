@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
   const STAFF_PIN = "2024";
-  const LEADS_KEY = "allure_leads_v5";
+  const LEAD<S_KEY = "allure_leads_v5";
   const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
   const MOBILE_BREAKPOINT = 760;
 
@@ -1324,14 +1324,6 @@ function openTodayMenu() {
 
       panel.innerHTML = `
         <div class="menuLaunchApp">
-          <div class="menuLaunchHero">
-            <div>
-              <div class="menuLaunchEyebrow">Today's Menu</div>
-              <div class="menuLaunchTitle">${escapeHtml(prettyLabel(dayToOpen))} Full Menu</div>
-              <div class="menuLaunchText">Tap a category to open prices, food, hookah, drinks, bottles, and rewards.</div>
-            </div>
-            <div class="menuLaunchBadge">🔥 Tap To Open</div>
-          </div>
 
           <div class="menuLaunchGrid">
             ${buttons.map((button, index) => {
