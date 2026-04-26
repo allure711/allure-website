@@ -16,7 +16,7 @@
       <a class="brand" href="index.html">Allure Bar &amp; Lounge</a>
 
       <nav class="nav">
-        <button class="nav__toggle" type="button">☰</button>
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
         <ul class="nav__list">
           <li><a href="menu.html" class="active">Menu</a></li>
           <li><a href="events.html">Events</a></li>
@@ -32,26 +32,22 @@
   <main class="menuWrap">
     <div class="container">
 
-      <!-- UPDATED STRIP -->
       <section class="menuWelcomeStrip">
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label" id="promoLabel">FREE HOOKAH MONDAY</span>
-          <span class="menuWelcomeStrip__text" id="promoText">With $50 bar tab — your choice of flavor</span>
-        </div>
+  <div class="menuWelcomeStrip__item">
+    <span class="menuWelcomeStrip__label" id="promoLabel">FREE HOOKAH MONDAY</span>
+    <span class="menuWelcomeStrip__text" id="promoText">With $50 bar tab — your choice of flavor</span>
+  </div>
 
-        <!-- NEW CLICKABLE MENU BUTTON -->
-        <button class="menuWelcomeStrip__item menuWelcomeStrip__item--clickable" type="button" data-open-menu>
-          <span class="menuWelcomeStrip__label">VIEW MENU</span>
-          <span class="menuWelcomeStrip__text">Open today’s full menu →</span>
-        </button>
+  <a class="menuWelcomeStrip__item menuWelcomeStrip__item--clickable" href="#menuDays">
+    <span class="menuWelcomeStrip__label">VIEW MENU</span>
+    <span class="menuWelcomeStrip__text">Browse our full menu →</span>
+  </a>
 
-        <div class="menuWelcomeStrip__item">
-          <span class="menuWelcomeStrip__label">Reserve</span>
-          <span class="menuWelcomeStrip__text">202-297-4949</span>
-        </div>
-      </section>
-
-      <!-- KEEP EVERYTHING ELSE SAME -->
+  <div class="menuWelcomeStrip__item">
+    <span class="menuWelcomeStrip__label">Reserve</span>
+    <span class="menuWelcomeStrip__text">202-297-4949</span>
+  </div>
+</section>
 
       <section class="gameHero" id="gameHero">
         <div class="gameHero__card" id="gameHeroCard">
