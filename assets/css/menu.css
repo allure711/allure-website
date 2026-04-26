@@ -2029,3 +2029,21 @@ body{
 .menuLaunchGrid{
   margin-top:0 !important;
 }
+
+/* 🔥 REMOVE TOP DAY HEADER (SUNDAY + DESCRIPTION) */
+.dayPanel > .menuSectionHeader,
+.dayPanel > .menuDayHeader,
+.dayPanel > h2,
+.dayPanel > .menuDayTitle,
+.dayPanel > .menuDaySub {
+  display: none !important;
+}
+
+/* 🔥 REMOVE EXTRA TOP SPACING */
+.dayPanel {
+  padding-top: 0 !important;
+}
+
+.menuCenterWrap {
+  margin-top: 0 !important;
+}
