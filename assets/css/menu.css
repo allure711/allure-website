@@ -13,6 +13,24 @@ html{
   scroll-behavior:smooth;
 }
 
+/* ===== TEMU FULL SCREEN MENU VIEW ===== */
+
+.menuCenterWrap.is-menu-launch-active{
+  margin-top:0 !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuBigPanel{
+  margin-top:0 !important;
+  border-radius:24px !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuPanelTitle{
+  margin-top:0 !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuPanelBody{
+  padding-top:8px !important;
+}
 .menu-page{
   background:
     radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
