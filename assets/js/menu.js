@@ -1346,7 +1346,55 @@ jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
           </div>
         `;
 
-        qqqqqqqqqqq
+        panel.querySelectorAll("[data-launch-index]").forEach(launchBtn => {
+  launchBtn.addEventListener("click", () => {
+    const originalButton = buttons[Number(launchBtn.dataset.launchIndex)];
+    if (!originalButton) return;
+
+    const catKey = originalButton.dataset.cat;
+    const mode = originalButton.dataset.mode || "";
+    const isGame = originalButton.dataset.action === "game";
+
+    if (isGame) {
+      document.body.classList.remove("menu-launch-fullscreen");
+      originalButton.click();
+      return;
+    }
+
+    const baseContent = CATEGORY_CONTENT[catKey];
+
+    if (!baseContent) {
+      panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
+      return;
+    }
+
+    const content = getContentByMode(baseContent, mode);
+
+    buttons.forEach(btn => btn.classList.remove("active"));
+    originalButton.classList.add("active");
+
+    panel.innerHTML = `
+      <div class="menuAppCategory">
+        <button class="menuAppBackBtn" type="button" data-back-launch>← Back To Menu</button>
+        <div class="menuAppCategory__title">${escapeHtml(originalButton.textContent.trim())}</div>
+        <div class="menuAppCategory__body">
+          ${renderSectionedMenu(content)}
+        </div>
+      </div>
+    `;
+
+    bindSubTabs(panel, content);
+
+    const backBtn = panel.querySelector("[data-back-launch]");
+    if (backBtn) {
+      backBtn.addEventListener("click", () => {
+        openTodayMenu();
+      });
+    }
+
+    jumpToElementInstant(panel.closest(".menuBigPanel") || panel, 0);
+  });
+});
 
   document.querySelectorAll("[data-open-menu]").forEach(btn => {
     btn.addEventListener("click", openTodayMenu);
