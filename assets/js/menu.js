@@ -1133,7 +1133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderIdleState(panel, day) {
     setGameState(panel, false);
-    getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
+    
     panel.innerHTML = `
       <div class="menuStart">
         <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
@@ -1190,7 +1190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearActive();
       button.classList.add("active");
       setGameState(panel, false);
-
+getWrapFromPanel(panel)?,classList.remove("is-menu-launch-active");
       const catKey = button.dataset.cat;
       const mode = button.dataset.mode || "";
       const baseContent = CATEGORY_CONTENT[catKey];
