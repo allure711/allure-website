@@ -1276,7 +1276,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       const target = panel.querySelector(".pdmEntry") || panel;
-      d
+      const firstMenuPanel = activeDayPanel.querySelector(".menuBigPanel");
+jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
     }, 40);
   }
 
