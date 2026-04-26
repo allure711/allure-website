@@ -1727,3 +1727,29 @@ body{
     transform:translateY(0) scale(1);
   }
 }
+
+/* ===== TRUE FULL SCREEN TEMU MENU MODE ===== */
+
+body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .topSellersStrip,
+body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .gameHero,
+body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .menuWelcomeStrip,
+body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .dayTabs{
+  display:none !important;
+}
+
+body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .menuWrap{
+  padding-top:0 !important;
+}
+
+body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .dayPanel.active{
+  padding-top:0 !important;
+  margin-top:0 !important;
+}
+
+body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .container{
+  margin-top:0 !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuBigPanel{
+  margin-top:0 !important;
+}
