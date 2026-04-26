@@ -1991,3 +1991,41 @@ body{
     font-size:12px;
   }
 }
+
+/* ===== FLOATING HAPPY HOUR BADGE ===== */
+
+.heroRow{
+  margin-bottom:10px !important;
+}
+
+.daySub{
+  display:none !important;
+}
+
+.menuPanelTitle{
+  display:inline-flex !important;
+  width:max-content;
+  max-width:100%;
+  align-items:center;
+  justify-content:center;
+  padding:8px 14px !important;
+  margin:0 0 14px !important;
+  border-radius:999px;
+  background:rgba(215,180,106,.12);
+  border:1px solid rgba(215,180,106,.30);
+  color:var(--gold2) !important;
+  font-size:12px !important;
+  font-weight:950 !important;
+  letter-spacing:.12em !important;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.menuBigPanel{
+  padding:14px !important;
+}
+
+.menuLaunchGrid{
+  margin-top:0 !important;
+}
