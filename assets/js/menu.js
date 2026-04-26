@@ -1346,19 +1346,7 @@ jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
           </div>
         `;
 
-        panel.querySelectorAll("[data-launch-index]").forEach(launchBtn => {
-          launchBtn.addEventListener("click", () => {
-            wrap.classList.remove("is-menu-launch-active");
-
-            document.body.classList.remove("menu-launch-fullscreen");
-            if (originalButton) originalButton.click();
-          });
-        });
-      });
-
-      jumpToElementInstant(activeDayPanel, 8);
-    }, 100);
-  }
+        qqqqqqqqqqq
 
   document.querySelectorAll("[data-open-menu]").forEach(btn => {
     btn.addEventListener("click", openTodayMenu);
