@@ -1466,25 +1466,26 @@ document.addEventListener("DOMContentLoaded", () => {
   activateDay(hasTodayTab ? today : fallbackDay);
 });
 
-/* ===== FREE HOOKAH MONDAY DIRECT OPEN FIX ===== */
+/* ===== FREE HOOKAH MONDAY — INSTANT JUMP OPEN ===== */
 window.addEventListener("load", function () {
   document.addEventListener("click", function (e) {
-    const clickedCard = e.target.closest(".menuWelcomeStrip__item, .menuWelcomeStrip__item--clickable, div, a, button");
-    if (!clickedCard) return;
+    const card = e.target.closest(".menuWelcomeStrip__item, .menuWelcomeStrip__item--clickable");
+    if (!card) return;
 
-    const text = (clickedCard.textContent || "").toLowerCase();
-
+    const text = (card.textContent || "").toLowerCase();
     if (!text.includes("free hookah monday")) return;
 
     e.preventDefault();
     e.stopPropagation();
 
+    // 1. Activate correct day
     const todayTab =
       document.querySelector(".dayTab.active") ||
       document.querySelector(".dayTab");
 
     if (todayTab) todayTab.click();
 
+    // 2. Open hookah instantly
     setTimeout(function () {
       const activePanel =
         document.querySelector(".dayPanel.active") ||
@@ -1492,26 +1493,30 @@ window.addEventListener("load", function () {
 
       if (!activePanel) return;
 
-      const hookahButton =
+      const hookahBtn =
         activePanel.querySelector('.menuCenterBtn[data-cat="hookah"]') ||
         [...activePanel.querySelectorAll(".menuCenterBtn")]
           .find(btn => (btn.textContent || "").toLowerCase().includes("hookah"));
 
-      if (hookahButton) {
-        hookahButton.click();
+      if (!hookahBtn) return;
 
-        setTimeout(function () {
-          const target =
-            activePanel.querySelector(".menuBigPanel") ||
-            activePanel.querySelector(".menuPanelBody") ||
-            activePanel;
+      hookahBtn.click();
 
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }, 100);
-      }
-    }, 150);
+      // 3. INSTANT jump (NO SMOOTH SCROLL)
+      setTimeout(function () {
+        const target =
+          activePanel.querySelector(".menuBigPanel") ||
+          activePanel.querySelector(".menuPanelBody") ||
+          activePanel;
+
+        if (typeof jumpToElementInstant === "function") {
+          jumpToElementInstant(target, 0);
+        } else {
+          // fallback instant jump
+          window.scrollTo(0, target.getBoundingClientRect().top + window.pageYOffset);
+        }
+      }, 50);
+
+    }, 120);
   });
 });
