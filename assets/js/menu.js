@@ -1462,7 +1462,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.stopPropagation();
     openTodayMenu();
   });
-
+xxxxxxxxx
   activateDay(hasTodayTab ? today : fallbackDay);
 });
 
