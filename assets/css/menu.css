@@ -1337,3 +1337,16 @@ html.no-smooth,
 html.no-smooth *{
   scroll-behavior:auto !important;
 }
+/* FREE HOOKAH MONDAY CLEAN OPEN VIEW */
+.menuCenterWrap.is-hookah-direct-open .menuPanelTitle{
+  display:none !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuBigPanel{
+  margin-top:0 !important;
+  padding-top:22px !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuPanelBody{
+  padding-top:0 !important;
+}
