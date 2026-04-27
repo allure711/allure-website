@@ -1462,7 +1462,78 @@ document.addEventListener("DOMContentLoaded", () => {
     event.stopPropagation();
     openTodayMenu();
   });
-xxxxxxxxx
+document.addEventListener("click", event => {
+  const openMenuButton = event.target.closest("[data-open-menu]");
+
+  if (!openMenuButton) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  openTodayMenu();
+});
+
+
+// ✅ 👉 PASTE YOUR FREE HOOKAH CODE RIGHT HERE 👇
+
+document.addEventListener("click", event => {
+  const card = event.target.closest(".menuWelcomeStrip__item");
+  if (!card) return;
+
+  const text = (card.textContent || "").toLowerCase();
+  if (!text.includes("free hookah monday")) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  const dayToOpen = hasTodayTab ? today : fallbackDay;
+  activateDay(dayToOpen);
+
+  setTimeout(() => {
+    const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
+    if (!activeDayPanel) return;
+
+    const wrap = activeDayPanel.querySelector(".menuCenterWrap");
+    if (!wrap) return;
+
+    const hookahButton =
+      activeDayPanel.querySelector('.menuCenterBtn[data-cat="hookah"]') ||
+      [...activeDayPanel.querySelectorAll(".menuCenterBtn")]
+        .find(btn => (btn.textContent || "").toLowerCase().includes("hookah"));
+
+    if (!hookahButton) return;
+
+    wrap.classList.remove("is-menu-launch-active");
+    wrap.classList.add("is-hookah-direct-open");
+
+    hookahButton.click();
+
+    setTimeout(() => {
+      const target = activeDayPanel.querySelector(".menuBigPanel");
+      if (!target) return;
+
+      const html = document.documentElement;
+      const body = document.body;
+
+      html.style.scrollBehavior = "auto";
+      body.style.scrollBehavior = "auto";
+
+      const header = document.querySelector(".header");
+      const headerHeight = header ? header.offsetHeight : 0;
+
+      const top =
+        window.pageYOffset +
+        target.getBoundingClientRect().top -
+        headerHeight;
+
+      window.scrollTo(0, Math.max(0, top));
+    }, 20);
+  }, 20);
+}, true);
+
+
+// ⛔ DO NOT MOVE THIS
+activateDay(hasTodayTab ? today : fallbackDay);
+});
   activateDay(hasTodayTab ? today : fallbackDay);
 });
 
