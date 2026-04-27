@@ -1465,3 +1465,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activateDay(hasTodayTab ? today : fallbackDay);
 });
+
+/* ===== FREE HOOKAH MONDAY DIRECT OPEN FIX ===== */
+window.addEventListener("load", function () {
+  document.addEventListener("click", function (e) {
+    const clickedCard = e.target.closest(".menuWelcomeStrip__item, .menuWelcomeStrip__item--clickable, div, a, button");
+    if (!clickedCard) return;
+
+    const text = (clickedCard.textContent || "").toLowerCase();
+
+    if (!text.includes("free hookah monday")) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const todayTab =
+      document.querySelector(".dayTab.active") ||
+      document.querySelector(".dayTab");
+
+    if (todayTab) todayTab.click();
+
+    setTimeout(function () {
+      const activePanel =
+        document.querySelector(".dayPanel.active") ||
+        document.querySelector(".dayPanel");
+
+      if (!activePanel) return;
+
+      const hookahButton =
+        activePanel.querySelector('.menuCenterBtn[data-cat="hookah"]') ||
+        [...activePanel.querySelectorAll(".menuCenterBtn")]
+          .find(btn => (btn.textContent || "").toLowerCase().includes("hookah"));
+
+      if (hookahButton) {
+        hookahButton.click();
+
+        setTimeout(function () {
+          const target =
+            activePanel.querySelector(".menuBigPanel") ||
+            activePanel.querySelector(".menuPanelBody") ||
+            activePanel;
+
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }, 100);
+      }
+    }, 150);
+  });
+});
