@@ -1821,3 +1821,70 @@ body.menu-page:has(.menuCenterWrap.is-menu-launch-active) .container{
   grid-template-columns:1fr !important;
   gap:10px !important;
 }
+
+/* ===== UBER STYLE CATEGORY DROPDOWN ===== */
+
+.menuUberDropdown{
+  width:100%;
+  appearance:none;
+  border:1px solid rgba(215,180,106,.30);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03));
+  color:#fff;
+  border-radius:20px;
+  padding:16px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:20px;
+  font-weight:950;
+  cursor:pointer;
+  box-shadow:
+    0 16px 34px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.menuUberDropdown__chevron{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(215,180,106,.13);
+  border:1px solid rgba(215,180,106,.25);
+  color:var(--gold2);
+  transition:transform .22s ease;
+}
+
+.menuUberDropdown.is-open .menuUberDropdown__chevron{
+  transform:rotate(180deg);
+}
+
+.menuUberDropdownPanel{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  overflow:hidden;
+  transition:
+    grid-template-rows .28s cubic-bezier(.2,.9,.2,1),
+    opacity .22s ease,
+    margin-top .22s ease;
+  margin-top:0;
+}
+
+.menuUberDropdownPanel.is-open{
+  grid-template-rows:1fr;
+  opacity:1;
+  margin-top:14px;
+}
+
+.menuUberDropdownPanel > *{
+  min-height:0;
+}
+
+.menuUberDropdownPanel .menuNested{
+  overflow:hidden;
+}
