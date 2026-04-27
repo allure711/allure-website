@@ -1373,28 +1373,7 @@ jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
     buttons.forEach(btn => btn.classList.remove("active"));
     originalButton.classList.add("active");
 
-    panel.innerHTML = `
-      <div class="menuAppCategory">
-        <button class="menuAppBackBtn" type="button" data-back-launch>← Back To Menu</button>
-        <div class="menuAppCategory__title">${escapeHtml(originalButton.textContent.trim())}</div>
-        <div class="menuAppCategory__body">
-          ${renderSectionedMenu(content)}
-        </div>
-      </div>
-    `;
-
-    bindSubTabs(panel, content);
-
-    const backBtn = panel.querySelector("[data-back-launch]");
-    if (backBtn) {
-      backBtn.addEventListener("click", () => {
-        openTodayMenu();
-      });
-    }
-
-    jumpToElementInstant(panel.closest(".menuBigPanel") || panel, 0);
-  });
-});
+    kkkkkkkk
 
   document.querySelectorAll("[data-open-menu]").forEach(btn => {
     btn.addEventListener("click", openTodayMenu);
