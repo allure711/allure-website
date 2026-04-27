@@ -1301,54 +1301,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return "✨";
   }
 
-  function openTodayMenu() {
-    document.body.classList.add("menu-launch-fullscreen");
-
-    const dayToOpen = hasTodayTab ? today : fallbackDay;
-    activateDay(dayToOpen);
-
-    setTimeout(() => {
-      const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
-      if (!activeDayPanel) return;
-
-      activeDayPanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
-        wrap.classList.remove("is-game-active");
-        wrap.classList.add("is-menu-launch-active");
-
-        const panel = wrap.querySelector(".menuPanelBody");
-        if (!panel) return;
-
-        const buttons = getButtons(wrap);
-        buttons.forEach(btn => btn.classList.remove("active"));
-
-        function renderTemuHome() {
-          panel.innerHTML = `
-            <div class="menuLaunchApp">
-              <div class="menuLaunchGrid">
-                ${buttons.map((button, index) => {
-                  const label = button.textContent.trim();
-                  const isAccent = button.classList.contains("menuCenterBtn--accent");
-                  const icon = getMenuCategoryIcon(label);
-
-                  return `
-                    <button class="menuLaunchBtn ${isAccent ? "menuLaunchBtn--accent" : ""}" type="button" data-launch-index="${index}">
-                      <span class="menuLaunchBtn__icon">${escapeHtml(icon)}</span>
-                      <span class="menuLaunchBtn__label">${escapeHtml(label)}</span>
-                      <span class="menuLaunchBtn__tap">Open</span>
-                    </button>
-                  `;
-                }).join("")}
-              </div>
-            </div>
-          `;
-
-          panel.querySelectorAll("[data-launch-index]").forEach(launchBtn => {
-            launchBtn.addEventListener("click", () => {
-              const originalButton = buttons[Number(launchBtn.dataset.launchIndex)];
-              if (!originalButton) return;
-              openTemuCategory(originalButton);
-            });
-          });
+  1304
 
           jumpToElementInstant(panel.closest(".menuBigPanel") || panel, 0);
         }
