@@ -1301,7 +1301,63 @@ document.addEventListener("DOMContentLoaded", () => {
     return "✨";
   }
 
-  1304
+  function openTodayMenu() {
+  document.body.classList.add("menu-launch-fullscreen");
+
+  // ✅ ADD GLOBAL BACK BUTTON (if not already added)
+  if (!document.querySelector(".menuGlobalBack")) {
+    const back = document.createElement("button");
+    back.className = "menuGlobalBack";
+    back.innerHTML = "← Back";
+    
+    back.addEventListener("click", () => {
+      document.body.classList.remove("menu-launch-fullscreen");
+
+      // reset ALL panels
+      document.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+        wrap.classList.remove("is-menu-launch-active");
+      });
+
+      // go back to top clean
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.body.appendChild(back);
+  }
+
+  const dayToOpen = hasTodayTab ? today : fallbackDay;
+  activateDay(dayToOpen);
+
+  setTimeout(() => {
+    const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
+    if (!activeDayPanel) return;
+
+    activeDayPanel.querySelectorAll(".menuCenterWrap").forEach(wrap => {
+      wrap.classList.add("is-menu-launch-active");
+
+      const panel = wrap.querySelector(".menuPanelBody");
+      const buttons = getButtons(wrap);
+
+      panel.innerHTML = `
+        <div class="menuLaunchApp">
+          <div class="menuLaunchGrid">
+            ${buttons.map((btn, i) => `
+              <button class="menuLaunchBtn" data-launch-index="${i}">
+                <span class="menuLaunchBtn__icon">${getMenuCategoryIcon(btn.textContent)}</span>
+                <span class="menuLaunchBtn__label">${btn.textContent}</span>
+                <span class="menuLaunchBtn__tap">Open</span>
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `;
+
+      panel.querySelectorAll("[data-launch-index]").forEach(btn => {
+        btn.onclick = () => buttons[btn.dataset.launchIndex].click();
+      });
+    });
+  }, 50);
+}
 
           jumpToElementInstant(panel.closest(".menuBigPanel") || panel, 0);
         }
