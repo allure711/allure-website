@@ -1466,3 +1466,70 @@ document.addEventListener("DOMContentLoaded", () => {
   activateDay(hasTodayTab ? today : fallbackDay);
 });
 
+/* ===== FREE HOOKAH MONDAY — TRUE INSTANT JUMP OPEN ===== */
+window.addEventListener("load", function () {
+  document.addEventListener("click", function (e) {
+    const card = e.target.closest(".menuWelcomeStrip__item, .menuWelcomeStrip__item--clickable");
+    if (!card) return;
+
+    const text = (card.textContent || "").toLowerCase();
+    if (!text.includes("free hookah monday")) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const html = document.documentElement;
+    const body = document.body;
+
+    const oldHtmlScroll = html.style.scrollBehavior;
+    const oldBodyScroll = body.style.scrollBehavior;
+
+    html.style.scrollBehavior = "auto";
+    body.style.scrollBehavior = "auto";
+
+    const todayTab =
+      document.querySelector(".dayTab.active") ||
+      document.querySelector(".dayTab");
+
+    if (todayTab) todayTab.click();
+
+    setTimeout(function () {
+      const activePanel =
+        document.querySelector(".dayPanel.active") ||
+        document.querySelector(".dayPanel");
+
+      if (!activePanel) return;
+
+      const hookahBtn =
+        activePanel.querySelector('.menuCenterBtn[data-cat="hookah"]') ||
+        [...activePanel.querySelectorAll(".menuCenterBtn")]
+          .find(btn => (btn.textContent || "").toLowerCase().includes("hookah"));
+
+      if (!hookahBtn) return;
+
+      hookahBtn.click();
+
+      setTimeout(function () {
+        const target =
+          activePanel.querySelector(".menuBigPanel") ||
+          activePanel.querySelector(".menuPanelBody") ||
+          activePanel;
+
+        if (!target) return;
+
+        const header = document.querySelector(".header");
+        const headerHeight = header ? header.offsetHeight : 0;
+
+        const top =
+          window.pageYOffset +
+          target.getBoundingClientRect().top -
+          headerHeight;
+
+        window.scrollTo(0, Math.max(0, top));
+
+        html.style.scrollBehavior = oldHtmlScroll;
+        body.style.scrollBehavior = oldBodyScroll;
+      }, 30);
+    }, 30);
+  }, true);
+});
