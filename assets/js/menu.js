@@ -1466,3 +1466,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activateDay(hasTodayTab ? today : fallbackDay);
 });
+
+/* ===== EMERGENCY FIX: FORCE VIEW MENU BUTTON TO OPEN ===== */
+window.addEventListener("load", function () {
+  document.querySelectorAll("[data-open-menu], .menuWelcomeStrip__item--clickable").forEach(function (btn) {
+    btn.onclick = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const firstDay = document.querySelector(".dayTab");
+      if (firstDay) firstDay.click();
+
+      setTimeout(function () {
+        const activePanel = document.querySelector(".dayPanel.active") || document.querySelector(".dayPanel");
+        if (!activePanel) return;
+
+        const wrap = activePanel.querySelector(".menuCenterWrap");
+        if (!wrap) return;
+
+        wrap.classList.add("is-menu-launch-active");
+        document.body.classList.add("menu-launch-fullscreen");
+
+        const panel = wrap.querySelector(".menuPanelBody");
+        const buttons = [
+          ...wrap.querySelectorAll(".menuCenterBtn"),
+          ...document.querySelectorAll(".outsideBottom .menuCenterBtn")
+        ];
+
+        if (!panel || !buttons.length) return;
+
+        panel.innerHTML = `
+          <div class="menuLaunchApp">
+            <button class="menuAppBackBtn" type="button" data-return-home>← Back To Home</button>
+            <div class="menuLaunchGrid">
+              ${buttons.map((b, i) => `
+                <button class="menuLaunchBtn" type="button" data-force-open="${i}">
+                  <span class="menuLaunchBtn__icon">✨</span>
+                  <span class="menuLaunchBtn__label">${b.textContent.trim()}</span>
+                  <span class="menuLaunchBtn__tap">Open</span>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        `;
+
+        panel.querySelector("[data-return-home]").onclick = function () {
+          document.body.classList.remove("menu-launch-fullscreen");
+          wrap.classList.remove("is-menu-launch-active");
+          window.location.reload();
+        };
+
+        panel.querySelectorAll("[data-force-open]").forEach(function (openBtn) {
+          openBtn.onclick = function () {
+            const original = buttons[Number(openBtn.dataset.forceOpen)];
+            if (original) original.click();
+          };
+        });
+
+        wrap.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    };
+  });
+});
