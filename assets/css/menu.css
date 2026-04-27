@@ -1305,3 +1305,38 @@ body.menu-launch-fullscreen .menuWrap{
     transform:translateY(0) scale(1);
   }
 }
+/* ===== HOOKAH DIRECT OPEN CLEAN VIEW ===== */
+
+html.no-smooth,
+html.no-smooth *{
+  scroll-behavior:auto !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuPanelTitle{
+  display:none !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuTopCategories{
+  display:none !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open + .outsideBottom{
+  display:none !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuBigPanel{
+  margin-top:0 !important;
+  padding-top:22px !important;
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuPanelBody{
+  padding-top:0 !important;
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
