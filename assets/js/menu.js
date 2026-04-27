@@ -1373,7 +1373,41 @@ jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
     buttons.forEach(btn => btn.classList.remove("active"));
     originalButton.classList.add("active");
 
-    kkkkkkkk
+    panel.innerHTML = `
+  <div class="menuAppCategory">
+    <button class="menuAppBackBtn" type="button" data-back-launch>← Back To Menu</button>
+
+    <button class="menuUberDropdown" type="button" data-toggle-category>
+      <span>${escapeHtml(originalButton.textContent.trim())}</span>
+      <span class="menuUberDropdown__chevron">⌄</span>
+    </button>
+
+    <div class="menuUberDropdownPanel is-open" data-category-panel>
+      ${renderSectionedMenu(content)}
+    </div>
+  </div>
+`;
+
+bindSubTabs(panel, content);
+
+const dropdownBtn = panel.querySelector("[data-toggle-category]");
+const dropdownPanel = panel.querySelector("[data-category-panel]");
+
+if (dropdownBtn && dropdownPanel) {
+  dropdownBtn.addEventListener("click", () => {
+    dropdownPanel.classList.toggle("is-open");
+    dropdownBtn.classList.toggle("is-open");
+  });
+}
+
+const backBtn = panel.querySelector("[data-back-launch]");
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    openTodayMenu();
+  });
+}
+
+jumpToElementInstant(panel.closest(".menuBigPanel") || panel, 0);
 
   document.querySelectorAll("[data-open-menu]").forEach(btn => {
     btn.addEventListener("click", openTodayMenu);
