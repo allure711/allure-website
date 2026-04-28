@@ -1248,7 +1248,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
 
-  1251
+  function jumpToActiveGamePanel() {
+  document.body.classList.add("is-game-direct-mode");
+  document.body.classList.remove("menu-launch-fullscreen");
+  document.body.classList.remove("is-hookah-direct-mode");
+
+  let activeDayPanel = document.querySelector(".dayPanel.active");
+
+  if (!activeDayPanel) {
+    activateDay(hasTodayTab ? today : fallbackDay);
+    activeDayPanel = document.querySelector(".dayPanel.active");
+  }
+
+  if (!activeDayPanel) return;
+
+  const wrap = activeDayPanel.querySelector(".menuCenterWrap");
+  const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
+  const panel = activeDayPanel.querySelector(".menuPanelBody");
+
+  if (!wrap || !gameButton || !panel) return;
+
+  document.querySelectorAll(".menuCenterWrap").forEach(w => {
+    w.classList.remove("is-menu-launch-active");
+    w.classList.remove("is-hookah-direct-open");
+    w.classList.remove("is-game-direct-open");
+  });
+
+  wrap.classList.add("is-game-direct-open");
+
+  gameButton.classList.add("active");
+  renderEntryScreen(panel, activeDayPanel.dataset.daypanel || "monday", true);
+
+  setTimeout(() => {
+    const target = activeDayPanel.querySelector(".menuCenterWrap.is-game-direct-open .menuBigPanel");
+    jumpToElementInstant(target || activeDayPanel, 0);
+  }, 40);
+}
 
   document.querySelectorAll("[data-open-game]").forEach(button => {
     button.addEventListener("click", jumpToActiveGamePanel);
