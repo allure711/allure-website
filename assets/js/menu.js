@@ -1499,13 +1499,10 @@ document.addEventListener("click", event => {
 
       if (!hookahButton) return;
 
-      wrap.classList.remove("is-menu-launch-active");
-      wrap.classList.add("is-hookah-direct-open");
-
-      hookahButton.click();
+      1502
 
       setTimeout(() => {
-        const target = activeDayPanel.querySelector(".menuBigPanel");
+        1505
         if (!target) return;
 
         const html = document.documentElement;
