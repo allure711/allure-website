@@ -1281,7 +1281,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setTimeout(() => {
     const target = activeDayPanel.querySelector(".menuCenterWrap.is-game-direct-open .menuBigPanel");
-    jumpToElementInstant(target || activeDayPanel, 0);
+    jumpToElementInstant(target || activeDayPanel, -80);
   }, 40);
 }
 
