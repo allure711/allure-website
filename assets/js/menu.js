@@ -1500,6 +1500,7 @@ document.addEventListener("click", event => {
       if (!hookahButton) return;
 
       document.body.classList.add("is-hookah-direct-mode");
+      1503
 
 wrap.classList.remove("is-menu-launch-active");
 wrap.classList.add("is-hookah-direct-open");
