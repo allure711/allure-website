@@ -1400,3 +1400,39 @@ body.is-hookah-direct-mode .menuWrap{
   box-shadow:0 10px 30px rgba(0,0,0,.3);
   backdrop-filter:blur(10px);
 }
+
+/* ===== GAME DIRECT FULL SCREEN FIX ===== */
+
+body.is-game-direct-mode .topSellersStrip,
+body.is-game-direct-mode .gameHero,
+body.is-game-direct-mode .menuWelcomeStrip,
+body.is-game-direct-mode .dayTabs{
+  display:none !important;
+}
+
+body.is-game-direct-mode .menuWrap{
+  padding-top:0 !important;
+}
+
+.menuCenterWrap.is-game-direct-open .menuPanelTitle,
+.menuCenterWrap.is-game-direct-open .menuTopCategories,
+.menuCenterWrap.is-game-direct-open + .outsideBottom{
+  display:none !important;
+}
+
+.menuCenterWrap.is-game-direct-open .menuBigPanel{
+  margin-top:0 !important;
+  padding-top:22px !important;
+  min-height:calc(100vh - 120px) !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.menuCenterWrap.is-game-direct-open .menuPanelBody{
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+  padding-top:0 !important;
+}
