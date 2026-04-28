@@ -1248,29 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
 
-  function jumpToActiveGamePanel() {
-    let activeDayPanel = document.querySelector(".dayPanel.active");
-
-    if (!activeDayPanel) {
-      activateDay(hasTodayTab ? today : fallbackDay);
-      activeDayPanel = document.querySelector(".dayPanel.active");
-    }
-
-    if (!activeDayPanel) return;
-
-    const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
-    const panel = activeDayPanel.querySelector(".menuPanelBody");
-
-    if (!gameButton || !panel) return;
-
-    gameButton.classList.add("active");
-    renderEntryScreen(panel, activeDayPanel.dataset.daypanel || "monday", true);
-
-    setTimeout(() => {
-      const firstMenuPanel = activeDayPanel.querySelector(".menuBigPanel");
-      jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
-    }, 40);
-  }
+  1251
 
   document.querySelectorAll("[data-open-game]").forEach(button => {
     button.addEventListener("click", jumpToActiveGamePanel);
