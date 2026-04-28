@@ -1437,3 +1437,34 @@ body.is-game-direct-mode .menuWrap{
   padding-top:0 !important;
 }
 
+/* ===== GAME PAGE FULL SCREEN — NO TOP CUT OFF ===== */
+
+body.is-game-direct-mode .menuBigPanel{
+  padding-top:90px !important;
+  padding-left:14px !important;
+  padding-right:14px !important;
+  padding-bottom:130px !important;
+}
+
+body.is-game-direct-mode .menuPanelBody{
+  padding-top:0 !important;
+}
+
+body.is-game-direct-mode .pdmWheelShell,
+body.is-game-direct-mode .pdmEntry,
+body.is-game-direct-mode .pdmWinner{
+  padding-top:0 !important;
+  margin-top:0 !important;
+}
+
+body.is-game-direct-mode .gameTop{
+  margin-top:0 !important;
+}
+
+body.is-game-direct-mode .pdmWheelArea{
+  padding-top:40px !important;
+}
+
+body.is-game-direct-mode .pdmWheelWrap{
+  width:min(100%, 330px) !important;
+}
