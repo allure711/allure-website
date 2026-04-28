@@ -1499,10 +1499,17 @@ document.addEventListener("click", event => {
 
       if (!hookahButton) return;
 
-      1502
+      document.body.classList.add("is-hookah-direct-mode");
+
+wrap.classList.remove("is-menu-launch-active");
+wrap.classList.add("is-hookah-direct-open");
+
+hookahButton.click();
 
       setTimeout(() => {
-        1505
+        const target =
+  activeDayPanel.querySelector(".menuCenterWrap.is-hookah-direct-open .menuBigPanel") ||
+  activeDayPanel.querySelector(".menuBigPanel");
         if (!target) return;
 
         const html = document.documentElement;
