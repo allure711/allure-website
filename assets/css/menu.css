@@ -1340,3 +1340,41 @@ html.no-smooth *{
   height:auto !important;
   overflow:visible !important;
 }
+
+/* FIX FREE HOOKAH MONDAY TOP HANGING SECTION */
+body.is-hookah-direct-mode .topSellersStrip,
+body.is-hookah-direct-mode .gameHero,
+body.is-hookah-direct-mode .menuWelcomeStrip,
+body.is-hookah-direct-mode .dayTabs{
+  display:none !important;
+}
+
+body.is-hookah-direct-mode .menuWrap{
+  padding-top:0 !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuPanelTitle{
+  display:none !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuTopCategories,
+.menuCenterWrap.is-hookah-direct-open + .outsideBottom{
+  display:none !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuBigPanel,
+.menuCenterWrap.is-hookah-direct-open .menuPanelBody{
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuBigPanel{
+  margin-top:0 !important;
+  padding-top:22px !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuPanelBody{
+  padding-top:0 !important;
+}
