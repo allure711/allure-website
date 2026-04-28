@@ -1500,7 +1500,24 @@ document.addEventListener("click", event => {
       if (!hookahButton) return;
 
       document.body.classList.add("is-hookah-direct-mode");
-      1503
+      // ADD BACK BUTTON
+let backBtn = document.createElement("button");
+backBtn.className = "hookahBackBtn";
+backBtn.textContent = "← Back";
+
+document.body.appendChild(backBtn);
+
+backBtn.addEventListener("click", () => {
+  document.body.classList.remove("is-hookah-direct-mode");
+
+  const wrap = document.querySelector(".menuCenterWrap.is-hookah-direct-open");
+  if (wrap) wrap.classList.remove("is-hookah-direct-open");
+
+  backBtn.remove();
+
+  // return to normal menu home
+  window.scrollTo(0,0);
+});
 
 wrap.classList.remove("is-menu-launch-active");
 wrap.classList.add("is-hookah-direct-open");
