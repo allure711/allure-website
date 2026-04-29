@@ -886,23 +886,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const safeSession = readSession(day) || session;
 
     panel.innerHTML = `
-      <div class="pdmWheelShell">
-        <div class="gameTop">
-          <div>
-            <div class="gameTitle">Tonight’s Reward Wheel</div>
-            <div class="gameSub">Spin now and lock in your table’s reward.</div>
-          </div>
 
           <div class="gameBadgeRow">
             <span class="gameBadge">Table: ${escapeHtml(safeSession.table || getTableLabel())}</span>
             <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
           </div>
         </div>
-
-        <div class="pdmWheelPromo">
-          <div class="pdmWheelPromo__title">Every spin reveals a real reward.</div>
-          <div class="pdmWheelPromo__text">Discounts, upgrades, favorites, and VIP prompts — one spin only.</div>
-        </div>
+        <div class="gameClean">
+           <h2>SPIN THE WHEEL</h2>
+           </div>
 
         <div class="pdmWheelArea">
           <div class="pdmPointer"></div>
@@ -926,12 +918,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
         </div>
-
-        <div class="staffBox">
-          <div class="staffState">One spin per guest entry.</div>
-        </div>
-      </div>
-    `;
 
     const shell = panel.querySelector(".pdmWheelShell");
     const wheel = panel.querySelector("[data-wheel]");
@@ -1124,6 +1110,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderIdleState(panel, day) {
     setGameState(panel, false);
     getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
+    document.body.classList.remove("is-game-direct-mode");
 
     panel.innerHTML = `
       <div class="menuStart">
