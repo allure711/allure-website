@@ -1520,3 +1520,21 @@ body.is-game-direct-mode .gameActions .gameBtn{
     transform:translateY(0) scale(1);
   }
 }
+
+.gameTop,
+.pdmWheelPromo,
+.staffBox{
+  display:none !important;
+}
+
+.gameTopClean{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.gameTopClean h2{
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:.12em;
+  color:var(--gold2);
+}
