@@ -1,1547 +1,1540 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const CATEGORY_CONTENT = window.MENU_CATEGORY_CONTENT || {};
-  const STAFF_PIN = "2024";
-  const LEADS_KEY = "allure_leads_v5";
-  const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
-  const MOBILE_BREAKPOINT = 760;
+:root{
+  --gold:#d7b46a;
+  --gold2:#f2d38a;
+  --bg:#07070a;
+  --bg2:#0a0a10;
+  --panel:rgba(255,255,255,.05);
+  --line:rgba(255,255,255,.10);
+  --textSoft:rgba(255,255,255,.72);
+  --shadow:0 18px 60px rgba(0,0,0,.28);
+}
 
-  const POINTER_ALIGNMENT_OFFSET_DEG = 0;
-  const FINAL_SETTLE_OVERSHOOT_DEG = 6;
-  const FINAL_SETTLE_DURATION_MS = 260;
-  const WHEEL_SPIN_DURATION_MS = 4700;
-  const WINNER_GLOW_DURATION_MS = 1600;
+*{
+  box-sizing:border-box;
+}
 
-  const WHEEL_SEGMENTS = [
-    "Free Shot",
-    "$5 Hookah",
-    "Free Mixer",
-    "$3 Fishbowl",
-    "Bonus Spin",
-    "Hookah Upgrade",
-    "Lucky Deal",
-    "VIP Access",
-    "House Pick",
-    "Try Again",
-    "$10 Bottle",
-    "Group Shot"
-  ];
+html{
+  scroll-behavior:smooth;
+}
 
-  const WHEEL_COLORS = [
-    "#d7b46a",
-    "#171720",
-    "#a25af5",
-    "#101017",
-    "#f2d38a",
-    "#171720",
-    "#ff5edb",
-    "#101017",
-    "#d7b46a",
-    "#15151c",
-    "#f2d38a",
-    "#171720"
-  ];
+html,
+body{
+  overflow-x:hidden;
+  height:auto !important;
+  max-width:100% !important;
+  overflow-y:auto !important;
+}
 
-  let audioContext = null;
-  let lastTickStep = -1;
-  let pointerBounceLock = false;
+.menu-page{
+  background:
+    radial-gradient(1200px 700px at 8% 10%, rgba(215,180,106,.14), transparent 58%),
+    radial-gradient(1000px 620px at 86% 12%, rgba(120,90,255,.12), transparent 54%),
+    radial-gradient(900px 520px at 50% 100%, rgba(255,255,255,.03), transparent 44%),
+    linear-gradient(180deg, #050509 0%, #090910 50%, #050509 100%);
+  color:#fff;
+}
 
-  const navToggle = document.querySelector(".nav__toggle");
-  const navList = document.querySelector(".nav__list");
+.menuWrap{
+  padding:0 0 100px;
+  overflow:visible !important;
+}
 
-  if (navToggle && navList) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = navList.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", String(isOpen));
-    });
+.container{
+  overflow:visible !important;
+}
 
-    navList.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
-        navList.classList.remove("is-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
-    });
+.header{
+  backdrop-filter:blur(10px);
+  background:rgba(8,8,12,.72);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.header__inner{
+  min-height:76px;
+}
+
+.brand{
+  letter-spacing:-.01em;
+  font-weight:900;
+}
+
+.nav__list a{
+  transition:color .2s ease, opacity .2s ease;
+}
+
+.nav__list a:hover{
+  color:var(--gold2);
+}
+
+.menuWelcomeStrip{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  margin:20px 0 24px;
+}
+
+.menuWelcomeStrip__item{
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  border-radius:18px;
+  padding:14px 16px;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.menuWelcomeStrip__item--clickable{
+  appearance:none;
+  text-decoration:none;
+  text-align:left;
+  cursor:pointer;
+  color:#fff;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.menuWelcomeStrip__item--clickable:hover{
+  transform:translateY(-1px);
+  border-color:rgba(215,180,106,.34);
+}
+
+.menuWelcomeStrip__label{
+  display:block;
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.menuWelcomeStrip__text{
+  color:rgba(255,255,255,.78);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.gameHero{
+  margin:0 0 28px;
+  position:relative;
+  z-index:2;
+}
+
+.gameHero__card{
+  position:relative;
+  overflow:hidden;
+  border-radius:26px;
+  padding:22px 24px;
+  border:1px solid rgba(215,180,106,.24);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(155,70,255,.10), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  box-shadow:
+    0 22px 46px rgba(0,0,0,.26),
+    0 0 24px rgba(215,180,106,.10),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.gameHero__content{
+  position:relative;
+  z-index:2;
+  display:grid;
+  gap:14px;
+}
+
+.gameHero__meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.gameHero__eyebrow{
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#f2d38a;
+}
+
+.gameHero__socialProof{
+  display:inline-flex;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.20);
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.86);
+  font-size:12px;
+  font-weight:800;
+}
+
+.gameHero__title{
+  font-size:30px;
+  font-weight:950;
+  line-height:1.03;
+  letter-spacing:-.02em;
+  color:#fff;
+  max-width:760px;
+}
+
+.gameHero__text{
+  max-width:760px;
+  color:rgba(255,255,255,.82);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.gameHero__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.gameHero__btn{
+  appearance:none;
+  border:none;
+  border-radius:999px;
+  min-height:46px;
+  padding:12px 18px;
+  font-weight:900;
+  font-size:13px;
+  cursor:pointer;
+}
+
+.gameHero__btn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.gameHero__btn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.dayTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 30px;
+  position:relative;
+  z-index:2;
+}
+
+.dayTab{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  padding:10px 13px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.dayTab.active{
+  background:rgba(215,180,106,.14);
+  border-color:rgba(215,180,106,.40);
+  color:var(--gold2);
+}
+
+.dayPanel{
+  display:none;
+  padding-top:0 !important;
+}
+
+.dayPanel.active{
+  display:block;
+  animation:allureSoftReveal .45s ease both;
+}
+
+.heroRow{
+  display:none !important;
+}
+
+.daySub{
+  display:none !important;
+}
+
+.menuSplit{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.menuCenterWrap{
+  display:grid;
+  gap:12px !important;
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+}
+
+.menuTopCategories,
+.menuBottomCategories{
+  display:grid;
+  gap:8px;
+}
+
+.menuTopCategories{
+  grid-template-columns:repeat(8,1fr);
+}
+
+.menuBottomCategories{
+  grid-template-columns:repeat(6,1fr);
+}
+
+.menuCenterBtn{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+  color:#fff;
+  min-height:44px;
+  padding:8px 10px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+}
+
+.menuCenterBtn.active{
+  border-color:rgba(215,180,106,.44);
+  background:rgba(215,180,106,.15);
+  color:var(--gold2);
+}
+
+.menuCenterBtn--accent{
+  border-color:rgba(255,94,219,.24);
+  background:linear-gradient(135deg, rgba(255,94,219,.16), rgba(215,180,106,.12));
+}
+
+.menuBigPanel{
+  position:relative;
+  border-radius:24px;
+  background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);
+  padding:14px !important;
+  min-height:420px !important;
+  max-height:420px;
+  overflow:hidden !important;
+  display:flex;
+  flex-direction:column;
+}
+
+.menuPanelTitle{
+  display:inline-flex !important;
+  width:max-content;
+  max-width:100%;
+  align-items:center;
+  justify-content:center;
+  padding:8px 14px !important;
+  margin:0 0 14px !important;
+  border-radius:999px;
+  background:rgba(215,180,106,.12);
+  border:1px solid rgba(215,180,106,.30);
+  color:var(--gold2) !important;
+  font-size:12px !important;
+  font-weight:950 !important;
+  letter-spacing:.12em !important;
+  text-transform:uppercase;
+}
+
+.menuPanelBody{
+  flex:1 1 auto;
+  min-height:330px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:10px 10px 18px !important;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  border-radius:16px;
+  -webkit-overflow-scrolling:touch;
+}
+
+.outsideBottom{
+  margin-top:14px !important;
+  display:flex !important;
+  gap:10px !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+}
+
+.menuEmpty{
+  border-radius:18px;
+  border:1px dashed rgba(255,255,255,.12);
+  background:rgba(255,255,255,.02);
+  padding:24px;
+  color:var(--textSoft);
+  line-height:1.7;
+}
+
+.menuStart{
+  display:grid;
+  gap:14px;
+}
+
+.menuStart__title{
+  font-size:18px;
+  font-weight:900;
+}
+
+.menuStart__text{
+  color:rgba(255,255,255,.72);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.menuStart__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.menuStartBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.menuStartBtn--gold{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.menuStartBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.menuStartMeta{
+  font-size:12px;
+  color:rgba(255,255,255,.56);
+}
+
+.menuNested{
+  display:grid;
+  gap:16px;
+}
+
+.menuSubTabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:8px;
+}
+
+.menuSubTab{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  padding:7px 13px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.menuSubTab.active{
+  background:rgba(215,180,106,.14);
+  border-color:rgba(215,180,106,.40);
+  color:var(--gold2);
+}
+
+.menuPanelBody .menuList,
+.menuGrouped__box .menuList{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px 36px;
+}
+
+.menuPanelBody .menuItem,
+.menuGrouped__box .menuItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+  padding:6px 0;
+  margin:0;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+
+.menuPanelBody .menuItem__name,
+.menuGrouped__box .menuItem__name{
+  font-size:14px;
+  font-weight:850;
+  line-height:1.35;
+  color:#fff;
+  margin:0;
+}
+
+.menuPanelBody .menuItem__desc,
+.menuGrouped__box .menuItem__desc{
+  margin-top:2px;
+  font-size:11px;
+  line-height:1.4;
+  color:rgba(255,255,255,.62);
+}
+
+.menuPanelBody .menuItem__price,
+.menuGrouped__box .menuItem__price{
+  flex:0 0 auto;
+  min-width:46px;
+  text-align:right;
+  white-space:nowrap;
+  font-size:13px;
+  font-weight:900;
+  color:var(--gold2);
+  margin-left:12px;
+}
+
+.menuGrouped{
+  max-width:980px;
+  margin:0 auto;
+  padding:2px 0 0;
+}
+
+.menuGrouped__grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:22px;
+}
+
+.menuGrouped__box{
+  background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+  border-radius:18px;
+  padding:14px 16px 12px;
+}
+
+.menuGrouped__boxTitle{
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.gameShell{
+  display:grid;
+  gap:14px;
+}
+
+.gameTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.gameTitle{
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+.gameSub{
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:4px;
+}
+
+.gameBadgeRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.gameBadge{
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+}
+
+.gameBadge--gold{
+  color:var(--gold2);
+  border-color:rgba(215,180,106,.30);
+  background:rgba(215,180,106,.08);
+}
+
+.gameActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  position:relative;
+  z-index:10;
+  margin-top:6px;
+}
+
+.gameBtn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.gameBtn--gold,
+.gameBtn--top{
+  background:linear-gradient(135deg, #d7b46a, #f2d38a);
+  color:#111;
+}
+
+.gameBtn--ghost{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.staffBox{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  border-radius:14px;
+  padding:12px;
+}
+
+.staffRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+
+.staffInput{
+  flex:1 1 160px;
+  min-width:0;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.18);
+  color:#fff;
+  padding:10px 12px;
+  font-size:16px !important;
+}
+
+.staffState{
+  margin-top:8px;
+  font-size:12px;
+  color:rgba(255,255,255,.72);
+}
+
+.pdmEntry,
+.pdmWinner{
+  display:grid;
+  gap:14px;
+}
+
+.pdmEntry__eyebrow,
+.pdmWinner__eyebrow{
+  display:inline-flex;
+  width:max-content;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.30);
+  background:rgba(215,180,106,.10);
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.pdmEntry__title,
+.pdmWinner__title{
+  margin:0;
+  font-size:30px;
+  line-height:1.05;
+  font-weight:950;
+  color:#fff;
+}
+
+.pdmEntry__text,
+.pdmWinner__text{
+  margin:0;
+  color:rgba(255,255,255,.78);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.pdmEntry__input{
+  font-size:16px !important;
+}
+
+.pdmWheelShell{
+  display:grid;
+  gap:20px;
+}
+
+.pdmWheelPromo{
+  border:1px solid rgba(215,180,106,.18);
+  background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:14px 16px;
+}
+
+.pdmWheelArea{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:18px 0 10px;
+  margin-bottom:18px;
+}
+
+.pdmPointer{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%) rotate(0deg);
+  transform-origin:50% 10%;
+  width:0;
+  height:0;
+  border-left:16px solid transparent;
+  border-right:16px solid transparent;
+  border-top:28px solid var(--gold2);
+  z-index:8;
+}
+
+.pdmWheelWrap{
+  position:relative;
+  width:min(100%, 370px);
+  aspect-ratio:1 / 1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 10px;
+}
+
+.pdmWheel{
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  z-index:1;
+  will-change:transform;
+  transform-origin:center center;
+}
+
+.pdmWheelSvg{
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+.pdmWheelSvg__outerRing{
+  fill:none;
+  stroke:rgba(215,180,106,.72);
+  stroke-width:18;
+}
+
+.pdmWheelSvg__rimInner{
+  fill:none;
+  stroke:rgba(255,255,255,.06);
+  stroke-width:6;
+}
+
+.pdmWheelSvg__divider{
+  stroke:rgba(255,255,255,.08);
+  stroke-width:4;
+  stroke-linecap:round;
+}
+
+.pdmWheelSvg__label{
+  fill:#fff;
+  font-weight:950;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  paint-order:stroke fill;
+  stroke:rgba(0,0,0,.72);
+  stroke-width:4px;
+}
+
+.pdmWheelSvg__hubRing{
+  fill:#120f15;
+  stroke:rgba(255,255,255,.08);
+  stroke-width:8;
+}
+
+.pdmWheelSvg__hubCore{
+  fill:#0d0b11;
+  stroke:rgba(255,255,255,.04);
+  stroke-width:3;
+}
+
+.pdmWheelCenterBadge{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  width:132px;
+  height:132px;
+  border-radius:50%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:6;
+  pointer-events:none;
+  background:linear-gradient(180deg, #14121a, #08080d);
+  border:1px solid rgba(242,211,138,.20);
+}
+
+.pdmWheelCenterBadge__top{
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.22em;
+  color:var(--gold2);
+}
+
+.pdmWheelCenterBadge__main{
+  margin-top:5px;
+  font-size:17px;
+  line-height:1.05;
+  font-weight:950;
+  color:#fff;
+  text-transform:uppercase;
+}
+
+.pdmWheelCenterBadge__bottom{
+  margin-top:6px;
+  font-size:10px;
+  font-weight:800;
+  color:rgba(255,255,255,.70);
+}
+
+.topSellersStrip{
+  margin:20px 0 22px;
+  padding:18px;
+  border:1px solid rgba(215,180,106,.18);
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+}
+
+.topSellersGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+
+.topSellerCard{
+  padding:16px 14px 14px;
+  border-radius:18px;
+  border:1px solid rgba(215,180,106,.18);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+}
+
+.topSellerName{
+  font-size:15px;
+  font-weight:900;
+  color:#fff;
+}
+
+.topSellerPrice{
+  font-size:15px;
+  font-weight:900;
+  color:var(--gold2);
+}
+
+.topSellerDesc{
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.45;
+  color:rgba(255,255,255,.72);
+}
+
+.topSellerBadge{
+  display:inline-flex;
+  margin-top:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.22);
+  background:rgba(215,180,106,.08);
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.menuCenterWrap.is-game-active .menuTopCategories{
+  display:none !important;
+}
+
+.menuCenterWrap.is-game-active .menuBigPanel,
+.menuCenterWrap.is-game-active .menuPanelBody{
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.menuCenterWrap.is-game-active + .outsideBottom{
+  display:none !important;
+}
+
+/* ===== TEMU FULLSCREEN MENU ===== */
+
+body.menu-launch-fullscreen .topSellersStrip,
+body.menu-launch-fullscreen .gameHero,
+body.menu-launch-fullscreen .menuWelcomeStrip,
+body.menu-launch-fullscreen .dayTabs{
+  display:none !important;
+}
+
+body.menu-launch-fullscreen .menuWrap{
+  padding-top:0 !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuTopCategories,
+.menuCenterWrap.is-menu-launch-active + .outsideBottom{
+  display:none !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuPanelTitle{
+  display:none !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuBigPanel{
+  min-height:calc(100vh - 120px) !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+  border-radius:24px !important;
+  margin-top:0 !important;
+  padding-top:22px !important;
+}
+
+.menuCenterWrap.is-menu-launch-active .menuPanelBody{
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+  padding:8px !important;
+}
+
+.menuLaunchApp{
+  position:relative;
+  padding:0 2px 10px;
+}
+
+.menuLaunchGrid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:14px;
+}
+
+.menuLaunchBtn{
+  appearance:none;
+  min-height:128px !important;
+  border-radius:24px;
+  padding:14px 10px !important;
+  background:
+    radial-gradient(circle at 70% 18%, rgba(255,255,255,.16), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.028));
+  border:1px solid rgba(255,255,255,.13);
+  color:#fff;
+  cursor:pointer;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:8px !important;
+}
+
+.menuLaunchBtn__icon{
+  width:50px !important;
+  height:50px !important;
+  border-radius:20px;
+  font-size:25px !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg, rgba(242,211,138,.30), rgba(255,94,219,.14));
+  border:1px solid rgba(242,211,138,.24);
+}
+
+.menuLaunchBtn__label{
+  display:block;
+  font-size:15px !important;
+  line-height:1.05 !important;
+  font-weight:950;
+  color:#fff;
+  text-align:center;
+}
+
+.menuLaunchBtn__tap{
+  display:inline-flex;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid rgba(215,180,106,.28);
+  background:rgba(215,180,106,.14);
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:950;
+}
+
+.menuLaunchBtn--accent{
+  background:
+    radial-gradient(circle at 70% 18%, rgba(255,94,219,.24), transparent 34%),
+    linear-gradient(135deg, rgba(255,94,219,.20), rgba(215,180,106,.14));
+  border-color:rgba(255,94,219,.36);
+}
+
+/* ===== TEMU CATEGORY + UBER DROPDOWN ===== */
+
+.menuAppCategory{
+  display:grid;
+  gap:14px;
+  animation:menuAppPop .28s cubic-bezier(.2,.9,.2,1) both;
+}
+
+.menuAppBackBtn{
+  width:max-content;
+  max-width:100%;
+  appearance:none;
+  border:1px solid rgba(215,180,106,.30);
+  background:rgba(215,180,106,.12);
+  color:var(--gold2);
+  border-radius:999px;
+  padding:9px 14px;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.06em;
+  cursor:pointer;
+}
+
+.menuUberWrap{
+  position:relative;
+  display:grid;
+  gap:10px;
+  z-index:50;
+}
+
+.menuUberDropdown{
+  width:100%;
+  appearance:none;
+  border:1px solid rgba(215,180,106,.30);
+  background:
+    radial-gradient(circle at top right, rgba(215,180,106,.12), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03));
+  color:#fff;
+  border-radius:20px;
+  padding:16px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:20px;
+  font-weight:950;
+  cursor:pointer;
+}
+
+.menuUberDropdown__chevron{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(215,180,106,.13);
+  border:1px solid rgba(215,180,106,.25);
+  color:var(--gold2);
+  transition:transform .22s ease;
+}
+
+.menuUberDropdown.is-open .menuUberDropdown__chevron{
+  transform:rotate(180deg);
+}
+
+.menuUberCategoryList{
+  display:none;
+  position:absolute;
+  top:calc(100% + 8px);
+  left:0;
+  right:0;
+  z-index:999;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:20px;
+  background:rgba(8,8,14,.98);
+  box-shadow:0 24px 70px rgba(0,0,0,.55);
+}
+
+.menuUberCategoryList.is-open{
+  display:grid;
+  gap:8px;
+}
+
+.menuUberCategoryOption{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.045);
+  color:#fff;
+  border-radius:15px;
+  padding:13px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  cursor:pointer;
+  font-weight:900;
+  text-align:left;
+}
+
+.menuUberCategoryOption[data-active="true"]{
+  color:var(--gold2);
+  border-color:rgba(215,180,106,.36);
+  background:rgba(215,180,106,.12);
+}
+
+.menuUberCategoryOption b{
+  color:var(--gold2);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.menuAppCategory__body{
+  display:block;
+}
+
+.menuAppCategory .menuSubTabs{
+  position:sticky;
+  top:0;
+  z-index:20;
+  padding:8px 0;
+  background:rgba(14,14,20,.88);
+  backdrop-filter:blur(14px);
+}
+
+.menuAppCategory .menuList{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:10px !important;
+}
+
+.menuAppCategory .menuItem{
+  border:1px solid rgba(255,255,255,.10) !important;
+  background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)) !important;
+  border-radius:18px !important;
+  padding:14px !important;
+}
+
+/* ===== HOOKAH DIRECT OPEN VIEW ===== */
+
+html.no-smooth,
+html.no-smooth *{
+  scroll-behavior:auto !important;
+}
+
+body.is-hookah-direct-mode .topSellersStrip,
+body.is-hookah-direct-mode .gameHero,
+body.is-hookah-direct-mode .menuWelcomeStrip,
+body.is-hookah-direct-mode .dayTabs{
+  display:none !important;
+}
+
+body.is-hookah-direct-mode .menuWrap{
+  padding-top:0 !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuPanelTitle,
+.menuCenterWrap.is-hookah-direct-open .menuTopCategories,
+.menuCenterWrap.is-hookah-direct-open + .outsideBottom{
+  display:none !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuBigPanel{
+  margin-top:0 !important;
+  padding-top:22px !important;
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.menuCenterWrap.is-hookah-direct-open .menuPanelBody{
+  padding-top:0 !important;
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+
+.hookahBackBtn{
+  position:fixed;
+  top:calc(env(safe-area-inset-top, 0px) + 92px);
+  left:14px;
+  z-index:99999;
+  appearance:none;
+  border:1px solid rgba(215,180,106,.46);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 35%),
+    linear-gradient(135deg, rgba(215,180,106,.26), rgba(20,20,26,.92));
+  color:#f2d38a;
+  min-height:42px;
+  padding:10px 16px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:950;
+  letter-spacing:.03em;
+  cursor:pointer;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.42),
+    0 0 0 1px rgba(255,255,255,.06),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.hookahBackBtn:active{
+  transform:scale(.96);
+}
+
+/* ===== GAME MODE — KEEP TEMU STYLE, FIX CUT OFF ONLY ===== */
+
+body.is-game-direct-mode .topSellersStrip,
+body.is-game-direct-mode .gameHero,
+body.is-game-direct-mode .menuWelcomeStrip,
+body.is-game-direct-mode .dayTabs{
+  display:none !important;
+}
+
+body.is-game-direct-mode .menuWrap{
+  padding-top:0 !important;
+}
+
+.menuCenterWrap.is-game-direct-open .menuPanelTitle,
+.menuCenterWrap.is-game-direct-open .menuTopCategories,
+.menuCenterWrap.is-game-direct-open + .outsideBottom{
+  display:none !important;
+}
+
+body.is-game-direct-mode .container,
+body.is-game-direct-mode .menuWrap,
+body.is-game-direct-mode .dayPanel,
+body.is-game-direct-mode .menuCenterWrap{
+  width:100% !important;
+  max-width:100% !important;
+  overflow-x:hidden !important;
+}
+
+body.is-game-direct-mode .menuBigPanel{
+  width:calc(100vw - 20px) !important;
+  max-width:calc(100vw - 20px) !important;
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+  margin:0 10px !important;
+  padding:22px 14px 130px !important;
+  border-radius:24px !important;
+}
+
+body.is-game-direct-mode .menuPanelBody{
+  min-height:auto !important;
+  max-height:none !important;
+  height:auto !important;
+  overflow:visible !important;
+  padding:0 !important;
+}
+
+body.is-game-direct-mode .pdmWheelShell,
+body.is-game-direct-mode .pdmEntry,
+body.is-game-direct-mode .pdmWinner,
+body.is-game-direct-mode .gameTop,
+body.is-game-direct-mode .pdmWheelPromo,
+body.is-game-direct-mode .pdmWheelArea,
+body.is-game-direct-mode .gameActions,
+body.is-game-direct-mode .staffBox{
+  width:100% !important;
+  max-width:100% !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+}
+
+body.is-game-direct-mode .gameTop{
+  margin-top:0 !important;
+}
+
+body.is-game-direct-mode .gameTitle{
+  font-size:18px !important;
+  line-height:1.15 !important;
+  white-space:normal !important;
+  overflow-wrap:break-word !important;
+}
+
+body.is-game-direct-mode .gameSub{
+  font-size:13px !important;
+  line-height:1.4 !important;
+}
+
+body.is-game-direct-mode .pdmWheelPromo{
+  padding:14px !important;
+}
+
+body.is-game-direct-mode .pdmWheelPromo__title,
+body.is-game-direct-mode .pdmWheelPromo__text{
+  white-space:normal !important;
+  overflow-wrap:break-word !important;
+}
+
+body.is-game-direct-mode .pdmWheelArea{
+  padding-top:10px !important;
+  padding-bottom:10px !important;
+  justify-content:center !important;
+}
+
+body.is-game-direct-mode .pdmWheelWrap{
+  width:min(100%, 330px) !important;
+  max-width:330px !important;
+}
+
+body.is-game-direct-mode .pdmEntry__form{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  width:100% !important;
+  max-width:100% !important;
+  gap:12px !important;
+}
+
+body.is-game-direct-mode .pdmEntry__input,
+body.is-game-direct-mode .staffInput,
+body.is-game-direct-mode .pdmEntry__submit{
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  flex:none !important;
+  font-size:16px !important;
+}
+
+body.is-game-direct-mode .gameActions{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  width:100% !important;
+}
+
+body.is-game-direct-mode .gameActions .gameBtn{
+  width:100% !important;
+  max-width:100% !important;
+  grid-column:auto !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width:1100px){
+  .menuTopCategories{
+    grid-template-columns:repeat(4,1fr);
   }
 
-  function isMobileView() {
-    return window.innerWidth <= MOBILE_BREAKPOINT;
+  .menuBottomCategories{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media (max-width:980px){
+  .topSellersGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:920px){
+  .menuSplit{
+    grid-template-columns:1fr;
   }
 
-  function getTodayKey() {
-    return new Date().toISOString().slice(0, 10);
+  .menuWelcomeStrip{
+    grid-template-columns:1fr;
   }
 
-  function getTableLabel() {
-    const params = new URLSearchParams(window.location.search);
-    return (
-      params.get("table") ||
-      params.get("tableno") ||
-      params.get("tableNo") ||
-      params.get("seat") ||
-      "walk-in"
-    ).trim();
+  .menuGrouped__grid{
+    grid-template-columns:1fr;
   }
 
-  function getSessionKey(day) {
-    return `allure_pdm_session:${getTodayKey()}:${day}:${getTableLabel().toLowerCase()}`;
+  .menuPanelBody .menuList,
+  .menuGrouped__box .menuList{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+}
+
+@media (max-width:760px){
+  .container{
+    width:min(100% - 20px, 1200px) !important;
+    max-width:100% !important;
   }
 
-  function readSession(day) {
-    const raw = localStorage.getItem(getSessionKey(day));
-    if (!raw) return null;
-
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return null;
-    }
+  .gameHero__card{
+    padding:18px 16px;
+    border-radius:20px;
   }
 
-  function saveSession(day, data) {
-    localStorage.setItem(getSessionKey(day), JSON.stringify(data));
+  .gameHero__title{
+    font-size:24px;
   }
 
-  function clearSession(day) {
-    localStorage.removeItem(getSessionKey(day));
+  .gameHero__actions{
+    flex-direction:column;
   }
 
-  function readLeads() {
-    const raw = localStorage.getItem(LEADS_KEY);
-    if (!raw) return [];
-
-    try {
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
+  .gameHero__btn{
+    width:100%;
   }
 
-  function saveLead(lead) {
-    const leads = readLeads();
-    leads.push(lead);
-    localStorage.setItem(LEADS_KEY, JSON.stringify(leads));
+  .menuBigPanel,
+  .menuPanelBody{
+    min-height:auto !important;
+    max-height:none !important;
+    height:auto !important;
+    overflow:visible !important;
   }
 
-  function overwriteLeads(leads) {
-    localStorage.setItem(LEADS_KEY, JSON.stringify(leads));
+  .gameActions{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+    width:100%;
   }
 
-  async function sendLeadToGoogleSheet(lead) {
-    if (
-      !GOOGLE_SHEET_WEB_APP_URL ||
-      GOOGLE_SHEET_WEB_APP_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE")
-    ) {
-      return { ok: false, error: "Missing Google Apps Script web app URL" };
-    }
-
-    try {
-      await fetch(GOOGLE_SHEET_WEB_APP_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({
-          createdAt: lead.createdAt || "",
-          day: lead.day || "",
-          table: lead.table || "",
-          entryType: lead.entryType || "phone",
-          instagram: lead.instagram || "",
-          phone: lead.phone || "",
-          reward: lead.reward || "",
-          boxNumber: lead.boxNumber || "",
-          code: lead.code || ""
-        })
-      });
-
-      return { ok: true };
-    } catch (error) {
-      console.error("Google Sheet sync failed:", error);
-      return { ok: false, error: String(error) };
-    }
+  .gameActions .gameBtn{
+    width:100%;
   }
 
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+  .gameActions .gameBtn--gold,
+  .gameActions .gameBtn--top{
+    grid-column:span 2;
   }
 
-  function validatePhone(value) {
-    const digits = String(value || "").replace(/\D/g, "");
-    return digits.length >= 10 && digits.length <= 15;
+  .pdmEntry__title,
+  .pdmWinner__title{
+    font-size:24px;
   }
 
-  function normalizePhone(value) {
-    return String(value || "").replace(/\D/g, "");
+  body.is-game-direct-mode .gameActions{
+    grid-template-columns:1fr !important;
   }
 
-  function csvEscape(value) {
-    const str = String(value ?? "");
-    return `"${str.replace(/"/g, '""')}"`;
+  body.is-game-direct-mode .gameActions .gameBtn{
+    grid-column:auto !important;
+  }
+}
+
+@media (max-width:640px){
+  .menuWrap{
+    padding-bottom:84px;
   }
 
-  function downloadCsv(filename, rows) {
-    const csv = rows.map(row => row.map(csvEscape).join(",")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+  .menuTopCategories,
+  .menuBottomCategories{
+    grid-template-columns:1fr 1fr;
   }
 
-  function prettyLabel(value) {
-    return String(value || "").charAt(0).toUpperCase() + String(value || "").slice(1);
+  .menuLaunchGrid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:12px;
   }
 
-  function createRewardCode(day, index) {
-    return `PDM-${String(day || "").slice(0, 3).toUpperCase()}-${index + 1}`;
+  .menuLaunchBtn{
+    min-height:118px !important;
+    border-radius:22px;
   }
 
-  function getRandomSegmentIndex() {
-    return Math.floor(Math.random() * WHEEL_SEGMENTS.length);
+  .menuLaunchBtn__icon{
+    width:48px !important;
+    height:48px !important;
+    font-size:24px !important;
+  }
+}
+
+@media (max-width:560px){
+  .topSellersGrid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:420px){
+  .menuLaunchGrid{
+    gap:10px;
   }
 
-  function jumpToElementInstant(target, extraOffset = 8) {
-    if (!target) return;
-
-    const html = document.documentElement;
-    const body = document.body;
-    const oldHtmlScrollBehavior = html.style.scrollBehavior;
-    const oldBodyScrollBehavior = body.style.scrollBehavior;
-
-    html.style.scrollBehavior = "auto";
-    body.style.scrollBehavior = "auto";
-
-    const header = document.querySelector(".header");
-    const headerHeight = header ? header.offsetHeight : 0;
-    const targetTop =
-      window.pageYOffset + target.getBoundingClientRect().top - headerHeight - extraOffset;
-
-    window.scrollTo(0, Math.max(0, targetTop));
-
-    setTimeout(() => {
-      html.style.scrollBehavior = oldHtmlScrollBehavior;
-      body.style.scrollBehavior = oldBodyScrollBehavior;
-    }, 50);
+  .menuLaunchBtn{
+    min-height:108px !important;
+    padding:12px 8px !important;
   }
 
-  function jumpToTopInstant() {
-    const html = document.documentElement;
-    const body = document.body;
-    const oldHtmlScrollBehavior = html.style.scrollBehavior;
-    const oldBodyScrollBehavior = body.style.scrollBehavior;
-
-    html.style.scrollBehavior = "auto";
-    body.style.scrollBehavior = "auto";
-    window.scrollTo(0, 0);
-
-    setTimeout(() => {
-      html.style.scrollBehavior = oldHtmlScrollBehavior;
-      body.style.scrollBehavior = oldBodyScrollBehavior;
-    }, 50);
+  .menuLaunchBtn__icon{
+    width:44px !important;
+    height:44px !important;
+    font-size:23px !important;
   }
 
-  function getWrapFromPanel(panel) {
-    return panel.closest(".menuCenterWrap");
+  .menuLaunchBtn__label{
+    font-size:13px !important;
   }
+}
 
-  function setGameState(panel, isActive) {
-    const wrap = getWrapFromPanel(panel);
-    if (!wrap) return;
-    wrap.classList.toggle("is-game-active", Boolean(isActive));
+@keyframes allureSoftReveal{
+  from{
+    opacity:0;
+    transform:translateY(10px);
   }
-
-  function renderFlatMenu(items) {
-    return `
-      <div class="menuList">
-        ${(items || []).map(item => `
-          <div class="menuItem">
-            <div class="menuItem__left">
-              <div class="menuItem__name">${escapeHtml(item.name || "")}</div>
-              ${item.desc ? `<div class="menuItem__desc">${escapeHtml(item.desc)}</div>` : ""}
-            </div>
-            <div class="menuItem__price">${escapeHtml(item.price || "")}</div>
-          </div>
-        `).join("")}
-      </div>
-    `;
+  to{
+    opacity:1;
+    transform:translateY(0);
   }
+}
 
-  function renderGroupedMenu(section) {
-    return `
-      <div class="menuGrouped">
-        ${section.title ? `<div class="menuGrouped__title">${escapeHtml(section.title)}</div>` : ""}
-        <div class="menuGrouped__grid">
-          ${(section.groups || []).map(group => `
-            <div class="menuGrouped__box">
-              <div class="menuGrouped__boxTitle">${escapeHtml(group.title || "")}</div>
-              ${renderFlatMenu(group.items || [])}
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    `;
+@keyframes menuAppPop{
+  from{
+    opacity:0;
+    transform:translateY(14px) scale(.94);
   }
-
-  function splitShotsAndDrinks(items) {
-    const shots = [];
-    const drinks = [];
-
-    (items || []).forEach(item => {
-      const price = item.price || "";
-      const parts = price.split("/").map(p => p.trim());
-
-      if (parts.length === 2) {
-        shots.push({ ...item, price: parts[0] });
-        drinks.push({ ...item, price: parts[1] });
-      } else {
-        shots.push({ ...item });
-        drinks.push({ ...item });
-      }
-    });
-
-    return { shots, drinks };
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
   }
-
-  function getContentByMode(content, mode) {
-    if (!content || !content.sections) return content;
-    if (!mode || (mode !== "shots" && mode !== "drinks")) return content;
-
-    return {
-      ...content,
-      sections: content.sections.map(section => {
-        if (section.layout === "grouped") return section;
-        const split = splitShotsAndDrinks(section.items || []);
-        return { ...section, items: mode === "shots" ? split.shots : split.drinks };
-      })
-    };
-  }
-
-  function renderSectionedMenu(content) {
-    const sections = content?.sections || [];
-
-    if (!sections.length) {
-      return `<div class="menuEmpty">Menu coming soon.</div>`;
-    }
-
-    return `
-      <div class="menuNested">
-        <div class="menuSubTabs">
-          ${sections.map(section => `
-            <button class="menuSubTab" type="button" data-subsection="${escapeHtml(section.title)}">
-              ${escapeHtml(section.title)}
-            </button>
-          `).join("")}
-        </div>
-        <div class="menuSubBody"></div>
-      </div>
-    `;
-  }
-
-  function bindSubTabs(panelBody, content) {
-    const tabs = [...panelBody.querySelectorAll(".menuSubTab")];
-    const subBody = panelBody.querySelector(".menuSubBody");
-    const sections = content?.sections || [];
-
-    if (!tabs.length || !subBody || !sections.length) return;
-
-    function activateSubsection(title) {
-      tabs.forEach(tab => {
-        tab.classList.toggle("active", tab.dataset.subsection === title);
-      });
-
-      const section = sections.find(s => s.title === title);
-
-      if (!section) {
-        subBody.innerHTML = `<div class="menuEmpty">Section not found.</div>`;
-        return;
-      }
-
-      if (section.layout === "grouped") {
-        subBody.innerHTML = renderGroupedMenu(section);
-      } else {
-        subBody.innerHTML = renderFlatMenu(section.items || []);
-      }
-    }
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        activateSubsection(tab.dataset.subsection);
-      });
-    });
-
-    activateSubsection(sections[0].title);
-  }
-
-  function ensureAudioContext() {
-    if (!audioContext) {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (!Ctx) return null;
-      audioContext = new Ctx();
-    }
-
-    if (audioContext.state === "suspended") {
-      audioContext.resume().catch(() => {});
-    }
-
-    return audioContext;
-  }
-
-  function playWheelTick(strength = 1) {
-    const ctx = ensureAudioContext();
-    if (!ctx) return;
-
-    const now = ctx.currentTime;
-    const volume = Math.max(0.018, Math.min(0.055, 0.022 + strength * 0.02));
-
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-
-    osc.type = "square";
-    osc.frequency.setValueAtTime(1800 + strength * 550, now);
-
-    filter.type = "bandpass";
-    filter.frequency.setValueAtTime(2200 + strength * 500, now);
-    filter.Q.setValueAtTime(1.3, now);
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(volume, now + 0.002);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.032);
-
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start(now);
-    osc.stop(now + 0.042);
-  }
-
-  function bouncePointer(pointer, strength = 0.5) {
-    if (!pointer || pointerBounceLock) return;
-
-    pointerBounceLock = true;
-
-    const angleA = -(4 + strength * 4);
-    const angleB = 2 + strength * 2.5;
-
-    pointer.animate(
-      [
-        { transform: "translateX(-50%) rotate(0deg)" },
-        { transform: `translateX(-50%) rotate(${angleA}deg)`, offset: 0.35 },
-        { transform: `translateX(-50%) rotate(${angleB}deg)`, offset: 0.72 },
-        { transform: "translateX(-50%) rotate(0deg)" }
-      ],
-      {
-        duration: 120 + strength * 45,
-        easing: "cubic-bezier(.2,.9,.2,1)"
-      }
-    );
-
-    setTimeout(() => {
-      pointerBounceLock = false;
-    }, 180);
-  }
-
-  function resetWheelTickState() {
-    lastTickStep = -1;
-    pointerBounceLock = false;
-  }
-
-  function handleWheelTicks(currentRotation, totalSegments, pointer) {
-    const segmentAngle = 360 / totalSegments;
-    const currentStep = Math.floor(currentRotation / segmentAngle);
-
-    if (lastTickStep === -1) {
-      lastTickStep = currentStep;
-      return;
-    }
-
-    if (currentStep <= lastTickStep) return;
-
-    for (let step = lastTickStep + 1; step <= currentStep; step++) {
-      const progressFactor = Math.min(1, step / (totalSegments * 6));
-      const endStrength = Math.max(0, (progressFactor - 0.7) / 0.3);
-      playWheelTick(endStrength);
-      bouncePointer(pointer, endStrength);
-    }
-
-    lastTickStep = currentStep;
-  }
-
-  function polarToCartesian(cx, cy, radius, angleDeg) {
-    const angleRad = ((angleDeg - 90) * Math.PI) / 180;
-    return {
-      x: cx + radius * Math.cos(angleRad),
-      y: cy + radius * Math.sin(angleRad)
-    };
-  }
-
-  function buildWedgePath(cx, cy, rOuter, rInner, startAngle, endAngle) {
-    const outerStart = polarToCartesian(cx, cy, rOuter, startAngle);
-    const outerEnd = polarToCartesian(cx, cy, rOuter, endAngle);
-    const innerEnd = polarToCartesian(cx, cy, rInner, endAngle);
-    const innerStart = polarToCartesian(cx, cy, rInner, startAngle);
-    const largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
-
-    return [
-      `M ${outerStart.x} ${outerStart.y}`,
-      `A ${rOuter} ${rOuter} 0 ${largeArcFlag} 1 ${outerEnd.x} ${outerEnd.y}`,
-      `L ${innerEnd.x} ${innerEnd.y}`,
-      `A ${rInner} ${rInner} 0 ${largeArcFlag} 0 ${innerStart.x} ${innerStart.y}`,
-      "Z"
-    ].join(" ");
-  }
-
-  function splitLabelIntoLines(label) {
-    const words = String(label || "").split(" ");
-    if (words.length <= 1) return [label];
-    if (words.length === 2) return [words[0], words[1]];
-    const midpoint = Math.ceil(words.length / 2);
-    return [words.slice(0, midpoint).join(" "), words.slice(midpoint).join(" ")];
-  }
-
-  function buildWheelSvg(segments) {
-    const mobile = isMobileView();
-    const size = 600;
-    const cx = 300;
-    const cy = 300;
-    const outerRadius = 275;
-    const innerRadius = mobile ? 94 : 102;
-    const textRadius = mobile ? 182 : 192;
-    const fontSize = mobile ? 18 : 20;
-    const segmentAngle = 360 / segments.length;
-
-    const wedges = [];
-    const dividers = [];
-    const texts = [];
-
-    segments.forEach((label, index) => {
-      const startAngle = index * segmentAngle;
-      const endAngle = startAngle + segmentAngle;
-      const centerAngle = startAngle + segmentAngle / 2;
-      const wedgePath = buildWedgePath(cx, cy, outerRadius, innerRadius, startAngle, endAngle);
-
-      wedges.push(`
-        <path
-          class="pdmWheelSvg__slice"
-          data-slice-index="${index}"
-          d="${wedgePath}"
-          fill="${WHEEL_COLORS[index % WHEEL_COLORS.length]}"
-        ></path>
-      `);
-
-      const dividerOuter = polarToCartesian(cx, cy, outerRadius, startAngle);
-      const dividerInner = polarToCartesian(cx, cy, innerRadius, startAngle);
-
-      dividers.push(`
-        <line
-          class="pdmWheelSvg__divider"
-          x1="${dividerInner.x}"
-          y1="${dividerInner.y}"
-          x2="${dividerOuter.x}"
-          y2="${dividerOuter.y}"
-        ></line>
-      `);
-
-      const textPoint = polarToCartesian(cx, cy, textRadius, centerAngle);
-      const lines = splitLabelIntoLines(label);
-      const firstDy = lines.length === 1 ? 0 : -10;
-
-      texts.push(`
-        <g
-          class="pdmWheelSvg__labelGroup"
-          transform="translate(${textPoint.x} ${textPoint.y})"
-        >
-          <text
-            class="pdmWheelSvg__label"
-            text-anchor="middle"
-            dominant-baseline="middle"
-            font-size="${fontSize}"
-          >
-            ${lines.map((line, lineIndex) => `
-              <tspan x="0" dy="${lineIndex === 0 ? firstDy : 22}">
-                ${escapeHtml(line)}
-              </tspan>
-            `).join("")}
-          </text>
-        </g>
-      `);
-    });
-
-    dividers.push(`
-      <line
-        class="pdmWheelSvg__divider"
-        x1="${polarToCartesian(cx, cy, innerRadius, 360).x}"
-        y1="${polarToCartesian(cx, cy, innerRadius, 360).y}"
-        x2="${polarToCartesian(cx, cy, outerRadius, 360).x}"
-        y2="${polarToCartesian(cx, cy, outerRadius, 360).y}"
-      ></line>
-    `);
-
-    return `
-      <svg class="pdmWheelSvg" viewBox="0 0 ${size} ${size}" aria-hidden="true">
-        <defs>
-          <filter id="pdmWinnerGlowFilter" x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur stdDeviation="10" result="blur"></feGaussianBlur>
-            <feColorMatrix
-              in="blur"
-              type="matrix"
-              values="
-                1 0 0 0 0
-                0 0.84 0 0 0
-                0 0 0.45 0 0
-                0 0 0 1 0
-              "
-              result="goldGlow"
-            ></feColorMatrix>
-            <feMerge>
-              <feMergeNode in="goldGlow"></feMergeNode>
-              <feMergeNode in="SourceGraphic"></feMergeNode>
-            </feMerge>
-          </filter>
-        </defs>
-
-        <circle class="pdmWheelSvg__outerRing" cx="${cx}" cy="${cy}" r="${outerRadius + 9}"></circle>
-        <circle class="pdmWheelSvg__rimInner" cx="${cx}" cy="${cy}" r="${outerRadius - 6}"></circle>
-        ${wedges.join("")}
-        ${dividers.join("")}
-        ${texts.join("")}
-        <circle class="pdmWheelSvg__hubRing" cx="${cx}" cy="${cy}" r="${innerRadius + 8}"></circle>
-        <circle class="pdmWheelSvg__hubCore" cx="${cx}" cy="${cy}" r="${innerRadius - 6}"></circle>
-      </svg>
-    `;
-  }
-
-  function triggerWinnerGlow(wheel, selectedIndex) {
-    const slice = wheel?.querySelector(`.pdmWheelSvg__slice[data-slice-index="${selectedIndex}"]`);
-    if (!slice) return;
-
-    slice.classList.add("is-winner");
-    setTimeout(() => {
-      slice.classList.remove("is-winner");
-    }, WINNER_GLOW_DURATION_MS);
-  }
-
-  function renderDashboard(panel, day) {
-    document.body.classList.remove("is-game-direct-mode");
-    setGameState(panel, true);
-
-    const leads = readLeads();
-    const todayKey = getTodayKey();
-    const todayLeads = leads.filter(lead => lead.date === todayKey);
-    const todayDayLeads = leads.filter(lead => lead.date === todayKey && lead.day === day);
-    const recent = [...leads].reverse().slice(0, 12);
-
-    panel.innerHTML = `
-      <div class="gameShell">
-        <div class="gameTop">
-          <div>
-            <div class="gameTitle">Manager Dashboard</div>
-            <div class="gameSub">Local browser backup, CSV export, and reset tools.</div>
-          </div>
-
-          <div class="gameBadgeRow">
-            <span class="gameBadge gameBadge--gold">Today: ${todayLeads.length}</span>
-            <span class="gameBadge">${prettyLabel(day)}: ${todayDayLeads.length}</span>
-            <span class="gameBadge">Total: ${leads.length}</span>
-          </div>
-        </div>
-
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--gold" type="button" data-export-all>Export All CSV</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-export-today>Export Today CSV</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-reset-day>Reset Today Sessions</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-clear-leads>Clear Local Backup</button>
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
-        </div>
-
-        <div class="staffBox">
-          <div class="staffRow">
-            <input class="staffInput" type="password" placeholder="Manager PIN">
-            <button class="gameBtn gameBtn--ghost" type="button" data-pin-action>Confirm Action</button>
-          </div>
-          <div class="staffState">Protected actions require manager PIN.</div>
-        </div>
-
-        <div class="menuEmpty" style="padding:16px;">
-          <strong>Recent Entries</strong>
-          <div style="margin-top:10px;display:grid;gap:8px;">
-            ${recent.length ? recent.map(lead => `
-              <div style="padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02);">
-                <div><strong>${escapeHtml(lead.reward)}</strong></div>
-                <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
-                  ${escapeHtml(lead.createdAt || lead.timestamp || "")} • ${escapeHtml(lead.day)} • Table ${escapeHtml(lead.table)}
-                </div>
-                <div style="color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;">
-                  Phone: ${escapeHtml(lead.phone || "-")} • Code: ${escapeHtml(lead.code || "-")}
-                </div>
-              </div>
-            `).join("") : `<div style="color:rgba(255,255,255,.72);">No entries yet.</div>`}
-          </div>
-        </div>
-      </div>
-    `;
-
-    const pinInput = panel.querySelector(".staffInput");
-    const staffState = panel.querySelector(".staffState");
-    let pendingAction = null;
-
-    panel.querySelector("[data-export-all]").addEventListener("click", () => {
-      if (!leads.length) {
-        staffState.textContent = "No entries to export.";
-        return;
-      }
-
-      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
-
-      leads.forEach(lead => {
-        rows.push([
-          lead.createdAt || lead.timestamp || "",
-          lead.day || "",
-          lead.table || "",
-          lead.entryType || "",
-          lead.phone || "",
-          lead.reward || "",
-          String(lead.boxNumber || ""),
-          lead.code || ""
-        ]);
-      });
-
-      downloadCsv(`pour-decision-maker-all-${todayKey}.csv`, rows);
-      staffState.textContent = "Exported all local entries.";
-    });
-
-    panel.querySelector("[data-export-today]").addEventListener("click", () => {
-      if (!todayLeads.length) {
-        staffState.textContent = "No entries for today.";
-        return;
-      }
-
-      const rows = [["createdAt", "day", "table", "entryType", "phone", "reward", "boxNumber", "code"]];
-
-      todayLeads.forEach(lead => {
-        rows.push([
-          lead.createdAt || lead.timestamp || "",
-          lead.day || "",
-          lead.table || "",
-          lead.entryType || "",
-          lead.phone || "",
-          lead.reward || "",
-          String(lead.boxNumber || ""),
-          lead.code || ""
-        ]);
-      });
-
-      downloadCsv(`pour-decision-maker-today-${todayKey}.csv`, rows);
-      staffState.textContent = "Exported today's local entries.";
-    });
-
-    panel.querySelector("[data-reset-day]").addEventListener("click", () => {
-      pendingAction = "reset-day";
-      staffState.textContent = "Enter manager PIN and confirm to reset all today's sessions.";
-    });
-
-    panel.querySelector("[data-clear-leads]").addEventListener("click", () => {
-      pendingAction = "clear-leads";
-      staffState.textContent = "Enter manager PIN and confirm to clear local backup entries.";
-    });
-
-    panel.querySelector("[data-pin-action]").addEventListener("click", () => {
-      const pin = (pinInput.value || "").trim();
-
-      if (pin !== STAFF_PIN) {
-        staffState.textContent = "Incorrect PIN.";
-        return;
-      }
-
-      if (pendingAction === "reset-day") {
-        Object.keys(localStorage).forEach(key => {
-          if (key.startsWith(`allure_pdm_session:${todayKey}:`)) {
-            localStorage.removeItem(key);
-          }
-        });
-        staffState.textContent = "Today's sessions reset.";
-        pendingAction = null;
-        return;
-      }
-
-      if (pendingAction === "clear-leads") {
-        overwriteLeads([]);
-        staffState.textContent = "Local backup entries cleared.";
-        pendingAction = null;
-        renderDashboard(panel, day);
-        return;
-      }
-
-      staffState.textContent = "No protected action selected.";
-    });
-
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
-  }
-
-  function renderEntryScreen(panel, day, forceFresh = false) {
-    document.body.classList.add("is-game-direct-mode");
-    setGameState(panel, true);
-
-    const wrap = getWrapFromPanel(panel);
-    if (wrap) {
-      wrap.classList.remove("is-menu-launch-active");
-      wrap.classList.add("is-game-direct-open");
-    }
-
-    const existing = readSession(day);
-
-    if (!forceFresh && existing) {
-      if (existing.stage === "winner" && typeof existing.selectedIndex === "number") {
-        renderWinnerScreen(panel, day, existing);
-        return;
-      }
-
-      if (existing.stage === "wheel" && existing.phone) {
-        renderWheelScreen(panel, day, existing);
-        return;
-      }
-    }
-
-    panel.innerHTML = `
-      <div class="pdmEntry">
-        <div class="pdmEntry__eyebrow">Exclusive Tonight</div>
-        <h3 class="pdmEntry__title">Unlock your spin and reveal tonight’s reward.</h3>
-        <p class="pdmEntry__text">Enter your phone number, unlock the wheel, and reveal what your table gets tonight.</p>
-
-        <div class="staffBox">
-          <div class="pdmEntry__form">
-            <input class="staffInput pdmEntry__input" type="tel" inputmode="tel" placeholder="Phone number" data-phone-input>
-            <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Unlock My Spin</button>
-          </div>
-          <div class="staffState">Enter a valid phone number to continue.</div>
-        </div>
-
-        <div class="gameHint">Fast entry. One spin. One reward. Redeem tonight.</div>
-
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
-        </div>
-      </div>
-    `;
-
-    const phoneInput = panel.querySelector("[data-phone-input]");
-    const staffState = panel.querySelector(".staffState");
-
-    panel.querySelector("[data-entry-continue]").addEventListener("click", () => {
-      const phoneRaw = (phoneInput.value || "").trim();
-
-      if (!validatePhone(phoneRaw)) {
-        staffState.textContent = "Enter a valid phone number.";
-        return;
-      }
-
-      const state = {
-        date: getTodayKey(),
-        day,
-        table: getTableLabel(),
-        entryType: "phone",
-        phone: normalizePhone(phoneRaw),
-        segments: [...WHEEL_SEGMENTS],
-        selectedIndex: null,
-        reward: "",
-        code: "",
-        boxNumber: "",
-        createdAt: new Date().toISOString(),
-        timestamp: new Date().toISOString(),
-        stage: "wheel"
-      };
-
-      saveSession(day, state);
-      renderWheelScreen(panel, day, state);
-
-      setTimeout(() => {
-        const wheelTarget = panel.querySelector(".pdmWheelShell");
-        jumpToElementInstant(wheelTarget || panel, 0);
-      }, 30);
-    });
-
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => renderDashboard(panel, day));
-  }
-
-  function renderWheelScreen(panel, day, session) {
-    document.body.classList.add("is-game-direct-mode");
-    setGameState(panel, true);
-
-    const wrap = getWrapFromPanel(panel);
-    if (wrap) {
-      wrap.classList.remove("is-menu-launch-active");
-      wrap.classList.add("is-game-direct-open");
-    }
-
-    const safeSession = readSession(day) || session;
-
-    panel.innerHTML = `
-      <div class="pdmWheelShell">
-        <div class="gameClean">
-          <h2>SPIN THE WHEEL</h2>
-        </div>
-
-        <div class="pdmWheelArea">
-          <div class="pdmPointer"></div>
-
-          <div class="pdmWheelWrap">
-            <div class="pdmWheel" data-wheel>
-              ${buildWheelSvg(safeSession.segments || WHEEL_SEGMENTS)}
-            </div>
-
-            <div class="pdmWheelCenterBadge">
-              <div class="pdmWheelCenterBadge__top">ALLURE</div>
-              <div class="pdmWheelCenterBadge__main" data-wheel-winner>REVEAL</div>
-              <div class="pdmWheelCenterBadge__bottom">Tonight only</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Reveal My Reward</button>
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
-        </div>
-
-        <div class="staffState" style="display:none;">One spin per guest entry.</div>
-      </div>
-    `;
-
-    const shell = panel.querySelector(".pdmWheelShell");
-    const wheel = panel.querySelector("[data-wheel]");
-    const winnerText = panel.querySelector("[data-wheel-winner]");
-    const spinButton = panel.querySelector("[data-spin-now]");
-    const stateBox = panel.querySelector(".staffState");
-    const pointer = panel.querySelector(".pdmPointer");
-
-    if (wheel) {
-      wheel.style.transition = "none";
-      wheel.style.transform = "rotate(0deg)";
-    }
-
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
-    panel.querySelector("[data-start-over]").addEventListener("click", () => {
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 0), 20);
-    });
-
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
-
-    spinButton.addEventListener("click", async () => {
-      ensureAudioContext();
-      resetWheelTickState();
-
-      const current = readSession(day) || safeSession;
-      const selectedIndex = getRandomSegmentIndex();
-      const segmentCount = current.segments.length;
-      const segmentAngle = 360 / segmentCount;
-
-      const selectedCenterAngle = selectedIndex * segmentAngle + segmentAngle / 2;
-      const normalizedStopRotation =
-        (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
-      const finalRotation = 360 * 6 + normalizedStopRotation;
-
-      spinButton.disabled = true;
-      if (stateBox) stateBox.textContent = "Spinning...";
-      if (winnerText) winnerText.textContent = "SPINNING";
-
-      if (shell) shell.classList.add("is-spinning");
-
-      if (wheel) {
-        wheel.style.transition = "none";
-        wheel.style.transform = "rotate(0deg)";
-        wheel.offsetHeight;
-        wheel.style.transition = `transform ${WHEEL_SPIN_DURATION_MS}ms cubic-bezier(.12,.8,.18,1)`;
-        wheel.style.transform = `rotate(${finalRotation}deg)`;
-      }
-
-      let tickRotation = 0;
-      const tickTimer = setInterval(() => {
-        tickRotation += 18;
-        handleWheelTicks(tickRotation, segmentCount, pointer);
-      }, 70);
-
-      setTimeout(async () => {
-        clearInterval(tickTimer);
-
-        if (wheel) {
-          wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
-          wheel.style.transform = `rotate(${finalRotation + FINAL_SETTLE_OVERSHOOT_DEG}deg)`;
-
-          setTimeout(() => {
-            wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
-            wheel.style.transform = `rotate(${finalRotation}deg)`;
-          }, FINAL_SETTLE_DURATION_MS);
-        }
-
-        playWheelTick(1);
-        bouncePointer(pointer, 1);
-        triggerWinnerGlow(wheel, selectedIndex);
-
-        current.selectedIndex = selectedIndex;
-        current.reward = current.segments[selectedIndex];
-        current.boxNumber = selectedIndex + 1;
-        current.code = createRewardCode(day, selectedIndex);
-        current.timestamp = new Date().toISOString();
-        current.createdAt = current.timestamp;
-        current.stage = "winner";
-
-        saveSession(day, current);
-
-        const leadPayload = {
-          date: current.date || getTodayKey(),
-          createdAt: current.createdAt,
-          day: current.day || day,
-          table: current.table || getTableLabel(),
-          entryType: current.entryType || "phone",
-          phone: current.phone || "",
-          reward: current.reward || "",
-          boxNumber: current.boxNumber || "",
-          code: current.code || ""
-        };
-
-        saveLead(leadPayload);
-        await sendLeadToGoogleSheet(leadPayload);
-
-        setTimeout(() => {
-          if (shell) shell.classList.remove("is-spinning");
-          if (winnerText) winnerText.textContent = current.reward;
-          if (stateBox) stateBox.textContent = "Reward revealed.";
-
-          renderWinnerScreen(panel, day, current);
-
-          setTimeout(() => {
-            const winnerTarget = panel.querySelector(".pdmWinner");
-            jumpToElementInstant(winnerTarget || panel, 0);
-          }, 20);
-        }, FINAL_SETTLE_DURATION_MS + 80);
-      }, WHEEL_SPIN_DURATION_MS);
-    });
-  }
-
-  function renderWinnerScreen(panel, day, session) {
-    document.body.classList.add("is-game-direct-mode");
-    setGameState(panel, true);
-
-    const safeSession = readSession(day) || session;
-    const rewardText = safeSession.reward || "Try Again";
-
-    panel.innerHTML = `
-      <div class="pdmWinner">
-        <div class="pdmWinner__eyebrow">Reward Unlocked</div>
-        <h3 class="pdmWinner__title">${escapeHtml(rewardText)}</h3>
-        <p class="pdmWinner__text">Show this screen to staff and redeem tonight.</p>
-
-        <div class="gameReveal">
-          <div class="gameRevealLabel">Your Redemption Code</div>
-          <div class="gameRevealText">${escapeHtml(safeSession.code || "")}</div>
-          <div class="gameRevealCode">Table ${escapeHtml(safeSession.table || getTableLabel())} • ${escapeHtml(prettyLabel(day))}</div>
-        </div>
-
-        <div class="pdmWinnerNote">Valid for tonight’s visit only.</div>
-
-        <div class="gameActions">
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
-          <button class="gameBtn gameBtn--gold" type="button" data-new-guest>New Guest</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Dashboard</button>
-        </div>
-
-        <div class="staffBox">
-          <div class="staffRow">
-            <input class="staffInput" type="password" placeholder="Manager PIN">
-            <button class="gameBtn gameBtn--ghost" type="button" data-confirm-reset>Confirm Reset</button>
-          </div>
-          <div class="staffState">Reset clears this guest and opens a new entry screen.</div>
-        </div>
-      </div>
-    `;
-
-    const pinInput = panel.querySelector(".staffInput");
-    const staffState = panel.querySelector(".staffState");
-
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
-    panel.querySelector("[data-new-guest]").addEventListener("click", () => {
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 0), 20);
-    });
-
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
-
-    panel.querySelector("[data-manager-reset]").addEventListener("click", () => {
-      staffState.textContent = "Enter manager PIN, then confirm reset.";
-    });
-
-    panel.querySelector("[data-confirm-reset]").addEventListener("click", () => {
-      const pin = (pinInput.value || "").trim();
-
-      if (pin !== STAFF_PIN) {
-        staffState.textContent = "Incorrect PIN.";
-        return;
-      }
-
-      clearSession(day);
-      renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 0), 20);
-    });
-  }
-
-  function renderIdleState(panel, day) {
-    setGameState(panel, false);
-    document.body.classList.remove("is-game-direct-mode");
-    document.body.classList.remove("is-hookah-direct-mode");
-    document.body.classList.remove("menu-launch-fullscreen");
-
-    document.querySelectorAll(".hookahBackBtn").forEach(btn => btn.remove());
-
-    const wrap = getWrapFromPanel(panel);
-    if (wrap) {
-      wrap.classList.remove("is-menu-launch-active");
-      wrap.classList.remove("is-hookah-direct-open");
-      wrap.classList.remove("is-game-direct-open");
-    }
-
-    panel.innerHTML = `
-      <div class="menuStart">
-        <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
-        <div class="menuStart__text">Select a category to view menu items, play Pour Decision Maker, or open the manager dashboard.</div>
-        <div class="menuStart__actions">
-          <button class="menuStartBtn menuStartBtn--gold" type="button" data-start-game>Play Pour Decision Maker</button>
-          <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-food>Open Food Menu</button>
-          <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-dashboard>Dashboard</button>
-        </div>
-        <div class="menuStartMeta">Entry saves to Google Sheet and local browser backup.</div>
-      </div>
-    `;
-
-    const localWrap = panel.closest(".menuCenterWrap");
-
-    panel.querySelector("[data-start-game]").addEventListener("click", () => {
-      renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 0), 20);
-    });
-
-    panel.querySelector("[data-start-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
-
-    panel.querySelector("[data-start-food]").addEventListener("click", () => {
-      const foodButton = localWrap?.querySelector('.menuCenterBtn[data-cat="food"]');
-      if (foodButton) foodButton.click();
-    });
-  }
-
-  function getButtons(wrap) {
-    const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
-    const outsideWrap = wrap.parentElement?.querySelector(".outsideBottom");
-    const outside = outsideWrap ? [...outsideWrap.querySelectorAll(".menuCenterBtn")] : [];
-    return [...inside, ...outside];
-  }
-
-  function setupWrap(wrap) {
-    if (wrap.dataset.done === "true") return;
-    wrap.dataset.done = "true";
-
-    const buttons = getButtons(wrap);
-    const panel = wrap.querySelector(".menuPanelBody");
-    const dayPanel = wrap.closest(".dayPanel");
-    const day = dayPanel?.dataset.daypanel || "monday";
-
-    if (!panel || !buttons.length) return;
-
-    function clearActive() {
-      buttons.forEach(btn => btn.classList.remove("active"));
-    }
-
-    function activateCategory(button) {
-      clearActive();
-      button.classList.add("active");
-
-      document.body.classList.remove("is-game-direct-mode");
-      setGameState(panel, false);
-      getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
-
-      const catKey = button.dataset.cat;
-      const mode = button.dataset.mode || "";
-      const baseContent = CATEGORY_CONTENT[catKey];
-
-      if (!baseContent) {
-        panel.innerHTML = `<div class="menuEmpty">Coming soon.</div>`;
-        return;
-      }
-
-      const content = getContentByMode(baseContent, mode);
-      panel.innerHTML = renderSectionedMenu(content);
-      bindSubTabs(panel, content);
-    }
-
-    function activateGame(button, forceFresh = false) {
-      clearActive();
-      button.classList.add("active");
-      document.body.classList.remove("menu-launch-fullscreen");
-      renderEntryScreen(panel, day, forceFresh);
-
-      setTimeout(() => {
-        const target = panel.querySelector(".pdmEntry") || panel;
-        jumpToElementInstant(target, 0);
-      }, 20);
-    }
-
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        if (button.dataset.action === "game") {
-          activateGame(button, false);
-          return;
-        }
-
-        activateCategory(button);
-      });
-    });
-
-    clearActive();
-    renderIdleState(panel, day);
-  }
-
-  function activateDay(day) {
-    document.querySelectorAll(".dayTab").forEach(tab => {
-      tab.classList.toggle("active", tab.dataset.daytab === day);
-    });
-
-    document.querySelectorAll(".dayPanel").forEach(panel => {
-      const active = panel.dataset.daypanel === day;
-      panel.classList.toggle("active", active);
-
-      if (active) {
-        panel.querySelectorAll(".menuCenterWrap").forEach(setupWrap);
-      }
-    });
-  }
-
-  document.querySelectorAll(".dayTab").forEach(tab => {
-    tab.addEventListener("click", () => activateDay(tab.dataset.daytab));
-  });
-
-  const today = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][new Date().getDay()];
-  const fallbackDay = document.querySelector(".dayTab")?.dataset.daytab || "monday";
-  const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
-
-  function jumpToActiveGamePanel() {
-    document.body.classList.add("is-game-direct-mode");
-    document.body.classList.remove("menu-launch-fullscreen");
-    document.body.classList.remove("is-hookah-direct-mode");
-
-    let activeDayPanel = document.querySelector(".dayPanel.active");
-
-    if (!activeDayPanel) {
-      activateDay(hasTodayTab ? today : fallbackDay);
-      activeDayPanel = document.querySelector(".dayPanel.active");
-    }
-
-    if (!activeDayPanel) return;
-
-    const wrap = activeDayPanel.querySelector(".menuCenterWrap");
-    const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
-    const panel = activeDayPanel.querySelector(".menuPanelBody");
-
-    if (!wrap || !gameButton || !panel) return;
-
-    document.querySelectorAll(".menuCenterWrap").forEach(w => {
-      w.classList.remove("is-menu-launch-active");
-      w.classList.remove("is-hookah-direct-open");
-      w.classList.remove("is-game-direct-open");
-    });
-
-    wrap.classList.add("is-game-direct-open");
-    gameButton.classList.add("active");
-    renderEntryScreen(panel, activeDayPanel.dataset.daypanel || "monday", true);
-
-    setTimeout(() => {
-      const target = activeDayPanel.querySelector(".menuCenterWrap.is-game-direct-open .menuBigPanel");
-      jumpToElementInstant(target || activeDayPanel, 0);
-    }, 40);
-  }
-
-  document.querySelectorAll("[data-open-game]").forEach(button => {
-    button.addEventListener("click", jumpToActiveGamePanel);
-  });
-
-  function getMenuCategoryIcon(label) {
-    const text = String(label || "").toLowerCase();
-
-    if (text.includes("food")) return "🍽️";
-    if (text.includes("hookah")) return "💨";
-    if (text.includes("shot")) return "🥃";
-    if (text.includes("drink")) return "🍹";
-    if (text.includes("tower")) return "🏆";
-    if (text.includes("fishbowl")) return "🐠";
-    if (text.includes("high noon")) return "☀️";
-    if (text.includes("wine")) return "🍷";
-    if (text.includes("beer")) return "🍺";
-    if (text.includes("non")) return "🧊";
-    if (text.includes("bottle")) return "🍾";
-    if (text.includes("premium")) return "💎";
-    if (text.includes("decision") || text.includes("pour")) return "🎰";
-
-    return "✨";
-  }
-
-  function openTodayMenu() {
-    const dayToOpen = hasTodayTab ? today : fallbackDay;
-
-    document.body.classList.add("menu-launch-fullscreen");
-    document.body.classList.remove("is-game-direct-mode");
-    document.body.classList.remove("is-hookah-direct-mode");
-
-    activateDay(dayToOpen);
-
-    setTimeout(() => {
-      const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
-      if (!activeDayPanel) return;
-
-      const wrap = activeDayPanel.querySelector(".menuCenterWrap");
-      if (!wrap) return;
-
-      const panel = wrap.querySelector(".menuPanelBody");
-      if (!panel) return;
-
-      const buttons = getButtons(wrap);
-      if (!buttons.length) return;
-
-      wrap.classList.remove("is-game-active");
-      wrap.classList.remove("is-hookah-direct-open");
-      wrap.classList.add("is-menu-launch-active");
-      buttons.forEach(btn => btn.classList.remove("active"));
-
-      function closeFullMenu() {
-        document.body.classList.remove("menu-launch-fullscreen");
-        wrap.classList.remove("is-menu-launch-active");
-        renderIdleState(panel, dayToOpen);
-        jumpToTopInstant();
-      }
-
-      function renderTemuHome() {
-        panel.innerHTML = `
-          <div class="menuLaunchApp">
-            <button class="menuAppBackBtn" type="button" data-close-full-menu>← Back To Home</button>
-
-            <div class="menuLaunchGrid">
-              ${buttons.map((button, index) => {
-                const label = button.textContent.trim();
-                const isAccent = button.classList.contains("menuCenterBtn--accent");
-                const icon = getMenuCategoryIcon(label);
-
-                return `
-                  <button class="menuLaunchBtn ${isAccent ? "menuLaunchBtn--accent" : ""}" type="button" data-launch-index="${index}">
-                    <span class="menuLaunchBtn__icon">${escapeHtml(icon)}</span>
-                    <span class="menuLaunchBtn__label">${escapeHtml(label)}</span>
-                    <span class="menuLaunchBtn__tap">Open</span>
-                  </button>
-                `;
-              }).join("")}
-            </div>
-          </div>
-        `;
-
-        panel.querySelector("[data-close-full-menu]")?.addEventListener("click", closeFullMenu);
-
-        panel.querySelectorAll("[data-launch-index]").forEach(launchBtn => {
-          launchBtn.addEventListener("click", () => {
-            const originalButton = buttons[Number(launchBtn.dataset.launchIndex)];
-            if (!originalButton) return;
-            openTemuCategory(originalButton);
-          });
-        });
-
-        jumpToElementInstant(panel.closest(".menuBigPanel") || panel, 0);
-      }
-
-      function openTemuCategory(originalButton) {
-        const catKey = originalButton.dataset.cat;
-        const mode = originalButton.dataset.mode || "";
-        const isGame = originalButton.dataset.action === "game";
-
-        buttons.forEach(btn => btn.classList.remove("active"));
-        originalButton.classList.add("active");
-
-        if (isGame) {
-          document.body.classList.remove("menu-launch-fullscreen");
-          wrap.classList.remove("is-menu-launch-active");
-          originalButton.click();
-          return;
-        }
-
-        const baseContent = CATEGORY_CONTENT[catKey];
-
-        if (!baseContent) {
-          panel.innerHTML = `
-            <div class="menuAppCategory">
-              <button class="menuAppBackBtn" type="button" data-back-launch>← Back To Menu</button>
-              <div class="menuEmpty">Coming soon.</div>
-            </div>
-          `;
-
-          panel.querySelector("[data-back-launch]")?.addEventListener("click", renderTemuHome);
-          return;
-        }
-
-        const content = getContentByMode(baseContent, mode);
-        const currentLabel = originalButton.textContent.trim();
-
-        panel.innerHTML = `
-          <div class="menuAppCategory">
-            <button class="menuAppBackBtn" type="button" data-back-launch>← Back To Menu</button>
-
-            <div class="menuUberWrap">
-              <button class="menuUberDropdown" type="button" data-toggle-category>
-                <span>${escapeHtml(currentLabel)}</span>
-                <span class="menuUberDropdown__chevron">⌄</span>
-              </button>
-
-              <div class="menuUberCategoryList" data-uber-category-list>
-                ${buttons.map((button, index) => {
-                  const label = button.textContent.trim();
-                  const icon = getMenuCategoryIcon(label);
-                  const active = button === originalButton;
-
-                  return `
-                    <button class="menuUberCategoryOption" type="button" data-uber-switch="${index}" data-active="${active}">
-                      <span>${escapeHtml(icon)} ${escapeHtml(label)}</span>
-                      <b>Open</b>
-                    </button>
-                  `;
-                }).join("")}
-              </div>
-            </div>
-
-            <div class="menuAppCategory__body">
-              ${renderSectionedMenu(content)}
-            </div>
-          </div>
-        `;
-
-        bindSubTabs(panel, content);
-
-        panel.querySelector("[data-back-launch]")?.addEventListener("click", renderTemuHome);
-
-        const dropdownBtn = panel.querySelector("[data-toggle-category]");
-        const list = panel.querySelector("[data-uber-category-list]");
-
-        dropdownBtn?.addEventListener("click", () => {
-          dropdownBtn.classList.toggle("is-open");
-          list?.classList.toggle("is-open");
-        });
-
-        panel.querySelectorAll("[data-uber-switch]").forEach(option => {
-          option.addEventListener("click", () => {
-            const nextButton = buttons[Number(option.dataset.uberSwitch)];
-            if (!nextButton) return;
-            openTemuCategory(nextButton);
-          });
-        });
-
-        jumpToElementInstant(panel.closest(".menuBigPanel") || panel, 0);
-      }
-
-      renderTemuHome();
-    }, 50);
-  }
-
-  function openHookahDirect() {
-    const dayToOpen = hasTodayTab ? today : fallbackDay;
-
-    document.body.classList.add("is-hookah-direct-mode");
-    document.body.classList.remove("menu-launch-fullscreen");
-    document.body.classList.remove("is-game-direct-mode");
-
-    activateDay(dayToOpen);
-
-    setTimeout(() => {
-      const activeDayPanel = document.querySelector(`.dayPanel[data-daypanel="${dayToOpen}"]`);
-      if (!activeDayPanel) return;
-
-      const wrap = activeDayPanel.querySelector(".menuCenterWrap");
-      if (!wrap) return;
-
-      const panel = wrap.querySelector(".menuPanelBody");
-      if (!panel) return;
-
-      const hookahButton =
-        activeDayPanel.querySelector('.menuCenterBtn[data-cat="hookah"]') ||
-        [...activeDayPanel.querySelectorAll(".menuCenterBtn")]
-          .find(btn => (btn.textContent || "").toLowerCase().includes("hookah"));
-
-      if (!hookahButton) return;
-
-      document.querySelectorAll(".hookahBackBtn").forEach(btn => btn.remove());
-
-      const backBtn = document.createElement("button");
-      backBtn.className = "hookahBackBtn";
-      backBtn.type = "button";
-      backBtn.textContent = "← Back";
-      document.body.appendChild(backBtn);
-
-      backBtn.addEventListener("click", () => {
-        document.body.classList.remove("is-hookah-direct-mode");
-        wrap.classList.remove("is-hookah-direct-open");
-        backBtn.remove();
-        renderIdleState(panel, dayToOpen);
-        jumpToTopInstant();
-      });
-
-      wrap.classList.remove("is-menu-launch-active");
-      wrap.classList.add("is-hookah-direct-open");
-
-      hookahButton.click();
-
-      setTimeout(() => {
-        const target =
-          activeDayPanel.querySelector(".menuCenterWrap.is-hookah-direct-open .menuBigPanel") ||
-          activeDayPanel.querySelector(".menuBigPanel");
-
-        jumpToElementInstant(target, 0);
-      }, 20);
-    }, 20);
-  }
-
-  document.addEventListener("click", event => {
-    const clicked = event.target.closest("[data-open-menu], .menuWelcomeStrip__item, .menuWelcomeStrip__item--clickable");
-    if (!clicked) return;
-
-    const text = (clicked.textContent || "").toLowerCase();
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (text.includes("free hookah monday")) {
-      openHookahDirect();
-      return;
-    }
-
-    openTodayMenu();
-  });
-
-  activateDay(hasTodayTab ? today : fallbackDay);
-});
+}
+
+.gameTop,
+.pdmWheelPromo,
+.staffBox{
+  display:none !important;
+}
+
+.gameTopClean{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.gameTopClean h2{
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:.12em;
+  color:var(--gold2);
+}
