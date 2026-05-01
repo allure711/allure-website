@@ -131,19 +131,14 @@ document.addEventListener("DOMContentLoaded", () => {
       !GOOGLE_SHEET_WEB_APP_URL ||
       GOOGLE_SHEET_WEB_APP_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE")
     ) {
-      return {
-        ok: false,
-        error: "Missing Google Apps Script web app URL"
-      };
+      return { ok: false, error: "Missing Google Apps Script web app URL" };
     }
 
     try {
       await fetch(GOOGLE_SHEET_WEB_APP_URL, {
         method: "POST",
         mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           createdAt: lead.createdAt || "",
           day: lead.day || "",
@@ -160,10 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return { ok: true };
     } catch (error) {
       console.error("Google Sheet sync failed:", error);
-      return {
-        ok: false,
-        error: String(error)
-      };
+      return { ok: false, error: String(error) };
     }
   }
 
@@ -326,10 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sections: content.sections.map(section => {
         if (section.layout === "grouped") return section;
         const split = splitShotsAndDrinks(section.items || []);
-        return {
-          ...section,
-          items: mode === "shots" ? split.shots : split.drinks
-        };
+        return { ...section, items: mode === "shots" ? split.shots : split.drinks };
       })
     };
   }
@@ -641,6 +630,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderDashboard(panel, day) {
+    document.body.classList.remove("is-game-direct-mode");
     setGameState(panel, true);
 
     const leads = readLeads();
@@ -799,7 +789,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderEntryScreen(panel, day, forceFresh = false) {
+    document.body.classList.add("is-game-direct-mode");
     setGameState(panel, true);
+
+    const wrap = getWrapFromPanel(panel);
+    if (wrap) {
+      wrap.classList.remove("is-menu-launch-active");
+      wrap.classList.add("is-game-direct-open");
+    }
 
     const existing = readSession(day);
 
@@ -823,7 +820,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="staffBox">
           <div class="pdmEntry__form">
-            <input class="staffInput pdmEntry__input" type="tel" placeholder="Phone number" data-phone-input>
+            <input class="staffInput pdmEntry__input" type="tel" inputmode="tel" placeholder="Phone number" data-phone-input>
             <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Unlock My Spin</button>
           </div>
           <div class="staffState">Enter a valid phone number to continue.</div>
@@ -871,7 +868,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTimeout(() => {
         const wheelTarget = panel.querySelector(".pdmWheelShell");
-        jumpToElementInstant(wheelTarget || panel, 8);
+        jumpToElementInstant(wheelTarget || panel, 0);
       }, 30);
     });
 
@@ -881,27 +878,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderWheelScreen(panel, day, session) {
+    document.body.classList.add("is-game-direct-mode");
     setGameState(panel, true);
+
+    const wrap = getWrapFromPanel(panel);
+    if (wrap) {
+      wrap.classList.remove("is-menu-launch-active");
+      wrap.classList.add("is-game-direct-open");
+    }
 
     const safeSession = readSession(day) || session;
 
     panel.innerHTML = `
-
-          <div class="gameBadgeRow">
-            <span class="gameBadge">Table: ${escapeHtml(safeSession.table || getTableLabel())}</span>
-            <span class="gameBadge gameBadge--gold">${escapeHtml(prettyLabel(day))}</span>
-          </div>
-        </div>
+      <div class="pdmWheelShell">
         <div class="gameClean">
-           <h2>SPIN THE WHEEL</h2>
-           </div>
+          <h2>SPIN THE WHEEL</h2>
+        </div>
 
         <div class="pdmWheelArea">
           <div class="pdmPointer"></div>
 
           <div class="pdmWheelWrap">
             <div class="pdmWheel" data-wheel>
-              ${buildWheelSvg(safeSession.segments)}
+              ${buildWheelSvg(safeSession.segments || WHEEL_SEGMENTS)}
             </div>
 
             <div class="pdmWheelCenterBadge">
@@ -918,6 +917,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
         </div>
+
+        <div class="staffState" style="display:none;">One spin per guest entry.</div>
+      </div>
+    `;
 
     const shell = panel.querySelector(".pdmWheelShell");
     const wheel = panel.querySelector("[data-wheel]");
@@ -936,7 +939,7 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.querySelector("[data-start-over]").addEventListener("click", () => {
       clearSession(day);
       renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+      setTimeout(() => jumpToElementInstant(panel, 0), 20);
     });
 
     panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
@@ -958,12 +961,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const finalRotation = 360 * 6 + normalizedStopRotation;
 
       spinButton.disabled = true;
-      stateBox.textContent = "Spinning...";
+      if (stateBox) stateBox.textContent = "Spinning...";
       if (winnerText) winnerText.textContent = "SPINNING";
 
-      if (shell) {
-        shell.classList.add("is-spinning");
-      }
+      if (shell) shell.classList.add("is-spinning");
 
       if (wheel) {
         wheel.style.transition = "none";
@@ -1024,13 +1025,13 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           if (shell) shell.classList.remove("is-spinning");
           if (winnerText) winnerText.textContent = current.reward;
+          if (stateBox) stateBox.textContent = "Reward revealed.";
 
-          stateBox.textContent = "Reward revealed.";
           renderWinnerScreen(panel, day, current);
 
           setTimeout(() => {
             const winnerTarget = panel.querySelector(".pdmWinner");
-            jumpToElementInstant(winnerTarget || panel, 8);
+            jumpToElementInstant(winnerTarget || panel, 0);
           }, 20);
         }, FINAL_SETTLE_DURATION_MS + 80);
       }, WHEEL_SPIN_DURATION_MS);
@@ -1038,6 +1039,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderWinnerScreen(panel, day, session) {
+    document.body.classList.add("is-game-direct-mode");
     setGameState(panel, true);
 
     const safeSession = readSession(day) || session;
@@ -1082,7 +1084,7 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.querySelector("[data-new-guest]").addEventListener("click", () => {
       clearSession(day);
       renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+      setTimeout(() => jumpToElementInstant(panel, 0), 20);
     });
 
     panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
@@ -1103,14 +1105,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       clearSession(day);
       renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+      setTimeout(() => jumpToElementInstant(panel, 0), 20);
     });
   }
 
   function renderIdleState(panel, day) {
     setGameState(panel, false);
-    getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
     document.body.classList.remove("is-game-direct-mode");
+    document.body.classList.remove("is-hookah-direct-mode");
+    document.body.classList.remove("menu-launch-fullscreen");
+
+    document.querySelectorAll(".hookahBackBtn").forEach(btn => btn.remove());
+
+    const wrap = getWrapFromPanel(panel);
+    if (wrap) {
+      wrap.classList.remove("is-menu-launch-active");
+      wrap.classList.remove("is-hookah-direct-open");
+      wrap.classList.remove("is-game-direct-open");
+    }
 
     panel.innerHTML = `
       <div class="menuStart">
@@ -1125,11 +1137,11 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    const wrap = panel.closest(".menuCenterWrap");
+    const localWrap = panel.closest(".menuCenterWrap");
 
     panel.querySelector("[data-start-game]").addEventListener("click", () => {
       renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 8), 20);
+      setTimeout(() => jumpToElementInstant(panel, 0), 20);
     });
 
     panel.querySelector("[data-start-dashboard]").addEventListener("click", () => {
@@ -1137,7 +1149,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     panel.querySelector("[data-start-food]").addEventListener("click", () => {
-      const foodButton = wrap?.querySelector('.menuCenterBtn[data-cat="food"]');
+      const foodButton = localWrap?.querySelector('.menuCenterBtn[data-cat="food"]');
       if (foodButton) foodButton.click();
     });
   }
@@ -1167,9 +1179,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function activateCategory(button) {
       clearActive();
       button.classList.add("active");
+
+      document.body.classList.remove("is-game-direct-mode");
       setGameState(panel, false);
       getWrapFromPanel(panel)?.classList.remove("is-menu-launch-active");
-      document.body.classList.remove("menu-launch-fullscreen");
 
       const catKey = button.dataset.cat;
       const mode = button.dataset.mode || "";
@@ -1193,7 +1206,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTimeout(() => {
         const target = panel.querySelector(".pdmEntry") || panel;
-        jumpToElementInstant(target, 8);
+        jumpToElementInstant(target, 0);
       }, 20);
     }
 
@@ -1236,41 +1249,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const hasTodayTab = document.querySelector(`.dayTab[data-daytab="${today}"]`);
 
   function jumpToActiveGamePanel() {
-  document.body.classList.add("is-game-direct-mode");
-  document.body.classList.remove("menu-launch-fullscreen");
-  document.body.classList.remove("is-hookah-direct-mode");
+    document.body.classList.add("is-game-direct-mode");
+    document.body.classList.remove("menu-launch-fullscreen");
+    document.body.classList.remove("is-hookah-direct-mode");
 
-  let activeDayPanel = document.querySelector(".dayPanel.active");
+    let activeDayPanel = document.querySelector(".dayPanel.active");
 
-  if (!activeDayPanel) {
-    activateDay(hasTodayTab ? today : fallbackDay);
-    activeDayPanel = document.querySelector(".dayPanel.active");
+    if (!activeDayPanel) {
+      activateDay(hasTodayTab ? today : fallbackDay);
+      activeDayPanel = document.querySelector(".dayPanel.active");
+    }
+
+    if (!activeDayPanel) return;
+
+    const wrap = activeDayPanel.querySelector(".menuCenterWrap");
+    const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
+    const panel = activeDayPanel.querySelector(".menuPanelBody");
+
+    if (!wrap || !gameButton || !panel) return;
+
+    document.querySelectorAll(".menuCenterWrap").forEach(w => {
+      w.classList.remove("is-menu-launch-active");
+      w.classList.remove("is-hookah-direct-open");
+      w.classList.remove("is-game-direct-open");
+    });
+
+    wrap.classList.add("is-game-direct-open");
+    gameButton.classList.add("active");
+    renderEntryScreen(panel, activeDayPanel.dataset.daypanel || "monday", true);
+
+    setTimeout(() => {
+      const target = activeDayPanel.querySelector(".menuCenterWrap.is-game-direct-open .menuBigPanel");
+      jumpToElementInstant(target || activeDayPanel, 0);
+    }, 40);
   }
-
-  if (!activeDayPanel) return;
-
-  const wrap = activeDayPanel.querySelector(".menuCenterWrap");
-  const gameButton = activeDayPanel.querySelector('.menuCenterBtn[data-action="game"]');
-  const panel = activeDayPanel.querySelector(".menuPanelBody");
-
-  if (!wrap || !gameButton || !panel) return;
-
-  document.querySelectorAll(".menuCenterWrap").forEach(w => {
-    w.classList.remove("is-menu-launch-active");
-    w.classList.remove("is-hookah-direct-open");
-    w.classList.remove("is-game-direct-open");
-  });
-
-  wrap.classList.add("is-game-direct-open");
-
-  gameButton.classList.add("active");
-  renderEntryScreen(panel, activeDayPanel.dataset.daypanel || "monday", true);
-
-  setTimeout(() => {
-    const target = activeDayPanel.querySelector(".menuCenterWrap.is-game-direct-open .menuBigPanel");
-    jumpToElementInstant(target || activeDayPanel, -80);
-  }, 40);
-}
 
   document.querySelectorAll("[data-open-game]").forEach(button => {
     button.addEventListener("click", jumpToActiveGamePanel);
@@ -1300,6 +1312,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const dayToOpen = hasTodayTab ? today : fallbackDay;
 
     document.body.classList.add("menu-launch-fullscreen");
+    document.body.classList.remove("is-game-direct-mode");
+    document.body.classList.remove("is-hookah-direct-mode");
+
     activateDay(dayToOpen);
 
     setTimeout(() => {
@@ -1316,6 +1331,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!buttons.length) return;
 
       wrap.classList.remove("is-game-active");
+      wrap.classList.remove("is-hookah-direct-open");
       wrap.classList.add("is-menu-launch-active");
       buttons.forEach(btn => btn.classList.remove("active"));
 
@@ -1453,36 +1469,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 50);
   }
 
-  document.addEventListener("click", event => {
-    const openMenuButton = event.target.closest("[data-open-menu], .menuWelcomeStrip__item--clickable");
-
-    if (!openMenuButton) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-    openTodayMenu();
-  });
-document.addEventListener("click", event => {
-  const openMenuButton = event.target.closest("[data-open-menu]");
-
-  if (!openMenuButton) return;
-
-  event.preventDefault();
-  event.stopPropagation();
-  openTodayMenu();
-});
-
-  document.addEventListener("click", event => {
-    const card = event.target.closest(".menuWelcomeStrip__item");
-    if (!card) return;
-
-    const text = (card.textContent || "").toLowerCase();
-    if (!text.includes("free hookah monday")) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-
+  function openHookahDirect() {
     const dayToOpen = hasTodayTab ? today : fallbackDay;
+
+    document.body.classList.add("is-hookah-direct-mode");
+    document.body.classList.remove("menu-launch-fullscreen");
+    document.body.classList.remove("is-game-direct-mode");
+
     activateDay(dayToOpen);
 
     setTimeout(() => {
@@ -1492,6 +1485,9 @@ document.addEventListener("click", event => {
       const wrap = activeDayPanel.querySelector(".menuCenterWrap");
       if (!wrap) return;
 
+      const panel = wrap.querySelector(".menuPanelBody");
+      if (!panel) return;
+
       const hookahButton =
         activeDayPanel.querySelector('.menuCenterBtn[data-cat="hookah"]') ||
         [...activeDayPanel.querySelectorAll(".menuCenterBtn")]
@@ -1499,65 +1495,51 @@ document.addEventListener("click", event => {
 
       if (!hookahButton) return;
 
-      document.body.classList.add("is-hookah-direct-mode");
-      // ADD BACK BUTTON
-let backBtn = document.createElement("button");
-backBtn.className = "hookahBackBtn";
-backBtn.textContent = "← Back";
+      document.querySelectorAll(".hookahBackBtn").forEach(btn => btn.remove());
 
-document.body.appendChild(backBtn);
+      const backBtn = document.createElement("button");
+      backBtn.className = "hookahBackBtn";
+      backBtn.type = "button";
+      backBtn.textContent = "← Back";
+      document.body.appendChild(backBtn);
 
-backBtn.addEventListener("click", () => {
-  document.body.classList.remove("is-hookah-direct-mode");
+      backBtn.addEventListener("click", () => {
+        document.body.classList.remove("is-hookah-direct-mode");
+        wrap.classList.remove("is-hookah-direct-open");
+        backBtn.remove();
+        renderIdleState(panel, dayToOpen);
+        jumpToTopInstant();
+      });
 
-  const wrap = document.querySelector(".menuCenterWrap.is-hookah-direct-open");
-  if (wrap) wrap.classList.remove("is-hookah-direct-open");
+      wrap.classList.remove("is-menu-launch-active");
+      wrap.classList.add("is-hookah-direct-open");
 
-  backBtn.remove();
-
-  // return to normal menu home
-  window.scrollTo(0,0);
-});
-
-wrap.classList.remove("is-menu-launch-active");
-wrap.classList.add("is-hookah-direct-open");
-
-hookahButton.click();
+      hookahButton.click();
 
       setTimeout(() => {
         const target =
-  activeDayPanel.querySelector(".menuCenterWrap.is-hookah-direct-open .menuBigPanel") ||
-  activeDayPanel.querySelector(".menuBigPanel");
-        if (!target) return;
+          activeDayPanel.querySelector(".menuCenterWrap.is-hookah-direct-open .menuBigPanel") ||
+          activeDayPanel.querySelector(".menuBigPanel");
 
-        const html = document.documentElement;
-        const body = document.body;
-
-        html.style.scrollBehavior = "auto";
-        body.style.scrollBehavior = "auto";
-
-        const header = document.querySelector(".header");
-        const headerHeight = header ? header.offsetHeight : 0;
-
-        const top =
-          window.pageYOffset +
-          target.getBoundingClientRect().top -
-          headerHeight;
-
-        window.scrollTo(0, Math.max(0, top));
+        jumpToElementInstant(target, 0);
       }, 20);
     }, 20);
-  }, true);
+  }
 
   document.addEventListener("click", event => {
-    const openMenuButton = event.target.closest("[data-open-menu], .menuWelcomeStrip__item--clickable");
-    if (!openMenuButton) return;
+    const clicked = event.target.closest("[data-open-menu], .menuWelcomeStrip__item, .menuWelcomeStrip__item--clickable");
+    if (!clicked) return;
 
-    const text = (openMenuButton.textContent || "").toLowerCase();
-    if (text.includes("free hookah monday")) return;
+    const text = (clicked.textContent || "").toLowerCase();
 
     event.preventDefault();
     event.stopPropagation();
+
+    if (text.includes("free hookah monday")) {
+      openHookahDirect();
+      return;
+    }
+
     openTodayMenu();
   });
 
