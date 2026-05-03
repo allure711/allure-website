@@ -805,7 +805,218 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
   }
 
- 808
+ function renderEntryScreen(panel, day, forceFresh = false) {
+  clearSpecialModes();
+  document.body.classList.add("is-game-direct-mode");
+  setGameState(panel, true);
+
+  const wrap = getWrapFromPanel(panel);
+  if (wrap) wrap.classList.add("is-game-direct-open");
+
+  const existing = readSession(day);
+
+  if (!forceFresh && existing) {
+    if (existing.stage === "winner" && typeof existing.selectedIndex === "number") {
+      renderWinnerScreen(panel, day, existing);
+      return;
+    }
+
+    if (existing.stage === "wheel" && existing.phone) {
+      renderWheelScreen(panel, day, existing);
+      return;
+    }
+  }
+
+  panel.innerHTML = `
+    <div class="pdmEntry">
+      <h3 class="pdmEntry__title">SPIN THE WHEEL</h3>
+      <p class="pdmEntry__text">Enter your phone number to unlock your reward spin.</p>
+
+      <div style="border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);border-radius:14px;padding:12px;">
+        <div class="pdmEntry__form" style="display:grid;gap:12px;">
+          <input class="staffInput pdmEntry__input" type="tel" inputmode="tel" placeholder="Phone number" data-phone-input>
+          <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Unlock My Spin</button>
+        </div>
+        <div class="staffState">Enter a valid phone number to continue.</div>
+      </div>
+
+      <div class="gameActions">
+        <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
+        <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
+      </div>
+    </div>
+  `;
+
+  const phoneInput = panel.querySelector("[data-phone-input]");
+  const staffState = panel.querySelector(".staffState");
+
+  panel.querySelector("[data-entry-continue]").addEventListener("click", () => {
+    const phoneRaw = (phoneInput.value || "").trim();
+
+    if (!validatePhone(phoneRaw)) {
+      staffState.textContent = "Enter a valid phone number.";
+      return;
+    }
+
+    const state = {
+      date: getTodayKey(),
+      day,
+      table: getTableLabel(),
+      entryType: "phone",
+      phone: normalizePhone(phoneRaw),
+      segments: [...WHEEL_SEGMENTS],
+      selectedIndex: null,
+      reward: "",
+      code: "",
+      boxNumber: "",
+      createdAt: new Date().toISOString(),
+      timestamp: new Date().toISOString(),
+      stage: "wheel"
+    };
+
+    saveSession(day, state);
+    renderWheelScreen(panel, day, state);
+
+    setTimeout(() => {
+      const wheelTarget = panel.querySelector(".pdmWheelShell");
+      jumpToElementInstant(wheelTarget || panel, 0);
+    }, 30);
+  });
+
+  panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
+  panel.querySelector("[data-open-dashboard]").addEventListener("click", () => renderDashboard(panel, day));
+}
+
+function renderWheelScreen(panel, day, session) {
+  clearSpecialModes();
+  document.body.classList.add("is-game-direct-mode");
+  setGameState(panel, true);
+
+  const wrap = getWrapFromPanel(panel);
+  if (wrap) wrap.classList.add("is-game-direct-open");
+
+  const safeSession = readSession(day) || session;
+
+  panel.innerHTML = `
+    <div class="pdmWheelShell">
+      <div class="gameTopClean">
+        <h2>SPIN THE WHEEL</h2>
+      </div>
+
+      <div class="pdmWheelArea">
+        <div class="pdmPointer"></div>
+
+        <div class="pdmWheelWrap">
+          <div class="pdmWheel" data-wheel>
+            ${buildWheelSvg(safeSession.segments || WHEEL_SEGMENTS)}
+          </div>
+
+          <div class="pdmWheelCenterBadge">
+            <div class="pdmWheelCenterBadge__top">ALLURE</div>
+            <div class="pdmWheelCenterBadge__main" data-wheel-winner>REVEAL</div>
+            <div class="pdmWheelCenterBadge__bottom">Tonight only</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gameActions">
+        <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Reveal My Reward</button>
+        <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
+        <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
+      </div>
+
+      <div class="staffState" style="display:block;text-align:center;">One spin per guest entry.</div>
+    </div>
+  `;
+
+  const shell = panel.querySelector(".pdmWheelShell");
+  const wheel = panel.querySelector("[data-wheel]");
+  const winnerText = panel.querySelector("[data-wheel-winner]");
+  const spinButton = panel.querySelector("[data-spin-now]");
+  const stateBox = panel.querySelector(".staffState");
+  const pointer = panel.querySelector(".pdmPointer");
+
+  wheel.style.transition = "none";
+  wheel.style.transform = "rotate(0deg)";
+
+  panel.querySelector("[data-start-over]").addEventListener("click", () => {
+    clearSession(day);
+    renderEntryScreen(panel, day, true);
+  });
+
+  panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
+
+  spinButton.addEventListener("click", async () => {
+    ensureAudioContext();
+    resetWheelTickState();
+
+    const current = readSession(day) || safeSession;
+    const selectedIndex = getRandomSegmentIndex();
+    const segmentCount = current.segments.length;
+    const segmentAngle = 360 / segmentCount;
+
+    const selectedCenterAngle = selectedIndex * segmentAngle + segmentAngle / 2;
+    const normalizedStopRotation =
+      (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
+
+    const finalRotation = 360 * 6 + normalizedStopRotation;
+
+    spinButton.disabled = true;
+    stateBox.textContent = "Spinning...";
+    winnerText.textContent = "SPINNING";
+
+    shell.classList.add("is-spinning");
+
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotate(0deg)";
+    wheel.offsetHeight;
+    wheel.style.transition = `transform ${WHEEL_SPIN_DURATION_MS}ms cubic-bezier(.12,.8,.18,1)`;
+    wheel.style.transform = `rotate(${finalRotation}deg)`;
+
+    let tickRotation = 0;
+    const tickTimer = setInterval(() => {
+      tickRotation += 18;
+      handleWheelTicks(tickRotation, segmentCount, pointer);
+    }, 70);
+
+    setTimeout(async () => {
+      clearInterval(tickTimer);
+
+      playWheelTick(1);
+      bouncePointer(pointer, 1);
+      triggerWinnerGlow(wheel, selectedIndex);
+
+      current.selectedIndex = selectedIndex;
+      current.reward = current.segments[selectedIndex];
+      current.boxNumber = selectedIndex + 1;
+      current.code = createRewardCode(day, selectedIndex);
+      current.timestamp = new Date().toISOString();
+      current.createdAt = current.timestamp;
+      current.stage = "winner";
+
+      saveSession(day, current);
+
+      saveLead({
+        date: current.date || getTodayKey(),
+        createdAt: current.createdAt,
+        day: current.day || day,
+        table: current.table || getTableLabel(),
+        entryType: current.entryType || "phone",
+        phone: current.phone || "",
+        reward: current.reward || "",
+        boxNumber: current.boxNumber || "",
+        code: current.code || ""
+      });
+
+      winnerText.textContent = current.reward;
+      stateBox.textContent = "Reward revealed.";
+
+      setTimeout(() => {
+        renderWinnerScreen(panel, day, current);
+      }, 700);
+    }, WHEEL_SPIN_DURATION_MS);
+  });
+}
   
   function renderWheelScreen(panel, day, session) {
     clearSpecialModes();
