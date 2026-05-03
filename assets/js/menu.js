@@ -572,16 +572,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const firstDy = lines.length === 1 ? 0 : -10;
 
       texts.push(`
-        <g
-          class="pdmWheelSvg__labelGroup"
-          transform="translate(${textPoint.x} ${textPoint.y})"
-        >
-          <text
-            class="pdmWheelSvg__label"
-            text-anchor="middle"
-            dominant-baseline="middle"
-            font-size="${fontSize}"
-          >
+        <g class="pdmWheelSvg__labelGroup" transform="translate(${textPoint.x} ${textPoint.y})">
+          <text class="pdmWheelSvg__label" text-anchor="middle" dominant-baseline="middle" font-size="${fontSize}">
             ${lines.map((line, lineIndex) => `
               <tspan x="0" dy="${lineIndex === 0 ? firstDy : 22}">
                 ${escapeHtml(line)}
@@ -592,34 +584,12 @@ document.addEventListener("DOMContentLoaded", () => {
       `);
     });
 
-    dividers.push(`
-      <line
-        class="pdmWheelSvg__divider"
-        x1="${polarToCartesian(cx, cy, innerRadius, 360).x}"
-        y1="${polarToCartesian(cx, cy, innerRadius, 360).y}"
-        x2="${polarToCartesian(cx, cy, outerRadius, 360).x}"
-        y2="${polarToCartesian(cx, cy, outerRadius, 360).y}"
-      ></line>
-    `);
-
     return `
       <svg class="pdmWheelSvg" viewBox="0 0 ${size} ${size}" aria-hidden="true">
         <defs>
           <filter id="pdmWinnerGlowFilter" x="-60%" y="-60%" width="220%" height="220%">
             <feGaussianBlur stdDeviation="10" result="blur"></feGaussianBlur>
-            <feColorMatrix
-              in="blur"
-              type="matrix"
-              values="
-                1 0 0 0 0
-                0 0.84 0 0 0
-                0 0 0.45 0 0
-                0 0 0 1 0
-              "
-              result="goldGlow"
-            ></feColorMatrix>
             <feMerge>
-              <feMergeNode in="goldGlow"></feMergeNode>
               <feMergeNode in="SourceGraphic"></feMergeNode>
             </feMerge>
           </filter>
@@ -805,228 +775,90 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
   }
 
- function renderEntryScreen(panel, day, forceFresh = false) {
-  clearSpecialModes();
-  document.body.classList.add("is-game-direct-mode");
-  setGameState(panel, true);
+  function renderEntryScreen(panel, day, forceFresh = false) {
+    clearSpecialModes();
+    document.body.classList.add("is-game-direct-mode");
+    setGameState(panel, true);
 
-  const wrap = getWrapFromPanel(panel);
-  if (wrap) wrap.classList.add("is-game-direct-open");
+    const wrap = getWrapFromPanel(panel);
+    if (wrap) wrap.classList.add("is-game-direct-open");
 
-  const existing = readSession(day);
+    const existing = readSession(day);
 
-  if (!forceFresh && existing) {
-    if (existing.stage === "winner" && typeof existing.selectedIndex === "number") {
-      renderWinnerScreen(panel, day, existing);
-      return;
+    if (!forceFresh && existing) {
+      if (existing.stage === "winner" && typeof existing.selectedIndex === "number") {
+        renderWinnerScreen(panel, day, existing);
+        return;
+      }
+
+      if (existing.stage === "wheel" && existing.phone) {
+        renderWheelScreen(panel, day, existing);
+        return;
+      }
     }
 
-    if (existing.stage === "wheel" && existing.phone) {
-      renderWheelScreen(panel, day, existing);
-      return;
-    }
+    panel.innerHTML = `
+      <div class="pdmEntry">
+        <h3 class="pdmEntry__title">SPIN THE WHEEL</h3>
+        <p class="pdmEntry__text">Enter your phone number to unlock your reward spin.</p>
+
+        <div style="border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);border-radius:14px;padding:12px;">
+          <div class="pdmEntry__form" style="display:grid;gap:12px;">
+            <input class="staffInput pdmEntry__input" type="tel" inputmode="tel" placeholder="Phone number" data-phone-input>
+            <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Unlock My Spin</button>
+          </div>
+          <div class="staffState">Enter a valid phone number to continue.</div>
+        </div>
+
+        <div class="gameActions">
+          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
+        </div>
+      </div>
+    `;
+
+    const phoneInput = panel.querySelector("[data-phone-input]");
+    const staffState = panel.querySelector(".staffState");
+
+    panel.querySelector("[data-entry-continue]").addEventListener("click", () => {
+      const phoneRaw = (phoneInput.value || "").trim();
+
+      if (!validatePhone(phoneRaw)) {
+        staffState.textContent = "Enter a valid phone number.";
+        return;
+      }
+
+      const state = {
+        date: getTodayKey(),
+        day,
+        table: getTableLabel(),
+        entryType: "phone",
+        phone: normalizePhone(phoneRaw),
+        segments: [...WHEEL_SEGMENTS],
+        selectedIndex: null,
+        reward: "",
+        code: "",
+        boxNumber: "",
+        createdAt: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
+        stage: "wheel"
+      };
+
+      saveSession(day, state);
+      renderWheelScreen(panel, day, state);
+    });
+
+    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
+    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => renderDashboard(panel, day));
   }
 
-  panel.innerHTML = `
-    <div class="pdmEntry">
-      <h3 class="pdmEntry__title">SPIN THE WHEEL</h3>
-      <p class="pdmEntry__text">Enter your phone number to unlock your reward spin.</p>
-
-      <div style="border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);border-radius:14px;padding:12px;">
-        <div class="pdmEntry__form" style="display:grid;gap:12px;">
-          <input class="staffInput pdmEntry__input" type="tel" inputmode="tel" placeholder="Phone number" data-phone-input>
-          <button class="gameBtn gameBtn--gold pdmEntry__submit" type="button" data-entry-continue>Unlock My Spin</button>
-        </div>
-        <div class="staffState">Enter a valid phone number to continue.</div>
-      </div>
-
-      <div class="gameActions">
-        <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
-        <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
-      </div>
-    </div>
-  `;
-
-  const phoneInput = panel.querySelector("[data-phone-input]");
-  const staffState = panel.querySelector(".staffState");
-
-  panel.querySelector("[data-entry-continue]").addEventListener("click", () => {
-    const phoneRaw = (phoneInput.value || "").trim();
-
-    if (!validatePhone(phoneRaw)) {
-      staffState.textContent = "Enter a valid phone number.";
-      return;
-    }
-
-    const state = {
-      date: getTodayKey(),
-      day,
-      table: getTableLabel(),
-      entryType: "phone",
-      phone: normalizePhone(phoneRaw),
-      segments: [...WHEEL_SEGMENTS],
-      selectedIndex: null,
-      reward: "",
-      code: "",
-      boxNumber: "",
-      createdAt: new Date().toISOString(),
-      timestamp: new Date().toISOString(),
-      stage: "wheel"
-    };
-
-    saveSession(day, state);
-    renderWheelScreen(panel, day, state);
-
-    setTimeout(() => {
-      const wheelTarget = panel.querySelector(".pdmWheelShell");
-      jumpToElementInstant(wheelTarget || panel, 0);
-    }, 30);
-  });
-
-  panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
-  panel.querySelector("[data-open-dashboard]").addEventListener("click", () => renderDashboard(panel, day));
-}
-
-function renderWheelScreen(panel, day, session) {
-  clearSpecialModes();
-  document.body.classList.add("is-game-direct-mode");
-  setGameState(panel, true);
-
-  const wrap = getWrapFromPanel(panel);
-  if (wrap) wrap.classList.add("is-game-direct-open");
-
-  const safeSession = readSession(day) || session;
-
-  panel.innerHTML = `
-    <div class="pdmWheelShell">
-      <div class="gameTopClean">
-        <h2>SPIN THE WHEEL</h2>
-      </div>
-
-      <div class="pdmWheelArea">
-        <div class="pdmPointer"></div>
-
-        <div class="pdmWheelWrap">
-          <div class="pdmWheel" data-wheel>
-            ${buildWheelSvg(safeSession.segments || WHEEL_SEGMENTS)}
-          </div>
-
-          <div class="pdmWheelCenterBadge">
-            <div class="pdmWheelCenterBadge__top">ALLURE</div>
-            <div class="pdmWheelCenterBadge__main" data-wheel-winner>REVEAL</div>
-            <div class="pdmWheelCenterBadge__bottom">Tonight only</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gameActions">
-        <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Reveal My Reward</button>
-        <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
-        <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
-      </div>
-
-      <div class="staffState" style="display:block;text-align:center;">One spin per guest entry.</div>
-    </div>
-  `;
-
-  const shell = panel.querySelector(".pdmWheelShell");
-  const wheel = panel.querySelector("[data-wheel]");
-  const winnerText = panel.querySelector("[data-wheel-winner]");
-  const spinButton = panel.querySelector("[data-spin-now]");
-  const stateBox = panel.querySelector(".staffState");
-  const pointer = panel.querySelector(".pdmPointer");
-
-  wheel.style.transition = "none";
-  wheel.style.transform = "rotate(0deg)";
-
-  panel.querySelector("[data-start-over]").addEventListener("click", () => {
-    clearSession(day);
-    renderEntryScreen(panel, day, true);
-  });
-
-  panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
-
-  spinButton.addEventListener("click", async () => {
-    ensureAudioContext();
-    resetWheelTickState();
-
-    const current = readSession(day) || safeSession;
-    const selectedIndex = getRandomSegmentIndex();
-    const segmentCount = current.segments.length;
-    const segmentAngle = 360 / segmentCount;
-
-    const selectedCenterAngle = selectedIndex * segmentAngle + segmentAngle / 2;
-    const normalizedStopRotation =
-      (360 - selectedCenterAngle + POINTER_ALIGNMENT_OFFSET_DEG) % 360;
-
-    const finalRotation = 360 * 6 + normalizedStopRotation;
-
-    spinButton.disabled = true;
-    stateBox.textContent = "Spinning...";
-    winnerText.textContent = "SPINNING";
-
-    shell.classList.add("is-spinning");
-
-    wheel.style.transition = "none";
-    wheel.style.transform = "rotate(0deg)";
-    wheel.offsetHeight;
-    wheel.style.transition = `transform ${WHEEL_SPIN_DURATION_MS}ms cubic-bezier(.12,.8,.18,1)`;
-    wheel.style.transform = `rotate(${finalRotation}deg)`;
-
-    let tickRotation = 0;
-    const tickTimer = setInterval(() => {
-      tickRotation += 18;
-      handleWheelTicks(tickRotation, segmentCount, pointer);
-    }, 70);
-
-    setTimeout(async () => {
-      clearInterval(tickTimer);
-
-      playWheelTick(1);
-      bouncePointer(pointer, 1);
-      triggerWinnerGlow(wheel, selectedIndex);
-
-      current.selectedIndex = selectedIndex;
-      current.reward = current.segments[selectedIndex];
-      current.boxNumber = selectedIndex + 1;
-      current.code = createRewardCode(day, selectedIndex);
-      current.timestamp = new Date().toISOString();
-      current.createdAt = current.timestamp;
-      current.stage = "winner";
-
-      saveSession(day, current);
-
-      saveLead({
-        date: current.date || getTodayKey(),
-        createdAt: current.createdAt,
-        day: current.day || day,
-        table: current.table || getTableLabel(),
-        entryType: current.entryType || "phone",
-        phone: current.phone || "",
-        reward: current.reward || "",
-        boxNumber: current.boxNumber || "",
-        code: current.code || ""
-      });
-
-      winnerText.textContent = current.reward;
-      stateBox.textContent = "Reward revealed.";
-
-      setTimeout(() => {
-        renderWinnerScreen(panel, day, current);
-      }, 700);
-    }, WHEEL_SPIN_DURATION_MS);
-  });
-}
-  
   function renderWheelScreen(panel, day, session) {
     clearSpecialModes();
     document.body.classList.add("is-game-direct-mode");
     setGameState(panel, true);
 
     const wrap = getWrapFromPanel(panel);
-    if (wrap) {
-      wrap.classList.add("is-game-direct-open");
-    }
+    if (wrap) wrap.classList.add("is-game-direct-open");
 
     const safeSession = readSession(day) || session;
 
@@ -1054,12 +886,11 @@ function renderWheelScreen(panel, day, session) {
 
         <div class="gameActions">
           <button class="gameBtn gameBtn--gold" type="button" data-spin-now>Reveal My Reward</button>
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-start-over>Start Over</button>
-          <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Manager Dashboard</button>
+          <button class="gameBtn gameBtn--ghost" type="button" data-back-idle>Back</button>
         </div>
 
-        <div class="staffState" style="display:none;">One spin per guest entry.</div>
+        <div class="staffState" style="display:block;text-align:center;">One spin per guest entry.</div>
       </div>
     `;
 
@@ -1075,17 +906,12 @@ function renderWheelScreen(panel, day, session) {
       wheel.style.transform = "rotate(0deg)";
     }
 
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
     panel.querySelector("[data-start-over]").addEventListener("click", () => {
       clearSession(day);
       renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 0), 20);
     });
 
-    panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
-      renderDashboard(panel, day);
-    });
+    panel.querySelector("[data-back-idle]").addEventListener("click", () => renderIdleState(panel, day));
 
     spinButton.addEventListener("click", async () => {
       ensureAudioContext();
@@ -1102,18 +928,16 @@ function renderWheelScreen(panel, day, session) {
       const finalRotation = 360 * 6 + normalizedStopRotation;
 
       spinButton.disabled = true;
-      if (stateBox) stateBox.textContent = "Spinning...";
-      if (winnerText) winnerText.textContent = "SPINNING";
+      stateBox.textContent = "Spinning...";
+      winnerText.textContent = "SPINNING";
 
-      if (shell) shell.classList.add("is-spinning");
+      shell.classList.add("is-spinning");
 
-      if (wheel) {
-        wheel.style.transition = "none";
-        wheel.style.transform = "rotate(0deg)";
-        wheel.offsetHeight;
-        wheel.style.transition = `transform ${WHEEL_SPIN_DURATION_MS}ms cubic-bezier(.12,.8,.18,1)`;
-        wheel.style.transform = `rotate(${finalRotation}deg)`;
-      }
+      wheel.style.transition = "none";
+      wheel.style.transform = "rotate(0deg)";
+      wheel.offsetHeight;
+      wheel.style.transition = `transform ${WHEEL_SPIN_DURATION_MS}ms cubic-bezier(.12,.8,.18,1)`;
+      wheel.style.transform = `rotate(${finalRotation}deg)`;
 
       let tickRotation = 0;
       const tickTimer = setInterval(() => {
@@ -1124,15 +948,13 @@ function renderWheelScreen(panel, day, session) {
       setTimeout(async () => {
         clearInterval(tickTimer);
 
-        if (wheel) {
-          wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
-          wheel.style.transform = `rotate(${finalRotation + FINAL_SETTLE_OVERSHOOT_DEG}deg)`;
+        wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
+        wheel.style.transform = `rotate(${finalRotation + FINAL_SETTLE_OVERSHOOT_DEG}deg)`;
 
-          setTimeout(() => {
-            wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
-            wheel.style.transform = `rotate(${finalRotation}deg)`;
-          }, FINAL_SETTLE_DURATION_MS);
-        }
+        setTimeout(() => {
+          wheel.style.transition = `transform ${FINAL_SETTLE_DURATION_MS}ms cubic-bezier(.2,.9,.2,1)`;
+          wheel.style.transform = `rotate(${finalRotation}deg)`;
+        }, FINAL_SETTLE_DURATION_MS);
 
         playWheelTick(1);
         bouncePointer(pointer, 1);
@@ -1164,17 +986,11 @@ function renderWheelScreen(panel, day, session) {
         await sendLeadToGoogleSheet(leadPayload);
 
         setTimeout(() => {
-          if (shell) shell.classList.remove("is-spinning");
-          if (winnerText) winnerText.textContent = current.reward;
-          if (stateBox) stateBox.textContent = "Reward revealed.";
-
+          shell.classList.remove("is-spinning");
+          winnerText.textContent = current.reward;
+          stateBox.textContent = "Reward revealed.";
           renderWinnerScreen(panel, day, current);
-
-          setTimeout(() => {
-            const winnerTarget = panel.querySelector(".pdmWinner");
-            jumpToElementInstant(winnerTarget || panel, 0);
-          }, 20);
-        }, FINAL_SETTLE_DURATION_MS + 80);
+        }, FINAL_SETTLE_DURATION_MS + 700);
       }, WHEEL_SPIN_DURATION_MS);
     });
   }
@@ -1185,9 +1001,7 @@ function renderWheelScreen(panel, day, session) {
     setGameState(panel, true);
 
     const wrap = getWrapFromPanel(panel);
-    if (wrap) {
-      wrap.classList.add("is-game-direct-open");
-    }
+    if (wrap) wrap.classList.add("is-game-direct-open");
 
     const safeSession = readSession(day) || session;
     const rewardText = safeSession.reward || "Try Again";
@@ -1207,13 +1021,12 @@ function renderWheelScreen(panel, day, session) {
         <div class="pdmWinnerNote">Valid for tonight’s visit only.</div>
 
         <div class="gameActions">
-          <button class="gameBtn gameBtn--top" type="button" data-back-top>Back To Top</button>
           <button class="gameBtn gameBtn--gold" type="button" data-new-guest>New Guest</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-manager-reset>Manager Reset</button>
           <button class="gameBtn gameBtn--ghost" type="button" data-open-dashboard>Dashboard</button>
         </div>
 
-        <div class="staffBox">
+        <div style="border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);border-radius:14px;padding:12px;">
           <div class="staffRow">
             <input class="staffInput" type="password" placeholder="Manager PIN">
             <button class="gameBtn gameBtn--ghost" type="button" data-confirm-reset>Confirm Reset</button>
@@ -1226,12 +1039,9 @@ function renderWheelScreen(panel, day, session) {
     const pinInput = panel.querySelector(".staffInput");
     const staffState = panel.querySelector(".staffState");
 
-    panel.querySelector("[data-back-top]").addEventListener("click", jumpToTopInstant);
-
     panel.querySelector("[data-new-guest]").addEventListener("click", () => {
       clearSession(day);
       renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 0), 20);
     });
 
     panel.querySelector("[data-open-dashboard]").addEventListener("click", () => {
@@ -1252,50 +1062,48 @@ function renderWheelScreen(panel, day, session) {
 
       clearSession(day);
       renderEntryScreen(panel, day, true);
-      setTimeout(() => jumpToElementInstant(panel, 0), 20);
     });
   }
 
-function renderIdleState(panel, day) {
-  setGameState(panel, false);
+  function renderIdleState(panel, day) {
+    setGameState(panel, false);
 
-  const wrap = getWrapFromPanel(panel);
+    const wrap = getWrapFromPanel(panel);
 
-  if (wrap) {
-    wrap.classList.remove("is-game-active");
-    wrap.classList.remove("is-game-direct-open");
-    wrap.classList.remove("is-hookah-direct-open");
-  }
+    if (wrap) {
+      wrap.classList.remove("is-game-active");
+      wrap.classList.remove("is-game-direct-open");
+      wrap.classList.remove("is-hookah-direct-open");
+    }
 
-  panel.innerHTML = `
-    <div class="menuStart">
-      <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
-      <div class="menuStart__text">Select a category to view menu items, play Pour Decision Maker, or open the manager dashboard.</div>
-      <div class="menuStart__actions">
-        <button class="menuStartBtn menuStartBtn--gold" type="button" data-start-game>Play Pour Decision Maker</button>
-        <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-food>Open Food Menu</button>
-        <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-dashboard>Dashboard</button>
+    panel.innerHTML = `
+      <div class="menuStart">
+        <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
+        <div class="menuStart__text">Select a category to view menu items, play Pour Decision Maker, or open the manager dashboard.</div>
+        <div class="menuStart__actions">
+          <button class="menuStartBtn menuStartBtn--gold" type="button" data-start-game>Play Pour Decision Maker</button>
+          <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-food>Open Food Menu</button>
+          <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-dashboard>Dashboard</button>
+        </div>
+        <div class="menuStartMeta">Entry saves to Google Sheet and local browser backup.</div>
       </div>
-      <div class="menuStartMeta">Entry saves to Google Sheet and local browser backup.</div>
-    </div>
-  `;
+    `;
 
-  const localWrap = panel.closest(".menuCenterWrap");
+    const localWrap = panel.closest(".menuCenterWrap");
 
-  panel.querySelector("[data-start-game]").addEventListener("click", () => {
-    renderEntryScreen(panel, day, true);
-    setTimeout(() => jumpToElementInstant(panel, 0), 20);
-  });
+    panel.querySelector("[data-start-game]").addEventListener("click", () => {
+      renderEntryScreen(panel, day, true);
+    });
 
-  panel.querySelector("[data-start-dashboard]").addEventListener("click", () => {
-    renderDashboard(panel, day);
-  });
+    panel.querySelector("[data-start-dashboard]").addEventListener("click", () => {
+      renderDashboard(panel, day);
+    });
 
-  panel.querySelector("[data-start-food]").addEventListener("click", () => {
-    const foodButton = localWrap?.querySelector('.menuCenterBtn[data-cat="food"]');
-    if (foodButton) foodButton.click();
-  });
-}
+    panel.querySelector("[data-start-food]").addEventListener("click", () => {
+      const foodButton = localWrap?.querySelector('.menuCenterBtn[data-cat="food"]');
+      if (foodButton) foodButton.click();
+    });
+  }
 
   function getButtons(wrap) {
     const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
@@ -1343,11 +1151,6 @@ function renderIdleState(panel, day) {
       clearActive();
       button.classList.add("active");
       renderEntryScreen(panel, day, forceFresh);
-
-      setTimeout(() => {
-        const target = panel.querySelector(".pdmEntry") || panel;
-        jumpToElementInstant(target, 0);
-      }, 20);
     }
 
     buttons.forEach(button => {
@@ -1405,11 +1208,6 @@ function renderIdleState(panel, day) {
 
     gameButton.classList.add("active");
     renderEntryScreen(panel, activeDayPanel.dataset.daypanel || "monday", true);
-
-    setTimeout(() => {
-      const firstMenuPanel = activeDayPanel.querySelector(".menuBigPanel");
-      jumpToElementInstant(firstMenuPanel || activeDayPanel, 0);
-    }, 40);
   }
 
   document.querySelectorAll("[data-open-game]").forEach(button => {
@@ -1641,7 +1439,7 @@ function renderIdleState(panel, day) {
   }
 
   document.addEventListener("click", event => {
-    const clicked = event.target.closest("[data-open-menu], .menuWelcomeStrip__item, .menuWelcomeStrip__item--clickable");
+    const clicked = event.target.closest("[data-open-menu], .menuWelcomeStrip__item--clickable");
     if (!clicked) return;
 
     const text = (clicked.textContent || "").toLowerCase();
