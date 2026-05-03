@@ -1132,7 +1132,46 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-1135
+function renderIdleState(panel, day) {
+  setGameState(panel, false);
+
+  const wrap = getWrapFromPanel(panel);
+
+  if (wrap) {
+    wrap.classList.remove("is-game-active");
+    wrap.classList.remove("is-game-direct-open");
+    wrap.classList.remove("is-hookah-direct-open");
+  }
+
+  panel.innerHTML = `
+    <div class="menuStart">
+      <div class="menuStart__title">${escapeHtml(prettyLabel(day))} Menu</div>
+      <div class="menuStart__text">Select a category to view menu items, play Pour Decision Maker, or open the manager dashboard.</div>
+      <div class="menuStart__actions">
+        <button class="menuStartBtn menuStartBtn--gold" type="button" data-start-game>Play Pour Decision Maker</button>
+        <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-food>Open Food Menu</button>
+        <button class="menuStartBtn menuStartBtn--ghost" type="button" data-start-dashboard>Dashboard</button>
+      </div>
+      <div class="menuStartMeta">Entry saves to Google Sheet and local browser backup.</div>
+    </div>
+  `;
+
+  const localWrap = panel.closest(".menuCenterWrap");
+
+  panel.querySelector("[data-start-game]").addEventListener("click", () => {
+    renderEntryScreen(panel, day, true);
+    setTimeout(() => jumpToElementInstant(panel, 0), 20);
+  });
+
+  panel.querySelector("[data-start-dashboard]").addEventListener("click", () => {
+    renderDashboard(panel, day);
+  });
+
+  panel.querySelector("[data-start-food]").addEventListener("click", () => {
+    const foodButton = localWrap?.querySelector('.menuCenterBtn[data-cat="food"]');
+    if (foodButton) foodButton.click();
+  });
+}
 
   function getButtons(wrap) {
     const inside = [...wrap.querySelectorAll(".menuCenterBtn")];
