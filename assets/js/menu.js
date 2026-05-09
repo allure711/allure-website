@@ -11,20 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const WHEEL_SPIN_DURATION_MS = 4700;
   const WINNER_GLOW_DURATION_MS = 1600;
 
-  const WHEEL_SEGMENTS = [
-    "Free Shot",
-    "$5 Hookah",
-    "Free Mixer",
-    "$3 Fishbowl",
-    "Bonus Spin",
-    "Hookah Upgrade",
-    "Lucky Deal",
-    "VIP Access",
-    "House Pick",
-    "Try Again",
-    "$10 Bottle",
-    "Group Shot"
-  ];
+  14
 
   const WHEEL_COLORS = [
     "#d7b46a",
