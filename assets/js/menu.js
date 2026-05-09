@@ -525,7 +525,124 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-528
+function buildWheelSvg(segments) {
+  const mobile = isMobileView();
+
+  const size = 600;
+  const cx = 300;
+  const cy = 300;
+
+  const outerRadius = 275;
+
+  /* smaller center fixes overlap */
+  const innerRadius = mobile ? 82 : 92;
+
+  /* move labels outward */
+  const textRadius = mobile ? 215 : 220;
+
+  const fontSize = mobile ? 17 : 18;
+
+  const segmentAngle = 360 / segments.length;
+
+  const wedges = [];
+  const dividers = [];
+  const texts = [];
+
+  segments.forEach((label, index) => {
+    const startAngle = index * segmentAngle;
+    const endAngle = startAngle + segmentAngle;
+    const centerAngle = startAngle + segmentAngle / 2;
+
+    const wedgePath = buildWedgePath(
+      cx,
+      cy,
+      outerRadius,
+      innerRadius,
+      startAngle,
+      endAngle
+    );
+
+    wedges.push(`
+      <path
+        class="pdmWheelSvg__slice"
+        data-slice-index="${index}"
+        d="${wedgePath}"
+        fill="${WHEEL_COLORS[index % WHEEL_COLORS.length]}"
+      ></path>
+    `);
+
+    const dividerOuter = polarToCartesian(cx, cy, outerRadius, startAngle);
+    const dividerInner = polarToCartesian(cx, cy, innerRadius, startAngle);
+
+    dividers.push(`
+      <line
+        class="pdmWheelSvg__divider"
+        x1="${dividerInner.x}"
+        y1="${dividerInner.y}"
+        x2="${dividerOuter.x}"
+        y2="${dividerOuter.y}"
+      ></line>
+    `);
+
+    const textPoint = polarToCartesian(
+      cx,
+      cy,
+      textRadius,
+      centerAngle
+    );
+
+    const rotation = centerAngle;
+
+    texts.push(`
+      <g
+        transform="
+          translate(${textPoint.x} ${textPoint.y})
+          rotate(${rotation})
+        "
+      >
+        <text
+          class="pdmWheelSvg__label"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          font-size="${fontSize}"
+        >
+          ${escapeHtml(label)}
+        </text>
+      </g>
+    `);
+  });
+
+  return `
+    <svg class="pdmWheelSvg" viewBox="0 0 ${size} ${size}">
+      <circle
+        class="pdmWheelSvg__outerRing"
+        cx="${cx}"
+        cy="${cy}"
+        r="${outerRadius + 8}"
+      ></circle>
+
+      ${wedges.join("")}
+
+      ${dividers.join("")}
+
+      ${texts.join("")}
+
+      <circle
+        class="pdmWheelSvg__hubRing"
+        cx="${cx}"
+        cy="${cy}"
+        r="${innerRadius + 8}"
+      ></circle>
+
+      <circle
+        class="pdmWheelSvg__hubCore"
+        cx="${cx}"
+        cy="${cy}"
+        r="${innerRadius - 5}"
+      ></circle>
+    </svg>
+  `;
+}
 
   function triggerWinnerGlow(wheel, selectedIndex) {
     const slice = wheel?.querySelector(`.pdmWheelSvg__slice[data-slice-index="${selectedIndex}"]`);
