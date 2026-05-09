@@ -11,7 +11,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const WHEEL_SPIN_DURATION_MS = 4700;
   const WINNER_GLOW_DURATION_MS = 1600;
 
-  14
+  const WHEEL_SEGMENTS = [
+  "$50 Off",
+  "$1 Off",
+  "$2 Off",
+  "$3 Off",
+  "$4 Off",
+  "$5 Off",
+  "$4 Off",
+  "$3 Off",
+  "$2 Off",
+  "$1 Off",
+  "$50 Off",
+  "$1 Off"
+];
 
   const WHEEL_COLORS = [
     "#d7b46a",
