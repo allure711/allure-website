@@ -524,87 +524,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return [words.slice(0, midpoint).join(" "), words.slice(midpoint).join(" ")];
   }
 
-  function buildWheelSvg(segments) {
-    const mobile = isMobileView();
-    const size = 600;
-    const cx = 300;
-    const cy = 300;
-    const outerRadius = 275;
-    const innerRadius = mobile ? 94 : 102;
-    const textRadius = mobile ? 182 : 192;
-    const fontSize = mobile ? 18 : 20;
-    const segmentAngle = 360 / segments.length;
 
-    const wedges = [];
-    const dividers = [];
-    const texts = [];
-
-    segments.forEach((label, index) => {
-      const startAngle = index * segmentAngle;
-      const endAngle = startAngle + segmentAngle;
-      const centerAngle = startAngle + segmentAngle / 2;
-      const wedgePath = buildWedgePath(cx, cy, outerRadius, innerRadius, startAngle, endAngle);
-
-      wedges.push(`
-        <path
-          class="pdmWheelSvg__slice"
-          data-slice-index="${index}"
-          d="${wedgePath}"
-          fill="${WHEEL_COLORS[index % WHEEL_COLORS.length]}"
-        ></path>
-      `);
-
-      const dividerOuter = polarToCartesian(cx, cy, outerRadius, startAngle);
-      const dividerInner = polarToCartesian(cx, cy, innerRadius, startAngle);
-
-      dividers.push(`
-        <line
-          class="pdmWheelSvg__divider"
-          x1="${dividerInner.x}"
-          y1="${dividerInner.y}"
-          x2="${dividerOuter.x}"
-          y2="${dividerOuter.y}"
-        ></line>
-      `);
-
-      const textPoint = polarToCartesian(cx, cy, textRadius, centerAngle);
-      const lines = splitLabelIntoLines(label);
-      const firstDy = lines.length === 1 ? 0 : -10;
-
-      texts.push(`
-        <g class="pdmWheelSvg__labelGroup" transform="translate(${textPoint.x} ${textPoint.y})">
-          <text class="pdmWheelSvg__label" text-anchor="middle" dominant-baseline="middle" font-size="${fontSize}">
-            ${lines.map((line, lineIndex) => `
-              <tspan x="0" dy="${lineIndex === 0 ? firstDy : 22}">
-                ${escapeHtml(line)}
-              </tspan>
-            `).join("")}
-          </text>
-        </g>
-      `);
-    });
-
-    return `
-      <svg class="pdmWheelSvg" viewBox="0 0 ${size} ${size}" aria-hidden="true">
-        <defs>
-          <filter id="pdmWinnerGlowFilter" x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur stdDeviation="10" result="blur"></feGaussianBlur>
-            <feMerge>
-              <feMergeNode in="SourceGraphic"></feMergeNode>
-            </feMerge>
-          </filter>
-        </defs>
-
-        <circle class="pdmWheelSvg__outerRing" cx="${cx}" cy="${cy}" r="${outerRadius + 9}"></circle>
-        <circle class="pdmWheelSvg__rimInner" cx="${cx}" cy="${cy}" r="${outerRadius - 6}"></circle>
-        ${wedges.join("")}
-        ${dividers.join("")}
-        ${texts.join("")}
-        <circle class="pdmWheelSvg__hubRing" cx="${cx}" cy="${cy}" r="${innerRadius + 8}"></circle>
-        <circle class="pdmWheelSvg__hubCore" cx="${cx}" cy="${cy}" r="${innerRadius - 6}"></circle>
-      </svg>
-    `;
-  }
+528
 
   function triggerWinnerGlow(wheel, selectedIndex) {
     const slice = wheel?.querySelector(`.pdmWheelSvg__slice[data-slice-index="${selectedIndex}"]`);
